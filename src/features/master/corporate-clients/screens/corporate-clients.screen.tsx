@@ -1518,7 +1518,7 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{
                       required:
                         corporateClientsStore.corporateClients
-                          ?.isPredefinedPanel,
+                          ?.isPredefinedPanel ?? false,
                     }}
                     defaultValue={masterPanelStore.listMasterPanel}
                   />
@@ -2095,6 +2095,7 @@ const CorporateClients = CorporateClientsHoc(
                     _id: undefined,
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
+                    isPredefinedPanel: false,
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
                     dateActive: new Date(),
@@ -2104,8 +2105,8 @@ const CorporateClients = CorporateClientsHoc(
                         .format('YYYY-MM-DD hh:mm:ss'),
                     ),
                   });
+                  setIsVersionUpgrade(true);
                   setHideAddView(false);
-                  setIsVersionUpgrade(false);
                   corporateClientsStore.updateSelectedItems({
                     ...corporateClientsStore.selectedItems,
                     deliveryMode: modalConfirm.data?.deliveryMode,
@@ -2119,6 +2120,7 @@ const CorporateClients = CorporateClientsHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     version: 1,
+                    isPredefinedPanel: false,
                     dateCreation: new Date(),
                     dateActive: new Date(),
                     dateExpire: new Date(
@@ -2127,6 +2129,7 @@ const CorporateClients = CorporateClientsHoc(
                         .format('YYYY-MM-DD hh:mm:ss'),
                     ),
                   });
+
                   setHideAddView(false);
                   corporateClientsStore.updateSelectedItems({
                     ...corporateClientsStore.selectedItems,

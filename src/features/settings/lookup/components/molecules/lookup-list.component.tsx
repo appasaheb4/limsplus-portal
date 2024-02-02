@@ -487,7 +487,7 @@ export const LookupList = (props: LookupListProps) => {
                         size='20'
                         onClick={() =>
                           props.onUpdateValues &&
-                          props.onUpdateValues(row.arrValue, row._id)
+                          props.onUpdateValues(row, row._id)
                         }
                       >
                         {Icons.getIconTag(Icons.IconBi.BiEdit)}

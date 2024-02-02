@@ -48,6 +48,7 @@ const Company = CompanyHoc(
       setValue,
       reset,
     } = useForm();
+    const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -114,6 +115,7 @@ const Company = CompanyHoc(
               resetCompany();
               setArrImportRecords([]);
               setIsImport(false);
+              setIsVersionUpgrade(false);
             }
           });
       } else {
@@ -274,11 +276,7 @@ const Company = CompanyHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Code'
-                        disabled={
-                          _.isEmpty(companyStore.company.existsVersionId)
-                            ? true
-                            : false
-                        }
+                        disabled={isVersionUpgrade ? true : false}
                         placeholder={errors.code ? 'Please Enter code' : 'Code'}
                         hasError={!!errors.code}
                         value={value}
@@ -310,11 +308,7 @@ const Company = CompanyHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Name'
-                        disabled={
-                          _.isEmpty(companyStore.company.existsVersionId)
-                            ? true
-                            : false
-                        }
+                        disabled={isVersionUpgrade ? true : false}
                         placeholder={errors.name ? 'Please Enter name' : 'Name'}
                         hasError={!!errors.name}
                         value={value}
@@ -351,7 +345,8 @@ const Company = CompanyHoc(
                         placeholder='Description'
                         value={value}
                         hasError={!!errors.description}
-                        onChange={description => {
+                        onChange={descriptionValue => {
+                          const description = descriptionValue?.toUpperCase();
                           onChange(description);
                           companyStore.updateCompany({
                             ...companyStore.company,
@@ -818,7 +813,8 @@ const Company = CompanyHoc(
                         placeholder={errors.area ? 'Please Enter area' : 'Area'}
                         hasError={!!errors.area}
                         value={value}
-                        onChange={area => {
+                        onChange={areaValue => {
+                          const area = areaValue.toUpperCase();
                           onChange(area);
                           companyStore.updateCompany({
                             ...companyStore.company,
@@ -1284,7 +1280,7 @@ const Company = CompanyHoc(
                       >
                         <select
                           value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          className={`leading-4 p-2 dark:bg-boxdark dark:text-white focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.supportPlan
                               ? 'border-red  '
                               : 'border-gray-300'
@@ -1324,7 +1320,7 @@ const Company = CompanyHoc(
                       >
                         <select
                           value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          className={`leading-4 p-2 dark:bg-boxdark dark:text-white focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.status ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
@@ -1580,6 +1576,7 @@ const Company = CompanyHoc(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
                   });
+                  setIsVersionUpgrade(true);
                   setIsHideView(false);
                   break;
                 }

@@ -11,6 +11,7 @@ export const DeliveryScheduleHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       deliveryScheduleStore.updateDeliverySchedule({
         ...deliveryScheduleStore.deliverySchedule,
+        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         // environment: getDefaultLookupItem(
         //   routerStore.lookupItems,
         //   'ENVIRONMENT',

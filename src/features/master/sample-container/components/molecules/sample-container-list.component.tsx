@@ -17,6 +17,7 @@ let description;
 let environment;
 let status;
 let companyCode;
+let tubeName;
 interface SampleContainerListProps {
   data: any;
   totalSize: number;
@@ -85,6 +86,25 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
           filter: textFilter({
             getFilter: filter => {
               containerName = filter;
+            },
+          }),
+          editorStyle: { textTransform: 'uppercase' },
+          editable: false,
+          style: { textTransform: 'uppercase' },
+        },
+        {
+          dataField: 'tubeName',
+          text: 'Tube Name',
+          headerClasses: 'textHeader4',
+          sort: true,
+          headerStyle: {
+            fontSize: 0,
+          },
+          sortCaret: (order, column) => sortCaret(order, column),
+          csvFormatter: col => (col ? col : ''),
+          filter: textFilter({
+            getFilter: filter => {
+              tubeName = filter;
             },
           }),
           editorStyle: { textTransform: 'uppercase' },
@@ -352,6 +372,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
         environment('');
         status('');
         companyCode('');
+        tubeName('');
       }}
       dynamicStylingFields={['containerCode', 'containerName', 'environment']}
       hideExcelSheet={['operation', '_id', 'image']}

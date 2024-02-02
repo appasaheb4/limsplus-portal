@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Toast, Buttons, Grid, List, Form, Svg } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -32,6 +32,11 @@ export const EnvironmentVariable = observer(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [modalConfirm, setModalConfirm] = useState<any>();
+
+    useEffect(() => {
+      setValue('status', environmentStore.environmentVariable?.status);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [environmentStore.environmentVariable, loginStore.login]);
 
     const onSubmitEnvironmentVariable = () => {
       if (!environmentStore.checkExistsEnvVariable) {
@@ -299,13 +304,14 @@ export const EnvironmentVariable = observer(
                         }}
                       >
                         <option selected>Select</option>
-                        {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                          (item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ),
-                        )}
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'ENVIRONMENT VARIABLE - STATUS',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
                       </select>
                     </Form.InputWrapper>
                   )}

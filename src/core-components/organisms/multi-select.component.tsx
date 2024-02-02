@@ -1,8 +1,5 @@
 /* eslint-disable  */
 import React, { useState, useEffect, useRef } from 'react';
-import { Spinner } from 'react-bootstrap';
-import { Icons } from '@/library/components';
-
 interface MultiSelectProps {
   options: Array<string>;
   selectedItems?: Array<string>;
@@ -42,7 +39,7 @@ export const MultiSelect = ({
   return (
     <>
       <div
-        className={`flex flex-col w-full rounded-md border-2 ${
+        className={`flex dark:bg-boxdark dark:text-white flex-col w-full rounded-md border-2 ${
           hasError ? 'border-red  ' : 'border-gray-300'
         }`}
         ref={wrapperRef}
@@ -81,7 +78,7 @@ export const MultiSelect = ({
                             if (!isListOpen) onSelect(selectedOptions);
                           }}
                         />{' '}
-                        <label className='ml-3 mt-2 pt-1 text-black'>
+                        <label className='ml-3 mt-2 pt-1 dark:text-white'>
                           {' '}
                           {item}
                         </label>

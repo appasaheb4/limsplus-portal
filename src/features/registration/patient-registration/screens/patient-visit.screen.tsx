@@ -398,7 +398,73 @@ export const PatientVisit = PatientVisitHoc(
           <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={3}>
               <List direction='col' space={4} justify='stretch' fill>
-                {/* {labId} */}
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.Input
+                      label='Lab Id'
+                      placeholder={
+                        errors.labId ? 'Please Enter Lab ID' : 'Lab ID'
+                      }
+                      hasError={!!errors.labId}
+                      disabled={true}
+                      type='number'
+                      value={value}
+                      onChange={labId => {
+                        onChange(labId);
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          labId: Number.parseFloat(labId),
+                        });
+                      }}
+                    />
+                  )}
+                  name='labId'
+                  rules={{}}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputWrapper label='PId' hasError={!!errors.pid}>
+                      <AutoCompleteFilterSingleSelectPid
+                        displayValue={value}
+                        hasError={!!errors.pId}
+                        isDisable={
+                          patientRegistrationStore.defaultValues.isPVPIdLock
+                        }
+                        onSelect={item => {
+                          onChange(item.pId);
+                          const age =
+                            getAgeByAgeObject(getDiffByDate(item.birthDate))
+                              .age || 0;
+                          const ageUnits = getAgeByAgeObject(
+                            getDiffByDate(item.birthDate),
+                          ).ageUnit;
+                          setValue('age', age);
+                          setValue('ageUnits', ageUnits);
+                          setValue('birthDate', item.birthDate);
+                          setValue('labId', item.labId);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            pId: item.pId,
+                            patientName: `${item.firstName} ${
+                              item.middleName ? item.middleName : ''
+                            } ${item.lastName}`,
+                            birthDate: item?.birthDate,
+                            age,
+                            ageUnits,
+                            sex: item?.sex,
+                            labId: item.labId,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='pId'
+                  rules={{ required: true }}
+                  defaultValue=''
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -425,46 +491,7 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='PId' hasError={!!errors.pid}>
-                      <AutoCompleteFilterSingleSelectPid
-                        displayValue={value}
-                        hasError={!!errors.pId}
-                        isDisable={
-                          patientRegistrationStore.defaultValues.isPVPIdLock
-                        }
-                        onSelect={item => {
-                          onChange(item.pId);
-                          const age =
-                            getAgeByAgeObject(getDiffByDate(item.birthDate))
-                              .age || 0;
-                          const ageUnits = getAgeByAgeObject(
-                            getDiffByDate(item.birthDate),
-                          ).ageUnit;
-                          setValue('age', age);
-                          setValue('ageUnits', ageUnits);
-                          setValue('birthDate', item.birthDate);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            pId: item.pId,
-                            patientName: `${item.firstName} ${
-                              item.middleName ? item.middleName : ''
-                            } ${item.lastName}`,
-                            birthDate: item?.birthDate,
-                            age,
-                            ageUnits,
-                            sex: item?.sex,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='pId'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -544,16 +571,27 @@ export const PatientVisit = PatientVisitHoc(
                           registrationDate,
                         );
                         const currentDate = new Date();
+                        const dob = new Date(
+                          patientVisitStore.patientVisit.birthDate,
+                        );
+
                         if (selectedRegistrationDate < currentDate) {
-                          onChange(registrationDate);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            registrationDate,
-                          });
+                          if (dob > selectedRegistrationDate) {
+                            onChange(registrationDate);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              registrationDate,
+                            });
+                          } else {
+                            Toast.error({
+                              message:
+                                'BirthDate should not be greater then Registration Date.',
+                            });
+                          }
                         } else {
                           Toast.error({
                             message:
-                              'Registration Date should not be greater then Current Date',
+                              'Registration Date should not be greater than Current Date.',
                           });
                         }
                       }}
@@ -827,7 +865,8 @@ export const PatientVisit = PatientVisitHoc(
                           placeholder='Employee Code'
                           hasError={!!errors.employeeCode}
                           value={value}
-                          onChange={employeeCode => {
+                          onChange={employeeCodeValue => {
+                            const employeeCode = employeeCodeValue?.toUpperCase();
                             onChange(employeeCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,

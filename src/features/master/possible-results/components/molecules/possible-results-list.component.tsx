@@ -57,6 +57,7 @@ interface PossibleResultsListProps {
     dataField: string,
     id: string,
   ) => void;
+  onUpdatePossibleResult?: (row: any, id: string) => void;
 }
 
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
@@ -93,6 +94,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            style: { textTransform: 'uppercase' },
+            editorStyle: { textTransform: 'uppercase' },
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
@@ -161,7 +164,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                 conclusionResult = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             formatter: (cellContent, row) => (
               <div className='flex flex-wrap max-w-2xl overflow-scroll'>
                 <List space={2} justify='center'>
@@ -181,172 +184,6 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                   ))}
                 </List>
               </div>
-            ),
-            editorRenderer: (
-              editorProps,
-              value,
-              row,
-              column,
-              rowIndex,
-              columnIndex,
-            ) => (
-              <>
-                <div className='flex flex-col gap-4'>
-                  <div className='flex flex-col'>
-                    <Form.Input
-                      placeholder='Result'
-                      value={
-                        props.extraData.possibleResultsStore?.possibleResults
-                          .result
-                      }
-                      onChange={result => {
-                        props.updatePossibleResults &&
-                          props.updatePossibleResults({
-                            ...props.extraData.possibleResultsStore
-                              .possibleResults,
-                            result,
-                          });
-                      }}
-                    />
-                    <Form.Input
-                      placeholder='Possible Value'
-                      value={
-                        props.extraData.possibleResultsStore?.possibleResults
-                          .possibleValue
-                      }
-                      onChange={possibleValue => {
-                        props.updatePossibleResults &&
-                          props.updatePossibleResults({
-                            ...props.extraData.possibleResultsStore
-                              .possibleResults,
-                            possibleValue,
-                          });
-                      }}
-                    />
-                  </div>
-                  <div className='flex items-center gap-2'>
-                    <Form.Toggle
-                      label='AbNormal'
-                      value={
-                        props.extraData.possibleResultsStore?.possibleResults
-                          .abNormal
-                      }
-                      onChange={abNormal => {
-                        props.updatePossibleResults &&
-                          props.updatePossibleResults({
-                            ...props.extraData.possibleResultsStore
-                              .possibleResults,
-                            abNormal,
-                          });
-                      }}
-                    />
-                    <Form.Toggle
-                      label='Critical'
-                      value={
-                        props.extraData.possibleResultsStore?.possibleResults
-                          .critical
-                      }
-                      onChange={critical => {
-                        props.updatePossibleResults &&
-                          props.updatePossibleResults({
-                            ...props.extraData.possibleResultsStore
-                              .possibleResults,
-                            critical,
-                          });
-                      }}
-                    />
-
-                    <div className='mt-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='solid'
-                        onClick={() => {
-                          const result =
-                            props.extraData.possibleResultsStore
-                              ?.possibleResults.result;
-                          const possibleValue =
-                            props.extraData.possibleResultsStore
-                              ?.possibleResults.possibleValue;
-                          const conclusionResult = row.conclusionResult || [];
-                          if (
-                            result === undefined ||
-                            possibleValue === undefined
-                          )
-                            return alert('Please enter value and code.');
-                          if (result !== undefined) {
-                            conclusionResult !== undefined
-                              ? conclusionResult.push({
-                                  result,
-                                  possibleValue,
-                                  abNormal: false,
-                                  critical: false,
-                                })
-                              : [
-                                  {
-                                    result,
-                                    possibleValue,
-                                    abNormal: false,
-                                    critical: false,
-                                  },
-                                ];
-                            props.onUpdateItem &&
-                              props.onUpdateItem(
-                                conclusionResult,
-                                'conclusionResult',
-                                row._id,
-                              );
-                          }
-                        }}
-                      >
-                        <Icons.EvaIcon icon='plus-circle-outline' />
-                        {'Add'}
-                      </Buttons.Button>
-                    </div>
-                  </div>
-
-                  <div className='clearfix'></div>
-                </div>
-                <List space={2} direction='row' justify='center'>
-                  <div>
-                    {row.conclusionResult?.map((item, index) => (
-                      <div className='mb-2' key={index}>
-                        <Buttons.Button
-                          size='medium'
-                          type='solid'
-                          icon={Svg.Remove}
-                          onClick={() => {
-                            const firstArr =
-                              row?.conclusionResult?.slice(0, index) || [];
-                            const secondArr =
-                              row?.conclusionResult?.slice(index + 1) || [];
-                            const finalArray = [
-                              ...firstArr,
-                              ...secondArr,
-                            ] as typeof props.extraData.possibleResultStore.conclusionResult;
-                            props.updatePossibleResults &&
-                              props.updatePossibleResults({
-                                ...props.extraData.possibleResultsStore
-                                  .possibleResults,
-                                conclusionResult: finalArray,
-                              });
-                            props.onUpdateItem &&
-                              props.onUpdateItem(
-                                finalArray,
-                                'conclusionResult',
-                                row._id,
-                              );
-                          }}
-                        >
-                          {`Result: ${item.result}  
-                              Possible Value: ${item.possibleValue}  
-                              AbNormal: ${item.abNormal}  
-                              Critical: ${item.critical}`}
-                        </Buttons.Button>
-                      </div>
-                    ))}
-                  </div>
-                </List>
-              </>
             ),
           },
           {
@@ -847,6 +684,20 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         propsIcon={{ size: 24, color: '#ffffff' }}
                         onClick={() => props.onApproval(row)}
                       />
+                    </Tooltip>
+                  )}
+                  {row.status !== 'I' && (
+                    <Tooltip tooltipText='Edit'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onUpdatePossibleResult &&
+                          props.onUpdatePossibleResult(row, row._id)
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                      </Icons.IconContext>
                     </Tooltip>
                   )}
                 </div>

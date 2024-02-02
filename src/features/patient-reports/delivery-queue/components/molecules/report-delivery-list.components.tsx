@@ -63,6 +63,8 @@ interface ReportDeliveryProps {
   ) => void;
   onClickRow?: (item: any, index: number) => void;
   onExpand?: (items: any) => void;
+  holdRecord?: any;
+  setHoldRecord?: (item: string) => void;
 }
 
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
@@ -70,16 +72,25 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   const [localData, setLocalData] = useState(props.data);
 
   useEffect(() => {
+    const filterDataByHoldRecord = (data, holdRecord) => {
+      if (holdRecord === 'Hold') {
+        return data.filter(item => item.deliveryStatus === 'Hold');
+      } else if (holdRecord === 'Pending') {
+        return data.filter(item => item.deliveryStatus === 'Pending');
+      } else {
+        return data;
+      }
+    };
+
     setSelectId(props.selectedId || '');
     setLocalData(
       props.selectedId
-        ? props.data.map(item => {
-            return { ...item, selectedId: props.selectedId };
-          })
-        : props.data,
+        ? props.data
+            ?.filter(item => item._id === props.selectedId)
+            ?.map(item => ({ ...item, selectedId: props.selectedId }))
+        : filterDataByHoldRecord(props.data, props.holdRecord),
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedId, props.data]);
+  }, [props.selectedId, props.data, props.holdRecord]);
 
   return (
     <>
@@ -256,6 +267,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 row?.deliveryMode ? row.deliveryMode : '',
               editable: false,
               formatter: (cell, row) => {
+                console.log(row);
                 return (
                   <div className='flex flex-row flex-wrap gap-2'>
                     {typeof row?.deliveryMode != 'string' &&
@@ -665,72 +677,111 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Cancel' position='bottom'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onUpdate &&
-                          props.onUpdate({
-                            type: 'cancel',
-                            visitId: row?.visitId,
-                            show: true,
-                            id: row._id,
-                            title: 'Are you sure?',
-                            body: 'Cancel item',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconGi.GiCancel)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                    <Tooltip tooltipText='Hold' position='bottom'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onUpdate &&
-                          props.onUpdate({
-                            type: 'hold',
-                            visitId: row?.visitId,
-                            show: true,
-                            id: row._id,
-                            title: 'Are you sure?',
-                            body: 'Hold item',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.Iconmd.MdBackHand)}
-                      </Icons.IconContext>
-                    </Tooltip>
-
                     <Tooltip tooltipText='Generate Report'>
                       <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() =>
-                          props.onUpdate &&
-                          props.onUpdate({
-                            type: 'done',
-                            visitId: row?.visitId,
-                            show: true,
-                            id: row._id,
-                            title: 'Are you sure?',
-                            body: 'Generate pdf status update',
-                          })
+                        color={
+                          row?.deliveryStatus !== 'Done' &&
+                          row?.deliveryStatus !== 'Cancel' &&
+                          row?.deliveryStatus !== 'Hold'
+                            ? '#ffffff'
+                            : '#5A5A5A'
                         }
+                        size='20'
+                        onClick={() => {
+                          if (
+                            row?.deliveryStatus !== 'Done' &&
+                            row?.deliveryStatus !== 'Cancel' &&
+                            row?.deliveryStatus !== 'Hold'
+                          ) {
+                            props.onUpdate &&
+                              props.onUpdate({
+                                type: 'done',
+                                visitId: row?.visitId,
+                                show: true,
+                                id: row._id,
+                                title: 'Are you sure?',
+                                body: 'Generate pdf status update',
+                              });
+                          }
+                        }}
                       >
                         {Icons.getIconTag(Icons.IconTb.TbExchange)}
                       </Icons.IconContext>
                     </Tooltip>
-                    <Tooltip tooltipText='Report'>
+                    <Tooltip
+                      tooltipText={`${
+                        row?.deliveryStatus === 'Hold' ? 'Unhold' : 'Hold'
+                      }`}
+                      position='bottom'
+                    >
                       <Icons.IconContext
                         color={
-                          row?.deliveryStatus == 'Done' ? '#ffffff' : '#5A5A5A'
+                          row?.deliveryStatus !== 'Cancel'
+                            ? '#ffffff'
+                            : '#5A5A5A'
                         }
                         size='20'
                         onClick={() => {
-                          if (row?.deliveryStatus == 'Done')
+                          if (row?.deliveryStatus !== 'Cancel') {
+                            props.onUpdate &&
+                              props.onUpdate({
+                                type: 'hold',
+                                visitId: row?.visitId,
+                                show: true,
+                                id: row._id,
+                                title: 'Are you sure?',
+                                body: 'Hold item',
+                              });
+                          }
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.Iconmd.MdBackHand)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                    <Tooltip tooltipText='Cancel' position='bottom'>
+                      <Icons.IconContext
+                        color={
+                          row?.deliveryStatus !== 'Hold' &&
+                          row?.deliveryStatus !== 'Cancel'
+                            ? '#ffffff'
+                            : '#5A5A5A'
+                        }
+                        size='20'
+                        onClick={() => {
+                          if (
+                            row?.deliveryStatus !== 'Hold' &&
+                            row?.deliveryStatus !== 'Cancel'
+                          ) {
+                            props.onUpdate &&
+                              props.onUpdate({
+                                type: 'cancel',
+                                visitId: row?.visitId,
+                                show: true,
+                                id: row._id,
+                                title: 'Are you sure?',
+                                body: 'Cancel item',
+                              });
+                          }
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.IconGi.GiCancel)}
+                      </Icons.IconContext>
+                    </Tooltip>
+
+                    <Tooltip tooltipText='Report'>
+                      <Icons.IconContext
+                        color={
+                          row?.deliveryStatus == 'Done' &&
+                          row?.deliveryStatus !== 'Hold'
+                            ? '#ffffff'
+                            : '#5A5A5A'
+                        }
+                        size='20'
+                        onClick={() => {
+                          if (
+                            row?.deliveryStatus == 'Done' &&
+                            row?.deliveryStatus !== 'Hold'
+                          )
                             props.onReport && props.onReport(row);
                         }}
                       >
@@ -738,7 +789,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                       </Icons.IconContext>
                     </Tooltip>
 
-                    {selectId == row._id ? (
+                    {selectId === row._id ? (
                       <Tooltip tooltipText='Expand'>
                         <Icons.IconContext
                           color='#fff'
@@ -827,6 +878,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           }}
           onPagination={type => {
             props.onPagination && props.onPagination(type);
+          }}
+          onCheckHoldRecord={item => {
+            props.setHoldRecord && props.setHoldRecord(item);
           }}
         />
       </div>

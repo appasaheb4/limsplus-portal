@@ -471,6 +471,400 @@ export const Users = UsersHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='User Id'
+                        disabled={isVersionUpgrade}
+                        placeholder={
+                          errors.userId ? 'Please enter userId' : 'UserId'
+                        }
+                        hasError={!!errors.userId}
+                        value={value}
+                        onChange={userId => {
+                          onChange(userId);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            userId: userId.toUpperCase(),
+                          });
+                        }}
+                        onBlur={userId => {
+                          if (userId) {
+                            userStore.UsersService.serviceUser
+                              .findByFields({
+                                input: {
+                                  filter: {
+                                    userId,
+                                    companyCode: loginStore.login.companyCode,
+                                  },
+                                },
+                              })
+                              .then(res => {
+                                console.log({ res });
+                                if (res.findByFieldsUser.success)
+                                  userStore.setExitsUserId(true);
+                                else userStore.setExitsUserId(false);
+                              });
+                          }
+                        }}
+                      />
+                    )}
+                    name='userId'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  {userStore && userStore.checkExitsUserId && (
+                    <span className='text-red-600 font-medium relative'>
+                      UserId already exits. Please use other userid.
+                    </span>
+                  )}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Full Name'
+                        placeholder={
+                          errors.fullName
+                            ? 'Please enter full name'
+                            : 'Full Name'
+                        }
+                        hasError={!!errors.fullName}
+                        value={value}
+                        onChange={fullName => {
+                          onChange(fullName);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            fullName: fullName.toUpperCase(),
+                          });
+                        }}
+                      />
+                    )}
+                    name='fullName'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='User Module'
+                        hasError={!!errors.userModule}
+                      >
+                        <select
+                          value={value}
+                          disabled={isVersionUpgrade}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.userModule
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const userModule = e.target.value;
+                            onChange(userModule);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              userModule,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {loginStore.login.resCompany.module?.map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item}>
+                                {item}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='userModule'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper label='Role' hasError={!!errors.role}>
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: roleStore.listRole,
+                            selected: userStore.selectedItems?.roles,
+                            displayKey: ['code', 'description'],
+                          }}
+                          hasError={!!errors.role}
+                          onUpdate={item => {
+                            const roles = userStore.selectedItems?.roles;
+                            userStore.updateUser({
+                              ...userStore.user,
+                              role: roles,
+                            });
+                            roleStore.updateRoleList(roleStore.listRoleCopy);
+                          }}
+                          onFilter={(value: string) => {
+                            roleStore.RoleService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['code', 'description'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let roles = userStore.selectedItems?.roles;
+                            if (!item.selected) {
+                              if (roles && roles.length > 0) {
+                                roles.push(item);
+                              } else roles = [item];
+                            } else {
+                              roles = roles.filter(items => {
+                                return items._id !== item._id;
+                              });
+                            }
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              roles,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='role'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='User Group'
+                        hasError={!!errors.userGroup}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.userGroup
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const userGroup = e.target.value;
+                            onChange(userGroup);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              userGroup,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'USER_GROUP',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='userGroup'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Emp Code'
+                        placeholder={
+                          errors.empCode ? 'Please enter emp code' : 'Emp Code'
+                        }
+                        disabled={isVersionUpgrade}
+                        hasError={!!errors.empCode}
+                        value={value}
+                        onChange={empCode => {
+                          onChange(empCode);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            empCode: empCode.toUpperCase(),
+                          });
+                        }}
+                        onBlur={empCode => {
+                          if (empCode) {
+                            userStore.UsersService.findUserByEmpCode(empCode)
+                              .then(res => {
+                                if (res.checkUserByEmpCode.success)
+                                  userStore.setExistsEmpCodeStatus(true);
+                                else userStore.setExistsEmpCodeStatus(false);
+                              })
+                              .catch(error => {
+                                userStore.setExistsEmpCodeStatus(false);
+                              });
+                          }
+                        }}
+                      />
+                    )}
+                    name='empCode'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  {userStore && userStore.checkExistsEmpCode && (
+                    <span className='text-red-600 font-medium relative'>
+                      Emp code already exits. Please use other emp code.
+                    </span>
+                  )}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        hasError={!!errors.reportingTo}
+                        label='Reporting To'
+                      >
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by emp code or full name'
+                          data={{
+                            list: userStore.userList,
+                            displayKey: ['empCode', 'fullName'],
+                          }}
+                          disable={isVersionUpgrade}
+                          displayValue={value}
+                          hasError={!!errors.reportingTo}
+                          onFilter={(value: string) => {
+                            userStore.UsersService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['empCode', 'fullName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(item.empCode);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              reportingTo: item.empCode,
+                            });
+                            userStore.updateUserList(userStore.userListCopy);
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='reportingTo'
+                    rules={{ required: false }}
+                    defaultValue={userStore.user?.reportingTo}
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Designation'
+                        hasError={!!errors.deginisation}
+                      >
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or description'
+                          data={{
+                            list: deginisationStore.listDeginisation,
+                            displayKey: ['code', 'description'],
+                          }}
+                          displayValue={value}
+                          hasError={!!errors.deginisation}
+                          onFilter={(value: string) => {
+                            deginisationStore.DeginisationService.filterByFields(
+                              {
+                                input: {
+                                  filter: {
+                                    fields: ['code', 'description'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              },
+                            );
+                          }}
+                          onSelect={item => {
+                            onChange(item.code);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              deginisation: item.code,
+                            });
+                            deginisationStore.updateListDeginisation(
+                              deginisationStore.listDeginisationCopy,
+                            );
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='deginisation'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='User Degree'
+                        placeholder={
+                          errors.userDegree
+                            ? 'Please enter user degree'
+                            : 'User Degree'
+                        }
+                        hasError={!!errors.userDegree}
+                        value={value}
+                        onChange={userDegree => {
+                          onChange(userDegree);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            userDegree: userDegree.toUpperCase(),
+                          });
+                        }}
+                      />
+                    )}
+                    name='userDegree'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputPassword
+                        label='Password'
+                        placeholder={
+                          errors.password ? 'Please enter password' : 'Password'
+                        }
+                        hasError={!!errors.password}
+                        value={value}
+                        onChange={password => {
+                          onChange(password);
+                          userStore.updateUser({
+                            ...userStore.user,
+                            password,
+                          });
+                        }}
+                      />
+                    )}
+                    name='password'
+                    rules={{
+                      required: true,
+                      pattern: FormHelper.patterns.password,
+                    }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         hasError={!!errors.defaultLab}
                         label='Default Lab'
@@ -596,404 +990,6 @@ export const Users = UsersHoc(
                     name='defaultDepartment'
                     rules={{ required: true }}
                     defaultValue={userStore.user?.defaultDepartment || ''}
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='User Group'
-                        hasError={!!errors.userGroup}
-                      >
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.userGroup
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const userGroup = e.target.value;
-                            onChange(userGroup);
-                            userStore.updateUser({
-                              ...userStore.user,
-                              userGroup,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'USER_GROUP',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='userGroup'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='User Module'
-                        hasError={!!errors.userModule}
-                      >
-                        <select
-                          value={value}
-                          disabled={isVersionUpgrade}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.userModule
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const userModule = e.target.value;
-                            onChange(userModule);
-                            userStore.updateUser({
-                              ...userStore.user,
-                              userModule,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {loginStore.login.resCompany.module?.map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item}>
-                                {item}
-                              </option>
-                            ),
-                          )}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='userModule'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='User Id'
-                        disabled={isVersionUpgrade}
-                        placeholder={
-                          errors.userId ? 'Please enter userId' : 'UserId'
-                        }
-                        hasError={!!errors.userId}
-                        value={value}
-                        onChange={userId => {
-                          onChange(userId);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            userId: userId.toUpperCase(),
-                          });
-                        }}
-                        onBlur={userId => {
-                          if (userId) {
-                            userStore.UsersService.serviceUser
-                              .findByFields({
-                                input: {
-                                  filter: {
-                                    userId,
-                                    companyCode: loginStore.login.companyCode,
-                                  },
-                                },
-                              })
-                              .then(res => {
-                                console.log({ res });
-                                if (res.findByFieldsUser.success)
-                                  userStore.setExitsUserId(true);
-                                else userStore.setExitsUserId(false);
-                              });
-                          }
-                        }}
-                      />
-                    )}
-                    name='userId'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                  {userStore && userStore.checkExitsUserId && (
-                    <span className='text-red-600 font-medium relative'>
-                      UserId already exits. Please use other userid.
-                    </span>
-                  )}
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Full Name'
-                        placeholder={
-                          errors.fullName
-                            ? 'Please enter full name'
-                            : 'Full Name'
-                        }
-                        hasError={!!errors.fullName}
-                        value={value}
-                        onChange={fullName => {
-                          onChange(fullName);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            fullName: fullName.toUpperCase(),
-                          });
-                        }}
-                      />
-                    )}
-                    name='fullName'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Emp Code'
-                        placeholder={
-                          errors.empCode ? 'Please enter emp code' : 'Emp Code'
-                        }
-                        disabled={isVersionUpgrade}
-                        hasError={!!errors.empCode}
-                        value={value}
-                        onChange={empCode => {
-                          onChange(empCode);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            empCode: empCode.toUpperCase(),
-                          });
-                        }}
-                        onBlur={empCode => {
-                          if (empCode) {
-                            userStore.UsersService.findUserByEmpCode(empCode)
-                              .then(res => {
-                                if (res.checkUserByEmpCode.success)
-                                  userStore.setExistsEmpCodeStatus(true);
-                                else userStore.setExistsEmpCodeStatus(false);
-                              })
-                              .catch(error => {
-                                userStore.setExistsEmpCodeStatus(false);
-                              });
-                          }
-                        }}
-                      />
-                    )}
-                    name='empCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                  {userStore && userStore.checkExistsEmpCode && (
-                    <span className='text-red-600 font-medium relative'>
-                      Emp code already exits. Please use other emp code.
-                    </span>
-                  )}
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        hasError={!!errors.reportingTo}
-                        label='Reporting To'
-                      >
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
-                          placeholder='Search by emp code or full name'
-                          data={{
-                            list: userStore.userList,
-                            displayKey: ['empCode', 'fullName'],
-                          }}
-                          disable={isVersionUpgrade}
-                          displayValue={value}
-                          hasError={!!errors.reportingTo}
-                          onFilter={(value: string) => {
-                            userStore.UsersService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ['empCode', 'fullName'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            });
-                          }}
-                          onSelect={item => {
-                            onChange(item.empCode);
-                            userStore.updateUser({
-                              ...userStore.user,
-                              reportingTo: item.empCode,
-                            });
-                            userStore.updateUserList(userStore.userListCopy);
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='reportingTo'
-                    rules={{ required: false }}
-                    defaultValue={userStore.user?.reportingTo}
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Designation'
-                        hasError={!!errors.deginisation}
-                      >
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
-                          placeholder='Search by code or description'
-                          data={{
-                            list: deginisationStore.listDeginisation,
-                            displayKey: ['code', 'description'],
-                          }}
-                          displayValue={value}
-                          hasError={!!errors.deginisation}
-                          onFilter={(value: string) => {
-                            deginisationStore.DeginisationService.filterByFields(
-                              {
-                                input: {
-                                  filter: {
-                                    fields: ['code', 'description'],
-                                    srText: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
-                                },
-                              },
-                            );
-                          }}
-                          onSelect={item => {
-                            onChange(item.code);
-                            userStore.updateUser({
-                              ...userStore.user,
-                              deginisation: item.code,
-                            });
-                            deginisationStore.updateListDeginisation(
-                              deginisationStore.listDeginisationCopy,
-                            );
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='deginisation'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='User Degree'
-                        placeholder={
-                          errors.userDegree
-                            ? 'Please enter user degree'
-                            : 'User Degree'
-                        }
-                        hasError={!!errors.userDegree}
-                        value={value}
-                        onChange={userDegree => {
-                          onChange(userDegree);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            userDegree: userDegree.toUpperCase(),
-                          });
-                        }}
-                      />
-                    )}
-                    name='userDegree'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Role' hasError={!!errors.role}>
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                          loader={loading}
-                          placeholder='Search by code or name'
-                          data={{
-                            list: roleStore.listRole,
-                            selected: userStore.selectedItems?.roles,
-                            displayKey: ['code', 'description'],
-                          }}
-                          hasError={!!errors.role}
-                          onUpdate={item => {
-                            const roles = userStore.selectedItems?.roles;
-                            userStore.updateUser({
-                              ...userStore.user,
-                              role: roles,
-                            });
-                            roleStore.updateRoleList(roleStore.listRoleCopy);
-                          }}
-                          onFilter={(value: string) => {
-                            roleStore.RoleService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ['code', 'description'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            });
-                          }}
-                          onSelect={item => {
-                            onChange(new Date());
-                            let roles = userStore.selectedItems?.roles;
-                            if (!item.selected) {
-                              if (roles && roles.length > 0) {
-                                roles.push(item);
-                              } else roles = [item];
-                            } else {
-                              roles = roles.filter(items => {
-                                return items._id !== item._id;
-                              });
-                            }
-                            userStore.updateSelectedItems({
-                              ...userStore.selectedItems,
-                              roles,
-                            });
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='role'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputPassword
-                        label='Password'
-                        placeholder={
-                          errors.password ? 'Please enter password' : 'Password'
-                        }
-                        hasError={!!errors.password}
-                        value={value}
-                        onChange={password => {
-                          onChange(password);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            password,
-                          });
-                        }}
-                      />
-                    )}
-                    name='password'
-                    rules={{
-                      required: true,
-                      pattern: FormHelper.patterns.password,
-                    }}
-                    defaultValue=''
                   />
 
                   <Controller

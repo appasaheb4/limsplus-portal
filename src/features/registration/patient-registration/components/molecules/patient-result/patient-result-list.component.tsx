@@ -448,6 +448,9 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              formatter: (cell, row) => {
+                return <>{row.loNor == 'NaN' ? '<' : row.loNor}</>;
+              },
             },
             {
               dataField: 'hiNor',
@@ -456,6 +459,9 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              formatter: (cell, row) => {
+                return <>{row.hiNor == 'NaN' ? '>' : row.hiNor}</>;
+              },
             },
             {
               dataField: 'interpretation',

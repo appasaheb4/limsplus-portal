@@ -27,6 +27,7 @@ interface ResultListProps {
   isEditModify?: boolean;
   selectedId?: string;
   selectedItems?: any;
+  filterRecord?: string;
   onSelectedRow?: (selectedItem: any, type: string) => void;
   onUpdateFields?: (fields: any, id: string) => void;
   onUpdateResult?: (fields: any, id: string) => void;
@@ -42,6 +43,7 @@ interface ResultListProps {
   ) => void;
   onClickRow?: (item: any, index: number) => void;
   onReport?: (item: any) => void;
+  onFilterRecord?: (item: any) => void;
 }
 
 let labId;
@@ -50,18 +52,28 @@ export const ResultList = (props: ResultListProps) => {
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
   const [selectedRowId, setSelectedRowId] = useState('');
+  const [widthRefBox, setWidthRefBox] = useState('20px');
 
   useEffect(() => {
+    const filterDataByHoldRecord = (data, holdRecord) => {
+      if (holdRecord === 'Pending') {
+        return data.filter(item => item.approvalStatus === 'Pending');
+      } else if (holdRecord === 'Done') {
+        return data.filter(item => item.approvalStatus === 'Done');
+      } else {
+        return data;
+      }
+    };
     setSelectId(props.selectedId || '');
     setLocalData(
       props.selectedId
-        ? props.data.map(item => {
-            return { ...item, selectedId: props.selectedId };
-          })
-        : props.data,
+        ? props.data
+            ?.filter(item => item._id === props.selectedId)
+            ?.map(item => ({ ...item, selectedId: props.selectedId }))
+        : filterDataByHoldRecord(props.data, props.filterRecord),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedId, props.data]);
+  }, [props.selectedId, props.data, props.filterRecord]);
 
   useEffect(() => {
     setLocalData(JSON.parse(JSON.stringify(localData)));
@@ -197,7 +209,7 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Ref Ranges',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader16',
+              style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (
                   <div className='flex flex-col'>
@@ -211,9 +223,13 @@ export const ResultList = (props: ResultListProps) => {
                           color='#000000'
                           size='20'
                           onClick={() => {
-                            row._id == selectedRowId
-                              ? setSelectedRowId('')
-                              : setSelectedRowId(row._id);
+                            if (row._id === selectedRowId) {
+                              setSelectedRowId('');
+                              setWidthRefBox('30px');
+                            } else {
+                              setSelectedRowId(row._id);
+                              setWidthRefBox('550px');
+                            }
                           }}
                         >
                           {Icons.getIconTag(
@@ -225,53 +241,55 @@ export const ResultList = (props: ResultListProps) => {
                       </Tooltip>
                     )}
                     {selectedRowId == row._id ? (
-                      <RefRanges
-                        id='_id'
-                        data={row?.refRangesList || []}
-                        totalSize={row?.refRangesList?.length || 0}
-                        columns={[
-                          {
-                            dataField: 'result',
-                            text: 'Result',
-                            editable: false,
-                            formatter: () => (
-                              <>
-                                <span>{row.result}</span>
-                              </>
-                            ),
-                          },
-                          {
-                            dataField: 'rangeType',
-                            text: 'Range Type',
-                          },
-                          {
-                            dataField: 'low',
-                            text: 'Low',
-                          },
-                          {
-                            dataField: 'high',
-                            text: 'High',
-                          },
-                          {
-                            dataField: 'rangeSetOn',
-                            text: 'Range Set On',
-                          },
-                          {
-                            dataField: 'rangeId',
-                            text: 'Range Id',
-                          },
-                          {
-                            dataField: 'version',
-                            text: 'Range Version',
-                          },
-                        ]}
-                        onSelectedRow={rows => {}}
-                        onUpdateItem={(
-                          value: any,
-                          dataField: string,
-                          id: string,
-                        ) => {}}
-                      />
+                      <div style={{ width: widthRefBox }}>
+                        <RefRanges
+                          id='_id'
+                          data={row?.refRangesList || []}
+                          totalSize={row?.refRangesList?.length || 0}
+                          columns={[
+                            {
+                              dataField: 'result',
+                              text: 'Result',
+                              editable: false,
+                              formatter: () => (
+                                <>
+                                  <span>{row.result}</span>
+                                </>
+                              ),
+                            },
+                            {
+                              dataField: 'rangeType',
+                              text: 'Range Type',
+                            },
+                            {
+                              dataField: 'low',
+                              text: 'Low',
+                            },
+                            {
+                              dataField: 'high',
+                              text: 'High',
+                            },
+                            {
+                              dataField: 'rangeSetOn',
+                              text: 'Range Set On',
+                            },
+                            {
+                              dataField: 'rangeId',
+                              text: 'Range Id',
+                            },
+                            {
+                              dataField: 'version',
+                              text: 'Range Version',
+                            },
+                          ]}
+                          onSelectedRow={rows => {}}
+                          onUpdateItem={(
+                            value: any,
+                            dataField: string,
+                            id: string,
+                          ) => {}}
+                        />
+                      </div>
                     ) : null}
                   </div>
                 );
@@ -387,7 +405,7 @@ export const ResultList = (props: ResultListProps) => {
               dataField: 'approvalStatus',
               text: 'Operation',
               sort: true,
-              editable: true,
+              editable: false,
               formatter: (cellContent, row) => (
                 <div className='flex flex-row gap-1' key={row?._id}>
                   <Tooltip tooltipText='Approved'>
@@ -400,6 +418,7 @@ export const ResultList = (props: ResultListProps) => {
                             { approvalStatus: 'Approved' },
                             row._id,
                           );
+                        props.onExpand && props.onExpand('');
                       }}
                     >
                       {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
@@ -420,31 +439,7 @@ export const ResultList = (props: ResultListProps) => {
                       {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
                     </Icons.IconContext>
                   </Tooltip>
-                  {selectId == row._id ? (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() => {
-                          props.onExpand && props.onExpand('');
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  ) : (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() => {
-                          props.onExpand && props.onExpand(row);
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  )}
+
                   <Tooltip tooltipText='Recheck'>
                     <Icons.IconContext
                       color='#fff'
@@ -475,6 +470,31 @@ export const ResultList = (props: ResultListProps) => {
                       />
                     </Icons.IconContext>
                   </Tooltip>
+                  {selectId == row._id ? (
+                    <Tooltip tooltipText='Expand'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => {
+                          props.onExpand && props.onExpand('');
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip tooltipText='Expand'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => {
+                          props.onExpand && props.onExpand(row);
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
                 </div>
               ),
               headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
@@ -502,6 +522,9 @@ export const ResultList = (props: ResultListProps) => {
           }}
           clearAllFilter={() => {
             labId('');
+          }}
+          onFilterRecord={item => {
+            props.onFilterRecord && props.onFilterRecord(item);
           }}
         />
       </div>

@@ -758,7 +758,7 @@ const TestMater = TestMasterHOC(
                               : 'Test Name'
                           }
                           hasError={!!errors.testName}
-                          disabled={testMasterStore.testMaster?.disableTestName}
+                          disabled={isVersionUpgrade}
                           value={value}
                           onChange={testName => {
                             onChange(testName);

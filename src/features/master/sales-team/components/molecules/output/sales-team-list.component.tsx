@@ -230,6 +230,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               `Employee: ${row?.salesHierarchy

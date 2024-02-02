@@ -23,6 +23,7 @@ export const TestSampleMappingHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'MIN_TEST_VOL_UNIT',
         ),
+        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         // environment: getDefaultLookupItem(
         //   routerStore.lookupItems,
         //   'ENVIRONMENT',

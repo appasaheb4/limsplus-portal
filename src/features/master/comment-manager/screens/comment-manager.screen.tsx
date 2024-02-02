@@ -368,6 +368,46 @@ const CommentManager = CommentManagerHoc(
         });
     };
 
+    const commentForValueRender = () => {
+      const commentType = commentManagerStore.commentManager.commentsType;
+      switch (commentType) {
+        case 'Normal': {
+          return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
+            .filter(item => item.value === 'All')
+            .map((item: any, index: number) => (
+              <option key={index} value={item.code}>
+                {lookupValue(item)}
+              </option>
+            ));
+        }
+        case 'Status': {
+          return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
+            .filter(
+              item =>
+                item.value === 'Abnormal' ||
+                item.value === 'Normal' ||
+                item.value === 'Critical',
+            )
+            .map((item: any, index: number) => (
+              <option key={index} value={item.code}>
+                {lookupValue(item)}
+              </option>
+            ));
+        }
+        case 'Results': {
+          return lookupItems(routerStore.lookupItems, 'COMMENTS_FOR')
+            .filter(item => item.value === 'Value' || item.value === 'Alpha')
+            .map((item: any, index: number) => (
+              <option key={index} value={item.code}>
+                {lookupValue(item)}
+              </option>
+            ));
+        }
+        default:
+          break;
+      }
+    };
+
     return (
       <>
         <Header>
@@ -1114,14 +1154,7 @@ const CommentManager = CommentManagerHoc(
                           }}
                         >
                           <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'COMMENTS_FOR',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
+                          {commentForValueRender()}
                         </select>
                       </Form.InputWrapper>
                     )}
@@ -1131,15 +1164,15 @@ const CommentManager = CommentManagerHoc(
                   />
 
                   {commentManagerStore.commentManager.commentsType !==
-                    'RESULTS' &&
-                  commentManagerStore.commentManager.commentsFor !== 'VALUE' &&
+                    'Results' &&
+                  commentManagerStore.commentManager.commentsFor !== 'Value' &&
                   commentManagerStore.commentManager.commentsFor !==
-                    'ALPHA' ? null : (
+                    'Alpha' ? null : (
                     <>
                       {commentManagerStore.commentManager.commentsType ==
-                        'RESULTS' &&
+                        'Results' &&
                         commentManagerStore.commentManager.commentsFor ==
-                          'VALUE' && (
+                          'Value' && (
                           <>
                             <div className='grid grid-cols-2 gap-2'>
                               <Controller
@@ -1342,9 +1375,9 @@ const CommentManager = CommentManagerHoc(
                           </>
                         )}
                       {commentManagerStore.commentManager.commentsType ==
-                        'RESULTS' &&
+                        'Results' &&
                         commentManagerStore.commentManager.commentsFor ==
-                          'ALPHA' && (
+                          'Alpha' && (
                           <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => (

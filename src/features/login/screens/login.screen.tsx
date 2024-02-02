@@ -213,7 +213,7 @@ export const Login = observer(() => {
 
   return (
     <>
-      <div className='flex flex-col h-screen bg-[#FF6C99] w-full  justify-center items-center'>
+      <div className='flex flex-col h-screen bg-[#FF6C99] w-full justify-center items-center'>
         <svg
           width='80%'
           height='100%'
@@ -246,13 +246,20 @@ export const Login = observer(() => {
               style={{ width: 200, marginTop: -140 }}
             />
           </div>
-          <div className='sm:flex-col md:flex-col xl:flex-row w-full'>
-            <div className='flex justify-between mx-10'>
-              <div className='flex ml-24'>
+          <div
+            className='sm:flex-col md:flex-col xl:flex-row w-full'
+            style={{ marginBottom: '3rem' }}
+          >
+            <div
+              className='flex justify-between mx-10'
+              style={{ gap: '60px', alignItems: 'center' }}
+            >
+              <div className='flex'>
                 <div className='flex justify-center items-center'>
                   <Carousel
                     style={{ width: carouselSize, height: carouselSize }}
                     indicators={false}
+                    controls={false}
                   >
                     {bannerStore.listAllBanner.map((item, key) => (
                       <Carousel.Item interval={3000} key={key}>
@@ -282,14 +289,14 @@ export const Login = observer(() => {
               <div className='flex flex-col'>
                 <div className='flex justify-center items-end'>
                   <div
-                    className='flex flex-col mt-2 rounded-3xl bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'
+                    className='flex flex-col mt-8 mt-2 rounded-3xl bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'
                     style={{ width: '350px' }}
                   >
-                    <span className='text-center font-bold text-lg text-black mt-2 ml-4 underline'>
+                    <span className='text-center font-bold text-3xl text-black mt-2 ml-4 underline'>
                       Sign In
                     </span>
                     {loginStore.inputLogin?.userModule && (
-                      <span className='text-center font-bold text-md text-black mt-2 ml-4'>
+                      <span className='text-center font-bold text-xl text-black mt-2 ml-4'>
                         {loginStore.inputLogin?.userModule}
                       </span>
                     )}
@@ -322,12 +329,12 @@ export const Login = observer(() => {
                                     .checkExitsUserId({
                                       input: {
                                         userId: userId.trim(),
-                                        webPortal:
-                                          process.env.REACT_APP_ENV === 'Local'
-                                            ? 'https://www.limsplussolutions.com'
-                                            : window.location.origin,
                                         // webPortal:
-                                        //   'https://www.limsplussolutions.com',
+                                        //   process.env.REACT_APP_ENV === 'Local'
+                                        //     ? 'https://www.limsplussolutions.com'
+                                        //     : window.location.origin,
+                                        webPortal:
+                                          'https://www.limsplussolutions.com',
                                       },
                                     })
                                     .then(async res => {

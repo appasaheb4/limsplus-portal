@@ -1,7 +1,7 @@
 /* eslint-disable  */
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {Icons} from '../..';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { Icons } from '../..';
 
 interface AutoCompleteFilterSingleSelectProps {
   loader?: boolean;
@@ -55,7 +55,7 @@ export const AutoCompleteFilterSingleSelect = ({
   }, [displayValue]);
 
   const onChange = e => {
-    const search = e.target.value;
+    const search = e.target.value?.toUpperCase();
     setValue(search);
     onFilter(search);
   };
@@ -63,7 +63,7 @@ export const AutoCompleteFilterSingleSelect = ({
   const onKeyUp = e => {
     const charCode = e.which ? e.which : e.keyCode;
     if (charCode === 8) {
-      const search = e.target.value;
+      const search = e.target.value?.toUpperCase();
       onFilter(search);
     }
   };

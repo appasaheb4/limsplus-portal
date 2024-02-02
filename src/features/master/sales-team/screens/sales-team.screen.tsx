@@ -447,7 +447,7 @@ export const SalesTeam = SalesTeamHoc(
                         <AutoCompleteFilterSingleSelectEmpolyeCode
                           hasError={!!errors.empCode}
                           displayValue={value}
-                          disable={isVersionUpgrade}
+                          // disable={}
                           onSelect={item => {
                             onChange(item.empCode);
                             setValue('empName', item.fullName);
@@ -604,11 +604,11 @@ export const SalesTeam = SalesTeamHoc(
                       <Form.InputDateTime
                         label='Date Expiry'
                         placeholder={
-                          errors.schedule
+                          errors.dateExpire
                             ? 'Please Enter schedule'
                             : 'Date Expire'
                         }
-                        hasError={!!errors.schedule}
+                        hasError={!!errors.dateExpire}
                         value={value}
                         onChange={dateExpire => {
                           onChange(dateExpire);
@@ -619,7 +619,7 @@ export const SalesTeam = SalesTeamHoc(
                         }}
                       />
                     )}
-                    name='schedule'
+                    name='dateExpire'
                     rules={{ required: false }}
                     defaultValue=''
                   />
