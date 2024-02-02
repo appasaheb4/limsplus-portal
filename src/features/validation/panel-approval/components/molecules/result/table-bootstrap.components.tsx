@@ -48,6 +48,7 @@ interface TableBootstrapProps {
   ) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
+  onFilterRecord?: (item: any) => void;
 }
 export const TableBootstrap = ({
   id,
@@ -67,6 +68,7 @@ export const TableBootstrap = ({
   onFilter,
   clearAllFilter,
   onClickRow,
+  onFilterRecord,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -416,7 +418,7 @@ export const TableBootstrap = ({
                     <button
                       key={status.code}
                       className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
-                      onClick={() => {}}
+                      onClick={() => onFilterRecord?.(status.value)}
                     >
                       {status.value}
                     </button>
