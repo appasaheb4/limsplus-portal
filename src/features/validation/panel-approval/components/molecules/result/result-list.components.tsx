@@ -27,6 +27,7 @@ interface ResultListProps {
   isEditModify?: boolean;
   selectedId?: string;
   selectedItems?: any;
+  filterRecord?: string;
   onSelectedRow?: (selectedItem: any, type: string) => void;
   onUpdateFields?: (fields: any, id: string) => void;
   onUpdateResult?: (fields: any, id: string) => void;
@@ -42,6 +43,7 @@ interface ResultListProps {
   ) => void;
   onClickRow?: (item: any, index: number) => void;
   onReport?: (item: any) => void;
+  onFilterRecord?: (item: any) => void;
 }
 
 let labId;
@@ -53,18 +55,25 @@ export const ResultList = (props: ResultListProps) => {
   const [widthRefBox, setWidthRefBox] = useState('20px');
 
   useEffect(() => {
+    const filterDataByHoldRecord = (data, holdRecord) => {
+      if (holdRecord === 'Pending') {
+        return data.filter(item => item.approvalStatus === 'Pending');
+      } else if (holdRecord === 'Done') {
+        return data.filter(item => item.approvalStatus === 'Done');
+      } else {
+        return data;
+      }
+    };
     setSelectId(props.selectedId || '');
     setLocalData(
       props.selectedId
         ? props.data
-            ?.filter((item: any) => item._id === props.selectedId)
-            ?.map(item => {
-              return { ...item, selectedId: props.selectedId };
-            })
-        : props.data,
+            ?.filter(item => item._id === props.selectedId)
+            ?.map(item => ({ ...item, selectedId: props.selectedId }))
+        : filterDataByHoldRecord(props.data, props.filterRecord),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedId, props.data]);
+  }, [props.selectedId, props.data, props.filterRecord]);
 
   useEffect(() => {
     setLocalData(JSON.parse(JSON.stringify(localData)));
@@ -513,6 +522,9 @@ export const ResultList = (props: ResultListProps) => {
           }}
           clearAllFilter={() => {
             labId('');
+          }}
+          onFilterRecord={item => {
+            props.onFilterRecord && props.onFilterRecord(item);
           }}
         />
       </div>

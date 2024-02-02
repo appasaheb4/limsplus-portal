@@ -38,6 +38,7 @@ const PanelApproval = observer(() => {
   const [expandItem, setExpandItem] = useState<any>([]);
   const [tableReaload, setTableReload] = useState<boolean>(false);
   const [selectId, setSelectId] = useState('');
+  const [filterRecord, setFilterRecord] = useState<string>('');
 
   const updateRecords = payload => {
     const { type, data } = payload;
@@ -134,6 +135,7 @@ const PanelApproval = observer(() => {
         data={panelApprovalStore.panelApprovalList || []}
         totalSize={panelApprovalStore.panelApprovalListCount}
         selectedId={selectId}
+        filterRecord={filterRecord}
         isDelete={RouterFlow.checkPermission(
           routerStore.userPermission,
           'Delete',
@@ -206,10 +208,16 @@ const PanelApproval = observer(() => {
               panelApprovalStore.panelApprovalService?.listPanelApproval();
             });
         }}
+        onFilterRecord={setFilterRecord}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [panelApprovalStore.panelApprovalList, tableReaload, selectId],
+    [
+      panelApprovalStore.panelApprovalList,
+      tableReaload,
+      selectId,
+      filterRecord,
+    ],
   );
 
   return (
