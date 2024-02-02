@@ -5,6 +5,7 @@ import '../css/toggle.css';
 import classNames from 'classnames';
 import DateTimePicker from 'react-datetime-picker';
 import '../css/date-time-picker.css';
+import { stores } from '@/stores';
 
 interface LabelProps {
   htmlFor: string;
@@ -111,7 +112,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         onKeyPress={e => handleKeyPress(e)}
         className={`${
           props.className
-        } leading-4 p-2  dark:text-white focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
+        } leading-4 p-2  dark:bg-boxdark  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? 'border-red ' : 'border-gray-300'
         } rounded-md `}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}
@@ -161,14 +162,14 @@ export const InputPassword = React.forwardRef(
               props.className
             } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
               props.hasError ? 'border-red ' : 'border-gray-300'
-            } rounded-md dark:text-black`}
+            } rounded-md dark:bg-boxdark`}
             onBlur={e => props.onBlur && props.onBlur(e.target.value)}
             onKeyDown={props.onKeyDown && props.onKeyDown}
           />
           <div className='flex absolute right-2'>
             {isSecure ? (
               <svg
-                className='h-6 text-gray-700'
+                className='h-6 dark:bg-boxdark'
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 576 512'
@@ -181,7 +182,7 @@ export const InputPassword = React.forwardRef(
               </svg>
             ) : (
               <svg
-                className='h-6 text-gray-700'
+                className='h-6 dark:bg-boxdark'
                 fill='none'
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 640 512'
@@ -322,7 +323,7 @@ export const MultilineInput = (props: InputProps) => (
       onBlur={e => props.onBlur && props.onBlur(e.target.value)}
       className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
         props.hasError ? 'border-red ' : 'border-gray-300'
-      } rounded-md dark:text-black`}
+      } rounded-md dark:bg-boxdark`}
       defaultValue={props.defaultValue}
     />
   </InputWrapper>
@@ -453,7 +454,10 @@ export const InputDateTime = ({
 
   return (
     <InputWrapper label={label} id={id} hasError={hasError}>
-      <div style={style} className=' dark:bg-white rounded-md'>
+      <div
+        style={style}
+        className=' dark:bg-boxdark dark:text-white rounded-md'
+      >
         {use12Hours ? (
           <DateTimePicker
             isCalendarOpen={isCalenderOpen}
@@ -475,11 +479,12 @@ export const InputDateTime = ({
             value={value}
             amPmAriaLabel='AM/PM'
             format={format || 'dd-MM-yyyy hh:mm:ss a'}
-            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+            className={`leading-4 p-2 focus:outline-none dark:bg-boxdark dark:text-white  focus:ring block w-full shadow-sm sm:text-base border-2 ${
               hasError ? 'border-red ' : 'border-gray-300'
             } rounded-md relative z-2`}
             minDate={minDate}
             maxDate={maxDate}
+            calendarClassName='dark:bg-boxdark dark:text-white'
           />
         ) : (
           <DateTimePicker
@@ -499,10 +504,10 @@ export const InputDateTime = ({
             onClockClose={() => {
               if (value !== date) onFocusRemove && onFocusRemove(date);
             }}
-            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+            className={`leading-4 p-2  focus:outline-none  dark:bg-boxdark dark:text-white focus:ring block w-full shadow-sm sm:text-base border-2 ${
               hasError ? 'border-red ' : 'border-gray-300'
             } rounded-md relative z-2`}
-            calendarClassName='h-96 z-50 absolute'
+            calendarClassName='h-96 z-50 absolute dark:bg-boxdark dark:text-white'
             minDate={minDate}
             maxDate={maxDate}
           />
@@ -557,11 +562,12 @@ export const DatePicker = ({
           value={value}
           amPmAriaLabel='AM/PM'
           format={format || 'dd-MM-yyyy'}
-          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm  sm:text-base border-2 ${
+          className={`leading-4 dark:bg-inherit  dark:bg-boxdark dark:text-white p-2 focus:outline-none focus:ring block w-full shadow-sm  sm:text-base border-2 ${
             hasError ? 'border-red ' : 'border-gray-300'
           } rounded-md relative z-2`}
           minDate={minDate}
           maxDate={maxDate}
+          calendarClassName='dark:bg-boxdark dark:text-white'
         />
       </div>
     </InputWrapper>

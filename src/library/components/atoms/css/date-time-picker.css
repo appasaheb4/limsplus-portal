@@ -5,7 +5,6 @@
   border: none;
 }
 .react-calendar {
-  overflow-y: scroll;
   height: 35vh;
   width: 36vh;
 }

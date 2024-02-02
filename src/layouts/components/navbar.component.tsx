@@ -35,7 +35,7 @@ import {
   Card,
 } from 'reactstrap';
 
-const NavbarComponent = observer(({ dispatch }) => {
+const NavbarComponent = observer(({ dispatch, sidebar }) => {
   const [userId, serUserId] = useState<string>('');
   const [colorMode, setColorMode] = useColorMode();
   const { appStore, userStore, routerStore, loginStore } = useStores();
@@ -55,29 +55,38 @@ const NavbarComponent = observer(({ dispatch }) => {
       <Navbar
         style={{
           backgroundColor: appStore.applicationSetting?.navBarColor,
+          backgroundImage: `url(${appStore.applicationSetting?.navbarImage})`,
+          backgroundSize: '100% 100%',
+          display: 'flex',
         }}
         light
         expand
         className='flex flex-row w-full xl:pr-5 sm:p-0'
       >
         <div className='flex w-8 sm:ml-4'>
-          <span
-            className='sidebar-toggle d-flex mr-2 '
-            onClick={() => {
-              dispatch(toggleSidebar());
-            }}
+          <Tooltip
+            tooltipText={`${
+              sidebar.isOpen ? 'Collapse sidebar' : 'Expand sidebar'
+            }`}
           >
-            <Icons.RIcon
-              nameIcon='GiHamburgerMenu'
-              propsIcon={{
-                color:
-                  stores.appStore.applicationSetting.theme === 'dark'
-                    ? '#ffffff'
-                    : '#000000',
-                size: 22,
+            <span
+              className='sidebar-toggle d-flex mr-2 '
+              onClick={() => {
+                dispatch(toggleSidebar());
               }}
-            />
-          </span>
+            >
+              <Icons.RIcon
+                nameIcon='GiHamburgerMenu'
+                propsIcon={{
+                  color:
+                    stores.appStore.applicationSetting.theme === 'dark'
+                      ? '#ffffff'
+                      : '#000000',
+                  size: 22,
+                }}
+              />
+            </span>
+          </Tooltip>
         </div>
         <div className='flex flex-3  scrollbar-hide overflow-x-scroll '>
           <Form inline>
@@ -151,100 +160,105 @@ const NavbarComponent = observer(({ dispatch }) => {
         <div className='flex-1 ml-2 d-none d-sm-inline-block'>
           <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
-              <Buttons.Button
-                size='medium'
-                type='outline'
-                onClick={() => {
-                  const elem: any = document.body;
-                  function openFullscreen() {
-                    const theme = 'dark';
-                    appStore.updateApplicationSetting({
-                      ...appStore.applicationSetting,
-                      isExpandScreen: true,
-                    });
-                    appStore.updateApplicationSetting({
-                      ...stores.appStore.applicationSetting,
-                      theme,
-                    });
-                    if (elem.requestFullscreen) {
-                      elem.requestFullscreen();
-                    } else if (elem.webkitRequestFullscreen) {
-                      /* Safari */
-                      elem.webkitRequestFullscreen();
-                    } else if (elem.msRequestFullscreen) {
-                      /* IE11 */
-                      elem.msRequestFullscreen();
-                    }
-                    if (typeof setColorMode === 'function') {
-                      setColorMode(theme);
-                    }
-                  }
-                  function closeFullscreen() {
-                    if (document.fullscreenElement) {
-                      const theme = 'light';
-                      if (document.exitFullscreen) {
-                        appStore.updateApplicationSetting({
-                          ...appStore.applicationSetting,
-                          isExpandScreen: false,
-                          theme,
-                        });
-                        document.exitFullscreen();
-                      }
-                      if (typeof setColorMode === 'function') {
-                        setColorMode(theme);
-                      }
-                    }
-                  }
-                  openFullscreen();
-                  closeFullscreen();
-                }}
-              >
-                <Tooltip
-                  tooltipText={
-                    appStore.applicationSetting?.isExpandScreen
-                      ? 'Collapse'
-                      : 'Expand'
-                  }
-                >
-                  <Icons.IconContext
-                    color={`${
-                      stores.appStore.applicationSetting.theme === 'dark'
-                        ? '#ffffff'
-                        : '#000000'
-                    }`}
-                    size='22'
-                  >
-                    {Icons.getIconTag(
-                      appStore.applicationSetting?.isExpandScreen
-                        ? Icons.IconCg.CgMinimize
-                        : Icons.Iconai.AiOutlineExpand,
-                    )}
-                  </Icons.IconContext>
-                </Tooltip>
-              </Buttons.Button>
               <div className='mx-2'>
                 <DarkModeSwitcher
                   //isDisable={appStore.applicationSetting.isExpandScreen}
                   isDisable={false}
                 />
               </div>
-              <span
-                className='flex rounded-md p-2 shadow-4 items-center border-2 border-white'
-                onClick={() => {
-                  if (loginStore.login.loginActivityList.length > 0) {
-                    setModalSessionAllowed({
-                      show: true,
-                      data: loginStore.login.loginActivityList,
-                    });
-                  } else {
-                    Toast.warning({
-                      message: `😊 Single system login.`,
-                    });
-                  }
-                }}
-              >
-                {loginStore.login?.sessionAllowed}
-              </span>
+              <div className='m-2'>
+                <Buttons.Button
+                  size='medium'
+                  type='outline'
+                  onClick={() => {
+                    const elem: any = document.body;
+                    function openFullscreen() {
+                      const theme = 'dark';
+                      appStore.updateApplicationSetting({
+                        ...appStore.applicationSetting,
+                        isExpandScreen: true,
+                      });
+                      appStore.updateApplicationSetting({
+                        ...stores.appStore.applicationSetting,
+                        theme,
+                      });
+                      if (elem.requestFullscreen) {
+                        elem.requestFullscreen();
+                      } else if (elem.webkitRequestFullscreen) {
+                        /* Safari */
+                        elem.webkitRequestFullscreen();
+                      } else if (elem.msRequestFullscreen) {
+                        /* IE11 */
+                        elem.msRequestFullscreen();
+                      }
+                      if (typeof setColorMode === 'function') {
+                        setColorMode(theme);
+                      }
+                    }
+                    function closeFullscreen() {
+                      if (document.fullscreenElement) {
+                        const theme = 'light';
+                        if (document.exitFullscreen) {
+                          appStore.updateApplicationSetting({
+                            ...appStore.applicationSetting,
+                            isExpandScreen: false,
+                            theme,
+                          });
+                          document.exitFullscreen();
+                        }
+                        if (typeof setColorMode === 'function') {
+                          setColorMode(theme);
+                        }
+                      }
+                    }
+                    openFullscreen();
+                    closeFullscreen();
+                  }}
+                >
+                  <Tooltip
+                    tooltipText={
+                      appStore.applicationSetting?.isExpandScreen
+                        ? 'Collapse Screen'
+                        : 'Expand Screen'
+                    }
+                  >
+                    <Icons.IconContext
+                      color={`${
+                        stores.appStore.applicationSetting.theme === 'dark'
+                          ? '#ffffff'
+                          : '#000000'
+                      }`}
+                      size='18'
+                    >
+                      {Icons.getIconTag(
+                        appStore.applicationSetting?.isExpandScreen
+                          ? Icons.IconCg.CgMinimize
+                          : Icons.Iconai.AiOutlineExpand,
+                      )}
+                    </Icons.IconContext>
+                  </Tooltip>
+                </Buttons.Button>
+              </div>
+              <Tooltip tooltipText={'User session'}>
+                <span
+                  className='flex rounded-md p-2 shadow-4 items-center border-2 border-white'
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    if (loginStore.login.loginActivityList.length > 0) {
+                      setModalSessionAllowed({
+                        show: true,
+                        data: loginStore.login.loginActivityList,
+                      });
+                    } else {
+                      Toast.warning({
+                        message: `😊 Single system login.`,
+                      });
+                    }
+                  }}
+                >
+                  {loginStore.login?.sessionAllowed}
+                </span>
+              </Tooltip>
             </Nav>
           </div>
         </div>
@@ -253,11 +267,13 @@ const NavbarComponent = observer(({ dispatch }) => {
             <DropdownToggle nav>
               <div className='flex flex-row gap-2'>
                 <div style={{ width: '40px', height: '40px' }}>
-                  <img
-                    className='rounded-full'
-                    src={loginStore.login?.picture || Assets.defaultAvatar}
-                    alt={loginStore.login?.fullName}
-                  />
+                  <Tooltip tooltipText={'User profile'}>
+                    <img
+                      className='rounded-full'
+                      src={loginStore.login?.picture || Assets.defaultAvatar}
+                      alt={loginStore.login?.fullName}
+                    />
+                  </Tooltip>
                 </div>
                 <span className='sm:mt-2 d-none d-sm-inline-block '>
                   {loginStore.login?.fullName}
@@ -312,6 +328,7 @@ const NavbarComponent = observer(({ dispatch }) => {
       />
       <ModalChangePassword
         {...modalChangePassword}
+        isDarkMode={stores.appStore.applicationSetting.theme === 'dark'}
         onClick={() => {
           const exipreDate = new Date(
             dayjs(new Date()).add(30, 'days').format('YYYY-MM-DD HH:mm'),
@@ -405,5 +422,6 @@ const NavbarComponent = observer(({ dispatch }) => {
 });
 
 export default connect((store: any) => ({
+  sidebar: store.sidebar,
   app: store.app,
 }))(NavbarComponent);

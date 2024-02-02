@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import _ from 'lodash';
+import _, { isNaN } from 'lodash';
 import { Form, Buttons } from '@/library/components';
 import { DisplayResult } from './display-result.components';
 
@@ -30,6 +30,7 @@ interface GeneralResultEntryListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onFilterFinishResult?: (code: string) => void;
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
@@ -172,7 +173,18 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               sort: true,
               editable: false,
               formatter: (cell, row) => {
-                return <span>{row?.loNor + ' - ' + row?.hiNor}</span>;
+                return (
+                  <span>
+                    {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
+                    (row.loNor === ' ' && row.hiNor === ' ')
+                      ? '-'
+                      : row.loNor === 'NaN' && row.hiNor === ' '
+                      ? '<'
+                      : row.loNor === ' ' && row.hiNor === 'NaN'
+                      ? '>'
+                      : row.loNor + '-' + row.hiNor}
+                  </span>
+                );
               },
             },
             {
@@ -481,6 +493,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     return item?._id;
                 }),
               );
+          }}
+          onFilterFinishResult={(code: string) => {
+            props.onFilterFinishResult && props.onFilterFinishResult(code);
           }}
         />
       </div>

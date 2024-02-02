@@ -489,10 +489,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               loader={loading}
                               placeholder='Search by name'
                               disable={
-                                isVersionUpgrade
-                                  ? true
-                                  : loginStore.login &&
-                                    loginStore.login.role !== 'SYSADMIN'
+                                loginStore.login &&
+                                loginStore.login.role !== 'SYSADMIN'
                                   ? true
                                   : false
                               }
@@ -609,7 +607,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             lab={
                               testAnalyteMappingStore.testAnalyteMapping?.lab
                             }
-                            isDisabled={isVersionUpgrade}
+                            // isDisabled={isVersionUpgrade}
                             hasError={!!errors.testName}
                             onSelect={item => {
                               onChange(item.testName);
@@ -671,7 +669,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
-                            disable={isVersionUpgrade}
+                            // disable={isVersionUpgrade}
                             data={{
                               list:
                                 _.uniqBy(

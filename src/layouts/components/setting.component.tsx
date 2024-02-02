@@ -9,7 +9,7 @@ import { toggleSidebar } from '../../redux/actions/sidebar-action';
 import { Settings as SettingsIcon } from 'react-feather';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { SideBarColorBgImages } from './sidebar-color-bg-image.component';
+import SideBarColorBgImages from './sidebar-color-bg-image.component';
 
 import { Badge } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -34,7 +34,7 @@ const Settings = observer(props => {
     { color: '#DEB887' },
     { color: '#778899' },
     { color: '#32CD32' },
-    { color: '#B0E0E6' },
+    // { color: '#B0E0E6' },
   ]);
 
   useEffect(() => {

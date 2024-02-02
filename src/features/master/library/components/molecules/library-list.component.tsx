@@ -426,7 +426,7 @@ export const LibraryList = (props: LibraryListProps) => {
               formatter: (cell, row) => {
                 return (
                   <>
-                    <Tooltip tooltipText='Details Content'>
+                    <Tooltip tooltipText='Expand library detail'>
                       <Icons.RIcon
                         nameIcon='AiFillHtml5'
                         propsIcon={{ size: 30 }}

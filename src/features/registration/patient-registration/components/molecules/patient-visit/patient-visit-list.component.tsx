@@ -114,17 +114,6 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               editable: false,
             },
             {
-              dataField: 'externalLabId',
-              text: 'External Lab Id',
-              headerClasses: 'textHeader2',
-              sort: true,
-              csvFormatter: (col, row) => (col ? col : false),
-              editable: false,
-              // formatter: (cell, row) => {
-              //   return <>{row.extraData.externalLabId}</>;
-              // },
-            },
-            {
               dataField: 'pId',
               text: 'Pid',
               headerClasses: 'textHeader5',
@@ -144,6 +133,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               ),
               editable: false,
             },
+            {
+              dataField: 'externalLabId',
+              text: 'External Lab Id',
+              headerClasses: 'textHeader2',
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : false),
+              editable: false,
+              // formatter: (cell, row) => {
+              //   return <>{row.extraData.externalLabId}</>;
+              // },
+            },
+
             {
               dataField: 'rLab',
               text: 'Rlab',
@@ -298,18 +299,27 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         registrationDate,
                       );
                       const currentDate = new Date();
+                      const dob = new Date(row.birthDate);
+
                       if (selectedRegistrationDate < currentDate) {
-                        setModalDetails({ visible: false });
-                        props.onSingleDirectUpdateField &&
-                          props.onSingleDirectUpdateField(
-                            registrationDate,
-                            column.dataField,
-                            row._id,
-                          );
+                        if (dob < selectedRegistrationDate) {
+                          setModalDetails({ visible: false });
+                          props.onSingleDirectUpdateField &&
+                            props.onSingleDirectUpdateField(
+                              registrationDate,
+                              column.dataField,
+                              row._id,
+                            );
+                        } else {
+                          Toast.error({
+                            message:
+                              'BirthDate should not be greater then Registration Date.',
+                          });
+                        }
                       } else {
                         Toast.error({
                           message:
-                            'Registration Date should not be greater then Current Date',
+                            'Registration Date should not be greater than Current Date.',
                         });
                       }
                     }}
@@ -703,16 +713,16 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'employeeCode',
-              text: 'Employee Code',
-              headerClasses: 'textHeader5',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return <>{row.extraData?.employeeCode}</>;
-              },
-            },
+            // {
+            //   dataField: 'employeeCode',
+            //   text: 'Employee Code',
+            //   headerClasses: 'textHeader5',
+            //   sort: true,
+            //   editable: false,
+            //   formatter: (cell, row) => {
+            //     return <>{row.extraData?.employeeCode}</>;
+            //   },
+            // },
             {
               dataField: 'acClass',
               text: 'AC Class',
@@ -1269,6 +1279,20 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 </>
               ),
             },
+            {
+              dataField: 'employeeCode',
+              text: 'Employee Code',
+              headerClasses: 'textHeader3',
+              editorStyle: { textTransform: 'uppercase' },
+              style: { textTransform: 'uppercase' },
+              sort: true,
+              csvFormatter: (col, row) => (col ? col : false),
+              editable: false,
+              formatter: (cell, row) => {
+                return <>{row.extraData.employeeCode}</>;
+              },
+            },
+
             {
               text: 'Company Code',
               dataField: 'companyCode',

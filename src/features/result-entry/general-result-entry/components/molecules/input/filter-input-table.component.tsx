@@ -47,19 +47,16 @@ export const FilterInputTable = observer(() => {
               PLab
             </th>
             <th className='text-white' style={{ minWidth: 190 }}>
-              Test Code / Name
+              Department
             </th>
             <th className='text-white' style={{ minWidth: 190 }}>
-              Department
+              Test Code / Name
             </th>
             <th className='text-white' style={{ minWidth: 190 }}>
               Test Status
             </th>
             <th className='text-white' style={{ minWidth: 190 }}>
               LabId
-            </th>
-            <th className='text-white' style={{ minWidth: 190 }}>
-              Finish Result
             </th>
           </tr>
         </thead>
@@ -139,79 +136,7 @@ export const FilterInputTable = observer(() => {
                 defaultValue={generalResultEntryStore.filterGeneralResEntry}
               />
             </td>
-            <td>
-              <div className='flex flex-row items-center gap-2'>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange } }) => (
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      hasError={!!errors.testCode}
-                      placeholder='Search by code '
-                      data={{
-                        list: _.uniqBy(
-                          patientResultStore.distinctPatientResult?.filter(
-                            item => item.testCode !== undefined,
-                          ),
-                          'testCode',
-                        ),
-                        displayKey: ['testCode', 'testName'],
-                      }}
-                      displayValue={
-                        generalResultEntryStore.filterGeneralResEntry?.testCode
-                      }
-                      onFilter={(value: string) => {
-                        patientResultStore.filterDistinctPatientResult(
-                          getFilteredData(
-                            value,
-                            'testCode',
-                            patientResultStore.distinctPatientResultCopy,
-                          ),
-                        );
-                      }}
-                      onSelect={item => {
-                        onChange(item.testCode);
-                        generalResultEntryStore.updateFilterGeneralResEntry({
-                          ...generalResultEntryStore.filterGeneralResEntry,
-                          testCode: item.testCode,
-                        });
-                        const input = _.pickBy(
-                          {
-                            ...generalResultEntryStore.filterGeneralResEntry,
-                            testCode: item.testCode,
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          },
-                        );
-                        patientResultStore.filterDistinctPatientResult(
-                          patientResultStore.distinctPatientResultCopy,
-                        );
-                      }}
-                    />
-                  )}
-                  name='testCode'
-                  rules={{ required: true }}
-                  defaultValue={generalResultEntryStore.filterGeneralResEntry}
-                />
-              </div>
-            </td>
+
             <td>
               <div className='flex flex-row items-center gap-2'>
                 <Controller
@@ -325,6 +250,79 @@ export const FilterInputTable = observer(() => {
                 >
                   <Icons.Iconai.AiFillCloseCircle />
                 </Icons.IconContext>
+              </div>
+            </td>
+            <td>
+              <div className='flex flex-row items-center gap-2'>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange } }) => (
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      hasError={!!errors.testCode}
+                      placeholder='Search by code '
+                      data={{
+                        list: _.uniqBy(
+                          patientResultStore.distinctPatientResult?.filter(
+                            item => item.testCode !== undefined,
+                          ),
+                          'testCode',
+                        ),
+                        displayKey: ['testCode', 'testName'],
+                      }}
+                      // displayValue={
+                      //   generalResultEntryStore.filterGeneralResEntry?.testCode
+                      // }
+                      onFilter={(value: string) => {
+                        patientResultStore.filterDistinctPatientResult(
+                          getFilteredData(
+                            value,
+                            'testCode',
+                            patientResultStore.distinctPatientResultCopy,
+                          ),
+                        );
+                      }}
+                      onSelect={item => {
+                        onChange(item.testCode);
+                        generalResultEntryStore.updateFilterGeneralResEntry({
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          testCode: item.testCode,
+                        });
+                        const input = _.pickBy(
+                          {
+                            ...generalResultEntryStore.filterGeneralResEntry,
+                            testCode: item.testCode,
+                          },
+                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                          function (value, key) {
+                            return !(
+                              value === undefined ||
+                              value === null ||
+                              value === ''
+                            );
+                          },
+                        );
+                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                          {
+                            input: {
+                              filter: {
+                                ...input,
+                              },
+                              page: 0,
+                              limit: 10,
+                            },
+                          },
+                        );
+                        patientResultStore.filterDistinctPatientResult(
+                          patientResultStore.distinctPatientResultCopy,
+                        );
+                      }}
+                    />
+                  )}
+                  name='testCode'
+                  rules={{ required: true }}
+                  defaultValue={''}
+                />
               </div>
             </td>
             <td>
@@ -471,7 +469,7 @@ export const FilterInputTable = observer(() => {
                         );
                       }}
                       onSelect={item => {
-                        onChange(item.labId);
+                        onChange(item?.labId);
                         generalResultEntryStore.updateFilterGeneralResEntry({
                           ...generalResultEntryStore.filterGeneralResEntry,
                           labId: item.labId,
@@ -510,111 +508,6 @@ export const FilterInputTable = observer(() => {
                   name='labId'
                   rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
-                />
-                <Icons.IconContext
-                  color={
-                    appStore.applicationSetting.theme != 'dark'
-                      ? '#000000'
-                      : '#ffffff'
-                  }
-                  size='30'
-                  onClick={() => {
-                    const input = _.pickBy(
-                      {
-                        ...generalResultEntryStore.filterGeneralResEntry,
-                        labId: '',
-                      },
-                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                      function (value, key) {
-                        return !(
-                          value === undefined ||
-                          value === null ||
-                          value === ''
-                        );
-                      },
-                    );
-                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                      {
-                        input: {
-                          filter: {
-                            ...input,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      },
-                    );
-                    generalResultEntryStore.updateFilterGeneralResEntry({
-                      ...generalResultEntryStore.filterGeneralResEntry,
-                      labId: '',
-                    });
-                  }}
-                >
-                  <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext>
-              </div>
-            </td>
-
-            <td>
-              <div className='flex flex-row items-center gap-2'>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <select
-                      value={value}
-                      className={
-                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 border-gray-300 rounded-md '
-                      }
-                      onChange={e => {
-                        const finishResult = e.target.value;
-                        onChange(finishResult);
-                        generalResultEntryStore.updateFilterGeneralResEntry({
-                          ...generalResultEntryStore.filterGeneralResEntry,
-                          finishResult,
-                        });
-                        const input = _.pickBy(
-                          {
-                            ...generalResultEntryStore.filterGeneralResEntry,
-                            finishResult,
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          },
-                        );
-                      }}
-                    >
-                      <option selected>Select</option>
-                      {[
-                        { code: 'P', value: 'Pending' },
-                        { code: 'C', value: 'Recheck' },
-                        { code: 'T', value: 'Retest' },
-                        { code: 'D', value: 'Done' },
-                      ].map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {item.value}
-                        </option>
-                      ))}
-                    </select>
-                  )}
-                  name='finishResult'
-                  rules={{ required: false }}
-                  defaultValue={''}
                 />
                 <Icons.IconContext
                   color={

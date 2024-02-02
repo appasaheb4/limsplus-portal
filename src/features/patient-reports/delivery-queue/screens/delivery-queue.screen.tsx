@@ -32,6 +32,7 @@ const DeliveryQueue = observer(() => {
   const [modalGenerateReports, setModalGenerateReports] = useState<any>();
   const [selectId, setSelectId] = useState('');
   const [reloadTable, setReloadTable] = useState<boolean>(false);
+  const [holdRecord, setHoldRecord] = useState<string>('');
 
   const getDeliveryList = () => {
     const loginDetails = loginStore.login;
@@ -262,6 +263,7 @@ const DeliveryQueue = observer(() => {
         }
         isPagination={loginStore.login?.role == 'SYSADMIN' ? true : false}
         selectedId={selectId}
+        holdRecord={holdRecord}
         isDelete={RouterFlow.checkPermission(
           routerStore.userPermission,
           'Delete',
@@ -318,12 +320,15 @@ const DeliveryQueue = observer(() => {
           }
         }}
         onUpdateDeliveryStatus={() => {
+          const pendingItems = deliveryQueueStore.reportDeliveryList?.filter(
+            item => item.deliveryStatus === 'Pending',
+          );
+          const ids = pendingItems?.map(item => item._id);
+          const visitIds = pendingItems?.map(item => item.visitId);
           updateRecords({
             type: 'updateAllDeliveryStatus',
-            ids: deliveryQueueStore.reportDeliveryList?.map(item => item._id),
-            visitId: deliveryQueueStore.reportDeliveryList?.map(
-              item => item.visitId,
-            ),
+            ids: ids,
+            visitId: visitIds,
             show: true,
             title: 'Are you sure?',
             body: 'All generate pdf status update',
@@ -409,12 +414,15 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.updateOrderDeliveryPageNo(pageNo);
           global.filter = { mode: 'pagination', pageNo, limit: 100 };
         }}
+        setHoldRecord={(item: string) => {
+          setHoldRecord(item);
+        }}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deliveryQueueStore.reportDeliveryList, selectId, reloadTable],
+    [deliveryQueueStore.reportDeliveryList, selectId, reloadTable, holdRecord],
   );
-
+  console.log(holdRecord, 'hold');
   return (
     <>
       <Header>

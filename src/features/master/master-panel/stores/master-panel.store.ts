@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {MasterPanel, MasterPanelActivity} from '../models';
-import {MasterPanelService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { MasterPanel, MasterPanelActivity } from '../models';
+import { MasterPanelService } from '../services';
 import * as ModelsSection from '@/features/master/section/models';
 import dayjs from 'dayjs';
 
@@ -54,6 +54,7 @@ export class MasterPanelStore {
       ),
       version: 1,
       bill: true,
+      isSalable: true,
       autoRelease: false,
       holdOOS: false,
       confidential: false,

@@ -10,6 +10,7 @@ export const RolesHoc = (Component: React.FC<any>) => {
     useEffect(() => {
       roleStore.updateRole({
         ...roleStore.role,
+        status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         // environment: getDefaultLookupItem(
         //   routerStore.lookupItems,
         //   'ENVIRONMENT',

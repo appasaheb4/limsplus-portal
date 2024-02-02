@@ -37,6 +37,8 @@ const PanelApproval = observer(() => {
   const [receiptPath, setReceiptPath] = useState<string>();
   const [expandItem, setExpandItem] = useState<any>([]);
   const [tableReaload, setTableReload] = useState<boolean>(false);
+  const [selectId, setSelectId] = useState('');
+  const [filterRecord, setFilterRecord] = useState<string>('');
 
   const updateRecords = payload => {
     const { type, data } = payload;
@@ -132,11 +134,8 @@ const PanelApproval = observer(() => {
       <ResultList
         data={panelApprovalStore.panelApprovalList || []}
         totalSize={panelApprovalStore.panelApprovalListCount}
-        selectedId={
-          expandItem?.map(item => {
-            return item._id;
-          })[0]
-        }
+        selectedId={selectId}
+        filterRecord={filterRecord}
         isDelete={RouterFlow.checkPermission(
           routerStore.userPermission,
           'Delete',
@@ -167,8 +166,12 @@ const PanelApproval = observer(() => {
           updateResultRecords(id, fields);
         }}
         onExpand={items => {
-          if (typeof items == 'object') setExpandItem([items]);
-          else setExpandItem([]);
+          setSelectId(items._id);
+          if (typeof items == 'object') {
+            setExpandItem([items]);
+          } else {
+            setExpandItem([]);
+          }
         }}
         onPageSizeChange={(page, limit) => {
           panelApprovalStore.panelApprovalService.listPanelApproval(
@@ -205,10 +208,16 @@ const PanelApproval = observer(() => {
               panelApprovalStore.panelApprovalService?.listPanelApproval();
             });
         }}
+        onFilterRecord={setFilterRecord}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [panelApprovalStore.panelApprovalList, tableReaload],
+    [
+      panelApprovalStore.panelApprovalList,
+      tableReaload,
+      selectId,
+      filterRecord,
+    ],
   );
 
   return (

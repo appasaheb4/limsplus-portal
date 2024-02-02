@@ -68,6 +68,7 @@ const TestSampleMapping = TestSampleMappingHoc(
         'minDrawVolUnit',
         testSampleMappingStore.testSampleMapping?.minDrawVolUnit,
       );
+      setValue('status', testSampleMappingStore.testSampleMapping?.status);
       setValue(
         'minTestVolUnit',
         testSampleMappingStore.testSampleMapping?.minTestVolUnit,

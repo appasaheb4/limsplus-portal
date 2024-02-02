@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {Container} from 'reactstrap';
+import React, { useEffect } from 'react';
+import { Container } from 'reactstrap';
 import * as Assets from '@/library/assets';
-import {Frown as Sad} from 'react-feather';
+import { Frown as Sad } from 'react-feather';
 import * as Config from '@/config';
 
 interface ModalProps {
@@ -42,12 +42,16 @@ export const ModalNoticeBoard = (props: ModalProps) => {
                 <div className='flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                   <div className='items-center justify-center flex mb-2'>
                     <img
-                      src={Assets.logo}
-                      className=' img-thumbnail img-fluid'
-                      style={{width: 70, height: 55, marginRight: 10}}
+                      src={Assets.images.linplusLogo}
+                      className='img-fluid'
+                      style={{
+                        width: '200px',
+                        height: '122px',
+                        marginRight: 10,
+                      }}
                       alt='lims plus'
                     />
-                    <h4 className='font-semibold'>{'Lims Plus'}</h4>
+                    {/* <h4 className='font-semibold'>{'Lims Plus'}</h4> */}
                   </div>
                   <div>
                     <div className='items-center justify-center flex'>
@@ -55,7 +59,7 @@ export const ModalNoticeBoard = (props: ModalProps) => {
                         <Sad
                           size={60}
                           color={Config.Styles.COLORS.BLACK}
-                          style={{marginRight: 10}}
+                          style={{ marginRight: 10 }}
                         />
                       )}
                       <h1 className='text-4xl'>{`${props.data.header}`}</h1>
@@ -68,7 +72,7 @@ export const ModalNoticeBoard = (props: ModalProps) => {
                   <p className='my-4 text-gray-600 text-lg leading-relaxed'>
                     {
                       <div
-                        dangerouslySetInnerHTML={{__html: props.data.message}}
+                        dangerouslySetInnerHTML={{ __html: props.data.message }}
                       />
                     }
                   </p>
@@ -78,7 +82,7 @@ export const ModalNoticeBoard = (props: ModalProps) => {
                   <button
                     className='bg-black text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={() => {
                       props.click(props.data.action);
                     }}

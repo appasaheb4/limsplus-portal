@@ -76,7 +76,7 @@ const SidebarCategory = withRouter(
         {isOpen && (
           <ul id='item' className={`sidebar-dropdown list-unstyled `}>
             <PerfectScrollbar>
-              <div style={{ height: 'auto', maxHeight: '350px' }}>
+              <div style={{ height: 'auto', maxHeight: '300px' }}>
                 {children}
               </div>
             </PerfectScrollbar>
@@ -161,8 +161,10 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
         }
         style={{
           backgroundColor: `${appStore.applicationSetting?.sideBarColor}`,
-          backgroundImage: `url(${appStore.applicationSetting?.imageSideBarBgImage})`,
+          backgroundImage: `url(${appStore.applicationSetting?.sidebarImage})`,
           backgroundSize: '100% 100%',
+          backgroundRepeat: 'no-repeat',
+          display: 'flex',
         }}
       >
         <div className='sidebar-content'>
