@@ -12,19 +12,21 @@ import {
   Form,
   Svg,
   ModalConfirm,
+  AutocompleteSearchGroupBy,
 } from '@/library/components';
 import { BannerList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
-
+import { useHistory } from 'react-router-dom';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
+import { connect } from 'react-redux';
 
 const Banner = BannerHoc(
-  observer(() => {
-    const { loginStore, routerStore, bannerStore } = useStores();
+  observer(({ sidebar }) => {
+    const { loginStore, routerStore, bannerStore, appStore } = useStores();
     const {
       control,
       handleSubmit,
@@ -32,6 +34,7 @@ const Banner = BannerHoc(
       setValue,
       reset,
     } = useForm();
+    const history = useHistory();
 
     useEffect(() => {
       // Default value initialization
@@ -69,6 +72,24 @@ const Banner = BannerHoc(
       <>
         <Header>
           <PageHeading title={routerStore.selectedComponents?.title || ''} />
+          {!sidebar?.isOpen && (
+            <div style={{ width: '50%' }}>
+              <AutocompleteSearchGroupBy
+                data={routerStore.userRouter}
+                onChange={async (item: any, children: any) => {
+                  const { permission, selectedComp } =
+                    await RouterFlow.updateSelectedCategory(
+                      item?.name,
+                      children?.name,
+                    );
+                  routerStore.updateSelectedComponents(selectedComp);
+                  routerStore.updateUserPermission(permission);
+                  history.replace(children.path);
+                }}
+              />
+            </div>
+          )}
+
           <PageHeadingLabDetails store={loginStore} />
         </Header>
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
@@ -404,4 +425,6 @@ const Banner = BannerHoc(
   }),
 );
 
-export default Banner;
+export default connect((store: any) => ({
+  sidebar: store.sidebar,
+}))(Banner);

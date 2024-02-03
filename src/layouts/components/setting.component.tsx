@@ -32,7 +32,7 @@ const Settings = observer(props => {
     { color: '#FF69B4' },
     { color: '#778899' },
     { color: '#DEB887' },
-    { color: '#778899' },
+    // { color: '#778899' },
     { color: '#32CD32' },
     // { color: '#B0E0E6' },
   ]);
