@@ -289,41 +289,39 @@ const RoleMapping = observer(() => {
                 className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                 onChange={e => {
                   const role = roleList[e.target.value];
-                  if (role.code !== 'SYSADMIN') {
-                    const routers: any = routerStore.router?.filter(
-                      (item: any) => {
-                        const children = item.children.filter(childrenItem => {
-                          // if (
-                          //   childrenItem.name !== 'Role' &&
-                          //   childrenItem.name !== 'User' &&
-                          //   childrenItem.name !== 'Login Activity' &&
-                          //   childrenItem.name !== 'Role Mapping' &&
-                          //   childrenItem.name !== 'Environment Settings' &&
-                          //   childrenItem.name !== 'Notice Boards'
-                          // ) {
-                          //   return { ...childrenItem };
-                          // }
-                          return { ...childrenItem };
-                        });
-                        item.children = children;
-                        return item;
-                      },
-                    );
-                    if (routers) {
-                      routerStore.updateRouter(routers);
-                    }
-                  }
+                  // if (role.code !== 'SYSADMIN') {
+                  //   const routers: any = routerStore.router?.filter(
+                  //     (item: any) => {
+                  //       const children = item.children.filter(childrenItem => {
+                  //         // if (
+                  //         //   childrenItem.name !== 'Role' &&
+                  //         //   childrenItem.name !== 'User' &&
+                  //         //   childrenItem.name !== 'Login Activity' &&
+                  //         //   childrenItem.name !== 'Role Mapping' &&
+                  //         //   childrenItem.name !== 'Environment Settings' &&
+                  //         //   childrenItem.name !== 'Notice Boards'
+                  //         // ) {
+                  //         //   return { ...childrenItem };
+                  //         // }
+                  //         return { ...childrenItem };
+                  //       });
+                  //       item.children = children;
+                  //       return item;
+                  //     },
+                  //   );
+                  //   if (routers) {
+                  //     routerStore.updateRouter(routers);
+                  //   }
+                  // }
                   roleMappingStore.updateSelectedRole(toJS(role));
                 }}
               >
                 <option selected>
-                  {roleMappingStore.selectedRole?.code
-                    ? roleMappingStore.selectedRole?.description
-                    : 'Select'}
+                  {roleMappingStore.selectedRole?.code || 'Select'}
                 </option>
                 {roleList.map((item: any, index: number) => (
                   <option key={index} value={index}>
-                    {item.description}
+                    {item.code}
                   </option>
                 ))}
               </select>
