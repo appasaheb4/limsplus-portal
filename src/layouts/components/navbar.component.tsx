@@ -160,12 +160,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
         <div className='flex-1 ml-2 d-none d-sm-inline-block'>
           <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
-              <div className='mx-2'>
-                <DarkModeSwitcher
-                  //isDisable={appStore.applicationSetting.isExpandScreen}
-                  isDisable={false}
-                />
-              </div>
+             
               <div className='m-2'>
                 <Buttons.Button
                   size='medium'
@@ -259,6 +254,12 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   {loginStore.login?.sessionAllowed}
                 </span>
               </Tooltip>
+              <div className='mx-2'>
+                <DarkModeSwitcher
+                  //isDisable={appStore.applicationSetting.isExpandScreen}
+                  isDisable={false}
+                />
+              </div>
             </Nav>
           </div>
         </div>
