@@ -26,17 +26,18 @@ import {
   FIND_BY_FIELDS,
   GET_USER_BY_MATCH_USER_ID,
   FIND_BY_FIELDS_AND_UNIQUE_USER_ID,
+  CHECK_EXISTS_USERID,
 } from './mutation';
-import { UserService as ServiceUser } from '@/lp-core-service/settings/users';
+// import { UserService as ServiceUser } from '@/lp-core-service/settings/users';
 
 export class UserService {
   env = stores.loginStore.login && stores.loginStore.login.environment;
   role = stores.loginStore.login && stores.loginStore.login.role;
-  serviceUser = new ServiceUser(
-    client,
-    stores.loginStore.login && stores.loginStore.login.environment,
-    stores.loginStore.login && stores.loginStore.login.role,
-  );
+  // serviceUser = new ServiceUser(
+  //   client,
+  //   stores.loginStore.login && stores.loginStore.login.environment,
+  //   stores.loginStore.login && stores.loginStore.login.role,
+  // );
   userList = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -304,6 +305,19 @@ export class UserService {
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
+    });
+
+  checkExitsUserId = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: CHECK_EXISTS_USERID,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch((error: { message: any }) => reject(error));
     });
 
   getUserByMatchUserId = (variables: any) =>
