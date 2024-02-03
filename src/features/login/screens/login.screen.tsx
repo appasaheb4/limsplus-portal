@@ -322,85 +322,83 @@ export const Login = observer(() => {
                               }}
                               onBlur={async userId => {
                                 if (userId) {
-                                  userStore.UsersService.serviceUser
-                                    .checkExitsUserId({
-                                      input: {
-                                        userId: userId.trim(),
-                                        webPortal:
-                                          process.env.REACT_APP_ENV === 'Local'
-                                            ? 'https://www.limsplussolutions.com'
-                                            : window.location.origin,
-                                        // webPortal:
-                                        //   'https://www.limsplussolutions.com',
-                                      },
-                                    })
-                                    .then(async res => {
-                                      if (res.checkUserExitsUserId?.success) {
-                                        const { data: user } =
-                                          res.checkUserExitsUserId;
-                                        if (user) {
-                                          localStorage.setItem(
-                                            'companyCode',
-                                            user?.companyCode,
-                                          );
-                                          setValue('lab', user?.defaultLab);
-                                          clearErrors('lab');
-                                          if (user.role.length == 1)
-                                            setValue('role', user.role[0].code);
-                                          let userModuleCategory;
-                                          await lookupStore.LookupService.lookupItemsByPathNField(
-                                            {
-                                              input: {
-                                                path: '/settings/users',
-                                                field: 'USER_MODULE',
-                                              },
+                                  userStore.UsersService.checkExitsUserId({
+                                    input: {
+                                      userId: userId.trim(),
+                                      // webPortal:
+                                      //   process.env.REACT_APP_ENV === 'Local'
+                                      //     ? 'https://www.limsplussolutions.com'
+                                      //     : window.location.origin,
+                                      webPortal:
+                                        'https://www.limsplussolutions.com',
+                                    },
+                                  }).then(async res => {
+                                    if (res.checkUserExitsUserId?.success) {
+                                      const { data: user } =
+                                        res.checkUserExitsUserId;
+                                      if (user) {
+                                        localStorage.setItem(
+                                          'companyCode',
+                                          user?.companyCode,
+                                        );
+                                        setValue('lab', user?.defaultLab);
+                                        clearErrors('lab');
+                                        if (user.role.length == 1)
+                                          setValue('role', user.role[0].code);
+                                        let userModuleCategory;
+                                        await lookupStore.LookupService.lookupItemsByPathNField(
+                                          {
+                                            input: {
+                                              path: '/settings/users',
+                                              field: 'USER_MODULE',
                                             },
-                                          ).then(res => {
-                                            if (
-                                              res.lookupItemsByPathNField
-                                                .success &&
-                                              res.lookupItemsByPathNField?.data
-                                                ?.length > 0
-                                            ) {
-                                              userModuleCategory =
-                                                res.lookupItemsByPathNField.data[0]?.arrValue.find(
-                                                  item =>
-                                                    item.code?.toUpperCase() ==
-                                                    user?.userModule?.toUpperCase(),
-                                                )?.value;
-                                            } else {
-                                              alert(
-                                                'User module not found in lookup',
-                                              );
-                                            }
-                                          });
-                                          loginStore.updateInputUser({
-                                            ...loginStore.inputLogin,
-                                            lab: user.defaultLab,
-                                            role:
-                                              user.role.length == 1
-                                                ? user.role[0].code
-                                                : '',
-                                            userModule: user?.userModule,
-                                            userModuleCategory,
-                                            companyCode: user?.companyCode,
-                                          });
+                                          },
+                                        ).then(res => {
+                                          if (
+                                            res.lookupItemsByPathNField
+                                              .success &&
+                                            res.lookupItemsByPathNField?.data
+                                              ?.length > 0
+                                          ) {
+                                            userModuleCategory =
+                                              res.lookupItemsByPathNField.data[0]?.arrValue.find(
+                                                item =>
+                                                  item.code?.toUpperCase() ==
+                                                  user?.userModule?.toUpperCase(),
+                                              )?.value;
+                                          } else {
+                                            alert(
+                                              'User module not found in lookup',
+                                            );
+                                          }
+                                        });
+                                        loginStore.updateInputUser({
+                                          ...loginStore.inputLogin,
+                                          lab: user.defaultLab,
+                                          role:
+                                            user.role.length == 1
+                                              ? user.role[0].code
+                                              : '',
+                                          userModule: user?.userModule,
+                                          userModuleCategory,
+                                          companyCode: user?.companyCode,
+                                        });
 
-                                          setLabRoleList({
-                                            labList: await getLabList(
-                                              user?.userModule,
-                                              userModuleCategory,
-                                              user,
-                                            ),
-                                            roleList: user.role,
-                                          });
-                                        }
-                                      } else {
-                                        Toast.error({
-                                          message: `😔 ${res?.checkUserExitsUserId?.message}`,
+                                        setLabRoleList({
+                                          labList: await getLabList(
+                                            user?.userModule,
+                                            userModuleCategory,
+                                            user,
+                                          ),
+                                          roleList: user.role,
                                         });
                                       }
-                                    });
+                                    } else {
+                                      Toast.error({
+                                        message: `😔 ${res?.checkUserExitsUserId?.message}`,
+                                      });
+                                    }
+                                  });
                                 }
                               }}
                             />
