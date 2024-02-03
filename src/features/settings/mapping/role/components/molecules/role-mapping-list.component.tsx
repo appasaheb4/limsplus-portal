@@ -59,7 +59,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (row, col) => `${col.role?.description}`,
+              csvFormatter: (row, col) => `${col.role?.code}`,
               filter: textFilter({
                 getFilter: filter => {
                   role = filter;
@@ -69,7 +69,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               formatter: (cell, row) => {
                 return (
                   <div>
-                    <h6>{`${row.role?.description}`} </h6>
+                    <h6>{`${row.role?.code}`} </h6>
                   </div>
                 );
               },

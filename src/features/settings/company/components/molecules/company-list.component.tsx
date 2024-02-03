@@ -1033,50 +1033,44 @@ export const CompanyList = (props: CompanyListProps) => {
           hidden: !props.isDelete,
           formatter: (cellContent, row) => (
             <>
-              <div className='flex flex-row'>
-                <Tooltip tooltipText='Delete'>
-                  <Icons.IconContext
-                    color='#fff'
-                    size='20'
-                    onClick={() =>
-                      props.onDelete &&
-                      props.onDelete({
-                        type: 'Delete',
-                        show: true,
-                        id: [row?._id],
-                        title: 'Are you sure?',
-                        body: 'Delete item',
-                      })
-                    }
-                  >
-                    {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                  </Icons.IconContext>
-                </Tooltip>
-                {row.status === 'A' && (
-                  <>
-                    <Tooltip tooltipText='Version Upgrade'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onVersionUpgrade && props.onVersionUpgrade(row)
-                        }
-                      >
-                        {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  </>
-                )}
-                {/* {row?.status == 'D' && (
-                  <Tooltip tooltipText='Approval'>
-                    <Icons.RIcon
-                      nameIcon='AiOutlineCheckCircle'
-                      propsIcon={{ size: 24, color: '#ffffff' }}
-                      onClick={() => props.onApproval(row)}
-                    />
+              {row.code != 'COMP0001' && (
+                <div className='flex flex-row'>
+                  <Tooltip tooltipText='Delete'>
+                    <Icons.IconContext
+                      color='#fff'
+                      size='20'
+                      onClick={() =>
+                        props.onDelete &&
+                        props.onDelete({
+                          type: 'Delete',
+                          show: true,
+                          id: [row?._id],
+                          title: 'Are you sure?',
+                          body: 'Delete item',
+                        })
+                      }
+                    >
+                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                    </Icons.IconContext>
                   </Tooltip>
-                )} */}
-              </div>
+                  {row.status === 'A' && (
+                    <>
+                      <Tooltip tooltipText='Version Upgrade'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onVersionUpgrade &&
+                            props.onVersionUpgrade(row)
+                          }
+                        >
+                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    </>
+                  )}
+                </div>
+              )}
             </>
           ),
           headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',

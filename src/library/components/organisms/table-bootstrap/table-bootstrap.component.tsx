@@ -589,7 +589,7 @@ export const TableBootstrap = ({
   );
 
   return (
-    <div className='flex overflow-scroll  h-[calc(100vh_-_20vh)]'>
+    <div className='flex   h-[calc(100vh_-_20vh)]'>
       <PaginationProvider
         pagination={paginationFactory(
           totalSize !== 0 ? options : { page, sizePerPage, totalSize },
@@ -665,7 +665,7 @@ export const TableBootstrap = ({
                   )}
                 </div>
                 {isFilterOpen && (
-                  <div className={'flex mb-2 overflow-auto h-10 '}>
+                  <div className={'flex mb-2 overflow-auto h-10'}>
                     <CustomToggleList
                       contextual='primary'
                       className='list-custom-class'
@@ -674,7 +674,7 @@ export const TableBootstrap = ({
                     />
                   </div>
                 )}
-                <div className='flex scrollTable h-[86%] border-b-2 border-dotted border-black'>
+                <div className='flex scrollTable  h-[84%] border-b-2 border-dotted border-black'>
                   <BootstrapTable
                     remote
                     {...props.baseProps}
@@ -704,7 +704,7 @@ export const TableBootstrap = ({
                   />
                 </div>
                 {totalSize && (
-                  <div className='flex content-center ml-[20%] items-center justify-center  gap-2  bg-[#6A727F] rounded-md p-2 text-white  absolute -bottom-2'>
+                  <div className='flex content-center items-center w-fit mt-1  justify-center gap-2 bg-[#6A727F] rounded-md p-1 text-white'>
                     <div className='flex'>
                       <SizePerPageDropdownStandalone
                         {...Object.assign(
