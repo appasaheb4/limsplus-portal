@@ -26,7 +26,6 @@ import { RouterFlow } from '@/flows';
 import { resetSampleContainer } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 const SampleContainer = SampleContainerHoc(
   observer(() => {
