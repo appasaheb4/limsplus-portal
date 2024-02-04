@@ -17,7 +17,6 @@ import { BannerList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
-
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
@@ -247,6 +246,10 @@ const Banner = BannerHoc(
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Delete',
@@ -254,6 +257,10 @@ const Banner = BannerHoc(
               isEditModify={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Update',
+              )}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
               )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {

@@ -34,6 +34,7 @@ interface TableBootstrapProps {
   fileName: string;
   isDelete?: boolean;
   isEditModify?: boolean;
+  isExport?: boolean;
   isSelectRow?: boolean;
   isPagination?: boolean;
   onDelete?: (selectedItem: any) => void;
@@ -99,7 +100,8 @@ export const TableBootstrap = ({
   sizePerPage = 10,
   columns,
   fileName,
-  isEditModify,
+  isEditModify = true,
+  isExport = true,
   isSelectRow,
   isPagination = true,
   onSelectedRow,
@@ -589,147 +591,150 @@ export const TableBootstrap = ({
   );
 
   return (
-    <div className='flex   h-[calc(100vh_-_20vh)]'>
-      <PaginationProvider
-        pagination={paginationFactory(
-          totalSize !== 0 ? options : { page, sizePerPage, totalSize },
-        )}
-        keyField={id}
-        columns={columns}
-        data={data}
-      >
-        {({ paginationProps, paginationTableProps }) => (
-          <ToolkitProvider
-            keyField={id}
-            bootstrap4
-            data={data}
-            columns={columns}
-            search
-            exportCSV={{
-              fileName: `${fileName}_${dayjs(new Date()).format(
-                'YYYY-MM-DD HH:mm',
-              )}.csv`,
-              noAutoBOM: false,
-              blobType: 'text/csv;charset=ansi',
-              exportAll: false,
-              onlyExportFiltered: true,
-            }}
-            columnToggle
-          >
-            {props => (
-              <div className='flex flex-col'>
-                <div className='flex items-center flex-wrap'>
-                  <SearchBar
-                    {...searchProps}
-                    {...props.searchProps}
-                    onChange={value => {
-                      console.log({ value });
-                    }}
-                  />
-                  <ClearSearchButton
-                    className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                    {...props.searchProps}
-                  />
-                  <button
-                    className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                    onClick={clearAllFilter}
-                  >
-                    Clear all filters
-                  </button>
+    // <div className='flex h-[calc(100vh_-_20vh)]'>
+    <PaginationProvider
+      pagination={paginationFactory(
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
+      )}
+      keyField={id}
+      columns={columns}
+      data={data}
+    >
+      {({ paginationProps, paginationTableProps }) => (
+        <ToolkitProvider
+          keyField={id}
+          bootstrap4
+          data={data}
+          columns={columns}
+          search
+          exportCSV={{
+            fileName: `${fileName}_${dayjs(new Date()).format(
+              'YYYY-MM-DD HH:mm',
+            )}.csv`,
+            noAutoBOM: false,
+            blobType: 'text/csv;charset=ansi',
+            exportAll: false,
+            onlyExportFiltered: true,
+          }}
+          columnToggle
+        >
+          {props => (
+            <div>
+              <div className='flex items-center flex-wrap'>
+                <SearchBar
+                  {...searchProps}
+                  {...props.searchProps}
+                  onChange={value => {
+                    console.log({ value });
+                  }}
+                />
+                <ClearSearchButton
+                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  {...props.searchProps}
+                />
+                <button
+                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  onClick={clearAllFilter}
+                >
+                  Clear all filters
+                </button>
+                {isExport && (
                   <button
                     className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
                     onClick={exportToExcel}
                   >
                     Export CSV!!
                   </button>
-                  {isFilterOpen ? (
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsFilterOpen(!isFilterOpen);
-                      }}
-                    >
-                      <Icons.IconFa.FaChevronUp />
-                    </Buttons.Button>
-                  ) : (
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsFilterOpen(!isFilterOpen);
-                      }}
-                    >
-                      <Icons.IconFa.FaChevronDown />
-                    </Buttons.Button>
-                  )}
-                </div>
-                {isFilterOpen && (
-                  <div className={'flex mb-2 overflow-auto h-10'}>
-                    <CustomToggleList
-                      contextual='primary'
-                      className='list-custom-class'
-                      btnClassName='list-btn-custom-class'
-                      {...props.columnToggleProps}
-                    />
-                  </div>
                 )}
-                <div className='flex scrollTable  h-[84%] border-b-2 border-dotted border-black'>
-                  <BootstrapTable
-                    remote
-                    {...props.baseProps}
-                    noDataIndication='Table is Empty'
-                    hover
-                    {...paginationTableProps}
-                    filter={filterFactory()}
-                    selectRow={
-                      isSelectRow
-                        ? {
-                            mode: 'checkbox',
-                            onSelect: handleOnSelect,
-                            onSelectAll: handleOnSelectAll,
-                          }
-                        : undefined
-                    }
-                    cellEdit={
-                      isEditModify
-                        ? cellEditFactory({
-                            mode: 'dbclick',
-                            blurToSave: true,
-                          })
-                        : undefined
-                    }
-                    headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                    onTableChange={handleTableChange}
-                  />
-                </div>
-                {totalSize && (
-                  <div className='flex content-center items-center w-fit mt-1  justify-center gap-2 bg-[#6A727F] rounded-md p-1 text-white'>
-                    <div className='flex'>
-                      <SizePerPageDropdownStandalone
-                        {...Object.assign(
-                          {},
-                          { ...paginationProps, hideSizePerPage: false },
-                        )}
-                      />
-                    </div>
-                    {isPagination && (
-                      <>
-                        <div className='flex items-center gap-2 mt-2 flex-wrap'>
-                          <PaginationListStandalone {...paginationProps} />
-                        </div>
-                        <div className='flex items-center gap-2 mt-2'>
-                          <PaginationTotalStandalone {...paginationProps} />
-                        </div>
-                      </>
-                    )}
-                  </div>
+
+                {isFilterOpen ? (
+                  <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    onClick={() => {
+                      setIsFilterOpen(!isFilterOpen);
+                    }}
+                  >
+                    <Icons.IconFa.FaChevronUp />
+                  </Buttons.Button>
+                ) : (
+                  <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    onClick={() => {
+                      setIsFilterOpen(!isFilterOpen);
+                    }}
+                  >
+                    <Icons.IconFa.FaChevronDown />
+                  </Buttons.Button>
                 )}
               </div>
-            )}
-          </ToolkitProvider>
-        )}
-      </PaginationProvider>
-    </div>
+              {isFilterOpen && (
+                <div className={' mb-2 overflow-auto h-10'}>
+                  <CustomToggleList
+                    contextual='primary'
+                    className='list-custom-class'
+                    btnClassName='list-btn-custom-class'
+                    {...props.columnToggleProps}
+                  />
+                </div>
+              )}
+              <div className='scrollTable h-[calc(100vh_-_30vh)]'>
+                <BootstrapTable
+                  remote
+                  {...props.baseProps}
+                  noDataIndication='Table is Empty'
+                  hover
+                  {...paginationTableProps}
+                  filter={filterFactory()}
+                  selectRow={
+                    isSelectRow
+                      ? {
+                          mode: 'checkbox',
+                          onSelect: handleOnSelect,
+                          onSelectAll: handleOnSelectAll,
+                        }
+                      : undefined
+                  }
+                  cellEdit={
+                    isEditModify
+                      ? cellEditFactory({
+                          mode: 'dbclick',
+                          blurToSave: true,
+                        })
+                      : undefined
+                  }
+                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                  onTableChange={handleTableChange}
+                />
+              </div>
+              {totalSize && (
+                <div className='flex  items-center w-fit mt-1  justify-center gap-2 bg-[#6A727F] rounded-md p-1 text-white'>
+                  <div className='flex'>
+                    <SizePerPageDropdownStandalone
+                      {...Object.assign(
+                        {},
+                        { ...paginationProps, hideSizePerPage: false },
+                      )}
+                    />
+                  </div>
+                  {isPagination && (
+                    <>
+                      <div className='flex items-center gap-2 mt-2 flex-wrap'>
+                        <PaginationListStandalone {...paginationProps} />
+                      </div>
+                      <div className='flex items-center gap-2 mt-2'>
+                        <PaginationTotalStandalone {...paginationProps} />
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+        </ToolkitProvider>
+      )}
+    </PaginationProvider>
+    // </div>
   );
 };
