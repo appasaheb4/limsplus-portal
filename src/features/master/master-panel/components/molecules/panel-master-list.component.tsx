@@ -1012,21 +1012,21 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               },
             },
             {
-              dataField: 'isSalable',
-              text: 'Is Salable',
+              dataField: 'isSaleable',
+              text: 'Is Saleable',
               sort: true,
               csvFormatter: (col, row) =>
-                `${row.isSalable ? (row.isSalable ? 'Yes' : 'No') : 'No'}`,
+                `${row.isSaleable ? (row.isSaleable ? 'Yes' : 'No') : 'No'}`,
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
                     <Form.Toggle
                       disabled={!editorCell(row)}
-                      value={row.isSalable}
-                      onChange={isSalable => {
+                      value={row.isSaleable}
+                      onChange={isSaleable => {
                         props.onUpdateItem &&
-                          props.onUpdateItem(isSalable, 'isSalable', row._id);
+                          props.onUpdateItem(isSaleable, 'isSaleable', row._id);
                       }}
                     />
                   </>

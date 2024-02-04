@@ -54,7 +54,7 @@ export class MasterPanelStore {
       ),
       version: 1,
       bill: true,
-      isSalable: true,
+      isSaleable: true,
       autoRelease: false,
       holdOOS: false,
       confidential: false,
