@@ -42,9 +42,9 @@ export const getPermission = (store, category, subCategory) => {
 };
 
 export const checkPermission = (permission: any[], title: string) => {
-  permission = toJS(permission);
-  if (permission === undefined || permission.length === 0) return false;
-  const isItem: any = permission.filter(item => {
+  let accessRights = toJS(permission);
+  if (accessRights === undefined || accessRights.length === 0) return false;
+  const isItem: any = accessRights.filter(item => {
     const isItem = item.title === title;
     return isItem;
   });

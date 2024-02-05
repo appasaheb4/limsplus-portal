@@ -83,7 +83,7 @@ const MasterPanel = MasterPanelHoc(
         masterPanelStore.masterPanel?.validationLevel,
       );
       setValue('panelMethod', masterPanelStore.masterPanel?.panelMethodCode);
-      setValue('isSalable', masterPanelStore.masterPanel?.isSalable);
+      setValue('isSaleable', masterPanelStore.masterPanel?.isSaleable);
       setValue('schedule', masterPanelStore.masterPanel?.schedule);
       setValue('reportTemplate', masterPanelStore.masterPanel?.reportTemplate);
       setValue('processing', masterPanelStore.masterPanel?.processing);
@@ -1811,19 +1811,19 @@ const MasterPanel = MasterPanelHoc(
                         control={control}
                         render={({ field: { onChange, value } }) => (
                           <Form.Toggle
-                            label='Is Salable'
-                            hasError={!!errors.isSalable}
+                            label='Is Saleable'
+                            hasError={!!errors.isSaleable}
                             value={value}
-                            onChange={isSalable => {
-                              onChange(isSalable);
+                            onChange={isSaleable => {
+                              onChange(isSaleable);
                               masterPanelStore.updateMasterPanel({
                                 ...masterPanelStore.masterPanel,
-                                isSalable,
+                                isSaleable,
                               });
                             }}
                           />
                         )}
-                        name=' isSalable'
+                        name='isSaleable'
                         rules={{ required: false }}
                         defaultValue=''
                       />

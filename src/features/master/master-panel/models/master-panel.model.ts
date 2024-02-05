@@ -21,7 +21,7 @@ export class MasterPanel {
   price: number;
   schedule: string;
   autoRelease: boolean;
-  isSalable: boolean;
+  isSaleable: boolean;
   holdOOS: boolean;
   validationLevel: number;
   confidential: boolean;
@@ -91,7 +91,7 @@ export class MasterPanel {
     this.holdOOS = rawData.holdOOS;
     this.validationLevel = rawData.validationLevel;
     this.confidential = rawData.confidential;
-    this.isSalable = rawData.isSalable;
+    this.isSaleable = rawData.isSaleable;
     this.urgent = rawData.urgent;
     this.reportGroup = rawData.reportGroup;
     this.reportOrder = rawData.reportOrder;

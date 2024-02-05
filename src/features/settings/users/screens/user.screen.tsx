@@ -488,21 +488,19 @@ export const Users = UsersHoc(
                         }}
                         onBlur={userId => {
                           if (userId) {
-                            userStore.UsersService.serviceUser
-                              .findByFields({
-                                input: {
-                                  filter: {
-                                    userId,
-                                    companyCode: loginStore.login.companyCode,
-                                  },
+                            userStore.UsersService.findByFields({
+                              input: {
+                                filter: {
+                                  userId,
+                                  companyCode: loginStore.login.companyCode,
                                 },
-                              })
-                              .then(res => {
-                                console.log({ res });
-                                if (res.findByFieldsUser.success)
-                                  userStore.setExitsUserId(true);
-                                else userStore.setExitsUserId(false);
-                              });
+                              },
+                            }).then(res => {
+                              console.log({ res });
+                              if (res.findByFieldsUser.success)
+                                userStore.setExitsUserId(true);
+                              else userStore.setExitsUserId(false);
+                            });
                           }
                         }}
                       />
