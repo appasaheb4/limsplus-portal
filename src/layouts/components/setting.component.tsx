@@ -37,13 +37,13 @@ const Settings = observer(props => {
     // { color: '#B0E0E6' },
   ]);
 
-  useEffect(() => {
-    if (appStore.applicationSetting.theme == 'dark') setIsHidden(true);
-    else setIsHidden(false);
-  }, [appStore.applicationSetting.theme]);
+  // useEffect(() => {
+  //   if (appStore.applicationSetting.theme == 'dark') setIsHidden(true);
+  //   else setIsHidden(false);
+  // }, [appStore.applicationSetting.theme]);
 
   return (
-    <div className={`${isHidden ? 'hidden' : 'show'}`}>
+    <div className=''>
       <div
         className={`settings ${isOpen ? 'open' : ''} )`}
         style={{ width: 20 }}
@@ -57,11 +57,11 @@ const Settings = observer(props => {
           <SettingsIcon />
         </div>
 
-        <div className='settings-panel'>
-          <div className='settings-content'>
+        <div className='settings-panel dark:bg-boxdark  dark:text-white'>
+          <div className='settings-content dark:bg-boxdark  dark:text-white'>
             <PerfectScrollbar>
               <div className='flex items-center p-4 justify-between'>
-                <h4>Settings</h4>
+                <span>Settings</span>
                 <Buttons.Button
                   size='medium'
                   buttonClass='pl-4'
@@ -73,9 +73,9 @@ const Settings = observer(props => {
               </div>
 
               <div className='settings-section'>
-                <small className='d-block text-uppercase font-weight-bold text-muted mb-2'>
+                <span className='d-block text-uppercase font-weight-bold text-muted mb-2'>
                   Layouts
-                </small>
+                </span>
 
                 <ul className='settings-layouts'>
                   <li>

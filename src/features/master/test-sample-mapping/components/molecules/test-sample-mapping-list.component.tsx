@@ -889,7 +889,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               headerClasses: 'textHeader2',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                row.sharedSample ? true : false,
               csvFormatter: (cell, row, rowIndex) =>
                 `Prefrence:${row.departments?.map(
                   item => item.prefrence,
@@ -904,19 +904,23 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <List space={2} direction='row' justify='center'>
-                    {row.departments?.map(item => (
-                      <div className='mb-2'>
-                        <Buttons.Button
-                          size='medium'
-                          type='solid'
-                          onClick={() => {}}
-                        >
-                          {`Department: ${item.code} - ${item.name}`}
-                          {` Prefrence: ${item.prefrence}`}
-                          {` Tat In Min: ${item.tatInMin}`}
-                        </Buttons.Button>
-                      </div>
-                    ))}
+                    {row.sharedSample && (
+                      <>
+                        {row.departments?.map(item => (
+                          <div className='mb-2'>
+                            <Buttons.Button
+                              size='medium'
+                              type='solid'
+                              onClick={() => {}}
+                            >
+                              {`Department: ${item.code} - ${item.name}`}
+                              {` Prefrence: ${item.prefrence}`}
+                              {` Tat In Min: ${item.tatInMin}`}
+                            </Buttons.Button>
+                          </div>
+                        ))}
+                      </>
+                    )}
                   </List>
                 </>
               ),
