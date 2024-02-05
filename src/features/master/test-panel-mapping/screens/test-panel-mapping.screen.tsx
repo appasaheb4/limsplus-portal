@@ -19,7 +19,7 @@ import {
   StaticInputTable,
   ImportFile,
 } from '@/library/components';
-import { lookupItems, lookupValue } from '@/library/utils';
+import { lookupItems } from '@/library/utils';
 import { TestPanelMappingList } from '../components';
 import { useForm, Controller } from 'react-hook-form';
 import { AutoCompleteFilterSingleSelectPanelCode } from '../components';
@@ -36,7 +36,6 @@ import { resetTestPanelMapping } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -246,15 +245,30 @@ const TestPanelMapping = TestPanelMappingHoc(
             listLabs: labStore.listLabs,
             listMasterPanel: masterPanelStore.listMasterPanel,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
           )}
-          // isEditModify={false}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
+          )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
             setModalConfirm({
@@ -468,6 +482,12 @@ const TestPanelMapping = TestPanelMappingHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

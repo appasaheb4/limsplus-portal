@@ -25,7 +25,7 @@ interface BannerListProps {
   extraData: any;
   isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
   isExport?: boolean;
   onDelete?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
@@ -369,7 +369,7 @@ export const BannerList = (props: BannerListProps) => {
             },
           },
         ]}
-        isEditModify={props.isEditModify}
+        isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}
         fileName='Banner'
