@@ -251,9 +251,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
-                        label='Sch Name'
+                        label='Delivery Schedule'
                         placeholder={
-                          errors.schName ? 'Please Enter Sch Name' : 'Sch Name'
+                          errors.schName
+                            ? 'Please Enter Delivery Schedule Name'
+                            : 'Delivery Schedule Name'
                         }
                         hasError={!!errors.schName}
                         value={value}
@@ -275,7 +277,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Clock
-                        label='P Start Time'
+                        label='Processing Start Time'
                         hasError={!!errors.pStartTime}
                         value={value}
                         onChange={pStartTime => {
@@ -295,7 +297,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Clock
-                        label='P End Time'
+                        label='Processing End Time'
                         hasError={!!errors.pEndTime}
                         value={value}
                         onChange={pEndTime => {
@@ -315,7 +317,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Clock
-                        label='Cutof Time'
+                        label='Cutoff Time'
                         hasError={!!errors.cutofTime}
                         value={value}
                         onChange={cutofTime => {
@@ -335,7 +337,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Clock
-                        label='Secound Cutof Time'
+                        disable={
+                          deliveryScheduleStore.deliverySchedule
+                            .secondCutoffTimeRequired
+                        }
+                        label='Second Cutoff Time'
                         hasError={!!errors.secoundCutofTime}
                         value={value}
                         onChange={secoundCutofTime => {
@@ -437,11 +443,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
-                        label='Dynamic RT'
+                        label='Dynamic Reporting Time'
                         placeholder={
                           errors.dynamicRT
-                            ? 'Please Enter DynamicRT '
-                            : 'DynamicRT'
+                            ? 'Please Enter Dynamic Reporting Time '
+                            : 'Dynamic Reporting Time'
                         }
                         hasError={!!errors.dynamicRT}
                         value={value}
@@ -465,7 +471,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
-                        label='Dynamic TU'
+                        label='Dynamic Reporting Time Unit'
                         hasError={!!errors.dynamicTU}
                       >
                         <select
@@ -505,9 +511,11 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
-                        label='Fixed RT'
+                        label='Fixed Reporting Time'
                         placeholder={
-                          errors.fixedRT ? 'Please Enter fixedRT' : 'fixedRT'
+                          errors.fixedRT
+                            ? 'Please Enter Fixed Reporting Time'
+                            : 'Fixed Reporting Time'
                         }
                         hasError={!!errors.fixedRT}
                         value={value}
@@ -626,6 +634,58 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       </Form.InputWrapper>
                     )}
                     name='status'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputDateTime
+                        label='Sample Received Date'
+                        placeholder={
+                          errors.sampleReceivedDate
+                            ? 'Please Enter Sample Received Date'
+                            : 'Sample Received Date'
+                        }
+                        hasError={!!errors.sampleReceivedDate}
+                        value={value}
+                        minDate={new Date()}
+                        onChange={sampleReceivedDate => {
+                          onChange(sampleReceivedDate);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            sampleReceivedDate,
+                          });
+                        }}
+                      />
+                    )}
+                    name='sampleReceivedDate'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputDateTime
+                        label='Report Date'
+                        placeholder={
+                          errors.reportDate
+                            ? 'Please Enter Report Date'
+                            : 'Report Date'
+                        }
+                        hasError={!!errors.reportDate}
+                        value={value}
+                        minDate={new Date()}
+                        onChange={reportDate => {
+                          onChange(reportDate);
+                          deliveryScheduleStore.updateDeliverySchedule({
+                            ...deliveryScheduleStore.deliverySchedule,
+                            reportDate,
+                          });
+                        }}
+                      />
+                    )}
+                    name='reportDate'
                     rules={{ required: false }}
                     defaultValue=''
                   />
@@ -800,6 +860,26 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         />
                       )}
                       name='onTime'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          hasError={!!errors.secondCutoffTimeRequired}
+                          label='Second Cutoff Time Required'
+                          value={value}
+                          onChange={secondCutoffTimeRequired => {
+                            onChange(secondCutoffTimeRequired);
+                            deliveryScheduleStore.updateDeliverySchedule({
+                              ...deliveryScheduleStore.deliverySchedule,
+                              secondCutoffTimeRequired,
+                            });
+                          }}
+                        />
+                      )}
+                      name='secondCutoffTimeRequired'
                       rules={{ required: false }}
                       defaultValue=''
                     />

@@ -725,6 +725,7 @@ export const Toggle = (props: ToggleProps) => {
 
 interface ClockProps extends InputWrapperProps {
   value?: any;
+  disable?: boolean;
   onChange?: (e: any) => void;
 }
 
@@ -750,6 +751,7 @@ export const Clock = (props: ClockProps) => {
           </>
         )}
         <input
+          disabled={props.disable}
           value={time}
           className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
           onClick={() => setShowTime(true)}

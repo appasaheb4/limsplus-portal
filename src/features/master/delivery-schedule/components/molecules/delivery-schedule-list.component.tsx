@@ -1,5 +1,5 @@
 import React from 'react';
-import { lookupItems, lookupValue } from '@/library/utils';
+import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import {
   textFilter,
   TableBootstrap,
@@ -7,6 +7,9 @@ import {
   Tooltip,
   Icons,
   sortCaret,
+  ModalDateTime,
+  customFilter,
+  DateFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { AutoCompleteCompanyList } from '@/core-components';
@@ -26,6 +29,8 @@ let schForPat;
 let environment;
 let status;
 let companyCode;
+let sampleReceivedDate;
+let reportDate;
 interface DeliverySchduleListProps {
   data: any;
   totalSize: number;
@@ -84,7 +89,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'schName',
-              text: 'Sch Name',
+              text: 'Delivery Schedule',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -233,7 +238,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
 
             {
               dataField: 'pStartTime',
-              text: 'P Start Time',
+              text: 'Processing Start Time',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -251,7 +256,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'pEndTime',
-              text: 'P End Time',
+              text: 'Processing End Time',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -269,7 +274,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'cutofTime',
-              text: 'Cutof Time',
+              text: 'Cutoff Time',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -287,7 +292,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'secoundCutofTime',
-              text: 'Secound Cutof Time',
+              text: 'Second Cutoff Time',
               headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
@@ -390,7 +395,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'dynamicRT',
-              text: 'Dynamic RT',
+              text: 'Dynamic Reporting Time Unit',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -408,7 +413,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'dynamicTU',
-              text: 'Dynamic TU',
+              text: 'Dynamic Reporting Time Unit',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -461,7 +466,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'fixedRT',
-              text: 'Fixed RT',
+              text: 'Fixed Reporting Time Unit',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -494,6 +499,33 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                       onChange={onTime => {
                         props.onUpdateItem &&
                           props.onUpdateItem(onTime, 'onTime', row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'secondCutoffTimeRequired',
+              text: 'SecondCut off Time Required',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${row.onTime ? (row.onTime ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.secondCutoffTimeRequired}
+                      onChange={secondCutoffTimeRequired => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            secondCutoffTimeRequired,
+                            'secondCutoffTimeRequired',
+                            row._id,
+                          );
                       }}
                     />
                   </>
@@ -584,6 +616,91 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   </select>
                 </>
               ),
+            },
+            {
+              dataField: 'sampleReceivedDate',
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              text: 'Sample Received Date',
+              headerClasses: 'textHeader11',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) =>
+                row.dateExpire
+                  ? dayjs(row.sampleReceivedDate).format('YYYY-MM-DD')
+                  : '',
+              // filter: dateFilter({
+              //   comparators: [
+              //     Comparator.EQ,
+              //     Comparator.GE,
+              //     Comparator.LT,
+              //   ],
+              //   dateStyle: { marginLeft: "2px" },
+              //   defaultValue: {
+              //     comparator: Comparator.EQ,
+              //   },
+              //   style: { display: "inline" },
+              // }),
+              filter: customFilter({
+                getFilter: filter => {
+                  sampleReceivedDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              // formatter: (cell, row) => {
+              //   return (
+              //     <>
+              //       {dayjs(row.sampleReceivedDate).format(
+              //         'DD-MM-YYYY HH:mm:ss',
+              //       ) ?? ''}
+              //     </>
+              //   );
+              // },
+            },
+            {
+              dataField: 'reportDate',
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              text: 'Report Date',
+              headerClasses: 'textHeader11',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+
+              // filter: dateFilter({
+              //   comparators: [
+              //     Comparator.EQ,
+              //     Comparator.GE,
+              //     Comparator.LT,
+              //   ],
+              //   dateStyle: { marginLeft: "2px" },
+              //   defaultValue: {
+              //     comparator: Comparator.EQ,
+              //   },
+              //   style: { display: "inline" },
+              // }),
+              filter: customFilter({
+                getFilter: filter => {
+                  reportDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              // formatter: (cell, row) => {
+              //   return (
+              //     <>
+              //       {dayjs(row.reportDate).format('DD-MM-YYYY HH:mm:ss') ?? ''}
+              //     </>
+              //   );
+              // },
             },
             {
               text: 'Company Code',
@@ -759,6 +876,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             schForPat('');
             environment('');
             companyCode('');
+            sampleReceivedDate('');
+            reportDate('');
           }}
           dynamicStylingFields={['schCode', 'environment']}
           hideExcelSheet={['_id', 'opration']}
