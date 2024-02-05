@@ -17,7 +17,6 @@ import { Carousel } from 'react-bootstrap';
 import dayjs from 'dayjs';
 import { useForm, Controller } from 'react-hook-form';
 import { FormHelper } from '@/helper';
-
 import { useHistory } from 'react-router-dom';
 import { useStores } from '@/stores';
 import { t } from '@/localization';
@@ -38,10 +37,8 @@ export const Login = observer(() => {
   const history = useHistory();
   const [noticeBoard, setNoticeBoard] = useState<any>({});
   const [width, setWidth] = useState<number>(window.innerWidth);
-  const [labRoleList, setlabRoleList] = useState({ labList: [], roleList: [] });
-
+  const [labRoleList, setLabRoleList] = useState({ labList: [], roleList: [] });
   const refUserId = useRef<any>();
-
   const [modalForgotPassword, setModalForgotPassword] = useState<any>();
   const [modalChangePassword, setModalChangePassword] = useState<any>();
   const [modalSessionAllowed, setModalSessionAllowed] = useState<any>();
@@ -289,7 +286,7 @@ export const Login = observer(() => {
               <div className='flex flex-col'>
                 <div className='flex justify-center items-end'>
                   <div
-                    className='flex flex-col mt-8 mt-2 rounded-3xl bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'
+                    className='flex flex-col mt-2 rounded-3xl bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'
                     style={{ width: '350px' }}
                   >
                     <span className='text-center font-bold text-3xl text-black mt-2 ml-4 underline'>
@@ -325,84 +322,83 @@ export const Login = observer(() => {
                               }}
                               onBlur={async userId => {
                                 if (userId) {
-                                  userStore.UsersService.serviceUser
-                                    .checkExitsUserId({
-                                      input: {
-                                        userId: userId.trim(),
-                                        // webPortal:
-                                        //   process.env.REACT_APP_ENV === 'Local'
-                                        //     ? 'https://www.limsplussolutions.com'
-                                        //     : window.location.origin,
-                                        webPortal:
-                                          'https://www.limsplussolutions.com',
-                                      },
-                                    })
-                                    .then(async res => {
-                                      if (res.checkUserExitsUserId?.success) {
-                                        const { data: user } =
-                                          res.checkUserExitsUserId;
-                                        if (user) {
-                                          localStorage.setItem(
-                                            'companyCode',
-                                            user?.companyCode,
-                                          );
-                                          setValue('lab', user?.defaultLab);
-                                          clearErrors('lab');
-                                          if (user.role.length == 1)
-                                            setValue('role', user.role[0].code);
-                                          let userModuleCategory;
-                                          await lookupStore.LookupService.lookupItemsByPathNField(
-                                            {
-                                              input: {
-                                                path: '/settings/users',
-                                                field: 'USER_MODULE',
-                                              },
+                                  userStore.UsersService.checkExitsUserId({
+                                    input: {
+                                      userId: userId.trim(),
+                                      webPortal:
+                                        process.env.REACT_APP_ENV === 'Local'
+                                          ? 'https://www.limsplussolutions.com'
+                                          : window.location.origin,
+                                      // webPortal:
+                                      //   'https://www.limsplussolutions.com',
+                                    },
+                                  }).then(async res => {
+                                    if (res.checkUserExitsUserId?.success) {
+                                      const { data: user } =
+                                        res.checkUserExitsUserId;
+                                      if (user) {
+                                        localStorage.setItem(
+                                          'companyCode',
+                                          user?.companyCode,
+                                        );
+                                        setValue('lab', user?.defaultLab);
+                                        clearErrors('lab');
+                                        if (user.role.length == 1)
+                                          setValue('role', user.role[0].code);
+                                        let userModuleCategory;
+                                        await lookupStore.LookupService.lookupItemsByPathNField(
+                                          {
+                                            input: {
+                                              path: '/settings/users',
+                                              field: 'USER_MODULE',
                                             },
-                                          ).then(res => {
-                                            if (
-                                              res.lookupItemsByPathNField
-                                                .success &&
-                                              res.lookupItemsByPathNField?.data
-                                                ?.length > 0
-                                            ) {
-                                              userModuleCategory =
-                                                res.lookupItemsByPathNField.data[0]?.arrValue.find(
-                                                  item =>
-                                                    item.code?.toUpperCase() ==
-                                                    user?.userModule?.toUpperCase(),
-                                                )?.value;
-                                            } else {
-                                              alert(
-                                                'User module not found in lookup',
-                                              );
-                                            }
-                                          });
-                                          loginStore.updateInputUser({
-                                            ...loginStore.inputLogin,
-                                            lab: user.defaultLab,
-                                            role:
-                                              user.role.length == 1
-                                                ? user.role[0].code
-                                                : '',
-                                            userModule: user?.userModule,
+                                          },
+                                        ).then(res => {
+                                          if (
+                                            res.lookupItemsByPathNField
+                                              .success &&
+                                            res.lookupItemsByPathNField?.data
+                                              ?.length > 0
+                                          ) {
+                                            userModuleCategory =
+                                              res.lookupItemsByPathNField.data[0]?.arrValue.find(
+                                                item =>
+                                                  item.code?.toUpperCase() ==
+                                                  user?.userModule?.toUpperCase(),
+                                              )?.value;
+                                          } else {
+                                            alert(
+                                              'User module not found in lookup',
+                                            );
+                                          }
+                                        });
+                                        loginStore.updateInputUser({
+                                          ...loginStore.inputLogin,
+                                          lab: user.defaultLab,
+                                          role:
+                                            user.role.length == 1
+                                              ? user.role[0].code
+                                              : '',
+                                          userModule: user?.userModule,
+                                          userModuleCategory,
+                                          companyCode: user?.companyCode,
+                                        });
+
+                                        setLabRoleList({
+                                          labList: await getLabList(
+                                            user?.userModule,
                                             userModuleCategory,
-                                            companyCode: user?.companyCode,
-                                          });
-                                          setlabRoleList({
-                                            labList: await getLabList(
-                                              user?.userModule,
-                                              userModuleCategory,
-                                              user,
-                                            ),
-                                            roleList: user.role,
-                                          });
-                                        }
-                                      } else {
-                                        Toast.error({
-                                          message: `😔 ${res?.checkUserExitsUserId?.message}`,
+                                            user,
+                                          ),
+                                          roleList: user.role,
                                         });
                                       }
-                                    });
+                                    } else {
+                                      Toast.error({
+                                        message: `😔 ${res?.checkUserExitsUserId?.message}`,
+                                      });
+                                    }
+                                  });
                                 }
                               }}
                             />
@@ -444,7 +440,7 @@ export const Login = observer(() => {
 
                         <Controller
                           control={control}
-                          render={({ field: { onChange } }) => (
+                          render={({ field: { onChange, value } }) => (
                             <Form.InputWrapper
                               label={
                                 loginStore.inputLogin.userModuleCategory ||
@@ -454,7 +450,7 @@ export const Login = observer(() => {
                               style={{ color: 'black' }}
                             >
                               <select
-                                value={loginStore.inputLogin?.lab}
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.lab ? 'border-red' : 'border-gray-300'
                                 } rounded-md cursor-pointer `}
@@ -467,7 +463,9 @@ export const Login = observer(() => {
                                   });
                                 }}
                               >
-                                <option>Select</option>
+                                <option>
+                                  {labRoleList?.labList ? 'Select' : value}
+                                </option>
                                 {labRoleList?.labList?.map((item: any) => (
                                   <option key={item.code} value={item.code}>
                                     {item.name}

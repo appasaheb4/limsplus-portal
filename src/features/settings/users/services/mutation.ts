@@ -14,8 +14,8 @@ export const USER_LIST = gql`
 `;
 
 export const CHECK_EXISTS_USERID = gql`
-  mutation ($userId: String!) {
-    checkUserExitsUserId(userId: $userId) {
+  mutation ($input: LoginUserInput!) {
+    checkUserExitsUserId(input: $input) {
       success
       message
       data
