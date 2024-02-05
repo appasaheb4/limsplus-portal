@@ -37,7 +37,6 @@ import { toJS } from 'mobx';
 import { resetMasterPackage } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -225,15 +224,30 @@ const MasterPackage = MasterPackageHOC(
             lookupItems: routerStore.lookupItems,
             listLabs: labStore.listLabs,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
           )}
-          // isEditModify={false}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
+          )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
             setModalConfirm({
@@ -447,6 +461,12 @@ const MasterPackage = MasterPackageHOC(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

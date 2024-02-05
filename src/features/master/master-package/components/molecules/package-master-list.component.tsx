@@ -20,7 +20,6 @@ import {
   ServiceType,
 } from '../index';
 import { ModalReportOrder } from './modal-report-order.component';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -41,8 +40,12 @@ interface PackageMasterListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
+  isVersionUpgrade?: boolean;
+  isDuplicate?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -75,9 +78,8 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
 
-
   return (
-    <>
+    <div className={`${props.isView ? 'shown' : 'hidden'}`}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -789,9 +791,8 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             //   </>
             // ),
           },
-
           {
-            dataField: 'opration',
+            dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,
@@ -799,49 +800,56 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <div className='flex flex-row'>
-                  <Tooltip tooltipText='Delete'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() =>
-                        props.onDelete &&
-                        props.onDelete({
-                          type: 'Delete',
-                          show: true,
-                          id: [row._id],
-                          title: 'Are you sure?',
-                          body: 'Delete item',
-                        })
-                      }
-                    >
-                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                    </Icons.IconContext>
-                  </Tooltip>
+                  {props.isDelete && (
+                    <Tooltip tooltipText='Delete'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onDelete &&
+                          props.onDelete({
+                            type: 'Delete',
+                            show: true,
+                            id: [row._id],
+                            title: 'Are you sure?',
+                            body: 'Delete item',
+                          })
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
+
                   {row.status === 'A' && (
                     <>
-                      <Tooltip className='ml-2' tooltipText='Version Upgrade'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onVersionUpgrade &&
-                            props.onVersionUpgrade(row)
-                          }
-                        >
-                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                        </Icons.IconContext>
-                      </Tooltip>
-                      <Tooltip className='ml-2' tooltipText='Duplicate'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onDuplicate && props.onDuplicate(row)
-                          }
-                        >
-                          {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                        </Icons.IconContext>
-                      </Tooltip>
+                      {props.isVersionUpgrade && (
+                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onVersionUpgrade &&
+                              props.onVersionUpgrade(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      )}
+                      {props.isDuplicate && (
+                        <Tooltip className='ml-2' tooltipText='Duplicate'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onDuplicate && props.onDuplicate(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      )}
                     </>
                   )}
                   {row.status == 'D' && (
@@ -867,7 +875,8 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             },
           },
         ]}
-        isEditModify={props.isEditModify}
+        isEditModify={props.isUpdate}
+        isExport={props.isExport}
         isSelectRow={true}
         fileName='Package Master'
         onSelectedRow={rows => {
@@ -919,6 +928,6 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           setModalResultOrder({ isVisible: false });
         }}
       />
-    </>
+    </div>
   );
 };

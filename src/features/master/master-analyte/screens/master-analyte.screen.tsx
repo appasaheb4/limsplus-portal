@@ -23,7 +23,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { MasterAnalyteHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { FormHelper } from '@/helper';
-import { AutoCompleteCompanyList, InputResult } from '@/core-components';
+import { InputResult } from '@/core-components';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetMasterAnalyte } from '../startup';
@@ -199,13 +199,29 @@ const MasterAnalyte = MasterAnalyteHoc(
             lookupItems: routerStore.lookupItems,
             listLabs: labStore.listLabs,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -441,6 +457,12 @@ const MasterAnalyte = MasterAnalyteHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);
