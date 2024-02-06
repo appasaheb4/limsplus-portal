@@ -108,7 +108,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                 type: 'delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: 'Delete selected items!',
+                body: 'Do you want to delete selected record?',
               });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {

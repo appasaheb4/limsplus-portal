@@ -31,6 +31,8 @@ import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import { AutoCompleteCompanyList } from '@/core-components';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
+import { ModalDepartmentModify } from '../components/molecules/modal-department-modify';
 
 const TestSampleMapping = TestSampleMappingHoc(
   observer(() => {
@@ -57,6 +59,7 @@ const TestSampleMapping = TestSampleMappingHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [modalDepartmentModify, setDepartmentModify] = useState<any>();
 
     useEffect(() => {
       // Default value initialization
@@ -141,7 +144,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -150,7 +153,7 @@ const TestSampleMapping = TestSampleMappingHoc(
               type: 'Update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update items!',
+              body: 'Do you want to update this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -177,9 +180,16 @@ const TestSampleMapping = TestSampleMappingHoc(
                 type: 'Update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update TestSampleMapping!',
+                body: 'Do you want to update this record?',
               });
             }
+          }}
+          onUpdateDepartment={(row: any, id: string) => {
+            setDepartmentModify({
+              show: true,
+              departments: toJS(row.departments),
+              id,
+            });
           }}
         />
       ),
@@ -281,12 +291,31 @@ const TestSampleMapping = TestSampleMappingHoc(
         });
     };
 
+    const updateMultipleFields = variable => {
+      testSampleMappingStore.testSampleMappingService
+        .updateSingleFiled({
+          input: {
+            ...variable.fileds,
+            _id: variable.id,
+          },
+        })
+        .then((res: any) => {
+          if (res.updateTestSampleMapping.success) {
+            setModalConfirm({ show: false });
+            Toast.success({
+              message: `😊 ${res.updateTestSampleMapping.message}`,
+            });
+            testSampleMappingStore.fetchSampleTypeList();
+          }
+        });
+    };
+
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',
@@ -1403,6 +1432,21 @@ const TestSampleMapping = TestSampleMappingHoc(
           <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             {tableView}
           </div>
+          <ModalDepartmentModify
+            {...modalDepartmentModify}
+            onClick={(row, id) => {
+              updateMultipleFields({
+                fileds: {
+                  departments: row.departments,
+                },
+                id,
+              });
+              setDepartmentModify({ show: false });
+            }}
+            onClose={() => {
+              setDepartmentModify({ show: false });
+            }}
+          />
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {

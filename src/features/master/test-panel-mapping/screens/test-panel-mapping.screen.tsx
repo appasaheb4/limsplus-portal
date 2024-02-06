@@ -37,6 +37,7 @@ import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
 import { AutoCompleteCompanyList } from '@/core-components';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -262,7 +263,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -271,7 +272,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'Update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update items!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -280,7 +281,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'updateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -288,8 +289,8 @@ const TestPanelMapping = TestPanelMappingHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -297,8 +298,8 @@ const TestPanelMapping = TestPanelMappingHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onUpdateOrderSeq={orderSeq => {
@@ -335,7 +336,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 type: 'Update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update TestPanelMapping!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -448,10 +449,10 @@ const TestPanelMapping = TestPanelMappingHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',

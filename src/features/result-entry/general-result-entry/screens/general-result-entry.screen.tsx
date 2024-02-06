@@ -17,6 +17,7 @@ import { toJS } from 'mobx';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const GeneralResultEntry = observer(() => {
   const {
@@ -79,7 +80,7 @@ const GeneralResultEntry = observer(() => {
                 id: id,
                 data: updatedRecords,
                 title: 'Are you sure?',
-                body: `Update records!`,
+                body: `Do you want to update this record?`,
               });
             }
           }}
@@ -90,7 +91,7 @@ const GeneralResultEntry = observer(() => {
               id: id,
               data: fields,
               title: 'Are you sure?',
-              body: `Update records!`,
+              body: `Do you want to update this record?`,
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -149,6 +150,36 @@ const GeneralResultEntry = observer(() => {
               },
             );
           }}
+          onTestStatusFilter={item => {
+            generalResultEntryStore.updateFilterGeneralResEntry({
+              ...generalResultEntryStore.filterGeneralResEntry,
+              testStatus: item,
+            });
+            const input = _.pickBy(
+              {
+                ...generalResultEntryStore.filterGeneralResEntry,
+                testStatus: item,
+              },
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
+              function (value, key) {
+                return !(value === undefined || value === null || value === '');
+              },
+            );
+            patientResultStore.patientResultService.patientListForGeneralResultEntry(
+              {
+                input: {
+                  filter: {
+                    ...input,
+                  },
+                  page: 0,
+                  limit: 10,
+                },
+              },
+            );
+            patientResultStore.filterDistinctPatientResult(
+              patientResultStore.distinctPatientResultCopy,
+            );
+          }}
         />
       </>
     ),
@@ -200,10 +231,10 @@ const GeneralResultEntry = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       <div className='mx-auto flex-wrap'>
         <FilterInputTable />
       </div>

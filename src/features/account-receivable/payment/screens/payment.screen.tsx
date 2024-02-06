@@ -21,6 +21,7 @@ import { PaymentList } from '../components';
 import { PaymentHoc } from '../hoc';
 import { resetPayment } from '../startup';
 import { Payment as Model } from '../models';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Payment = PaymentHoc(
   observer(() => {
@@ -146,10 +147,10 @@ const Payment = PaymentHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={!isInputView}
@@ -721,7 +722,7 @@ const Payment = PaymentHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {

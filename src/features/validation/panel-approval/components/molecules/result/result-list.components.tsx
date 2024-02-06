@@ -166,39 +166,6 @@ export const ResultList = (props: ResultListProps) => {
               ),
             },
             {
-              dataField: 'final',
-              text: 'Final',
-              sort: true,
-              editable: false,
-              headerClasses: 'textHeaderl',
-            },
-            {
-              dataField: 'abnFlag',
-              text: 'Abn Flag',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle disabled={true} value={row.abnFlag} />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle disabled={true} value={row.critical} />
-                  </>
-                );
-              },
-            },
-            {
               dataField: 'units',
               text: 'Units',
               sort: true,
@@ -321,6 +288,33 @@ export const ResultList = (props: ResultListProps) => {
               ),
             },
             {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.abnFlag} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'critical',
+              text: 'Critical',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.critical} />
+                  </>
+                );
+              },
+            },
+
+            {
               dataField: 'remarks',
               text: 'Remarks',
               sort: true,
@@ -381,7 +375,13 @@ export const ResultList = (props: ResultListProps) => {
                 );
               },
             },
-
+            {
+              dataField: 'final',
+              text: 'Final',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeaderl',
+            },
             {
               dataField: 'enteredBy',
               text: 'Entered By',

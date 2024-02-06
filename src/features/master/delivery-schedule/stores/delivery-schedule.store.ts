@@ -22,6 +22,7 @@ export class DeliveryScheduleStore {
       holidayReporting: false,
       onTime: false,
       secondCutoffTimeRequired: false,
+      scheduleForPatAndDept: false,
       pStartTime: dayjs().format('hh:mm a'),
       pEndTime: dayjs().format('hh:mm a'),
       cutofTime: dayjs().format('hh:mm a'),

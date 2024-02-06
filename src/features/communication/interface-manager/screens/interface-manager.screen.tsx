@@ -22,6 +22,7 @@ import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetInterfaceManager } from '../startup';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 const InterfaceManager = InterfaceManagerHoc(
   observer(() => {
     const { loginStore, interfaceManagerStore, routerStore } = useStores();
@@ -82,10 +83,10 @@ const InterfaceManager = InterfaceManagerHoc(
     };
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',
@@ -520,7 +521,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -529,7 +530,7 @@ const InterfaceManager = InterfaceManagerHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update interface manager!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onPageSizeChange={(page, limit) => {

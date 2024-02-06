@@ -85,8 +85,13 @@ export const TableBootstrap = ({
   };
 
   const statusData = [
-    { code: 'Hold', value: 'Done', color: 'green' },
+    { code: 'Done', value: 'Done', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
+    { code: 'Recheck', value: 'Recheck', color: 'yellow' },
+    { code: 'Retest', value: 'Retest', color: 'orange' },
+    { code: 'Hold', value: 'Hold', color: 'indigo' },
+    { code: 'Recall', value: 'Recall', color: 'gray' },
+    { code: '', value: 'All', color: 'red' },
   ];
 
   const sizePerPageRenderer = ({

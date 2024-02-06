@@ -69,7 +69,7 @@
 //                 type: 'delete',
 //                 show: true,
 //                 title: 'Are you sure delete recoard? ',
-//                 body: 'Delete selected items!',
+//                 body: 'Do you want to delete selected record?',
 //               });
 //             } else {
 //               alert('Please select any item.');
@@ -1206,7 +1206,7 @@
 //                                 type: 'delete',
 //                                 show: true,
 //                                 title: 'Are you sure delete recoard? ',
-//                                 body: 'Delete selected items!',
+//                                 body: 'Do you want to delete selected record?',
 //                               });
 //                             }
 //                           } else {

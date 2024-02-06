@@ -429,7 +429,7 @@ export const TemplatePatientResult = observer(() => {
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(fields: any, id: string) => {
@@ -438,7 +438,7 @@ export const TemplatePatientResult = observer(() => {
               type: 'update',
               data: { fields, id },
               title: 'Are you sure?',
-              body: 'Update item!',
+              body: 'Do you want to update this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {

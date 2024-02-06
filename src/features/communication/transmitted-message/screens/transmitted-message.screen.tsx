@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   Header,
@@ -7,21 +7,22 @@ import {
   PageHeadingLabDetails,
   ModalConfirm,
 } from '@/library/components';
-import {TransmittedMessageList} from '../components';
-import {useStores} from '@/stores';
+import { TransmittedMessageList } from '../components';
+import { useStores } from '@/stores';
 
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const TransmittedMessage = observer(() => {
-  const {loginStore, transmittedMessageStore, routerStore} = useStores();
+  const { loginStore, transmittedMessageStore, routerStore } = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
 
       <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
         <TransmittedMessageList
@@ -40,7 +41,7 @@ const TransmittedMessage = observer(() => {
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           isEditModify={false}
@@ -49,13 +50,13 @@ const TransmittedMessage = observer(() => {
               page,
               limit,
             );
-            global.filter = {mode: 'pagination', page, limit};
+            global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
             transmittedMessageStore.transmittedMessageService.filter({
-              input: {type, filter, page, limit},
+              input: { type, filter, page, limit },
             });
-            global.filter = {mode: 'filter', type, filter, page, limit};
+            global.filter = { mode: 'filter', type, filter, page, limit };
           }}
         />
         <ModalConfirm
@@ -63,9 +64,9 @@ const TransmittedMessage = observer(() => {
           click={(type?: string) => {
             if (type === 'delete') {
               transmittedMessageStore.transmittedMessageService
-                .delete({input: {id: modalConfirm.id}})
+                .delete({ input: { id: modalConfirm.id } })
                 .then(res => {
-                  setModalConfirm({show: false});
+                  setModalConfirm({ show: false });
                   if (res.removeTransmittedMessage.success) {
                     transmittedMessageStore.transmittedMessageService.listTransmittedMessage();
                     Toast.success({
@@ -91,7 +92,7 @@ const TransmittedMessage = observer(() => {
                 });
             }
           }}
-          close={() => setModalConfirm({show: false})}
+          close={() => setModalConfirm({ show: false })}
         />
       </div>
     </>

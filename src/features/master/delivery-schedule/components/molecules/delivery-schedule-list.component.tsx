@@ -235,6 +235,39 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 );
               },
             },
+            {
+              dataField: 'scheduleForPatAndDept',
+              text: 'Schedule For Pat/Dept',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${
+                  row.holidayReporting
+                    ? row.holidayReporting
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.scheduleForPatAndDept}
+                      onChange={scheduleForPatAndDept => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            scheduleForPatAndDept,
+                            'scheduleForPatAndDept',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
 
             {
               dataField: 'pStartTime',
@@ -532,42 +565,42 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 );
               },
             },
-            {
-              dataField: 'schForDept',
-              text: 'Sch For Dept',
-              headerClasses: 'textHeader1',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  schForDept = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'schForPat',
-              text: 'Sch For Pat',
-              headerClasses: 'textHeader1',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  schForPat = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
+            // {
+            //   dataField: 'schForDept',
+            //   text: 'Sch For Dept',
+            //   headerClasses: 'textHeader1',
+            //   sort: true,
+            //   headerStyle: {
+            //     fontSize: 0,
+            //   },
+            //   sortCaret: (order, column) => sortCaret(order, column),
+            //   csvFormatter: col => (col ? col : ''),
+            //   filter: textFilter({
+            //     getFilter: filter => {
+            //       schForDept = filter;
+            //     },
+            //   }),
+            //   editable: (content, row, rowIndex, columnIndex) =>
+            //     editorCell(row),
+            // },
+            // {
+            //   dataField: 'schForPat',
+            //   text: 'Sch For Pat',
+            //   headerClasses: 'textHeader1',
+            //   sort: true,
+            //   headerStyle: {
+            //     fontSize: 0,
+            //   },
+            //   sortCaret: (order, column) => sortCaret(order, column),
+            //   csvFormatter: col => (col ? col : ''),
+            //   filter: textFilter({
+            //     getFilter: filter => {
+            //       schForPat = filter;
+            //     },
+            //   }),
+            //   editable: (content, row, rowIndex, columnIndex) =>
+            //     editorCell(row),
+            // },
 
             {
               dataField: 'status',

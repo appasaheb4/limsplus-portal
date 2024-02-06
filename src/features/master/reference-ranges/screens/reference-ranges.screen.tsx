@@ -26,6 +26,7 @@ import { toJS } from 'mobx';
 import { resetReferenceRange } from '../startup';
 import dayjs from 'dayjs';
 import * as XLSX from 'xlsx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const ReferenceRanges = ReferenceRangesHoc(
   observer(() => {
@@ -194,7 +195,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -203,7 +204,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               type: 'update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update item!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -212,7 +213,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               type: 'UpdateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -220,8 +221,8 @@ const ReferenceRanges = ReferenceRangesHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -229,8 +230,8 @@ const ReferenceRanges = ReferenceRangesHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -422,10 +423,10 @@ const ReferenceRanges = ReferenceRangesHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',

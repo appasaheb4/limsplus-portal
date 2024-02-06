@@ -14,6 +14,7 @@ import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 
 import * as Realm from 'realm-web';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const EventLogs = observer(() => {
   const { loginStore, eventLogsStore, routerStore } = useStores();
@@ -55,10 +56,10 @@ export const EventLogs = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
 
       <div className=' mx-auto flex-wrap'>
         <div className={'p-2 rounded-lg shadow-xl shown'}>
@@ -82,7 +83,7 @@ export const EventLogs = observer(() => {
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -91,7 +92,7 @@ export const EventLogs = observer(() => {
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update Section!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onPageSizeChange={(page, limit) => {

@@ -283,7 +283,7 @@ export const PatientVisit = PatientVisitHoc(
               id: rows.filter(item => item._id).map(item => item._id),
               labId: rows.filter(item => item.labId).map(item => item.labId),
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -292,7 +292,7 @@ export const PatientVisit = PatientVisitHoc(
               type: 'update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update recoard!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFields={(fields: any, id: string) => {
@@ -301,7 +301,7 @@ export const PatientVisit = PatientVisitHoc(
               type: 'updateFields',
               data: { fields, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -866,7 +866,8 @@ export const PatientVisit = PatientVisitHoc(
                           hasError={!!errors.employeeCode}
                           value={value}
                           onChange={employeeCodeValue => {
-                            const employeeCode = employeeCodeValue?.toUpperCase();
+                            const employeeCode =
+                              employeeCodeValue?.toUpperCase();
                             onChange(employeeCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
@@ -2323,7 +2324,7 @@ export const PatientVisit = PatientVisitHoc(
                           type: 'delete',
                           id: rows,
                           title: 'Are you sure?',
-                          body: 'Delete selected items!',
+                          body: 'Do you want to delete selected record?',
                         });
                       }}
                       onUpdateItem={(
