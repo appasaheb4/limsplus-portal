@@ -30,7 +30,7 @@ import { AutoCompleteFilterSingleSelectEmpolyeCode } from '../components';
 import { RouterFlow } from '@/flows';
 import { resetSalesTeam } from '../startup';
 import * as XLSX from 'xlsx';
-import { AutoCompleteCompanyList } from '@/core-components';
+import { toJS } from 'mobx';
 
 export const SalesTeam = SalesTeamHoc(
   observer(() => {
@@ -156,13 +156,29 @@ export const SalesTeam = SalesTeamHoc(
             userStore: userStore,
             filterUsersItems: Utils.filterUsersItems,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -371,6 +387,12 @@ export const SalesTeam = SalesTeamHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

@@ -160,10 +160,6 @@ const RoleMapping = observer(() => {
                 checked: false,
               },
               {
-                title: 'View',
-                checked: false,
-              },
-              {
                 title: 'Email',
                 checked: false,
               },
@@ -755,7 +751,9 @@ const RoleMapping = observer(() => {
                                                               modifyPermission.title ===
                                                                 'Update' ||
                                                               modifyPermission.title ===
-                                                                'Delete'
+                                                                'Delete' ||
+                                                              modifyPermission.title ===
+                                                                'Export'
                                                             ) {
                                                               routers[
                                                                 index

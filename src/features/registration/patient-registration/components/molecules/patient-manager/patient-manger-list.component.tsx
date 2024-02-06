@@ -888,7 +888,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>

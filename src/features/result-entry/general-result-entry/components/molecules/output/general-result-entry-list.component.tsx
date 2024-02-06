@@ -420,7 +420,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cell, row, rowIndex, formatExtraData) => (
                 <>
                   {!_.isEmpty(row?.result) && (

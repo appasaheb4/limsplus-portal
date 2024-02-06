@@ -20,12 +20,11 @@ import { lookupItems, lookupValue, toTitleCase } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { MethodsHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { resetMethod } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import { AutoCompleteCompanyList } from '@/core-components';
+import { toJS } from 'mobx';
 
 const Methods = MethodsHoc(
   observer(() => {
@@ -168,6 +167,12 @@ const Methods = MethodsHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);
@@ -444,13 +449,21 @@ const Methods = MethodsHoc(
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
+              isUpdate={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Update',
+              )}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
               )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {

@@ -1030,7 +1030,7 @@ export const CompanyList = (props: CompanyListProps) => {
           text: 'Action',
           editable: false,
           csvExport: false,
-          hidden: !props.isDelete,
+          // hidden: !props.isDelete,
           formatter: (cellContent, row) => (
             <>
               {row.code != 'COMP0001' && (
