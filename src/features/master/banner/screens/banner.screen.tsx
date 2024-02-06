@@ -23,6 +23,7 @@ import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
 import { connect } from 'react-redux';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Banner = BannerHoc(
   observer(({ sidebar }) => {
@@ -70,28 +71,10 @@ const Banner = BannerHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          {!sidebar?.isOpen && (
-            <div style={{ width: '50%' }}>
-              <AutocompleteSearchGroupBy
-                data={routerStore.userRouter}
-                onChange={async (item: any, children: any) => {
-                  const { permission, selectedComp } =
-                    await RouterFlow.updateSelectedCategory(
-                      item?.name,
-                      children?.name,
-                    );
-                  routerStore.updateSelectedComponents(selectedComp);
-                  routerStore.updateUserPermission(permission);
-                  history.replace(children.path);
-                }}
-              />
-            </div>
-          )}
-
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddBanner}
@@ -261,7 +244,7 @@ const Banner = BannerHoc(
               </Buttons.Button>
             </List>
           </div>
-          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
+          <div className='p-2 rounded-lg shadow-xl -z-50 overflow-auto'>
             <BannerList
               data={bannerStore.listBanner || []}
               totlaSize={bannerStore.listBannerCount}
@@ -291,7 +274,7 @@ const Banner = BannerHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete this record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -300,7 +283,7 @@ const Banner = BannerHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update banner!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -309,7 +292,7 @@ const Banner = BannerHoc(
                   type: 'UpdateImage',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update banner!',
+                  body: 'Do you want to update image?',
                 });
               }}
               onPageSizeChange={(page, limit) => {

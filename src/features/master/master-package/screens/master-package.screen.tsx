@@ -38,6 +38,7 @@ import { resetMasterPackage } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import { AutoCompleteCompanyList } from '@/core-components';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -72,6 +73,7 @@ const MasterPackage = MasterPackageHOC(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [duplicateRecord, setDupliacteRecord] = useState<boolean>(false);
 
     useEffect(() => {
       setValue(
@@ -241,7 +243,7 @@ const MasterPackage = MasterPackageHOC(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -267,8 +269,8 @@ const MasterPackage = MasterPackageHOC(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -276,8 +278,8 @@ const MasterPackage = MasterPackageHOC(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onUpdateOrderSeq={orderSeq => {
@@ -427,10 +429,10 @@ const MasterPackage = MasterPackageHOC(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',
@@ -464,7 +466,9 @@ const MasterPackage = MasterPackageHOC(
                             placeholder='Search by name'
                             loader={loading}
                             disable={
-                              isVersionUpgrade
+                              duplicateRecord
+                                ? false
+                                : isVersionUpgrade
                                 ? true
                                 : loginStore.login &&
                                   loginStore.login.role !== 'SYSADMIN'
@@ -1483,7 +1487,7 @@ const MasterPackage = MasterPackageHOC(
                     ),
                   });
                   setIsInputView(true);
-                  setIsVersionUpgrade(true);
+                  setDupliacteRecord(true);
                   masterPackageStore.updateSelectedItems({
                     ...masterPackageStore.selectedItems,
                     panelCode: [

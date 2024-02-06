@@ -40,7 +40,7 @@ export const PatientResult = observer((props: PatientResultProps) => {
                 type: 'Delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: 'Delete selected items!',
+                body: 'Do you want to delete selected record?',
               });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -50,7 +50,7 @@ export const PatientResult = observer((props: PatientResultProps) => {
                 type: 'Update',
                 data: { value, dataField, id },
                 title: 'Are you sure?',
-                body: 'Update recoard!',
+                body: 'Do you want to update this record?',
               });
           }}
           onPageSizeChange={(page, limit) => {

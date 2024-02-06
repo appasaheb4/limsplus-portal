@@ -11,6 +11,7 @@ export class DeliverySchedule {
   cutofTime: string;
   secoundCutofTime: string;
   secondCutoffTimeRequired: boolean;
+  scheduleForPatAndDept: boolean;
   processingType: string;
   schFrequency: any;
   reportOn: string;
@@ -40,6 +41,7 @@ export class DeliverySchedule {
     this.pEndTime = rawData.pEndTime;
     this.cutofTime = rawData.cutofTime;
     this.secoundCutofTime = rawData.secoundCutofTime;
+    this.scheduleForPatAndDept = rawData.scheduleForPatAndDept;
     this.secondCutoffTimeRequired = rawData.secondCutoffTimeRequired;
     this.processingType = rawData.processingType;
     this.schFrequency = rawData.schFrequency;

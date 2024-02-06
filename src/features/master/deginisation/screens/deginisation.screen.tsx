@@ -26,6 +26,7 @@ import * as XLSX from 'xlsx';
 import { RouterFlow } from '@/flows';
 import { resetDesignation } from '../startup';
 import { AutoCompleteCompanyList } from '@/core-components';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Deginisation = DeginisationHoc(
   observer(() => {
@@ -142,10 +143,10 @@ const Deginisation = DeginisationHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddDeginisation}
@@ -430,7 +431,7 @@ const Deginisation = DeginisationHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -439,7 +440,7 @@ const Deginisation = DeginisationHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update deginisation!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -466,7 +467,7 @@ const Deginisation = DeginisationHoc(
                     type: 'Update',
                     data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
-                    body: 'Update deginisation!',
+                    body: 'Do you want to approved records?',
                   });
                 }
               }}

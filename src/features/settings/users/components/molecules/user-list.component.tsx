@@ -101,8 +101,8 @@ export const UserList = (props: UserListProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
 
   const editorCell = (row: any) => {
-    if (props?.role === 'SYSADMIN') return true;
-    return row.status == 'A' ? true : false;
+    if (props?.role === 'SYSADMIN' && row.status !== 'I') return true;
+    return row.status !== 'I' ? true : false;
   };
   const todayDate = new Date();
   const nextDay = new Date();
@@ -122,47 +122,7 @@ export const UserList = (props: UserListProps) => {
               hidden: true,
               csvExport: false,
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <AutoCompleteCompanyList
-                    isLabel={false}
-                    hasError={false}
-                    onSelect={companyCode => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          companyCode,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
-            },
+
             {
               dataField: 'userId',
               text: 'UserId',
@@ -1518,6 +1478,47 @@ export const UserList = (props: UserListProps) => {
                       </option>
                     ))}
                   </select>
+                </>
+              ),
+            },
+            {
+              text: 'Company Code',
+              dataField: 'companyCode',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  companyCode = filter;
+                },
+              }),
+              headerClasses: 'textHeader2',
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteCompanyList
+                    isLabel={false}
+                    hasError={false}
+                    onSelect={companyCode => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          companyCode,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
                 </>
               ),
             },

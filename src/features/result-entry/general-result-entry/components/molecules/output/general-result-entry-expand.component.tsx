@@ -48,6 +48,7 @@ interface GeneralResultEntryExpandProps {
   onFinishResult?: () => void;
   clearAllFilter?: () => void;
   onFilterFinishResult?: (code: string) => void;
+  onTestStatusFilter?: (code: string) => void;
 }
 export const GeneralResultEntryExpand = ({
   id,
@@ -68,6 +69,7 @@ export const GeneralResultEntryExpand = ({
   onFinishResult,
   clearAllFilter,
   onFilterFinishResult,
+  onTestStatusFilter,
 }: GeneralResultEntryExpandProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -358,6 +360,12 @@ export const GeneralResultEntryExpand = ({
     { code: 'D', value: 'Done', color: 'purple' },
   ];
 
+  const testStatus = [
+    { code: 'N', value: 'Normal', color: 'blue' },
+    { code: 'A', value: 'AbNormal', color: 'yellow' },
+    { code: 'C', value: 'Critical', color: 'green' },
+  ];
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -387,57 +395,72 @@ export const GeneralResultEntryExpand = ({
         >
           {props => (
             <div>
-              <div className='flex items-center flex-wrap'>
-                <ExportCSVButton
-                  className={
-                    'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
-                  }
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
-                {isFilterOpen ? (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
+              <div className='flex items-center flex-wrap justify-between'>
+                <div className='w-3/4 flex align-middle items-center'>
+                  <ExportCSVButton
+                    className={
+                      'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                    }
+                    {...props.csvProps}
                   >
-                    <Icons.IconFa.FaChevronUp />
-                  </Buttons.Button>
-                ) : (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
+                    Export CSV!!
+                  </ExportCSVButton>
+                  {isFilterOpen ? (
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsFilterOpen(!isFilterOpen);
+                      }}
+                    >
+                      <Icons.IconFa.FaChevronUp />
+                    </Buttons.Button>
+                  ) : (
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsFilterOpen(!isFilterOpen);
+                      }}
+                    >
+                      <Icons.IconFa.FaChevronDown />
+                    </Buttons.Button>
+                  )}
+                  <button
+                    disabled={isFinishResultDisable}
+                    className={
+                      'ml-2 mr-2 px-2 focus:outline-none bg-blue-600 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                    }
+                    onClick={onFinishResult}
                   >
-                    <Icons.IconFa.FaChevronDown />
-                  </Buttons.Button>
-                )}
-                <button
-                  disabled={isFinishResultDisable}
-                  className={
-                    'ml-2 mr-2 px-2 focus:outline-none bg-blue-600 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                  }
-                  onClick={onFinishResult}
-                >
-                  Finish Result
-                </button>
-                <div className='flex gap-4'>
-                  {statusData.map(status => (
+                    Finish Result
+                  </button>
+                  <div className='flex gap-4'>
+                    {statusData.map(status => (
+                      <button
+                        key={status.code}
+                        className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                        onClick={() => handleStatusClick(status.code)}
+                      >
+                        {status.value}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className='flex justify-end gap-4'>
+                  {testStatus.map(status => (
                     <button
                       key={status.code}
                       className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
-                      onClick={() => handleStatusClick(status.code)}
+                      onClick={() => onTestStatusFilter?.(status.code)}
                     >
                       {status.value}
                     </button>
                   ))}
                 </div>
               </div>
+
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>
                   <CustomToggleList
@@ -467,7 +490,7 @@ export const GeneralResultEntryExpand = ({
                   }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
                   onTableChange={handleTableChange}
-                  expandRow={expandRow}
+                  // expandRow={expandRow}
                   rowStyle={rowStyle}
                 />
               </div>

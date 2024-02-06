@@ -29,6 +29,7 @@ import { RouterFlow } from '@/flows';
 import { resetCorporateClient } from '../startup';
 import * as XLSX from 'xlsx';
 import { AutoCompleteCompanyList } from '@/core-components';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 const CorporateClients = CorporateClientsHoc(
   observer(() => {
     const {
@@ -271,8 +272,8 @@ const CorporateClients = CorporateClientsHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -280,8 +281,8 @@ const CorporateClients = CorporateClientsHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onSelectedRow={rows => {
@@ -290,7 +291,7 @@ const CorporateClients = CorporateClientsHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -299,7 +300,7 @@ const CorporateClients = CorporateClientsHoc(
               type: 'Update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update Section!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -308,7 +309,7 @@ const CorporateClients = CorporateClientsHoc(
               type: 'UpdateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -335,7 +336,7 @@ const CorporateClients = CorporateClientsHoc(
                 type: 'Update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update Corporate Client!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -466,10 +467,10 @@ const CorporateClients = CorporateClientsHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddView}

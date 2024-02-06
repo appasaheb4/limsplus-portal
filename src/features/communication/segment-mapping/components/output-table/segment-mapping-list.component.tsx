@@ -989,8 +989,8 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
                             type: 'delete',
                             show: true,
                             id: [row._id],
-                            title: 'Are you sure delete record? ',
-                            body: 'Delete selected items!',
+                            title: 'Are you sure? ',
+                            body: 'Do you want to delete selected record?',
                           });
                       }}
                     >

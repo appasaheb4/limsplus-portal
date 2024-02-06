@@ -119,9 +119,11 @@ export const ModalConfirm = (props: ModalProps) => {
                 {/*body*/}
                 {props.body && (
                   <>
-                    <div className='relative p-2 flex-auto'>
+                    <div className='relative p-2 flex flex-auto justify-center'>
                       <p className='my-4 text-lg leading-relaxed'>
-                        <span className='text-4xl'>{props.body}</span>
+                        <span className='text-3xl text-center'>
+                          {props.body}
+                        </span>
                       </p>
                     </div>
                   </>

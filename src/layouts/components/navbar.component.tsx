@@ -160,7 +160,6 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
         <div className='flex-1 ml-2 d-none d-sm-inline-block'>
           <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
-             
               <div className='m-2'>
                 <Buttons.Button
                   size='medium'
@@ -173,10 +172,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                         ...appStore.applicationSetting,
                         isExpandScreen: true,
                       });
-                      appStore.updateApplicationSetting({
-                        ...stores.appStore.applicationSetting,
-                        theme,
-                      });
+                      // appStore.updateApplicationSetting({
+                      //   ...stores.appStore.applicationSetting,
+                      //   theme,
+                      // });
                       if (elem.requestFullscreen) {
                         elem.requestFullscreen();
                       } else if (elem.webkitRequestFullscreen) {
@@ -186,9 +185,9 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                         /* IE11 */
                         elem.msRequestFullscreen();
                       }
-                      if (typeof setColorMode === 'function') {
-                        setColorMode(theme);
-                      }
+                      // if (typeof setColorMode === 'function') {
+                      //   setColorMode(theme);
+                      // }
                     }
                     function closeFullscreen() {
                       if (document.fullscreenElement) {
@@ -197,13 +196,13 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                           appStore.updateApplicationSetting({
                             ...appStore.applicationSetting,
                             isExpandScreen: false,
-                            theme,
+                            // theme,
                           });
                           document.exitFullscreen();
                         }
-                        if (typeof setColorMode === 'function') {
-                          setColorMode(theme);
-                        }
+                        // if (typeof setColorMode === 'function') {
+                        //   setColorMode(theme);
+                        // }
                       }
                     }
                     openFullscreen();

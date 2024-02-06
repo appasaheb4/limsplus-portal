@@ -23,6 +23,7 @@ let router = dashboardRoutes;
 import { DocumentSettings } from './document-setting.screen';
 import { GeneralField } from './general-field.screen';
 import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Lookup = observer(() => {
   const { loginStore, lookupStore, routerStore } = useStores();
@@ -110,10 +111,10 @@ const Lookup = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
         <Buttons.ButtonCircleAddRemove
           show={hideAddLab}
@@ -190,7 +191,7 @@ const Lookup = observer(() => {
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -199,7 +200,7 @@ const Lookup = observer(() => {
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update Lookup!',
+                  body: 'Do you want to update this record?ss',
                 });
               }}
               onPageSizeChange={(page, size) => {

@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-add-event-listener */
-import React, {useState, useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Header,
   PageHeading,
@@ -14,21 +14,22 @@ import {
   ModalImportFile,
   Toast,
 } from '@/library/components';
-import {Accordion, AccordionItem} from 'react-sanfona';
+import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
-import {Table} from 'reactstrap';
-import {useStores} from '@/stores';
+import { Table } from 'reactstrap';
+import { useStores } from '@/stores';
 
 import {
   HL7Table,
   SettingForRS232Table,
   SettingForTCP_IPTable,
 } from '../components';
-import {HostCommunicationFlows, HexToAsciiFlow} from '../../flows';
-import {HostCommunicationHoc} from '../hoc';
-import {RouterFlow} from '@/flows';
-import {toJS} from 'mobx';
+import { HostCommunicationFlows, HexToAsciiFlow } from '../../flows';
+import { HostCommunicationHoc } from '../hoc';
+import { RouterFlow } from '@/flows';
+import { toJS } from 'mobx';
 import * as Realm from 'realm-web';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -85,7 +86,7 @@ const HostCommunication = HostCommunicationHoc(
           }
         }
       } catch (err) {
-        console.error({err});
+        console.error({ err });
       }
     };
 
@@ -96,10 +97,10 @@ const HostCommunication = HostCommunicationHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',
@@ -249,9 +250,9 @@ const HostCommunication = HostCommunicationHoc(
                   >
                     <option selected>Select</option>
                     {[
-                      {title: 'Broadcasting'},
-                      {title: 'Host Query'},
-                      {title: 'File based'},
+                      { title: 'Broadcasting' },
+                      { title: 'Host Query' },
+                      { title: 'File based' },
                     ].map((item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
@@ -274,9 +275,9 @@ const HostCommunication = HostCommunicationHoc(
                   >
                     <option selected>Select</option>
                     {[
-                      {title: 'Unidirectional'},
-                      {title: 'Bidirectional'},
-                      {title: 'Host Query '},
+                      { title: 'Unidirectional' },
+                      { title: 'Bidirectional' },
+                      { title: 'Host Query ' },
                     ].map((item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
@@ -307,8 +308,8 @@ const HostCommunication = HostCommunicationHoc(
                   >
                     <option selected>Select</option>
                     {[
-                      {title: 'Serial Port Communication'},
-                      {title: 'TCP/IP Communication'},
+                      { title: 'Serial Port Communication' },
+                      { title: 'TCP/IP Communication' },
                     ].map((item: any, index: number) => (
                       <option key={item.title} value={item.title}>
                         {item.title}
@@ -370,7 +371,7 @@ const HostCommunication = HostCommunicationHoc(
                           },
                         })
                         .then(res => {
-                          console.log({res});
+                          console.log({ res });
                           hostCommunicationStore.updateHostCommuication({
                             ...hostCommunicationStore.hostCommuication,
                             connectMessage: 'Connection established closed.',
@@ -416,9 +417,9 @@ const HostCommunication = HostCommunicationHoc(
                 >
                   <option selected>Select</option>
                   {[
-                    {title: 'Patient Data / QC Data'},
-                    {title: 'Output Filter'},
-                    {title: 'Import'},
+                    { title: 'Patient Data / QC Data' },
+                    { title: 'Output Filter' },
+                    { title: 'Import' },
                   ].map((item: any, index: number) => (
                     <option key={item.title} value={item.title}>
                       {item.title}
@@ -454,11 +455,11 @@ const HostCommunication = HostCommunicationHoc(
 
             <Accordion allowMultiple>
               {[
-                {title: 'Hex to ASCII'},
-                {title: 'Source File'},
-                {title: 'Send data to Intrument'},
-                {title: 'Convert to'},
-                {title: 'Output in'},
+                { title: 'Hex to ASCII' },
+                { title: 'Source File' },
+                { title: 'Send data to Intrument' },
+                { title: 'Convert to' },
+                { title: 'Output in' },
               ].map(item => {
                 return (
                   <AccordionItem title={`${item.title}`}>
@@ -524,9 +525,9 @@ const HostCommunication = HostCommunicationHoc(
                             >
                               <option selected>Select</option>
                               {[
-                                {title: 'Hex decimal'},
-                                {title: 'HL7'},
-                                {title: 'ASTM'},
+                                { title: 'Hex decimal' },
+                                { title: 'HL7' },
+                                { title: 'ASTM' },
                               ].map((item: any, index: number) => (
                                 <option key={item.title} value={item.title}>
                                   {item.title}
@@ -585,8 +586,8 @@ const HostCommunication = HostCommunicationHoc(
                             >
                               <option selected>Select</option>
                               {[
-                                {title: 'Phiysical file Location'},
-                                {title: 'Collection of a database'},
+                                { title: 'Phiysical file Location' },
+                                { title: 'Collection of a database' },
                               ].map((item: any, index: number) => (
                                 <option key={item.title} value={item.title}>
                                   {item.title}
@@ -716,9 +717,9 @@ const HostCommunication = HostCommunicationHoc(
                             >
                               <option selected>Select</option>
                               {[
-                                {title: 'Hex decimal'},
-                                {title: 'HL7'},
-                                {title: 'ASTM'},
+                                { title: 'Hex decimal' },
+                                { title: 'HL7' },
+                                { title: 'ASTM' },
                               ].map((item: any, index: number) => (
                                 <option key={item.title} value={item.title}>
                                   {item.title}
@@ -748,8 +749,8 @@ const HostCommunication = HostCommunicationHoc(
                             >
                               <option selected>Select</option>
                               {[
-                                {title: 'Phiysical file Location'},
-                                {title: 'Collection of a database'},
+                                { title: 'Phiysical file Location' },
+                                { title: 'Collection of a database' },
                               ].map((item: any, index: number) => (
                                 <option key={item.title} value={item.title}>
                                   {item.title}
@@ -837,12 +838,12 @@ const HostCommunication = HostCommunicationHoc(
                             >
                               <option selected>Select</option>
                               {[
-                                {title: 'PDF'},
-                                {title: 'CSV'},
-                                {title: 'TXT'},
-                                {title: 'Table/Collection'},
-                                {title: 'API'},
-                                {title: 'Graph'},
+                                { title: 'PDF' },
+                                { title: 'CSV' },
+                                { title: 'TXT' },
+                                { title: 'Table/Collection' },
+                                { title: 'API' },
+                                { title: 'Graph' },
                               ].map((item: any, index: number) => (
                                 <option key={item.title} value={item.title}>
                                   {item.title}
@@ -910,9 +911,9 @@ const HostCommunication = HostCommunicationHoc(
                             >
                               <option selected>Select</option>
                               {[
-                                {title: 'Serial to Serial'},
-                                {title: 'HL7'},
-                                {title: 'ASTM'},
+                                { title: 'Serial to Serial' },
+                                { title: 'HL7' },
+                                { title: 'ASTM' },
                               ].map((item: any, index: number) => (
                                 <option key={item.title} value={item.title}>
                                   {item.title}
@@ -957,8 +958,8 @@ const HostCommunication = HostCommunicationHoc(
                             >
                               <option selected>Select</option>
                               {[
-                                {title: 'Phiysical file Location'},
-                                {title: 'Collection of a database'},
+                                { title: 'Phiysical file Location' },
+                                { title: 'Collection of a database' },
                               ].map((item: any, index: number) => (
                                 <option key={item.title} value={item.title}>
                                   {item.title}
@@ -1020,7 +1021,7 @@ const HostCommunication = HostCommunicationHoc(
           accept='.csv,.xlsx,.xls,.txt,.hl7'
           {...modalImportFile}
           click={(file: any) => {
-            setModalImportFile({show: false});
+            setModalImportFile({ show: false });
 
             const reader = new FileReader();
             reader.addEventListener('load', (e: any) => {
@@ -1036,7 +1037,7 @@ const HostCommunication = HostCommunicationHoc(
             reader.readAsText(file);
           }}
           close={() => {
-            setModalImportFile({show: false});
+            setModalImportFile({ show: false });
           }}
         />
       </>

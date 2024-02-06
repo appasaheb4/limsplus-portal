@@ -56,18 +56,6 @@ export const PendingPanelApprovalList = observer(
                 editable: false,
               },
               {
-                dataField: 'sampleType',
-                text: 'Sample Type',
-                sort: true,
-                editable: false,
-              },
-              {
-                dataField: 'containerId',
-                text: 'Container Id',
-                sort: true,
-                editable: false,
-              },
-              {
                 dataField: 'panel',
                 text: 'Panel',
                 sort: true,
@@ -85,9 +73,22 @@ export const PendingPanelApprovalList = observer(
                     : '';
                 },
               },
+
               {
                 dataField: 'status',
                 text: 'Status',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'sampleType',
+                text: 'Sample Type',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'containerId',
+                text: 'Container Id',
                 sort: true,
                 editable: false,
               },
