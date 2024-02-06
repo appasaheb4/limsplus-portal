@@ -27,7 +27,7 @@ import { toJS } from 'mobx';
 import { resetDeliverySchedule } from '../startup';
 import _ from 'lodash';
 import * as XLSX from 'xlsx';
-import { AutoCompleteCompanyList } from '@/core-components';
+
 const DeliverySchedule = DeliveryScheduleHoc(
   observer(() => {
     const { loginStore, deliveryScheduleStore, routerStore } = useStores();
@@ -186,6 +186,12 @@ const DeliverySchedule = DeliveryScheduleHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);
@@ -848,15 +854,22 @@ const DeliverySchedule = DeliveryScheduleHoc(
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
-                toJS(routerStore.userPermission),
+                routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
-                toJS(routerStore.userPermission),
+              isUpdate={RouterFlow.checkPermission(
+                routerStore.userPermission,
                 'Update',
               )}
-              // isEditModify={false}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
+              )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {
                 setModalConfirm({

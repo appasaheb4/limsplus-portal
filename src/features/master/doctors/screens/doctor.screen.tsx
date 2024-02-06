@@ -27,6 +27,7 @@ import { FormHelper } from '@/helper';
 import { RouterFlow } from '@/flows';
 import { resetDoctor } from '../startup';
 import * as XLSX from 'xlsx';
+import { toJS } from 'mobx';
 
 const Doctors = DoctorsHoc(
   observer(() => {
@@ -200,13 +201,21 @@ const Doctors = DoctorsHoc(
               administrativeDivisions.listAdministrativeDiv,
             labList: loginStore.login?.labList,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -419,6 +428,12 @@ const Doctors = DoctorsHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

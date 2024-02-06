@@ -1318,7 +1318,6 @@ export const LabList = (props: LabListProps) => {
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>

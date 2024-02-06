@@ -21,12 +21,12 @@ import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { AdministrativeDivisionsHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { resetBanner } from '../../banner/startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import { AutoCompleteCompanyList } from '@/core-components';
+import { toJS } from 'mobx';
+
 export const AdministrativeDivisions = AdministrativeDivisionsHoc(
   observer(() => {
     const { loginStore, administrativeDivisions, routerStore } = useStores();
@@ -180,6 +180,12 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);
@@ -651,15 +657,22 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                 updateLocalInput: administrativeDivisions.updateLocalInput,
                 localInput: administrativeDivisions.localInput,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
+              isUpdate={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Update',
               )}
-              // isEditModify={false}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
+              )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {
                 setModalConfirm({

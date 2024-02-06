@@ -279,7 +279,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>

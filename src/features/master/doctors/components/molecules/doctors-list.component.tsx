@@ -22,10 +22,8 @@ import {
   AutoCompleteSalesTerritory,
   AutoCompleteFilterSingleSelectPostalCode,
 } from '../index';
-import {
-  AutoCompleteCompanyList,
-  AutoCompleteFilterDeliveryMode,
-} from '@/core-components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+
 let dateCreation;
 let dateActive;
 let dateExpire;
@@ -62,12 +60,15 @@ let workLine;
 let status;
 let environment;
 let companyCode;
+
 interface DoctorsListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -107,7 +108,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
   nextDay.setDate(todayDate.getDate() + 1);
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div className={`${props.isView ? 'shown' : 'hidden'}`}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -1448,61 +1449,35 @@ export const DoctorsList = (props: DoctorsListProps) => {
             //   </>
             // ),
           },
-
           {
-            dataField: 'opration',
+            dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,
-            hidden: !props.isDelete,
+            // hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
                 <div className='flex flex-row'>
-                  <Tooltip tooltipText='Delete'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() =>
-                        props.onDelete &&
-                        props.onDelete({
-                          type: 'Delete',
-                          show: true,
-                          id: [row._id],
-                          title: 'Are you sure?',
-                          body: 'Delete item',
-                        })
-                      }
-                    >
-                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                    </Icons.IconContext>
-                  </Tooltip>
-                  {/* {row.status === 'A' && (
-                    <>
-                      <Tooltip className='ml-2' tooltipText='Version Upgrade'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onVersionUpgrade &&
-                            props.onVersionUpgrade(row)
-                          }
-                        >
-                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                        </Icons.IconContext>
-                      </Tooltip>
-                      <Tooltip className='ml-2' tooltipText='Duplicate'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onDuplicate && props.onDuplicate(row)
-                          }
-                        >
-                          {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                        </Icons.IconContext>
-                      </Tooltip>
-                    </>
-                  )} */}
+                  {props.isDelete && (
+                    <Tooltip tooltipText='Delete'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onDelete &&
+                          props.onDelete({
+                            type: 'Delete',
+                            show: true,
+                            id: [row._id],
+                            title: 'Are you sure?',
+                            body: 'Delete item',
+                          })
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
                   {row.status == 'D' && (
                     <Tooltip tooltipText='Approval'>
                       <Icons.RIcon
@@ -1526,7 +1501,8 @@ export const DoctorsList = (props: DoctorsListProps) => {
             },
           },
         ]}
-        isEditModify={props.isEditModify}
+        isEditModify={props.isUpdate}
+        isExport={props.isExport}
         isSelectRow={true}
         fileName='Doctors'
         onSelectedRow={rows => {
