@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Tooltip,
   Icons,
@@ -7,17 +7,18 @@ import {
   PageHeading,
   PageHeadingLabDetails,
 } from '@/library/components';
-import {useForm} from 'react-hook-form';
-import {pdf} from '@react-pdf/renderer';
+import { useForm } from 'react-hook-form';
+import { pdf } from '@react-pdf/renderer';
 import printjs from 'print-js';
 
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
-import {logos} from '@/library/assets';
+import { useStores } from '@/stores';
+import { logos } from '@/library/assets';
 
-import {ADCPdf, ADCMedicalReportPdf} from '../components';
+import { ADCPdf, ADCMedicalReportPdf } from '../components';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const ReportTemplate = observer(() => {
   const {
@@ -32,7 +33,7 @@ const ReportTemplate = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
   useEffect(() => {
@@ -60,10 +61,10 @@ const ReportTemplate = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
 
       <div className='flex'>
         <div className={'flex flex-row p-2 rounded-lg gap-4 flex-wrap '}>

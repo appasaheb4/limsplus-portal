@@ -1365,7 +1365,7 @@ export const LabList = (props: LabListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: 'Delete item',
+                            body: 'Do you want to delete this record?',
                           })
                         }
                       >

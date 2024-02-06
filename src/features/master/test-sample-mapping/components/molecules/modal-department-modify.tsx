@@ -44,9 +44,10 @@ export const ModalDepartmentModify = observer(
                   </div>
 
                   {/*body*/}
-                  <div className='relative ml-24 mr-24 p-2 flex-auto'>
+                  <div className='relative ml-18 mr-24 p-2 flex-auto'>
                     <div className='flex flex-row gap-4'>
                       <AutoCompleteFilterSingleSelectDepartment
+                        displayValue={localInput.name}
                         onSelect={item => {
                           setLocalInput({
                             ...localInput,
@@ -109,14 +110,7 @@ export const ModalDepartmentModify = observer(
                                       tatInMin,
                                     },
                                   ]);
-                              departments = _.map(departments, o =>
-                                _.pick(o, [
-                                  'code',
-                                  'name',
-                                  'prefrence',
-                                  'tatInMin',
-                                ]),
-                              );
+
                               setValues({
                                 ...values,
                                 departments,
@@ -144,22 +138,15 @@ export const ModalDepartmentModify = observer(
                             type='solid'
                             icon={Svg.Remove}
                             onClick={() => {
-                              const firstArr =
-                                values?.departments?.slice(0, index) || [];
-                              const secondArr =
-                                values?.departments?.slice(index + 1) || [];
-                              let finalArray = [...firstArr, ...secondArr];
-                              finalArray = _.map(finalArray, o =>
-                                _.pick(o, [
-                                  'code',
-                                  'name',
-                                  'prefrence',
-                                  'tatInMin',
-                                ]),
-                              );
-                              setValues({
-                                ...values,
-                                departments: finalArray,
+                              setValues(prevValues => {
+                                const updatedDepartments =
+                                  prevValues.departments.filter(
+                                    (_: any, i) => i !== index,
+                                  );
+                                return {
+                                  ...prevValues,
+                                  departments: updatedDepartments,
+                                };
                               });
                             }}
                           >

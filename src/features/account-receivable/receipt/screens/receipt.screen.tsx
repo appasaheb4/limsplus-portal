@@ -14,6 +14,7 @@ import { ModalReceiptShare } from '../../components';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Receipt = observer(() => {
   const { receiptStore, routerStore, loginStore } = useStores();
@@ -30,10 +31,10 @@ const Receipt = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       {/*  */}
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <ReceiptList

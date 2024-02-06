@@ -1105,7 +1105,6 @@ export const ExtraDataPatientVisitList = observer(
                 ),
               },
 
-             
               {
                 dataField: 'opration',
                 text: 'Action',
@@ -1126,7 +1125,7 @@ export const ExtraDataPatientVisitList = observer(
                               show: true,
                               id: [row._id],
                               title: 'Are you sure?',
-                              body: 'Delete item',
+                              body: 'Do you want to delete this record?',
                             })
                           }
                         >

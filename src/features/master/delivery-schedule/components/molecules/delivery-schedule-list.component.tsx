@@ -252,7 +252,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 return (
                   <>
                     {' '}
-                    <Form.Toggle
+                    <Form.DeliveryScheduleToggle
                       disabled={!editorCell(row)}
                       value={row.scheduleForPatAndDept}
                       onChange={scheduleForPatAndDept => {
@@ -307,7 +307,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'cutofTime',
-              text: 'Cutoff Time',
+              text: 'Cut-off Time',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -325,7 +325,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'secoundCutofTime',
-              text: 'Second Cutoff Time',
+              text: 'Second Cut-off Time',
               headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
@@ -339,7 +339,40 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                !row.secondCutoffTimeRequired && editorCell(row),
+            },
+            {
+              dataField: 'secondCutoffTimeRequired',
+              text: 'SecondCut off Time Required',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${
+                  row.secondCutoffTimeRequired
+                    ? row.secondCutoffTimeRequired
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.secondCutoffTimeRequired}
+                      onChange={secondCutoffTimeRequired => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            secondCutoffTimeRequired,
+                            'secondCutoffTimeRequired',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'processingType',
@@ -538,33 +571,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 );
               },
             },
-            {
-              dataField: 'secondCutoffTimeRequired',
-              text: 'SecondCut off Time Required',
-              sort: true,
-              editable: false,
-              csvFormatter: (col, row) =>
-                `${row.onTime ? (row.onTime ? 'Yes' : 'No') : 'No'}`,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {' '}
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.secondCutoffTimeRequired}
-                      onChange={secondCutoffTimeRequired => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            secondCutoffTimeRequired,
-                            'secondCutoffTimeRequired',
-                            row._id,
-                          );
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
+
             // {
             //   dataField: 'schForDept',
             //   text: 'Sch For Dept',
@@ -848,7 +855,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: 'Delete item',
+                            body: 'Do you want to delete this record?',
                           })
                         }
                       >

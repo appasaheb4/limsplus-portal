@@ -1349,7 +1349,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                             id: [row._id],
                             labId: [row.labId],
                             title: 'Are you sure?',
-                            body: 'Delete item',
+                            body: 'Do you want to delete this record?',
                           })
                         }
                       >

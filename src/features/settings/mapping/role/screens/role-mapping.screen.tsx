@@ -22,6 +22,7 @@ import { useStores } from '@/stores';
 
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -260,10 +261,10 @@ const RoleMapping = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
         <Buttons.ButtonCircleAddRemove
           show={hideAddRoleMapping}

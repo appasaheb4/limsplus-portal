@@ -75,7 +75,6 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
 
-
   return (
     <>
       <TableBootstrap
@@ -810,7 +809,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                           show: true,
                           id: [row._id],
                           title: 'Are you sure?',
-                          body: 'Delete item',
+                          body: 'Do you want to delete this record?',
                         })
                       }
                     >

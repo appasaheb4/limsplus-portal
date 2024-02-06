@@ -14,6 +14,7 @@ import {
 import dayjs from 'dayjs';
 import { useStores } from '@/stores';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 dayjs.extend(relativeTime);
 
 let userId;
@@ -33,10 +34,10 @@ const LoginActivity = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       <div className='mx-auto  flex-wrap'>
         <div className='p-2 rounded-lg shadow-xl overflow-auto'>
           <div style={{ position: 'relative' }}>
