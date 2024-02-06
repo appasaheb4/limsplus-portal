@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { useStores } from '@/stores';
 import { useHistory } from 'react-router-dom';
 import { RouterFlow } from '@/flows';
-import { AutocompleteSearchGroupBy } from '../../molecules/auto-complete-search-group-by/autocomplete-complete-search-group-by.component';
+import { AutocompleteSearch } from '../../molecules/auto-complete-search/autocomplete-search.component';
 
 const MainPageHeading = ({ sidebar, title, store }) => {
   const { routerStore } = useStores();
@@ -16,7 +16,7 @@ const MainPageHeading = ({ sidebar, title, store }) => {
 
         {!sidebar?.isOpen && (
           <div style={{ width: '50%' }}>
-            <AutocompleteSearchGroupBy
+            <AutocompleteSearch
               data={routerStore.userRouter}
               onChange={async (item: any, children: any) => {
                 const { permission, selectedComp } =

@@ -723,6 +723,68 @@ export const Toggle = (props: ToggleProps) => {
   );
 };
 
+export const DeliveryScheduleToggle = (props: ToggleProps) => {
+  const [toggle, setToggle] = useState(props.value);
+  const { onChange, disabled, className, isToggleLabel = true } = props;
+
+  useEffect(() => {
+    setToggle(props.value);
+  }, [props.value]);
+
+  const triggerToggle = () => {
+    if (disabled) {
+      return;
+    }
+    setToggle(!toggle);
+    if (typeof onChange === 'function') {
+      onChange(!toggle);
+    }
+  };
+
+  const toggleClasses = classNames(
+    'wrg-toggle ',
+    {
+      'wrg-toggle--checked': toggle,
+      'wrg-toggle--disabled': disabled,
+    },
+    className,
+  );
+
+  return (
+    <InputWrapper label={props.label} id={props.id} style={props.style}>
+      <div onClick={triggerToggle} className={toggleClasses}>
+        <div
+          className={
+            'wrg-toggle-container ' +
+            (toggle ? 'bg-green-700' : 'bg-black dark:bg-white')
+          }
+        >
+          {isToggleLabel && (
+            <>
+              <div className='wrg-toggle-check'>
+                <span className='text-white ml-1'>Dept</span>
+              </div>
+              <div className='wrg-toggle-uncheck'>
+                <span className='dark:text-black'>Pat</span>
+              </div>
+            </>
+          )}
+        </div>
+        <div
+          className={`wrg-toggle-circle  dark:bg-black ${
+            toggle ? 'ml-1' : 'mr-1'
+          }  `}
+        ></div>
+        <input
+          type='checkbox'
+          aria-label='Toggle Button'
+          className='wrg-toggle-input'
+        />
+      </div>
+    </InputWrapper>
+  );
+};
+
 interface ClockProps extends InputWrapperProps {
   value?: any;
   disable?: boolean;

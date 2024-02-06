@@ -318,7 +318,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Clock
-                        label='Cutoff Time'
+                        label='Cut-off Time'
                         hasError={!!errors.cutofTime}
                         value={value}
                         onChange={cutofTime => {
@@ -342,7 +342,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                           deliveryScheduleStore.deliverySchedule
                             .secondCutoffTimeRequired
                         }
-                        label='Second Cutoff Time'
+                        label='Second Cut-off Time'
                         hasError={!!errors.secoundCutofTime}
                         value={value}
                         onChange={secoundCutofTime => {
@@ -887,7 +887,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
+                        <Form.DeliveryScheduleToggle
                           hasError={!!errors.secondCutoffTimeRequired}
                           label='Schedule For Pat/Dept'
                           value={value}

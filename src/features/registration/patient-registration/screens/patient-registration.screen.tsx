@@ -8,7 +8,9 @@ import {
   Tooltip,
   Form,
   Tabs,
+  AutocompleteSearch,
 } from '@/library/components';
+import { useHistory } from 'react-router-dom';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 import { icons } from '@/library/assets';
@@ -24,6 +26,8 @@ import { useStores } from '@/stores';
 import { stores } from '@/stores';
 import { FileImportExport } from './import-from-file.screen';
 import FileSaver from 'file-saver';
+import { RouterFlow } from '@/flows';
+import { connect } from 'react-redux';
 
 export const patientRegistrationOptions = [
   { title: 'PATIENT MANAGER' },
@@ -34,7 +38,7 @@ export const patientRegistrationOptions = [
   { title: 'PATIENT SAMPLE' },
 ];
 
-const PatientRegistration = observer(() => {
+const PatientRegistration = observer(({ sidebar }) => {
   const {
     loading,
     loginStore,
@@ -46,11 +50,12 @@ const PatientRegistration = observer(() => {
     patientResultStore,
     patientSampleStore,
     importFromFileStore,
+    routerStore,
   } = useStores();
   const [reload, setReload] = useState(false);
   const [isImport, setIsImport] = useState<boolean>(false);
   const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
-
+  const history = useHistory();
   useEffect(() => {
     setReload(!reload);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -95,6 +100,26 @@ const PatientRegistration = observer(() => {
                 title={stores.routerStore.selectedComponents?.title || ''}
               />
             </div>
+            <div style={{ width: '50%' }}>
+              {!sidebar.isOpen && (
+                <>
+                  <AutocompleteSearch
+                    data={routerStore.userRouter}
+                    onChange={async (item: any, children: any) => {
+                      const { permission, selectedComp } =
+                        await RouterFlow.updateSelectedCategory(
+                          item?.name,
+                          children?.name,
+                        );
+                      routerStore.updateSelectedComponents(selectedComp);
+                      routerStore.updateUserPermission(permission);
+                      history.replace(children.path);
+                    }}
+                  />
+                </>
+              )}
+            </div>
+
             <PageHeadingLabDetails store={loginStore} />
           </div>
         </div>
@@ -358,4 +383,6 @@ const PatientRegistration = observer(() => {
     </>
   );
 });
-export default PatientRegistration;
+export default connect((store: any) => ({
+  sidebar: store.sidebar,
+}))(PatientRegistration);
