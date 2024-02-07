@@ -343,7 +343,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'secondCutoffTimeRequired',
-              text: 'SecondCut off Time Required',
+              text: 'Second Cut-off Time Required',
               sort: true,
               editable: false,
               csvFormatter: (col, row) =>
