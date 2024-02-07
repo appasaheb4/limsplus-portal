@@ -120,7 +120,7 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Test',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader3',
             },
             {
               dataField: 'analyte',
@@ -376,7 +376,7 @@ export const ResultList = (props: ResultListProps) => {
             },
             {
               dataField: 'Result Status',
-              text: 'resultStatus',
+              text: 'Result Status',
               sort: true,
               editable: false,
             },
@@ -391,6 +391,7 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Approval Date',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader',
               formatter: (cell, row) => {
                 return row.approvalDate
                   ? dayjs(row.approvalDate).format('DD-MM-YYYY HH:mm:ss')
