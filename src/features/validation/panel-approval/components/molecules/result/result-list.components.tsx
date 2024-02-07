@@ -53,6 +53,8 @@ export const ResultList = (props: ResultListProps) => {
   const [localData, setLocalData] = useState(props.data);
   const [selectedRowId, setSelectedRowId] = useState('');
   const [widthRefBox, setWidthRefBox] = useState('20px');
+  const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
+  const [conclusionId, setWidthConculsionId] = useState('');
 
   useEffect(() => {
     const filterDataByHoldRecord = (data, holdRecord) => {
@@ -103,7 +105,7 @@ export const ResultList = (props: ResultListProps) => {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               filter: customFilter({
                 getFilter: filter => {
                   labId = filter;
@@ -118,20 +120,20 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Test',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeader1',
             },
             {
               dataField: 'analyte',
               text: 'Analyte',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderl',
+              headerClasses: 'textHeader1',
             },
             {
               dataField: 'result',
               text: 'Result',
               sort: true,
-              headerClasses: 'textHeaderl',
+              // headerClasses: 'textHeaderl',
               editorRenderer: (
                 editorProps,
                 value,
@@ -265,28 +267,61 @@ export const ResultList = (props: ResultListProps) => {
             {
               dataField: 'conclusion',
               text: 'Conclusion',
-              headerClasses: 'textHeader',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.MultilineInput
-                    rows={3}
-                    placeholder='Conclusion'
-                    onBlur={conclusion => {
-                      props.onUpdateFields &&
-                        props.onUpdateFields({ conclusion }, row._id);
-                    }}
-                    defaultValue={row?.conclusion}
-                  />
-                </>
-              ),
+              editable: false,
+              style: { width: widthConculsionBox },
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-col'>
+                    <Tooltip
+                      tooltipText={
+                        row._id != conclusionId ? 'Expand' : 'Collapse'
+                      }
+                    >
+                      <Icons.IconContext
+                        color='#000000'
+                        size='20'
+                        onClick={() => {
+                          if (row._id === conclusionId) {
+                            setWidthConculsionId('');
+                            setWidthConculsionBox('30px');
+                          } else {
+                            setWidthConculsionId(row._id);
+                            setWidthConculsionBox('200px');
+                          }
+                        }}
+                      >
+                        {Icons.getIconTag(
+                          row._id != conclusionId
+                            ? Icons.IconBi.BiExpand
+                            : Icons.IconBi.BiCollapse,
+                        )}
+                      </Icons.IconContext>
+                    </Tooltip>
+
+                    {row._id === conclusionId && (
+                      <div style={{ width: widthConculsionBox }}>
+                        <Form.MultilineInput
+                          rows={3}
+                          placeholder='Conclusion'
+                          className='text-black'
+                          onBlur={conclusion => {
+                            props.onUpdateFields &&
+                              props.onUpdateFields(
+                                { conclusion, updateField: 'conclusion' },
+                                row._id,
+                              );
+                            setWidthConculsionId('');
+                            setWidthConculsionBox('30px');
+                          }}
+                          defaultValue={row?.conclusion}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              },
             },
+
             {
               dataField: 'abnFlag',
               text: 'Abn Flag',
@@ -340,7 +375,7 @@ export const ResultList = (props: ResultListProps) => {
               editable: false,
             },
             {
-              dataField: 'resultStatus',
+              dataField: 'Result Status',
               text: 'resultStatus',
               sort: true,
               editable: false,
@@ -380,7 +415,7 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Final',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderl',
+              // headerClasses: 'textHeaderl',
             },
             {
               dataField: 'enteredBy',
@@ -424,9 +459,15 @@ export const ResultList = (props: ResultListProps) => {
                       {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
                     </Icons.IconContext>
                   </Tooltip>
-                  <Tooltip tooltipText='Rejected'>
+
+                  <Tooltip
+                    tooltipText={`${
+                      row?.approvalStatus === 'Rejected' ? 'Unhold' : 'Hold'
+                    }`}
+                    position='bottom'
+                  >
                     <Icons.IconContext
-                      color='#fff'
+                      color={'#ffffff'}
                       size='20'
                       onClick={() => {
                         props.onUpdateFields &&
@@ -436,7 +477,7 @@ export const ResultList = (props: ResultListProps) => {
                           );
                       }}
                     >
-                      {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
+                      {Icons.getIconTag(Icons.Iconmd.MdBackHand)}
                     </Icons.IconContext>
                   </Tooltip>
 

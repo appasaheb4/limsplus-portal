@@ -79,6 +79,7 @@ const TestPanelMapping = TestPanelMappingHoc(
       },
     ]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isDuplicateRecord, setIsDuplicateRecord] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -192,6 +193,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   Toast.success({
                     message: `😊 ${res.duplicateTestPanelMappings.message}`,
                   });
+                  setIsDuplicateRecord(false);
                 }
               });
           }
@@ -573,7 +575,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           <AutoCompleteFilterSingleSelectPanelCode
                             hasError={!!errors.panelCode}
                             displayValue={value}
-                            disable={isVersionUpgrade}
+                            disable={isVersionUpgrade || isDuplicateRecord}
                             lab={testPanelMappingStore.testPanelMapping?.lab}
                             onSelect={item => {
                               onChange(item.panelName);
@@ -668,7 +670,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
-                            disable={isVersionUpgrade}
+                            // disable={isVersionUpgrade}
                             data={{
                               list:
                                 testMasterStore.listTestMaster.filter(
@@ -1468,6 +1470,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     dateExpire: new Date(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
+                    reportOrder: [],
                   });
                   setIsInputView(true);
                   setIsVersionUpgrade(true);
@@ -1491,6 +1494,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     ),
                   });
                   setIsInputView(true);
+                  setIsDuplicateRecord(true);
                   break;
                 }
               }

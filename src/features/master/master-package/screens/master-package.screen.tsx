@@ -552,7 +552,7 @@ const MasterPackage = MasterPackageHOC(
                         >
                           <ServiceType
                             value={value}
-                            disable={isVersionUpgrade}
+                            disable={isVersionUpgrade || duplicateRecord}
                             isError={!!errors.serviceType}
                             onUpdate={serviceItem => {
                               onChange(serviceItem.code);
@@ -580,7 +580,7 @@ const MasterPackage = MasterPackageHOC(
                         >
                           <select
                             value={value}
-                            disabled={isVersionUpgrade}
+                            disabled={isVersionUpgrade || duplicateRecord}
                             className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                               errors.packageCode
                                 ? 'border-red'
@@ -1459,7 +1459,7 @@ const MasterPackage = MasterPackageHOC(
                     ),
                   });
                   setIsInputView(true);
-                  setIsVersionUpgrade(false);
+                  setIsVersionUpgrade(true);
                   break;
                 }
                 case 'duplicate': {

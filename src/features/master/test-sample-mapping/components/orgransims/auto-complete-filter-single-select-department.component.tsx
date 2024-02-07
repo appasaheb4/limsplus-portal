@@ -15,7 +15,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
     onSelect,
   }: AutoCompleteFilterSingleSelectDepartmentProps) => {
     const { loading, departmentStore } = useStores();
-    const [value, setValue] = useState<string>(displayValue);
+    const [value, setValue] = useState<string>();
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -36,8 +36,14 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
           document.removeEventListener('mousedown', handleClickOutside);
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [ref, isListOpen, displayValue]);
+      }, [ref, isListOpen]);
     };
+
+    useEffect(() => {
+      if (displayValue === '') {
+        setValue('');
+      }
+    }, [displayValue]);
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);
