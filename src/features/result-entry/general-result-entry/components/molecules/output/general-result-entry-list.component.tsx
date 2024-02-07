@@ -41,7 +41,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [selectedRowId, setSelectedRowId] = useState('');
   const [refRangeRowId, setRefRangleRowId] = useState('');
   const [widthRefBox, setWidthRefBox] = useState('20px');
-  const [isOpen, seIsOpen] = useState(false);
+  const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -88,7 +88,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   <>
                     <img
                       src={row.sex == 'M' ? icons.male : icons.female}
-                      style={{ width: 50, height: 40 }}
+                      style={{ width: 60, height: 40 }}
                       alt='male'
                     />
                   </>
@@ -99,6 +99,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'analyteCode',
               text: 'Analyte Code - Name',
               editable: false,
+              headerClasses: 'textHeader',
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
@@ -110,7 +111,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              headerClasses: 'textHeader',
+              // headerClasses: 'textHeader',
               editable: (content, row, rowIndex, columnIndex) =>
                 row.approvalStatus == 'P' ? true : false,
               formatter: (cellContent, row) => (
@@ -208,41 +209,57 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               ),
             },
             {
-              dataField: 'refRangesList',
-              text: 'Ref Ranges',
+              dataField: 'normalRange',
+              text: 'Normal Range',
               sort: true,
               editable: false,
               style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (
-                  <div className='flex flex-col'>
-                    {row.refRangesList?.length > 0 && (
-                      <Tooltip
-                        tooltipText={
-                          row._id != refRangeRowId ? 'Expand' : 'Collapse'
-                        }
-                      >
-                        <Icons.IconContext
-                          color='#000000'
-                          size='20'
-                          onClick={() => {
-                            if (row._id === refRangeRowId) {
-                              setRefRangleRowId('');
-                              setWidthRefBox('30px');
-                            } else {
-                              setRefRangleRowId(row._id);
-                              setWidthRefBox('550px');
+                  <>
+                    <div className='flex flex-row gap-4'>
+                      <span>
+                        {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
+                        (row.loNor === ' ' && row.hiNor === ' ')
+                          ? '-'
+                          : row.loNor === 'NaN' && row.hiNor === ' '
+                          ? '<'
+                          : row.loNor === ' ' && row.hiNor === 'NaN'
+                          ? '>'
+                          : row.loNor + '-' + row.hiNor}
+                      </span>
+                      <div>
+                        {row.refRangesList?.length > 0 && (
+                          <Tooltip
+                            tooltipText={
+                              row._id != refRangeRowId
+                                ? 'Expand Reference Range'
+                                : 'Collapse Reference Range'
                             }
-                          }}
-                        >
-                          {Icons.getIconTag(
-                            row._id != refRangeRowId
-                              ? Icons.IconBi.BiExpand
-                              : Icons.IconBi.BiCollapse,
-                          )}
-                        </Icons.IconContext>
-                      </Tooltip>
-                    )}
+                          >
+                            <Icons.IconContext
+                              color='#000000'
+                              size='20'
+                              onClick={() => {
+                                if (row._id === refRangeRowId) {
+                                  setRefRangleRowId('');
+                                  setWidthRefBox('30px');
+                                } else {
+                                  setRefRangleRowId(row._id);
+                                  setWidthRefBox('550px');
+                                }
+                              }}
+                            >
+                              {Icons.getIconTag(
+                                row._id != refRangeRowId
+                                  ? Icons.IconBi.BiExpand
+                                  : Icons.IconBi.BiCollapse,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                      </div>
+                    </div>
                     {refRangeRowId == row._id ? (
                       <div style={{ width: widthRefBox }}>
                         <RefRangesExpandList
@@ -294,16 +311,15 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         />
                       </div>
                     ) : null}
-                  </div>
+                  </>
                 );
               },
             },
             {
               dataField: 'conclusion',
               text: 'Conclusion',
-              headerClasses: 'textHeader',
               editable: false,
-              style: { width: widthRefBox },
+              style: { width: widthConculsionBox },
               formatter: (cell, row) => {
                 return (
                   <div className='flex flex-col'>
@@ -318,12 +334,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         onClick={() => {
                           if (row._id === selectedRowId) {
                             setSelectedRowId('');
-                            setWidthRefBox('30px');
-                            seIsOpen(true);
+                            setWidthConculsionBox('30px');
                           } else {
                             setSelectedRowId(row._id);
-                            setWidthRefBox('200px');
-                            seIsOpen(false);
+                            setWidthConculsionBox('200px');
                           }
                         }}
                       >
@@ -336,7 +350,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     </Tooltip>
 
                     {row._id === selectedRowId && (
-                      <div style={{ width: widthRefBox }}>
+                      <div style={{ width: widthConculsionBox }}>
                         <Form.MultilineInput
                           rows={3}
                           placeholder='Conclusion'
@@ -348,7 +362,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                 row._id,
                               );
                             setSelectedRowId('');
-                            setWidthRefBox('30px');
+                            setWidthConculsionBox('30px');
                           }}
                           defaultValue={row?.conclusion}
                         />
@@ -358,26 +372,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 );
               },
             },
-            {
-              dataField: 'normalRange',
-              text: 'Normal Range',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <span>
-                    {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
-                    (row.loNor === ' ' && row.hiNor === ' ')
-                      ? '-'
-                      : row.loNor === 'NaN' && row.hiNor === ' '
-                      ? '<'
-                      : row.loNor === ' ' && row.hiNor === 'NaN'
-                      ? '>'
-                      : row.loNor + '-' + row.hiNor}
-                  </span>
-                );
-              },
-            },
+
             {
               dataField: 'units',
               text: 'Units',
@@ -436,6 +431,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'resultDate',
               text: 'Result Date',
               editable: false,
+              // headerClasses: 'textHeader',
               formatter: (cell, row) => {
                 return (
                   <>{dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}</>
@@ -446,6 +442,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'testCode',
               text: 'Test Code - Name',
               editable: false,
+              headerClasses: 'textHeader',
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
@@ -549,13 +546,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Environment',
               dataField: 'environment',
               editable: false,
-              headerClasses: 'textHeader2',
+              // headerClasses: 'textHeader2',
             },
             {
               text: 'Company Code',
               dataField: 'companyCode',
               editable: false,
-              headerClasses: 'textHeader2',
+              // headerClasses: 'textHeader2',
             },
 
             {

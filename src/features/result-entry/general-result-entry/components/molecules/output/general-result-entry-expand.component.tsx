@@ -358,11 +358,12 @@ export const GeneralResultEntryExpand = ({
     { code: 'C', value: 'Recheck', color: 'yellow' },
     { code: 'T', value: 'Retest', color: 'green' },
     { code: 'D', value: 'Done', color: 'purple' },
+    { code: '', value: 'All', color: 'red' },
   ];
 
   const testStatus = [
     { code: 'N', value: 'Normal', color: 'blue' },
-    { code: 'A', value: 'AbNormal', color: 'yellow' },
+    { code: 'A', value: 'Abnormal', color: 'yellow' },
     { code: 'C', value: 'Critical', color: 'green' },
   ];
 
@@ -395,8 +396,8 @@ export const GeneralResultEntryExpand = ({
         >
           {props => (
             <div>
-              <div className='flex items-center flex-wrap justify-between'>
-                <div className='w-3/4 flex align-middle items-center'>
+              <div className='flex flex-row items-center flex-wrap justify-between'>
+                <div className='w-2/3 flex align-middle items-center'>
                   <ExportCSVButton
                     className={
                       'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'

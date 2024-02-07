@@ -25,6 +25,39 @@ export const ModalDepartmentModify = observer(
       });
     }, [props]);
 
+    const handleAddDepartment = () => {
+      const { code, name, prefrence, tatInMin } = localInput;
+
+      // Check if any of the input fields are empty
+      if (!code || !name || !prefrence || !tatInMin) {
+        alert('Please fill in all fields.');
+        return;
+      }
+
+      // Add the new department to the array
+      let updatedDepartments: any = [];
+      if (values.departments !== undefined) {
+        updatedDepartments = [
+          ...values.departments,
+          { code, name, prefrence, tatInMin },
+        ];
+      } else {
+        updatedDepartments = [{ code, name, prefrence, tatInMin }];
+      }
+
+      setValues({
+        ...values,
+        departments: updatedDepartments,
+      });
+
+      // Clear the input fields
+      setLocalInput({
+        code: '',
+        name: '',
+        prefrence: '',
+        tatInMin: '',
+      });
+    };
     return (
       <Container>
         {showModal && (
@@ -44,7 +77,7 @@ export const ModalDepartmentModify = observer(
                   </div>
 
                   {/*body*/}
-                  <div className='relative ml-18 mr-24 p-2 flex-auto'>
+                  <div className='relative ml-20 mr-20 p-2 flex-auto'>
                     <div className='flex flex-row gap-4'>
                       <AutoCompleteFilterSingleSelectDepartment
                         displayValue={localInput.name}
@@ -82,47 +115,7 @@ export const ModalDepartmentModify = observer(
                         <Buttons.Button
                           size='medium'
                           type='solid'
-                          onClick={() => {
-                            const code = localInput?.code;
-                            const name = localInput?.name;
-                            const prefrence = localInput?.prefrence;
-                            const tatInMin = localInput?.tatInMin;
-                            let departments = props.departments || [];
-                            if (
-                              code === undefined ||
-                              prefrence === undefined ||
-                              tatInMin === undefined
-                            )
-                              return alert('Please enter value and code.');
-                            if (code !== undefined) {
-                              departments !== undefined
-                                ? departments.push({
-                                    code,
-                                    name,
-                                    prefrence,
-                                    tatInMin,
-                                  })
-                                : (departments = [
-                                    {
-                                      code,
-                                      name,
-                                      prefrence,
-                                      tatInMin,
-                                    },
-                                  ]);
-
-                              setValues({
-                                ...values,
-                                departments,
-                              });
-                              setLocalInput({
-                                code: '',
-                                name: '',
-                                prefrence: '',
-                                tatInMin: '',
-                              });
-                            }
-                          }}
+                          onClick={handleAddDepartment}
                         >
                           <Icons.EvaIcon icon='plus-circle-outline' />
                           {'Add'}

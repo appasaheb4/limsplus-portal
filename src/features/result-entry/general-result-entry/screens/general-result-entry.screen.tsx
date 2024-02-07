@@ -123,10 +123,31 @@ const GeneralResultEntry = observer(() => {
               });
           }}
           onFilterFinishResult={async finishResult => {
-            generalResultEntryStore.updateFilterGeneralResEntry({
-              ...generalResultEntryStore.filterGeneralResEntry,
-              finishResult,
-            });
+            if (finishResult === '') {
+              generalResultEntryStore.updateFilterGeneralResEntry({
+                ...generalResultEntryStore.filterGeneralResEntry,
+                pLab: '',
+                departement: '',
+                testStatus: '',
+                resultStatus: '',
+                testCode: '',
+                analyteCode: '',
+                labId: '',
+                finishResult: '',
+              });
+              patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+                {
+                  pLab: loginStore.login?.lab,
+                  testCode:
+                    generalResultEntryStore.filterGeneralResEntry?.testCode,
+                  finishResult: 'P',
+                },
+              );
+            } else
+              generalResultEntryStore.updateFilterGeneralResEntry({
+                ...generalResultEntryStore.filterGeneralResEntry,
+                finishResult,
+              });
             const input = _.pickBy(
               {
                 ...generalResultEntryStore.filterGeneralResEntry,

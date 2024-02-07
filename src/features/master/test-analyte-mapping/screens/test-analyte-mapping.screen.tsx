@@ -65,6 +65,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isDuplicateRecord, setIsDuplicateRecord] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -174,6 +175,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                   Toast.success({
                     message: `😊 ${res.duplicateTestAnalyteMappings.message}`,
                   });
+                  setIsDuplicateRecord(false);
                 }
               });
           }
@@ -490,8 +492,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                               loader={loading}
                               placeholder='Search by name'
                               disable={
-                                loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
+                                isVersionUpgrade
+                                  ? true
+                                  : loginStore.login &&
+                                    loginStore.login.role !== 'SYSADMIN'
                                   ? true
                                   : false
                               }
@@ -608,7 +612,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                             lab={
                               testAnalyteMappingStore.testAnalyteMapping?.lab
                             }
-                            // isDisabled={isVersionUpgrade}
+                            isDisabled={isVersionUpgrade || isDuplicateRecord}
                             hasError={!!errors.testName}
                             onSelect={item => {
                               onChange(item.testName);
@@ -1824,6 +1828,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                     ),
                   });
                   setInputView(true);
+                  setIsDuplicateRecord(true);
                   setValue('analyteCode', [modalConfirm.data?.analyteCode]);
                   testAnalyteMappingStore.updateSelectedItems({
                     ...testAnalyteMappingStore.selectedItems,
