@@ -16,8 +16,10 @@ interface InstResultMappingListProps {
   data: any;
   extraData: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItems?: (value: any, id: string) => void;
@@ -60,7 +62,7 @@ export const InstResultMappingList = observer(
     const [pLabDetails, setPLabDetails] = useState<any>();
 
     return (
-      <>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -521,40 +523,6 @@ export const InstResultMappingList = observer(
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <select
-              //       value={row.environment}
-              //       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-              //       onChange={e => {
-              //         const environment = e.target.value;
-              //         onUpdateItems &&
-              //           onUpdateItems(
-              //             {
-              //               environment,
-              //             },
-              //             row._id,
-              //           );
-              //       }}
-              //     >
-              //       <option selected>Select</option>
-              //       {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
-              //         (item: any, index: number) => (
-              //           <option key={index} value={item.code}>
-              //             {lookupValue(item)}
-              //           </option>
-              //         ),
-              //       )}
-              //     </select>
-              //   </>
-              // ),
             },
             {
               dataField: 'operation',
@@ -564,24 +532,26 @@ export const InstResultMappingList = observer(
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() => {
-                          props.onDelete &&
-                            props.onDelete({
-                              type: 'delete',
-                              show: true,
-                              id: [row._id],
-                              title: 'Are you sure delete record? ',
-                              body: 'Delete selected items!',
-                            });
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
+                    {props.isDelete && (
+                      <Tooltip tooltipText='Delete'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() => {
+                            props.onDelete &&
+                              props.onDelete({
+                                type: 'delete',
+                                show: true,
+                                id: [row._id],
+                                title: 'Are you sure delete record? ',
+                                body: 'Delete selected items!',
+                              });
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
                   </div>
                 </>
               ),
@@ -596,7 +566,8 @@ export const InstResultMappingList = observer(
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Instrument Result Mapping'
           onSelectedRow={rows => {
@@ -632,7 +603,7 @@ export const InstResultMappingList = observer(
           dynamicStylingFields={[]}
           hideExcelSheet={['operation', '_id', 'key']}
         />
-      </>
+      </div>
     );
   },
 );

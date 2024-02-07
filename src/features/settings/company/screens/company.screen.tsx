@@ -1420,13 +1420,21 @@ const Company = CompanyHoc(
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
+              isUpdate={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Update',
+              )}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
               )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {

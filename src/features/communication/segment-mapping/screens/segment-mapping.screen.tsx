@@ -23,7 +23,6 @@ import {
 import { useForm } from 'react-hook-form';
 import { SegmentMappingHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetSegmentMapping } from '../startup';
@@ -252,13 +251,21 @@ const SegmentMapping = SegmentMappingHoc(
             lookupItems: routerStore.lookupItems,
             arrInstType,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {

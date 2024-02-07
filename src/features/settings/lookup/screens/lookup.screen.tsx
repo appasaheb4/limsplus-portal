@@ -16,10 +16,8 @@ import { ModalLookupValuesModify } from '../components';
 import _ from 'lodash';
 import { dashboardRouter as dashboardRoutes } from '@/routes';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 let router = dashboardRoutes;
-
 import { DocumentSettings } from './document-setting.screen';
 import { GeneralField } from './general-field.screen';
 import { toJS } from 'mobx';
@@ -167,9 +165,21 @@ const Lookup = observer(() => {
                 updateLookup: lookupStore.updateLookup,
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Delete',
+              )}
+              isUpdate={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Update',
+              )}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
               )}
               onUpdateValues={(item, id) => {
                 setModalLookupValuesModify({
@@ -179,10 +189,6 @@ const Lookup = observer(() => {
                   id,
                 });
               }}
-              isEditModify={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Update',
-              )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {
                 setModalConfirm({

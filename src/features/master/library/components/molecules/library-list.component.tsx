@@ -41,8 +41,12 @@ interface LibraryListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
+  isVersionUpgrade?: boolean;
+  isDuplicate?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (fields: any, id: string) => void;
@@ -76,7 +80,7 @@ export const LibraryList = (props: LibraryListProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -648,25 +652,6 @@ export const LibraryList = (props: LibraryListProps) => {
                 },
               }),
               headerClasses: 'textHeader2',
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <AutoCompleteCompanyList
-              //       isLabel={false}
-              //       hasError={false}
-              //       onSelect={companyCode => {
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem({ companyCode }, row._id);
-              //       }}
-              //     />
-              //   </>
-              // ),
             },
             {
               dataField: 'environment',
@@ -684,41 +669,9 @@ export const LibraryList = (props: LibraryListProps) => {
                   environment = filter;
                 },
               }),
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <select
-              //       value={row.environment}
-              //       className={
-              //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
-              //       }
-              //       onChange={e => {
-              //         const environment = e.target.value;
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem({ environment }, row._id);
-              //       }}
-              //     >
-              //       <option selected>Select</option>
-              //       {lookupItems(
-              //         props.extraData?.lookupItems,
-              //         'ENVIRONMENT',
-              //       ).map((item: any, index: number) => (
-              //         <option key={index} value={item.code}>
-              //           {lookupValue(item)}
-              //         </option>
-              //       ))}
-              //     </select>
-              //   </>
-              // ),
             },
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,
@@ -726,49 +679,57 @@ export const LibraryList = (props: LibraryListProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row gap-2'>
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'Delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Delete item',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
+                    {props.isDelete && (
+                      <Tooltip tooltipText='Delete'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onDelete &&
+                            props.onDelete({
+                              type: 'Delete',
+                              show: true,
+                              id: [row._id],
+                              title: 'Are you sure?',
+                              body: 'Delete item',
+                            })
+                          }
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
                     {row.status === 'A' && (
                       <>
-                        <Tooltip tooltipText='Version Upgrade'>
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onVersionUpgrade &&
-                              props.onVersionUpgrade(row)
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                          </Icons.IconContext>
-                        </Tooltip>
-                        <Tooltip tooltipText='Duplicate'>
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onDuplicate && props.onDuplicate(row)
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                          </Icons.IconContext>
-                        </Tooltip>
+                        {props.isVersionUpgrade && (
+                          <Tooltip tooltipText='Version Upgrade'>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() =>
+                                props.onVersionUpgrade &&
+                                props.onVersionUpgrade(row)
+                              }
+                            >
+                              {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                        {props.isDuplicate && (
+                          <Tooltip tooltipText='Duplicate'>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() =>
+                                props.onDuplicate && props.onDuplicate(row)
+                              }
+                            >
+                              {Icons.getIconTag(
+                                Icons.Iconio5.IoDuplicateOutline,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
                       </>
                     )}
                     {row.status == 'D' && (
@@ -794,7 +755,8 @@ export const LibraryList = (props: LibraryListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Library'
           onSelectedRow={rows => {
@@ -835,7 +797,6 @@ export const LibraryList = (props: LibraryListProps) => {
             'environment',
           ]}
         />
-
         <ModalDetails
           {...modalDetails}
           onUpdate={details => {
