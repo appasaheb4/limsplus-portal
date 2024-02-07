@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { useForm, Controller } from 'react-hook-form';
-
 import {
   Toast,
   Grid,
@@ -13,8 +12,6 @@ import {
   Icons,
   Svg,
 } from '@/library/components';
-import { lookupItems, lookupValue } from '@/library/utils';
-
 import { dashboardRouter as dashboardRoutes } from '@/routes';
 const router = dashboardRoutes;
 import { GeneralFieldHoc } from '../hoc';
@@ -37,6 +34,7 @@ export const GeneralField = GeneralFieldHoc(
       setValue,
       reset,
     } = useForm();
+
     const onSubmitGeneralFiled = (data: any) => {
       lookupStore.LookupService.generalSettingsUpdate({
         input: {
@@ -327,52 +325,6 @@ export const GeneralField = GeneralFieldHoc(
               rules={{ required: false }}
               defaultValue=''
             />
-
-            {/* <Controller
-              control={control}
-              render={({ field: { onChange, value } }) => (
-                <Form.InputWrapper
-                  label='Environment'
-                  hasError={!!errors.environment}
-                >
-                  <select
-                    value={value}
-                    className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.environment ? 'border-red' : 'border-gray-300'
-                    } rounded-md`}
-                    disabled={
-                      loginStore.login && loginStore.login.role !== 'SYSADMIN'
-                        ? true
-                        : false
-                    }
-                    onChange={e => {
-                      const environment = e.target.value;
-                      onChange(environment);
-                      lookupStore.updateGlobalSettings({
-                        ...lookupStore.globalSettings,
-                        environment,
-                      });
-                    }}
-                  >
-                    <option selected>
-                      {loginStore.login && loginStore.login.role !== 'SYSADMIN'
-                        ? 'Select'
-                        : lookupStore.globalSettings?.environment || 'Select'}
-                    </option>
-                    {lookupItems(routerStore.lookupItems, 'ENVIRONMENT').map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ),
-                    )}
-                  </select>
-                </Form.InputWrapper>
-              )}
-              name='environment'
-              rules={{ required: true }}
-              defaultValue=''
-            /> */}
           </List>
         </Grid>
         <br />

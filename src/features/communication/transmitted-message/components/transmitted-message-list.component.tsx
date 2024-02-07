@@ -9,7 +9,6 @@ import {
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
-
 import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 
@@ -17,8 +16,10 @@ interface TransmittedMessageListProps {
   data: any;
   extraData: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItems?: (value: any, id: string) => void;
@@ -64,7 +65,7 @@ export const TransmittedMessageList = observer(
     }, [selectedRowId, props.data]);
 
     return (
-      <>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={list}
@@ -319,7 +320,8 @@ export const TransmittedMessageList = observer(
               }),
             },
           ]}
-          isEditModify={props.isEditModify}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           isDelete={props.isDelete}
           fileName='Transmitted Message'
@@ -352,7 +354,7 @@ export const TransmittedMessageList = observer(
           hideExcelSheet={['_id']}
           dynamicStylingFields={[]}
         />
-      </>
+      </div>
     );
   },
 );
