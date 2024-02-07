@@ -90,8 +90,8 @@ export const TableBootstrap = ({
     { code: 'Recheck', value: 'Recheck', color: 'yellow' },
     { code: 'Retest', value: 'Retest', color: 'orange' },
     { code: 'Hold', value: 'Hold', color: 'indigo' },
-    { code: 'Recall', value: 'Recall', color: 'gray' },
     { code: '', value: 'All', color: 'red' },
+    { code: 'Recall', value: 'Recall', color: 'gray' },
   ];
 
   const sizePerPageRenderer = ({
