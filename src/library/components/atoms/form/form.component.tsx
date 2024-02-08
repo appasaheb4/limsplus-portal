@@ -2,6 +2,7 @@ import React, { useState, useEffect, Ref } from 'react';
 import { ModalClock } from '../..';
 import dayjs from 'dayjs';
 import '../css/toggle.css';
+import '../css/toggle-2.css';
 import classNames from 'classnames';
 import DateTimePicker from 'react-datetime-picker';
 import '../css/date-time-picker.css';
@@ -742,10 +743,10 @@ export const DeliveryScheduleToggle = (props: ToggleProps) => {
   };
 
   const toggleClasses = classNames(
-    'wrg-toggle ',
+    'wrg-toggle1 ',
     {
-      'wrg-toggle--checked': toggle,
-      'wrg-toggle--disabled': disabled,
+      'wrg-toggle--checked1': toggle,
+      'wrg-toggle--disabled1': disabled,
     },
     className,
   );
@@ -755,30 +756,30 @@ export const DeliveryScheduleToggle = (props: ToggleProps) => {
       <div onClick={triggerToggle} className={toggleClasses}>
         <div
           className={
-            'wrg-toggle-container ' +
+            'wrg-toggle-container1 ' +
             (toggle ? 'bg-green-700' : 'bg-black dark:bg-white')
           }
         >
           {isToggleLabel && (
             <>
-              <div className='wrg-toggle-check'>
+              <div className='wrg-toggle-check1'>
                 <span className='text-white ml-1'>Department</span>
               </div>
-              <div className='wrg-toggle-uncheck'>
+              <div className='wrg-toggle-uncheck1'>
                 <span className='dark:text-black'>Patient</span>
               </div>
             </>
           )}
         </div>
         <div
-          className={`wrg-toggle-circle  dark:bg-black ${
+          className={`wrg-toggle-circle1  dark:bg-black ${
             toggle ? 'ml-1' : 'mr-1'
           }  `}
         ></div>
         <input
           type='checkbox'
           aria-label='Toggle Button'
-          className='wrg-toggle-input'
+          className='wrg-toggle-input1'
         />
       </div>
     </InputWrapper>
