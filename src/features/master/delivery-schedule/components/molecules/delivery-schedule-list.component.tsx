@@ -324,24 +324,6 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               }),
             },
             {
-              dataField: 'secoundCutofTime',
-              text: 'Second Cut-off Time',
-              headerClasses: 'textHeader3',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  secoundCutofTime = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                !row.secondCutoffTimeRequired && editorCell(row),
-            },
-            {
               dataField: 'secondCutoffTimeRequired',
               text: 'Second Cut-off Time Required',
               sort: true,
@@ -374,6 +356,25 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 );
               },
             },
+            {
+              dataField: 'secoundCutofTime',
+              text: 'Second Cut-off Time',
+              headerClasses: 'textHeader3',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  secoundCutofTime = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                !row.secondCutoffTimeRequired && editorCell(row),
+            },
+
             {
               dataField: 'processingType',
               text: 'Processing Type',

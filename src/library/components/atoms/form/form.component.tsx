@@ -762,10 +762,10 @@ export const DeliveryScheduleToggle = (props: ToggleProps) => {
           {isToggleLabel && (
             <>
               <div className='wrg-toggle-check'>
-                <span className='text-white ml-1'>Dept</span>
+                <span className='text-white ml-1'>Department</span>
               </div>
               <div className='wrg-toggle-uncheck'>
-                <span className='dark:text-black'>Pat</span>
+                <span className='dark:text-black'>Patient</span>
               </div>
             </>
           )}

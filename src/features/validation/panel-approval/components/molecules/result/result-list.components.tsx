@@ -181,34 +181,48 @@ export const ResultList = (props: ResultListProps) => {
               style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (
-                  <div className='flex flex-col'>
-                    {row.refRangesList?.length > 0 && (
-                      <Tooltip
-                        tooltipText={
-                          row._id != selectedRowId ? 'Expand' : 'Collapse'
-                        }
-                      >
-                        <Icons.IconContext
-                          color='#000000'
-                          size='20'
-                          onClick={() => {
-                            if (row._id === selectedRowId) {
-                              setSelectedRowId('');
-                              setWidthRefBox('30px');
-                            } else {
-                              setSelectedRowId(row._id);
-                              setWidthRefBox('550px');
+                  <>
+                    <div className='flex flex-row gap-2'>
+                      <span>
+                        {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
+                        (row.loNor === ' ' && row.hiNor === ' ')
+                          ? '-'
+                          : row.loNor === 'NaN' && row.hiNor === ' '
+                          ? '<'
+                          : row.loNor === ' ' && row.hiNor === 'NaN'
+                          ? '>'
+                          : row.loNor + '-' + row.hiNor}
+                      </span>
+                      <div>
+                        {row.refRangesList?.length > 0 && (
+                          <Tooltip
+                            tooltipText={
+                              row._id != selectedRowId ? 'Expand' : 'Collapse'
                             }
-                          }}
-                        >
-                          {Icons.getIconTag(
-                            row._id != selectedRowId
-                              ? Icons.IconBi.BiExpand
-                              : Icons.IconBi.BiCollapse,
-                          )}
-                        </Icons.IconContext>
-                      </Tooltip>
-                    )}
+                          >
+                            <Icons.IconContext
+                              color='#000000'
+                              size='20'
+                              onClick={() => {
+                                if (row._id === selectedRowId) {
+                                  setSelectedRowId('');
+                                  setWidthRefBox('30px');
+                                } else {
+                                  setSelectedRowId(row._id);
+                                  setWidthRefBox('550px');
+                                }
+                              }}
+                            >
+                              {Icons.getIconTag(
+                                row._id != selectedRowId
+                                  ? Icons.IconBi.BiExpand
+                                  : Icons.IconBi.BiCollapse,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                      </div>
+                    </div>
                     {selectedRowId == row._id ? (
                       <div style={{ width: widthRefBox }}>
                         <RefRanges
@@ -260,7 +274,7 @@ export const ResultList = (props: ResultListProps) => {
                         />
                       </div>
                     ) : null}
-                  </div>
+                  </>
                 );
               },
             },

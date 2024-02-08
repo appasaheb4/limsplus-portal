@@ -104,7 +104,7 @@ export const TableBootstrap = ({
         <div className='flex flex-row gap-1 border-solid border-2 p-1'>
           <Tooltip tooltipText='Approved'>
             <Icons.IconContext
-              color='#6A727F'
+              color='#fff'
               size='30'
               onClick={() => {
                 onSelectedRow && onSelectedRow(selectedRow, 'Approved');
@@ -115,7 +115,7 @@ export const TableBootstrap = ({
           </Tooltip>
           <Tooltip tooltipText='Rejected'>
             <Icons.IconContext
-              color='#6A727F'
+              color='#fff'
               size='30'
               onClick={() => {
                 onSelectedRow && onSelectedRow(selectedRow, 'Rejected');
@@ -440,7 +440,7 @@ export const TableBootstrap = ({
                   />
                 </div>
               )}
-              <div className='scrollTable'>
+              <div className='scrollTable mb-2'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
@@ -471,17 +471,19 @@ export const TableBootstrap = ({
                   onTableChange={handleTableChange}
                 />
               </div>
-              <div className='flex items-center gap-2 mt-2'>
-                <SizePerPageDropdownStandalone
-                  {...Object.assign(
-                    {},
-                    { ...paginationProps, hideSizePerPage: false },
-                  )}
-                />
-                <PaginationListStandalone {...paginationProps} />
-              </div>
-              <div className='flex items-center gap-2 mt-2'>
-                <PaginationTotalStandalone {...paginationProps} />
+              <div className='flex  items-center   p-2 justify-start gap-2 bg-[#6A727F] rounded-md   text-white w-full'>
+                <div className='flex items-center gap-2 '>
+                  <SizePerPageDropdownStandalone
+                    {...Object.assign(
+                      {},
+                      { ...paginationProps, hideSizePerPage: false },
+                    )}
+                  />
+                  <PaginationListStandalone {...paginationProps} />
+                </div>
+                <div className='flex items-center gap-2'>
+                  <PaginationTotalStandalone {...paginationProps} />
+                </div>
               </div>
             </div>
           )}
