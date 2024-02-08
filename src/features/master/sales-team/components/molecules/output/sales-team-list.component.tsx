@@ -18,7 +18,6 @@ import {
   SalesHierarchyTableForSalesTeam,
   TargetTableForSalesTeam,
 } from '../../index';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -38,8 +37,12 @@ interface SalesTeamListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
+  isVersionUpgrade?: boolean;
+  isDuplicate?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -69,7 +72,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
   return (
-    <div style={{ position: 'relative' }}>
+    <div className={`${props.isView ? 'shown' : 'hidden'}`}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -81,51 +84,6 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             hidden: true,
             csvExport: false,
           },
-          // {
-          //   dataField: 'salesHierarchy',
-          //   text: 'Sales Hierarchy',
-          //   headerClasses: 'textHeader5',
-          //   sort: true,
-          //   csvFormatter: col => (col ? col : ''),
-          //   filter: textFilter({
-          //     getFilter: filter => {
-          //       salesHierarchy = filter;
-          //     },
-          //   }),
-          //   editorRenderer: (
-          //     editorProps,
-          //     value,
-          //     row,
-          //     column,
-          //     rowIndex,
-          //     columnIndex,
-          //   ) => (
-          //     <>
-          //       <select
-          //         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md`}
-          //         onChange={e => {
-          //           const salesHierarchy = e.target.value;
-          //           props.onUpdateItem &&
-          //             props.onUpdateItem(
-          //               salesHierarchy,
-          //               column.dataField,
-          //               row._id,
-          //             );
-          //         }}
-          //       >
-          //         <option selected>Select </option>
-          //         {lookupItems(
-          //           props.extraData.lookupItems,
-          //           'SALES_HIERARCHY',
-          //         ).map((item: any, index: number) => (
-          //           <option key={index} value={item.code}>
-          //             {lookupValue(item)}
-          //           </option>
-          //         ))}
-          //       </select>
-          //     </>
-          //   ),
-          // },
           {
             dataField: 'salesTerritory',
             text: 'Sales Territory',
@@ -144,30 +102,6 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                 salesTerritory = filter;
               },
             }),
-            // formatter: (cell, row) => {
-            //   return <>{(row.salesTerritory && row.salesTerritory.area) || ""}</>
-            // },
-            // editorRenderer: (
-            //   editorProps,
-            //   value,
-            //   row,
-            //   column,
-            //   rowIndex,
-            //   columnIndex,
-            // ) => (
-            //   <>
-            //     <AutoCompleteFilterSingleSelectSalesTerrority
-            //       onSelect={item => {
-            //         props.onUpdateItem &&
-            //           props.onUpdateItem(
-            //             item.country,
-            //             column.dataField,
-            //             row._id,
-            //           );
-            //       }}
-            //     />
-            //   </>
-            // ),
           },
           {
             dataField: 'description',
@@ -616,57 +550,64 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             // ),
           },
           {
-            dataField: 'opration',
+            dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,
-            hidden: !props.isDelete,
+            // hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
                 <div className='flex flex-row'>
-                  <Tooltip tooltipText='Delete'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() =>
-                        props.onDelete &&
-                        props.onDelete({
-                          type: 'Delete',
-                          show: true,
-                          id: [row._id],
-                          title: 'Are you sure?',
-                          body: 'Do you want to delete this record?',
-                        })
-                      }
-                    >
-                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                    </Icons.IconContext>
-                  </Tooltip>
+                  {props.isDelete && (
+                    <Tooltip tooltipText='Delete'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onDelete &&
+                          props.onDelete({
+                            type: 'Delete',
+                            show: true,
+                            id: [row._id],
+                            title: 'Are you sure?',
+                            body: 'Do you want to delete this record?',
+                          })
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
+
                   {row.status === 'A' && (
                     <>
-                      <Tooltip className='ml-2' tooltipText='Version Upgrade'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onVersionUpgrade &&
-                            props.onVersionUpgrade(row)
-                          }
-                        >
-                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                        </Icons.IconContext>
-                      </Tooltip>
-                      <Tooltip className='ml-2' tooltipText='Duplicate'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onDuplicate && props.onDuplicate(row)
-                          }
-                        >
-                          {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                        </Icons.IconContext>
-                      </Tooltip>
+                      {props.isVersionUpgrade && (
+                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onVersionUpgrade &&
+                              props.onVersionUpgrade(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      )}
+                      {props.isDuplicate && (
+                        <Tooltip className='ml-2' tooltipText='Duplicate'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onDuplicate && props.onDuplicate(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      )}
                     </>
                   )}
                   {row.status == 'D' && (
@@ -692,7 +633,9 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             },
           },
         ]}
-        isEditModify={props.isEditModify}
+        isDelete={props.isDelete}
+        isEditModify={props.isUpdate}
+        isExport={props.isExport}
         isSelectRow={true}
         fileName='SalesTeam'
         onSelectedRow={rows => {

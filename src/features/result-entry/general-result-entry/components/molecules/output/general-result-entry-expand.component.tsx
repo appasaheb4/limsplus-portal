@@ -33,6 +33,7 @@ interface GeneralResultEntryExpandProps {
   fileName: string;
   isDelete?: boolean;
   isEditModify?: boolean;
+  isExport?: boolean;
   isSelectRow?: boolean;
   isFinishResultDisable?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
@@ -59,7 +60,9 @@ export const GeneralResultEntryExpand = ({
   sizePerPage = 10,
   columns,
   fileName,
+  isDelete = true,
   isEditModify,
+  isExport = true,
   isSelectRow,
   isFinishResultDisable = true,
   onSelectedRow,
@@ -398,14 +401,16 @@ export const GeneralResultEntryExpand = ({
             <div>
               <div className='flex flex-row items-center flex-wrap justify-between'>
                 <div className='w-2/3 flex align-middle items-center'>
-                  <ExportCSVButton
-                    className={
-                      'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
-                    }
-                    {...props.csvProps}
-                  >
-                    Export CSV!!
-                  </ExportCSVButton>
+                  {isExport && (
+                    <ExportCSVButton
+                      className={
+                        'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                      }
+                      {...props.csvProps}
+                    >
+                      Export CSV!!
+                    </ExportCSVButton>
+                  )}
                   {isFilterOpen ? (
                     <Buttons.Button
                       size='medium'

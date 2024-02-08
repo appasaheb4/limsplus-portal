@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -17,10 +17,10 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import {Buttons, Icons} from '@/library/components';
-import {debounce} from '@/core-utils';
-const {SearchBar, ClearSearchButton} = Search;
-const {ExportCSVButton} = CSVExport;
+import { Buttons, Icons } from '@/library/components';
+import { debounce } from '@/core-utils';
+const { SearchBar, ClearSearchButton } = Search;
+const { ExportCSVButton } = CSVExport;
 
 interface TableBootstrapProps {
   id: string;
@@ -33,6 +33,7 @@ interface TableBootstrapProps {
   fileName: string;
   isDelete?: boolean;
   isEditModify?: boolean;
+  isExport?: boolean;
   isSelectRow?: boolean;
   onDelete?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
@@ -56,7 +57,9 @@ export const TableBootstrap = ({
   sizePerPage = 10,
   columns,
   fileName,
+  isDelete = true,
   isEditModify,
+  isExport = true,
   isSelectRow,
   onSelectedRow,
   onUpdateItem,
@@ -202,7 +205,7 @@ export const TableBootstrap = ({
       let filter: any = {};
       for (const [key, value] of Object.entries(filters)) {
         const values: any = value;
-        const object = {[key]: values.filterVal};
+        const object = { [key]: values.filterVal };
         filter = Object.assign(filter, object);
       }
       if (onFilter) {
@@ -218,7 +221,7 @@ export const TableBootstrap = ({
     }
     if (type === 'search') {
       debounce(() => {
-        onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
+        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage);
       });
     }
     if (type === 'sort') {
@@ -245,7 +248,7 @@ export const TableBootstrap = ({
     }
   };
 
-  const CustomToggleList = ({columns, onColumnToggle, toggles}) => (
+  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
     <div className='btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
@@ -282,13 +285,13 @@ export const TableBootstrap = ({
   return (
     <PaginationProvider
       pagination={paginationFactory(
-        totalSize !== 0 ? options : {page, sizePerPage, totalSize},
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
       columns={columns}
       data={data}
     >
-      {({paginationProps, paginationTableProps}) => (
+      {({ paginationProps, paginationTableProps }) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4
@@ -313,7 +316,7 @@ export const TableBootstrap = ({
                   {...searchProps}
                   {...props.searchProps}
                   onChange={value => {
-                    console.log({value});
+                    console.log({ value });
                   }}
                 />
                 <ClearSearchButton
@@ -326,12 +329,15 @@ export const TableBootstrap = ({
                 >
                   Clear all filters
                 </button>
-                <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
+                {isExport && (
+                  <ExportCSVButton
+                    className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    {...props.csvProps}
+                  >
+                    Export CSV!!
+                  </ExportCSVButton>
+                )}
+
                 {isFilterOpen ? (
                   <Buttons.Button
                     size='medium'
@@ -381,7 +387,7 @@ export const TableBootstrap = ({
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
-                    {...paginationProps, hideSizePerPage: false},
+                    { ...paginationProps, hideSizePerPage: false },
                   )}
                 />
                 <PaginationListStandalone {...paginationProps} />

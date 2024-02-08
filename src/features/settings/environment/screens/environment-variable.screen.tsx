@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Toast, Buttons, Grid, List, Form, Svg } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
-
 import { EnvironmentVariableList } from '../components';
 import '@/library/assets/css/accordion.css';
 import { useForm, Controller } from 'react-hook-form';
-
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetEnvironmentVariable } from '../startup';
 import _ from 'lodash';
 import * as XLSX from 'xlsx';
+
 interface EnvironmentVariableProps {
   onModalConfirm?: (item: any) => void;
 }
@@ -135,7 +133,6 @@ export const EnvironmentVariable = observer(
             onClick={() => setHideInputView(!hideInputView)}
           />
         )}
-
         <div
           className={
             'p-1 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
@@ -417,13 +414,21 @@ export const EnvironmentVariable = observer(
             extraData={{
               lookupItems: routerStore.lookupItems,
             }}
+            isView={RouterFlow.checkPermission(
+              routerStore.userPermission,
+              'View',
+            )}
             isDelete={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
+              routerStore.userPermission,
               'Delete',
             )}
-            isEditModify={RouterFlow.checkPermission(
-              toJS(routerStore.userPermission),
+            isUpdate={RouterFlow.checkPermission(
+              routerStore.userPermission,
               'Update',
+            )}
+            isExport={RouterFlow.checkPermission(
+              routerStore.userPermission,
+              'Export',
             )}
             onDelete={selectedUser =>
               props.onModalConfirm && props.onModalConfirm(selectedUser)

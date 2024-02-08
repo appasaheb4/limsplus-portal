@@ -137,13 +137,18 @@ const PanelApproval = observer(() => {
         totalSize={panelApprovalStore.panelApprovalListCount}
         selectedId={selectId}
         filterRecord={filterRecord}
+        isView={RouterFlow.checkPermission(routerStore.userPermission, 'View')}
         isDelete={RouterFlow.checkPermission(
           routerStore.userPermission,
           'Delete',
         )}
-        isEditModify={RouterFlow.checkPermission(
+        isUpdate={RouterFlow.checkPermission(
           routerStore.userPermission,
           'Update',
+        )}
+        isExport={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Export',
         )}
         onSelectedRow={(rows, type) => {
           updateRecords({

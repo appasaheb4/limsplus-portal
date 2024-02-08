@@ -30,8 +30,10 @@ interface LookupListProps {
   totalSize: number;
   uiVariable?: any;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -65,7 +67,7 @@ export const LookupList = (props: LookupListProps) => {
     return row.status !== 'I' ? true : false;
   };
   return (
-    <div style={{ position: 'relative' }}>
+    <div className={`${props.isView ? 'shown' : 'hidden'}`}>
       <TableBootstrap
         id='_id'
         editorId={props.uiVariable?.editorId}
@@ -454,32 +456,35 @@ export const LookupList = (props: LookupListProps) => {
             // ),
           },
           {
-            dataField: 'opration',
+            dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,
-            hidden: !props.isDelete,
+            // hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
                 <div className='flex flex-row gap-2'>
-                  <Tooltip tooltipText='Delete'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() =>
-                        props.onDelete &&
-                        props.onDelete({
-                          type: 'Delete',
-                          show: true,
-                          id: [row._id],
-                          title: 'Are you sure?',
-                          body: 'Do you want to delete this record?',
-                        })
-                      }
-                    >
-                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                    </Icons.IconContext>
-                  </Tooltip>
+                  {props.isDelete && (
+                    <Tooltip tooltipText='Delete'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onDelete &&
+                          props.onDelete({
+                            type: 'Delete',
+                            show: true,
+                            id: [row._id],
+                            title: 'Are you sure?',
+                            body: 'Do you want to delete this record?',
+                          })
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
+
                   {row.status !== 'I' && (
                     <Tooltip tooltipText='Edit'>
                       <Icons.IconContext
@@ -518,7 +523,9 @@ export const LookupList = (props: LookupListProps) => {
             },
           },
         ]}
-        isEditModify={props.isEditModify}
+        isDelete={props.isDelete}
+        isEditModify={props.isUpdate}
+        isExport={props.isExport}
         isSelectRow={true}
         fileName='Lookup'
         onSelectedRow={rows => {

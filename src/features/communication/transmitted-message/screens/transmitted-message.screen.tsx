@@ -10,9 +10,9 @@ import {
 import { TransmittedMessageList } from '../components';
 import { useStores } from '@/stores';
 
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const TransmittedMessage = observer(() => {
   const { loginStore, transmittedMessageStore, routerStore } = useStores();
@@ -31,9 +31,22 @@ const TransmittedMessage = observer(() => {
           extraData={{
             lookupItems: routerStore.lookupItems,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
+          )}
+          // isUpdate={RouterFlow.checkPermission(
+          //   routerStore.userPermission,
+          //   'Update',
+          // )}
+          isUpdate={false}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onSelectedRow={rows => {
             setModalConfirm({
@@ -44,7 +57,6 @@ const TransmittedMessage = observer(() => {
               body: 'Do you want to delete selected record?',
             });
           }}
-          isEditModify={false}
           onPageSizeChange={(page, limit) => {
             transmittedMessageStore.transmittedMessageService.listTransmittedMessage(
               page,

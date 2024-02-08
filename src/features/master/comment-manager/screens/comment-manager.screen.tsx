@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
-import _, { partial } from 'lodash';
+import _ from 'lodash';
 import {
   Toast,
   Header,
@@ -24,7 +24,6 @@ import {
   InstType,
 } from '../components';
 import dayjs from 'dayjs';
-
 import { useForm, Controller } from 'react-hook-form';
 import { CommentManagerHoc } from '../hoc';
 import { useStores } from '@/stores';
@@ -32,7 +31,6 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { FormHelper } from '@/helper';
 import * as XLSX from 'xlsx';
-import { AutoCompleteCompanyList } from '@/core-components';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const CommentManager = CommentManagerHoc(
@@ -184,13 +182,29 @@ const CommentManager = CommentManagerHoc(
             listDepartment: departmentStore.listDepartment,
             lookupItems: routerStore.lookupItems,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -431,6 +445,12 @@ const CommentManager = CommentManagerHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

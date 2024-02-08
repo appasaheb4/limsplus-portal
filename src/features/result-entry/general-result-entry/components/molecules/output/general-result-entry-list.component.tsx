@@ -19,8 +19,10 @@ import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 interface GeneralResultEntryListProps {
   data: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onUpdateValue: (item: any, id: string) => void;
   onSaveFields: (fileds: any, id: string, type: string) => void;
   onUpdateFields?: (fields: any, id: string) => void;
@@ -53,7 +55,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <GeneralResultEntryExpand
           id='_id'
           data={props.data}
@@ -549,18 +551,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               // headerClasses: 'textHeader2',
             },
             {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              editable: false,
-              // headerClasses: 'textHeader2',
-            },
-
-            {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cell, row, rowIndex, formatExtraData) => (
                 <>
                   {!_.isEmpty(row?.result) && (
@@ -609,7 +604,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='General Result Entry'
           onPageSizeChange={(page, limit) => {

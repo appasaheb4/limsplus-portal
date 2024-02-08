@@ -21,7 +21,7 @@ import {
 } from '../..';
 import { FormHelper } from '@/helper';
 import { useForm } from 'react-hook-form';
-import { AutoCompleteCompanyList } from '@/core-components';
+
 let code;
 let name;
 let country;
@@ -55,8 +55,12 @@ interface LabListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
+  isVersionUpgrade?: boolean;
+  isDuplicate?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateFileds?: (fileds: any, id: string) => void;
@@ -82,6 +86,7 @@ const dynamicStylingFields = [
   'environment',
 ];
 const hideExcelSheet = ['_id', 'opration', 'image'];
+
 export const LabList = (props: LabListProps) => {
   const { salesTeamStore } = useStores();
   const {
@@ -98,7 +103,7 @@ export const LabList = (props: LabListProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -1307,96 +1312,66 @@ export const LabList = (props: LabListProps) => {
                   environment = filter;
                 },
               }),
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <select
-              //       value={row.environment}
-              //       className={
-              //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
-              //       }
-              //       onChange={e => {
-              //         const environment = e.target.value;
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem(
-              //             environment,
-              //             column.dataField,
-              //             row._id,
-              //           );
-              //       }}
-              //     >
-              //       <option selected>Select</option>
-              //       {lookupItems(
-              //         props.extraData.lookupItems,
-              //         'ENVIRONMENT',
-              //       ).map((item: any, index: number) => (
-              //         <option key={index} value={item.code}>
-              //           {lookupValue(item)}
-              //         </option>
-              //       ))}
-              //     </select>
-              //   </>
-              // ),
             },
-
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'Delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Do you want to delete this record?',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
+                    {props.isDelete && (
+                      <Tooltip tooltipText='Delete'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onDelete &&
+                            props.onDelete({
+                              type: 'Delete',
+                              show: true,
+                              id: [row._id],
+                              title: 'Are you sure?',
+                              body: 'Do you want to delete this record?',
+                            })
+                          }
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
                     {row.status === 'A' && (
                       <>
-                        <Tooltip tooltipText='Version Upgrade'>
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onVersionUpgrade &&
-                              props.onVersionUpgrade(row)
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                          </Icons.IconContext>
-                        </Tooltip>
-                        <Tooltip tooltipText='Duplicate'>
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onDuplicate && props.onDuplicate(row)
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                          </Icons.IconContext>
-                        </Tooltip>
+                        {props.isVersionUpgrade && (
+                          <Tooltip tooltipText='Version Upgrade'>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() =>
+                                props.onVersionUpgrade &&
+                                props.onVersionUpgrade(row)
+                              }
+                            >
+                              {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                        {props.isDuplicate && (
+                          <Tooltip tooltipText='Duplicate'>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() =>
+                                props.onDuplicate && props.onDuplicate(row)
+                              }
+                            >
+                              {Icons.getIconTag(
+                                Icons.Iconio5.IoDuplicateOutline,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
                       </>
                     )}
                     {row.status == 'D' && (
@@ -1422,7 +1397,9 @@ export const LabList = (props: LabListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Lab'
           onSelectedRow={rows => {
