@@ -9,8 +9,10 @@ import { TableBootstrapTranHeader } from './table-bootstrap-tran-header.componen
 interface TransactionHeaderProps {
   data: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onUpdate?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -30,7 +32,7 @@ export const TransactionHeaderList = observer(
     const [selectedItem, setSelectedItem] = useState<any>({});
     return (
       <>
-        <div style={{ position: 'relative' }}>
+        <div className={`${props.isView ? 'shown' : 'hidden'}`}>
           <TableBootstrapTranHeader
             id='_id'
             data={props.data}
@@ -292,7 +294,9 @@ export const TransactionHeaderList = observer(
                 },
               },
             ]}
-            isEditModify={props.isEditModify}
+            isDelete={props.isDelete}
+            isEditModify={props.isUpdate}
+            isExport={props.isExport}
             isSelectRow={true}
             fileName='Report Delivery'
             onSelectedRow={rows => {

@@ -697,6 +697,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

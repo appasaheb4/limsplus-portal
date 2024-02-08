@@ -267,13 +267,21 @@ export const PatientVisit = PatientVisitHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -866,7 +874,8 @@ export const PatientVisit = PatientVisitHoc(
                           hasError={!!errors.employeeCode}
                           value={value}
                           onChange={employeeCodeValue => {
-                            const employeeCode = employeeCodeValue?.toUpperCase();
+                            const employeeCode =
+                              employeeCodeValue?.toUpperCase();
                             onChange(employeeCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,

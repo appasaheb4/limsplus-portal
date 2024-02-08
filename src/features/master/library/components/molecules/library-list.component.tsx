@@ -755,6 +755,7 @@ export const LibraryList = (props: LibraryListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

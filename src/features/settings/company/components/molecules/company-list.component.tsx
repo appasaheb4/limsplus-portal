@@ -1097,6 +1097,7 @@ export const CompanyList = (props: CompanyListProps) => {
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

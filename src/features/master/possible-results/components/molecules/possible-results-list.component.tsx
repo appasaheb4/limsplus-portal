@@ -725,6 +725,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

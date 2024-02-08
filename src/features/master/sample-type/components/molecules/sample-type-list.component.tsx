@@ -326,6 +326,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

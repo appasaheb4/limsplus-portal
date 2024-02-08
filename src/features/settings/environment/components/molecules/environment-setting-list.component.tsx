@@ -552,6 +552,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

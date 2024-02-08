@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -16,11 +16,11 @@ import paginationFactory, {
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
-import {debounce} from '@/core-utils';
-import {Buttons, Icons} from '@/library/components';
+import { debounce } from '@/core-utils';
+import { Buttons, Icons } from '@/library/components';
 
-const {SearchBar, ClearSearchButton} = Search;
-const {ExportCSVButton} = CSVExport;
+const { SearchBar, ClearSearchButton } = Search;
+const { ExportCSVButton } = CSVExport;
 
 interface TableBootstrapTranHeaderProps {
   id: string;
@@ -33,6 +33,7 @@ interface TableBootstrapTranHeaderProps {
   fileName: string;
   isDelete?: boolean;
   isEditModify?: boolean;
+  isExport?: boolean;
   isSelectRow?: boolean;
   selectedItem?: any;
   onDelete?: (selectedItem: any) => void;
@@ -57,7 +58,9 @@ export const TableBootstrapTranHeader = ({
   sizePerPage = 10,
   columns,
   fileName,
+  isDelete = true,
   isEditModify,
+  isExport = true,
   isSelectRow,
   selectedItem,
   onSelectedRow,
@@ -204,7 +207,7 @@ export const TableBootstrapTranHeader = ({
       let filter: any = {};
       for (const [key, value] of Object.entries(filters)) {
         const values: any = value;
-        const object = {[key]: values.filterVal};
+        const object = { [key]: values.filterVal };
         filter = Object.assign(filter, object);
       }
       if (onFilter) {
@@ -220,7 +223,7 @@ export const TableBootstrapTranHeader = ({
     }
     if (type === 'search') {
       debounce(() => {
-        onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
+        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage);
       });
     }
     if (type === 'sort') {
@@ -247,7 +250,7 @@ export const TableBootstrapTranHeader = ({
     }
   };
 
-  const CustomToggleList = ({columns, onColumnToggle, toggles}) => (
+  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
     <div className='btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
@@ -283,21 +286,21 @@ export const TableBootstrapTranHeader = ({
 
   const rowStyle = (row, rowIndex) => {
     if (row._id == selectedItem?._id) {
-      return {backgroundColor: '#a9a9a9'};
+      return { backgroundColor: '#a9a9a9' };
     }
-    if (row.balance == 0) return {backgroundColor: '#90EE90'};
+    if (row.balance == 0) return { backgroundColor: '#90EE90' };
   };
 
   return (
     <PaginationProvider
       pagination={paginationFactory(
-        totalSize !== 0 ? options : {page, sizePerPage, totalSize},
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
       columns={columns}
       data={data}
     >
-      {({paginationProps, paginationTableProps}) => (
+      {({ paginationProps, paginationTableProps }) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4
@@ -322,7 +325,7 @@ export const TableBootstrapTranHeader = ({
                   {...searchProps}
                   {...props.searchProps}
                   onChange={value => {
-                    console.log({value});
+                    console.log({ value });
                   }}
                 />
                 <ClearSearchButton
@@ -335,12 +338,14 @@ export const TableBootstrapTranHeader = ({
                 >
                   Clear all filters
                 </button>
-                <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
+                {isExport && (
+                  <ExportCSVButton
+                    className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    {...props.csvProps}
+                  >
+                    Export CSV!!
+                  </ExportCSVButton>
+                )}
                 {isFilterOpen ? (
                   <Buttons.Button
                     size='medium'
@@ -391,7 +396,7 @@ export const TableBootstrapTranHeader = ({
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
-                    {...paginationProps, hideSizePerPage: false},
+                    { ...paginationProps, hideSizePerPage: false },
                   )}
                 />
                 <PaginationListStandalone {...paginationProps} />

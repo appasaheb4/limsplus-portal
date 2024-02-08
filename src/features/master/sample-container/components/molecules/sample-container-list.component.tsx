@@ -355,6 +355,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

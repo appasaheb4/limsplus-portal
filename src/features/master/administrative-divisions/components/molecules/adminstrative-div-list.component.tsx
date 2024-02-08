@@ -575,6 +575,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

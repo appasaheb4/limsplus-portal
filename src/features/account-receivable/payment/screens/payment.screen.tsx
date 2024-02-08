@@ -706,13 +706,21 @@ const Payment = PaymentHoc(
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
+              isUpdate={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Update',
+              )}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
               )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {
@@ -743,46 +751,6 @@ const Payment = PaymentHoc(
               }}
             />
           </div>
-          {/* <ModalConfirm
-          {...modalConfirm}
-          click={(type?: string) => {
-            switch (type) {
-              case 'Delete': {
-                deginisationStore.DeginisationService.deleteDeginisation({
-                  input: {id: modalConfirm.id},
-                }).then((res: any) => {
-                  if (res.removeDesignation.success) {
-                    Toast.success({
-                      message: `😊 ${res.removeDesignation.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    deginisationStore.fetchListDeginisation();
-                  }
-                });
-                break;
-              }
-
-              case 'Update': {
-                deginisationStore.DeginisationService.updateSingleFiled({
-                  input: {
-                    _id: modalConfirm.data.id,
-                    [modalConfirm.data.dataField]: modalConfirm.data.value,
-                  },
-                }).then((res: any) => {
-                  if (res.updateDesignation.success) {
-                    Toast.success({
-                      message: `😊 ${res.updateDesignation.message}`,
-                    });
-                    setModalConfirm({show: false});
-                    deginisationStore.fetchListDeginisation();
-                  }
-                });
-                break;
-              }
-            }
-          }}
-          onClose={() => setModalConfirm({show: false})}
-        /> */}
         </div>
       </>
     );

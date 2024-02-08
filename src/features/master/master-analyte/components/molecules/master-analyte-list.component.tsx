@@ -1734,6 +1734,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

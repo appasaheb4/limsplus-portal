@@ -320,10 +320,10 @@ export const TransmittedMessageList = observer(
               }),
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}
-          isDelete={props.isDelete}
           fileName='Transmitted Message'
           onSelectedRow={rows => {
             props.onSelectedRow &&

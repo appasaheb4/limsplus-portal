@@ -25,8 +25,10 @@ interface PatientMangerProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -72,7 +74,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -884,7 +886,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               // ),
             },
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,
@@ -892,24 +894,26 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Delete record',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
+                    {props.isDelete && (
+                      <Tooltip tooltipText='Delete'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onDelete &&
+                            props.onDelete({
+                              type: 'delete',
+                              show: true,
+                              id: [row._id],
+                              title: 'Are you sure?',
+                              body: 'Delete record',
+                            })
+                          }
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
                   </div>
                 </>
               ),
@@ -924,9 +928,11 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           dynamicStylingFields={[]}
           hideExcelSheet={['opration', '_id']}
-          isEditModify={props.isEditModify}
           isSelectRow={true}
           fileName='Patient Manager'
           onSelectedRow={rows => {

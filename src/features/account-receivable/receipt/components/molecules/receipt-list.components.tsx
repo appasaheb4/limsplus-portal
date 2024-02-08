@@ -7,8 +7,10 @@ import { TableBootstrap } from './table-bootstrap.components';
 interface ReceiptListProps {
   data: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -25,7 +27,7 @@ interface ReceiptListProps {
 export const ReceiptList = observer((props: ReceiptListProps) => {
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -139,7 +141,9 @@ export const ReceiptList = observer((props: ReceiptListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Receipt'
           onSelectedRow={rows => {

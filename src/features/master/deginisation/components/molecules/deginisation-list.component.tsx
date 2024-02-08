@@ -274,6 +274,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

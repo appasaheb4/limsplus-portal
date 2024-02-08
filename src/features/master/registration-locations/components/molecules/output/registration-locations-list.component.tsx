@@ -1729,6 +1729,7 @@ export const RegistrationLocationsList = (
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

@@ -1000,6 +1000,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

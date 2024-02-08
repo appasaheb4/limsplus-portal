@@ -395,6 +395,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

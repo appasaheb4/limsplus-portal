@@ -293,6 +293,7 @@ export const MethodsList = (props: MethodsListProps) => {
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

@@ -44,8 +44,10 @@ let environment;
 interface ReportDeliveryProps {
   data: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   selectedId?: string;
   isPagination?: boolean;
   onUpdate?: (selectedItem: any) => void;
@@ -94,7 +96,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrapReport
           id='_id'
           data={localData}
@@ -828,7 +830,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Report Delivery'
           onSelectedRow={rows => {

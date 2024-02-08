@@ -2006,6 +2006,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}
