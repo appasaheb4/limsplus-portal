@@ -20,9 +20,6 @@ import {
   AutoCompleteFilterSingleSelectPanelName,
 } from '../index';
 import { toJS } from 'mobx';
-import { AutoCompleteCompanyList } from '@/core-components';
-
-// import { NumberFilter, DateFilter } from "@/library/components/Organisms"
 
 let panelCode;
 let panelName;
@@ -45,9 +42,13 @@ let companyCode;
 interface PriceListProps {
   data: any;
   extraData: any;
-  isDelete?: boolean;
   totalSize: number;
-  isEditModify?: boolean;
+  isView?: boolean;
+  isDelete?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
+  isVersionUpgrade?: boolean;
+  isDuplicate?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -90,7 +91,7 @@ export const PriceListList = (props: PriceListProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -878,57 +879,69 @@ export const PriceListList = (props: PriceListProps) => {
               // ),
             },
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row '>
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Do you want to delete this record?',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
+                  <div className='flex flex-row'>
+                    {props.isDelete && (
+                      <Tooltip tooltipText='Delete'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onDelete &&
+                            props.onDelete({
+                              type: 'delete',
+                              show: true,
+                              id: [row._id],
+                              title: 'Are you sure?',
+                              body: 'Do you want to delete this record?',
+                            })
+                          }
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+
                     {row.status === 'A' && (
                       <>
-                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onVersionUpgrade &&
-                              props.onVersionUpgrade(row)
-                            }
+                        {props.isVersionUpgrade && (
+                          <Tooltip
+                            className='ml-2'
+                            tooltipText='Version Upgrade'
                           >
-                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                          </Icons.IconContext>
-                        </Tooltip>
-                        <Tooltip className='ml-2' tooltipText='Duplicate'>
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onDuplicate && props.onDuplicate(row)
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                          </Icons.IconContext>
-                        </Tooltip>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() =>
+                                props.onVersionUpgrade &&
+                                props.onVersionUpgrade(row)
+                              }
+                            >
+                              {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                        {props.isDuplicate && (
+                          <Tooltip className='ml-2' tooltipText='Duplicate'>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() =>
+                                props.onDuplicate && props.onDuplicate(row)
+                              }
+                            >
+                              {Icons.getIconTag(
+                                Icons.Iconio5.IoDuplicateOutline,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
                       </>
                     )}
                     {row.status == 'D' && (
@@ -954,7 +967,9 @@ export const PriceListList = (props: PriceListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='PriceList'
           onSelectedRow={rows => {

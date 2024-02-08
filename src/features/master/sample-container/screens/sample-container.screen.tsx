@@ -26,6 +26,7 @@ import { RouterFlow } from '@/flows';
 import { resetSampleContainer } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
+import { toJS } from 'mobx';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const SampleContainer = SampleContainerHoc(
@@ -168,6 +169,12 @@ const SampleContainer = SampleContainerHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);
@@ -430,13 +437,21 @@ const SampleContainer = SampleContainerHoc(
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
+              isUpdate={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Update',
+              )}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
               )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {

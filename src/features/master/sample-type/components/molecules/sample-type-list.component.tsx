@@ -22,8 +22,10 @@ interface SampleTypeListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -43,7 +45,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
   };
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -277,28 +279,30 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'Delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Do you want to delete this record?',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
+                    {props.isDelete && (
+                      <Tooltip tooltipText='Delete'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onDelete &&
+                            props.onDelete({
+                              type: 'Delete',
+                              show: true,
+                              id: [row._id],
+                              title: 'Are you sure?',
+                              body: 'Do you want to delete this record?',
+                            })
+                          }
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
                     {row.status == 'D' && (
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
@@ -322,7 +326,9 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Sample Type'
           onSelectedRow={rows => {

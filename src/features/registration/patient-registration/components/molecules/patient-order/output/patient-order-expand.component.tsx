@@ -36,6 +36,7 @@ interface PatientOrderExpandProps {
   fileName: string;
   isDelete?: boolean;
   isEditModify?: boolean;
+  isExport?: boolean;
   isSelectRow?: boolean;
   isPagination?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
@@ -60,6 +61,8 @@ export const PatientOrderExpand = ({
   columns,
   fileName,
   isEditModify,
+  isDelete = true,
+  isExport = true,
   isSelectRow,
   isPagination = true,
   onSelectedRow,
@@ -89,7 +92,7 @@ export const PatientOrderExpand = ({
   }) => (
     <div className='btn-group items-center flex flex-wrap ' role='group'>
       <div className='flex flex-wrap gap-4'>
-        {isSelectRow && (
+        {isSelectRow && isDelete && (
           <Buttons.Button
             style={{ height: 40, width: 150 }}
             size='small'
@@ -755,14 +758,17 @@ export const PatientOrderExpand = ({
                 >
                   Clear all filters
                 </button>
-                <ExportCSVButton
-                  className={
-                    'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
-                  }
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
+                {isExport && (
+                  <ExportCSVButton
+                    className={
+                      'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                    }
+                    {...props.csvProps}
+                  >
+                    Export CSV!!
+                  </ExportCSVButton>
+                )}
+
                 {isFilterOpen ? (
                   <Buttons.Button
                     size='medium'

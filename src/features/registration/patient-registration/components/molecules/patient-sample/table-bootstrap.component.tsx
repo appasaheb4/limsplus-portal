@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -16,11 +16,11 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import {Buttons, Icons} from '@/library/components';
-import {debounce} from '@/core-utils';
+import { Buttons, Icons } from '@/library/components';
+import { debounce } from '@/core-utils';
 
-const {SearchBar, ClearSearchButton} = Search;
-const {ExportCSVButton} = CSVExport;
+const { SearchBar, ClearSearchButton } = Search;
+const { ExportCSVButton } = CSVExport;
 
 interface TableBootstrapProps {
   id: string;
@@ -33,6 +33,7 @@ interface TableBootstrapProps {
   fileName: string;
   isDelete?: boolean;
   isEditModify?: boolean;
+  isExport?: boolean;
   isSelectRow?: boolean;
   isPagination?: boolean;
   onSelectedRow?: (selectedItem: any) => void;
@@ -55,7 +56,9 @@ const TableBootstrap = ({
   sizePerPage = 10,
   columns,
   fileName,
+  isDelete = true,
   isEditModify,
+  isExport = true,
   isSelectRow,
   isPagination = true,
   onSelectedRow,
@@ -200,7 +203,7 @@ const TableBootstrap = ({
       let filter: any = {};
       for (const [key, value] of Object.entries(filters)) {
         const values: any = value;
-        const object = {[key]: values.filterVal};
+        const object = { [key]: values.filterVal };
         filter = Object.assign(filter, object);
       }
       if (onFilter) {
@@ -216,7 +219,7 @@ const TableBootstrap = ({
     }
     if (type === 'search') {
       debounce(() => {
-        onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
+        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage);
       });
     }
     if (type === 'sort') {
@@ -243,7 +246,7 @@ const TableBootstrap = ({
     }
   };
 
-  const CustomToggleList = ({columns, onColumnToggle, toggles}) => (
+  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
     <div className='btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
@@ -274,13 +277,13 @@ const TableBootstrap = ({
   return (
     <PaginationProvider
       pagination={paginationFactory(
-        totalSize !== 0 ? options : {page, sizePerPage, totalSize},
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
       columns={columns}
       data={data}
     >
-      {({paginationProps, paginationTableProps}) => (
+      {({ paginationProps, paginationTableProps }) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4
@@ -320,14 +323,17 @@ const TableBootstrap = ({
                 >
                   Clear all filters
                 </button>
-                <ExportCSVButton
-                  className={
-                    'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
-                  }
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
+                {isExport && (
+                  <ExportCSVButton
+                    className={
+                      'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                    }
+                    {...props.csvProps}
+                  >
+                    Export CSV!!
+                  </ExportCSVButton>
+                )}
+
                 {isFilterOpen ? (
                   <Buttons.Button
                     size='medium'
@@ -390,7 +396,7 @@ const TableBootstrap = ({
                     <SizePerPageDropdownStandalone
                       {...Object.assign(
                         {},
-                        {...paginationProps, hideSizePerPage: false},
+                        { ...paginationProps, hideSizePerPage: false },
                       )}
                     />
                     <PaginationListStandalone {...paginationProps} />

@@ -25,7 +25,7 @@ import * as XLSX from 'xlsx';
 
 import { RouterFlow } from '@/flows';
 import { resetDesignation } from '../startup';
-import { AutoCompleteCompanyList } from '@/core-components';
+import { toJS } from 'mobx';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Deginisation = DeginisationHoc(
@@ -162,6 +162,12 @@ const Deginisation = DeginisationHoc(
           >
             <ManualImportTabs
               isImport={isImport}
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               onClick={flag => {
                 setIsImport(flag);
               }}
@@ -416,13 +422,21 @@ const Deginisation = DeginisationHoc(
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
+              isUpdate={RouterFlow.checkPermission(
                 routerStore.userPermission,
                 'Update',
+              )}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
               )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {

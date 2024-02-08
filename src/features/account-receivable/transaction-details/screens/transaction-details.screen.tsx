@@ -46,13 +46,21 @@ const TransactionDetails = observer(() => {
         <TransactionHeaderList
           data={transactionDetailsStore.transactionHeaderList || []}
           totalSize={transactionDetailsStore.transactionHeaderListCount}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onUpdate={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -116,13 +124,21 @@ const TransactionDetails = observer(() => {
         <TransactionLineList
           data={transactionDetailsStore.transactionListList || []}
           totalSize={transactionDetailsStore.transactionListListCount}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {

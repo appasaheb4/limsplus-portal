@@ -29,7 +29,6 @@ import { resetLibrary } from '../startup';
 import * as XLSX from 'xlsx';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { AutoCompleteCompanyList } from '@/core-components';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const modules = {
@@ -179,13 +178,29 @@ export const Library = LibraryHoc(
             updateLibraryStore: libraryStore.updateLibrary,
             lookupItems: routerStore.lookupItems,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -374,6 +389,12 @@ export const Library = LibraryHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

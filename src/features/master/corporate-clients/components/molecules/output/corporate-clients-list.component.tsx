@@ -17,7 +17,6 @@ import {
 import { Confirm } from '@/library/models';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useStores } from '@/stores';
-
 import {
   AutoCompleteFilterSingleSelectPostalCode,
   AutoCompleteFilterMultiSelectPanelList,
@@ -26,10 +25,8 @@ import dayjs from 'dayjs';
 import { FormHelper } from '@/helper';
 import { useForm } from 'react-hook-form';
 import { AutoCompleteSalesTerritory } from '@/features/master/registration-locations/components';
-import {
-  AutoCompleteCompanyList,
-  AutoCompleteFilterDeliveryMode,
-} from '@/core-components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+
 let dateCreation;
 let dateActive;
 let dateExpire;
@@ -73,8 +70,12 @@ interface CorporateClientListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
+  isVersionUpgrade?: boolean;
+  isDuplicate?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onVersionUpgrade?: (item: any) => void;
@@ -144,7 +145,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
   }, []);
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div className={`${props.isView ? 'shown' : 'hidden'}`}>
       <TableBootstrap
         id='_id'
         data={props.data}
@@ -1733,57 +1734,63 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
           },
 
           {
-            dataField: 'opration',
+            dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,
-            hidden: !props.isDelete,
+            // hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
                 <div className='flex flex-row'>
-                  <Tooltip tooltipText='Delete'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() =>
-                        props.onDelete &&
-                        props.onDelete({
-                          type: 'Delete',
-                          show: true,
-                          id: [row._id],
-                          title: 'Are you sure?',
-                          body: 'Do you want to delete this record?',
-                        })
-                      }
-                    >
-                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                    </Icons.IconContext>
-                  </Tooltip>
+                  {props.isDelete && (
+                    <Tooltip tooltipText='Delete'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() =>
+                          props.onDelete &&
+                          props.onDelete({
+                            type: 'Delete',
+                            show: true,
+                            id: [row._id],
+                            title: 'Are you sure?',
+                            body: 'Do you want to delete this record?',
+                          })
+                        }
+                      >
+                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
                   {row.status === 'A' && (
                     <>
-                      <Tooltip className='ml-2' tooltipText='Version Upgrade'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onVersionUpgrade &&
-                            props.onVersionUpgrade(row)
-                          }
-                        >
-                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                        </Icons.IconContext>
-                      </Tooltip>
-                      <Tooltip className='ml-2' tooltipText='Duplicate'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onDuplicate && props.onDuplicate(row)
-                          }
-                        >
-                          {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                        </Icons.IconContext>
-                      </Tooltip>
+                      {props.isVersionUpgrade && (
+                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onVersionUpgrade &&
+                              props.onVersionUpgrade(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      )}
+                      {props.isDuplicate && (
+                        <Tooltip className='ml-2' tooltipText='Duplicate'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() =>
+                              props.onDuplicate && props.onDuplicate(row)
+                            }
+                          >
+                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      )}
                     </>
                   )}
                   {row.status == 'D' && (
@@ -1809,7 +1816,9 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             },
           },
         ]}
-        isEditModify={props.isEditModify}
+        isDelete={props.isDelete}
+        isEditModify={props.isUpdate}
+        isExport={props.isExport}
         isSelectRow={true}
         fileName='CorporateClients'
         onSelectedRow={rows => {

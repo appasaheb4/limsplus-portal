@@ -543,48 +543,48 @@ export const ExtraDataPatientManagerList = observer(
                   </>
                 ),
               },
-
-              {
-                dataField: 'opration',
-                text: 'Action',
-                editable: false,
-                csvExport: false,
-                hidden: !props.isDelete,
-                formatter: (cellContent, row) => (
-                  <>
-                    <div className='flex flex-row'>
-                      <Tooltip tooltipText='Delete'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() =>
-                            props.onDelete &&
-                            props.onDelete({
-                              type: 'delete',
-                              show: true,
-                              id: [row._id],
-                              title: 'Are you sure?',
-                              body: 'Delete record',
-                            })
-                          }
-                        >
-                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                        </Icons.IconContext>
-                      </Tooltip>
-                    </div>
-                  </>
-                ),
-                headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
-                classes: (cell, row, rowIndex, colIndex) => {
-                  return 'sticky right-0 bg-gray-500';
-                },
-                style: (cell, row, rowIndex, colIndex) => {
-                  return {
-                    zIndex: props.data?.length - rowIndex,
-                  };
-                },
-              },
+              // {
+              //   dataField: 'opration',
+              //   text: 'Action',
+              //   editable: false,
+              //   csvExport: false,
+              //   // hidden: !props.isDelete,
+              //   formatter: (cellContent, row) => (
+              //     <>
+              //       <div className='flex flex-row'>
+              //         <Tooltip tooltipText='Delete'>
+              //           <Icons.IconContext
+              //             color='#fff'
+              //             size='20'
+              //             onClick={() =>
+              //               props.onDelete &&
+              //               props.onDelete({
+              //                 type: 'delete',
+              //                 show: true,
+              //                 id: [row._id],
+              //                 title: 'Are you sure?',
+              //                 body: 'Delete record',
+              //               })
+              //             }
+              //           >
+              //             {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+              //           </Icons.IconContext>
+              //         </Tooltip>
+              //       </div>
+              //     </>
+              //   ),
+              //   headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
+              //   classes: (cell, row, rowIndex, colIndex) => {
+              //     return 'sticky right-0 bg-gray-500';
+              //   },
+              //   style: (cell, row, rowIndex, colIndex) => {
+              //     return {
+              //       zIndex: props.data?.length - rowIndex,
+              //     };
+              //   },
+              // },
             ]}
+            isDelete={false}
             isEditModify={props.isEditModify}
             isSelectRow={true}
             fileName='Patient Manager ExtraData'

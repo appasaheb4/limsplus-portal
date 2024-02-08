@@ -20,7 +20,6 @@ import {
   AutoCompleteFilterSingleSelectTestName,
 } from '../index';
 import { ModalReportOrder } from './modal-report-order.component';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 let dateCreation;
 let dateActive;
@@ -40,8 +39,12 @@ interface TestPanelMappingListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
+  isVersionUpgrade?: boolean;
+  isDuplicate?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -95,7 +98,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -909,57 +912,69 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             },
 
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'Delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Do you want to delete this record?',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
+                    {props.isDelete && (
+                      <Tooltip tooltipText='Delete'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onDelete &&
+                            props.onDelete({
+                              type: 'Delete',
+                              show: true,
+                              id: [row._id],
+                              title: 'Are you sure?',
+                              body: 'Do you want to delete this record?',
+                            })
+                          }
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+
                     {row.status === 'A' && (
                       <>
-                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onVersionUpgrade &&
-                              props.onVersionUpgrade(row)
-                            }
+                        {props.isVersionUpgrade && (
+                          <Tooltip
+                            className='ml-2'
+                            tooltipText='Version Upgrade'
                           >
-                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                          </Icons.IconContext>
-                        </Tooltip>
-                        <Tooltip className='ml-2' tooltipText='Duplicate'>
-                          <Icons.IconContext
-                            color='#fff'
-                            size='20'
-                            onClick={() =>
-                              props.onDuplicate && props.onDuplicate(row)
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                          </Icons.IconContext>
-                        </Tooltip>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() =>
+                                props.onVersionUpgrade &&
+                                props.onVersionUpgrade(row)
+                              }
+                            >
+                              {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                        {props.isDuplicate && (
+                          <Tooltip className='ml-2' tooltipText='Duplicate'>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() =>
+                                props.onDuplicate && props.onDuplicate(row)
+                              }
+                            >
+                              {Icons.getIconTag(
+                                Icons.Iconio5.IoDuplicateOutline,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
                       </>
                     )}
                     {row.status == 'D' && (
@@ -985,7 +1000,9 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Test Panel Mapping'
           onSelectedRow={rows => {

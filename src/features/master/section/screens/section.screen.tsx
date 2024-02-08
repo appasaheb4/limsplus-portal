@@ -17,19 +17,18 @@ import {
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
-
 import { SectionList } from '../components';
 import { AutoCompleteFilterSingleSelectDepartment } from '../components';
 import { SectionHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { FormHelper } from '@/helper';
 import { resetSection } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import { AutoCompleteCompanyList } from '@/core-components';
+import { toJS } from 'mobx';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
+
 const Section = SectionHoc(
   observer(() => {
     const { loginStore, sectionStore, departmentStore, routerStore } =
@@ -95,13 +94,21 @@ const Section = SectionHoc(
             lookupItems: routerStore.lookupItems,
             listDepartment: departmentStore.listDepartment,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -251,6 +258,12 @@ const Section = SectionHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

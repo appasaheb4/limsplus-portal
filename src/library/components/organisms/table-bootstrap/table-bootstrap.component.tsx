@@ -100,9 +100,10 @@ export const TableBootstrap = ({
   sizePerPage = 10,
   columns,
   fileName,
+  isDelete = true,
   isEditModify = true,
   isExport = true,
-  isSelectRow,
+  isSelectRow = true,
   isPagination = true,
   onSelectedRow,
   onUpdateItem,
@@ -134,7 +135,7 @@ export const TableBootstrap = ({
   }) => (
     <div className='flex  justify-center  items-center'>
       <div className='flex gap-2 items-center'>
-        {isSelectRow && (
+        {isSelectRow && isDelete && (
           <Buttons.Button
             size='small'
             type='solid'

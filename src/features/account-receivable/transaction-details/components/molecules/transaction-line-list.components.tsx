@@ -8,8 +8,10 @@ import { TableBootstrapTranLine } from './table-bootstrap-tran-line.components';
 interface TransactionLineProps {
   data: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -25,7 +27,7 @@ interface TransactionLineProps {
 export const TransactionLineList = observer((props: TransactionLineProps) => {
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrapTranLine
           id='_id'
           data={props.data}
@@ -268,7 +270,9 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               sort: true,
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Order Delivered'
           onSelectedRow={rows => {

@@ -21,12 +21,10 @@ import { useForm, Controller } from 'react-hook-form';
 import { SampleTypeHoc } from '../hoc';
 import { useStores } from '@/stores';
 import _ from 'lodash';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetSampleType } from '../startup';
 import * as XLSX from 'xlsx';
-import { AutoCompleteCompanyList } from '@/core-components';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 const SampleType = SampleTypeHoc(
   observer(() => {
@@ -172,6 +170,12 @@ const SampleType = SampleTypeHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);
@@ -473,15 +477,22 @@ const SampleType = SampleTypeHoc(
               extraData={{
                 lookupItems: routerStore.lookupItems,
               }}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
-                toJS(routerStore.userPermission),
+                routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
-                toJS(routerStore.userPermission),
+              isUpdate={RouterFlow.checkPermission(
+                routerStore.userPermission,
                 'Update',
               )}
-              // isEditModify={false}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
+              )}
               onDelete={selectedItem => setModalConfirm(selectedItem)}
               onSelectedRow={rows => {
                 setModalConfirm({

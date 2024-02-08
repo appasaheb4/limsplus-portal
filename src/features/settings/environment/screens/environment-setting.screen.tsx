@@ -11,18 +11,15 @@ import {
   Svg,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
-
 import { EnvironmentSettingsList } from '../components';
 import '@/library/assets/css/accordion.css';
 import { useForm, Controller } from 'react-hook-form';
 import { EnvironmentSettingsHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetEnvironmentSettings } from '../startup';
 import _ from 'lodash';
-import * as XLSX from 'xlsx';
 interface EnvironmentSettingsProps {
   onModalConfirm?: (item: any) => void;
 }
@@ -90,13 +87,21 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
             listDepartment: departmentStore.listDepartment,
             environmentVariableList: environmentStore.environmentVariableList,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedUser =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)

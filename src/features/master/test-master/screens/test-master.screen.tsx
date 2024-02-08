@@ -21,16 +21,13 @@ import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import { TestMasterList } from '../components';
 import { useForm, Controller } from 'react-hook-form';
 import { AutoCompleteFilterSingleSelectDepartment } from '../components';
-
 import { TestMasterHOC } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetTestMaster } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import { AutoCompleteCompanyList } from '@/core-components';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 const TestMater = TestMasterHOC(
   observer(() => {
@@ -209,15 +206,30 @@ const TestMater = TestMasterHOC(
             listDepartment: departmentStore.listDepartment,
             sectionListByDeptCode: testMasterStore.sectionListByDeptCode,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
           )}
-          // isEditModify={false}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
+          )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
             setModalConfirm({
@@ -447,6 +459,12 @@ const TestMater = TestMasterHOC(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

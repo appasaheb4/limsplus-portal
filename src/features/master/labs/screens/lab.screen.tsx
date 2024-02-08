@@ -28,7 +28,6 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetLab } from '../startup';
 import * as XLSX from 'xlsx';
-import { AutoCompleteCompanyList } from '@/core-components';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Lab = LabHoc(
@@ -171,13 +170,29 @@ const Lab = LabHoc(
             listAdministrativeDiv:
               administrativeDivisions.listAdministrativeDiv,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -423,6 +438,12 @@ const Lab = LabHoc(
           >
             <ManualImportTabs
               isImport={isImport}
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               onClick={flag => {
                 setIsImport(flag);
               }}

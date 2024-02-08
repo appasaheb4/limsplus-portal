@@ -28,6 +28,7 @@ import { resetDepartment } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import { AutoCompleteCompanyList } from '@/core-components';
+import { toJS } from 'mobx';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const Department = DeginisationHoc(
@@ -102,13 +103,21 @@ export const Department = DeginisationHoc(
             userStore: userStore,
             userList: userStore.userList,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -266,6 +275,12 @@ export const Department = DeginisationHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

@@ -1,13 +1,10 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {
-  Tooltip,
-  Icons,
-} from '@/library/components';
-import {Confirm} from '@/library/models';
+import { observer } from 'mobx-react';
+import { Tooltip, Icons } from '@/library/components';
+import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 
-import {TableBootstrap} from './table-bootstrap.components';
+import { TableBootstrap } from './table-bootstrap.components';
 
 interface ReportDeliveryProps {
   data: any;
@@ -30,7 +27,7 @@ interface ReportDeliveryProps {
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -198,7 +195,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>

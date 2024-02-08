@@ -25,7 +25,7 @@ interface BannerListProps {
   extraData: any;
   isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
   isExport?: boolean;
   onDelete?: (selectedItem: any) => void;
   onSelectedRow?: (selectedItem: any) => void;
@@ -322,7 +322,7 @@ export const BannerList = (props: BannerListProps) => {
             text: 'Action',
             editable: false,
             csvExport: false,
-            hidden: !props.isDelete,
+            // hidden: !props.isDelete,
             formatter: (cellContent, row) => (
               <>
                 <div className='flex flex-row'>
@@ -369,7 +369,8 @@ export const BannerList = (props: BannerListProps) => {
             },
           },
         ]}
-        isEditModify={props.isEditModify}
+        isDelete={props.isDelete}
+        isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}
         fileName='Banner'

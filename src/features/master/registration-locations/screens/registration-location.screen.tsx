@@ -18,10 +18,7 @@ import {
   ImportFile,
 } from '@/library/components';
 import { RegistrationLocationsList } from '../components';
-import {
-  AutoCompleteCompanyList,
-  AutoCompleteFilterDeliveryMode,
-} from '@/core-components';
+import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import {
@@ -35,6 +32,7 @@ import { FormHelper } from '@/helper';
 import { resetRegistrationLocation } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
+import { toJS } from 'mobx';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const RegistrationLocation = RegistrationLocationHoc(
@@ -322,15 +320,30 @@ const RegistrationLocation = RegistrationLocationHoc(
             listAdministrativeDiv:
               administrativeDivisions.listAdministrativeDiv,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
           )}
-          // isEditModify={false}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
+          )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
             setModalConfirm({
@@ -561,6 +574,12 @@ const RegistrationLocation = RegistrationLocationHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

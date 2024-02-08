@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { useForm, Controller } from 'react-hook-form';
 import _ from 'lodash';
-
 import {
   Toast,
   Icons,
@@ -17,7 +16,6 @@ import {
   ImportFile,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
-
 import { dashboardRouter as dashboardRoutes } from '@/routes';
 const router = dashboardRoutes;
 import { DocumentSettingHoc } from '../hoc';
@@ -25,7 +23,8 @@ import { useStores } from '@/stores';
 import { resetLookup } from '../startup';
 import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
-import { AutoCompleteCompanyList } from '@/core-components';
+import { toJS } from 'mobx';
+import { RouterFlow } from '@/flows';
 
 interface DocumentSettingsProps {
   onClose: () => void;
@@ -120,6 +119,12 @@ export const DocumentSettings = DocumentSettingHoc(
     return (
       <div className={'p-2 rounded-lg shadow-xl'}>
         <ManualImportTabs
+          isImportDisable={
+            !RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              'Import',
+            )
+          }
           isImport={isImport}
           onClick={flag => {
             setIsImport(flag);
@@ -430,49 +435,6 @@ export const DocumentSettings = DocumentSettingHoc(
                 rules={{ required: false }}
                 defaultValue=''
               />
-              {/* <Controller
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Form.InputWrapper label='Environment'>
-                    <select
-                      // value={value}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment ? 'border-red' : 'border-gray-300'
-                      } rounded-md`}
-                      disabled={
-                        loginStore.login && loginStore.login.role !== 'SYSADMIN'
-                          ? true
-                          : false
-                      }
-                      onChange={e => {
-                        const environment = e.target.value;
-                        onChange(environment);
-                        lookupStore.updateLookup({
-                          ...lookupStore.lookup,
-                          environment,
-                        });
-                      }}
-                    >
-                      <option selected>
-                        {loginStore.login &&
-                        loginStore.login.role !== 'SYSADMIN'
-                          ? 'Select'
-                          : lookupStore.lookup?.environment || 'Select'}
-                      </option>
-                      {lookupItems(routerStore.lookupItems, 'ENVIRONMENT').map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ),
-                      )}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name='environment'
-                rules={{ required: true }}
-                defaultValue=''
-              /> */}
             </List>
           </Grid>
         ) : (

@@ -13,12 +13,9 @@ import {
   ModalConfirm,
 } from '@/library/components';
 import { DataConversationList } from '../components';
-import { lookupItems, lookupValue } from '@/library/utils';
-
 import { useForm, Controller } from 'react-hook-form';
 import { DataConversationHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetDataConversation } from '../startup';
@@ -174,54 +171,6 @@ const DataConversation = DataConversationHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                {/* <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          dataConversationStore.updateDataConversation({
-                            ...dataConversationStore.dataConversation,
-                            environment,
-                          });
-                        }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : dataConversationStore.dataConversation
-                                ?.environment || 'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{ required: true }}
-                  defaultValue=''
-                /> */}
                 <div className='clearfix' />
               </List>
             </Grid>
@@ -253,13 +202,21 @@ const DataConversation = DataConversationHoc(
               data={dataConversationStore.listdataConversation || []}
               extraData={{ lookupItems: routerStore.lookupItems }}
               totalSize={dataConversationStore.listdataConversationCount}
+              isView={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'View',
+              )}
               isDelete={RouterFlow.checkPermission(
-                toJS(routerStore.userPermission),
+                routerStore.userPermission,
                 'Delete',
               )}
-              isEditModify={RouterFlow.checkPermission(
-                toJS(routerStore.userPermission),
+              isUpdate={RouterFlow.checkPermission(
+                routerStore.userPermission,
                 'Update',
+              )}
+              isExport={RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Export',
               )}
               onDelete={selectedUser => setModalConfirm(selectedUser)}
               onSelectedRow={rows => {

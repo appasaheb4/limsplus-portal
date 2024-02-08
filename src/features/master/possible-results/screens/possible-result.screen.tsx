@@ -26,7 +26,6 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { resetPossibleResult } from '../startup';
 import * as XLSX from 'xlsx';
-import { AutoCompleteCompanyList } from '@/core-components';
 import { ModalPossibleResultConclusionModify } from '../components/molecules/modal-possible-result-conculsion-modify';
 import { toJS } from 'mobx';
 import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
@@ -183,13 +182,29 @@ export const PossibleResults = PossibleResultHoc(
           updatePossibleResults={values => {
             possibleResultsStore.updatePossibleResults(values);
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
+          )}
+          isVersionUpgrade={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Version Upgrade',
+          )}
+          isDuplicate={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Duplicate',
           )}
           onDelete={selectedItem => setModalConfirm(selectedItem)}
           onSelectedRow={rows => {
@@ -369,6 +384,12 @@ export const PossibleResults = PossibleResultHoc(
             }
           >
             <ManualImportTabs
+              isImportDisable={
+                !RouterFlow.checkPermission(
+                  toJS(routerStore.userPermission),
+                  'Import',
+                )
+              }
               isImport={isImport}
               onClick={flag => {
                 setIsImport(flag);

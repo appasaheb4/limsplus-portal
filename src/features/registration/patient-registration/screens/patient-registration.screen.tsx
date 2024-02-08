@@ -28,6 +28,7 @@ import { FileImportExport } from './import-from-file.screen';
 import FileSaver from 'file-saver';
 import { RouterFlow } from '@/flows';
 import { connect } from 'react-redux';
+import { toJS } from 'mobx';
 
 export const patientRegistrationOptions = [
   { title: 'PATIENT MANAGER' },
@@ -41,6 +42,7 @@ export const patientRegistrationOptions = [
 const PatientRegistration = observer(({ sidebar }) => {
   const {
     loading,
+    routerStore,
     loginStore,
     patientManagerStore,
     patientRegistrationStore,
@@ -50,7 +52,6 @@ const PatientRegistration = observer(({ sidebar }) => {
     patientResultStore,
     patientSampleStore,
     importFromFileStore,
-    routerStore,
   } = useStores();
   const [reload, setReload] = useState(false);
   const [isImport, setIsImport] = useState<boolean>(false);
@@ -126,11 +127,18 @@ const PatientRegistration = observer(({ sidebar }) => {
       </Header>
       <div>
         <Tabs
-          tabs={[
-            { title: 'Manual Entry', icon: 'AiOutlineUnorderedList' },
-            { title: 'Import from file', icon: 'CiImport' },
-            { title: 'Export file', icon: 'CiExport' },
-          ]}
+          tabs={
+            RouterFlow.checkPermission(
+              toJS(routerStore.userPermission),
+              'Import',
+            )
+              ? [
+                  { title: 'Manual Entry', icon: 'AiOutlineUnorderedList' },
+                  { title: 'Import from file', icon: 'CiImport' },
+                  { title: 'Export file', icon: 'CiExport' },
+                ]
+              : [{ title: 'Manual Entry', icon: 'AiOutlineUnorderedList' }]
+          }
           onClick={item => {
             if (item == 'Import from file') {
               setIsImport(true);

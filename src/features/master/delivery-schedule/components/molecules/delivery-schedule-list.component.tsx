@@ -35,8 +35,10 @@ interface DeliverySchduleListProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -56,7 +58,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
   };
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -799,70 +801,37 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   environment = filter;
                 },
               }),
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <select
-              //       value={row.environment}
-              //       className={
-              //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
-              //       }
-              //       onChange={e => {
-              //         const environment = e.target.value;
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem(
-              //             environment,
-              //             column.dataField,
-              //             row._id,
-              //           );
-              //       }}
-              //     >
-              //       <option selected>Select</option>
-              //       {lookupItems(
-              //         props.extraData.lookupItems,
-              //         'ENVIRONMENT',
-              //       ).map((item: any, index: number) => (
-              //         <option key={index} value={item.code}>
-              //           {lookupValue(item)}
-              //         </option>
-              //       ))}
-              //     </select>
-              //   </>
-              // ),
             },
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,
-              hidden: !props.isDelete,
+              // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
                   <div className='flex flex-row'>
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'Delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Do you want to delete this record?',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
+                    {props.isDelete && (
+                      <Tooltip tooltipText='Delete'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onDelete &&
+                            props.onDelete({
+                              type: 'Delete',
+                              show: true,
+                              id: [row._id],
+                              title: 'Are you sure?',
+                              body: 'Do you want to delete this record?',
+                            })
+                          }
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+
                     {row.status == 'D' && (
                       <Tooltip tooltipText='Approval'>
                         <Icons.RIcon
@@ -886,7 +855,9 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Delivery Schedule'
           onSelectedRow={rows => {
