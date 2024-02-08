@@ -23,8 +23,10 @@ import {
 interface ResultListProps {
   data: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   selectedId?: string;
   selectedItems?: any;
   filterRecord?: string;
@@ -82,7 +84,7 @@ export const ResultList = (props: ResultListProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={localData}
@@ -508,7 +510,9 @@ export const ResultList = (props: ResultListProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Report Panel Approval'
           onSelectedRow={(rows, type) => {

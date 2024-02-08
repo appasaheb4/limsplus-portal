@@ -12,7 +12,6 @@ import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
-import { lookupItems, lookupValue } from '@/library/utils';
 import '@/library/assets/css/accordion.css';
 import { useForm, Controller } from 'react-hook-form';
 import {
@@ -23,9 +22,7 @@ import {
   ModalAddPanel,
 } from '../components';
 import { PatientOrderHoc } from '../hoc';
-
 import { useStores } from '@/stores';
-
 import { toJS } from 'mobx';
 import { RouterFlow } from '@/flows';
 import {
@@ -206,13 +203,21 @@ export const PatientOrder = PatientOrderHoc(
           extraData={{
             lookupItems: routerStore.lookupItems,
           }}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedUser => setModalConfirm(selectedUser)}
           onSelectedRow={rows => {

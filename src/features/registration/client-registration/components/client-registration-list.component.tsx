@@ -40,8 +40,10 @@ interface ClientRegistrationListProps {
   data: any;
   extraData: any;
   totalSize: number;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -72,7 +74,7 @@ export const ClientRegistrationList = observer(
     }
 
     return (
-      <>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -729,7 +731,9 @@ export const ClientRegistrationList = observer(
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          isEditModify={props.isUpdate}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='Client Registration'
           onSelectedRow={rows => {
@@ -777,7 +781,7 @@ export const ClientRegistrationList = observer(
             setModalImportFile({ show: false });
           }}
         />
-      </>
+      </div>
     );
   },
 );

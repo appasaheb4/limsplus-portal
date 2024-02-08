@@ -10,8 +10,10 @@ interface PatientResultProps {
   data: any;
   totalSize: number;
   extraData: any;
+  isView?: boolean;
   isDelete?: boolean;
-  isEditModify?: boolean;
+  isUpdate?: boolean;
+  isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -88,7 +90,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
 
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -731,7 +733,10 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               },
             },
           ]}
-          isEditModify={props.isEditModify}
+          isDelete={props.isDelete}
+          // isEditModify={props.isUpdate}
+          isEditModify={false}
+          isExport={props.isExport}
           isSelectRow={true}
           fileName='PatientResult'
           expandRow={expandRow}

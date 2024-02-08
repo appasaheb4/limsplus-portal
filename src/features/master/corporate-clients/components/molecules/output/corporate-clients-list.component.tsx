@@ -1816,6 +1816,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

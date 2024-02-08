@@ -967,6 +967,7 @@ export const PriceListList = (props: PriceListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

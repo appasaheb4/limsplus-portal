@@ -633,6 +633,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             },
           },
         ]}
+        isDelete={props.isDelete}
         isEditModify={props.isUpdate}
         isExport={props.isExport}
         isSelectRow={true}

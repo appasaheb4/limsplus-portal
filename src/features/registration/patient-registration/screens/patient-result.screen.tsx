@@ -22,13 +22,21 @@ export const PatientResult = observer((props: PatientResultProps) => {
           data={patientResultStore.patientResultListWithLabId}
           totalSize={patientResultStore.patientResultTestCount}
           extraData={{}}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+            routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
-            toJS(routerStore.userPermission),
+          isUpdate={RouterFlow.checkPermission(
+            routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onDelete={selectedUser =>
             props.onModalConfirm && props.onModalConfirm(selectedUser)

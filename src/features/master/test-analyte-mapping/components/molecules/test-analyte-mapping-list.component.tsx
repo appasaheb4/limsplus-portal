@@ -929,6 +929,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

@@ -39,13 +39,21 @@ const Receipt = observer(() => {
         <ReceiptList
           data={receiptStore.receiptList || []}
           totalSize={receiptStore.receiptListCount}
+          isView={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'View',
+          )}
           isDelete={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Delete',
           )}
-          isEditModify={RouterFlow.checkPermission(
+          isUpdate={RouterFlow.checkPermission(
             routerStore.userPermission,
             'Update',
+          )}
+          isExport={RouterFlow.checkPermission(
+            routerStore.userPermission,
+            'Export',
           )}
           onPageSizeChange={(page, limit) => {
             // bannerStore.fetchListBanner(page, limit);

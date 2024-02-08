@@ -34,6 +34,7 @@ interface TableBootstrapProps {
   fileName: string;
   isDelete?: boolean;
   isEditModify?: boolean;
+  isExport?: boolean;
   isSelectRow?: boolean;
   selectedItem?: any;
   onDelete?: (selectedItem: any) => void;
@@ -59,7 +60,9 @@ export const TableBootstrap = ({
   sizePerPage = 10,
   columns,
   fileName,
+  isDelete = true,
   isEditModify,
+  isExport = true,
   isSelectRow,
   selectedItem,
   onSelectedRow,
@@ -386,12 +389,15 @@ export const TableBootstrap = ({
                 >
                   Clear all filters
                 </button>
-                <ExportCSVButton
-                  className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.csvProps}
-                >
-                  Export CSV!!
-                </ExportCSVButton>
+                {isExport && (
+                  <ExportCSVButton
+                    className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    {...props.csvProps}
+                  >
+                    Export CSV!!
+                  </ExportCSVButton>
+                )}
+
                 {isFilterOpen ? (
                   <Buttons.Button
                     size='medium'

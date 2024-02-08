@@ -2050,6 +2050,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}

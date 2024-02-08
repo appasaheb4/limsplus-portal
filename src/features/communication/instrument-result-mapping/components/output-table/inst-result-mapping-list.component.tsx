@@ -566,6 +566,7 @@ export const InstResultMappingList = observer(
               },
             },
           ]}
+          isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
           isSelectRow={true}
