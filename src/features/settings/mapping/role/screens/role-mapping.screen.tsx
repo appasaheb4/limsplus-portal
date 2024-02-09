@@ -13,13 +13,10 @@ import {
 } from '@/library/components';
 import { RoleMappingList } from '../components';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
 import 'react-dropdown-tree-select/dist/styles.css';
 import { dashboardRouter as dashboardRoutes } from '@/routes';
 const router = dashboardRoutes;
-
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 
@@ -152,18 +149,31 @@ const RoleMapping = observer(() => {
           } else if (childrenItem.name == 'Delivery Queue') {
             childrenItem.permission = permission.concat(
               {
+                title: 'Generate Report',
+                checked: false,
+              },
+              {
+                title: 'Hold',
+                checked: false,
+              },
+              {
                 title: 'Cancel',
                 checked: false,
               },
               {
-                title: 'Print',
+                title: 'Report',
                 checked: false,
               },
-              {
-                title: 'Email',
-                checked: false,
-              },
+              // {
+              //   title: 'Email',
+              //   checked: false,
+              // },
             );
+          } else if (childrenItem.name == 'Panel Approval') {
+            childrenItem.permission = permission.concat({
+              title: 'Approval',
+              checked: false,
+            });
           }
           // eslint-disable-next-line no-self-assign
           //childernItem.icon = childernItem.icon;

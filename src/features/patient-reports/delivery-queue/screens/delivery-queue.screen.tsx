@@ -277,6 +277,19 @@ const DeliveryQueue = observer(() => {
           routerStore.userPermission,
           'Export',
         )}
+        isGenerateReport={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Generate Report',
+        )}
+        isHold={RouterFlow.checkPermission(routerStore.userPermission, 'Hold')}
+        isCancel={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Cancel',
+        )}
+        isReport={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Report',
+        )}
         onUpdate={selectedItem => updateRecords(selectedItem)}
         onFilter={(type, filter, page, limit) => {
           global.filter = {

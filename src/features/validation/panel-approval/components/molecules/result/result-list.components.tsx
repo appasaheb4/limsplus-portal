@@ -27,6 +27,7 @@ interface ResultListProps {
   isDelete?: boolean;
   isUpdate?: boolean;
   isExport?: boolean;
+  isApproval?: boolean;
   selectedId?: string;
   selectedItems?: any;
   filterRecord?: string;
@@ -410,68 +411,71 @@ export const ResultList = (props: ResultListProps) => {
               editable: false,
               formatter: (cellContent, row) => (
                 <div className='flex flex-row gap-1' key={row?._id}>
-                  <Tooltip tooltipText='Approved'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() => {
-                        props.onUpdateFields &&
-                          props.onUpdateFields(
-                            { approvalStatus: 'Approved' },
-                            row._id,
-                          );
-                        props.onExpand && props.onExpand('');
-                      }}
-                    >
-                      {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
-                    </Icons.IconContext>
-                  </Tooltip>
-                  <Tooltip tooltipText='Rejected'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() => {
-                        props.onUpdateFields &&
-                          props.onUpdateFields(
-                            { approvalStatus: 'Rejected' },
-                            row._id,
-                          );
-                      }}
-                    >
-                      {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
-                    </Icons.IconContext>
-                  </Tooltip>
-
-                  <Tooltip tooltipText='Recheck'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() => {
-                        props.onRecheck &&
-                          props.onRecheck(row?._id, row?.patientResultId);
-                      }}
-                    >
-                      <Icons.RIcon
-                        nameIcon='GoIssueReopened'
-                        propsIcon={{ color: '#ffffff' }}
-                      />
-                    </Icons.IconContext>
-                  </Tooltip>
-                  <Tooltip tooltipText='Retest'>
-                    <Icons.IconContext
-                      color='#fff'
-                      size='20'
-                      onClick={() => {
-                        props.onRetest &&
-                          props.onRetest(row?._id, row?.patientResultId);
-                      }}
-                    >
-                      <Icons.RIcon
-                        nameIcon='VscIssueReopened'
-                        propsIcon={{ color: '#ffffff' }}
-                      />
-                    </Icons.IconContext>
-                  </Tooltip>
+                  {props.isApproval && (
+                    <>
+                      <Tooltip tooltipText='Approved'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() => {
+                            props.onUpdateFields &&
+                              props.onUpdateFields(
+                                { approvalStatus: 'Approved' },
+                                row._id,
+                              );
+                            props.onExpand && props.onExpand('');
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                      <Tooltip tooltipText='Rejected'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() => {
+                            props.onUpdateFields &&
+                              props.onUpdateFields(
+                                { approvalStatus: 'Rejected' },
+                                row._id,
+                              );
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                      <Tooltip tooltipText='Recheck'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() => {
+                            props.onRecheck &&
+                              props.onRecheck(row?._id, row?.patientResultId);
+                          }}
+                        >
+                          <Icons.RIcon
+                            nameIcon='GoIssueReopened'
+                            propsIcon={{ color: '#ffffff' }}
+                          />
+                        </Icons.IconContext>
+                      </Tooltip>
+                      <Tooltip tooltipText='Retest'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() => {
+                            props.onRetest &&
+                              props.onRetest(row?._id, row?.patientResultId);
+                          }}
+                        >
+                          <Icons.RIcon
+                            nameIcon='VscIssueReopened'
+                            propsIcon={{ color: '#ffffff' }}
+                          />
+                        </Icons.IconContext>
+                      </Tooltip>
+                    </>
+                  )}
                   {selectId == row._id ? (
                     <Tooltip tooltipText='Expand'>
                       <Icons.IconContext
