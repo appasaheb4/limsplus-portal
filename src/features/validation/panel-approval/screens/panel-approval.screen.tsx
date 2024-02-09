@@ -149,6 +149,10 @@ const PanelApproval = observer(() => {
           routerStore.userPermission,
           'Export',
         )}
+        isApproval={RouterFlow.checkPermission(
+          routerStore.userPermission,
+          'Approval',
+        )}
         onSelectedRow={(rows, type) => {
           updateRecords({
             show: true,
