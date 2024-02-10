@@ -85,12 +85,13 @@ const Settings = observer(props => {
                         dispatch(toggleStickySidebar(), setIsOpen(!isOpen))
                       }
                     >
-                      {sidebar.isSticky ? 'Static Sidebar' : 'Sticky Sidebar'}
+                      {sidebar.isSticky ? 'Sticky Sidebar' : 'Static Sidebar'}
                       <Badge tag='small' className='float-right mt-1'>
                         <FontAwesomeIcon icon={faAngleRight as any} />
                       </Badge>
                     </span>
                   </li>
+
                   <li>
                     <span
                       className='settings-layouts-item'
@@ -98,20 +99,7 @@ const Settings = observer(props => {
                         dispatch(toggleSidebar(), setIsOpen(!isOpen))
                       }
                     >
-                      {'Collapsed Sidebar'}
-                      <Badge tag='small' className='float-right mt-1'>
-                        <FontAwesomeIcon icon={faAngleRight as any} />
-                      </Badge>
-                    </span>
-                  </li>
-                  <li>
-                    <span
-                      className='settings-layouts-item'
-                      onClick={() =>
-                        dispatch(toggleSidebar(), setIsOpen(!isOpen))
-                      }
-                    >
-                      {'Visible Sidebar'}
+                      {sidebar.isOpen ? 'Collapsed Sidebar' : 'Visible Sidebar'}
                       <Badge tag='small' className='float-right mt-1'>
                         <FontAwesomeIcon icon={faAngleRight as any} />
                       </Badge>
