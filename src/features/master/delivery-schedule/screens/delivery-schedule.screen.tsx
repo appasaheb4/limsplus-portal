@@ -894,7 +894,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                       render={({ field: { onChange, value } }) => (
                         <Form.DeliveryScheduleToggle
                           hasError={!!errors.secondCutoffTimeRequired}
-                          label='Schedule For Pat/Dept'
+                          label='Schedule For'
                           value={value}
                           onChange={scheduleForPatAndDept => {
                             onChange(scheduleForPatAndDept);

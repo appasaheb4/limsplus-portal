@@ -75,12 +75,19 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
 
   useEffect(() => {
     const filterDataByHoldRecord = (data, holdRecord) => {
-      if (holdRecord === 'Hold') {
-        return data.filter(item => item.deliveryStatus === 'Hold');
-      } else if (holdRecord === 'Pending') {
-        return data.filter(item => item.deliveryStatus === 'Pending');
-      } else {
-        return data;
+      switch (holdRecord) {
+        case 'Hold': {
+          return data.filter(item => item.deliveryStatus === 'Hold');
+        }
+        case 'Pending': {
+          return data.filter(item => item.deliveryStatus === 'Pending');
+        }
+        case 'Done': {
+          return data.filter(item => item.deliveryStatus === 'Done');
+        }
+        default: {
+          return data;
+        }
       }
     };
 
@@ -254,7 +261,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             {
               dataField: 'reportPriority',
               text: 'Report Priority',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader',
               sort: true,
               csvFormatter: (col, row) =>
                 row?.reportPriority ? row.reportPriority : '',
@@ -263,21 +270,19 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             {
               dataField: 'deliveryMode',
               text: 'Delivery Mode',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               csvFormatter: (col, row) =>
                 row?.deliveryMode ? row.deliveryMode : '',
               editable: false,
               formatter: (cell, row) => {
-                console.log(row);
                 return (
                   <div className='flex flex-row flex-wrap gap-2'>
-                    {typeof row?.deliveryMode != 'string' &&
-                      row?.deliveryMode?.map(item => (
-                        <span className='bg-blue-800 rounded-md p-2 text-white'>
-                          {item.value}
-                        </span>
-                      ))}
+                    {row?.deliveryMode?.map(item => (
+                      <span className='bg-blue-800 rounded-md p-2 text-white'>
+                        {item.code}
+                      </span>
+                    ))}
                   </div>
                 );
               },

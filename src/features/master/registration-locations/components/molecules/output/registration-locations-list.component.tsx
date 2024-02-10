@@ -110,6 +110,8 @@ export const RegistrationLocationsList = (
     formState: { errors },
     setValue,
   } = useForm();
+  const [selectedRowId, setSelectedRowId] = useState<any>();
+  const [widthRefBox, setWidthRefBox] = useState('20px');
   const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
@@ -118,7 +120,7 @@ export const RegistrationLocationsList = (
   const todayDate = new Date();
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
-
+  console.log({ selectedRowId });
   return (
     <div className={`${props.isView ? 'shown' : 'hidden'}`}>
       <TableBootstrap
@@ -229,35 +231,69 @@ export const RegistrationLocationsList = (
           {
             dataField: 'priceList',
             text: 'Price List',
-            headerClasses: 'textHeader5 z-10',
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // headerClasses: 'textHeader5 z-10',
+            // sort: true,
+            // headerStyle: {
+            //   fontSize: 0,
+            // },
+            style: { width: widthRefBox },
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                priceList = filter;
-              },
-            }),
+            // filter: textFilter({
+            //   getFilter: filter => {
+            //     priceList = filter;
+            //   },
+            // }),
             editable: false,
             formatter: (cell, row) => {
               return (
                 <>
-                  {row?.priceList ? (
-                    <PriceListTableForRegLocationsList
-                      key={row?._id}
-                      rowStatus={!editorCell(row)}
-                      isAddRemoveItem={false}
-                      invoiceAc={row?.invoiceAc}
-                      data={row?.priceList || []}
-                      onUpdate={data => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(data, 'priceList', row._id);
-                      }}
-                    />
-                  ) : null}
+                  <div>
+                    {row?.priceList?.length > 0 && (
+                      <Tooltip
+                        tooltipText={
+                          row._id !== selectedRowId
+                            ? 'Expand Price List'
+                            : 'Collapse Price List'
+                        }
+                      >
+                        <Icons.IconContext
+                          color='#000000'
+                          size='20'
+                          onClick={() => {
+                            if (row._id === selectedRowId) {
+                              setSelectedRowId('');
+                              setWidthRefBox('30px');
+                            } else {
+                              setSelectedRowId(row._id);
+                              setWidthRefBox('800px');
+                            }
+                          }}
+                        >
+                          {Icons.getIconTag(
+                            row._id !== selectedRowId
+                              ? Icons.IconBi.BiExpand
+                              : Icons.IconBi.BiCollapse,
+                          )}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+                  </div>
+                  {selectedRowId == row._id && (
+                    <div style={{ width: widthRefBox }}>
+                      <PriceListTableForRegLocationsList
+                        key={row?._id}
+                        rowStatus={!editorCell(row)}
+                        isAddRemoveItem={false}
+                        invoiceAc={row?.invoiceAc}
+                        data={row?.priceList || []}
+                        onUpdate={data => {
+                          props.onUpdateItem &&
+                            props.onUpdateItem(data, 'priceList', row._id);
+                        }}
+                      />
+                    </div>
+                  )}
                 </>
               );
             },
