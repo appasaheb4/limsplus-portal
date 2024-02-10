@@ -239,7 +239,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'scheduleForPatAndDept',
-              text: 'Schedule For Pat/Dept',
+              text: 'Schedule For',
               sort: true,
               editable: false,
               csvFormatter: (col, row) =>
