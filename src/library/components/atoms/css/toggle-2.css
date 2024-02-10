@@ -65,7 +65,7 @@
     font-size: 12px; 
   }
   .wrg-toggle-check1 {
-    left: 0;
+    left: -7px;
   }
   .wrg-toggle-uncheck1 {
     right: -11px;
@@ -73,13 +73,14 @@
   }
   
   .wrg-toggle-container1 {
-    width: 80px; 
+    width: max-content; /* Set width to fit content */
+    min-width: 122px; /* Minimum width to prevent collapsing */
     height: 30px; 
     padding: 0;
     border-radius: 30px;
     transition: all 0.2s ease;
     display: flex;
-  }
+}
   
   .wrg-toggle-circle1 {
     transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0ms;
@@ -103,7 +104,7 @@
     opacity: 0;
   }
   .wrg-toggle--checked1 .wrg-toggle-circle1 {
-    left: calc(100% - 29px); /* Adjust position as needed */
+    left: calc(100% - 31px); /* Adjust position as needed */
   }
   
   .wrg-toggle--disabled1 {
