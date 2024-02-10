@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Stores } from '../../../stores';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
@@ -97,6 +97,8 @@ export const LabList = (props: LabListProps) => {
     setError,
     clearErrors,
   } = useForm();
+  const [selectedRowId, setSelectedRowId] = useState('');
+  const [widthRefBox, setWidthRefBox] = useState('20px');
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -328,12 +330,11 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'priceList',
               text: 'Price List',
-              headerClasses: 'textHeader3 z-10',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // headerClasses: 'textHeader',
+              style: { width: widthRefBox },
+              // sort: true,
+
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 `PriceGroup : ${row?.priceList
                   ?.map(item => item.priceGroup)
@@ -342,27 +343,60 @@ export const LabList = (props: LabListProps) => {
                   .join(' , ')} Max Dis% : ${row?.priceList
                   ?.map(item => item.maxDis)
                   .join(' , ')}`,
-              filter: textFilter({
-                getFilter: filter => {
-                  priceList = filter;
-                },
-              }),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     priceList = filter;
+              //   },
+              // }),
               editable: false,
               formatter: (cell, row) => {
                 return (
                   <>
-                    {row?.priceList ? (
-                      <PriceListTableForLabList
-                        key={row?._id}
-                        rowStatus={!editorCell(row)}
-                        isAddRemoveItem={false}
-                        data={row?.priceList}
-                        onUpdate={data => {
-                          props.onUpdateItem &&
-                            props.onUpdateItem(data, 'priceList', row._id);
-                        }}
-                      />
-                    ) : null}
+                    <div>
+                      {row.priceList?.length > 0 && (
+                        <Tooltip
+                          tooltipText={
+                            row._id != selectedRowId
+                              ? 'Expand Price List'
+                              : 'Collapse Price List'
+                          }
+                        >
+                          <Icons.IconContext
+                            color='#000000'
+                            size='20'
+                            onClick={() => {
+                              if (row._id === selectedRowId) {
+                                setSelectedRowId('');
+                                setWidthRefBox('30px');
+                              } else {
+                                setSelectedRowId(row._id);
+                                setWidthRefBox('800px');
+                              }
+                            }}
+                          >
+                            {Icons.getIconTag(
+                              row._id != selectedRowId
+                                ? Icons.IconBi.BiExpand
+                                : Icons.IconBi.BiCollapse,
+                            )}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      )}
+                    </div>
+                    {selectedRowId == row?._id && (
+                      <div style={{ width: widthRefBox }}>
+                        <PriceListTableForLabList
+                          key={row?._id}
+                          rowStatus={!editorCell(row)}
+                          isAddRemoveItem={false}
+                          data={row?.priceList}
+                          onUpdate={data => {
+                            props.onUpdateItem &&
+                              props.onUpdateItem(data, 'priceList', row._id);
+                          }}
+                        />
+                      </div>
+                    )}
                   </>
                 );
               },

@@ -709,7 +709,7 @@ const MasterPackage = MasterPackageHOC(
                             loader={loading}
                             placeholder='Search by code or name'
                             hasError={!!errors.panelCode}
-                            disable={isVersionUpgrade}
+                            // disable={isVersionUpgrade}
                             data={{
                               list:
                                 masterPanelStore.listMasterPanel.filter(

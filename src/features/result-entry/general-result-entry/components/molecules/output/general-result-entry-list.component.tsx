@@ -433,7 +433,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'resultDate',
               text: 'Result Date',
               editable: false,
-              // headerClasses: 'textHeader',
+              headerClasses: 'textHeader',
               formatter: (cell, row) => {
                 return (
                   <>{dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}</>
