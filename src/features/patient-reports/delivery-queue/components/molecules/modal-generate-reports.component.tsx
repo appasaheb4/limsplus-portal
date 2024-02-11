@@ -285,7 +285,7 @@ export const ModalGenerateReports = ({
                   <div className='flex flex-row items-center justify-center gap-2'>
                     {data && (
                       <div className='flex flex-col gap-3'>
-                        <Form.InputRadio
+                        <Form.InputRadio 
                           label='Report Type'
                           labelStyle={{fontWeight: 'bold', fontSize: 16}}
                           value={isWithHeader ? 'withHeader' : 'withoutHeader'}

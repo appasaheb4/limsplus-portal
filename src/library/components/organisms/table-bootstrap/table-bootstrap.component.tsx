@@ -159,15 +159,14 @@ export const TableBootstrap = ({
         {isPagination && (
           <>
             <input
-              type='number'
-              min='0'
+              type='text'
               placeholder='No'
               onChange={(e: any) => {
                 if (e.target.value) {
-                  onSizePerPageChange(e.target.value);
+                  onSizePerPageChange(Number(e.target.value));
                 }
               }}
-              className='mr-2 ml-2 leading-4 p-1 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
+              className='mr-2 ml-2 text-black dark:bg-boxdark leading-4 p-1 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
             />
             <div className='flex'>
               {options.map(option => (

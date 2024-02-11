@@ -1,7 +1,8 @@
-import React, { useMemo } from 'react';
-import { Icons } from '@/library/components';
+import React, { useMemo, useState } from 'react';
+import { Form, Icons } from '@/library/components';
 import { sidebarBackgroundImage } from '@/library/assets';
 import { stores } from '@/stores';
+import { SketchPicker } from 'react-color';
 
 interface SideBarColorBgImagesProps {
   data: Array<{ color: string }>;
@@ -14,6 +15,10 @@ const SideBarColorBgImages = ({
   onChangeSidebarColor,
   onChangeNavbarColor,
 }: SideBarColorBgImagesProps) => {
+  const [selectedTarget, setSelectedTarget] = useState('sideBarColor');
+  const [navBarColor, setNavBarColor] = useState('#ffffff');
+  const [sideBarColor, setSideBarColor] = useState('#ffffff');
+
   const sideImages = useMemo(() => {
     return (
       <div className='flex flex-wrap justify-start gap-4'>
@@ -56,13 +61,29 @@ const SideBarColorBgImages = ({
     );
   }, []);
 
+  const handleChangeColor = color => {
+    if (selectedTarget === 'navBarColor') {
+      setNavBarColor(color.hex);
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        navBarColor: color.hex,
+      });
+    } else if (selectedTarget === 'sideBarColor') {
+      setSideBarColor(color.hex);
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        sideBarColor: color.hex,
+      });
+    }
+  };
+
   return (
     <React.Fragment>
       <>
         <hr />
         <div className='flex justify-between items-center'>
           <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
-            Color For Sidebar
+            Color picker For Sidebar and Navbar
           </small>
           <Icons.RIcon
             nameIcon='CiCircleRemove'
@@ -72,60 +93,39 @@ const SideBarColorBgImages = ({
             }}
             onClick={() => {
               onChangeSidebarColor && onChangeSidebarColor('');
+              onChangeNavbarColor?.('');
             }}
           />
         </div>
-        <div className='sideBarColorOptions my-1.5'>
-          <div className='row'>
-            <div className='col-md-12 d-flex justify-center theme-options overflow-x-scroll  p-0'>
-              {data.map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className='w-5 h-5 rounded-3xl px-2.5 mx-1.5 border-solid'
-                    style={{ backgroundColor: `${item.color}` }}
-                    onClick={() =>
-                      onChangeSidebarColor && onChangeSidebarColor(item.color)
-                    }
-                  />
-                );
-              })}
-            </div>
+        <div className='w-full flex justify-between  gap-2'>
+          <SketchPicker
+            color={
+              selectedTarget === 'sideBarColor' ? navBarColor : sideBarColor
+            }
+            onChangeComplete={handleChangeColor}
+          />
+          <div>
+            <Form.InputWrapper label='SideBar Color'>
+              <input
+                type='radio'
+                name='target'
+                value='navBar'
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                onChange={() => setSelectedTarget('sideBarColor')}
+              />
+            </Form.InputWrapper>
+            <Form.InputWrapper label='Navbar Color'>
+              <input
+                type='radio'
+                name='target'
+                value='navBar'
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                onChange={() => setSelectedTarget('navBarColor')}
+              />
+            </Form.InputWrapper>
           </div>
         </div>
-        <div className='sideBarColorOptions my-1.5'>
-          <div className='flex justify-between items-center'>
-            <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
-              Color For Navbar
-            </small>
-            <Icons.RIcon
-              nameIcon='CiCircleRemove'
-              propsIcon={{
-                color: '#000000',
-                size: 22,
-              }}
-              onClick={() => {
-                onChangeNavbarColor && onChangeNavbarColor('');
-              }}
-            />
-          </div>
-          <div className='row'>
-            <div className='col-md-12 d-flex justify-center theme-options overflow-x-scroll p-0'>
-              {data.map((item, index) => {
-                return (
-                  <div
-                    key={index}
-                    className='w-5 h-5  rounded-3xl border-black px-2.5	mx-1.5'
-                    style={{ backgroundColor: `${item.color}` }}
-                    onClick={() =>
-                      onChangeNavbarColor && onChangeNavbarColor(item.color)
-                    }
-                  />
-                );
-              })}
-            </div>
-          </div>
-        </div>
+
         <hr />
         <div className='flex justify-between items-center'>
           <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
