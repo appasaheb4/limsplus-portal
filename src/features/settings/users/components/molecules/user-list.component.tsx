@@ -24,6 +24,7 @@ import {
   AutoCompleteFilterSingleSelectDegnisation,
   AutoCompleteFilterMutiSelectCorporateClient,
   AutoCompleteFilterMutiSelectRegistrationLocation,
+  AutoCompleteFilterMultiSelectDoctors,
   AutoCompleteReportingTo,
   ModalDefaultLabDeptUpdate,
   ModalDefaultLabDeptUpdateProps,
@@ -242,14 +243,13 @@ export const UserList = (props: UserListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      'USER_MODULE',
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
+                    {props.extraData.userModule?.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ),
+                    )}
                   </select>
                 </>
               ),
@@ -614,6 +614,47 @@ export const UserList = (props: UserListProps) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           item.registrationLocation,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  />
+                </>
+              ),
+            },
+            {
+              dataField: 'doctors',
+              text: 'Doctors',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              csvFormatter: (cell, row, rowIndex) =>
+                `${row.doctors?.map(item => item.doctorCode)}`,
+              headerClasses: 'textHeader5',
+              formatter: (cellContent, row) => (
+                <>
+                  <ul style={{ listStyle: 'inside' }}>
+                    {row?.doctors?.map((item, index) => (
+                      <li key={index}>{item.doctorCode}</li>
+                    ))}
+                  </ul>
+                </>
+              ),
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <AutoCompleteFilterMultiSelectDoctors
+                    selected={row.doctors}
+                    onSelect={item => {
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          item.doctors,
                           column.dataField,
                           row._id,
                         );
@@ -1513,14 +1554,13 @@ export const UserList = (props: UserListProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(
-                      props.extraData.lookupItems,
-                      'ENVIRONMENT',
-                    ).map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
+                    {props.extraData.environment?.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ),
+                    )}
                   </select>
                 </>
               ),

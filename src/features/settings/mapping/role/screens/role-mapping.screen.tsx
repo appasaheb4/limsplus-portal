@@ -759,11 +759,28 @@ const RoleMapping = observer(() => {
                                                                 : true;
                                                             if (
                                                               modifyPermission.title ===
+                                                              'Import'
+                                                            ) {
+                                                              routers[
+                                                                index
+                                                              ].children[
+                                                                indexChildren
+                                                              ].permission[0].checked =
+                                                                true;
+                                                            }
+                                                            if (
+                                                              modifyPermission.title ===
+                                                                'Version Upgrade' ||
+                                                              modifyPermission.title ===
+                                                                'Duplicate' ||
+                                                              modifyPermission.title ===
                                                                 'Update' ||
                                                               modifyPermission.title ===
                                                                 'Delete' ||
                                                               modifyPermission.title ===
-                                                                'Export'
+                                                                'Export' ||
+                                                              modifyPermission.title ===
+                                                                'Cancel'
                                                             ) {
                                                               routers[
                                                                 index
