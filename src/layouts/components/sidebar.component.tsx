@@ -64,11 +64,21 @@ const SidebarCategory = withRouter(
         >
           <Icons.RIcon
             nameIcon={icon}
-            propsIcon={{ color: '#ffffff', size: 20 }}
+            propsIcon={{
+              color: '#ffffff',
+              size: 20,
+            }}
           />
           <span className='align-middle'>{title}</span>
           {badgeColor && badgeText ? (
-            <Badge color={badgeColor} size={18} className='sidebar-badge'>
+            <Badge
+              color={
+                badgeColor ??
+                stores.appStore.applicationSetting.sidebarFontColor
+              }
+              size={18}
+              className='sidebar-badge'
+            >
               {badgeText}
             </Badge>
           ) : null}
@@ -76,9 +86,7 @@ const SidebarCategory = withRouter(
         {isOpen && (
           <ul id='item' className={`sidebar-dropdown list-unstyled `}>
             <PerfectScrollbar>
-              <div style={{ height: 'auto', maxHeight: '300px' }}>
-                {children}
-              </div>
+              <div style={{ maxHeight: '400px' }}>{children}</div>
             </PerfectScrollbar>
           </ul>
         )}
@@ -116,12 +124,22 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
         <div className='flex items-center p-0 m-0'>
           <Icons.RIcon
             nameIcon={props.icon || 'VscListSelection'}
-            propsIcon={{ color: '#ffffff', size: 18 }}
+            propsIcon={{
+              color: '#ffffff',
+              size: 18,
+            }}
           />
           <span className='flex items-center'>{props.title}</span>
         </div>
         {props.badgeColor && props.badgeText ? (
-          <Badge color={props.badgeColor} size={18} className='sidebar-badge'>
+          <Badge
+            color={
+              props.badgeColor ??
+              stores.appStore.applicationSetting.sidebarFontColor
+            }
+            size={18}
+            className='sidebar-badge'
+          >
             {props.badgeText}
           </Badge>
         ) : null}
@@ -155,9 +173,8 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
     <>
       <nav
         className={
-          'sidebar sidebar-sticky' +
-          (!sidebar.isOpen ? ' toggled' : '') +
-          (sidebar.isSticky ? 'sidebar-sticky' : '')
+          'sidebar sidebar-sticky' + (!sidebar.isOpen ? ' toggled' : '')
+          // (sidebar.isSticky ? 'sidebar-sticky' : '')
         }
         style={{
           backgroundColor: `${appStore.applicationSetting?.sideBarColor}`,
@@ -168,7 +185,7 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
         }}
       >
         <div className='sidebar-content'>
-          <PerfectScrollbar>
+          <PerfectScrollbar style={{ maxHeight: '100%', position: 'absolute' }}>
             <a className='flex sidebar-brand items-center' href='/'>
               <img
                 src={Assets.images.limsplusTran}
@@ -269,33 +286,6 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                 })}
               </ul>
             )}
-            {!layout.isBoxed && !sidebar.isSticky ? (
-              <div className='sidebar-bottom d-none d-lg-block'>
-                <div className='media'>
-                  <img
-                    className='rounded-circle mr-3'
-                    src={
-                      stores.loginStore.login?.picture || Assets.defaultAvatar
-                    }
-                    alt={stores.loginStore.login?.fullName}
-                    width='40'
-                    height='40'
-                  />
-                  <div className='media-body'>
-                    <h5 className='mb-1'>
-                      {stores.loginStore.login?.fullName}
-                    </h5>
-                    <div>
-                      <FontAwesomeIcon
-                        icon={faCircle as any}
-                        className='text-success'
-                      />{' '}
-                      Online
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : null}
           </PerfectScrollbar>
         </div>
       </nav>

@@ -10,6 +10,7 @@ interface ApplicationSetting {
   theme?: 'dark' | 'light';
   sidebarImage?: string;
   navbarImage?: string;
+  sidebarFontColor: string;
 }
 
 interface FooterViewProps {
