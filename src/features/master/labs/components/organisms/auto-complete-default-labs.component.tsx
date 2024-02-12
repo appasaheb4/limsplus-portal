@@ -13,7 +13,8 @@ export const AutoCompleteDefaultLab = observer(
     const [list, setList] = useState<Array<any>>([]);
 
     useEffect(() => {
-      setList(labStore?.listLabs.filter(item => item.labType === 'R'));
+      // setList(labStore?.listLabs.filter(item => item.labType === 'R')); // vikram mention remove this condition
+      setList(labStore?.listLabs);
     }, [labStore.listLabs]);
     return (
       <>
