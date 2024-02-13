@@ -139,6 +139,7 @@ export const TableBootstrap = ({
           <Buttons.Button
             size='small'
             type='solid'
+            buttonClass='bg-blue-500'
             onClick={() => {
               if (selectedRow) {
                 onSelectedRow && onSelectedRow(selectedRow);
@@ -176,8 +177,8 @@ export const TableBootstrap = ({
                   onClick={() => onSizePerPageChange(option.page)}
                   className={`btn  ${
                     currSizePerPage === `${option.page}`
-                      ? 'bg-primary'
-                      : 'bg-grey'
+                      ? 'bg-[#4F46E5] text-white'
+                      : 'bg-grey text-white'
                   }`}
                 >
                   {option.text}

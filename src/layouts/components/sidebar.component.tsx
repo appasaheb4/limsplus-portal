@@ -183,8 +183,9 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
     <>
       <nav
         className={
-          'sidebar sidebar-sticky' + (!sidebar.isOpen ? ' toggled' : '')
-          // (sidebar.isSticky ? 'sidebar-sticky' : '')
+          'sidebar sidebar-sticky' +
+          (!sidebar.isOpen ? ' toggled' : '') +
+          (sidebar.isSticky ? 'sidebar-sticky' : '')
         }
         style={{
           backgroundColor: `${appStore.applicationSetting?.sideBarColor}`,
@@ -296,6 +297,33 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                 })}
               </ul>
             )}
+            {!layout.isBoxed && !sidebar.isSticky ? (
+              <div className='sidebar-bottom d-none d-lg-block'>
+                <div className='media'>
+                  <img
+                    className='rounded-circle mr-3'
+                    src={
+                      stores.loginStore.login?.picture || Assets.defaultAvatar
+                    }
+                    alt={stores.loginStore.login?.fullName}
+                    width='40'
+                    height='40'
+                  />
+                  <div className='media-body'>
+                    <h5 className='mb-1'>
+                      {stores.loginStore.login?.fullName}
+                    </h5>
+                    <div>
+                      <FontAwesomeIcon
+                        icon={faCircle as any}
+                        className='text-success'
+                      />{' '}
+                      Online
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </PerfectScrollbar>
         </div>
       </nav>

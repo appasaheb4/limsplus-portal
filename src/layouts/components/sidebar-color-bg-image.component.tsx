@@ -23,7 +23,7 @@ const SideBarColorBgImages = ({
   const [sideBarColor, setSideBarColor] = useState('#ffffff');
   const [sideBarFontColor, setSideBarFontColor] = useState('#ffffff');
   const [navIconColor, setNavIconColor] = useState('#000');
-
+  const [currentColor, setCurrentColor] = useState('#ffffff');
   const sideImages = useMemo(() => {
     return (
       <div className='flex flex-wrap justify-start gap-4'>
@@ -67,81 +67,94 @@ const SideBarColorBgImages = ({
   }, []);
 
   const navbarChangeColor = color => {
-    setNavBarColor(color.hex);
+    setNavBarColor(currentColor);
     stores.appStore.updateApplicationSetting({
       ...stores.appStore.applicationSetting,
-      navBarColor: color.hex,
+      navBarColor: currentColor,
     });
   };
 
   const sidebarColorChangeHandler = color => {
-    setSideBarColor(color.hex);
+    setSideBarColor(currentColor);
     stores.appStore.updateApplicationSetting({
       ...stores.appStore.applicationSetting,
-      sideBarColor: color.hex,
+      sideBarColor: currentColor,
     });
   };
 
   const sidebarFontColorChangeHandler = color => {
-    setSideBarFontColor(color.hex);
+    setSideBarFontColor(currentColor);
     stores.appStore.updateApplicationSetting({
       ...stores.appStore.applicationSetting,
-      sidebarFontColor: color.hex,
+      sidebarFontColor: currentColor,
     });
   };
 
   const navbarIconChangeHandler = color => {
-    setNavIconColor(color.hex);
+    setNavIconColor(currentColor);
     stores.appStore.updateApplicationSetting({
       ...stores.appStore.applicationSetting,
-      navbarIconColor: color.hex,
+      navbarIconColor: currentColor,
     });
   };
 
   const handleCheckboxChange = checkboxType => {
-    if (checkboxType === 'navBar') {
-      setNavBarChecked(!navBarChecked);
-      if (navBarChecked) {
-        setNavBarChecked(false);
-        setNavBarColor('#fff');
-        stores.appStore.updateApplicationSetting({
-          ...stores.appStore.applicationSetting,
-          navBarColor: '',
-        });
-      }
+    switch (checkboxType) {
+      case 'navBar':
+        setNavBarChecked(!navBarChecked);
+        if (navBarChecked) {
+          setNavBarColor('#fff');
+          stores.appStore.updateApplicationSetting({
+            ...stores.appStore.applicationSetting,
+            navBarColor: '',
+          });
+        }
+        break;
+      case 'sideBar':
+        setSideBarChecked(!sideBarChecked);
+        if (sideBarChecked) {
+          setSideBarColor('#fff');
+          stores.appStore.updateApplicationSetting({
+            ...stores.appStore.applicationSetting,
+            sideBarColor: '',
+          });
+        }
+        break;
+      case 'sidebarFont':
+        setSideBarFontcolorChecked(!sideBarFontColorChecked);
+        if (sideBarFontColorChecked) {
+          setSideBarFontColor('#fff');
+          stores.appStore.updateApplicationSetting({
+            ...stores.appStore.applicationSetting,
+            sidebarFontColor: '',
+          });
+        }
+        break;
+      case 'navIconColor':
+        setNavIconColorChecked(!navIconColorChecked);
+        if (navIconColorChecked) {
+          setNavIconColor('#000');
+          stores.appStore.updateApplicationSetting({
+            ...stores.appStore.applicationSetting,
+            navbarIconColor: '',
+          });
+        }
+        break;
+      default:
+        break;
     }
-    if (checkboxType === 'sideBar') {
-      setSideBarChecked(!sideBarChecked);
-      if (sideBarChecked) {
-        setSideBarColor('#fff');
-        setSideBarChecked(false);
-        stores.appStore.updateApplicationSetting({
-          ...stores.appStore.applicationSetting,
-          sideBarColor: '',
-        });
-      }
-    }
-    if (checkboxType === 'sidebarFont') {
-      setSideBarFontcolorChecked(!sideBarFontColorChecked);
-      if (sideBarFontColorChecked) {
-        setSideBarFontColor('#fff');
-        setSideBarFontcolorChecked(false);
-        stores.appStore.updateApplicationSetting({
-          ...stores.appStore.applicationSetting,
-          sidebarFontColor: '',
-        });
-      }
-    }
-    if (checkboxType === 'navIconColor') {
-      setNavIconColorChecked(!navIconColorChecked);
-      if (navIconColorChecked) {
-        setNavIconColor('#000');
-        setNavIconColorChecked(false);
-        stores.appStore.updateApplicationSetting({
-          ...stores.appStore.applicationSetting,
-          navbarIconColor: '',
-        });
-      }
+  };
+
+  const handleChangeColor = color => {
+    setCurrentColor(color.hex);
+    if (sideBarFontColorChecked) {
+      sidebarFontColorChangeHandler(color.hex);
+    } else if (sideBarChecked) {
+      sidebarColorChangeHandler(color.hex);
+    } else if (navBarChecked) {
+      navbarChangeColor(color.hex);
+    } else if (navIconColorChecked) {
+      navbarIconChangeHandler(color.hex);
     }
   };
 
@@ -193,26 +206,8 @@ const SideBarColorBgImages = ({
         </div>
         <div className='w-full flex justify-center mb-3'>
           <SketchPicker
-            color={
-              sideBarFontColorChecked
-                ? sideBarFontColor
-                : sideBarChecked
-                ? sideBarColor
-                : navIconColorChecked
-                ? navIconColor
-                : navBarColor
-            }
-            onChangeComplete={color => {
-              if (sideBarFontColorChecked) {
-                sidebarFontColorChangeHandler(color);
-              } else if (sideBarChecked) {
-                sidebarColorChangeHandler(color);
-              } else if (navBarChecked) {
-                navbarChangeColor(color);
-              } else if (navIconColorChecked) {
-                navbarIconChangeHandler(color);
-              }
-            }}
+            color={currentColor}
+            onChangeComplete={handleChangeColor}
           />
         </div>
 
