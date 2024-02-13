@@ -18,9 +18,11 @@ const SideBarColorBgImages = ({
   const [navBarChecked, setNavBarChecked] = useState(false);
   const [sideBarChecked, setSideBarChecked] = useState(false);
   const [sideBarFontColorChecked, setSideBarFontcolorChecked] = useState(false);
+  const [navIconColorChecked, setNavIconColorChecked] = useState(false);
   const [navBarColor, setNavBarColor] = useState('#ffffff');
   const [sideBarColor, setSideBarColor] = useState('#ffffff');
   const [sideBarFontColor, setSideBarFontColor] = useState('#ffffff');
+  const [navIconColor, setNavIconColor] = useState('#000');
 
   const sideImages = useMemo(() => {
     return (
@@ -64,42 +66,81 @@ const SideBarColorBgImages = ({
     );
   }, []);
 
-  const handleChangeColor = color => {
-    if (navBarChecked && color && color.hex) {
-      setNavBarColor(color.hex);
-      stores.appStore.updateApplicationSetting({
-        ...stores.appStore.applicationSetting,
-        navBarColor: color.hex,
-      });
-    }
+  const navbarChangeColor = color => {
+    setNavBarColor(color.hex);
+    stores.appStore.updateApplicationSetting({
+      ...stores.appStore.applicationSetting,
+      navBarColor: color.hex,
+    });
+  };
 
-    if (sideBarChecked && color && color.hex) {
-      setSideBarColor(color.hex);
-      stores.appStore.updateApplicationSetting({
-        ...stores.appStore.applicationSetting,
-        sideBarColor: color.hex,
-      });
-    }
+  const sidebarColorChangeHandler = color => {
+    setSideBarColor(color.hex);
+    stores.appStore.updateApplicationSetting({
+      ...stores.appStore.applicationSetting,
+      sideBarColor: color.hex,
+    });
+  };
 
-    if (sideBarFontColorChecked && color && color.hex) {
-      setSideBarFontColor(color.hex);
-      stores.appStore.updateApplicationSetting({
-        ...stores.appStore.applicationSetting,
-        sidebarFontColor: color.hex,
-      });
-    }
+  const sidebarFontColorChangeHandler = color => {
+    setSideBarFontColor(color.hex);
+    stores.appStore.updateApplicationSetting({
+      ...stores.appStore.applicationSetting,
+      sidebarFontColor: color.hex,
+    });
+  };
+
+  const navbarIconChangeHandler = color => {
+    setNavIconColor(color.hex);
+    stores.appStore.updateApplicationSetting({
+      ...stores.appStore.applicationSetting,
+      navbarIconColor: color.hex,
+    });
   };
 
   const handleCheckboxChange = checkboxType => {
     if (checkboxType === 'navBar') {
       setNavBarChecked(!navBarChecked);
-      if (!navBarChecked) {
-        setSideBarChecked(false); // Uncheck sidebar if navbar is checked
+      if (navBarChecked) {
+        setNavBarChecked(false);
+        setNavBarColor('#fff');
+        stores.appStore.updateApplicationSetting({
+          ...stores.appStore.applicationSetting,
+          navBarColor: '',
+        });
       }
-    } else if (checkboxType === 'sideBar') {
+    }
+    if (checkboxType === 'sideBar') {
       setSideBarChecked(!sideBarChecked);
       if (sideBarChecked) {
-        setNavBarChecked(false); // Uncheck navbar if sidebar is checked
+        setSideBarColor('#fff');
+        setSideBarChecked(false);
+        stores.appStore.updateApplicationSetting({
+          ...stores.appStore.applicationSetting,
+          sideBarColor: '',
+        });
+      }
+    }
+    if (checkboxType === 'sidebarFont') {
+      setSideBarFontcolorChecked(!sideBarFontColorChecked);
+      if (sideBarFontColorChecked) {
+        setSideBarFontColor('#fff');
+        setSideBarFontcolorChecked(false);
+        stores.appStore.updateApplicationSetting({
+          ...stores.appStore.applicationSetting,
+          sidebarFontColor: '',
+        });
+      }
+    }
+    if (checkboxType === 'navIconColor') {
+      setNavIconColorChecked(!navIconColorChecked);
+      if (navIconColorChecked) {
+        setNavIconColor('#000');
+        setNavIconColorChecked(false);
+        stores.appStore.updateApplicationSetting({
+          ...stores.appStore.applicationSetting,
+          navbarIconColor: '',
+        });
       }
     }
   };
@@ -108,23 +149,7 @@ const SideBarColorBgImages = ({
     <React.Fragment>
       <>
         <hr />
-        <div className='flex justify-between items-center'>
-          <small className='d-block text-uppercase font-weight-bold text-muted mb-2 my-3.5'>
-            Color picker For Sidebar and Navbar
-          </small>
-          <Icons.RIcon
-            nameIcon='CiCircleRemove'
-            propsIcon={{
-              color: '#000000',
-              size: 22,
-            }}
-            onClick={() => {
-              onChangeSidebarColor && onChangeSidebarColor('');
-              onChangeNavbarColor?.('');
-            }}
-          />
-        </div>
-        <div className='flex justify-between gap-2'>
+        <div className='flex justify-between gap-2 mt-2'>
           <Form.InputWrapper label='SideBar Color'>
             <input
               type='checkbox'
@@ -145,28 +170,49 @@ const SideBarColorBgImages = ({
               onChange={() => handleCheckboxChange('navBar')}
             />
           </Form.InputWrapper>
-          <Form.InputWrapper label='Sidebar font Color'>
+          <Form.InputWrapper label='Font Color'>
             <input
               type='checkbox'
               name='target'
               value='navBarColor'
               checked={sideBarFontColorChecked}
-              onChange={() => {
-                if (!sideBarFontColorChecked) {
-                  setSideBarFontcolorChecked(true);
-                } else {
-                  setSideBarFontcolorChecked(false);
-                  onChangeNavbarColor?.('');
-                }
-              }}
+              onChange={() => handleCheckboxChange('sidebarFont')}
+              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+            />
+          </Form.InputWrapper>
+          <Form.InputWrapper label='Icon Color'>
+            <input
+              type='checkbox'
+              name='target'
+              value='navBarColor'
+              checked={navIconColorChecked}
+              onChange={() => handleCheckboxChange('navIconColor')}
               className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
             />
           </Form.InputWrapper>
         </div>
-        <div className='w-full flex justify-between  gap-2'>
+        <div className='w-full flex justify-center mb-3'>
           <SketchPicker
-            color={navBarChecked ? navBarColor : sideBarColor}
-            onChangeComplete={handleChangeColor}
+            color={
+              sideBarFontColorChecked
+                ? sideBarFontColor
+                : sideBarChecked
+                ? sideBarColor
+                : navIconColorChecked
+                ? navIconColor
+                : navBarColor
+            }
+            onChangeComplete={color => {
+              if (sideBarFontColorChecked) {
+                sidebarFontColorChangeHandler(color);
+              } else if (sideBarChecked) {
+                sidebarColorChangeHandler(color);
+              } else if (navBarChecked) {
+                navbarChangeColor(color);
+              } else if (navIconColorChecked) {
+                navbarIconChangeHandler(color);
+              }
+            }}
           />
         </div>
 
