@@ -101,11 +101,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                 >
                   <Tooltip tooltipText='Dashboard'>
                     <Icons.IconContext
-                      color={
-                        stores.appStore.applicationSetting.theme === 'dark'
-                          ? '#ffffff'
-                          : stores.appStore.applicationSetting.navbarIconColor
-                      }
+                      color={stores.appStore.applicationSetting.navbarIconColor}
                       size='18'
                     >
                       {Icons.getIconTag(Icons.IconRi.RiDashboardFill)}
@@ -140,11 +136,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                                 nameIcon={item.icon || 'VscListSelection'}
                                 propsIcon={{
                                   color:
-                                    stores.appStore.applicationSetting.theme ===
-                                    'dark'
-                                      ? '#ffffff'
-                                      : stores.appStore.applicationSetting
-                                          .navbarIconColor,
+                                    stores.appStore.applicationSetting
+                                      .navbarIconColor,
                                   size: 18,
                                 }}
                               />
