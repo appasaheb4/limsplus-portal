@@ -21,6 +21,7 @@ export class Users {
   department: ModelsDepartment.Department[];
   corporateClient: Array<any>;
   registrationLocation: Array<any>;
+  doctors: Array<any>;
   mobileNo: string;
   contactNo: string;
   email: string;
@@ -72,6 +73,7 @@ export class Users {
     this.department = rawData.department;
     this.corporateClient = rawData.corporateClient;
     this.registrationLocation = rawData.registrationLocation;
+    this.doctors = rawData.doctors;
     this.mobileNo = rawData.mobileNo;
     this.contactNo = rawData.contactNo;
     this.email = rawData.email;
@@ -104,11 +106,13 @@ export class SelectedItems {
   department: any[];
   corporateClient: any[];
   registrationLocation: any[];
+  doctors: any[];
   constructor(rawData: { [key in string]: any }) {
     this.roles = rawData.roles;
     this.labs = rawData.labs;
     this.department = rawData.department;
     this.corporateClient = rawData.corporateClient;
     this.registrationLocation = rawData.registrationLocation;
+    this.doctors = rawData.doctors;
   }
 }

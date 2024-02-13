@@ -9,3 +9,4 @@ export * from './organisms/auto-complete-reporting-to.component';
 export * from './organisms/auto-complete-default-department.component';
 export * from './organisms/auto-complete-filter-multi-select-corporate-client.component';
 export * from './organisms/auto-complete-filter-multi-select-registration-location.component';
+export * from './organisms/auto-complete-filter-multi-select-doctors';

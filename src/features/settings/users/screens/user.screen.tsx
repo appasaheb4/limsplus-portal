@@ -44,6 +44,7 @@ export const Users = UsersHoc(
       departmentStore,
       corporateClientsStore,
       registrationLocationsStore,
+      doctorsStore,
       roleStore,
       loading,
     } = useStores();
@@ -178,6 +179,8 @@ export const Users = UsersHoc(
             listDepartment: departmentStore.listDepartment,
             listRole: roleStore.listRole,
             userStore,
+            userModule: loginStore.login.resCompany.module,
+            environment: loginStore.login.resCompany.environment,
           }}
           isView={RouterFlow.checkPermission(
             routerStore.userPermission,
@@ -1415,6 +1418,91 @@ export const Users = UsersHoc(
                     defaultValue={
                       registrationLocationsStore.listRegistrationLocations
                     }
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Assigned Doctors'
+                        hasError={!!errors.locationCode}
+                      >
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          data={{
+                            list: [
+                              {
+                                _id: 'selectAll',
+                                doctorCode: '*',
+                                doctorName: '*',
+                              },
+                            ].concat(doctorsStore.listDoctors as any),
+                            selected: userStore.selectedItems?.doctors,
+                            displayKey: ['doctorCode', 'doctorName'],
+                          }}
+                          hasError={!!errors.doctors}
+                          onUpdate={item => {
+                            const doctors = userStore.selectedItems?.doctors;
+                            userStore.updateUser({
+                              ...userStore.user,
+                              doctors,
+                            });
+                            doctorsStore.updateDoctorsList(
+                              doctorsStore.listDoctorsCopy,
+                            );
+                          }}
+                          onFilter={(value: string) => {
+                            doctorsStore.doctorsService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['doctorCode', 'doctorName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(new Date());
+                            let doctors = userStore.selectedItems?.doctors;
+                            if (
+                              item.doctorCode === '*' ||
+                              doctors?.some(e => e.doctorCode === '*')
+                            ) {
+                              if (
+                                !item.selected ||
+                                doctors?.some(e => e.doctorCode === '*')
+                              ) {
+                                doctors = [];
+                                doctors.push(item);
+                              } else {
+                                doctors = doctors.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                              }
+                            } else {
+                              if (!item.selected) {
+                                if (doctors && doctors.length > 0) {
+                                  doctors.push(item);
+                                } else doctors = [item];
+                              } else {
+                                doctors = doctors.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                              }
+                            }
+                            userStore.updateSelectedItems({
+                              ...userStore.selectedItems,
+                              doctors,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='doctors'
+                    rules={{ required: false }}
+                    defaultValue={doctorsStore.listDoctors}
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
