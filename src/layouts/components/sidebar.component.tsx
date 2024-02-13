@@ -183,9 +183,8 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
     <>
       <nav
         className={
-          'sidebar sidebar-sticky' +
-          (!sidebar.isOpen ? ' toggled' : '') +
-          (sidebar.isSticky ? 'sidebar-sticky' : '')
+          'sidebar sidebar-sticky' + (!sidebar.isOpen ? ' toggled' : '')
+          // (sidebar.isSticky ? 'sidebar-sticky' : '')
         }
         style={{
           backgroundColor: `${appStore.applicationSetting?.sideBarColor}`,
