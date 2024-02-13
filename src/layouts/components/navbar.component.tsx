@@ -104,7 +104,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                       color={
                         stores.appStore.applicationSetting.theme === 'dark'
                           ? '#ffffff'
-                          : '#000000'
+                          : stores.appStore.applicationSetting.navbarIconColor
                       }
                       size='18'
                     >
@@ -143,7 +143,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                                     stores.appStore.applicationSetting.theme ===
                                     'dark'
                                       ? '#ffffff'
-                                      : '#000000',
+                                      : stores.appStore.applicationSetting
+                                          .navbarIconColor,
                                   size: 18,
                                 }}
                               />

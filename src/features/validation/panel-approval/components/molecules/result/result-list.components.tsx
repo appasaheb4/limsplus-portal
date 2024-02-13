@@ -455,7 +455,7 @@ export const ResultList = (props: ResultListProps) => {
             },
             {
               dataField: 'approvalStatus',
-              text: 'Operation',
+              text: 'Action',
               sort: true,
               editable: false,
               formatter: (cellContent, row) => (

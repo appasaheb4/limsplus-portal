@@ -11,6 +11,7 @@ interface ApplicationSetting {
   sidebarImage?: string;
   navbarImage?: string;
   sidebarFontColor: string;
+  navbarIconColor: string;
 }
 
 interface FooterViewProps {

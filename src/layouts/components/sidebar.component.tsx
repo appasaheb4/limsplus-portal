@@ -52,6 +52,7 @@ const SidebarCategory = withRouter(
         ? 'active'
         : '';
     };
+
     return (
       <li className={'sidebar-item ' + getSidebarItemClass(to)}>
         <span
@@ -65,20 +66,21 @@ const SidebarCategory = withRouter(
           <Icons.RIcon
             nameIcon={icon}
             propsIcon={{
-              color: '#ffffff',
+              color: stores.appStore.applicationSetting.sidebarFontColor,
               size: 20,
             }}
           />
-          <span className='align-middle'>{title}</span>
+          <span
+            className='align-middle'
+            style={{
+              color:
+                stores.appStore.applicationSetting.sidebarFontColor ?? '#fff',
+            }}
+          >
+            {title}
+          </span>
           {badgeColor && badgeText ? (
-            <Badge
-              color={
-                badgeColor ??
-                stores.appStore.applicationSetting.sidebarFontColor
-              }
-              size={18}
-              className='sidebar-badge'
-            >
+            <Badge color={'danger'} size={18} className='sidebar-badge'>
               {badgeText}
             </Badge>
           ) : null}
@@ -125,11 +127,19 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
           <Icons.RIcon
             nameIcon={props.icon || 'VscListSelection'}
             propsIcon={{
-              color: '#ffffff',
+              color: stores.appStore.applicationSetting.sidebarFontColor,
               size: 18,
             }}
           />
-          <span className='flex items-center'>{props.title}</span>
+          <span
+            className='flex items-center'
+            style={{
+              color:
+                stores.appStore.applicationSetting.sidebarFontColor ?? '#fff',
+            }}
+          >
+            {props.title}
+          </span>
         </div>
         {props.badgeColor && props.badgeText ? (
           <Badge
