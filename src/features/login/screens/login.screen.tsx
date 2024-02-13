@@ -154,7 +154,7 @@ export const Login = observer(() => {
   };
   const carouselSize = width <= 768 ? 300 : 500;
 
-  const getLabList = async (userModule, userModuleCategory, user) => {
+  const getLabList = async (userModule, user) => {
     const corClientKeys = {
       corporateCode: 'code',
       corporateName: 'name',
@@ -167,22 +167,29 @@ export const Login = observer(() => {
       doctorCode: 'code',
       doctorName: 'name',
     };
-    return userModuleCategory === 'Lab'
-      ? user?.lab
-      : userModuleCategory === 'Corporate Clients'
-      ? user?.corporateClient[0]?.corporateCode !== '*'
-        ? user?.corporateClient?.map(function (obj) {
-            return _.mapKeys(obj, function (value, key) {
-              return corClientKeys[key];
+    switch (userModule?.split('_')[0]) {
+      case 'Registration Location':
+        user?.registrationLocation?.map(function (obj) {
+          return _.mapKeys(obj, function (value, key) {
+            return regLocationKeys[key];
+          });
+        });
+        break;
+      case 'Corporate Clients':
+        user?.corporateClient[0]?.corporateCode !== '*'
+          ? user?.corporateClient?.map(function (obj) {
+              return _.mapKeys(obj, function (value, key) {
+                return corClientKeys[key];
+              });
+            })
+          : corporateClientsStore.listCorporateClients?.map(function (obj) {
+              return _.mapKeys(obj, function (value, key) {
+                return corClientKeys[key];
+              });
             });
-          })
-        : corporateClientsStore.listCorporateClients?.map(function (obj) {
-            return _.mapKeys(obj, function (value, key) {
-              return corClientKeys[key];
-            });
-          })
-      : userModuleCategory === 'Doctor'
-      ? doctorsStore.doctorsService
+        break;
+      case 'Doctor':
+        doctorsStore.doctorsService
           .findByFields({
             input: {
               filter: {
@@ -200,12 +207,11 @@ export const Login = observer(() => {
                 return dockerKeys[key];
               });
             });
-          })
-      : user?.registrationLocation?.map(function (obj) {
-          return _.mapKeys(obj, function (value, key) {
-            return regLocationKeys[key];
           });
-        });
+        break;
+      default:
+        return user?.lab;
+    }
   };
 
   return (
@@ -294,7 +300,7 @@ export const Login = observer(() => {
                     </span>
                     {loginStore.inputLogin?.userModule && (
                       <span className='text-center font-bold text-xl text-black mt-2 ml-4'>
-                        {loginStore.inputLogin?.userModule}
+                        {loginStore.inputLogin?.userModule?.split('_')[1]}
                       </span>
                     )}
                     <div className='rounded-2xl  p-4 '>
@@ -330,7 +336,7 @@ export const Login = observer(() => {
                                       //     ? 'https://www.limsplussolutions.com'
                                       //     : window.location.origin,
                                       webPortal:
-                                        'https://www.limsplussolutions.com',
+                                        'https://demo.limsplussolutions.com',
                                     },
                                   }).then(async res => {
                                     if (res.checkUserExitsUserId?.success) {
@@ -345,33 +351,32 @@ export const Login = observer(() => {
                                         clearErrors('lab');
                                         if (user.role.length == 1)
                                           setValue('role', user.role[0].code);
-                                        let userModuleCategory;
-                                        await lookupStore.LookupService.lookupItemsByPathNField(
-                                          {
-                                            input: {
-                                              path: '/settings/users',
-                                              field: 'USER_MODULE',
-                                            },
-                                          },
-                                        ).then(res => {
-                                          if (
-                                            res.lookupItemsByPathNField
-                                              .success &&
-                                            res.lookupItemsByPathNField?.data
-                                              ?.length > 0
-                                          ) {
-                                            userModuleCategory =
-                                              res.lookupItemsByPathNField.data[0]?.arrValue.find(
-                                                item =>
-                                                  item.code?.toUpperCase() ==
-                                                  user?.userModule?.toUpperCase(),
-                                              )?.value;
-                                          } else {
-                                            alert(
-                                              'User module not found in lookup',
-                                            );
-                                          }
-                                        });
+                                        // await lookupStore.LookupService.lookupItemsByPathNField(
+                                        //   {
+                                        //     input: {
+                                        //       path: '/settings/users',
+                                        //       field: 'USER_MODULE',
+                                        //     },
+                                        //   },
+                                        // ).then(res => {
+                                        //   if (
+                                        //     res.lookupItemsByPathNField
+                                        //       .success &&
+                                        //     res.lookupItemsByPathNField?.data
+                                        //       ?.length > 0
+                                        //   ) {
+                                        //     userModuleCategory =
+                                        //       res.lookupItemsByPathNField.data[0]?.arrValue.find(
+                                        //         item =>
+                                        //           item.code?.toUpperCase() ==
+                                        //           user?.userModule?.toUpperCase(),
+                                        //       )?.value;
+                                        //   } else {
+                                        //     alert(
+                                        //       'User module not found in lookup',
+                                        //     );
+                                        //   }
+                                        // });
                                         loginStore.updateInputUser({
                                           ...loginStore.inputLogin,
                                           lab: user.defaultLab,
@@ -380,14 +385,11 @@ export const Login = observer(() => {
                                               ? user.role[0].code
                                               : '',
                                           userModule: user?.userModule,
-                                          userModuleCategory,
                                           companyCode: user?.companyCode,
                                         });
-
                                         setLabRoleList({
                                           labList: await getLabList(
                                             user?.userModule,
-                                            userModuleCategory,
                                             user,
                                           ),
                                           roleList: user.role,

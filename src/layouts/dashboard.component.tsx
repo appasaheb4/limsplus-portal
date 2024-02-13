@@ -127,10 +127,12 @@ const Dashboard = ({ children }) => {
       });
       // footer view update
       stores.appStore.updateFooterView({ visible: true });
+
       // specific api load
       if (pathname === '/settings/users') {
         await CorporateClients.startup();
         await RegistrationLocations.startup();
+        await Doctors.startup();
       }
       if (pathname === '/collection/lab') {
         await PriceList.startup();
@@ -362,8 +364,12 @@ const Dashboard = ({ children }) => {
     }
   };
 
+  // const loader = async () => {
+  //   await RoleMappping.startup();
+  // };
+
   useEffect(() => {
-    // buz reload page after not showing delete and update so added settimeout
+    //buz reload page after not showing delete and update so added settimeout
     stores.rootStore.isLogin().then(isLogin => {
       if (!isLogin) history.push('/');
       if (isLogin) {

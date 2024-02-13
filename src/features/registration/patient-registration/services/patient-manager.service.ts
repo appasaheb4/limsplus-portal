@@ -238,9 +238,6 @@ export class PatientManagerService {
                 message:
                   '😔 Records not available. Please enter correct details or clear filter',
               });
-
-        
-
             // patient manager
             stores.patientManagerStore.updatePatientManagerList({
               patientManagers: {

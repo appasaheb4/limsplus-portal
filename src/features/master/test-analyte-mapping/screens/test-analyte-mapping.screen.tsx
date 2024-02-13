@@ -389,8 +389,8 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             lab: item.Lab,
             testCode: item['Test Code'],
             testName: item['Test Name'],
-            analyteCode: undefined,
-            analyteName: undefined,
+            analyteCode: item['Analyte Code'],
+            analyteName: item['Analyte Name'],
             variables: {
               calculationFlag:
                 item['Calculation Flag'] === 'Yes' ? true : false,
