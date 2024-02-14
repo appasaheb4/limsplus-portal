@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { observer } from 'mobx-react';
-import { Buttons, Svg } from '@/library/components';
+import { Buttons, Form, Svg } from '@/library/components';
 
 import { toggleBoxedLayout } from '../../redux/actions/layout-action';
 import { toggleStickySidebar } from '../../redux/actions/sidebar-action';
@@ -23,6 +23,7 @@ const Settings = observer(props => {
   const { layout, sidebar, dispatch } = props;
   const [isHidden, setIsHidden] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [logoSwap, setLogoSwap] = useState(false);
   const [colorList, setColorList] = useState([
     { color: '#3CB371' },
     { color: '#BDB76B' },
@@ -73,6 +74,24 @@ const Settings = observer(props => {
               </div>
 
               <div className='settings-section'>
+                <div>
+                  <Form.InputWrapper label='Logo Change'>
+                    <input
+                      type='checkbox'
+                      name='target'
+                      value='sideBarColor'
+                      checked={logoSwap}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                      onChange={() => {
+                        stores.appStore.updateApplicationSetting({
+                          ...stores.appStore.applicationSetting,
+                          logoSwap: !logoSwap,
+                        });
+                        setLogoSwap(!logoSwap);
+                      }}
+                    />
+                  </Form.InputWrapper>
+                </div>
                 <span className='d-block text-uppercase font-weight-bold text-muted mb-2'>
                   Layouts
                 </span>

@@ -12,6 +12,7 @@ interface ApplicationSetting {
   navbarImage?: string;
   sidebarFontColor: string;
   navbarIconColor: string;
+  logoSwap: boolean;
 }
 
 interface FooterViewProps {

@@ -198,7 +198,11 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
           <PerfectScrollbar style={{ maxHeight: '100%', position: 'absolute' }}>
             <a className='flex sidebar-brand items-center' href='/'>
               <img
-                src={Assets.images.limsplusTran}
+                src={
+                  stores.appStore.applicationSetting.logoSwap
+                    ? Assets.images.limsplusTranBlue
+                    : Assets.images.limsplusTran
+                }
                 alt='appIcon'
                 style={{ width: '100%' }}
               />

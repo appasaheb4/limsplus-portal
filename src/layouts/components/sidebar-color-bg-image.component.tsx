@@ -67,34 +67,34 @@ const SideBarColorBgImages = ({
   }, []);
 
   const navbarChangeColor = color => {
-    setNavBarColor(currentColor);
+    setNavBarColor(color.hex);
     stores.appStore.updateApplicationSetting({
       ...stores.appStore.applicationSetting,
-      navBarColor: currentColor,
+      navBarColor: color.hex,
     });
   };
 
   const sidebarColorChangeHandler = color => {
-    setSideBarColor(currentColor);
+    setSideBarColor(color.hex);
     stores.appStore.updateApplicationSetting({
       ...stores.appStore.applicationSetting,
-      sideBarColor: currentColor,
+      sideBarColor: color.hex,
     });
   };
 
   const sidebarFontColorChangeHandler = color => {
-    setSideBarFontColor(currentColor);
+    setSideBarFontColor(color.hex);
     stores.appStore.updateApplicationSetting({
       ...stores.appStore.applicationSetting,
-      sidebarFontColor: currentColor,
+      sidebarFontColor: color.hex,
     });
   };
 
   const navbarIconChangeHandler = color => {
-    setNavIconColor(currentColor);
+    setNavIconColor(color.hex);
     stores.appStore.updateApplicationSetting({
       ...stores.appStore.applicationSetting,
-      navbarIconColor: currentColor,
+      navbarIconColor: color.hex,
     });
   };
 
@@ -206,8 +206,26 @@ const SideBarColorBgImages = ({
         </div>
         <div className='w-full flex justify-center mb-3'>
           <SketchPicker
-            color={currentColor}
-            onChangeComplete={handleChangeColor}
+            color={
+              sideBarFontColorChecked
+                ? sideBarFontColor
+                : sideBarChecked
+                ? sideBarColor
+                : navIconColorChecked
+                ? navIconColor
+                : navBarColor
+            }
+            onChangeComplete={color => {
+              if (sideBarFontColorChecked) {
+                sidebarFontColorChangeHandler(color);
+              } else if (sideBarChecked) {
+                sidebarColorChangeHandler(color);
+              } else if (navBarChecked) {
+                navbarChangeColor(color);
+              } else if (navIconColorChecked) {
+                navbarIconChangeHandler(color);
+              }
+            }}
           />
         </div>
 

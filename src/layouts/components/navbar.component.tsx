@@ -81,7 +81,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   color:
                     stores.appStore.applicationSetting.theme === 'dark'
                       ? '#ffffff'
-                      : '#000000',
+                      : stores.appStore.applicationSetting.navbarIconColor,
                   size: 22,
                 }}
               />
@@ -101,7 +101,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                 >
                   <Tooltip tooltipText='Dashboard'>
                     <Icons.IconContext
-                      color={stores.appStore.applicationSetting.navbarIconColor}
+                      color={
+                        stores.appStore.applicationSetting.navbarIconColor ||
+                        '#000'
+                      }
                       size='18'
                     >
                       {Icons.getIconTag(Icons.IconRi.RiDashboardFill)}
