@@ -333,7 +333,6 @@ export const LabList = (props: LabListProps) => {
               // headerClasses: 'textHeader',
               style: { width: widthRefBox },
               // sort: true,
-
               // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 `PriceGroup : ${row?.priceList
@@ -400,6 +399,39 @@ export const LabList = (props: LabListProps) => {
                   </>
                 );
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const salesTerritory = e.target.value;
+                      props.onUpdateItem &&
+                        props.onUpdateItem(
+                          salesTerritory,
+                          column.dataField,
+                          row._id,
+                        );
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {salesTeamStore.listSalesTeam &&
+                      salesTeamStore.listSalesTeam.map(
+                        (item: any, index: number) => (
+                          <option key={index} value={item.salesTerritory.area}>
+                            {`${item.salesTerritory.area}`}
+                          </option>
+                        ),
+                      )}
+                  </select>
+                </>
+              ),
             },
 
             {

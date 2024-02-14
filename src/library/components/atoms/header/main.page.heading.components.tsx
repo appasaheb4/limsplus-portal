@@ -13,7 +13,6 @@ const MainPageHeading = ({ sidebar, title, store }) => {
     <div className=' relative'>
       <Header>
         <PageHeading title={title || ''} />
-
         {!sidebar?.isOpen && (
           <div style={{ width: '50%' }}>
             <AutocompleteSearch
@@ -31,7 +30,6 @@ const MainPageHeading = ({ sidebar, title, store }) => {
             />
           </div>
         )}
-
         <PageHeadingLabDetails store={store} />
       </Header>
     </div>
