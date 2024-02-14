@@ -8,6 +8,7 @@ export const images = {
   playStore: require('./images/app-ico.png'),
   appStore: require('./images/app-ico2.png'),
   limsplusTran: require('./limsplus-tran.png'),
+  limsplusTranBlue: require('./limsplus-tran-blue.png'),
   linplusLogo: require('./limplus-logo.png'),
   img1: require('./images/lp1.jpeg'),
   img2: require('./images/lp2.jpeg'),

@@ -105,7 +105,7 @@ export const ModalConfirm = (props: ModalProps) => {
                       style={{
                         width: '200px',
                         height: '122px',
-                        marginRight: 10,
+                        marginTop: '-40px',
                       }}
                       alt='lims plus'
                     />
