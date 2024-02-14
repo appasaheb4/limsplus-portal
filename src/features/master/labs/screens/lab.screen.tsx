@@ -1049,9 +1049,10 @@ const Lab = LabHoc(
                             loader={loading}
                             placeholder='Search by code or name'
                             data={{
-                              list: labStore?.listLabs.filter(
-                                item => item.labType === 'R',
-                              ),
+                              // list: labStore?.listLabs.filter(
+                              //   item => item.labType === 'R',
+                              // ),
+                              list: _.uniqBy(labStore?.listLabs, 'code'),
                               displayKey: ['code', 'name'],
                             }}
                             hasError={!!errors.defaultLab}
