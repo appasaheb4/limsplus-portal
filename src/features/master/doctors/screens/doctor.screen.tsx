@@ -28,6 +28,7 @@ import { RouterFlow } from '@/flows';
 import { resetDoctor } from '../startup';
 import * as XLSX from 'xlsx';
 import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Doctors = DoctorsHoc(
   observer(() => {
@@ -224,7 +225,7 @@ const Doctors = DoctorsHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -233,7 +234,7 @@ const Doctors = DoctorsHoc(
               type: 'Update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update Section!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -242,7 +243,7 @@ const Doctors = DoctorsHoc(
               type: 'UpdateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -250,8 +251,8 @@ const Doctors = DoctorsHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -259,8 +260,8 @@ const Doctors = DoctorsHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -410,10 +411,10 @@ const Doctors = DoctorsHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddSection}

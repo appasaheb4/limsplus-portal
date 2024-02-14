@@ -444,7 +444,7 @@ export const PageLayout = observer(() => {
                 type: 'delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: 'Delete selected items!',
+                body: 'Do you want to delete selected record?',
               });
             }}
             onUpdateItem={(fields: any, id: string) => {
@@ -453,7 +453,7 @@ export const PageLayout = observer(() => {
                 type: 'update',
                 data: { fields, id },
                 title: 'Are you sure?',
-                body: 'Update items!',
+                body: 'Do you want to update this record?',
               });
             }}
             onPageSizeChange={(page, limit) => {

@@ -21,6 +21,7 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { resetRole } from '../startup';
 import * as XLSX from 'xlsx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Role = RolesHoc(
   observer(() => {
@@ -104,10 +105,10 @@ const Role = RolesHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddRole}
@@ -274,7 +275,7 @@ const Role = RolesHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -283,7 +284,7 @@ const Role = RolesHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update role!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -304,7 +305,7 @@ const Role = RolesHoc(
                     type: 'Update',
                     data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
-                    body: 'Update Role!',
+                    body: 'Do you want to update this record?',
                   });
                 }
               }}

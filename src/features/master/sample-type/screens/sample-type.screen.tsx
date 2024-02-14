@@ -25,7 +25,7 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetSampleType } from '../startup';
 import * as XLSX from 'xlsx';
-
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 const SampleType = SampleTypeHoc(
   observer(() => {
     const { loginStore, sampleTypeStore, routerStore } = useStores();
@@ -150,10 +150,10 @@ const SampleType = SampleTypeHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',
@@ -500,7 +500,7 @@ const SampleType = SampleTypeHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -509,7 +509,7 @@ const SampleType = SampleTypeHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update items!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -536,7 +536,7 @@ const SampleType = SampleTypeHoc(
                     type: 'Update',
                     data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
-                    body: 'Update sample type!',
+                    body: 'Do you want to update this record?',
                   });
                 }
               }}

@@ -9,6 +9,8 @@ import {
 } from '@/library/components';
 import { TransmittedMessageList } from '../components';
 import { useStores } from '@/stores';
+
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 
@@ -17,10 +19,10 @@ const TransmittedMessage = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>();
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
 
       <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
         <TransmittedMessageList
@@ -52,7 +54,7 @@ const TransmittedMessage = observer(() => {
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onPageSizeChange={(page, limit) => {

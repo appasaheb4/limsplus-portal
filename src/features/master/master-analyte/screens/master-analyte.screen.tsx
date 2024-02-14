@@ -30,6 +30,7 @@ import { resetMasterAnalyte } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import dayjs from 'dayjs';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const MasterAnalyte = MasterAnalyteHoc(
   observer(() => {
@@ -230,7 +231,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -239,7 +240,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               type: 'Update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update item!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -248,7 +249,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               type: 'updateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -256,8 +257,8 @@ const MasterAnalyte = MasterAnalyteHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -265,8 +266,8 @@ const MasterAnalyte = MasterAnalyteHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -437,10 +438,10 @@ const MasterAnalyte = MasterAnalyteHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',

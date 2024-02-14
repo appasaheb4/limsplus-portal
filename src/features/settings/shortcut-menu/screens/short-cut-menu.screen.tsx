@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
 import {
   Header,
   PageHeading,
@@ -10,8 +10,9 @@ import {
   Svg,
   Toast,
 } from '@/library/components';
-import {DragDropContext, Droppable, Draggable} from 'react-beautiful-dnd';
-import {useStores} from '@/stores';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { useStores } from '@/stores';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -23,7 +24,7 @@ const getListStyle = isDraggingOver => ({
 });
 
 const ShortcutMenu = observer(() => {
-  const {loginStore, shortcutMenuStore, routerStore} = useStores();
+  const { loginStore, shortcutMenuStore, routerStore } = useStores();
 
   useEffect(() => {
     const list: any[] = [];
@@ -69,17 +70,17 @@ const ShortcutMenu = observer(() => {
     items.splice(result.destination.index, 0, reorderedItem);
     loginStore.updateLogin({
       ...loginStore.login,
-      shortcutMenu: {[loginStore.login?.role || '']: items},
+      shortcutMenu: { [loginStore.login?.role || '']: items },
     });
     shortcutMenuStore.updateDragDrop(true);
   };
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       {loginStore.login?.shortcutMenu &&
         loginStore.login?.shortcutMenu[loginStore.login.role || ''] &&
         loginStore.login?.shortcutMenu &&
@@ -115,7 +116,7 @@ const ShortcutMenu = observer(() => {
                               >
                                 <Icons.RIcon
                                   nameIcon={item.icon || 'VscListSelection'}
-                                  propsIcon={{color: '#ffffff', size: 18}}
+                                  propsIcon={{ color: '#ffffff', size: 18 }}
                                 />
                                 <li className='m-2 text-white'>{item.title}</li>
                               </div>
@@ -185,7 +186,7 @@ const ShortcutMenu = observer(() => {
 
                   <Icons.RIcon
                     nameIcon={item.icon || 'VscListSelection'}
-                    propsIcon={{color: '#ffffff', size: 18}}
+                    propsIcon={{ color: '#ffffff', size: 18 }}
                   />
                   <li className='m-2 text-white'>{item.title}</li>
                 </div>

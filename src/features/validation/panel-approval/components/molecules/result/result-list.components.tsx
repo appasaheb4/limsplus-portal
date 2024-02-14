@@ -56,6 +56,8 @@ export const ResultList = (props: ResultListProps) => {
   const [localData, setLocalData] = useState(props.data);
   const [selectedRowId, setSelectedRowId] = useState('');
   const [widthRefBox, setWidthRefBox] = useState('20px');
+  const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
+  const [conclusionId, setWidthConculsionId] = useState('');
 
   useEffect(() => {
     const filterDataByHoldRecord = (data, holdRecord) => {
@@ -106,7 +108,7 @@ export const ResultList = (props: ResultListProps) => {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               filter: customFilter({
                 getFilter: filter => {
                   labId = filter;
@@ -121,20 +123,20 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Test',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeader3',
             },
             {
               dataField: 'analyte',
               text: 'Analyte',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderl',
+              headerClasses: 'textHeader1',
             },
             {
               dataField: 'result',
               text: 'Result',
               sort: true,
-              headerClasses: 'textHeaderl',
+              // headerClasses: 'textHeaderl',
               editorRenderer: (
                 editorProps,
                 value,
@@ -169,39 +171,6 @@ export const ResultList = (props: ResultListProps) => {
               ),
             },
             {
-              dataField: 'final',
-              text: 'Final',
-              sort: true,
-              editable: false,
-              headerClasses: 'textHeaderl',
-            },
-            {
-              dataField: 'abnFlag',
-              text: 'Abn Flag',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle disabled={true} value={row.abnFlag} />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle disabled={true} value={row.critical} />
-                  </>
-                );
-              },
-            },
-            {
               dataField: 'units',
               text: 'Units',
               sort: true,
@@ -215,34 +184,48 @@ export const ResultList = (props: ResultListProps) => {
               style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (
-                  <div className='flex flex-col'>
-                    {row.refRangesList?.length > 0 && (
-                      <Tooltip
-                        tooltipText={
-                          row._id != selectedRowId ? 'Expand' : 'Collapse'
-                        }
-                      >
-                        <Icons.IconContext
-                          color='#000000'
-                          size='20'
-                          onClick={() => {
-                            if (row._id === selectedRowId) {
-                              setSelectedRowId('');
-                              setWidthRefBox('30px');
-                            } else {
-                              setSelectedRowId(row._id);
-                              setWidthRefBox('550px');
+                  <>
+                    <div className='flex flex-row gap-2'>
+                      <span>
+                        {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
+                        (row.loNor === ' ' && row.hiNor === ' ')
+                          ? '-'
+                          : row.loNor === 'NaN' && row.hiNor === ' '
+                          ? '<'
+                          : row.loNor === ' ' && row.hiNor === 'NaN'
+                          ? '>'
+                          : row.loNor + '-' + row.hiNor}
+                      </span>
+                      <div>
+                        {row.refRangesList?.length > 0 && (
+                          <Tooltip
+                            tooltipText={
+                              row._id != selectedRowId ? 'Expand' : 'Collapse'
                             }
-                          }}
-                        >
-                          {Icons.getIconTag(
-                            row._id != selectedRowId
-                              ? Icons.IconBi.BiExpand
-                              : Icons.IconBi.BiCollapse,
-                          )}
-                        </Icons.IconContext>
-                      </Tooltip>
-                    )}
+                          >
+                            <Icons.IconContext
+                              color='#000000'
+                              size='20'
+                              onClick={() => {
+                                if (row._id === selectedRowId) {
+                                  setSelectedRowId('');
+                                  setWidthRefBox('30px');
+                                } else {
+                                  setSelectedRowId(row._id);
+                                  setWidthRefBox('550px');
+                                }
+                              }}
+                            >
+                              {Icons.getIconTag(
+                                row._id != selectedRowId
+                                  ? Icons.IconBi.BiExpand
+                                  : Icons.IconBi.BiCollapse,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                      </div>
+                    </div>
                     {selectedRowId == row._id ? (
                       <div style={{ width: widthRefBox }}>
                         <RefRanges
@@ -294,35 +277,95 @@ export const ResultList = (props: ResultListProps) => {
                         />
                       </div>
                     ) : null}
-                  </div>
+                  </>
                 );
               },
             },
             {
               dataField: 'conclusion',
               text: 'Conclusion',
-              headerClasses: 'textHeader',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.MultilineInput
-                    rows={3}
-                    placeholder='Conclusion'
-                    onBlur={conclusion => {
-                      props.onUpdateFields &&
-                        props.onUpdateFields({ conclusion }, row._id);
-                    }}
-                    defaultValue={row?.conclusion}
-                  />
-                </>
-              ),
+              editable: false,
+              style: { width: widthConculsionBox },
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-col'>
+                    <Tooltip
+                      tooltipText={
+                        row._id != conclusionId ? 'Expand' : 'Collapse'
+                      }
+                    >
+                      <Icons.IconContext
+                        color='#000000'
+                        size='20'
+                        onClick={() => {
+                          if (row._id === conclusionId) {
+                            setWidthConculsionId('');
+                            setWidthConculsionBox('30px');
+                          } else {
+                            setWidthConculsionId(row._id);
+                            setWidthConculsionBox('200px');
+                          }
+                        }}
+                      >
+                        {Icons.getIconTag(
+                          row._id != conclusionId
+                            ? Icons.IconBi.BiExpand
+                            : Icons.IconBi.BiCollapse,
+                        )}
+                      </Icons.IconContext>
+                    </Tooltip>
+
+                    {row._id === conclusionId && (
+                      <div style={{ width: widthConculsionBox }}>
+                        <Form.MultilineInput
+                          rows={3}
+                          placeholder='Conclusion'
+                          className='text-black'
+                          onBlur={conclusion => {
+                            props.onUpdateFields &&
+                              props.onUpdateFields(
+                                { conclusion, updateField: 'conclusion' },
+                                row._id,
+                              );
+                            setWidthConculsionId('');
+                            setWidthConculsionBox('30px');
+                          }}
+                          defaultValue={row?.conclusion}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              },
             },
+
+            {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.abnFlag} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'critical',
+              text: 'Critical',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.critical} />
+                  </>
+                );
+              },
+            },
+
             {
               dataField: 'remarks',
               text: 'Remarks',
@@ -349,8 +392,8 @@ export const ResultList = (props: ResultListProps) => {
               editable: false,
             },
             {
-              dataField: 'resultStatus',
-              text: 'resultStatus',
+              dataField: 'Result Status',
+              text: 'Result Status',
               sort: true,
               editable: false,
             },
@@ -365,6 +408,7 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Approval Date',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader',
               formatter: (cell, row) => {
                 return row.approvalDate
                   ? dayjs(row.approvalDate).format('DD-MM-YYYY HH:mm:ss')
@@ -384,7 +428,13 @@ export const ResultList = (props: ResultListProps) => {
                 );
               },
             },
-
+            {
+              dataField: 'final',
+              text: 'Final',
+              sort: true,
+              editable: false,
+              // headerClasses: 'textHeaderl',
+            },
             {
               dataField: 'enteredBy',
               text: 'Entered By',
@@ -406,7 +456,7 @@ export const ResultList = (props: ResultListProps) => {
             },
             {
               dataField: 'approvalStatus',
-              text: 'Operation',
+              text: 'Action',
               sort: true,
               editable: false,
               formatter: (cellContent, row) => (

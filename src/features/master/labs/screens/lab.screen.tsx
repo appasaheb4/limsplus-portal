@@ -28,6 +28,7 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetLab } from '../startup';
 import * as XLSX from 'xlsx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Lab = LabHoc(
   observer(() => {
@@ -200,7 +201,7 @@ const Lab = LabHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -209,7 +210,7 @@ const Lab = LabHoc(
               type: 'UpdateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -218,7 +219,7 @@ const Lab = LabHoc(
               type: 'Update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update lab!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFields={(fileds: any, id: string) => {
@@ -227,7 +228,7 @@ const Lab = LabHoc(
               type: 'UpdateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -236,7 +237,7 @@ const Lab = LabHoc(
               type: 'UpdateImage',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update lab!',
+              body: 'Do you want to update  the image of this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -244,8 +245,8 @@ const Lab = LabHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -253,8 +254,8 @@ const Lab = LabHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -285,7 +286,7 @@ const Lab = LabHoc(
                 type: 'Update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update Lab!',
+                body: 'Do you want to approved records?',
               });
             }
           }}
@@ -416,10 +417,10 @@ const Lab = LabHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',

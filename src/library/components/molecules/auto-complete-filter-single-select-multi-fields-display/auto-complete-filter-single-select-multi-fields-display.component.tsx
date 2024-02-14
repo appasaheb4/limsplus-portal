@@ -64,7 +64,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   }, [displayValue]);
 
   const onChange = e => {
-    const search = e.target.value;
+    const search = e.target.value?.toUpperCase();
     setValue(search);
     setFilterValue(search);
     onFilter && onFilter(search);

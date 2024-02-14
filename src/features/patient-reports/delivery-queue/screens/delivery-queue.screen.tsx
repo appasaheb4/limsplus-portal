@@ -17,6 +17,7 @@ import {
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const DeliveryQueue = observer(() => {
   const { deliveryQueueStore, routerStore, loginStore, reportSettingStore } =
@@ -443,10 +444,10 @@ const DeliveryQueue = observer(() => {
   console.log(holdRecord, 'hold');
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Report Delivery</span>
         {reportDeliveryList}

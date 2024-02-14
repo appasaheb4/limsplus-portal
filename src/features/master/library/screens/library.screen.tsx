@@ -29,6 +29,7 @@ import { resetLibrary } from '../startup';
 import * as XLSX from 'xlsx';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const modules = {
   toolbar: [
@@ -208,7 +209,7 @@ export const Library = LibraryHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(fields: any, id: string) => {
@@ -225,8 +226,8 @@ export const Library = LibraryHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -234,8 +235,8 @@ export const Library = LibraryHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -262,7 +263,7 @@ export const Library = LibraryHoc(
                 type: 'Update',
                 data: { fields: { status: 'A' }, id: records._id },
                 title: 'Are you sure?',
-                body: 'Update library!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -368,10 +369,10 @@ export const Library = LibraryHoc(
     };
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',

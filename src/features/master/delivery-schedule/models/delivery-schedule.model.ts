@@ -10,6 +10,8 @@ export class DeliverySchedule {
   pEndTime: string;
   cutofTime: string;
   secoundCutofTime: string;
+  secondCutoffTimeRequired: boolean;
+  scheduleForPatAndDept: boolean;
   processingType: string;
   schFrequency: any;
   reportOn: string;
@@ -21,6 +23,8 @@ export class DeliverySchedule {
   schForPat: string;
   environment: string;
   companyCode: string;
+  sampleReceivedDate: Date;
+  reportDate: Date;
   status: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -37,6 +41,8 @@ export class DeliverySchedule {
     this.pEndTime = rawData.pEndTime;
     this.cutofTime = rawData.cutofTime;
     this.secoundCutofTime = rawData.secoundCutofTime;
+    this.scheduleForPatAndDept = rawData.scheduleForPatAndDept;
+    this.secondCutoffTimeRequired = rawData.secondCutoffTimeRequired;
     this.processingType = rawData.processingType;
     this.schFrequency = rawData.schFrequency;
     this.reportOn = rawData.reportOn;
@@ -48,6 +54,8 @@ export class DeliverySchedule {
     this.schForPat = rawData.schForPat;
     this.environment = rawData.environment;
     this.companyCode = rawData.companyCode;
+    this.sampleReceivedDate = rawData.sampleReceivedDate;
+    this.reportDate = rawData.reportDate;
     this.status = rawData.status;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

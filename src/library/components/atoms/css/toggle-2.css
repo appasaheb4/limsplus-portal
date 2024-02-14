@@ -1,0 +1,124 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+  }
+  
+  .wrg-toggle1 {
+    touch-action: pan-x;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .wrg-toggle-input1 {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  .wrg-toggle-check1,
+  .wrg-toggle-uncheck1 {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    line-height: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px; 
+  }
+  .wrg-toggle-check1 {
+    left: -7px;
+  }
+  .wrg-toggle-uncheck1 {
+    right: -11px;
+    opacity: 1;
+  }
+  
+  .wrg-toggle-container1 {
+    width: max-content; /* Set width to fit content */
+    min-width: 122px; /* Minimum width to prevent collapsing */
+    height: 30px; 
+    padding: 0;
+    border-radius: 30px;
+    transition: all 0.2s ease;
+    display: flex;
+}
+  
+  .wrg-toggle-circle1 {
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 28px; /* Adjust width as needed */
+    height: 28px; /* Adjust height as needed */
+    border: 1px solid #4d4d4d;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+    padding: 4px; /* Adjust padding as needed */
+  }
+  
+  .wrg-toggle--checked1 .wrg-toggle-check1 {
+    opacity: 1;
+  }
+  .wrg-toggle--checked1 .wrg-toggle-uncheck1 {
+    opacity: 0;
+  }
+  .wrg-toggle--checked1 .wrg-toggle-circle1 {
+    left: calc(100% - 31px); /* Adjust position as needed */
+  }
+  
+  .wrg-toggle--disabled1 {
+    cursor: not-allowed;
+    opacity: 0.5;
+    transition: opacity 0.25s;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  

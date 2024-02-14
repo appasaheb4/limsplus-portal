@@ -28,6 +28,7 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetPriceList } from '../startup';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const PriceList = PriceListHoc(
   observer(() => {
@@ -235,7 +236,7 @@ export const PriceList = PriceListHoc(
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -253,7 +254,7 @@ export const PriceList = PriceListHoc(
               type: 'updateFields',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -261,8 +262,8 @@ export const PriceList = PriceListHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -270,8 +271,8 @@ export const PriceList = PriceListHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -292,7 +293,7 @@ export const PriceList = PriceListHoc(
                 type: 'update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update Price List!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -395,10 +396,10 @@ export const PriceList = PriceListHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',

@@ -1,20 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  AutocompleteSearch,
   Header,
   PageHeading,
   PageHeadingLabDetails,
 } from '@/library/components';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import {PDFDownloadLink} from '@react-pdf/renderer';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { connect } from 'react-redux';
+import { RouterFlow } from '@/flows';
+import { useHistory } from 'react-router-dom';
 
-const GenerateReport = observer(() => {
+const GenerateReport = observer(({ sidebar }) => {
   const {
     loading,
     patientManagerStore,
@@ -25,12 +29,13 @@ const GenerateReport = observer(() => {
     generateReportsStore,
     reportSettingStore,
   } = useStores();
+  const history = useHistory();
   const [tempCode, setTempCode] = useState('');
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
 
@@ -94,7 +99,7 @@ const GenerateReport = observer(() => {
             onFilter={(labId: string) => {
               patientVisitStore.patientVisitService.filterByLabId({
                 input: {
-                  filter: {labId},
+                  filter: { labId },
                 },
               });
             }}
@@ -144,6 +149,25 @@ const GenerateReport = observer(() => {
             }}
           />
         </div>
+        <div style={{ width: '50%' }}>
+          {!sidebar.isOpen && (
+            <>
+              <AutocompleteSearch
+                data={routerStore.userRouter}
+                onChange={async (item: any, children: any) => {
+                  const { permission, selectedComp } =
+                    await RouterFlow.updateSelectedCategory(
+                      item?.name,
+                      children?.name,
+                    );
+                  routerStore.updateSelectedComponents(selectedComp);
+                  routerStore.updateUserPermission(permission);
+                  history.replace(children.path);
+                }}
+              />
+            </>
+          )}
+        </div>
         <PageHeadingLabDetails store={loginStore} />
       </Header>
       {window.innerWidth <= 768 ? (
@@ -165,7 +189,7 @@ const GenerateReport = observer(() => {
             minHeight: '100%',
           }}
         >
-          {({loading, error}) =>
+          {({ loading, error }) =>
             loading ? (
               <button>Loading document...</button>
             ) : (
@@ -188,4 +212,6 @@ const GenerateReport = observer(() => {
     </>
   );
 });
-export default GenerateReport;
+export default connect((store: any) => ({
+  sidebar: store.sidebar,
+}))(GenerateReport);

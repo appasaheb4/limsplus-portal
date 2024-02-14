@@ -167,7 +167,7 @@ export const PatientManager = PatientManagerHoc(
               type: 'update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update this record!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -176,7 +176,7 @@ export const PatientManager = PatientManagerHoc(
               type: 'updateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -1765,7 +1765,7 @@ export const PatientManager = PatientManagerHoc(
                 type: 'delete',
                 id: rows,
                 title: 'Are you sure?',
-                body: 'Delete selected records!',
+                body: 'Do you want to delete this record?',
               });
             }}
             onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -1774,7 +1774,7 @@ export const PatientManager = PatientManagerHoc(
                 type: 'update',
                 data: { value, dataField, id },
                 title: 'Are you sure?',
-                body: 'Update this record!',
+                body: 'Do you want to update this record?',
               });
             }}
             onUpdateFileds={(fileds: any, id: string) => {
@@ -1783,7 +1783,7 @@ export const PatientManager = PatientManagerHoc(
                 type: 'updateFileds',
                 data: { fileds, id },
                 title: 'Are you sure?',
-                body: 'Update records!',
+                body: 'Do you want to update this record?',
               });
             }}
             onPageSizeChange={(page, limit) => {
