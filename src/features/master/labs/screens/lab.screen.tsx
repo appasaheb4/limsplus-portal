@@ -372,7 +372,6 @@ const Lab = LabHoc(
         'code',
         'name',
         'defaultLab',
-        'priceList',
         'status',
         'environment',
       ];
