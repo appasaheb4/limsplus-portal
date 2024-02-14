@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from '@/library/components';
@@ -13,9 +14,10 @@ export const AutoCompleteDefaultLab = observer(
     const [list, setList] = useState<Array<any>>([]);
 
     useEffect(() => {
-      // setList(labStore?.listLabs.filter(item => item.labType === 'R')); // vikram mention remove this condition
-      setList(labStore?.listLabs);
+      // setList(labStore?.listLabs.filter(item => item.labType === 'R')); // Vikram mention remove this condition
+      setList(_.uniqBy(labStore?.listLabs, 'code'));
     }, [labStore.listLabs]);
+
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
