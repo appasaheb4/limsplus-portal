@@ -36,6 +36,7 @@ import { resetTestPanelMapping } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -77,6 +78,7 @@ const TestPanelMapping = TestPanelMappingHoc(
       },
     ]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isDuplicateRecord, setIsDuplicateRecord] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -190,6 +192,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                   Toast.success({
                     message: `😊 ${res.duplicateTestPanelMappings.message}`,
                   });
+                  setIsDuplicateRecord(false);
                 }
               });
           }
@@ -276,7 +279,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -285,7 +288,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'Update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update items!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFileds={(fileds: any, id: string) => {
@@ -294,7 +297,7 @@ const TestPanelMapping = TestPanelMappingHoc(
               type: 'updateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -302,8 +305,8 @@ const TestPanelMapping = TestPanelMappingHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -311,8 +314,8 @@ const TestPanelMapping = TestPanelMappingHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onUpdateOrderSeq={orderSeq => {
@@ -349,7 +352,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                 type: 'Update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update TestPanelMapping!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -462,10 +465,10 @@ const TestPanelMapping = TestPanelMappingHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',
@@ -592,7 +595,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           <AutoCompleteFilterSingleSelectPanelCode
                             hasError={!!errors.panelCode}
                             displayValue={value}
-                            disable={isVersionUpgrade}
+                            disable={isVersionUpgrade || isDuplicateRecord}
                             lab={testPanelMappingStore.testPanelMapping?.lab}
                             onSelect={item => {
                               onChange(item.panelName);
@@ -687,7 +690,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                           <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                             loader={loading}
                             placeholder='Search by code or name'
-                            disable={isVersionUpgrade}
+                            // disable={isVersionUpgrade}
                             data={{
                               list:
                                 testMasterStore.listTestMaster.filter(
@@ -1487,6 +1490,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     dateExpire: new Date(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
+                    reportOrder: [],
                   });
                   setIsInputView(true);
                   setIsVersionUpgrade(true);
@@ -1510,6 +1514,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                     ),
                   });
                   setIsInputView(true);
+                  setIsDuplicateRecord(true);
                   break;
                 }
               }

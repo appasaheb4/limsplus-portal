@@ -19,6 +19,7 @@ import { useForm } from 'react-hook-form';
 import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const ClientRegistration = observer(() => {
   const {
@@ -177,10 +178,10 @@ const ClientRegistration = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
         <Buttons.ButtonCircleAddRemove
           show={hideAddSegmentMapping}
@@ -246,7 +247,7 @@ const ClientRegistration = observer(() => {
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -255,7 +256,7 @@ const ClientRegistration = observer(() => {
               type: 'update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update item!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFields={(fields: any, id: string) => {
@@ -264,7 +265,7 @@ const ClientRegistration = observer(() => {
               type: 'updateFields',
               data: { fields, id },
               title: 'Are you sure?',
-              body: 'Update records',
+              body: 'Do you want to update this record?',
             });
           }}
           onPdfFileUpload={(fields, id) => {

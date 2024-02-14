@@ -14,6 +14,7 @@ import { ModalReceiptShare } from '../../components';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const TransactionDetails = observer(() => {
   const {
@@ -36,10 +37,10 @@ const TransactionDetails = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       <div className='p-1 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Transaction Header</span>
         <TransactionHeaderList
@@ -68,7 +69,7 @@ const TransactionDetails = observer(() => {
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -146,7 +147,7 @@ const TransactionDetails = observer(() => {
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -155,7 +156,7 @@ const TransactionDetails = observer(() => {
               type: 'update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update items!',
+              body: 'Do you want to update this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {

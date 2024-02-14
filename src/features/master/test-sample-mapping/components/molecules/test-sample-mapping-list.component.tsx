@@ -64,6 +64,7 @@ interface TestSampleMappingListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  onUpdateDepartment?: (row: any, id: any) => void;
 }
 
 export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
@@ -507,7 +508,6 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                           props.onUpdateItem(aliquot, 'aliquot', row._id);
                       }}
                     />{' '}
-                    {row.aliquot ? 'Yes' : 'No'}
                   </>
                 );
               },
@@ -594,6 +594,47 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                   </>
                 );
               },
+            },
+            {
+              dataField: 'departments',
+              text: 'Departments',
+              headerClasses: 'textHeader2',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) => false,
+              csvFormatter: (cell, row, rowIndex) =>
+                `Prefrence:${row.departments?.map(
+                  item => item.prefrence,
+                )} - Department:${row.departments?.map(
+                  item => item.name,
+                )} - TatInMin:${row.departments?.map(item => item.tatInMin)}`,
+              // filter: textFilter({
+              //   getFilter: (filter) => {
+              //     departments = filter
+              //   },
+              // }),
+              formatter: (cellContent, row) => (
+                <>
+                  <List space={2} direction='row' justify='center'>
+                    {row.sharedSample && (
+                      <>
+                        {row.departments?.map(item => (
+                          <div className='mb-2'>
+                            <Buttons.Button
+                              size='medium'
+                              type='solid'
+                              onClick={() => {}}
+                            >
+                              {`Department: ${item.code} - ${item.name}`}
+                              {` Prefrence: ${item.prefrence}`}
+                              {` Tat In Min: ${item.tatInMin}`}
+                            </Buttons.Button>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </List>
+                </>
+              ),
             },
             {
               dataField: 'minDrawVol',
@@ -885,197 +926,6 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                 },
               }),
             },
-            {
-              dataField: 'departments',
-              text: 'Departments',
-              headerClasses: 'textHeader2',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-              csvFormatter: (cell, row, rowIndex) =>
-                `Prefrence:${row.departments?.map(
-                  item => item.prefrence,
-                )} - Department:${row.departments?.map(
-                  item => item.name,
-                )} - TatInMin:${row.departments?.map(item => item.tatInMin)}`,
-              // filter: textFilter({
-              //   getFilter: (filter) => {
-              //     departments = filter
-              //   },
-              // }),
-              formatter: (cellContent, row) => (
-                <>
-                  <List space={2} direction='row' justify='center'>
-                    {row.departments?.map(item => (
-                      <div className='mb-2'>
-                        <Buttons.Button
-                          size='medium'
-                          type='solid'
-                          onClick={() => {}}
-                        >
-                          {`Department: ${item.code} - ${item.name}`}
-                          {` Prefrence: ${item.prefrence}`}
-                          {` Tat In Min: ${item.tatInMin}`}
-                        </Buttons.Button>
-                      </div>
-                    ))}
-                  </List>
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.InputWrapper>
-                    <Grid cols={4}>
-                      <div className='mt-1'>
-                        <AutoCompleteFilterSingleSelectDepartment
-                          onSelect={item => {
-                            props.extraData.updateLocalInput({
-                              ...props.extraData.localInput,
-                              code: item.code,
-                              name: item.name,
-                            });
-                          }}
-                        />
-                      </div>
-                      <Form.Input
-                        placeholder='Prefrence'
-                        type='number'
-                        value={row.prefrence}
-                        onChange={prefrence => {
-                          props.extraData.updateLocalInput({
-                            ...props.extraData.localInput,
-                            prefrence: Number.parseFloat(prefrence),
-                          });
-                        }}
-                      />
-                      <Form.Input
-                        placeholder='TAT IN MIN'
-                        type='number'
-                        value={row.tatInMin}
-                        onChange={tatInMin => {
-                          props.extraData.updateLocalInput({
-                            ...props.extraData.localInput,
-                            tatInMin: Number.parseFloat(tatInMin),
-                          });
-                        }}
-                      />
-                      <div className='mt-1'>
-                        <Buttons.Button
-                          size='medium'
-                          type='solid'
-                          onClick={() => {
-                            const code = props.extraData.localInput?.code;
-                            const name = props.extraData.localInput?.name;
-                            const prefrence =
-                              props.extraData.localInput?.prefrence;
-                            const tatInMin =
-                              props.extraData.localInput?.tatInMin;
-                            let departments = row?.departments || [];
-                            if (
-                              code === undefined ||
-                              prefrence === undefined ||
-                              tatInMin === undefined
-                            )
-                              return alert('Please enter all values.');
-                            if (code !== undefined) {
-                              departments !== undefined
-                                ? departments.push({
-                                    code,
-                                    name,
-                                    prefrence,
-                                    tatInMin,
-                                  })
-                                : (departments = [
-                                    {
-                                      code,
-                                      name,
-                                      prefrence,
-                                      tatInMin,
-                                    },
-                                  ]);
-                              departments = _.map(departments, o =>
-                                _.pick(o, [
-                                  'code',
-                                  'name',
-                                  'prefrence',
-                                  'tatInMin',
-                                ]),
-                              );
-                              props.onUpdateItem &&
-                                props.onUpdateItem(
-                                  departments,
-                                  'departments',
-                                  row._id,
-                                );
-                              props.extraData.updateLocalInput({
-                                code: undefined,
-                                value: undefined,
-                                prefrence: undefined,
-                                tatInMin: undefined,
-                              });
-                            }
-                          }}
-                        >
-                          <Icons.EvaIcon icon='plus-circle-outline' />
-                          {'Add'}
-                        </Buttons.Button>
-                      </div>
-                      <div className='clearfix'></div>
-                    </Grid>
-                    <br />
-                    <List space={2} direction='row' justify='center'>
-                      <div>
-                        {row.departments?.map((item, index) => (
-                          <div className='mb-2' key={index}>
-                            <Buttons.Button
-                              size='medium'
-                              type='solid'
-                              icon={Svg.Remove}
-                              onClick={() => {
-                                const firstArr =
-                                  row?.departments?.slice(0, index) || [];
-                                const secondArr =
-                                  row?.departments?.slice(index + 1) || [];
-                                let finalArray = [...firstArr, ...secondArr];
-                                props.extraData.updateSampleType({
-                                  ...props.extraData.testSampleMapping,
-                                  departments: finalArray,
-                                });
-                                finalArray = _.map(finalArray, o =>
-                                  _.pick(o, [
-                                    'code',
-                                    'name',
-                                    'prefrence',
-                                    'tatInMin',
-                                  ]),
-                                );
-                                props.onUpdateItem &&
-                                  props.onUpdateItem(
-                                    finalArray,
-                                    'departments',
-                                    row._id,
-                                  );
-                              }}
-                            >
-                              {`Department: ${item.code} - ${item.name}`}
-                              {` Prefrence: ${item.prefrence}`}
-                              {` Tat In Min: ${item.tatInMin}`}
-                            </Buttons.Button>
-                          </div>
-                        ))}
-                      </div>
-                    </List>
-                  </Form.InputWrapper>
-                </>
-              ),
-            },
 
             {
               dataField: 'status',
@@ -1239,7 +1089,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                               show: true,
                               id: [row._id],
                               title: 'Are you sure?',
-                              body: 'Delete item',
+                              body: 'Do you want to delete this record?',
                             })
                           }
                         >
@@ -1254,6 +1104,20 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                           propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
                         />
+                      </Tooltip>
+                    )}
+                    {row.status !== 'I' && row.sharedSample && (
+                      <Tooltip tooltipText='Edit'>
+                        <Icons.IconContext
+                          color='#fff'
+                          size='20'
+                          onClick={() =>
+                            props.onUpdateDepartment &&
+                            props.onUpdateDepartment(row, row._id)
+                          }
+                        >
+                          {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                        </Icons.IconContext>
                       </Tooltip>
                     )}
                   </div>

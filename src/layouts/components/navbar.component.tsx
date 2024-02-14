@@ -81,7 +81,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   color:
                     stores.appStore.applicationSetting.theme === 'dark'
                       ? '#ffffff'
-                      : '#000000',
+                      : stores.appStore.applicationSetting.navbarIconColor,
                   size: 22,
                 }}
               />
@@ -102,9 +102,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   <Tooltip tooltipText='Dashboard'>
                     <Icons.IconContext
                       color={
-                        stores.appStore.applicationSetting.theme === 'dark'
-                          ? '#ffffff'
-                          : '#000000'
+                        stores.appStore.applicationSetting.navbarIconColor ||
+                        '#000'
                       }
                       size='18'
                     >
@@ -140,10 +139,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                                 nameIcon={item.icon || 'VscListSelection'}
                                 propsIcon={{
                                   color:
-                                    stores.appStore.applicationSetting.theme ===
-                                    'dark'
-                                      ? '#ffffff'
-                                      : '#000000',
+                                    stores.appStore.applicationSetting
+                                      .navbarIconColor,
                                   size: 18,
                                 }}
                               />
@@ -160,12 +157,6 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
         <div className='flex-1 ml-2 d-none d-sm-inline-block'>
           <div className='flex right-0'>
             <Nav className='ml-auto items-center' navbar>
-              <div className='mx-2'>
-                <DarkModeSwitcher
-                  //isDisable={appStore.applicationSetting.isExpandScreen}
-                  isDisable={false}
-                />
-              </div>
               <div className='m-2'>
                 <Buttons.Button
                   size='medium'
@@ -178,10 +169,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                         ...appStore.applicationSetting,
                         isExpandScreen: true,
                       });
-                      appStore.updateApplicationSetting({
-                        ...stores.appStore.applicationSetting,
-                        theme,
-                      });
+                      // appStore.updateApplicationSetting({
+                      //   ...stores.appStore.applicationSetting,
+                      //   theme,
+                      // });
                       if (elem.requestFullscreen) {
                         elem.requestFullscreen();
                       } else if (elem.webkitRequestFullscreen) {
@@ -191,9 +182,9 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                         /* IE11 */
                         elem.msRequestFullscreen();
                       }
-                      if (typeof setColorMode === 'function') {
-                        setColorMode(theme);
-                      }
+                      // if (typeof setColorMode === 'function') {
+                      //   setColorMode(theme);
+                      // }
                     }
                     function closeFullscreen() {
                       if (document.fullscreenElement) {
@@ -202,13 +193,13 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                           appStore.updateApplicationSetting({
                             ...appStore.applicationSetting,
                             isExpandScreen: false,
-                            theme,
+                            // theme,
                           });
                           document.exitFullscreen();
                         }
-                        if (typeof setColorMode === 'function') {
-                          setColorMode(theme);
-                        }
+                        // if (typeof setColorMode === 'function') {
+                        //   setColorMode(theme);
+                        // }
                       }
                     }
                     openFullscreen();
@@ -259,6 +250,12 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   {loginStore.login?.sessionAllowed}
                 </span>
               </Tooltip>
+              <div className='mx-2'>
+                <DarkModeSwitcher
+                  //isDisable={appStore.applicationSetting.isExpandScreen}
+                  isDisable={false}
+                />
+              </div>
             </Nav>
           </div>
         </div>

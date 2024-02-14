@@ -31,6 +31,7 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { FormHelper } from '@/helper';
 import * as XLSX from 'xlsx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const CommentManager = CommentManagerHoc(
   observer(() => {
@@ -212,7 +213,7 @@ const CommentManager = CommentManagerHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(fields: any, id: string) => {
@@ -221,7 +222,7 @@ const CommentManager = CommentManagerHoc(
               type: 'Update',
               data: { fields, id },
               title: 'Are you sure?',
-              body: 'Update item!',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -229,8 +230,8 @@ const CommentManager = CommentManagerHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -238,8 +239,8 @@ const CommentManager = CommentManagerHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -266,7 +267,7 @@ const CommentManager = CommentManagerHoc(
                 type: 'Update',
                 data: { fields: { status: 'A' }, id: records._id },
                 title: 'Are you sure?',
-                body: 'Update Comment Manager!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -424,10 +425,10 @@ const CommentManager = CommentManagerHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',

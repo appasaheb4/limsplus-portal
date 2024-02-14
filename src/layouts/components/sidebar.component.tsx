@@ -52,6 +52,7 @@ const SidebarCategory = withRouter(
         ? 'active'
         : '';
     };
+
     return (
       <li className={'sidebar-item ' + getSidebarItemClass(to)}>
         <span
@@ -64,11 +65,22 @@ const SidebarCategory = withRouter(
         >
           <Icons.RIcon
             nameIcon={icon}
-            propsIcon={{ color: '#ffffff', size: 20 }}
+            propsIcon={{
+              color: stores.appStore.applicationSetting.sidebarFontColor,
+              size: 20,
+            }}
           />
-          <span className='align-middle'>{title}</span>
+          <span
+            className='align-middle'
+            style={{
+              color:
+                stores.appStore.applicationSetting.sidebarFontColor ?? '#fff',
+            }}
+          >
+            {title}
+          </span>
           {badgeColor && badgeText ? (
-            <Badge color={badgeColor} size={18} className='sidebar-badge'>
+            <Badge color={'danger'} size={18} className='sidebar-badge'>
               {badgeText}
             </Badge>
           ) : null}
@@ -76,9 +88,7 @@ const SidebarCategory = withRouter(
         {isOpen && (
           <ul id='item' className={`sidebar-dropdown list-unstyled `}>
             <PerfectScrollbar>
-              <div style={{ height: 'auto', maxHeight: '300px' }}>
-                {children}
-              </div>
+              <div style={{ maxHeight: '400px' }}>{children}</div>
             </PerfectScrollbar>
           </ul>
         )}
@@ -116,12 +126,30 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
         <div className='flex items-center p-0 m-0'>
           <Icons.RIcon
             nameIcon={props.icon || 'VscListSelection'}
-            propsIcon={{ color: '#ffffff', size: 18 }}
+            propsIcon={{
+              color: stores.appStore.applicationSetting.sidebarFontColor,
+              size: 18,
+            }}
           />
-          <span className='flex items-center'>{props.title}</span>
+          <span
+            className='flex items-center'
+            style={{
+              color:
+                stores.appStore.applicationSetting.sidebarFontColor ?? '#fff',
+            }}
+          >
+            {props.title}
+          </span>
         </div>
         {props.badgeColor && props.badgeText ? (
-          <Badge color={props.badgeColor} size={18} className='sidebar-badge'>
+          <Badge
+            color={
+              props.badgeColor ??
+              stores.appStore.applicationSetting.sidebarFontColor
+            }
+            size={18}
+            className='sidebar-badge'
+          >
             {props.badgeText}
           </Badge>
         ) : null}
@@ -155,9 +183,8 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
     <>
       <nav
         className={
-          'sidebar' +
-          (!sidebar.isOpen ? ' toggled' : '') +
-          (sidebar.isSticky ? ' sidebar-sticky' : '')
+          'sidebar sidebar-sticky' + (!sidebar.isOpen ? ' toggled' : '')
+          // (sidebar.isSticky ? 'sidebar-sticky' : '')
         }
         style={{
           backgroundColor: `${appStore.applicationSetting?.sideBarColor}`,
@@ -168,10 +195,14 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
         }}
       >
         <div className='sidebar-content'>
-          <PerfectScrollbar>
+          <PerfectScrollbar style={{ maxHeight: '100%', position: 'absolute' }}>
             <a className='flex sidebar-brand items-center' href='/'>
               <img
-                src={Assets.images.limsplusTran}
+                src={
+                  stores.appStore.applicationSetting.logoSwap
+                    ? Assets.images.limsplusTranBlue
+                    : Assets.images.limsplusTran
+                }
                 alt='appIcon'
                 style={{ width: '100%' }}
               />

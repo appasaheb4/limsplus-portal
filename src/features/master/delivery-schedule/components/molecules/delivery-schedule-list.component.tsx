@@ -1,5 +1,5 @@
 import React from 'react';
-import { lookupItems, lookupValue } from '@/library/utils';
+import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import {
   textFilter,
   TableBootstrap,
@@ -7,6 +7,9 @@ import {
   Tooltip,
   Icons,
   sortCaret,
+  ModalDateTime,
+  customFilter,
+  DateFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { AutoCompleteCompanyList } from '@/core-components';
@@ -26,6 +29,8 @@ let schForPat;
 let environment;
 let status;
 let companyCode;
+let sampleReceivedDate;
+let reportDate;
 interface DeliverySchduleListProps {
   data: any;
   totalSize: number;
@@ -86,7 +91,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'schName',
-              text: 'Sch Name',
+              text: 'Delivery Schedule',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -232,10 +237,43 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 );
               },
             },
+            {
+              dataField: 'scheduleForPatAndDept',
+              text: 'Schedule For',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${
+                  row.holidayReporting
+                    ? row.holidayReporting
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.DeliveryScheduleToggle
+                      disabled={!editorCell(row)}
+                      value={row.scheduleForPatAndDept}
+                      onChange={scheduleForPatAndDept => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            scheduleForPatAndDept,
+                            'scheduleForPatAndDept',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
 
             {
               dataField: 'pStartTime',
-              text: 'P Start Time',
+              text: 'Processing Start Time',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -253,7 +291,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'pEndTime',
-              text: 'P End Time',
+              text: 'Processing End Time',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -271,7 +309,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'cutofTime',
-              text: 'Cutof Time',
+              text: 'Cut-off Time',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -288,8 +326,41 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               }),
             },
             {
+              dataField: 'secondCutoffTimeRequired',
+              text: 'Second Cut-off Time Required',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${
+                  row.secondCutoffTimeRequired
+                    ? row.secondCutoffTimeRequired
+                      ? 'Yes'
+                      : 'No'
+                    : 'No'
+                }`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.secondCutoffTimeRequired}
+                      onChange={secondCutoffTimeRequired => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            secondCutoffTimeRequired,
+                            'secondCutoffTimeRequired',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'secoundCutofTime',
-              text: 'Secound Cutof Time',
+              text: 'Second Cut-off Time',
               headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
@@ -303,8 +374,9 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+                !row.secondCutoffTimeRequired && editorCell(row),
             },
+
             {
               dataField: 'processingType',
               text: 'Processing Type',
@@ -392,7 +464,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'dynamicRT',
-              text: 'Dynamic RT',
+              text: 'Dynamic Reporting Time Unit',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -410,7 +482,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'dynamicTU',
-              text: 'Dynamic TU',
+              text: 'Dynamic Reporting Time Unit',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -463,7 +535,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             },
             {
               dataField: 'fixedRT',
-              text: 'Fixed RT',
+              text: 'Fixed Reporting Time Unit',
               headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
@@ -502,42 +574,43 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 );
               },
             },
-            {
-              dataField: 'schForDept',
-              text: 'Sch For Dept',
-              headerClasses: 'textHeader1',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  schForDept = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'schForPat',
-              text: 'Sch For Pat',
-              headerClasses: 'textHeader1',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  schForPat = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
+
+            // {
+            //   dataField: 'schForDept',
+            //   text: 'Sch For Dept',
+            //   headerClasses: 'textHeader1',
+            //   sort: true,
+            //   headerStyle: {
+            //     fontSize: 0,
+            //   },
+            //   sortCaret: (order, column) => sortCaret(order, column),
+            //   csvFormatter: col => (col ? col : ''),
+            //   filter: textFilter({
+            //     getFilter: filter => {
+            //       schForDept = filter;
+            //     },
+            //   }),
+            //   editable: (content, row, rowIndex, columnIndex) =>
+            //     editorCell(row),
+            // },
+            // {
+            //   dataField: 'schForPat',
+            //   text: 'Sch For Pat',
+            //   headerClasses: 'textHeader1',
+            //   sort: true,
+            //   headerStyle: {
+            //     fontSize: 0,
+            //   },
+            //   sortCaret: (order, column) => sortCaret(order, column),
+            //   csvFormatter: col => (col ? col : ''),
+            //   filter: textFilter({
+            //     getFilter: filter => {
+            //       schForPat = filter;
+            //     },
+            //   }),
+            //   editable: (content, row, rowIndex, columnIndex) =>
+            //     editorCell(row),
+            // },
 
             {
               dataField: 'status',
@@ -586,6 +659,91 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   </select>
                 </>
               ),
+            },
+            {
+              dataField: 'sampleReceivedDate',
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              text: 'Sample Received Date',
+              headerClasses: 'textHeader11',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: (col, row) =>
+                row.dateExpire
+                  ? dayjs(row.sampleReceivedDate).format('YYYY-MM-DD')
+                  : '',
+              // filter: dateFilter({
+              //   comparators: [
+              //     Comparator.EQ,
+              //     Comparator.GE,
+              //     Comparator.LT,
+              //   ],
+              //   dateStyle: { marginLeft: "2px" },
+              //   defaultValue: {
+              //     comparator: Comparator.EQ,
+              //   },
+              //   style: { display: "inline" },
+              // }),
+              filter: customFilter({
+                getFilter: filter => {
+                  sampleReceivedDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              // formatter: (cell, row) => {
+              //   return (
+              //     <>
+              //       {dayjs(row.sampleReceivedDate).format(
+              //         'DD-MM-YYYY HH:mm:ss',
+              //       ) ?? ''}
+              //     </>
+              //   );
+              // },
+            },
+            {
+              dataField: 'reportDate',
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+              text: 'Report Date',
+              headerClasses: 'textHeader11',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+
+              // filter: dateFilter({
+              //   comparators: [
+              //     Comparator.EQ,
+              //     Comparator.GE,
+              //     Comparator.LT,
+              //   ],
+              //   dateStyle: { marginLeft: "2px" },
+              //   defaultValue: {
+              //     comparator: Comparator.EQ,
+              //   },
+              //   style: { display: "inline" },
+              // }),
+              filter: customFilter({
+                getFilter: filter => {
+                  reportDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateFilter onFilter={onFilter} column={column} />
+              ),
+              // formatter: (cell, row) => {
+              //   return (
+              //     <>
+              //       {dayjs(row.reportDate).format('DD-MM-YYYY HH:mm:ss') ?? ''}
+              //     </>
+              //   );
+              // },
             },
             {
               text: 'Company Code',
@@ -665,7 +823,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                               show: true,
                               id: [row._id],
                               title: 'Are you sure?',
-                              body: 'Delete item',
+                              body: 'Do you want to delete this record?',
                             })
                           }
                         >
@@ -730,6 +888,8 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             schForPat('');
             environment('');
             companyCode('');
+            sampleReceivedDate('');
+            reportDate('');
           }}
           dynamicStylingFields={['schCode', 'environment']}
           hideExcelSheet={['_id', 'opration']}

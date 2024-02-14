@@ -28,6 +28,7 @@ import { resetPossibleResult } from '../startup';
 import * as XLSX from 'xlsx';
 import { ModalPossibleResultConclusionModify } from '../components/molecules/modal-possible-result-conculsion-modify';
 import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const PossibleResults = PossibleResultHoc(
   observer(() => {
@@ -212,7 +213,7 @@ export const PossibleResults = PossibleResultHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -221,7 +222,7 @@ export const PossibleResults = PossibleResultHoc(
               type: 'Update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update Lookup!',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -229,8 +230,8 @@ export const PossibleResults = PossibleResultHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -238,8 +239,8 @@ export const PossibleResults = PossibleResultHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -260,7 +261,7 @@ export const PossibleResults = PossibleResultHoc(
                 type: 'Update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update Possible Result!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -270,7 +271,7 @@ export const PossibleResults = PossibleResultHoc(
               type: 'UpdateFileds',
               data: { fileds, id },
               title: 'Are you sure?',
-              body: 'Update records!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdatePossibleResult={(row: any, id: string) => {
@@ -366,10 +367,10 @@ export const PossibleResults = PossibleResultHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddLookup}

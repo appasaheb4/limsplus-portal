@@ -24,6 +24,7 @@ import { useStores } from '@/stores';
 import { getDefaultLookupItem } from '@/library/utils';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const InstResultMapping = observer(() => {
   const {
@@ -324,10 +325,10 @@ const InstResultMapping = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
       {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
         <Buttons.ButtonCircleAddRemove
           show={!isInputView}
@@ -419,7 +420,7 @@ const InstResultMapping = observer(() => {
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItems={(fields: any, id: string) => {

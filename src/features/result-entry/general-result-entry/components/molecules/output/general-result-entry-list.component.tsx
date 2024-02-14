@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import _, { isNaN } from 'lodash';
-import { Form, Buttons } from '@/library/components';
+import { Form, Buttons, Tooltip, Icons } from '@/library/components';
 import { DisplayResult } from './display-result.components';
 
 import { GeneralResultEntryExpand } from './general-result-entry-expand.component';
@@ -13,6 +13,8 @@ import {
   getAbnFlag,
   getCretical,
 } from '../../../utils';
+import { icons } from '@/library/assets';
+import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -33,10 +35,15 @@ interface GeneralResultEntryListProps {
     totalSize: number,
   ) => void;
   onFilterFinishResult?: (code: string) => void;
+  onTestStatusFilter?: (code: string) => void;
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [data, setData] = useState<any>([]);
+  const [selectedRowId, setSelectedRowId] = useState('');
+  const [refRangeRowId, setRefRangleRowId] = useState('');
+  const [widthRefBox, setWidthRefBox] = useState('20px');
+  const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -70,9 +77,43 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               csvExport: false,
             },
             {
+              dataField: 'labId',
+              text: 'Lab Id',
+              editable: false,
+            },
+            {
+              dataField: 'sex',
+              text: 'Sex',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <img
+                      src={row.sex == 'M' ? icons.male : icons.female}
+                      style={{ width: 60, height: 40 }}
+                      alt='male'
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'analyteCode',
+              text: 'Analyte Code - Name',
+              editable: false,
+              headerClasses: 'textHeader',
+              formatter: (cellContent, row) => (
+                <>
+                  <div className='flex flex-row'>
+                    {`${row.analyteCode} - ${row.analyteName}`}
+                  </div>
+                </>
+              ),
+            },
+            {
               dataField: 'result',
               text: 'Result',
-              headerClasses: 'textHeader',
+              // headerClasses: 'textHeader',
               editable: (content, row, rowIndex, columnIndex) =>
                 row.approvalStatus == 'P' ? true : false,
               formatter: (cellContent, row) => (
@@ -174,102 +215,175 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Normal Range',
               sort: true,
               editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <span>
-                    {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
-                    (row.loNor === ' ' && row.hiNor === ' ')
-                      ? '-'
-                      : row.loNor === 'NaN' && row.hiNor === ' '
-                      ? '<'
-                      : row.loNor === ' ' && row.hiNor === 'NaN'
-                      ? '>'
-                      : row.loNor + '-' + row.hiNor}
-                  </span>
-                );
-              },
-            },
-            {
-              dataField: 'labId',
-              text: 'Lab Id',
-              editable: false,
-            },
-            {
-              dataField: 'panelCode',
-              text: 'Panel Code',
-              editable: false,
-            },
-            {
-              dataField: 'testCode',
-              text: 'Test Code - Name',
-              editable: false,
-              formatter: (cellContent, row) => (
-                <>
-                  <div className='flex flex-row'>
-                    {`${row.testCode} - ${row.testName}`}
-                  </div>
-                </>
-              ),
-            },
-            {
-              dataField: 'analyteCode',
-              text: 'Analyte Code - Name',
-              editable: false,
-              formatter: (cellContent, row) => (
-                <>
-                  <div className='flex flex-row'>
-                    {`${row.analyteCode} - ${row.analyteName}`}
-                  </div>
-                </>
-              ),
-            },
-            {
-              dataField: 'resultType',
-              text: 'Result Type',
-              editable: false,
-            },
-            {
-              dataField: 'reportable',
-              text: 'Reportable',
-              editable: false,
+              style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (
                   <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.reportable}
-                      onChange={reportable => {
-                        // props.onUpdateValue({reportable}, row._id);
-                        props.onSaveFields &&
-                          props.onSaveFields(
+                    <div className='flex flex-row gap-4'>
+                      <span>
+                        {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
+                        (row.loNor === ' ' && row.hiNor === ' ')
+                          ? '-'
+                          : row.loNor === 'NaN' && row.hiNor === ' '
+                          ? '<'
+                          : row.loNor === ' ' && row.hiNor === 'NaN'
+                          ? '>'
+                          : row.loNor + '-' + row.hiNor}
+                      </span>
+                      <div>
+                        {row.refRangesList?.length > 0 && (
+                          <Tooltip
+                            tooltipText={
+                              row._id != refRangeRowId
+                                ? 'Expand Reference Range'
+                                : 'Collapse Reference Range'
+                            }
+                          >
+                            <Icons.IconContext
+                              color='#000000'
+                              size='20'
+                              onClick={() => {
+                                if (row._id === refRangeRowId) {
+                                  setRefRangleRowId('');
+                                  setWidthRefBox('30px');
+                                } else {
+                                  setRefRangleRowId(row._id);
+                                  setWidthRefBox('550px');
+                                }
+                              }}
+                            >
+                              {Icons.getIconTag(
+                                row._id != refRangeRowId
+                                  ? Icons.IconBi.BiExpand
+                                  : Icons.IconBi.BiCollapse,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                      </div>
+                    </div>
+                    {refRangeRowId == row._id ? (
+                      <div style={{ width: widthRefBox }}>
+                        <RefRangesExpandList
+                          id='_id'
+                          data={row?.refRangesList || []}
+                          totalSize={row?.refRangesList?.length || 0}
+                          columns={[
                             {
-                              ...row,
-                              reportable,
-                              updateType: 'save',
+                              dataField: 'result',
+                              text: 'Result',
+                              editable: false,
+                              formatter: () => (
+                                <>
+                                  <span>{row.result}</span>
+                                </>
+                              ),
                             },
-                            row._id,
-                            'save',
-                          );
-                      }}
-                    />
+                            {
+                              dataField: 'rangeType',
+                              text: 'Range Type',
+                            },
+                            {
+                              dataField: 'low',
+                              text: 'Low',
+                            },
+                            {
+                              dataField: 'high',
+                              text: 'High',
+                            },
+                            {
+                              dataField: 'rangeSetOn',
+                              text: 'Range Set On',
+                            },
+                            {
+                              dataField: 'rangeId',
+                              text: 'Range Id',
+                            },
+                            {
+                              dataField: 'version',
+                              text: 'Range Version',
+                            },
+                          ]}
+                          onSelectedRow={rows => {}}
+                          onUpdateItem={(
+                            value: any,
+                            dataField: string,
+                            id: string,
+                          ) => {}}
+                        />
+                      </div>
+                    ) : null}
                   </>
                 );
               },
             },
+            {
+              dataField: 'conclusion',
+              text: 'Conclusion',
+              editable: false,
+              style: { width: widthConculsionBox },
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-col'>
+                    <Tooltip
+                      tooltipText={
+                        row._id != selectedRowId ? 'Expand' : 'Collapse'
+                      }
+                    >
+                      <Icons.IconContext
+                        color='#000000'
+                        size='20'
+                        onClick={() => {
+                          if (row._id === selectedRowId) {
+                            setSelectedRowId('');
+                            setWidthConculsionBox('30px');
+                          } else {
+                            setSelectedRowId(row._id);
+                            setWidthConculsionBox('200px');
+                          }
+                        }}
+                      >
+                        {Icons.getIconTag(
+                          row._id != selectedRowId
+                            ? Icons.IconBi.BiExpand
+                            : Icons.IconBi.BiCollapse,
+                        )}
+                      </Icons.IconContext>
+                    </Tooltip>
+
+                    {row._id === selectedRowId && (
+                      <div style={{ width: widthConculsionBox }}>
+                        <Form.MultilineInput
+                          rows={3}
+                          placeholder='Conclusion'
+                          className='text-black'
+                          onBlur={conclusion => {
+                            props.onUpdateFields &&
+                              props.onUpdateFields(
+                                { conclusion, updateField: 'conclusion' },
+                                row._id,
+                              );
+                            setSelectedRowId('');
+                            setWidthConculsionBox('30px');
+                          }}
+                          defaultValue={row?.conclusion}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              },
+            },
+
             {
               dataField: 'units',
               text: 'Units',
               editable: false,
             },
             {
-              dataField: 'resultDate',
-              text: 'Result Date',
+              dataField: 'resultStatus',
+              text: 'Result Status',
               editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>{dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}</>
-                );
-              },
             },
             {
               dataField: 'abnFlag',
@@ -316,6 +430,67 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
             {
+              dataField: 'resultDate',
+              text: 'Result Date',
+              editable: false,
+              headerClasses: 'textHeader',
+              formatter: (cell, row) => {
+                return (
+                  <>{dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}</>
+                );
+              },
+            },
+            {
+              dataField: 'testCode',
+              text: 'Test Code - Name',
+              editable: false,
+              headerClasses: 'textHeader',
+              formatter: (cellContent, row) => (
+                <>
+                  <div className='flex flex-row'>
+                    {`${row.testCode} - ${row.testName}`}
+                  </div>
+                </>
+              ),
+            },
+            {
+              dataField: 'testStatus',
+              text: 'Test Status',
+              editable: false,
+            },
+            {
+              dataField: 'panelCode',
+              text: 'Panel Code',
+              editable: false,
+            },
+            {
+              dataField: 'panelStatus',
+              text: 'Panel Status',
+              editable: false,
+            },
+            {
+              dataField: 'age',
+              text: 'Age',
+              editable: false,
+            },
+            {
+              dataField: 'ageUnit',
+              text: 'Age Unit',
+              editable: false,
+            },
+
+            {
+              dataField: 'species',
+              text: 'Species',
+              editable: false,
+            },
+            {
+              dataField: 'resultType',
+              text: 'Result Type',
+              editable: false,
+            },
+
+            {
               dataField: 'showRanges',
               text: 'Show Ranges',
               editable: false,
@@ -334,68 +509,32 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
             {
-              dataField: 'sex',
-              text: 'Sex',
+              dataField: 'reportable',
+              text: 'Reportable',
               editable: false,
-            },
-            {
-              dataField: 'age',
-              text: 'Age',
-              editable: false,
-            },
-            {
-              dataField: 'ageUnit',
-              text: 'Age Unit',
-              editable: false,
-            },
-            {
-              dataField: 'species',
-              text: 'Species',
-              editable: false,
-            },
-            {
-              dataField: 'conclusion',
-              text: 'Conclusion',
-              headerClasses: 'textHeader',
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.MultilineInput
-                    rows={3}
-                    placeholder='Conclusion'
-                    className='text-black'
-                    onBlur={conclusion => {
-                      props.onUpdateFields &&
-                        props.onUpdateFields(
-                          { conclusion, updateField: 'conclusion' },
-                          row._id,
-                        );
-                    }}
-                    defaultValue={row?.conclusion}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: 'panelStatus',
-              text: 'Panel Status',
-              editable: false,
-            },
-            {
-              dataField: 'testStatus',
-              text: 'Test Status',
-              editable: false,
-            },
-            {
-              dataField: 'resultStatus',
-              text: 'Result Status',
-              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.reportable}
+                      onChange={reportable => {
+                        // props.onUpdateValue({reportable}, row._id);
+                        props.onSaveFields &&
+                          props.onSaveFields(
+                            {
+                              ...row,
+                              reportable,
+                              updateType: 'save',
+                            },
+                            row._id,
+                            'save',
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'enteredBy',
@@ -406,16 +545,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
             {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              editable: false,
-              headerClasses: 'textHeader2',
-            },
-            {
               text: 'Environment',
               dataField: 'environment',
               editable: false,
-              headerClasses: 'textHeader2',
+              // headerClasses: 'textHeader2',
             },
             {
               dataField: 'operation',
@@ -500,6 +633,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           }}
           onFilterFinishResult={(code: string) => {
             props.onFilterFinishResult && props.onFilterFinishResult(code);
+          }}
+          onTestStatusFilter={item => {
+            props.onTestStatusFilter && props.onTestStatusFilter(item);
           }}
         />
       </div>

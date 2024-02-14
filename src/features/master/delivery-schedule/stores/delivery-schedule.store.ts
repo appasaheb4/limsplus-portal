@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {DeliverySchedule} from '../models';
-import {DeliveryScheduleService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { DeliverySchedule } from '../models';
+import { DeliveryScheduleService } from '../services';
 import dayjs from 'dayjs';
 
 export class DeliveryScheduleStore {
@@ -21,6 +21,8 @@ export class DeliveryScheduleStore {
       sundayReporting: false,
       holidayReporting: false,
       onTime: false,
+      secondCutoffTimeRequired: false,
+      scheduleForPatAndDept: false,
       pStartTime: dayjs().format('hh:mm a'),
       pEndTime: dayjs().format('hh:mm a'),
       cutofTime: dayjs().format('hh:mm a'),

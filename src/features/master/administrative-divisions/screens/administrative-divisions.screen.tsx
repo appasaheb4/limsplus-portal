@@ -26,6 +26,7 @@ import { resetBanner } from '../../banner/startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const AdministrativeDivisions = AdministrativeDivisionsHoc(
   observer(() => {
@@ -163,10 +164,10 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={isHideView}
@@ -680,7 +681,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -689,7 +690,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update Section!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -716,7 +717,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     type: 'Update',
                     data: { value: 'A', dataField: 'status', id: records._id },
                     title: 'Are you sure?',
-                    body: 'Update deginisation!',
+                    body: 'Do you want to update this record?',
                   });
                 }
               }}

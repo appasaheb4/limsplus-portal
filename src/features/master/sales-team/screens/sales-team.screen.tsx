@@ -31,6 +31,7 @@ import { RouterFlow } from '@/flows';
 import { resetSalesTeam } from '../startup';
 import * as XLSX from 'xlsx';
 import { toJS } from 'mobx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const SalesTeam = SalesTeamHoc(
   observer(() => {
@@ -187,7 +188,7 @@ export const SalesTeam = SalesTeamHoc(
               type: 'Delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -204,8 +205,8 @@ export const SalesTeam = SalesTeamHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -213,8 +214,8 @@ export const SalesTeam = SalesTeamHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -235,7 +236,7 @@ export const SalesTeam = SalesTeamHoc(
                 type: 'Update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update Sales Team!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -369,10 +370,10 @@ export const SalesTeam = SalesTeamHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddSection}

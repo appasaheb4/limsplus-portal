@@ -1,17 +1,21 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectDepartmentProps {
+  displayValue: string;
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectDepartment = observer(
-  ({onSelect}: AutoCompleteFilterSingleSelectDepartmentProps) => {
-    const {loading, departmentStore} = useStores();
-    const [value, setValue] = useState<string>('');
+  ({
+    displayValue,
+    onSelect,
+  }: AutoCompleteFilterSingleSelectDepartmentProps) => {
+    const { loading, departmentStore } = useStores();
+    const [value, setValue] = useState<string>();
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
@@ -34,6 +38,12 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
         // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [ref, isListOpen]);
     };
+
+    useEffect(() => {
+      if (displayValue === '') {
+        setValue('');
+      }
+    }, [displayValue]);
 
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef);

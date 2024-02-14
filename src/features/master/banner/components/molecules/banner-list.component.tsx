@@ -338,7 +338,7 @@ export const BannerList = (props: BannerListProps) => {
                             show: true,
                             id: [row._id],
                             title: 'Are you sure?',
-                            body: 'Delete item',
+                            body: 'Do you want to delete this record?',
                           })
                         }
                       >
@@ -358,7 +358,7 @@ export const BannerList = (props: BannerListProps) => {
                 </div>
               </>
             ),
-            headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
+            headerClasses: 'sticky right-0  bg-gray-500 text-white -z-10',
             classes: (cell, row, rowIndex, colIndex) => {
               return 'sticky right-0 bg-gray-500 ';
             },

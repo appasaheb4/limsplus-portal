@@ -1,11 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
-import {Header, PageHeading, PageHeadingLabDetails} from '@/library/components';
-import {useForm} from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import {
+  Header,
+  PageHeading,
+  PageHeadingLabDetails,
+} from '@/library/components';
+import { useForm } from 'react-hook-form';
 
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const HistoResultEntry = observer(() => {
   const {
@@ -20,7 +25,7 @@ const HistoResultEntry = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
 
@@ -36,10 +41,10 @@ const HistoResultEntry = observer(() => {
 
   return (
     <>
-      <Header>
-        <PageHeading title={routerStore.selectedComponents?.title || ''} />
-        <PageHeadingLabDetails store={loginStore} />
-      </Header>
+      <MainPageHeadingComponents
+        title={routerStore.selectedComponents?.title || ''}
+        store={loginStore}
+      />
     </>
   );
 });

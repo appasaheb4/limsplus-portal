@@ -30,6 +30,7 @@ import dayjs from 'dayjs';
 
 import { CompanyHoc } from '../hoc';
 import { useStores } from '@/stores';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Company = CompanyHoc(
   observer(() => {
@@ -245,10 +246,10 @@ const Company = CompanyHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={isHideView}
@@ -1443,7 +1444,7 @@ const Company = CompanyHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -1452,7 +1453,7 @@ const Company = CompanyHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update record!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -1461,7 +1462,7 @@ const Company = CompanyHoc(
                   type: 'UpdateImage',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update record!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -1485,8 +1486,8 @@ const Company = CompanyHoc(
                   show: true,
                   type: 'versionUpgrade',
                   data: item,
-                  title: 'Are you version upgrade?',
-                  body: 'Version upgrade this record',
+                  title: 'Are you sure?',
+                  body: 'Do you want to upgrade version for this record?',
                 });
               }}
               onApproval={async records => {
@@ -1495,7 +1496,7 @@ const Company = CompanyHoc(
                   type: 'Update',
                   data: { value: 'A', dataField: 'status', id: records._id },
                   title: 'Are you sure?',
-                  body: 'Update records!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onSingleDirectUpdateField={(value, dataField, id) => {

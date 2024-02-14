@@ -31,6 +31,7 @@ import { toJS } from 'mobx';
 import { resetUser } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const Users = UsersHoc(
   observer(() => {
@@ -213,7 +214,7 @@ export const Users = UsersHoc(
               type: 'delete',
               id: rows,
               title: 'Are you sure?',
-              body: 'Delete selected items!',
+              body: 'Do you want to delete selected record?',
             });
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -222,7 +223,7 @@ export const Users = UsersHoc(
               type: 'update',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'Update user!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateFields={(fields: any, id: string) => {
@@ -231,7 +232,7 @@ export const Users = UsersHoc(
               type: 'updateFields',
               data: { fields, id },
               title: 'Are you sure?',
-              body: 'Update items!',
+              body: 'Do you want to update this record?',
             });
           }}
           onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -240,7 +241,7 @@ export const Users = UsersHoc(
               type: 'UpdateImage',
               data: { value, dataField, id },
               title: 'Are you sure?',
-              body: 'UpdateImage!',
+              body: 'Do you want to update this record?',
             });
           }}
           onVersionUpgrade={item => {
@@ -248,8 +249,8 @@ export const Users = UsersHoc(
               show: true,
               type: 'versionUpgrade',
               data: item,
-              title: 'Are you version upgrade?',
-              body: 'Version upgrade this record',
+              title: 'Are you sure?',
+              body: 'Do you want to upgrade version for this record?',
             });
           }}
           onDuplicate={item => {
@@ -257,8 +258,8 @@ export const Users = UsersHoc(
               show: true,
               type: 'duplicate',
               data: item,
-              title: 'Are you duplicate?',
-              body: 'Duplicate this record',
+              title: 'Are you sure?',
+              body: 'Do you want to duplicate this record?',
             });
           }}
           onChangePassword={(id: string, userId: string, email: string) => {
@@ -267,7 +268,7 @@ export const Users = UsersHoc(
               type: 'changePassword',
               data: { id, userId, email },
               title: 'Are You Sure?',
-              body: 'UpdatePassword!',
+              body: 'Do you want to update this record?',
             });
           }}
           onPageSizeChange={(page, limit) => {
@@ -310,7 +311,7 @@ export const Users = UsersHoc(
                 type: 'Update',
                 data: { value: 'A', dataField: 'status', id: records._id },
                 title: 'Are you sure?',
-                body: 'Update User!',
+                body: 'Do you want to update this record?',
               });
             }
           }}
@@ -445,10 +446,10 @@ export const Users = UsersHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',
@@ -2174,6 +2175,9 @@ export const Users = UsersHoc(
                     version: Number.parseInt(modalConfirm.data.version + 1),
                     dateCreation: new Date(),
                     dateActive: new Date(),
+                    marriageAnniversary: new Date(),
+                    dateOfBirth: new Date(),
+                    exipreDate: new Date(),
                   });
                   userStore.updateSelectedItems({
                     ...userStore.selectedItems,
@@ -2201,6 +2205,9 @@ export const Users = UsersHoc(
                     version: 1,
                     dateCreation: new Date(),
                     dateActive: new Date(),
+                    marriageAnniversary: new Date(),
+                    dateOfBirth: new Date(),
+                    exipreDate: new Date(),
                   });
                   userStore.updateSelectedItems({
                     ...userStore.selectedItems,

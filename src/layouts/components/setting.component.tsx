@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { observer } from 'mobx-react';
-import { Buttons, Svg } from '@/library/components';
+import { Buttons, Form, Svg } from '@/library/components';
 
 import { toggleBoxedLayout } from '../../redux/actions/layout-action';
 import { toggleStickySidebar } from '../../redux/actions/sidebar-action';
@@ -23,6 +23,7 @@ const Settings = observer(props => {
   const { layout, sidebar, dispatch } = props;
   const [isHidden, setIsHidden] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [logoSwap, setLogoSwap] = useState(false);
   const [colorList, setColorList] = useState([
     { color: '#3CB371' },
     { color: '#BDB76B' },
@@ -32,18 +33,18 @@ const Settings = observer(props => {
     { color: '#FF69B4' },
     { color: '#778899' },
     { color: '#DEB887' },
-    { color: '#778899' },
+    // { color: '#778899' },
     { color: '#32CD32' },
     // { color: '#B0E0E6' },
   ]);
 
-  useEffect(() => {
-    if (appStore.applicationSetting.theme == 'dark') setIsHidden(true);
-    else setIsHidden(false);
-  }, [appStore.applicationSetting.theme]);
+  // useEffect(() => {
+  //   if (appStore.applicationSetting.theme == 'dark') setIsHidden(true);
+  //   else setIsHidden(false);
+  // }, [appStore.applicationSetting.theme]);
 
   return (
-    <div className={`${isHidden ? 'hidden' : 'show'}`}>
+    <div className=''>
       <div
         className={`settings ${isOpen ? 'open' : ''} )`}
         style={{ width: 20 }}
@@ -57,11 +58,11 @@ const Settings = observer(props => {
           <SettingsIcon />
         </div>
 
-        <div className='settings-panel'>
-          <div className='settings-content'>
+        <div className='settings-panel dark:bg-boxdark  dark:text-white'>
+          <div className='settings-content dark:bg-boxdark  dark:text-white'>
             <PerfectScrollbar>
               <div className='flex items-center p-4 justify-between'>
-                <h4>Settings</h4>
+                <span>Settings</span>
                 <Buttons.Button
                   size='medium'
                   buttonClass='pl-4'
@@ -73,9 +74,27 @@ const Settings = observer(props => {
               </div>
 
               <div className='settings-section'>
-                <small className='d-block text-uppercase font-weight-bold text-muted mb-2'>
+                <div>
+                  <Form.InputWrapper label='Logo Change'>
+                    <input
+                      type='checkbox'
+                      name='target'
+                      value='sideBarColor'
+                      checked={logoSwap}
+                      className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                      onChange={() => {
+                        stores.appStore.updateApplicationSetting({
+                          ...stores.appStore.applicationSetting,
+                          logoSwap: !logoSwap,
+                        });
+                        setLogoSwap(!logoSwap);
+                      }}
+                    />
+                  </Form.InputWrapper>
+                </div>
+                <span className='d-block text-uppercase font-weight-bold text-muted mb-2'>
                   Layouts
-                </small>
+                </span>
 
                 <ul className='settings-layouts'>
                   <li>
@@ -85,12 +104,13 @@ const Settings = observer(props => {
                         dispatch(toggleStickySidebar(), setIsOpen(!isOpen))
                       }
                     >
-                      {sidebar.isSticky ? 'Static Sidebar' : 'Sticky Sidebar'}
+                      {sidebar.isSticky ? 'Sticky Sidebar' : 'Static Sidebar'}
                       <Badge tag='small' className='float-right mt-1'>
                         <FontAwesomeIcon icon={faAngleRight as any} />
                       </Badge>
                     </span>
                   </li>
+
                   <li>
                     <span
                       className='settings-layouts-item'

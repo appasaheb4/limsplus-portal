@@ -19,6 +19,7 @@ import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetDataConversation } from '../startup';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const DataConversation = DataConversationHoc(
   observer(() => {
@@ -66,10 +67,10 @@ const DataConversation = DataConversationHoc(
     };
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(
           toJS(routerStore.userPermission),
           'Add',
@@ -224,7 +225,7 @@ const DataConversation = DataConversationHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete selected record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -233,7 +234,7 @@ const DataConversation = DataConversationHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update conversation mapping!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onPageSizeChange={(page, limit) => {

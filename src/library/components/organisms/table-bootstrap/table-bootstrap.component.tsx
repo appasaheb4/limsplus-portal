@@ -133,12 +133,13 @@ export const TableBootstrap = ({
     currSizePerPage,
     onSizePerPageChange,
   }) => (
-    <div className='flex  items-center mt-2'>
+    <div className='flex  justify-center  items-center'>
       <div className='flex gap-2 items-center'>
         {isSelectRow && isDelete && (
           <Buttons.Button
             size='small'
             type='solid'
+            buttonClass='bg-blue-500'
             onClick={() => {
               if (selectedRow) {
                 onSelectedRow && onSelectedRow(selectedRow);
@@ -159,15 +160,14 @@ export const TableBootstrap = ({
         {isPagination && (
           <>
             <input
-              type='number'
-              min='0'
+              type='text'
               placeholder='No'
               onChange={(e: any) => {
                 if (e.target.value) {
-                  onSizePerPageChange(e.target.value);
+                  onSizePerPageChange(Number(e.target.value));
                 }
               }}
-              className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
+              className='mr-2 ml-2 text-black dark:bg-boxdark leading-4 p-1 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
             />
             <div className='flex'>
               {options.map(option => (
@@ -177,8 +177,8 @@ export const TableBootstrap = ({
                   onClick={() => onSizePerPageChange(option.page)}
                   className={`btn  ${
                     currSizePerPage === `${option.page}`
-                      ? 'bg-primary'
-                      : 'bg-grey'
+                      ? 'bg-[#4F46E5] text-white'
+                      : 'bg-grey text-white'
                   }`}
                 >
                   {option.text}
@@ -680,7 +680,7 @@ export const TableBootstrap = ({
                   />
                 </div>
               )}
-              <div className='scrollTable h-[calc(100vh_-_30vh)]'>
+              <div className='scrollTable h-[calc(100vh_-_30vh)] mb-2'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
@@ -710,7 +710,7 @@ export const TableBootstrap = ({
                 />
               </div>
               {totalSize && (
-                <div className='flex  items-center w-fit mt-1  justify-center gap-2 bg-[#6A727F] rounded-md p-1 text-white'>
+                <div className='flex  items-center   p-2 justify-start gap-2 bg-[#6A727F] rounded-md   text-white w-full'>
                   <div className='flex'>
                     <SizePerPageDropdownStandalone
                       {...Object.assign(
@@ -721,10 +721,10 @@ export const TableBootstrap = ({
                   </div>
                   {isPagination && (
                     <>
-                      <div className='flex items-center gap-2 mt-2 flex-wrap'>
+                      <div className='flex items-center gap-2 flex-wrap'>
                         <PaginationListStandalone {...paginationProps} />
                       </div>
-                      <div className='flex items-center gap-2 mt-2'>
+                      <div className='flex items-center gap-2 '>
                         <PaginationTotalStandalone {...paginationProps} />
                       </div>
                     </>

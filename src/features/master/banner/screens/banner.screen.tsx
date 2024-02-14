@@ -12,18 +12,22 @@ import {
   Form,
   Svg,
   ModalConfirm,
+  AutocompleteSearchGroupBy,
 } from '@/library/components';
 import { BannerList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
+import { useHistory } from 'react-router-dom';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
+import { connect } from 'react-redux';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Banner = BannerHoc(
-  observer(() => {
-    const { loginStore, routerStore, bannerStore } = useStores();
+  observer(({ sidebar }) => {
+    const { loginStore, routerStore, bannerStore, appStore } = useStores();
     const {
       control,
       handleSubmit,
@@ -31,6 +35,7 @@ const Banner = BannerHoc(
       setValue,
       reset,
     } = useForm();
+    const history = useHistory();
 
     useEffect(() => {
       // Default value initialization
@@ -66,10 +71,10 @@ const Banner = BannerHoc(
 
     return (
       <>
-        <Header>
-          <PageHeading title={routerStore.selectedComponents?.title || ''} />
-          <PageHeadingLabDetails store={loginStore} />
-        </Header>
+        <MainPageHeadingComponents
+          title={routerStore.selectedComponents?.title || ''}
+          store={loginStore}
+        />
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemove
             show={hideAddBanner}
@@ -239,7 +244,7 @@ const Banner = BannerHoc(
               </Buttons.Button>
             </List>
           </div>
-          <div className='p-2 rounded-lg shadow-xl overflow-auto'>
+          <div className='p-2 rounded-lg shadow-xl -z-50 overflow-auto'>
             <BannerList
               data={bannerStore.listBanner || []}
               totlaSize={bannerStore.listBannerCount}
@@ -269,7 +274,7 @@ const Banner = BannerHoc(
                   type: 'Delete',
                   id: rows,
                   title: 'Are you sure?',
-                  body: 'Delete selected items!',
+                  body: 'Do you want to delete this record?',
                 });
               }}
               onUpdateItem={(value: any, dataField: string, id: string) => {
@@ -278,7 +283,7 @@ const Banner = BannerHoc(
                   type: 'Update',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update banner!',
+                  body: 'Do you want to update this record?',
                 });
               }}
               onUpdateImage={(value: any, dataField: string, id: string) => {
@@ -287,7 +292,7 @@ const Banner = BannerHoc(
                   type: 'UpdateImage',
                   data: { value, dataField, id },
                   title: 'Are you sure?',
-                  body: 'Update banner!',
+                  body: 'Do you want to update image?',
                 });
               }}
               onPageSizeChange={(page, limit) => {
@@ -411,4 +416,6 @@ const Banner = BannerHoc(
   }),
 );
 
-export default Banner;
+export default connect((store: any) => ({
+  sidebar: store.sidebar,
+}))(Banner);
