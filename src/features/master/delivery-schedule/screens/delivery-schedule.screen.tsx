@@ -14,6 +14,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { DeliverySchduleList } from '../components';
@@ -27,7 +28,7 @@ import { toJS } from 'mobx';
 import { resetDeliverySchedule } from '../startup';
 import _ from 'lodash';
 import * as XLSX from 'xlsx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
+
 const DeliverySchedule = DeliveryScheduleHoc(
   observer(() => {
     const { loginStore, deliveryScheduleStore, routerStore } = useStores();
@@ -166,7 +167,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

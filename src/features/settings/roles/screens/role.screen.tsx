@@ -11,6 +11,7 @@ import {
   Svg,
   Toast,
   ModalConfirm,
+  MainPageHeading,
 } from '@/library/components';
 import { RoleList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -21,7 +22,6 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { resetRole } from '../startup';
 import * as XLSX from 'xlsx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Role = RolesHoc(
   observer(() => {
@@ -105,7 +105,7 @@ const Role = RolesHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

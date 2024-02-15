@@ -10,6 +10,7 @@ import {
   Buttons,
   ModalConfirm,
   Toast,
+  MainPageHeading,
 } from '@/library/components';
 import { LookupList } from '../components';
 import { ModalLookupValuesModify } from '../components';
@@ -21,7 +22,6 @@ let router = dashboardRoutes;
 import { DocumentSettings } from './document-setting.screen';
 import { GeneralField } from './general-field.screen';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Lookup = observer(() => {
   const { loginStore, lookupStore, routerStore } = useStores();
@@ -109,7 +109,7 @@ const Lookup = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

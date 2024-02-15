@@ -13,6 +13,7 @@ import {
   ModalConfirm,
   ModalImportFile,
   Toast,
+  MainPageHeading,
 } from '@/library/components';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
@@ -29,7 +30,6 @@ import { HostCommunicationHoc } from '../hoc';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import * as Realm from 'realm-web';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const HostCommunication = HostCommunicationHoc(
   observer(() => {
@@ -97,7 +97,7 @@ const HostCommunication = HostCommunicationHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

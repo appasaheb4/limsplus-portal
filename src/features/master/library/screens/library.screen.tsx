@@ -15,6 +15,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { Library as LibraryModel } from '../models';
@@ -29,7 +30,6 @@ import { resetLibrary } from '../startup';
 import * as XLSX from 'xlsx';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const modules = {
   toolbar: [
@@ -369,7 +369,7 @@ export const Library = LibraryHoc(
     };
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

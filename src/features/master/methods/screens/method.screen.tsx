@@ -14,6 +14,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { MethodsList } from '../components';
 import { lookupItems, lookupValue, toTitleCase } from '@/library/utils';
@@ -25,7 +26,6 @@ import { resetMethod } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Methods = MethodsHoc(
   observer(() => {
@@ -150,7 +150,7 @@ const Methods = MethodsHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

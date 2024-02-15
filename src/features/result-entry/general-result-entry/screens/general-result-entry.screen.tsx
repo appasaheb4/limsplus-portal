@@ -8,6 +8,7 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   ModalConfirm,
+  MainPageHeading,
 } from '@/library/components';
 import { FilterInputTable, GeneralResultEntryList } from '../components';
 
@@ -17,7 +18,6 @@ import { toJS } from 'mobx';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const GeneralResultEntry = observer(() => {
   const {
@@ -260,7 +260,7 @@ const GeneralResultEntry = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

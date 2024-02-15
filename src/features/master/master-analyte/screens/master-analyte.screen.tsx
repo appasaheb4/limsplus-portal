@@ -16,6 +16,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { MasterAnalyteList } from '../components';
@@ -30,7 +31,6 @@ import { resetMasterAnalyte } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import dayjs from 'dayjs';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const MasterAnalyte = MasterAnalyteHoc(
   observer(() => {
@@ -438,7 +438,7 @@ const MasterAnalyte = MasterAnalyteHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

@@ -12,6 +12,7 @@ import {
   Svg,
   ModalConfirm,
   Icons,
+  MainPageHeading,
 } from '@/library/components';
 import { InterfaceManagerList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -21,7 +22,7 @@ import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetInterfaceManager } from '../startup';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
+
 const InterfaceManager = InterfaceManagerHoc(
   observer(() => {
     const { loginStore, interfaceManagerStore, routerStore } = useStores();
@@ -84,7 +85,7 @@ const InterfaceManager = InterfaceManagerHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

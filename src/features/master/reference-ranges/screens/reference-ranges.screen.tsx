@@ -13,6 +13,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import {
   CommonInputTable,
@@ -26,7 +27,6 @@ import { toJS } from 'mobx';
 import { resetReferenceRange } from '../startup';
 import dayjs from 'dayjs';
 import * as XLSX from 'xlsx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const ReferenceRanges = ReferenceRangesHoc(
   observer(() => {
@@ -439,7 +439,7 @@ const ReferenceRanges = ReferenceRangesHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

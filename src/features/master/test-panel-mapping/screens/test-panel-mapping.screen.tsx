@@ -18,6 +18,8 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  MainPageHeading,
 } from '@/library/components';
 import { lookupItems } from '@/library/utils';
 import { TestPanelMappingList } from '../components';
@@ -36,7 +38,6 @@ import { resetTestPanelMapping } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const TestPanelMapping = TestPanelMappingHoc(
   observer(() => {
@@ -465,7 +466,7 @@ const TestPanelMapping = TestPanelMappingHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
@@ -687,10 +688,11 @@ const TestPanelMapping = TestPanelMappingHoc(
                           label='Test Name'
                           hasError={!!errors.testName}
                         >
-                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          <AutoCompleteFilterMultiSelectSelectedTopDisplay
                             loader={loading}
                             placeholder='Search by code or name'
                             // disable={isVersionUpgrade}
+                            dynamicCheck='testCode'
                             data={{
                               list:
                                 testMasterStore.listTestMaster.filter(
