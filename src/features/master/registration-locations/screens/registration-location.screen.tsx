@@ -436,7 +436,6 @@ const RegistrationLocation = RegistrationLocationHoc(
         'acClass',
         'accountType',
         'deliveryMode',
-        'priceList',
         'status',
         'environment',
       ];
@@ -554,6 +553,7 @@ const RegistrationLocation = RegistrationLocationHoc(
       ),
       [priceGroupItems, priceListItems],
     );
+
     return (
       <>
         <MainPageHeadingComponents
