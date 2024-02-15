@@ -110,9 +110,37 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
                 tubeName = filter;
               },
             }),
-            editorStyle: { textTransform: 'uppercase' },
-            editable: false,
-            style: { textTransform: 'uppercase' },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <select
+                  value={row.status}
+                  className={
+                    'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
+                  }
+                  onChange={e => {
+                    const tubeName = e.target.value;
+                    props.onUpdateItem &&
+                      props.onUpdateItem(tubeName, column.dataField, row._id);
+                  }}
+                >
+                  <option selected>Select</option>
+                  {lookupItems(props.extraData.lookupItems, 'TUBE_NAME')
+                    .filter(item => item.code != 'D')
+                    .map((item: any, index: number) => (
+                      <option key={index} value={item.code}>
+                        {lookupValue(item)}
+                      </option>
+                    ))}
+                </select>
+              </>
+            ),
           },
           {
             dataField: 'description',

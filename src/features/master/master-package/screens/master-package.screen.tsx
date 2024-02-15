@@ -384,7 +384,7 @@ const MasterPackage = MasterPackageHOC(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
             ),
-            version: item.Version,
+            version: 1,
             environment: item.Environment,
             companyCode: item['Company Code'],
             status: 'D',

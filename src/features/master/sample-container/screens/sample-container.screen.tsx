@@ -95,6 +95,7 @@ const SampleContainer = SampleContainerHoc(
           return {
             containerCode: item['Container Code']?.toUpperCase(),
             containerName: item['Container Name']?.toUpperCase(),
+            tubeName: item['Tube Name'],
             description: item.Description,
             image: '',
             environment: item?.Environment,
@@ -273,7 +274,6 @@ const SampleContainer = SampleContainerHoc(
                       >
                         <select
                           value={value}
-                          // disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.tubeName ? 'border-red  ' : 'border-gray-300'
                           } rounded-md`}
