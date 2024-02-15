@@ -11,6 +11,7 @@ import {
   Form,
   Svg,
   ModalConfirm,
+  MainPageHeading,
 } from '@/library/components';
 import { DataConversationList } from '../components';
 import { useForm, Controller } from 'react-hook-form';
@@ -19,7 +20,6 @@ import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetDataConversation } from '../startup';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const DataConversation = DataConversationHoc(
   observer(() => {
@@ -67,7 +67,7 @@ const DataConversation = DataConversationHoc(
     };
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

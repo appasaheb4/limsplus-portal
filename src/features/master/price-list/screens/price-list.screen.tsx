@@ -15,6 +15,7 @@ import {
   StaticInputTable,
   ImportFile,
   ManualImportTabs,
+  MainPageHeading,
 } from '@/library/components';
 
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
@@ -28,7 +29,6 @@ import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetPriceList } from '../startup';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const PriceList = PriceListHoc(
   observer(() => {
@@ -396,7 +396,7 @@ export const PriceList = PriceListHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

@@ -12,6 +12,7 @@ import {
   Form,
   Svg,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  MainPageHeading,
 } from '@/library/components';
 import { useForm, Controller } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
@@ -21,7 +22,6 @@ import { PaymentList } from '../components';
 import { PaymentHoc } from '../hoc';
 import { resetPayment } from '../startup';
 import { Payment as Model } from '../models';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Payment = PaymentHoc(
   observer(() => {
@@ -147,7 +147,7 @@ const Payment = PaymentHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

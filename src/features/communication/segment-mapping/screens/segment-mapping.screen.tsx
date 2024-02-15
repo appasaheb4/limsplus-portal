@@ -12,6 +12,7 @@ import {
   Svg,
   ModalImportFile,
   Icons,
+  MainPageHeading,
 } from '@/library/components';
 import * as XLSX from 'xlsx';
 import { Styles } from '@/config';
@@ -26,7 +27,6 @@ import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetSegmentMapping } from '../startup';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const SegmentMapping = SegmentMappingHoc(
   observer(() => {
@@ -305,7 +305,7 @@ const SegmentMapping = SegmentMappingHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

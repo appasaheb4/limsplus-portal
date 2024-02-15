@@ -17,6 +17,8 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  MainPageHeading,
 } from '@/library/components';
 import { Table } from 'reactstrap';
 import { lookupItems } from '@/library/utils';
@@ -36,7 +38,6 @@ import { resetTestAnalyteMapping } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import dayjs from 'dayjs';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const TestAnalyteMapping = TestAnalyteMappingHoc(
   observer(() => {
@@ -466,7 +467,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
@@ -692,10 +693,11 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           label='Analyte Code'
                           hasError={!!errors.analyteCode}
                         >
-                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          <AutoCompleteFilterMultiSelectSelectedTopDisplay
                             loader={loading}
                             placeholder='Search by code or name'
                             // disable={isVersionUpgrade}
+                            dynamicCheck={'analyteCode'}
                             data={{
                               list:
                                 _.uniqBy(
@@ -827,6 +829,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   return items._id !== item._id;
                                 });
                               }
+                              console.log({ analyteCode });
                               testAnalyteMappingStore.updateSelectedItems({
                                 ...testAnalyteMappingStore.selectedItems,
                                 analyteCode,

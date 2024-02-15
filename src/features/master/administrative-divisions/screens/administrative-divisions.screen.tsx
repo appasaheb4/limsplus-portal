@@ -15,6 +15,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { AdminstrativeDivList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -26,7 +27,6 @@ import { resetBanner } from '../../banner/startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const AdministrativeDivisions = AdministrativeDivisionsHoc(
   observer(() => {
@@ -164,7 +164,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

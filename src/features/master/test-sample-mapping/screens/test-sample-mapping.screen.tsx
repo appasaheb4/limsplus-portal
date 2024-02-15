@@ -17,6 +17,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { TestSampleMappingList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -29,7 +30,6 @@ import { resetTestSampleMapping } from '../startup';
 import { LocalInput } from '../models';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 import { ModalDepartmentModify } from '../components/molecules/modal-department-modify';
 
 const TestSampleMapping = TestSampleMappingHoc(
@@ -317,7 +317,7 @@ const TestSampleMapping = TestSampleMappingHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

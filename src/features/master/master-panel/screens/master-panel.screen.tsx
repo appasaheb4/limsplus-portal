@@ -17,6 +17,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
@@ -34,7 +35,6 @@ import { resetMasterPanel } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import { AutoCompleteCompanyList } from '@/core-components';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const MasterPanel = MasterPanelHoc(
   observer(() => {
@@ -454,7 +454,7 @@ const MasterPanel = MasterPanelHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

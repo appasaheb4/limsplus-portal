@@ -15,6 +15,7 @@ import {
   ManualImportTabs,
   ImportFile,
   StaticInputTable,
+  MainPageHeading,
 } from '@/library/components';
 import { DeginisationList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -26,7 +27,6 @@ import * as XLSX from 'xlsx';
 import { RouterFlow } from '@/flows';
 import { resetDesignation } from '../startup';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Deginisation = DeginisationHoc(
   observer(() => {
@@ -143,7 +143,7 @@ const Deginisation = DeginisationHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

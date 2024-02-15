@@ -16,6 +16,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { DoctorsList } from '../components';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
@@ -28,7 +29,6 @@ import { RouterFlow } from '@/flows';
 import { resetDoctor } from '../startup';
 import * as XLSX from 'xlsx';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Doctors = DoctorsHoc(
   observer(() => {
@@ -411,7 +411,7 @@ const Doctors = DoctorsHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

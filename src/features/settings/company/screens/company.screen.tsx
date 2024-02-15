@@ -18,6 +18,7 @@ import {
   ImportFile,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  MainPageHeading,
 } from '@/library/components';
 import { CompanyList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -30,7 +31,6 @@ import dayjs from 'dayjs';
 
 import { CompanyHoc } from '../hoc';
 import { useStores } from '@/stores';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Company = CompanyHoc(
   observer(() => {
@@ -246,7 +246,7 @@ const Company = CompanyHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

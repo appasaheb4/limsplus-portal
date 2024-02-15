@@ -6,6 +6,7 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   Toast,
+  MainPageHeading,
 } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
@@ -14,7 +15,6 @@ import { ModalReceiptShare } from '../../components';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const TransactionDetails = observer(() => {
   const {
@@ -37,7 +37,7 @@ const TransactionDetails = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

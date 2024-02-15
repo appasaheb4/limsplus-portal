@@ -12,6 +12,7 @@ import {
   Svg,
   ModalImportFile,
   Icons,
+  MainPageHeading,
 } from '@/library/components';
 import * as XLSX from 'xlsx';
 import { Styles } from '@/config';
@@ -24,7 +25,6 @@ import { useStores } from '@/stores';
 import { getDefaultLookupItem } from '@/library/utils';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const InstResultMapping = observer(() => {
   const {
@@ -325,7 +325,7 @@ const InstResultMapping = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

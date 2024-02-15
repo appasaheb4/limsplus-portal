@@ -14,6 +14,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import {
   SalesTeamList,
@@ -31,7 +32,6 @@ import { RouterFlow } from '@/flows';
 import { resetSalesTeam } from '../startup';
 import * as XLSX from 'xlsx';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const SalesTeam = SalesTeamHoc(
   observer(() => {
@@ -370,7 +370,7 @@ export const SalesTeam = SalesTeamHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

@@ -4,6 +4,7 @@ import {
   Header,
   PageHeading,
   PageHeadingLabDetails,
+  MainPageHeading,
 } from '@/library/components';
 import { useForm } from 'react-hook-form';
 
@@ -16,7 +17,6 @@ import { PageBranding } from './page-branding.screen';
 import { PageLayout } from './page-layout.screen';
 import { TemplatePatientResult } from './template-patient-result.screen';
 import { ReportBody } from './report-body.screen';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const ReportSettings = observer(() => {
   const {
@@ -42,7 +42,7 @@ const ReportSettings = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

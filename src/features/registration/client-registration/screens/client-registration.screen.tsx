@@ -11,6 +11,7 @@ import {
   ModalImportFile,
   Icons,
   ModalConfirm,
+  MainPageHeading,
 } from '@/library/components';
 import * as XLSX from 'xlsx';
 import { Styles } from '@/config';
@@ -19,7 +20,6 @@ import { useForm } from 'react-hook-form';
 import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const ClientRegistration = observer(() => {
   const {
@@ -178,7 +178,7 @@ const ClientRegistration = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

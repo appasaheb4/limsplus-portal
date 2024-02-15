@@ -13,6 +13,7 @@ import {
   Svg,
   ModalConfirm,
   AutocompleteSearchGroupBy,
+  MainPageHeading,
 } from '@/library/components';
 import { BannerList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -23,7 +24,6 @@ import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
 import { connect } from 'react-redux';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Banner = BannerHoc(
   observer(({ sidebar }) => {
@@ -71,7 +71,7 @@ const Banner = BannerHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
