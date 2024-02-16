@@ -177,6 +177,9 @@ const DeliveryQueue = observer(() => {
           labId: item.labId,
         };
       }
+
+      console.log({ filter });
+
       deliveryQueueStore.deliveryQueueService
         .findByFields({
           input: {
@@ -186,9 +189,9 @@ const DeliveryQueue = observer(() => {
         .then(res => {
           if (res.findByFieldsDeliveryQueue.success) {
             let data = res.findByFieldsDeliveryQueue.data;
-            data = _.unionBy(data, (o: any) => {
-              return o.patientResultId;
-            });
+            // data = _.unionBy(data, (o: any) => {
+            //   return o.patientResultId;
+            // });
             data = _.orderBy(data, 'deliveryId', 'desc');
             resolve(data);
           }
@@ -441,7 +444,7 @@ const DeliveryQueue = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [deliveryQueueStore.reportDeliveryList, selectId, reloadTable, holdRecord],
   );
-  console.log(holdRecord, 'hold');
+
   return (
     <>
       <MainPageHeadingComponents

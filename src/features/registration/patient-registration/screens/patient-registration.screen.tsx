@@ -57,6 +57,7 @@ const PatientRegistration = observer(({ sidebar }) => {
   const [isImport, setIsImport] = useState<boolean>(false);
   const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
   const history = useHistory();
+
   useEffect(() => {
     setReload(!reload);
     // eslint-disable-next-line react-hooks/exhaustive-deps

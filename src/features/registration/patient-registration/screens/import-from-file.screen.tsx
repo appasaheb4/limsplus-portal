@@ -199,8 +199,6 @@ export const FileImportExport = observer(() => {
                 birthDate: dayjs(),
                 collectionDate: dayjs(),
               };
-              console.log({ list });
-
               list.map(item => {
                 Object.entries(item).map((e: any) => {
                   if (e[1].field?.toLowerCase() == 'birthdate') {
@@ -225,7 +223,7 @@ export const FileImportExport = observer(() => {
                 dayjs(objDate.collectionDate, 'DD-MM-YYYY').toDate(),
               );
               const diffDay = date1.diff(date2, 'day');
-              console.log({ diffDay });
+              // console.log({ diffDay });
               if (diffDay > 0) {
                 return Toast.error({
                   message:
