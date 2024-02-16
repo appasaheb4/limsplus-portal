@@ -14,6 +14,7 @@ import {
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
@@ -482,26 +483,14 @@ const MasterPackage = MasterPackageHOC(
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
-                          <AutoCompleteFilterSingleSelect
-                            placeholder='Search by name'
+                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                             loader={loading}
-                            disable={
-                              duplicateRecord
-                                ? false
-                                : isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
+                            posstion='sticky'
+                            placeholder='Search by code or name'
                             data={{
-                              list: labStore.listLabs,
-                              displayKey: 'name',
-                              findKey: 'name',
+                              list: _.uniqBy(labStore.listLabs, 'code'),
+                              displayKey: ['code', 'name'],
                             }}
-                            displayValue={value}
-                            hasError={!!errors.lab}
                             onFilter={(value: string) => {
                               labStore.LabService.filter({
                                 input: {

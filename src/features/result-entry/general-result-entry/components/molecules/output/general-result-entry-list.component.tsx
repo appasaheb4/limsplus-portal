@@ -85,15 +85,16 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'sex',
               text: 'Sex',
               editable: false,
+              style: { width: 80 },
               formatter: (cell, row) => {
                 return (
-                  <>
+                  <div className='flex'>
                     <img
                       src={row.sex == 'M' ? icons.male : icons.female}
-                      style={{ width: 60, height: 40 }}
+                      style={{ width: 80, height: 40 }}
                       alt='male'
                     />
-                  </>
+                  </div>
                 );
               },
             },
@@ -113,7 +114,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              // headerClasses: 'textHeader',
+              headerClasses: 'textHeader',
               editable: (content, row, rowIndex, columnIndex) =>
                 row.approvalStatus == 'P' ? true : false,
               formatter: (cellContent, row) => (

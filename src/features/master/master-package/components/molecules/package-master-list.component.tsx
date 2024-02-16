@@ -119,6 +119,8 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               <>
                 <AutoCompleteFilterSingleSelectLabs
                   onSelect={item => {
+                    console.log({ item });
+
                     props.onUpdateItem &&
                       props.onUpdateItem(item.code, column.dataField, row._id);
                   }}

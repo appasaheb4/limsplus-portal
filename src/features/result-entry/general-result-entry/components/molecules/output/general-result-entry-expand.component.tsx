@@ -79,7 +79,7 @@ export const GeneralResultEntryExpand = ({
   const [selectedStatus, setSelectedStatus] = useState(null);
 
   const handleStatusClick = code => {
-    onFilterFinishResult?.(code);
+    onFilterFinishResult && onFilterFinishResult(code);
   };
 
   const customTotal = (from, to, size) => {

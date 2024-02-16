@@ -166,7 +166,6 @@ const GeneralResultEntry = observer(() => {
                 return !(value === undefined || value === null || value === '');
               },
             );
-
             patientResultStore.patientResultService.patientListForGeneralResultEntry(
               {
                 input: {
