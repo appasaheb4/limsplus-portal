@@ -140,7 +140,7 @@ export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
                 className='mt-1  absolute bg-gray-100 p-2 rounded-sm z-500'
                 style={{ zIndex: 80 }}
               >
-                <span>Selected</span>
+                {/* <span>Selected</span> */}
                 <ul>
                   {data.selected?.map((item, index) => (
                     <>
@@ -169,7 +169,7 @@ export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
                   ))}
                 </ul>
 
-                <span>Un-Selected</span>
+                {/* <span>Un-Selected</span> */}
                 <hr />
                 <ul>
                   {options?.map((item, index) => (

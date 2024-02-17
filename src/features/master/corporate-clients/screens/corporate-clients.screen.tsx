@@ -18,6 +18,7 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
 } from '@/library/components';
 import { CorporateClient, DeliveryMode } from '../components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
@@ -1474,9 +1475,10 @@ const CorporateClients = CorporateClientsHoc(
                         label='Panel List'
                         hasError={!!errors.panelList}
                       >
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        <AutoCompleteFilterMultiSelectSelectedTopDisplay
                           loader={false}
                           placeholder='Search by code'
+                          dynamicCheck='panelCode'
                           disable={
                             !corporateClientsStore.corporateClients
                               ?.isPredefinedPanel
