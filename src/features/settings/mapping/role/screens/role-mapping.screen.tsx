@@ -165,10 +165,6 @@ const RoleMapping = observer(() => {
                 title: 'Report',
                 checked: false,
               },
-              // {
-              //   title: 'Email',
-              //   checked: false,
-              // },
             );
           } else if (childrenItem.name == 'Panel Approval') {
             childrenItem.permission = permission.concat({
@@ -995,7 +991,6 @@ const RoleMapping = observer(() => {
                       }),
                     };
                   });
-
                   if (isModify.status) {
                     if (router?.length > 0) {
                       roleMappingStore.roleMappingService
@@ -1026,9 +1021,9 @@ const RoleMapping = observer(() => {
                             routerStore.updateRouter([]);
                             // roleMappingStore.fetchRoleMappingList();
                             // exists records fetch time facing issue
-                            setTimeout(() => {
-                              window.location.reload();
-                            }, 100);
+                            // setTimeout(() => {
+                            //   window.location.reload();
+                            // }, 100);
                           } else {
                             Toast.error({
                               message: '😊 Data not update. Please try again',

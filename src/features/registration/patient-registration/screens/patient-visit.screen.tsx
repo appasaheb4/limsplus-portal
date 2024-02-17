@@ -742,11 +742,6 @@ export const PatientVisit = PatientVisitHoc(
                             list: registrationLocationsStore.listRegistrationLocations,
                             displayKey: ['locationCode', 'locationName'],
                           }}
-                          // displayValue={
-                          //   patientVisitStore.patientVisit?.collectionCenter
-                          //     ? `${patientVisitStore.patientVisit?.collectionCenter} - ${patientVisitStore.patientVisit?.collectionCenterName}`
-                          //     : ''
-                          // }
                           displayValue={value}
                           hasError={!!errors.collectionCenter}
                           onFilter={(value: string) => {
@@ -810,14 +805,6 @@ export const PatientVisit = PatientVisitHoc(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by code or name'
-                        // displayValue={
-                        //   patientVisitStore.patientVisit?.corporateCode &&
-                        //   patientVisitStore.patientVisit?.corporateName
-                        //     ? `${patientVisitStore.patientVisit?.corporateCode} - ${patientVisitStore.patientVisit?.corporateName}`
-                        //     : patientVisitStore.patientVisit?.corporateCode
-                        //     ? `${patientVisitStore.patientVisit?.corporateCode}`
-                        //     : ''
-                        // }
                         displayValue={value}
                         data={{
                           list: corporateClientsStore.listCorporateClients,
@@ -839,11 +826,13 @@ export const PatientVisit = PatientVisitHoc(
                           );
                         }}
                         onSelect={item => {
+                          console.log({ item });
                           onChange(item.corporateCode);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             corporateCode: item.corporateCode,
                             corporateName: item.corporateName,
+                            isPredefinedPanel: item?.isPredefinedPanel,
                             isEmployeeCode: item?.isEmployeeCode,
                             acClass: item?.acClass,
                             specificFormat: item?.specificFormat || false,
