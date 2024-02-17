@@ -192,7 +192,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
             },
             {
               dataField: 'opration',
-              text: 'Delete',
+              text: 'Action',
               editable: false,
               csvExport: false,
               hidden: props?.totalSize === 1 ? true : false,
