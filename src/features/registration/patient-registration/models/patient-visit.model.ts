@@ -16,6 +16,7 @@ export class PatientVisit {
   collectionCenterName: string;
   corporateCode: string;
   corporateName: string;
+  isPredefinedPanel: boolean;
   isEmployeeCode?: boolean;
   acClass: string;
   grossAmount: number;
@@ -90,6 +91,7 @@ export class PatientVisit {
     this.collectionCenterName = rawData.collectionCenterName;
     this.corporateCode = rawData.corporateCode;
     this.corporateName = rawData.corporateName;
+    this.isPredefinedPanel = rawData.isPredefinedPanel;
     this.isEmployeeCode = rawData.isEmployeeCode;
     this.acClass = rawData.acClass;
     this.grossAmount = rawData.grossAmount;

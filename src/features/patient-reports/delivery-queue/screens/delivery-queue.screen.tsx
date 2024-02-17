@@ -177,9 +177,6 @@ const DeliveryQueue = observer(() => {
           labId: item.labId,
         };
       }
-
-      console.log({ filter });
-
       deliveryQueueStore.deliveryQueueService
         .findByFields({
           input: {

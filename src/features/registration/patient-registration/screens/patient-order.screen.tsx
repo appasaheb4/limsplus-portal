@@ -341,18 +341,6 @@ export const PatientOrder = PatientOrderHoc(
                           displayKey: ['labId', 'patientName'],
                         }}
                         hasError={!!errors.labId}
-                        // onFilter={(value: string) => {
-                        //   patientVisitStore.patientVisitService.filterByFields({
-                        //     input: {
-                        //       filter: {
-                        //         fields: ['labId', 'visitId', 'patientName'],
-                        //         srText: value,
-                        //       },
-                        //       page: 0,
-                        //       limit: 10,
-                        //     },
-                        //   });
-                        // }}
                         displayValue={value}
                         onSelect={item => {
                           setIsPrintPrimaryBarcod(
