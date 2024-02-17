@@ -136,7 +136,7 @@ export const ResultList = (props: ResultListProps) => {
               dataField: 'result',
               text: 'Result',
               sort: true,
-              // headerClasses: 'textHeaderl',
+              headerClasses: 'textHeader1',
               editorRenderer: (
                 editorProps,
                 value,
