@@ -1492,10 +1492,22 @@ const TestPanelMapping = TestPanelMappingHoc(
                     dateExpire: new Date(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
-                    reportOrder: [],
+                    testCode: modalConfirm?.data?.testCode,
+                    testName: modalConfirm?.data?.testName,
+                    reportOrder: [
+                      {
+                        testCode: modalConfirm?.data?.testCode,
+                        testName: modalConfirm?.data?.testName,
+                        order: 1,
+                      },
+                    ],
                   });
                   setIsInputView(true);
                   setIsVersionUpgrade(true);
+                  testPanelMappingStore.updateSelectedItems({
+                    ...testPanelMappingStore.selectedItems,
+                    testName: modalConfirm?.data?.testName,
+                  });
                   break;
                 }
                 case 'duplicate': {
@@ -1507,13 +1519,23 @@ const TestPanelMapping = TestPanelMappingHoc(
                     testCode: modalConfirm.data.testCode,
                     testName: modalConfirm.data.testName,
                     existsRecordId: modalConfirm.data._id,
-                    reportOrder: [],
                     version: 1,
                     dateCreation: new Date(),
                     dateActive: new Date(),
                     dateExpire: new Date(
                       dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
                     ),
+                    reportOrder: [
+                      {
+                        testCode: modalConfirm?.data?.testCode,
+                        testName: modalConfirm?.data?.testName,
+                        order: 1,
+                      },
+                    ],
+                  });
+                  testPanelMappingStore.updateSelectedItems({
+                    ...testPanelMappingStore.selectedItems,
+                    testName: modalConfirm?.data?.testName,
                   });
                   setIsInputView(true);
                   setIsDuplicateRecord(true);
