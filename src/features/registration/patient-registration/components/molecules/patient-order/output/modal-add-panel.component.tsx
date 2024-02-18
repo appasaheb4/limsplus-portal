@@ -1,16 +1,16 @@
 /* eslint-disable  */
-import React, {useEffect, useRef, useState} from 'react';
-import {Container} from 'reactstrap';
+import React, { useEffect, useRef, useState } from 'react';
+import { Container } from 'reactstrap';
 import _ from 'lodash';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   Form,
   AutoCompleteFilterMultiSelectSelectedTopDisplay,
 } from '@/library/components';
 import './barcode.css';
-import {useStores} from '@/stores';
-import {TablePackagesList} from '../input/table-packages-list.component';
-import {toJS} from 'mobx';
+import { useStores } from '@/stores';
+import { TablePackagesList } from '../input/table-packages-list.component';
+import { toJS } from 'mobx';
 
 interface ModalAddPanelProps {
   visible?: boolean;
@@ -20,8 +20,8 @@ interface ModalAddPanelProps {
 }
 
 export const ModalAddPanel = observer(
-  ({visible = false, data, onClick, onClose}: ModalAddPanelProps) => {
-    const {loading, patientOrderStore, masterPanelStore} = useStores();
+  ({ visible = false, data, onClick, onClose }: ModalAddPanelProps) => {
+    const { loading, patientOrderStore, masterPanelStore } = useStores();
     const [showModal, setShowModal] = React.useState(visible);
     const [existsPackageList, setExistsPackageList] = useState<any>([]);
     const [isSaveBtnDisable, setIsSaveBtnDisable] = useState(true);
@@ -213,7 +213,7 @@ export const ModalAddPanel = observer(
                     </Form.InputWrapper>
                     <div
                       className='rounded-lg shadow-xl overflow-scroll mt-2'
-                      style={{overflowX: 'scroll'}}
+                      style={{ overflowX: 'scroll' }}
                     >
                       {patientOrderStore.packageList && (
                         <TablePackagesList
@@ -245,7 +245,7 @@ export const ModalAddPanel = observer(
                           : 'bg-blue-700'
                       }  text-white font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none`}
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         setShowModal(false);
                         onClick && onClick(data);

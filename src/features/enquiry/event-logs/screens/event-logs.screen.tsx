@@ -6,6 +6,7 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   ModalConfirm,
+  MainPageHeading,
 } from '@/library/components';
 import { EventLogsList } from '../components';
 import { useForm } from 'react-hook-form';
@@ -14,7 +15,6 @@ import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 
 import * as Realm from 'realm-web';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const EventLogs = observer(() => {
   const { loginStore, eventLogsStore, routerStore } = useStores();
@@ -56,7 +56,7 @@ export const EventLogs = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

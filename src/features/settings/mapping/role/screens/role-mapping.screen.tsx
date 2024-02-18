@@ -10,6 +10,7 @@ import {
   Svg,
   Toast,
   ModalConfirm,
+  MainPageHeading,
 } from '@/library/components';
 import { RoleMappingList } from '../components';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
@@ -19,7 +20,6 @@ const router = dashboardRoutes;
 import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -263,7 +263,7 @@ const RoleMapping = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

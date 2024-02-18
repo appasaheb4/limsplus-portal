@@ -17,6 +17,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { LabList, PriceListTable } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -28,7 +29,6 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetLab } from '../startup';
 import * as XLSX from 'xlsx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Lab = LabHoc(
   observer(() => {
@@ -416,7 +416,7 @@ const Lab = LabHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

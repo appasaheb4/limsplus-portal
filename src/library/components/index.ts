@@ -4,7 +4,8 @@ import * as Buttons from './atoms/buttons/button.component';
 import * as Form from './atoms/form/form.component';
 import * as Svg from './atoms/svg.component';
 import * as Icons from './atoms/icons/icons.component';
-export { ToastContainer, Toast, Buttons, Form, Svg, Icons };
+import MainPageHeading from './atoms/header/main-page-heading.components';
+export { ToastContainer, Toast, Buttons, Form, Svg, Icons, MainPageHeading };
 
 export * from './atoms/carousel/carousel.component';
 export * from './atoms/grid/grid.component';

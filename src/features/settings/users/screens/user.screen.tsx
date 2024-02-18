@@ -18,6 +18,8 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  MainPageHeading,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { UserList } from '../components';
@@ -31,7 +33,6 @@ import { toJS } from 'mobx';
 import { resetUser } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const Users = UsersHoc(
   observer(() => {
@@ -446,7 +447,7 @@ export const Users = UsersHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
@@ -607,8 +608,9 @@ export const Users = UsersHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Role' hasError={!!errors.role}>
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        <AutoCompleteFilterMultiSelectSelectedTopDisplay
                           loader={loading}
+                          dynamicCheck={'code'}
                           placeholder='Search by code or name'
                           data={{
                             list: roleStore.listRole,
@@ -1022,8 +1024,9 @@ export const Users = UsersHoc(
                         label='Assigned Lab'
                         hasError={!!errors.labs}
                       >
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        <AutoCompleteFilterMultiSelectSelectedTopDisplay
                           loader={loading}
+                          dynamicCheck={'code'}
                           placeholder='Search by code or name'
                           data={{
                             list: [
@@ -1122,8 +1125,9 @@ export const Users = UsersHoc(
                         label='Assigned Department'
                         hasError={!!errors.department}
                       >
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        <AutoCompleteFilterMultiSelectSelectedTopDisplay
                           loader={loading}
+                          dynamicCheck={'code'}
                           placeholder='Search by code or name'
                           data={{
                             list: [
@@ -1220,8 +1224,9 @@ export const Users = UsersHoc(
                         label='Assigned Corporate Client'
                         hasError={!!errors.corporateCode}
                       >
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        <AutoCompleteFilterMultiSelectSelectedTopDisplay
                           loader={loading}
+                          dynamicCheck={'corporateCode'}
                           placeholder='Search by code or name'
                           data={{
                             list: [
@@ -1323,8 +1328,9 @@ export const Users = UsersHoc(
                         label='Assigned Registration Location'
                         hasError={!!errors.locationCode}
                       >
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        <AutoCompleteFilterMultiSelectSelectedTopDisplay
                           loader={loading}
+                          dynamicCheck={'locationCode'}
                           placeholder='Search by code or name'
                           data={{
                             list: [
@@ -1426,7 +1432,7 @@ export const Users = UsersHoc(
                         label='Assigned Doctors'
                         hasError={!!errors.locationCode}
                       >
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        <AutoCompleteFilterMultiSelectSelectedTopDisplay
                           loader={loading}
                           placeholder='Search by code or name'
                           data={{
@@ -1440,6 +1446,7 @@ export const Users = UsersHoc(
                             selected: userStore.selectedItems?.doctors,
                             displayKey: ['doctorCode', 'doctorName'],
                           }}
+                          dynamicCheck='doctorCode'
                           hasError={!!errors.doctors}
                           onUpdate={item => {
                             const doctors = userStore.selectedItems?.doctors;

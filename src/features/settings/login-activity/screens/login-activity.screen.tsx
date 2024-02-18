@@ -10,11 +10,12 @@ import {
   textFilter,
   customFilter,
   sortCaret,
+  MainPageHeading,
 } from '@/library/components';
 import dayjs from 'dayjs';
 import { useStores } from '@/stores';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
+
 dayjs.extend(relativeTime);
 
 let userId;
@@ -34,7 +35,7 @@ const LoginActivity = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

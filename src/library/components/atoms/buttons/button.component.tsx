@@ -31,7 +31,7 @@ export const Button = React.forwardRef((props: ButtonProps, ref: Ref<any>) => {
 
   const buttonColorClass =
     props.type === 'solid'
-      ? 'text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg'
+      ? 'text-white bg-[#007BFF] hover:bg-[#007BFF] hover:shadow-lg'
       : 'dark:text-white text-gray-600 border border-gray-400 hover:shadow-lg';
 
   const roundedClass = props.pill ? 'rounded-full' : 'rounded-lg';
@@ -81,7 +81,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
       {props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: '#454CBF',
+            backgroundColor: '#007BFF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -99,7 +99,7 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
       {!props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: '#454CBF',
+            backgroundColor: '#007BFF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -125,7 +125,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
       {props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: '#454CBF',
+            backgroundColor: '#007BFF',
             alignItems: 'center',
             width: 60,
             height: 60,
@@ -144,7 +144,7 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
       {!props.show && (
         <Buttons.CircleButton
           style={{
-            backgroundColor: '#454CBF',
+            backgroundColor: '#007BFF',
             alignItems: 'center',
             width: 60,
             height: 60,

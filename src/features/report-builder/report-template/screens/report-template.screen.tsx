@@ -6,6 +6,7 @@ import {
   Header,
   PageHeading,
   PageHeadingLabDetails,
+  MainPageHeading,
 } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { pdf } from '@react-pdf/renderer';
@@ -18,7 +19,6 @@ import { logos } from '@/library/assets';
 import { ADCPdf, ADCMedicalReportPdf } from '../components';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const ReportTemplate = observer(() => {
   const {
@@ -61,7 +61,7 @@ const ReportTemplate = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

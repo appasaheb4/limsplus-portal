@@ -6,6 +6,7 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   ModalConfirm,
+  MainPageHeading,
 } from '@/library/components';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
@@ -14,14 +15,13 @@ import { useStores } from '@/stores';
 
 import { EnvironmentVariable } from './environment-variable.screen';
 import { EnvironmentSettings } from './environment-setting.screen';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Environment = observer(() => {
   const { loginStore, environmentStore, routerStore } = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
