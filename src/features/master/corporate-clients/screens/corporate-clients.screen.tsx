@@ -17,6 +17,8 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
 } from '@/library/components';
 import { CorporateClient, DeliveryMode } from '../components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
@@ -28,7 +30,6 @@ import { RouterFlow } from '@/flows';
 import { resetCorporateClient } from '../startup';
 import * as XLSX from 'xlsx';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const CorporateClients = CorporateClientsHoc(
   observer(() => {
@@ -482,7 +483,7 @@ const CorporateClients = CorporateClientsHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
@@ -1474,9 +1475,10 @@ const CorporateClients = CorporateClientsHoc(
                         label='Panel List'
                         hasError={!!errors.panelList}
                       >
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                        <AutoCompleteFilterMultiSelectSelectedTopDisplay
                           loader={false}
                           placeholder='Search by code'
+                          dynamicCheck='panelCode'
                           disable={
                             !corporateClientsStore.corporateClients
                               ?.isPredefinedPanel

@@ -14,6 +14,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
@@ -27,7 +28,6 @@ import { resetSection } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const Section = SectionHoc(
   observer(() => {
@@ -240,7 +240,7 @@ const Section = SectionHoc(
     };
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

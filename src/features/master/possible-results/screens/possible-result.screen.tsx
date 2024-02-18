@@ -15,6 +15,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import { PossibleResultsList } from '../components';
@@ -28,7 +29,6 @@ import { resetPossibleResult } from '../startup';
 import * as XLSX from 'xlsx';
 import { ModalPossibleResultConclusionModify } from '../components/molecules/modal-possible-result-conculsion-modify';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 export const PossibleResults = PossibleResultHoc(
   observer(() => {
@@ -367,7 +367,7 @@ export const PossibleResults = PossibleResultHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

@@ -177,7 +177,7 @@ export const TableBootstrap = ({
                   onClick={() => onSizePerPageChange(option.page)}
                   className={`btn  ${
                     currSizePerPage === `${option.page}`
-                      ? 'bg-[#4F46E5] text-white'
+                      ? 'bg-[#007BFF] text-white'
                       : 'bg-grey text-white'
                   }`}
                 >

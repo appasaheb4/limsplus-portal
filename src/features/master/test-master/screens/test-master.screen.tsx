@@ -16,6 +16,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import { TestMasterList } from '../components';
@@ -28,7 +29,7 @@ import { toJS } from 'mobx';
 import { resetTestMaster } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
+
 const TestMater = TestMasterHOC(
   observer(() => {
     const {
@@ -439,7 +440,7 @@ const TestMater = TestMasterHOC(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

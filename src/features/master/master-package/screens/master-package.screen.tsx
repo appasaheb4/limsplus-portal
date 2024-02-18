@@ -18,6 +18,8 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  MainPageHeading,
 } from '@/library/components';
 import _ from 'lodash';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -38,7 +40,6 @@ import { toJS } from 'mobx';
 import { resetMasterPackage } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const grid = 8;
 const getListStyle = isDraggingOver => ({
@@ -444,7 +445,7 @@ const MasterPackage = MasterPackageHOC(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
@@ -694,10 +695,11 @@ const MasterPackage = MasterPackageHOC(
                           label='Panel Code'
                           hasError={!!errors.panelCode}
                         >
-                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          <AutoCompleteFilterMultiSelectSelectedTopDisplay
                             loader={loading}
                             placeholder='Search by code or name'
                             hasError={!!errors.panelCode}
+                            dynamicCheck='panelCode'
                             // disable={isVersionUpgrade}
                             data={{
                               list:

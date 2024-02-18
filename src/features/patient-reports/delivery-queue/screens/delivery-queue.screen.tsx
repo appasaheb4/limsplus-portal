@@ -6,6 +6,7 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   Toast,
+  MainPageHeading,
 } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
@@ -17,7 +18,6 @@ import {
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const DeliveryQueue = observer(() => {
   const { deliveryQueueStore, routerStore, loginStore, reportSettingStore } =
@@ -444,7 +444,7 @@ const DeliveryQueue = observer(() => {
 
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

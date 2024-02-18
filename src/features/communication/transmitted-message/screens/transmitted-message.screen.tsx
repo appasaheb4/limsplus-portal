@@ -6,11 +6,12 @@ import {
   PageHeading,
   PageHeadingLabDetails,
   ModalConfirm,
+  MainPageHeading,
 } from '@/library/components';
 import { TransmittedMessageList } from '../components';
 import { useStores } from '@/stores';
 
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
+import MainPageHeadingComponents from '@/library/components/atoms/header/main-page-heading.components';
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 
@@ -19,7 +20,7 @@ const TransmittedMessage = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>();
   return (
     <>
-      <MainPageHeadingComponents
+      <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />

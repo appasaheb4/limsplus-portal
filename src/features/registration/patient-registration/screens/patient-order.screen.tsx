@@ -11,6 +11,7 @@ import {
   Form,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
 } from '@/library/components';
 import '@/library/assets/css/accordion.css';
 import { useForm, Controller } from 'react-hook-form';
@@ -401,7 +402,7 @@ export const PatientOrder = PatientOrderHoc(
                   control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper label='Panel' hasError={!!errors.panel}>
-                      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                      <AutoCompleteFilterMultiSelectSelectedTopDisplay
                         loader={loading}
                         placeholder='Search by code or name'
                         isUpperCase={true}

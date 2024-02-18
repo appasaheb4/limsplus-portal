@@ -12,6 +12,7 @@ import {
   Toast,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
+  MainPageHeading,
 } from '@/library/components';
 import { NoticeBoardsList } from '../components';
 import '@/library/assets/css/accordion.css';
@@ -24,7 +25,6 @@ import { toJS } from 'mobx';
 import { resetNoticeBoard } from '../startup';
 import * as XLSX from 'xlsx';
 import { lookupItems, lookupValue } from '@/library/utils';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const NoticeBoard = NoticeBoardHoc(
   observer(() => {
@@ -211,7 +211,7 @@ const NoticeBoard = NoticeBoardHoc(
     };
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

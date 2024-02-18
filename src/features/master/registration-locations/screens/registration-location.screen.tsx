@@ -16,6 +16,7 @@ import {
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
+  MainPageHeading,
 } from '@/library/components';
 import { RegistrationLocationsList } from '../components';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
@@ -33,7 +34,6 @@ import { resetRegistrationLocation } from '../startup';
 import { SelectedItems } from '../models';
 import * as XLSX from 'xlsx';
 import { toJS } from 'mobx';
-import MainPageHeadingComponents from '@/library/components/atoms/header/main.page.heading.components';
 
 const RegistrationLocation = RegistrationLocationHoc(
   observer(() => {
@@ -556,7 +556,7 @@ const RegistrationLocation = RegistrationLocationHoc(
 
     return (
       <>
-        <MainPageHeadingComponents
+        <MainPageHeading
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />

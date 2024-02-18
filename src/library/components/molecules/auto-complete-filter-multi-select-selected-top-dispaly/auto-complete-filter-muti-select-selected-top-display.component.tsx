@@ -1,8 +1,8 @@
 /* eslint-disable  */
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
 import _ from 'lodash';
-import {Icons} from '../..';
+import { Icons } from '../..';
 
 interface AutoCompleteFilterMultiSelectSelectedTopDisplayProps {
   uniqueField?: string;
@@ -17,6 +17,7 @@ interface AutoCompleteFilterMultiSelectSelectedTopDisplayProps {
   onUpdate: (item: any) => void;
   onSelect: (item: any, isSelectedRemove?: boolean) => any;
   onBlur?: (e: any) => void;
+  dynamicCheck?: string;
 }
 
 export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
@@ -32,6 +33,7 @@ export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
   onUpdate,
   onSelect,
   onBlur,
+  dynamicCheck = 'panelCode',
 }: AutoCompleteFilterMultiSelectSelectedTopDisplayProps) => {
   const [value, setValue] = useState<string>('');
   const [options, setOptions] = useState<any[]>();
@@ -136,9 +138,9 @@ export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
           ? options?.length > 0 && (
               <div
                 className='mt-1  absolute bg-gray-100 p-2 rounded-sm z-500'
-                style={{zIndex: 80}}
+                style={{ zIndex: 80 }}
               >
-                <span>Selected</span>
+                {/* <span>Selected</span> */}
                 <ul>
                   {data.selected?.map((item, index) => (
                     <>
@@ -150,7 +152,7 @@ export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
                           type='checkbox'
                           checked={true}
                           onChange={() =>
-                            onSelect({...item, selected: true}, true)
+                            onSelect({ ...item, selected: true }, true)
                           }
                         />{' '}
                         <label className='ml-2 mt-1 text-black'>
@@ -167,13 +169,14 @@ export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
                   ))}
                 </ul>
 
-                <span>Un-Selected</span>
+                {/* <span>Un-Selected</span> */}
                 <hr />
                 <ul>
                   {options?.map((item, index) => (
                     <>
-                      {_.some(data.selected, {panelCode: item?.panelCode}) ==
-                        false && (
+                      {_.some(data.selected, {
+                        [dynamicCheck!]: item[dynamicCheck!],
+                      }) == false && (
                         <li
                           key={index}
                           className='text-gray-400 flex items-center'
