@@ -66,6 +66,10 @@ body {
   background: none !important;
 }
 
+.scrollbar-container  {
+  width: 97% !important;
+}
+
 /* .text-filter:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
 } */

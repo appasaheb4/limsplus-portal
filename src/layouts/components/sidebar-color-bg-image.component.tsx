@@ -22,7 +22,7 @@ const SideBarColorBgImages = ({
   const [navBarColor, setNavBarColor] = useState('#ffffff');
   const [sideBarColor, setSideBarColor] = useState('#ffffff');
   const [sideBarFontColor, setSideBarFontColor] = useState('#ffffff');
-  const [navIconColor, setNavIconColor] = useState('#000');
+  const [navIconColor, setNavIconColor] = useState('#ffffff');
   const [currentColor, setCurrentColor] = useState('#ffffff');
   const sideImages = useMemo(() => {
     return (

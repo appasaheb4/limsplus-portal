@@ -102,8 +102,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   <Tooltip tooltipText='Dashboard'>
                     <Icons.IconContext
                       color={
-                        stores.appStore.applicationSetting.navbarIconColor ||
-                        '#000'
+                        stores.appStore.applicationSetting.theme === 'dark'
+                          ? '#ffffff'
+                          : stores.appStore.applicationSetting
+                              .navbarIconColor || '#000'
                       }
                       size='18'
                     >
@@ -230,10 +232,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   </Tooltip>
                 </Buttons.Button>
               </div>
-              <Tooltip tooltipText={'User session'}>
-                <span
-                  className='flex rounded-md p-2 shadow-4 items-center border-2 border-white'
-                  style={{ cursor: 'pointer' }}
+              <div>
+                <button
+                  type='button'
+                  className='inline-flex items-center text-sm rounded-lg shadow-sm   font-medium dark:text-white text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center '
                   onClick={() => {
                     if (loginStore.login.loginActivityList.length > 0) {
                       setModalSessionAllowed({
@@ -246,10 +248,14 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                       });
                     }
                   }}
+                  style={{ padding: '7px' }}
                 >
-                  {loginStore.login?.sessionAllowed}
-                </span>
-              </Tooltip>
+                  <Tooltip tooltipText={'User session'}>
+                    {loginStore.login?.sessionAllowed}
+                  </Tooltip>
+                </button>
+              </div>
+
               <div className='mx-2'>
                 <DarkModeSwitcher
                   //isDisable={appStore.applicationSetting.isExpandScreen}
