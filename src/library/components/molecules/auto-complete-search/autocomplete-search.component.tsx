@@ -268,7 +268,7 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
         {options && isListOpen
           ? options.length > 0 && (
               <div
-                className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200 w-100'
+                className='mt-1 absolute z-99999 border-gray-500 rounded-md bg-gray-200 w-100'
                 ref={listRef}
               >
                 <ul className='p-2 rounded-sm'>

@@ -1533,8 +1533,7 @@ export const UserList = (props: UserListProps) => {
                 fontSize: 0,
               },
               sortCaret: (order, column) => sortCaret(order, column),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
+              editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
                 getFilter: filter => {
