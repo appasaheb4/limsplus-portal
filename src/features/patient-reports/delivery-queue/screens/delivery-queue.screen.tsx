@@ -186,9 +186,9 @@ const DeliveryQueue = observer(() => {
         .then(res => {
           if (res.findByFieldsDeliveryQueue.success) {
             let data = res.findByFieldsDeliveryQueue.data;
-            // data = _.unionBy(data, (o: any) => {
-            //   return o.patientResultId;
-            // });
+            data = _.unionBy(data, (o: any) => {
+              return o.patientResultId;
+            });
             data = _.orderBy(data, 'deliveryId', 'desc');
             resolve(data);
           }

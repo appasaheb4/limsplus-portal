@@ -345,6 +345,13 @@ const ReferenceRanges = ReferenceRangesHoc(
         'species',
         'sex',
         'rangeSetOn',
+        'rangeType',
+        'ageFrom',
+        'ageFromUnit',
+        'ageTo',
+        'ageToUnit',
+        'version',
+        'validationLevel',
         'status',
         'environment',
       ];
