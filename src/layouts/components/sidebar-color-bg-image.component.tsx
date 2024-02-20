@@ -66,95 +66,63 @@ const SideBarColorBgImages = ({
     );
   }, []);
 
-  const navbarChangeColor = color => {
-    setNavBarColor(currentColor);
-    stores.appStore.updateApplicationSetting({
-      ...stores.appStore.applicationSetting,
-      navBarColor: currentColor,
-    });
-  };
-
-  const sidebarColorChangeHandler = color => {
-    setSideBarColor(currentColor);
-    stores.appStore.updateApplicationSetting({
-      ...stores.appStore.applicationSetting,
-      sideBarColor: currentColor,
-    });
-  };
-
-  const sidebarFontColorChangeHandler = color => {
-    setSideBarFontColor(currentColor);
-    stores.appStore.updateApplicationSetting({
-      ...stores.appStore.applicationSetting,
-      sidebarFontColor: currentColor,
-    });
-  };
-
-  const navbarIconChangeHandler = color => {
-    setNavIconColor(currentColor);
-    stores.appStore.updateApplicationSetting({
-      ...stores.appStore.applicationSetting,
-      navbarIconColor: currentColor,
-    });
+  const handleChangeColor = color => {
+    setCurrentColor(color.hex);
+    if (sideBarFontColorChecked) {
+      setSideBarFontColor(color.hex);
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        sidebarFontColor: color.hex,
+      });
+    } else if (sideBarChecked) {
+      setSideBarColor(color.hex);
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        sideBarColor: color.hex,
+      });
+    } else if (navBarChecked) {
+      setNavBarColor(color.hex);
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        navBarColor: color.hex,
+      });
+    } else if (navIconColorChecked) {
+      setNavIconColor(color.hex);
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        navbarIconColor: color.hex,
+      });
+    }
   };
 
   const handleCheckboxChange = checkboxType => {
     switch (checkboxType) {
       case 'navBar':
         setNavBarChecked(!navBarChecked);
-        if (navBarChecked) {
-          setNavBarColor('#fff');
-          stores.appStore.updateApplicationSetting({
-            ...stores.appStore.applicationSetting,
-            navBarColor: '',
-          });
-        }
+        setSideBarChecked(false);
+        setSideBarFontcolorChecked(false);
+        setNavIconColorChecked(false);
         break;
       case 'sideBar':
         setSideBarChecked(!sideBarChecked);
-        if (sideBarChecked) {
-          setSideBarColor('#fff');
-          stores.appStore.updateApplicationSetting({
-            ...stores.appStore.applicationSetting,
-            sideBarColor: '',
-          });
-        }
+        setNavBarChecked(false);
+        setSideBarFontcolorChecked(false);
+        setNavIconColorChecked(false);
         break;
       case 'sidebarFont':
         setSideBarFontcolorChecked(!sideBarFontColorChecked);
-        if (sideBarFontColorChecked) {
-          setSideBarFontColor('#fff');
-          stores.appStore.updateApplicationSetting({
-            ...stores.appStore.applicationSetting,
-            sidebarFontColor: '',
-          });
-        }
+        setNavBarChecked(false);
+        setSideBarChecked(false);
+        setNavIconColorChecked(false);
         break;
       case 'navIconColor':
         setNavIconColorChecked(!navIconColorChecked);
-        if (navIconColorChecked) {
-          setNavIconColor('#000');
-          stores.appStore.updateApplicationSetting({
-            ...stores.appStore.applicationSetting,
-            navbarIconColor: '',
-          });
-        }
+        setNavBarChecked(false);
+        setSideBarChecked(false);
+        setSideBarFontcolorChecked(false);
         break;
       default:
         break;
-    }
-  };
-
-  const handleChangeColor = color => {
-    setCurrentColor(color.hex);
-    if (sideBarFontColorChecked) {
-      sidebarFontColorChangeHandler(color.hex);
-    } else if (sideBarChecked) {
-      sidebarColorChangeHandler(color.hex);
-    } else if (navBarChecked) {
-      navbarChangeColor(color.hex);
-    } else if (navIconColorChecked) {
-      navbarIconChangeHandler(color.hex);
     }
   };
 
