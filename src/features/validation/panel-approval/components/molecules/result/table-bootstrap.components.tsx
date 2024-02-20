@@ -88,12 +88,10 @@ export const TableBootstrap = ({
   };
 
   const statusData = [
-    { code: 'Done', value: 'Done', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
     { code: 'Recheck', value: 'Recheck', color: 'yellow' },
     { code: 'Retest', value: 'Retest', color: 'orange' },
     { code: 'Hold', value: 'Hold', color: 'indigo' },
-    { code: '', value: 'All', color: 'red' },
     { code: 'Recall', value: 'Recall', color: 'gray' },
   ];
 
@@ -428,7 +426,7 @@ export const TableBootstrap = ({
                   {statusData.map(status => (
                     <button
                       key={status.code}
-                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                      className={`bg-${status.color}-600 ml-2 px-4 py-2 focus:outline-none items-center outline shadow-sm font-medium w-28 text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                       onClick={() => onFilterRecord?.(status.value)}
                     >
                       {status.value}

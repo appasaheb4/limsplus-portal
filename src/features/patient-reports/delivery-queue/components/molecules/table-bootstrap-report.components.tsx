@@ -95,10 +95,12 @@ export const TableBootstrapReport = ({
   };
 
   const statusData = [
-    { code: 'Hold', value: 'Hold', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
+    { code: 'Balance', value: 'Balance', color: 'pink' },
+    { code: 'Hold', value: 'Hold', color: 'green' },
+    { code: 'Cancel', value: 'Cancel', color: 'red' },
     { code: 'Done', value: 'Done', color: 'orange' },
-    { code: '', value: 'All', color: 'red' },
+    { code: '', value: 'All', color: 'indigo' },
   ];
 
   const sizePerPageRenderer = ({
@@ -389,7 +391,7 @@ export const TableBootstrapReport = ({
                   {statusData.map(status => (
                     <button
                       key={status.code}
-                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                      className={`bg-${status.color}-600 ml-2 px-4 py-2 focus:outline-none items-center outline shadow-sm font-medium w-28 text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                       onClick={() => onCheckHoldRecord?.(status.code)}
                     >
                       {status.value}

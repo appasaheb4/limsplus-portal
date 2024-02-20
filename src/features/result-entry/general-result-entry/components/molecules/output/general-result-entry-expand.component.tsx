@@ -358,9 +358,9 @@ export const GeneralResultEntryExpand = ({
   };
   const statusData = [
     { code: 'P', value: 'Pending', color: 'blue' },
-    { code: 'C', value: 'Recheck', color: 'yellow' },
-    { code: 'T', value: 'Retest', color: 'green' },
-    { code: 'D', value: 'Done', color: 'purple' },
+    { code: 'C', value: 'Recheck', color: 'orange' },
+    { code: 'T', value: 'Retest', color: 'pink' },
+    { code: 'D', value: 'Done', color: 'green' },
     { code: '', value: 'All', color: 'red' },
   ];
 
@@ -368,6 +368,7 @@ export const GeneralResultEntryExpand = ({
     { code: 'N', value: 'Normal', color: 'blue' },
     { code: 'A', value: 'Abnormal', color: 'yellow' },
     { code: 'C', value: 'Critical', color: 'green' },
+    { code: 'ALL', value: 'All', color: 'red' },
   ];
 
   return (
@@ -432,33 +433,34 @@ export const GeneralResultEntryExpand = ({
                       <Icons.IconFa.FaChevronDown />
                     </Buttons.Button>
                   )}
-                  <button
-                    disabled={isFinishResultDisable}
-                    className={
-                      'ml-2 mr-2 px-2 focus:outline-none bg-blue-600 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                    }
-                    onClick={onFinishResult}
-                  >
-                    Finish Result
-                  </button>
-                  <div className='flex gap-4'>
+
+                  <div className='flex gap-2'>
                     {statusData.map(status => (
                       <button
                         key={status.code}
-                        className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                        className={`bg-${status.color}-600 ml-2 px-4 py-2 focus:outline-none items-center outline shadow-sm font-medium w-28 text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                         onClick={() => handleStatusClick(status.code)}
                       >
                         {status.value}
                       </button>
                     ))}
                   </div>
+                  <button
+                    disabled={isFinishResultDisable}
+                    className={
+                      'ml-3 px-4 py-2 focus:outline-none bg-[#FF0000]-600 items-center outline shadow-sm font-medium text-center rounded-md h-9 w-28 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                    }
+                    onClick={onFinishResult}
+                  >
+                    Submit
+                  </button>
                 </div>
 
                 <div className='flex justify-end gap-4'>
                   {testStatus.map(status => (
                     <button
                       key={status.code}
-                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                      className={`bg-${status.color}-600 px-4 py-2 focus:outline-none  items-center  outline shadow-sm  font-medium w-28 text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                       onClick={() => onTestStatusFilter?.(status.code)}
                     >
                       {status.value}
