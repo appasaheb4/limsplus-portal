@@ -13,6 +13,7 @@ import {
   Toast,
   sortCaret,
   ModalDateTime,
+  DateRangeFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import {
@@ -1254,7 +1255,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader13',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1270,7 +1271,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (

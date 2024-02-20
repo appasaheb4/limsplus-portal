@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // export const textFilter = props => {
 //   const filter = value => {
@@ -230,6 +230,67 @@ export const DateFilter = props => {
             className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1`}
           />
         )}
+      </div>
+    </>
+  );
+};
+
+export const DateRangeFilter = props => {
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const endDateRef = useRef<any>(null);
+  const startDateRef = useRef(null);
+
+  useEffect(() => {
+    if (startDateRef.current && endDateRef.current) {
+      if (startDate) {
+        endDateRef.current.click();
+      }
+    }
+  }, [startDate]);
+
+  const filter = (startDate, endDate) => {
+    let filterData: any = {};
+    if (startDate) {
+      filterData.startDate = startDate;
+    }
+    if (endDate) {
+      filterData.endDate = endDate;
+    }
+    props.onFilter(filterData);
+  };
+
+  const handleStartDateChange = e => {
+    const date = e.target.value;
+    setStartDate(date);
+    setEndDate(null);
+    filter(date, null);
+  };
+
+  const handleEndDateChange = e => {
+    const date = e.target.value;
+    setEndDate(date);
+    filter(startDate, date);
+  };
+
+  return (
+    <>
+      <div className='flex flex-row gap-2 items-center'>
+        <span className='text-white text-sm'>{props.column?.text}</span>
+        <input
+          ref={startDateRef}
+          type='date'
+          value={startDate || ''}
+          onChange={handleStartDateChange}
+          className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1 `}
+        />
+        <input
+          ref={endDateRef}
+          type='date'
+          value={endDate || ''}
+          onChange={handleEndDateChange}
+          className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1`}
+        />
       </div>
     </>
   );
