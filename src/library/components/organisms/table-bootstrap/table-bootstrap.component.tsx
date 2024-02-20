@@ -680,7 +680,10 @@ export const TableBootstrap = ({
                   />
                 </div>
               )}
-              <div className='scrollTable h-[calc(100vh_-_30vh)] mb-2'>
+              <div
+                className='scrollTable h-[calc(100vh_-_30vh)] mb-2 bg-blue-600'
+                style={{ zIndex: 3 }}
+              >
                 <BootstrapTable
                   remote
                   {...props.baseProps}
