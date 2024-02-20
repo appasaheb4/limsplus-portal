@@ -17,7 +17,6 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '../style.css';
 import { debounce } from '@/core-utils';
-
 import { Buttons, Icons } from '../..';
 
 const { SearchBar, ClearSearchButton } = Search;
@@ -620,7 +619,7 @@ export const TableBootstrap = ({
           columnToggle
         >
           {props => (
-            <div>
+            <div className='flex flex-col'>
               <div className='flex items-center flex-wrap'>
                 <SearchBar
                   {...searchProps}
@@ -682,7 +681,7 @@ export const TableBootstrap = ({
               )}
               <div
                 className='scrollTable h-[calc(100vh_-_30vh)] mb-2 bg-blue-600'
-                style={{ zIndex: 3 }}
+                style={{ zIndex: 4 }}
               >
                 <BootstrapTable
                   remote

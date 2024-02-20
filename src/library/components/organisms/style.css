@@ -21,11 +21,9 @@
 }
 
 th {
-  position: sticky;
   top: 0;
   bottom: 0;
   background-color: rgb(106, 114, 127);
-  z-index: 2;
 }
 
 .scrollTable .react-bootstrap-table-page-btns-ul {
