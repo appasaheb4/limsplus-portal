@@ -262,7 +262,7 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
               <div
                 className='mt-1 absolute  border-gray-500 rounded-md bg-gray-200 w-100'
                 ref={listRef}
-                style={{ zIndex: 99 }}
+                style={{ zIndex: 2 }}
               >
                 <ul className='p-2 rounded-sm'>
                   <PerfectScrollbar>
