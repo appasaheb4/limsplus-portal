@@ -256,13 +256,11 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
           />
           <Icons.IconFa.FaSearch style={{ padding: '2px' }} size={22} />
         </div>
-
         {options && isListOpen
           ? options.length > 0 && (
               <div
-                className='mt-1 absolute  border-gray-500 rounded-md bg-gray-200 w-100'
+                className='mt-1  border-gray-500 rounded-md bg-gray-200 w-100'
                 ref={listRef}
-                style={{ zIndex: 2 }}
               >
                 <ul className='p-2 rounded-sm'>
                   <PerfectScrollbar>
@@ -272,7 +270,6 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
                     >
                       {options?.map((item, index) => {
                         const totalIndex = calculateTotalIndex(index, options);
-
                         return (
                           <React.Fragment key={index}>
                             <li className='text-gray-400'>{item.title}</li>
@@ -283,7 +280,6 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
                                   highlightedIndex === childIndex;
                                 const isItemSelected =
                                   selectedIndex === childIndex;
-
                                 return (
                                   <li
                                     key={childrenIndex}

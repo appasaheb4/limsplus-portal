@@ -563,7 +563,7 @@ export const TableBootstrap = ({
   };
 
   const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className='btn-group btn-group-toggle' data-toggle='buttons'>
+    <div className='flex btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
           ...column,
@@ -670,7 +670,7 @@ export const TableBootstrap = ({
                 )}
               </div>
               {isFilterOpen && (
-                <div className={' mb-2 overflow-auto h-10'}>
+                <div className={'flex mb-2 overflow-auto h-10'}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'
@@ -679,10 +679,7 @@ export const TableBootstrap = ({
                   />
                 </div>
               )}
-              <div
-                className='scrollTable h-[calc(100vh_-_30vh)] mb-2 bg-blue-600'
-                style={{ zIndex: 4 }}
-              >
+              <div className='scrollTable h-[calc(100vh_-_30vh)] mb-2'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
