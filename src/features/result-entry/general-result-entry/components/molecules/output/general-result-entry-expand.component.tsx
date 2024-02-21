@@ -448,7 +448,7 @@ export const GeneralResultEntryExpand = ({
                   <button
                     disabled={isFinishResultDisable}
                     className={
-                      'ml-3 px-4 py-2 focus:outline-none bg-[#FF0000]-600 items-center outline shadow-sm font-medium text-center rounded-md h-9 w-28 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                      'ml-3 px-4 py-2 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md h-9 w-28 text-white disabled:opacity-50 disabled:cursor-not-allowed'
                     }
                     onClick={onFinishResult}
                   >
