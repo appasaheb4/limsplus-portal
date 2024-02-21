@@ -61,6 +61,10 @@ const SidebarCategory = withRouter(
             'flex items-center sidebar-link ' + (!isOpen ? 'collapsed' : '')
           }
           onClick={onClick}
+          style={{
+            color:
+              stores.appStore.applicationSetting.sidebarFontColor ?? '#fff',
+          }}
           aria-expanded={isOpen ? 'true' : 'false'}
         >
           <Icons.RIcon

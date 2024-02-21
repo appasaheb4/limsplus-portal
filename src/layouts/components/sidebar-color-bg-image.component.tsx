@@ -135,43 +135,86 @@ const SideBarColorBgImages = ({
                 onChange={() => handleCheckboxChange('sideBar')}
               />
               <div>
-                <GrPowerReset />
+                <GrPowerReset
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      sideBarColor: '',
+                    });
+                  }}
+                />
               </div>
             </div>
           </Form.InputWrapper>
 
           <Form.InputWrapper label='Navbar Color'>
-            <input
-              type='checkbox'
-              name='target'
-              value='navBarColor'
-              checked={navBarChecked}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-              onChange={() => handleCheckboxChange('navBar')}
-            />
+            <div className='flex gap-1'>
+              <input
+                type='checkbox'
+                name='target'
+                value='navBarColor'
+                checked={navBarChecked}
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                onChange={() => handleCheckboxChange('navBar')}
+              />
+              <div>
+                <GrPowerReset
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      navBarColor: '',
+                    });
+                  }}
+                />
+              </div>
+            </div>
           </Form.InputWrapper>
           <Form.InputWrapper label='Font Color'>
-            <input
-              type='checkbox'
-              name='target'
-              value='navBarColor'
-              checked={sideBarFontColorChecked}
-              onChange={() => handleCheckboxChange('sidebarFont')}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-            />
+            <div className='flex gap-1'>
+              <input
+                type='checkbox'
+                name='target'
+                value='navBarColor'
+                checked={sideBarFontColorChecked}
+                onChange={() => handleCheckboxChange('sidebarFont')}
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+              />
+              <div>
+                <GrPowerReset
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      sidebarFontColor: '',
+                    });
+                  }}
+                />
+              </div>
+            </div>
           </Form.InputWrapper>
           <Form.InputWrapper label='Icon Color'>
-            <input
-              type='checkbox'
-              name='target'
-              value='navBarColor'
-              checked={navIconColorChecked}
-              onChange={() => handleCheckboxChange('navIconColor')}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-            />
+            <div className='flex gap-1 items-center'>
+              <input
+                type='checkbox'
+                name='target'
+                value='navBarColor'
+                checked={navIconColorChecked}
+                onChange={() => handleCheckboxChange('navIconColor')}
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+              />
+              <div>
+                <GrPowerReset
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      navbarIconColor: '',
+                    });
+                  }}
+                />
+              </div>
+            </div>
           </Form.InputWrapper>
         </div>
-        <div className='w-full flex justify-center mb-3'>
+        <div className='w-full flex justify-center mt-2 mb-3'>
           <SketchPicker
             color={currentColor}
             onChangeComplete={handleChangeColor}
