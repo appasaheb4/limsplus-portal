@@ -3,6 +3,7 @@ import { Form, Icons } from '@/library/components';
 import { sidebarBackgroundImage } from '@/library/assets';
 import { stores } from '@/stores';
 import { SketchPicker } from 'react-color';
+import { GrPowerReset } from 'react-icons/gr';
 
 interface SideBarColorBgImagesProps {
   data: Array<{ color: string }>;
@@ -19,10 +20,6 @@ const SideBarColorBgImages = ({
   const [sideBarChecked, setSideBarChecked] = useState(false);
   const [sideBarFontColorChecked, setSideBarFontcolorChecked] = useState(false);
   const [navIconColorChecked, setNavIconColorChecked] = useState(false);
-  const [navBarColor, setNavBarColor] = useState('#ffffff');
-  const [sideBarColor, setSideBarColor] = useState('#ffffff');
-  const [sideBarFontColor, setSideBarFontColor] = useState('#ffffff');
-  const [navIconColor, setNavIconColor] = useState('#000');
   const [currentColor, setCurrentColor] = useState('#ffffff');
   const sideImages = useMemo(() => {
     return (
@@ -69,25 +66,21 @@ const SideBarColorBgImages = ({
   const handleChangeColor = color => {
     setCurrentColor(color.hex);
     if (sideBarFontColorChecked) {
-      setSideBarFontColor(color.hex);
       stores.appStore.updateApplicationSetting({
         ...stores.appStore.applicationSetting,
         sidebarFontColor: color.hex,
       });
     } else if (sideBarChecked) {
-      setSideBarColor(color.hex);
       stores.appStore.updateApplicationSetting({
         ...stores.appStore.applicationSetting,
         sideBarColor: color.hex,
       });
     } else if (navBarChecked) {
-      setNavBarColor(color.hex);
       stores.appStore.updateApplicationSetting({
         ...stores.appStore.applicationSetting,
         navBarColor: color.hex,
       });
     } else if (navIconColorChecked) {
-      setNavIconColor(color.hex);
       stores.appStore.updateApplicationSetting({
         ...stores.appStore.applicationSetting,
         navbarIconColor: color.hex,
@@ -132,15 +125,21 @@ const SideBarColorBgImages = ({
         <hr />
         <div className='flex justify-between gap-2 mt-2'>
           <Form.InputWrapper label='SideBar Color'>
-            <input
-              type='checkbox'
-              name='target'
-              value='sideBarColor'
-              checked={sideBarChecked}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-              onChange={() => handleCheckboxChange('sideBar')}
-            />
+            <div className='flex gap-1'>
+              <input
+                type='checkbox'
+                name='target'
+                value='sideBarColor'
+                checked={sideBarChecked}
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                onChange={() => handleCheckboxChange('sideBar')}
+              />
+              <div>
+                <GrPowerReset />
+              </div>
+            </div>
           </Form.InputWrapper>
+
           <Form.InputWrapper label='Navbar Color'>
             <input
               type='checkbox'
