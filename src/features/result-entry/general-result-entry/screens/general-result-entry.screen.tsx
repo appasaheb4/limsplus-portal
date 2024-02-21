@@ -11,10 +11,8 @@ import {
   MainPageHeading,
 } from '@/library/components';
 import { FilterInputTable, GeneralResultEntryList } from '../components';
-
 import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
-
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -28,7 +26,6 @@ const GeneralResultEntry = observer(() => {
   } = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);
-
   const tableView = useMemo(
     () => (
       <>
@@ -213,7 +210,6 @@ const GeneralResultEntry = observer(() => {
     ),
     [patientResultStore.patientResultListNotAutoUpdate, tableReload],
   );
-
   const updateRecords = (id, data) => {
     patientResultStore.patientResultService
       .updateSingleFiled({
@@ -256,7 +252,6 @@ const GeneralResultEntry = observer(() => {
       });
     setTableReload(!tableReload);
   };
-
   return (
     <>
       <MainPageHeading
@@ -267,7 +262,6 @@ const GeneralResultEntry = observer(() => {
         <FilterInputTable />
       </div>
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
-
       <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {
