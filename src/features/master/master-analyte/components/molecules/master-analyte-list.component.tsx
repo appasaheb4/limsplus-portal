@@ -25,7 +25,8 @@ import {
 } from '../index';
 import { FormHelper } from '@/helper';
 import { AutoCompleteCompanyList, InputResult } from '@/core-components';
-
+import { CiSearch } from 'react-icons/ci';
+import { ModalDateRangeFilter } from '@/library/components/molecules/modal/modal-date-filter/modal-date-filter.component';
 let lab;
 let analyteCode;
 let analyteName;
@@ -89,16 +90,39 @@ interface MasterAnalyteProps {
     dataField: string,
     id: string,
   ) => void;
+  setModalDateRange?: any;
+  modalDetailsDateRange?: any;
 }
 
 export const MasterAnalyteList = (props: MasterAnalyteProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
+
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+
   const todayDate = new Date();
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
+
+  function priceFormatter(column, colIndex) {
+    return (
+      <div className='flex flex-row gap-1 items-center'>
+        <span>{column.text}</span>
+        <CiSearch
+          size={20}
+          fontWeight={'bold'}
+          style={{ cursor: 'pointer' }}
+          onClick={() =>
+            props.setModalDateRange?.({
+              filter: column.dataField,
+              show: true,
+            })
+          }
+        />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -1305,29 +1329,26 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader11',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
+              headerClasses: 'textHeader1',
+              headerFormatter: priceFormatter,
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
                   : '',
-              filter: customFilter({
-                getFilter: filter => {
-                  dateActive = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
-              ),
+
               formatter: (cell, row) => {
                 return (
                   <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>
                 );
               },
+              // filterRenderer: (onFilter, column) => (
+              //   <ModalDateRangeFilter
+              //     onFilter={onFilter}
+              //     column={column}
+              //     show={false}
+              //   />
+              // ),
               editorRenderer: (
                 editorProps,
                 value,
@@ -1752,6 +1773,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size);
+            props.setModalDateRange(false);
           }}
           clearAllFilter={() => {
             lab('');
