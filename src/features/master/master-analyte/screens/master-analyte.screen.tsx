@@ -31,6 +31,7 @@ import { resetMasterAnalyte } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import dayjs from 'dayjs';
+import { ModalDateRangeFilter } from '@/library/components/molecules/modal/modal-date-filter/modal-date-filter.component';
 
 const MasterAnalyte = MasterAnalyteHoc(
   observer(() => {
@@ -77,6 +78,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [modalDetailsDateRange, setModalDateRange] = useState<any>();
 
     const onSubmitMasterAnalyte = async () => {
       if (!masterAnalyteStore.checkExitsLabEnvCode) {
@@ -279,6 +281,7 @@ const MasterAnalyte = MasterAnalyteHoc(
               input: { type, filter, page, limit },
             });
             global.filter = { mode: 'filter', type, filter, page, limit };
+            setModalDateRange(false);
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -298,6 +301,8 @@ const MasterAnalyte = MasterAnalyteHoc(
               [dataField]: value,
             });
           }}
+          setModalDateRange={setModalDateRange}
+          modalDetailsDateRange={modalDetailsDateRange}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -2089,6 +2094,21 @@ const MasterAnalyte = MasterAnalyteHoc(
             onClose={() => {
               setModalConfirm({ show: false });
             }}
+          />
+          <ModalDateRangeFilter
+            onFilter={(startDate, endDate) => {
+              masterAnalyteStore.masterAnalyteService.filter({
+                input: {
+                  type: 'filter',
+                  filter:{[modalDetailsDateRange?.filter]: { startDate, endDate }},
+                  page: 0,
+                  limit: 10,
+                },
+              });
+            }}
+            show={modalDetailsDateRange?.show}
+            onClose={() => setModalDateRange({ show: false })}
+            close={() => setModalDateRange({ show: false })}
           />
         </div>
       </>
