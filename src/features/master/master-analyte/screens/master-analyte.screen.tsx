@@ -2097,10 +2097,13 @@ const MasterAnalyte = MasterAnalyteHoc(
           />
           <ModalDateRangeFilter
             onFilter={(startDate, endDate) => {
+              setModalDateRange({ show: false });
               masterAnalyteStore.masterAnalyteService.filter({
                 input: {
                   type: 'filter',
-                  filter:{[modalDetailsDateRange?.filter]: { startDate, endDate }},
+                  filter: {
+                    [modalDetailsDateRange?.filter]: { startDate, endDate },
+                  },
                   page: 0,
                   limit: 10,
                 },
