@@ -130,6 +130,9 @@ export const ModalDateRangeFilter = (props: ModalProps) => {
                       onClick={() => {
                         setShowModal(false);
                         props.onFilter && props.onFilter(startDate, endDate);
+                        setStartDate(null);
+                        setEndDate(null);
+                        setDatesFilled(false);
                       }}
                       disabled={!datesFilled}
                     >
