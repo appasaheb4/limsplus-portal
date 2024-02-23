@@ -2,6 +2,7 @@ import { stores } from '@/stores';
 import React, { useEffect, useRef, useState } from 'react';
 import { Container } from 'reactstrap';
 import * as Assets from '@/library/assets';
+import { Form } from '@/library/components';
 
 interface ModalProps {
   show?: boolean;
@@ -33,7 +34,8 @@ export const ModalDateRangeFilter = (props: ModalProps) => {
     const date = e.target.value;
     setStartDate(date);
     setEndDate(null);
-    setDatesFilled(!!date && !!endDate);
+    setDatesFilled(!!date);
+    setEndDate(date);
   };
 
   const handleEndDateChange = e => {
@@ -96,27 +98,34 @@ export const ModalDateRangeFilter = (props: ModalProps) => {
 
                   <div className='relative p-2 flex flex-auto justify-center'>
                     <div className='flex flex-row gap-2 items-center'>
-                      <span className='text-white text-sm'>
-                        {props.column?.text}
-                      </span>
-                      <input
-                        ref={startDateRef}
-                        type='date'
-                        value={startDate || ''}
-                        onChange={handleStartDateChange}
-                        className={
-                          'leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1 '
-                        }
-                      />
-                      <input
-                        ref={endDateRef}
-                        type='date'
-                        value={endDate || ''}
-                        onChange={handleEndDateChange}
-                        className={
-                          'leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1'
-                        }
-                      />
+                      <Form.InputWrapper
+                        label='From Date'
+                        style={{ paddingLeft: '5px' }}
+                      >
+                        <input
+                          ref={startDateRef}
+                          type='date'
+                          value={startDate || ''}
+                          onChange={handleStartDateChange}
+                          className={
+                            'leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1 '
+                          }
+                        />
+                      </Form.InputWrapper>
+                      <Form.InputWrapper
+                        label='To Date'
+                        style={{ paddingLeft: '5px' }}
+                      >
+                        <input
+                          ref={endDateRef}
+                          type='date'
+                          value={endDate || ''}
+                          onChange={handleEndDateChange}
+                          className={
+                            'leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1'
+                          }
+                        />
+                      </Form.InputWrapper>
                     </div>
                   </div>
 

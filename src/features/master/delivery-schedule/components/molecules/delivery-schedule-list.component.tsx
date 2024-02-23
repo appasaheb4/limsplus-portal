@@ -374,7 +374,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 },
               }),
               editable: (content, row, rowIndex, columnIndex) =>
-                !row.secondCutoffTimeRequired && editorCell(row),
+                !row.secondCutoffTimeRequired,
             },
 
             {
