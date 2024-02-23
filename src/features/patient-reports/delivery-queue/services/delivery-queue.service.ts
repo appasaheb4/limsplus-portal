@@ -5,8 +5,8 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   DELIVERY_QUEUE_LIST,
   UPDATE_DELIVERY_QUEUE,
@@ -26,7 +26,7 @@ export class DeliveryQueueService {
       client
         .mutate({
           mutation: PATIENT_REPORT_LIST,
-          variables: {input: {labId}},
+          variables: { input: { labId } },
         })
         .then((response: any) => {
           resolve(response.data);
@@ -44,7 +44,7 @@ export class DeliveryQueueService {
       client
         .mutate({
           mutation: DELIVERY_QUEUE_LIST,
-          variables: {input: {page, limit, environment, role}},
+          variables: { input: { page, limit, environment, role } },
         })
         .then((response: any) => {
           stores.deliveryQueueStore.updateReportDeliveryList(response.data);
