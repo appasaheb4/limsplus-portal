@@ -52,7 +52,7 @@ interface TableBootstrapReportProps {
   ) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
-  onCheckHoldRecord?: (item: string) => void;
+  onFindDeliveryStatus?: (item: string) => void;
 }
 export const TableBootstrapReport = ({
   id,
@@ -77,7 +77,7 @@ export const TableBootstrapReport = ({
   onPagination,
   clearAllFilter,
   onClickRow,
-  onCheckHoldRecord,
+  onFindDeliveryStatus,
 }: TableBootstrapReportProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -96,9 +96,10 @@ export const TableBootstrapReport = ({
 
   const statusData = [
     { code: 'Hold', value: 'Hold', color: 'green' },
+    { code: 'UnHold', value: 'UnHold', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
     { code: 'Done', value: 'Done', color: 'orange' },
-    { code: '', value: 'All', color: 'red' },
+    { code: 'All', value: 'All', color: 'red' },
   ];
 
   const sizePerPageRenderer = ({
@@ -390,7 +391,7 @@ export const TableBootstrapReport = ({
                     <button
                       key={status.code}
                       className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
-                      onClick={() => onCheckHoldRecord?.(status.code)}
+                      onClick={() => onFindDeliveryStatus?.(status.code)}
                     >
                       {status.value}
                     </button>
