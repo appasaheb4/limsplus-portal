@@ -219,7 +219,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                       color={`${
                         stores.appStore.applicationSetting.theme === 'dark'
                           ? '#ffffff'
-                          : '#000000'
+                          : stores.appStore.applicationSetting
+                              .navbarIconColor || '#000'
                       }`}
                       size='18'
                     >
@@ -235,7 +236,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
               <div>
                 <button
                   type='button'
-                  className='inline-flex items-center text-sm rounded-lg shadow-sm   font-medium dark:text-white text-gray-600 border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center '
+                  className={`inline-flex items-center text-sm rounded-lg shadow-sm dark:text-white  font-medium  border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center `}
                   onClick={() => {
                     if (loginStore.login.loginActivityList.length > 0) {
                       setModalSessionAllowed({
@@ -248,7 +249,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                       });
                     }
                   }}
-                  style={{ padding: '7px' }}
+                  style={{
+                    padding: '7px',
+                    color: stores.appStore.applicationSetting.navbarIconColor,
+                  }}
                 >
                   <Tooltip tooltipText={'User session'}>
                     {loginStore.login?.sessionAllowed}
@@ -278,7 +282,12 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                     />
                   </Tooltip>
                 </div>
-                <span className='sm:mt-2 d-none d-sm-inline-block '>
+                <span
+                  className='sm:mt-2 d-none d-sm-inline-block '
+                  style={{
+                    color: stores.appStore.applicationSetting.navbarIconColor,
+                  }}
+                >
                   {loginStore.login?.fullName}
                 </span>
               </div>
