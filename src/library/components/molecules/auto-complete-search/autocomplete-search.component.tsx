@@ -195,13 +195,11 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
 
   const calculateTotalIndex = (currentIndex, options) => {
     let totalIndex = 0;
-
     for (let i = 0; i < currentIndex; i++) {
       totalIndex += 1; // Count the top-level item
       const childrenCount = options[i]?.children?.length || 0;
       totalIndex += childrenCount; // Count the children of the top-level item
     }
-
     return totalIndex;
   };
 
@@ -227,11 +225,9 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
                   let totalIndex = -1; // Start at -1 to account for the initial increment in the loop
                   let found = false;
                   let selectedOption, selectedChild;
-
                   for (let index = 0; index < options!.length; index++) {
                     const option = options![index];
                     const childrenLength = option.children?.length || 0;
-
                     if (
                       highlightedIndex > totalIndex &&
                       highlightedIndex <= totalIndex + 1 + childrenLength
@@ -241,14 +237,11 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
                         highlightedIndex - totalIndex - 1;
                       selectedChild =
                         selectedOption?.children?.[selectedChildIndex];
-
                       found = true;
                       break;
                     }
-
                     totalIndex += 1 + childrenLength;
                   }
-
                   if (found && selectedOption && selectedChild) {
                     props.onChange &&
                       props.onChange(selectedOption, selectedChild);
@@ -261,14 +254,12 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
               }
             }}
           />
-
           <Icons.IconFa.FaSearch style={{ padding: '2px' }} size={22} />
         </div>
-
         {options && isListOpen
           ? options.length > 0 && (
               <div
-                className='mt-1 absolute z-50 border-gray-500 rounded-md bg-gray-200 w-100'
+                className='mt-1  border-gray-500 rounded-md bg-gray-200 w-100'
                 ref={listRef}
               >
                 <ul className='p-2 rounded-sm'>
@@ -279,7 +270,6 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
                     >
                       {options?.map((item, index) => {
                         const totalIndex = calculateTotalIndex(index, options);
-
                         return (
                           <React.Fragment key={index}>
                             <li className='text-gray-400'>{item.title}</li>
@@ -290,7 +280,6 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
                                   highlightedIndex === childIndex;
                                 const isItemSelected =
                                   selectedIndex === childIndex;
-
                                 return (
                                   <li
                                     key={childrenIndex}

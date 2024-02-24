@@ -185,6 +185,7 @@ const RoleMapping = observer(() => {
   };
 
   useEffect(() => {
+    //roleMappingStore.roleMappingService.roleMappingList();
     setRouter();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

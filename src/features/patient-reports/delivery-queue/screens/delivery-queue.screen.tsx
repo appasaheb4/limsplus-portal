@@ -1,13 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-  Toast,
-  MainPageHeading,
-} from '@/library/components';
+import { Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
 import {
@@ -197,14 +191,13 @@ const DeliveryQueue = observer(() => {
 
   const updateRecords = async (payload: any) => {
     const { type, id, visitId, ids } = payload;
-    if (type == 'cancel' || type == 'hold' || type == 'done') {
+    if (!Array.isArray(visitId)) {
       await deliveryQueueStore.deliveryQueueService
         .updateDeliveryQueue({
           input: {
             _id: id,
             visitId: visitId,
-            deliveryStatus:
-              type == 'cancel' ? 'Cancel' : type == 'hold' ? 'Hold' : 'Done',
+            deliveryStatus: type,
           },
         })
         .then(res => {
@@ -215,6 +208,8 @@ const DeliveryQueue = observer(() => {
           }
         });
     } else {
+      console.log({ ids, visitId });
+
       await deliveryQueueStore.deliveryQueueService
         .updateDeliveryQueueByVisitIds({
           input: {
@@ -342,8 +337,8 @@ const DeliveryQueue = observer(() => {
           const pendingItems = deliveryQueueStore.reportDeliveryList?.filter(
             item => item.deliveryStatus === 'Pending',
           );
-          const ids = pendingItems?.map(item => item._id);
-          const visitIds = pendingItems?.map(item => item.visitId);
+          const ids = pendingItems?.map(item => item?._id);
+          const visitIds = pendingItems?.map(item => item?.visitId);
           updateRecords({
             type: 'updateAllDeliveryStatus',
             ids: ids,
@@ -433,8 +428,33 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.updateOrderDeliveryPageNo(pageNo);
           global.filter = { mode: 'pagination', pageNo, limit: 100 };
         }}
-        setHoldRecord={(item: string) => {
-          setHoldRecord(item);
+        onFindDeliveryStatus={(deliveryStatus: string) => {
+          if (deliveryStatus == 'All') {
+            deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+          } else {
+            deliveryQueueStore.deliveryQueueService
+              .findByFields({
+                input: {
+                  filter: {
+                    deliveryStatus,
+                  },
+                },
+              })
+              .then(res => {
+                if (res.findByFieldsDeliveryQueue?.success) {
+                  deliveryQueueStore.updateReportDeliveryList({
+                    deliveryQueues: {
+                      data: res.findByFieldsDeliveryQueue?.data,
+                      paginatorInfo: {
+                        count: res.findByFieldsDeliveryQueue?.data?.length,
+                      },
+                    },
+                  });
+                } else {
+                  deliveryQueueStore.updateReportDeliveryList([]);
+                }
+              });
+          }
         }}
       />
     ),
