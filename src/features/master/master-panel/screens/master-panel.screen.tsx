@@ -980,7 +980,7 @@ const MasterPanel = MasterPanelHoc(
                             placeholder='Search by code'
                             data={{
                               list: deliveryScheduleStore.listDeliverySchedule,
-                              displayKey: ['schCode'],
+                              displayKey: ['schCode', 'schName'],
                             }}
                             hasError={!!errors.schedule}
                             onFilter={(value: string) => {
