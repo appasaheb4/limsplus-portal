@@ -3,30 +3,25 @@ import { observer } from 'mobx-react';
 
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
   Form,
   Svg,
   ModalConfirm,
-  AutocompleteSearchGroupBy,
   MainPageHeading,
 } from '@/library/components';
 import { BannerList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
-import { useHistory } from 'react-router-dom';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
 import { connect } from 'react-redux';
 
 const Banner = BannerHoc(
-  observer(({ sidebar }) => {
+  observer(() => {
     const { loginStore, routerStore, bannerStore, appStore } = useStores();
     const {
       control,
@@ -35,7 +30,6 @@ const Banner = BannerHoc(
       setValue,
       reset,
     } = useForm();
-    const history = useHistory();
 
     useEffect(() => {
       // Default value initialization
@@ -49,6 +43,29 @@ const Banner = BannerHoc(
     const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
+    useEffect(() => {
+      const handleKeyDown = event => {
+        if (event.ctrlKey && event.key === 's') {
+          event.preventDefault();
+          handleCtrlS();
+        }
+        if (event.ctrlKey && event.key === 'x') {
+          event.preventDefault();
+          reset();
+          resetBanner();
+        }
+      };
+      document.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const handleCtrlS = () => {
+      handleSubmit(onSubmitBanner)();
+    };
 
     const onSubmitBanner = async () => {
       await bannerStore.BannerService.addBanner({
@@ -416,6 +433,4 @@ const Banner = BannerHoc(
   }),
 );
 
-export default connect((store: any) => ({
-  sidebar: store.sidebar,
-}))(Banner);
+export default Banner;

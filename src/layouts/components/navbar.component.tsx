@@ -80,7 +80,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                 propsIcon={{
                   color:
                     stores.appStore.applicationSetting.theme === 'dark'
-                      ? '#ffffff'
+                      ? stores.appStore.applicationSetting.navbarIconColor ||
+                        '#ffffff'
                       : stores.appStore.applicationSetting.navbarIconColor,
                   size: 22,
                 }}
@@ -103,7 +104,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                     <Icons.IconContext
                       color={
                         stores.appStore.applicationSetting.theme === 'dark'
-                          ? '#ffffff'
+                          ? stores.appStore.applicationSetting
+                              .navbarIconColor || '#ffffff'
                           : stores.appStore.applicationSetting
                               .navbarIconColor || '#000'
                       }
@@ -218,7 +220,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                     <Icons.IconContext
                       color={`${
                         stores.appStore.applicationSetting.theme === 'dark'
-                          ? '#ffffff'
+                          ? stores.appStore.applicationSetting
+                              .navbarIconColor || '#ffffff'
                           : stores.appStore.applicationSetting
                               .navbarIconColor || '#000'
                       }`}
