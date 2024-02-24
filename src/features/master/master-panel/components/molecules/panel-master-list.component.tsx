@@ -25,6 +25,7 @@ import {
 } from '../index';
 import { FormHelper } from '@/helper';
 import { AutoCompleteCompanyList } from '@/core-components';
+import { AutoCompleteScheduleName } from '../organsims/auto-complete-schedule.component';
 
 let rLab;
 let pLab;
@@ -574,25 +575,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <select
-                    className={
-                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-                    }
-                    onChange={e => {
-                      const schedule = e.target.value;
+                  <AutoCompleteScheduleName
+                    onSelect={item => {
                       props.onUpdateItem &&
-                        props.onUpdateItem(schedule, column.dataField, row._id);
+                        props.onUpdateItem(item, 'schedule', row._id);
                     }}
-                  >
-                    <option selected>Select</option>
-                    {props.extraData.listDeliverySchedule.map(
-                      (item: any, index: number) => (
-                        <option key={index} value={item.schCode}>
-                          {`${item.schCode}`}
-                        </option>
-                      ),
-                    )}
-                  </select>
+                  />
                 </>
               ),
             },
