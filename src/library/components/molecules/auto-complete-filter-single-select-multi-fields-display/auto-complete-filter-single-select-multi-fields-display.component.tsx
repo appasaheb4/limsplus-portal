@@ -59,8 +59,13 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
     setOptions(data.list);
   }, [data]);
 
+  // pv in save record showing exits data so we need remove this condition
+  // useEffect(() => {
+  //   if (!_.isEmpty(displayValue)) setValue(displayValue);
+  // }, [displayValue]);
+
   useEffect(() => {
-    if (!_.isEmpty(displayValue)) setValue(displayValue);
+    setValue(displayValue);
   }, [displayValue]);
 
   const onChange = e => {

@@ -52,7 +52,7 @@ interface TableBootstrapReportProps {
   ) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
-  onCheckHoldRecord?: (item: string) => void;
+  onFindDeliveryStatus?: (item: string) => void;
 }
 export const TableBootstrapReport = ({
   id,
@@ -77,7 +77,7 @@ export const TableBootstrapReport = ({
   onPagination,
   clearAllFilter,
   onClickRow,
-  onCheckHoldRecord,
+  onFindDeliveryStatus,
 }: TableBootstrapReportProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -95,12 +95,14 @@ export const TableBootstrapReport = ({
   };
 
   const statusData = [
+    { code: 'Hold', value: 'Hold', color: 'green' },
+    { code: 'UnHold', value: 'UnHold', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
     { code: 'Balance', value: 'Balance', color: 'pink' },
     { code: 'Hold', value: 'Hold', color: 'green' },
     { code: 'Cancel', value: 'Cancel', color: 'red' },
     { code: 'Done', value: 'Done', color: 'orange' },
-    { code: '', value: 'All', color: 'indigo' },
+    { code: 'All', value: 'All', color: 'red' },
   ];
 
   const sizePerPageRenderer = ({
@@ -391,8 +393,8 @@ export const TableBootstrapReport = ({
                   {statusData.map(status => (
                     <button
                       key={status.code}
-                      className={`bg-${status.color}-600 ml-2 px-4 py-2 focus:outline-none items-center outline shadow-sm font-medium w-28 text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed`}
-                      onClick={() => onCheckHoldRecord?.(status.code)}
+                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                      onClick={() => onFindDeliveryStatus?.(status.code)}
                     >
                       {status.value}
                     </button>

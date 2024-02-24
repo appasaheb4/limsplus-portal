@@ -364,10 +364,6 @@ const Dashboard = ({ children }) => {
     }
   };
 
-  // const loader = async () => {
-  //   await RoleMappping.startup();
-  // };
-
   useEffect(() => {
     //buz reload page after not showing delete and update so added settimeout
     stores.rootStore.isLogin().then(isLogin => {
@@ -390,23 +386,6 @@ const Dashboard = ({ children }) => {
       });
     });
   }, []);
-
-  // issue come realod then going default dashboard page so added dependancy
-  // useEffect(() => {
-  //   stores.rootStore.isLogin().then(isLogin => {
-  //     loadApi();
-  //     // if (!isLogin && !isLogined) history.push('/');
-  //     // else {
-  //     //   let count = 0;
-  //     //   history.listen(async (location, action) => {
-  //     //     await loadApi();
-  //     //     count = 1;
-  //     //   });
-  //     //   count == 0 && loadApi();
-  //     // }
-  //   });
-  //   window.scrollTo(0, 0);
-  // }, [history.pathname]);
 
   useEffect(
     () =>

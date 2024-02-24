@@ -71,7 +71,7 @@ interface ReportDeliveryProps {
   onClickRow?: (item: any, index: number) => void;
   onExpand?: (items: any) => void;
   holdRecord?: any;
-  setHoldRecord?: (item: string) => void;
+  onFindDeliveryStatus?: (item: string) => void;
 }
 
 export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
@@ -84,6 +84,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
         case 'Hold': {
           return data.filter(item => item.deliveryStatus === 'Hold');
         }
+        case 'UnHold': {
+          return data.filter(item => item.deliveryStatus === 'UnHold');
+        }
         case 'Pending': {
           return data.filter(item => item.deliveryStatus === 'Pending');
         }
@@ -95,7 +98,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
         }
       }
     };
-
     setSelectId(props.selectedId || '');
     setLocalData(
       props.selectedId
@@ -695,7 +697,8 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                           color={
                             row?.deliveryStatus !== 'Done' &&
                             row?.deliveryStatus !== 'Cancel' &&
-                            row?.deliveryStatus !== 'Hold'
+                            row?.deliveryStatus !== 'Hold' &&
+                            row?.deliveryStatus !== 'UnHold'
                               ? '#ffffff'
                               : '#5A5A5A'
                           }
@@ -704,11 +707,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                             if (
                               row?.deliveryStatus !== 'Done' &&
                               row?.deliveryStatus !== 'Cancel' &&
-                              row?.deliveryStatus !== 'Hold'
+                              row?.deliveryStatus !== 'Hold' &&
+                              row?.deliveryStatus !== 'UnHold'
                             ) {
                               props.onUpdate &&
                                 props.onUpdate({
-                                  type: 'done',
+                                  type: 'Done',
                                   visitId: row?.visitId,
                                   show: true,
                                   id: row._id,
@@ -725,7 +729,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                     {props.isHold && (
                       <Tooltip
                         tooltipText={`${
-                          row?.deliveryStatus === 'Hold' ? 'Unhold' : 'Hold'
+                          row?.deliveryStatus === 'Hold' ? 'UnHold' : 'Hold'
                         }`}
                         position='bottom'
                       >
@@ -740,7 +744,10 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                             if (row?.deliveryStatus !== 'Cancel') {
                               props.onUpdate &&
                                 props.onUpdate({
-                                  type: 'hold',
+                                  type:
+                                    row?.deliveryStatus === 'Hold'
+                                      ? 'UnHold'
+                                      : 'Hold',
                                   visitId: row?.visitId,
                                   show: true,
                                   id: row._id,
@@ -759,6 +766,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         <Icons.IconContext
                           color={
                             row?.deliveryStatus !== 'Hold' &&
+                            row?.deliveryStatus !== 'UnHold' &&
                             row?.deliveryStatus !== 'Cancel'
                               ? '#ffffff'
                               : '#5A5A5A'
@@ -767,11 +775,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                           onClick={() => {
                             if (
                               row?.deliveryStatus !== 'Hold' &&
+                              row?.deliveryStatus !== 'UnHold' &&
                               row?.deliveryStatus !== 'Cancel'
                             ) {
                               props.onUpdate &&
                                 props.onUpdate({
-                                  type: 'cancel',
+                                  type: 'Cancel',
                                   visitId: row?.visitId,
                                   show: true,
                                   id: row._id,
@@ -899,8 +908,8 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
           onPagination={type => {
             props.onPagination && props.onPagination(type);
           }}
-          onCheckHoldRecord={item => {
-            props.setHoldRecord && props.setHoldRecord(item);
+          onFindDeliveryStatus={item => {
+            props.onFindDeliveryStatus && props.onFindDeliveryStatus(item);
           }}
         />
       </div>

@@ -17,7 +17,6 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '../style.css';
 import { debounce } from '@/core-utils';
-
 import { Buttons, Icons } from '../..';
 
 const { SearchBar, ClearSearchButton } = Search;
@@ -564,7 +563,7 @@ export const TableBootstrap = ({
   };
 
   const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className='btn-group btn-group-toggle' data-toggle='buttons'>
+    <div className='flex btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
           ...column,
@@ -620,8 +619,8 @@ export const TableBootstrap = ({
           columnToggle
         >
           {props => (
-            <div>
-              <div className='flex items-center flex-wrap flex-row'>
+            <div className='flex flex-col'>
+              <div className='flex items-center flex-wrap'>
                 <SearchBar
                   {...searchProps}
                   {...props.searchProps}
@@ -675,7 +674,7 @@ export const TableBootstrap = ({
                 )}
               </div>
               {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10 '}>
+                <div className={'flex mb-2 overflow-auto h-10'}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'

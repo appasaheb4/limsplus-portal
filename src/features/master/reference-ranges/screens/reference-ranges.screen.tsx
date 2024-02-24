@@ -27,6 +27,7 @@ import { toJS } from 'mobx';
 import { resetReferenceRange } from '../startup';
 import dayjs from 'dayjs';
 import * as XLSX from 'xlsx';
+import { getDays } from '../utils';
 
 const ReferenceRanges = ReferenceRangesHoc(
   observer(() => {
@@ -296,6 +297,12 @@ const ReferenceRanges = ReferenceRangesHoc(
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
+          const days = getDays(
+            item['Age From'],
+            item['Age From Unit'],
+            item['Age To'],
+            item['Age To Unit'],
+          );
           return {
             analyteCode: item['Analyte Code'],
             analyteName: item['Analayte Name'],
@@ -311,6 +318,8 @@ const ReferenceRanges = ReferenceRangesHoc(
             ageFromUnit: item['Age From Unit'],
             ageTo: item['Age To'],
             ageToUnit: item['Age To Unit'],
+            daysAgeFrom: days?.daysAgeFrom,
+            daysAgeTo: days?.daysAgeTo,
             low: item.Low,
             high: item.High,
             alpha: item.Alpha,
@@ -329,6 +338,8 @@ const ReferenceRanges = ReferenceRangesHoc(
             status: 'D',
           };
         });
+        console.log({ list });
+
         setArrImportRecords(list);
       });
       reader.readAsBinaryString(file);
@@ -355,8 +366,9 @@ const ReferenceRanges = ReferenceRangesHoc(
         'status',
         'environment',
       ];
+
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields, status }[item]?.toString())) return item;
       });
       if (isEmpty) {
         Toast.error({

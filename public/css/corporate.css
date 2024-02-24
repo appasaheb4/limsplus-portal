@@ -10205,7 +10205,8 @@ html[data-useragent*='MSIE 10.0'] .toggled.sidebar-collapsed {
   overflow: hidden; }
 
 .overflow-auto {
-  overflow: auto; }
+  /* overflow: auto; */
+  }
 
 .overflow-visible {
   overflow: visible; }
