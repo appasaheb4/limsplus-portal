@@ -1,5 +1,10 @@
 /* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
+import { Form } from '..';
+import { Container } from 'reactstrap';
+import { stores } from '@/stores';
+import * as Assets from '@/library/assets';
+import { CiSearch } from 'react-icons/ci';
 
 // export const textFilter = props => {
 //   const filter = value => {
@@ -238,60 +243,139 @@ export const DateFilter = props => {
 export const DateRangeFilter = props => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const endDateRef = useRef<any>(null);
-  const startDateRef = useRef(null);
-
-  useEffect(() => {
-    if (startDateRef.current && endDateRef.current) {
-      if (startDate) {
-        endDateRef.current.click();
-      }
-    }
-  }, [startDate]);
-
-  const filter = (startDate, endDate) => {
-    let filterData: any = {};
-    if (startDate) {
-      filterData.startDate = startDate;
-    }
-    if (endDate) {
-      filterData.endDate = endDate;
-    }
-    props.onFilter(filterData);
-  };
+  const [datesFilled, setDatesFilled] = useState(false);
 
   const handleStartDateChange = e => {
     const date = e.target.value;
     setStartDate(date);
-    setEndDate(null);
-    filter(date, null);
+    setEndDate(date);
+    setDatesFilled(!!date);
   };
 
   const handleEndDateChange = e => {
     const date = e.target.value;
     setEndDate(date);
-    filter(startDate, date);
+    setDatesFilled(!!startDate && !!date);
   };
 
   return (
-    <>
-      <div className='flex flex-row gap-2 items-center'>
+    <Container>
+      <div className='flex flex-row gap-2'>
         <span className='text-white text-sm'>{props.column?.text}</span>
-        <input
-          ref={startDateRef}
-          type='date'
-          value={startDate || ''}
-          onChange={handleStartDateChange}
-          className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1 `}
-        />
-        <input
-          ref={endDateRef}
-          type='date'
-          value={endDate || ''}
-          onChange={handleEndDateChange}
-          className={`leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1`}
-        />
+        <CiSearch onClick={() => props.setShowModal(true)} size={20} />
       </div>
-    </>
+      {props.showModal && (
+        <>
+          <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+            <div className='relative w-auto my-6 mx-auto max-w-3xl'>
+              <div
+                className={`border-0 rounded-lg shadow-lg relative flex flex-col w-full ${
+                  stores.appStore.applicationSetting.theme === 'dark'
+                    ? 'dark:bg-boxdark'
+                    : 'bg-white'
+                }  outline-none focus:outline-none`}
+              >
+                <div>
+                  <button
+                    className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
+                    onClick={() => props.setShowModal(false)}
+                  >
+                    <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
+                      ×
+                    </span>
+                  </button>
+                </div>
+                <div className='flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
+                  <div className='items-center justify-center flex mb-2'>
+                    <img
+                      src={
+                        stores.appStore.applicationSetting.theme === 'dark'
+                          ? Assets.images.limsplusTran
+                          : Assets.images.linplusLogo
+                      }
+                      className='img-fluid'
+                      style={{
+                        width: '200px',
+                        height: '122px',
+                        marginTop: '-40px',
+                      }}
+                      alt='lims plus'
+                    />
+                  </div>
+                  <div>
+                    <div className='items-center justify-center flex'>
+                      <span className='text-4xl text-black'>Date Range</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='relative p-2'>
+                  <div className='flex flex-row gap-2 '>
+                    <div>
+                      <Form.InputWrapper
+                        label='From Date'
+                        style={{ paddingLeft: '5px' }}
+                      >
+                        <input
+                          type='date'
+                          value={startDate || ''}
+                          onChange={handleStartDateChange}
+                          className={
+                            'leading-4 w-full p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1 '
+                          }
+                        />
+                      </Form.InputWrapper>
+                    </div>
+                    <div>
+                      <Form.InputWrapper
+                        label='To Date'
+                        style={{ paddingLeft: '5px' }}
+                      >
+                        <input
+                          type='date'
+                          value={endDate || ''}
+                          onChange={handleEndDateChange}
+                          className={
+                            'leading-4 p-2 w-full focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black ml-1'
+                          }
+                        />
+                      </Form.InputWrapper>
+                    </div>
+                  </div>
+                </div>
+
+                <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>
+                  <button
+                    className={`bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ${
+                      !datesFilled && 'opacity-50 cursor-not-allowed'
+                    }`}
+                    type='button'
+                    style={{ transition: 'all .15s ease' }}
+                    onClick={() => {
+                      props.setShowModal(false);
+                      props.onFilter && props.onFilter({ startDate, endDate });
+                      setStartDate(null);
+                      setEndDate(null);
+                      setDatesFilled(false);
+                    }}
+                    disabled={!datesFilled}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
+                    type='button'
+                    style={{ transition: 'all .15s ease' }}
+                    onClick={() => props.setShowModal(false)}
+                  >
+                    No
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+    </Container>
   );
 };
