@@ -96,6 +96,7 @@ interface MasterAnalyteProps {
 
 export const MasterAnalyteList = (props: MasterAnalyteProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
+  const [showModal, setShowModal] = useState(false);
 
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
@@ -104,25 +105,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
   const todayDate = new Date();
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
-
-  function priceFormatter(column, colIndex) {
-    return (
-      <div className='flex flex-row gap-1 items-center'>
-        <span>{column.text}</span>
-        <CiSearch
-          size={20}
-          fontWeight={'bold'}
-          style={{ cursor: 'pointer' }}
-          onClick={() =>
-            props.setModalDateRange?.({
-              filter: column.dataField,
-              show: true,
-            })
-          }
-        />
-      </div>
-    );
-  }
 
   return (
     <>
@@ -1279,12 +1261,12 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader13',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -1295,7 +1277,12 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateRangeFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter
+                  onFilter={onFilter}
+                  column={column}
+                  setShowModal={setShowModal}
+                  showModal={showModal}
+                />
               ),
               formatter: (cell, row) => {
                 return (
@@ -1329,26 +1316,34 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader1',
-              headerFormatter: priceFormatter,
-              sortCaret: (order, column) => sortCaret(order, column),
+              headerClasses: 'textHeader',
+              // sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
                   : '',
-
+              filter: customFilter({
+                getFilter: filter => {
+                  dateActive = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateRangeFilter
+                  onFilter={onFilter}
+                  column={column}
+                  setShowModal={setShowModal}
+                  showModal={showModal}
+                />
+              ),
               formatter: (cell, row) => {
                 return (
                   <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>
                 );
               },
-              // filterRenderer: (onFilter, column) => (
-              //   <ModalDateRangeFilter
-              //     onFilter={onFilter}
-              //     column={column}
-              //     show={false}
-              //   />
-              // ),
               editorRenderer: (
                 editorProps,
                 value,
@@ -1377,12 +1372,12 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               text: 'Date Expiry',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? dayjs(row.dateExpire).format('YYYY-MM-DD')
@@ -1405,7 +1400,12 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter
+                  onFilter={onFilter}
+                  column={column}
+                  setShowModal={setShowModal}
+                  showModal={showModal}
+                />
               ),
               formatter: (cell, row) => {
                 return (
