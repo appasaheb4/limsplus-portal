@@ -91,7 +91,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   <div className='flex'>
                     <img
                       src={row.sex == 'M' ? icons.male : icons.female}
-                      style={{ width: 80, height: 40 }}
+                      style={{ width: 80, height: 20 }}
                       alt='male'
                     />
                   </div>
@@ -564,35 +564,45 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       <>
                         <Buttons.Button
                           size='small'
-                          type='outline'
-                          buttonClass='text-white'
+                          // type='outline'
+                          // buttonClass='text-white'
                           disabled={!row?.flagUpdate}
-                          onClick={() => {
-                            if (!row?.result)
-                              return alert('Please enter result value ');
-                            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                            props.onSaveFields &&
-                              props.onSaveFields(
-                                {
-                                  ...row,
-                                  resultStatus: getResultStatus(
-                                    row.resultType,
-                                    row,
-                                  ),
-                                  testStatus: getTestStatus(
-                                    row.resultType,
-                                    row,
-                                  ),
-                                  abnFlag: getAbnFlag(row.resultType, row),
-                                  critical: getCretical(row.resultType, row),
-                                  updateType: 'save',
-                                },
-                                row._id,
-                                'save',
-                              );
-                          }}
                         >
-                          {'Update'}
+                          <Tooltip tooltipText='Update'>
+                            <Icons.IconContext
+                              color='#fff'
+                              size='20'
+                              onClick={() => {
+                                if (!row?.result)
+                                  return alert('Please enter result value ');
+                                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                                props.onSaveFields &&
+                                  props.onSaveFields(
+                                    {
+                                      ...row,
+                                      resultStatus: getResultStatus(
+                                        row.resultType,
+                                        row,
+                                      ),
+                                      testStatus: getTestStatus(
+                                        row.resultType,
+                                        row,
+                                      ),
+                                      abnFlag: getAbnFlag(row.resultType, row),
+                                      critical: getCretical(
+                                        row.resultType,
+                                        row,
+                                      ),
+                                      updateType: 'save',
+                                    },
+                                    row._id,
+                                    'save',
+                                  );
+                              }}
+                            >
+                              {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                            </Icons.IconContext>
+                          </Tooltip>
                         </Buttons.Button>
                       </>
                     </div>

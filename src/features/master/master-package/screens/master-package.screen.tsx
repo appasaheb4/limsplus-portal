@@ -371,7 +371,7 @@ const MasterPackage = MasterPackageHOC(
             serviceType: item['Service Type'],
             panelName: item['Panel Code'],
             panelCode: item['Panel Name'],
-            reportOrder: undefined,
+            reportOrder: 1,
             bill: item.Bill === 'Yes' ? true : false,
             printPackageName:
               item['Print Package Name'] === 'Yes' ? true : false,
