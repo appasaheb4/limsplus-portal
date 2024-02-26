@@ -998,8 +998,7 @@ export const CompanyList = (props: CompanyListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            editable: (content, row, rowIndex, columnIndex) =>
-              row?.status == 'D' || row?.status == 'I' ? false : true,
+            editable: (content, row, rowIndex, columnIndex) => false,
             sortCaret: (order, column) => sortCaret(order, column),
             formatter: (cell, row) => {
               return <>{row?.environment?.join(',')}</>;

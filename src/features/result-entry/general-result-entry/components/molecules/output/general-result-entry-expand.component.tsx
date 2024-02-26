@@ -434,7 +434,7 @@ export const GeneralResultEntryExpand = ({
                     </Buttons.Button>
                   )}
 
-                  <div className='flex gap-2'>
+                  <div className='flex'>
                     {statusData.map(status => (
                       <button
                         key={status.code}
@@ -456,7 +456,7 @@ export const GeneralResultEntryExpand = ({
                   </button>
                 </div>
 
-                <div className='flex justify-end gap-4'>
+                <div className='flex justify-end gap-2'>
                   {testStatus.map(status => (
                     <button
                       key={status.code}

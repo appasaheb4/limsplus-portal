@@ -2296,6 +2296,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   registrationLocationsStore.updateRegistrationLocations({
                     ...modalConfirm.data,
                     _id: undefined,
+                    priceList: [{ id: 0, maxDis: 0 }],
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),
