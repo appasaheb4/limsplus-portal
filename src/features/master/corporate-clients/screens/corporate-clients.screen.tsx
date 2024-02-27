@@ -426,7 +426,7 @@ const CorporateClients = CorporateClientsHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD hh:mm:ss'),
             ),
-            version: item.Version,
+            version: 1,
             enteredBy: loginStore.login.userId,
             environment: item?.Environment,
             companyCode: item['Company Code'],
