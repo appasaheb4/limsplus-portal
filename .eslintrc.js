@@ -109,6 +109,7 @@ module.exports = {
     'react/jsx-key': 'off',
     'no-async-promise-executor': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
+    'unicorn/prefer-dom-node-append': 'off',
     '@typescript-eslint/ban-types': [
       'error',
       {
