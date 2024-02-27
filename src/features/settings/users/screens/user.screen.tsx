@@ -359,7 +359,7 @@ export const Users = UsersHoc(
             validationLevel: Number.parseInt(item['Validation Level'] || 0),
             dateOfBirth: item['Birth Date'],
             marriageAnniversary: item['Marriage Anniversary'],
-            exipreDate: item['Expire Date'],
+            exipreDate: dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
             confidential: item.Confidential === 'Yes' ? true : false,
             confirguration: item.Confirguration === 'Yes' ? true : false,
             systemInfo: {
