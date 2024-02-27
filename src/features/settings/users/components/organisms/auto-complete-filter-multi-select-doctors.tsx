@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
-import { AutoCompleteFilterMutiSelectMultiFieldsDisplay } from '@/library/components';
+import {
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+} from '@/library/components';
 import { useStores } from '@/stores';
 
 interface AutoCompleteProps {
@@ -49,7 +52,7 @@ export const AutoCompleteFilterMultiSelectDoctors = observer(
     return (
       <>
         <div ref={wrapperRef} className='w-full relative'>
-          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+          <AutoCompleteFilterMultiSelectSelectedTopDisplay
             loader={loading}
             placeholder='Search by code or name'
             data={{
@@ -63,6 +66,7 @@ export const AutoCompleteFilterMultiSelectDoctors = observer(
               selected: userStore.selectedItems?.doctors,
               displayKey: ['doctorCode', 'doctorName'],
             }}
+            dynamicCheck='doctorCode'
             hasError={false}
             onUpdate={item => {
               const doctors = userStore.selectedItems?.doctors;

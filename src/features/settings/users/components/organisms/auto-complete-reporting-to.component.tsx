@@ -1,15 +1,15 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from '@/library/components';
 
 interface AutoCompleteReportingToProps {
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteReportingTo = observer(
-  ({onSelect}: AutoCompleteReportingToProps) => {
-    const {loading, userStore} = useStores();
+  ({ onSelect }: AutoCompleteReportingToProps) => {
+    const { loading, userStore } = useStores();
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay

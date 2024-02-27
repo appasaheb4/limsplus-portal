@@ -1,7 +1,7 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {AutoCompleteFilterSingleSelectMultiFieldsDisplay} from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { AutoCompleteFilterSingleSelectMultiFieldsDisplay } from '@/library/components';
 
 interface AutoCompleteDefaultDepartmentProps {
   defaultLab: string;
@@ -9,8 +9,8 @@ interface AutoCompleteDefaultDepartmentProps {
 }
 
 export const AutoCompleteDefaultDepartment = observer(
-  ({defaultLab, onSelect}: AutoCompleteDefaultDepartmentProps) => {
-    const {loading, departmentStore, labStore, userStore} = useStores();
+  ({ defaultLab, onSelect }: AutoCompleteDefaultDepartmentProps) => {
+    const { loading, departmentStore, labStore, userStore } = useStores();
     return (
       <>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
