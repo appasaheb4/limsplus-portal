@@ -1,10 +1,10 @@
 /* eslint-disable  */
-import React, {useEffect, useState} from 'react';
-import {Container} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'reactstrap';
 import _ from 'lodash';
-import {Icons, Tooltip, Form, Modal} from '@components';
-import {pdf, PDFViewer, Document} from '@react-pdf/renderer';
-
+import { Icons, Tooltip, Form } from '@components';
+import { pdf, PDFViewer, Document } from '@react-pdf/renderer';
+import { ModalDeliveryQueueReports } from './modal-delivery-queue-reports.component';
 import {
   PdfTemp0001,
   PdfTemp0002,
@@ -15,7 +15,6 @@ import {
   PdfTemp0007,
   PdfTemp0008,
 } from '@/features/report-builder/report-template/components';
-
 import printjs from 'print-js';
 
 interface ModalGenerateReportsProps {
@@ -119,7 +118,6 @@ export const ModalGenerateReports = ({
                   />
                 ),
               )}
-
             {item.template == 'TEMP0003' &&
               _.uniqBy(item?.patientReports, 'labId').map(
                 (patientReports: any) => (
@@ -285,13 +283,13 @@ export const ModalGenerateReports = ({
                   <div className='flex flex-row items-center justify-center gap-2'>
                     {data && (
                       <div className='flex flex-col gap-3'>
-                        <Form.InputRadio 
+                        <Form.InputRadio
                           label='Report Type'
-                          labelStyle={{fontWeight: 'bold', fontSize: 16}}
+                          labelStyle={{ fontWeight: 'bold', fontSize: 16 }}
                           value={isWithHeader ? 'withHeader' : 'withoutHeader'}
                           values={[
-                            {value: 'withHeader', label: 'With Header'},
-                            {value: 'withoutHeader', label: 'Without Header'},
+                            { value: 'withHeader', label: 'With Header' },
+                            { value: 'withoutHeader', label: 'Without Header' },
                           ]}
                           onChange={value => {
                             setWithHeader(value == 'withHeader' ? true : false);
@@ -357,7 +355,7 @@ export const ModalGenerateReports = ({
                   <button
                     className='text-red background-transparent font-bold uppercase  text-sm outline-none focus:outline-none'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={() => {
                       setShowModal(false);
                       onClose && onClose();
@@ -373,12 +371,14 @@ export const ModalGenerateReports = ({
         </>
       )}
 
-      <Modal
+      <ModalDeliveryQueueReports
         title='Delivery Queue Reports'
         show={isPdfViewer}
+        reportList={reportList}
         close={() => {
           setPdfViewer(false);
         }}
+        onGetReports={() => getReports(reportList)}
         autoClose={
           _.has(reportList, 'TEMP0007')
             ? _.size(reportList) == 1
