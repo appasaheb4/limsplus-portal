@@ -208,8 +208,6 @@ const DeliveryQueue = observer(() => {
           }
         });
     } else {
-      console.log({ ids, visitId });
-
       await deliveryQueueStore.deliveryQueueService
         .updateDeliveryQueueByVisitIds({
           input: {
