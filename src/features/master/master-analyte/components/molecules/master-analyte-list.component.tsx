@@ -90,13 +90,10 @@ interface MasterAnalyteProps {
     dataField: string,
     id: string,
   ) => void;
-  setModalDateRange?: any;
-  modalDetailsDateRange?: any;
 }
 
 export const MasterAnalyteList = (props: MasterAnalyteProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
-  const [showModal, setShowModal] = useState(false);
 
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
@@ -1277,12 +1274,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateRangeFilter
-                  onFilter={onFilter}
-                  column={column}
-                  setShowModal={setShowModal}
-                  showModal={showModal}
-                />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -1332,12 +1324,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateRangeFilter
-                  onFilter={onFilter}
-                  column={column}
-                  setShowModal={setShowModal}
-                  showModal={showModal}
-                />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -1400,12 +1387,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateRangeFilter
-                  onFilter={onFilter}
-                  column={column}
-                  setShowModal={setShowModal}
-                  showModal={showModal}
-                />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -1457,6 +1439,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sort: true,
               headerStyle: {
                 fontSize: 0,
+                zIndex: 1,
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
@@ -1476,6 +1459,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sort: true,
               headerStyle: {
                 fontSize: 0,
+                zIndex: 1,
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
@@ -1531,6 +1515,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sort: true,
               headerStyle: {
                 fontSize: 0,
+                zIndex: 1,
               },
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
@@ -1773,7 +1758,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
           }}
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size);
-            props.setModalDateRange(false);
           }}
           clearAllFilter={() => {
             lab('');
