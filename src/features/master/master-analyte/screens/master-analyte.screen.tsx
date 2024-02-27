@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -44,7 +41,6 @@ const MasterAnalyte = MasterAnalyteHoc(
       departmentStore,
       libraryStore,
     } = useStores();
-
     const {
       control,
       handleSubmit,
@@ -275,6 +271,8 @@ const MasterAnalyte = MasterAnalyteHoc(
             global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
+            console.log({ type, filter, page, limit });
+
             masterAnalyteStore.masterAnalyteService.filter({
               input: { type, filter, page, limit },
             });
