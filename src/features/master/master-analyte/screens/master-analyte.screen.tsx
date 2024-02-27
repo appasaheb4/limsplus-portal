@@ -277,11 +277,11 @@ const MasterAnalyte = MasterAnalyteHoc(
             global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
+            console.log(filter, 'Filter');
             masterAnalyteStore.masterAnalyteService.filter({
               input: { type, filter, page, limit },
             });
             global.filter = { mode: 'filter', type, filter, page, limit };
-            setModalDateRange(false);
           }}
           onApproval={async records => {
             const isExists = await checkExistsRecords(records);
@@ -301,8 +301,6 @@ const MasterAnalyte = MasterAnalyteHoc(
               [dataField]: value,
             });
           }}
-          setModalDateRange={setModalDateRange}
-          modalDetailsDateRange={modalDetailsDateRange}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -2094,24 +2092,6 @@ const MasterAnalyte = MasterAnalyteHoc(
             onClose={() => {
               setModalConfirm({ show: false });
             }}
-          />
-          <ModalDateRangeFilter
-            onFilter={(startDate, endDate) => {
-              setModalDateRange({ show: false });
-              masterAnalyteStore.masterAnalyteService.filter({
-                input: {
-                  type: 'filter',
-                  filter: {
-                    [modalDetailsDateRange?.filter]: { startDate, endDate },
-                  },
-                  page: 0,
-                  limit: 10,
-                },
-              });
-            }}
-            show={modalDetailsDateRange?.show}
-            onClose={() => setModalDateRange({ show: false })}
-            close={() => setModalDateRange({ show: false })}
           />
         </div>
       </>
