@@ -13,6 +13,7 @@ import {
   Toast,
   sortCaret,
   ModalDateTime,
+  DateRangeFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import {
@@ -1672,12 +1673,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'dateCreation',
               text: 'Date Creation',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? daysjs(row.dateCreation).format('YYYY-MM-DD')
@@ -1689,7 +1690,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -1722,12 +1723,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'dateActive',
               text: 'Date Active',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? daysjs(row.dateActive || 0).format('YYYY-MM-DD')
@@ -1739,7 +1740,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -1774,12 +1775,12 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             {
               dataField: 'dateExpire',
               text: 'Date Expiry',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? daysjs(row.dateExpire || 0).format('YYYY-MM-DD')
@@ -1792,7 +1793,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -2092,7 +2093,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             specalInstructions('');
             internalComments('');
             externalComments('');
-            panelBottomMarker('');
+            // panelBottomMarker('');
             panelRightMarker('');
             status('');
             environment('');
