@@ -24,9 +24,8 @@ import {
   AutoCompleteAnalyteBottomMarker,
 } from '../index';
 import { FormHelper } from '@/helper';
-import { AutoCompleteCompanyList, InputResult } from '@/core-components';
-import { CiSearch } from 'react-icons/ci';
-import { ModalDateRangeFilter } from '@/library/components/molecules/modal/modal-date-filter/modal-date-filter.component';
+import { InputResult } from '@/core-components';
+
 let lab;
 let analyteCode;
 let analyteName;
@@ -1769,7 +1768,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             analyteMethodName('');
             calcyName('');
             high('');
-            low('');
             picture('');
             units('');
             usage('');

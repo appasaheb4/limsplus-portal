@@ -12,6 +12,7 @@ import {
   Form,
   sortCaret,
   ModalDateTime,
+  DateRangeFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import {
@@ -569,12 +570,12 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation).format('YYYY-MM-DD')
@@ -585,7 +586,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -618,12 +619,12 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: 'dateActive',
               text: 'Date Active',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: (col, row) =>
                 row.dateActive
@@ -635,7 +636,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -668,12 +669,12 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             {
               dataField: 'dateExpire',
               text: 'Date Expiry',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvFormatter: (col, row) =>
@@ -686,7 +687,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -948,8 +949,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {
-            lab('');
-            analyteCode('');
+            // analyteCode('');
             analyteName('');
             testCode('');
             testName('');
