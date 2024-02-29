@@ -81,7 +81,10 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss');
+                  return (
+                    row.invoiceDate &&
+                    dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss')
+                  );
                 },
               },
               {
@@ -90,7 +93,10 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return dayjs(row.actionDate).format('DD-MM-YYYY HH:mm:ss');
+                  return (
+                    row.actionDate &&
+                    dayjs(row.actionDate).format('DD-MM-YYYY HH:mm:ss')
+                  );
                 },
               },
               {
@@ -99,8 +105,9 @@ export const TransactionHeaderList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return dayjs(row.registrationDate).format(
-                    'DD-MM-YYYY HH:mm:ss',
+                  return (
+                    row.registrationDate &&
+                    dayjs(row.registrationDate).format('DD-MM-YYYY HH:mm:ss')
                   );
                 },
               },

@@ -530,7 +530,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
             ),
-            version: item.Version,
+            version: 1,
             enteredBy: loginStore.login.userId,
             openingTime: item['Opening Time'],
             closingTime: item['Closing Time'],

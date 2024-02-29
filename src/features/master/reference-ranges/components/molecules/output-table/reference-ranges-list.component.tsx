@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
-  DateFilter,
+  DateRangeFilter,
   TableBootstrap,
   textFilter,
   Icons,
@@ -1086,12 +1086,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
@@ -1102,7 +1102,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -1136,12 +1136,12 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
@@ -1152,7 +1152,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -1187,7 +1187,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               text: 'Date Expiry',
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1203,7 +1203,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (

@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
-  DateFilter,
+  DateRangeFilter,
   Icons,
   Tooltip,
   textFilter,
@@ -1121,12 +1121,12 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: 'dateCreation',
             text: 'Date Creation',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
@@ -1138,7 +1138,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return (
@@ -1171,12 +1171,12 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
                 ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
@@ -1188,7 +1188,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>;
@@ -1215,12 +1215,12 @@ export const DoctorsList = (props: DoctorsListProps) => {
           {
             dataField: 'dateExpire',
             text: 'Date Expiry',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
                 ? dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')
@@ -1232,7 +1232,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;

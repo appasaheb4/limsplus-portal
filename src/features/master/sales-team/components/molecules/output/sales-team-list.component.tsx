@@ -7,7 +7,7 @@ import {
   Icons,
   Tooltip,
   NumberFilter,
-  DateFilter,
+  DateRangeFilter,
   customFilter,
   Form,
   sortCaret,
@@ -238,12 +238,12 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'dateCreation',
             text: 'Date Creation',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
@@ -255,7 +255,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return (
@@ -288,12 +288,12 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
                 ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
@@ -305,7 +305,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>;
@@ -332,12 +332,12 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'dateExpire',
             text: 'Date Expiry',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
                 ? dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')
@@ -349,7 +349,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;

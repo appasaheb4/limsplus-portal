@@ -11,6 +11,7 @@ import {
   customFilter,
   sortCaret,
   MainPageHeading,
+  DateRangeFilter,
 } from '@/library/components';
 import dayjs from 'dayjs';
 import { useStores } from '@/stores';
@@ -156,19 +157,19 @@ const LoginActivity = observer(() => {
                 {
                   dataField: 'dateOfEntry',
                   text: 'In',
-                  headerClasses: 'textHeader11',
-                  sort: true,
+                  headerClasses: 'textHeader',
+                  // sort: true,
                   headerStyle: {
                     fontSize: 0,
                   },
-                  sortCaret: (order, column) => sortCaret(order, column),
+                  // sortCaret: (order, column) => sortCaret(order, column),
                   csvFormatter: (cell, row, rowIndex) =>
                     row.dateOfEntry
                       ? dayjs(row.dateOfEntry).format('YYYY-MM-DD h:mm:ss a')
                       : '',
                   filter: customFilter(),
                   filterRenderer: (onFilter, column) => (
-                    <DateFilter onFilter={onFilter} column={column} />
+                    <DateRangeFilter onFilter={onFilter} column={column} />
                   ),
                   formatter: (cell, row) => {
                     return dayjs(
