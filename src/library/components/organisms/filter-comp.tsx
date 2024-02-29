@@ -304,14 +304,18 @@ export const DateRangeFilter = props => {
     <>
       <div className='flex flex-row gap-2'>
         <span className='text-white text-sm'>{props.column?.text}</span>
-        <CiSearch onClick={() => setShowModal(true)} size={20} />
+        <CiSearch
+          onClick={() => setShowModal(true)}
+          style={{ cursor: 'pointer' }}
+          size={20}
+        />
       </div>
       <Container>
         {showModal && (
           <>
             <div
               className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none z-50'
-              style={{ top: '170px' }}
+              style={{ top: '180px' }}
             >
               <div className='relative w-auto my-6 mx-auto max-w-3xl '>
                 <div
@@ -342,7 +346,7 @@ export const DateRangeFilter = props => {
                         className='img-fluid'
                         style={{
                           width: '200px',
-                          height: '122px',
+                          height: '150px',
                           marginTop: '-40px',
                         }}
                         alt='lims plus'
