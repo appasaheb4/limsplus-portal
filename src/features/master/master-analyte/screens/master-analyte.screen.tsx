@@ -384,7 +384,7 @@ const MasterAnalyte = MasterAnalyteHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
             ),
-            version: item.Version,
+            version: 1,
             maxReportable: item['Max Reportable'],
             interpretation: item.Interpretation,
             environment: item.Environment,
