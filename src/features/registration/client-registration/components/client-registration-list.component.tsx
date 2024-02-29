@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {
   TableBootstrap,
   textFilter,
-  DateFilter,
+  DateRangeFilter,
   customFilter,
   Form,
   Tooltip,
@@ -147,7 +147,7 @@ export const ClientRegistrationList = observer(
             {
               dataField: 'registrationDate',
               text: 'Registration Date',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader',
               csvFormatter: (cell, row, rowIndex) =>
                 `${
                   row?.registrationDate !== undefined
@@ -162,7 +162,7 @@ export const ClientRegistrationList = observer(
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -366,12 +366,12 @@ export const ClientRegistrationList = observer(
             {
               dataField: 'dueDate',
               text: 'Due Date',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (cell, row, rowIndex) =>
                 `${
                   row.dueDate !== undefined
@@ -386,7 +386,7 @@ export const ClientRegistrationList = observer(
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return <>{dayjs(row.dueDate).format('DD-MM-YYYY HH:mm:ss')}</>;
@@ -427,7 +427,7 @@ export const ClientRegistrationList = observer(
             {
               dataField: 'reportDate',
               text: 'Report Date',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader',
               headerStyle: {
                 fontSize: 0,
               },
@@ -445,7 +445,7 @@ export const ClientRegistrationList = observer(
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (

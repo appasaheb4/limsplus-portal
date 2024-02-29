@@ -366,7 +366,7 @@ const MasterAnalyte = MasterAnalyteHoc(
             analyteType: item['Analyte Type'],
             units: item.Units,
             usage: item.Usage,
-            picture: item.Picture,
+            picture: item.picture,
             repetition: item.Repetition === 'Yes' ? true : false,
             instantResult: item['Instant Result'] === 'Yes' ? true : false,
             calcyName: item['Calculation Name'],

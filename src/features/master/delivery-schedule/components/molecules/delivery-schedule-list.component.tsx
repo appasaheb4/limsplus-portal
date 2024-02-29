@@ -9,7 +9,7 @@ import {
   sortCaret,
   ModalDateTime,
   customFilter,
-  DateFilter,
+  DateRangeFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { AutoCompleteCompanyList } from '@/core-components';
@@ -665,12 +665,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               text: 'Sample Received Date',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? dayjs(row.sampleReceivedDate).format('YYYY-MM-DD')
@@ -693,7 +693,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               // formatter: (cell, row) => {
               //   return (
@@ -710,12 +710,12 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               text: 'Report Date',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
 
               // filter: dateFilter({
               //   comparators: [
@@ -735,7 +735,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               // formatter: (cell, row) => {
               //   return (

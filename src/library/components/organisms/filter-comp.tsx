@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect, useRef } from 'react';
-import { Form } from '..';
+import { Form, Toast } from '..';
 import { Container } from 'reactstrap';
 import { stores } from '@/stores';
 import * as Assets from '@/library/assets';
@@ -241,12 +241,13 @@ export const DateFilter = props => {
 };
 
 export const DateRangeFilter = props => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState<string | null>(null);
+  const [endDate, setEndDate] = useState<string | null>(null);
   const [datesFilled, setDatesFilled] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [diffFlag, setDiffFlag] = useState<boolean>(false);
   const [comparator, setComparator] = useState('=');
+  const [selectDateTimePicker, setDateTimePicker] = useState<boolean>(false);
 
   useEffect(() => {
     if (props.column.filter.props.getFilter) {
@@ -268,18 +269,35 @@ export const DateRangeFilter = props => {
       diffFlag,
     });
   };
-
   const handleStartDateChange = e => {
     const date = e.target.value;
+    if (endDate && date > endDate) {
+      alert('Start date cannot be greater than end date');
+      return;
+    }
     setStartDate(date);
-    setEndDate(date);
+    if (!endDate) {
+      setEndDate(date);
+    }
     setDatesFilled(!!date);
   };
 
   const handleEndDateChange = e => {
     const date = e.target.value;
+    if (startDate && date < startDate) {
+      Toast.error({ message: 'End date cannot be less than start date' });
+      return;
+    }
     setEndDate(date);
     setDatesFilled(!!startDate && !!date);
+  };
+
+  const triggerToggle = () => {
+    setDateTimePicker(!selectDateTimePicker);
+    if (selectDateTimePicker) {
+      setStartDate(startDate ? startDate.split('T')[0] : null);
+      setEndDate(endDate ? endDate.split('T')[0] : null);
+    }
   };
 
   return (
@@ -345,7 +363,7 @@ export const DateRangeFilter = props => {
                         From Date
                       </span>
                       <input
-                        type='date'
+                        type={selectDateTimePicker ? 'datetime-local' : 'date'}
                         value={startDate || ''}
                         onChange={handleStartDateChange}
                         className='leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black'
@@ -356,11 +374,48 @@ export const DateRangeFilter = props => {
                         To Date
                       </span>
                       <input
-                        type='date'
+                        type={selectDateTimePicker ? 'datetime-local' : 'date'}
                         value={endDate || ''}
                         onChange={handleEndDateChange}
                         className='leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black'
                       />
+                    </div>
+                    <div className='flex flex-col'>
+                      <span className='dark:text-white text-black text-sm'>
+                        Select Time
+                      </span>
+                      <div
+                        onClick={triggerToggle}
+                        className={`wrg-toggle mr-2 ${
+                          selectDateTimePicker
+                            ? `wrg-toggle--checked`
+                            : `wrg-toggle`
+                        }`}
+                      >
+                        <div
+                          className={
+                            'wrg-toggle-container ' +
+                            (selectDateTimePicker ? 'bg-green-700' : 'bg-black')
+                          }
+                        >
+                          <div className='wrg-toggle-check'>
+                            <span className='text-white ml-1'>Yes</span>
+                          </div>
+                          <div className='wrg-toggle-uncheck'>
+                            <span className='text-white'>No</span>
+                          </div>
+                        </div>
+                        <div
+                          className={`wrg-toggle-circle ${
+                            selectDateTimePicker ? `ml-1` : `mr-1`
+                          }  `}
+                        ></div>
+                        <input
+                          type='checkbox'
+                          aria-label='Toggle Button'
+                          className='wrg-toggle-input'
+                        />
+                      </div>
                     </div>
                   </div>
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
-  DateFilter,
+  DateRangeFilter,
   textFilter,
   customFilter,
   TableBootstrap,
@@ -602,12 +602,12 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -618,7 +618,7 @@ export const PriceListList = (props: PriceListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -654,12 +654,12 @@ export const PriceListList = (props: PriceListProps) => {
               dataField: 'dateActive',
               editable: false,
               text: 'Date Active',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateActive
                   ? dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -670,7 +670,7 @@ export const PriceListList = (props: PriceListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -707,12 +707,12 @@ export const PriceListList = (props: PriceListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               text: 'Date Expiry',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -723,7 +723,7 @@ export const PriceListList = (props: PriceListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (

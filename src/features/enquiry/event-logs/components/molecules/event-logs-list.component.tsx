@@ -8,7 +8,7 @@ import {
   sortCaret,
   NumberFilter,
   customFilter,
-  DateFilter,
+  DateRangeFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -337,12 +337,12 @@ export const EventLogsList = (props: EventLogsListProps) => {
             dataField: 'eventDate',
             text: 'Event Date',
             headerClasses: 'textHeader1',
-            sort: true,
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
             editable: false,
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               getFilter: filter => {
@@ -350,7 +350,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return (

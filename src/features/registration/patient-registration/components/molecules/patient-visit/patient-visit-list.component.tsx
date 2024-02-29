@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
-  DateFilter,
+  DateRangeFilter,
   customFilter,
   textFilter,
   TableBootstrap,
@@ -187,12 +187,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'visitDate',
               text: 'Visit Date',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.visitDate ? dayjs(row.visitDate).format('YYYY-MM-DD') : '',
               filter: customFilter({
@@ -201,7 +201,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -250,12 +250,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'registrationDate',
               text: 'Registration Date',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.registrationDate
                   ? dayjs(row.registrationDate).format('YYYY-MM-DD')
@@ -266,7 +266,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -337,12 +337,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'collectionDate',
               text: 'Collection Date',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.collectionDate
                   ? dayjs(row.collectionDate).format('YYYY-MM-DD')
@@ -353,7 +353,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -412,12 +412,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'dueDate',
               text: 'Due Date',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dueDate ? dayjs(row.dueDate).format('YYYY-MM-DD') : '',
               filter: customFilter({
@@ -426,7 +426,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -475,12 +475,12 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'birthDate',
               text: 'Birth Date',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.birthDate ? dayjs(row.birthDate).format('YYYY-MM-DD') : '',
               filter: customFilter({
@@ -489,7 +489,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
