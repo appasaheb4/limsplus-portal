@@ -272,7 +272,7 @@ export const DateRangeFilter = props => {
   const handleStartDateChange = e => {
     const date = e.target.value;
     if (endDate && date > endDate) {
-      alert('Start date cannot be greater than end date');
+      Toast.error({ message: 'From date cannot be less than to date' });
       return;
     }
     setStartDate(date);
