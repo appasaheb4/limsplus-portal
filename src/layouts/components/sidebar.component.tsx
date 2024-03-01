@@ -320,13 +320,28 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                     <h5 className='mb-1'>
                       {stores.loginStore.login?.fullName}
                     </h5>
-                    <div>
-                      <FontAwesomeIcon
-                        icon={faCircle as any}
-                        className='text-success'
-                      />{' '}
-                      Online
-                    </div>
+
+                    {navigator.onLine ? (
+                      <>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faCircle as any}
+                            className='text-success'
+                          />{' '}
+                          Online
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div>
+                          <FontAwesomeIcon
+                            icon={faCircle as any}
+                            className='text-danger'
+                          />{' '}
+                          Offline
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
