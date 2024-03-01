@@ -381,7 +381,7 @@ export const RegistrationLocationsList = (
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, 'ACCOUNT_TYPE').map(
+                  {lookupItems(props.extraData.lookupItems, 'AC_TYPE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}

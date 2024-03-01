@@ -589,6 +589,12 @@ export const TableBootstrap = ({
         })}
     </div>
   );
+  const rowStyle = (row, rowIndex) => {
+    if (row.status === 'I')
+      return {
+        backgroundColor: '#E0E0E0',
+      };
+  };
 
   return (
     // <div className='flex h-[calc(100vh_-_20vh)]'>
@@ -710,6 +716,7 @@ export const TableBootstrap = ({
                   }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap align-middle mt-2'
                   onTableChange={handleTableChange}
+                  rowStyle={rowStyle}
                 />
               </div>
               {totalSize && (
