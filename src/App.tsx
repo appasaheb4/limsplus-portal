@@ -26,6 +26,7 @@ import { stores } from '@/stores';
 
 import hydrateStore from '@/library/modules/startup';
 import { ApolloProvider, client } from '@/core-services/graphql/apollo-client';
+import NoInternetConnection from './layouts/components/internet-connection.component';
 
 // setup again new method
 configure({
@@ -111,16 +112,18 @@ const App = () => {
       <ApolloProvider client={client}>
         <I18nextProvider i18n={i18next}>
           <Provider store={store}>
-            <Routes />
-            <ReduxToastr
-              timeOut={5000}
-              newestOnTop={true}
-              position='top-right'
-              transitionIn='fadeIn'
-              transitionOut='fadeOut'
-              progressBar
-              closeOnToastrClick
-            />
+            <NoInternetConnection>
+              <Routes />
+              <ReduxToastr
+                timeOut={5000}
+                newestOnTop={true}
+                position='top-right'
+                transitionIn='fadeIn'
+                transitionOut='fadeOut'
+                progressBar
+                closeOnToastrClick
+              />
+            </NoInternetConnection>
           </Provider>
         </I18nextProvider>
         <ToastContainer />
