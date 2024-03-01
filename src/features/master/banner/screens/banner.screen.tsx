@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { observer } from 'mobx-react';
 
 import {
@@ -19,6 +19,7 @@ import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
 import { connect } from 'react-redux';
+import useGlobalKeydown from '@/hooks/use-global-key-down';
 
 const Banner = BannerHoc(
   observer(() => {
@@ -44,28 +45,21 @@ const Banner = BannerHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
 
-    useEffect(() => {
-      const handleKeyDown = event => {
-        if (event.ctrlKey && event.key === 's') {
-          event.preventDefault();
-          handleCtrlS();
-        }
-        if (event.ctrlKey && event.key === 'x') {
-          event.preventDefault();
-          reset();
-          resetBanner();
-        }
-      };
-      document.addEventListener('keydown', handleKeyDown);
-      return () => {
-        document.removeEventListener('keydown', handleKeyDown);
-      };
+    const handleCtrlS = useCallback(() => {
+      handleSubmit(onSubmitBanner)();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleCtrlS = () => {
-      handleSubmit(onSubmitBanner)();
-    };
+    const handleCtrlX = useCallback(() => {
+      reset();
+      resetBanner();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useGlobalKeydown({
+      s: handleCtrlS,
+      x: handleCtrlX,
+    });
 
     const onSubmitBanner = async () => {
       await bannerStore.BannerService.addBanner({

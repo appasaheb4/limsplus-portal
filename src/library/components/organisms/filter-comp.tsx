@@ -269,10 +269,11 @@ export const DateRangeFilter = props => {
       diffFlag,
     });
   };
+
   const handleStartDateChange = e => {
     const date = e.target.value;
     if (endDate && date > endDate) {
-      Toast.error({ message: 'From date cannot be less than to date' });
+      Toast.error({ message: 'From date can not be less then to Date' });
       return;
     }
     setStartDate(date);
