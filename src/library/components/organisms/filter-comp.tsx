@@ -273,7 +273,8 @@ export const DateRangeFilter = props => {
   const handleStartDateChange = e => {
     const date = e.target.value;
     if (endDate && date > endDate) {
-      Toast.error({ message: 'From date can not be less then to Date' });
+      Toast.error({ message: 'End date cannot be greater than start date' });
+      setDatesFilled(true);
       return;
     }
     setStartDate(date);
@@ -286,7 +287,8 @@ export const DateRangeFilter = props => {
   const handleEndDateChange = e => {
     const date = e.target.value;
     if (startDate && date < startDate) {
-      Toast.error({ message: 'End date cannot be less than start date' });
+      Toast.error({ message: 'From date can not be less then to Date' });
+      setDatesFilled(true);
       return;
     }
     setEndDate(date);
@@ -329,7 +331,11 @@ export const DateRangeFilter = props => {
                   <div>
                     <button
                       className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
-                      onClick={() => setShowModal(false)}
+                      onClick={() => {
+                        setShowModal(false);
+                        setStartDate(null);
+                        setEndDate(null);
+                      }}
                     >
                       <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
                         ×
@@ -446,7 +452,11 @@ export const DateRangeFilter = props => {
                       className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                       type='button'
                       style={{ transition: 'all .15s ease' }}
-                      onClick={() => setShowModal(false)}
+                      onClick={() => {
+                        setShowModal(false);
+                        setStartDate(null);
+                        setEndDate(null);
+                      }}
                     >
                       No
                     </button>

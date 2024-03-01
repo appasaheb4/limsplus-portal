@@ -42,7 +42,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [data, setData] = useState<any>([]);
   const [selectedRowId, setSelectedRowId] = useState('');
   const [refRangeRowId, setRefRangleRowId] = useState('');
-  const [widthRefBox, setWidthRefBox] = useState('20px');
+  const [widthRefBox, setWidthRefBox] = useState('60px');
   const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
@@ -215,6 +215,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'normalRange',
               text: 'Normal Range',
               sort: true,
+              headerClasses: 'textHeaderxxm',
               editable: false,
               style: { width: widthRefBox },
               formatter: (cell, row) => {

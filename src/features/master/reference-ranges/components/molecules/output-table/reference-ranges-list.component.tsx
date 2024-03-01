@@ -526,7 +526,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                     }}
                   >
                     <option selected>Select</option>
-                    {lookupItems(props.extraData.lookupItems, 'RANG_TYPE').map(
+                    {lookupItems(props.extraData.lookupItems, 'RANGE_TYPE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
                           {lookupValue(item)}
