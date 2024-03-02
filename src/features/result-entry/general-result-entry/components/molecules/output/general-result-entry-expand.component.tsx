@@ -438,7 +438,7 @@ export const GeneralResultEntryExpand = ({
                     {statusData.map(status => (
                       <button
                         key={status.code}
-                        className={`bg-${status.color}-600 ml-2 px-4 py-2 focus:outline-none items-center outline shadow-sm font-medium w-28 text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                        className={`bg-${status.color}-600 ml-2 px-4 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                         onClick={() => handleStatusClick(status.code)}
                       >
                         {status.value}
@@ -448,7 +448,7 @@ export const GeneralResultEntryExpand = ({
                   <button
                     disabled={isFinishResultDisable}
                     className={
-                      'ml-3 px-4 py-2 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md h-9 w-28 text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                      'ml-3 px-4 py-2 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                     }
                     onClick={onFinishResult}
                   >
@@ -460,7 +460,7 @@ export const GeneralResultEntryExpand = ({
                   {testStatus.map(status => (
                     <button
                       key={status.code}
-                      className={`bg-${status.color}-600 px-4 py-2 focus:outline-none  items-center  outline shadow-sm  font-medium w-28 text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                      className={`bg-${status.color}-600 px-4 py-2 focus:outline-none  items-center  outline shadow-sm  font-medium  text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                       onClick={() => onTestStatusFilter?.(status.code)}
                     >
                       {status.value}

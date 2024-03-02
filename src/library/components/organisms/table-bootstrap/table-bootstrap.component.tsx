@@ -592,7 +592,8 @@ export const TableBootstrap = ({
   const rowStyle = (row, rowIndex) => {
     if (row.status === 'I')
       return {
-        backgroundColor: '#E0E0E0',
+        backgroundColor: '#D4D4D4',
+        color: 'FFFF00',
       };
   };
 

@@ -1027,74 +1027,7 @@ export const LabList = (props: LabListProps) => {
                 );
               },
             },
-            {
-              dataField: 'abnFlag',
-              text: 'Abn Flag',
-              sort: true,
-              csvFormatter: col => (col ? col : false),
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.abnFlag}
-                      onChange={abnFlag => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(abnFlag, 'abnFlag', row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              sort: true,
-              csvFormatter: col => (col ? col : false),
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.critical}
-                      onChange={critical => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(critical, 'critical', row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'autoRelease',
-              text: 'Auto Release',
-              sort: true,
-              editable: false,
-              csvFormatter: (col, row) =>
-                `${row.autoRelease ? (row.autoRelease ? 'Yes' : 'No') : 'No'}`,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.autoRelease}
-                      onChange={autoRelease => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            autoRelease,
-                            'autoRelease',
-                            row._id,
-                          );
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
+
             {
               dataField: 'requireReceveInLab',
               text: 'Require Receve In Lab',

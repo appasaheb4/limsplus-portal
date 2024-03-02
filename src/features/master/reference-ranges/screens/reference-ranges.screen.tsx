@@ -575,6 +575,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               <Buttons.Button
                 size='medium'
                 type='solid'
+                icon={Svg.Save}
                 onClick={handleSubmit(addItem)}
               >
                 Add
