@@ -446,14 +446,22 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'testCode',
               text: 'Test Code - Name',
               editable: false,
-              headerClasses: 'textHeader',
-              formatter: (cellContent, row) => (
-                <>
+              // headerClasses: 'textHeader',
+              formatter: (cellContent, row) => {
+                const maxLength = 5;
+                const displayTestName =
+                  row.testName.length > maxLength
+                    ? row.testName.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.testName;
+
+                return (
                   <div className='flex flex-row'>
-                    {`${row.testCode} - ${row.testName}`}
+                    <span
+                      title={row.testName}
+                    >{`${row.testCode} - ${displayTestName}`}</span>
                   </div>
-                </>
-              ),
+                );
+              },
             },
             {
               dataField: 'testStatus',

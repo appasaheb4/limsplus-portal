@@ -390,7 +390,7 @@ export const TableBootstrapReport = ({
                   {statusData.map(status => (
                     <button
                       key={status.code}
-                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded w-28 h-9`}
+                      className={`px-2 py-2 bg-${status.color}-600 text-white rounded w-20`}
                       onClick={() => onFindDeliveryStatus?.(status.code)}
                     >
                       {status.value}

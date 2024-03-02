@@ -426,7 +426,7 @@ export const TableBootstrap = ({
                   {statusData.map(status => (
                     <button
                       key={status.code}
-                      className={`bg-${status.color}-600 ml-2 px-4 py-2 focus:outline-none items-center outline shadow-sm font-medium w-28 text-center rounded-md h-9 text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                      className={`bg-${status.color}-600 ml-2 px-2 w-20 py-2 focus:outline-none items-center outline shadow-sm font-medium  text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                       onClick={() => onFilterRecord?.(status.value)}
                     >
                       {status.value}
