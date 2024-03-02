@@ -1,7 +1,9 @@
 // eslint-disable-next-line folders/match-regex
 import React from 'react';
-import {render} from '@testing-library/react';
-import {Banner} from '..';
+import { render } from '@testing-library/react';
+import { Banner } from '..';
+
+const mockApi = {};
 
 describe('Banner Screen', () => {
   it('render banner correctly', () => {

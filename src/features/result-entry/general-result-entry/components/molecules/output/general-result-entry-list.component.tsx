@@ -19,6 +19,7 @@ import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 interface GeneralResultEntryListProps {
   data: any;
   totalSize: number;
+  selectedId?: string;
   isView?: boolean;
   isDelete?: boolean;
   isUpdate?: boolean;
@@ -36,39 +37,76 @@ interface GeneralResultEntryListProps {
   ) => void;
   onFilterFinishResult?: (code: string) => void;
   onTestStatusFilter?: (code: string) => void;
+  onExpand?: (items: any) => void;
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
-  const [data, setData] = useState<any>([]);
+  const [selectId, setSelectId] = useState('');
   const [selectedRowId, setSelectedRowId] = useState('');
   const [refRangeRowId, setRefRangleRowId] = useState('');
   const [widthRefBox, setWidthRefBox] = useState('60px');
   const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
+  const [localData, setLocalData] = useState(props.data);
+
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
 
   useEffect(() => {
-    setData(props.data);
+    console.log({ ids: props?.selectedId });
+    setSelectId(props?.selectedId || '');
+    setLocalData(
+      props.selectedId
+        ? props.data?.map(item => ({
+            ...item,
+            selectedId: props.selectedId || '',
+          }))
+        : JSON.parse(JSON.stringify(props.data)),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.data]);
+  }, [props.selectedId, props.data]);
+
+  const isFinishResultDisable = (data: Array<any>) => {
+    let isDisable = true;
+    if (data?.length == 0) return isDisable;
+    else {
+      const labs = _.groupBy(data, function (b: any) {
+        return b.labId;
+      });
+      Object.keys(labs).forEach(function (key) {
+        const testCodes = _.groupBy(labs[key], function (b: any) {
+          return b.testCode;
+        });
+
+        Object.keys(testCodes).forEach(function (key1) {
+          const totalRecords = testCodes[key1];
+          let filterRecords = totalRecords?.map(item => {
+            if (
+              item.finishResult == 'P' &&
+              item.panelStatus != 'P' &&
+              item.testStatus != 'P'
+            ) {
+              return item;
+            } else return;
+          });
+          filterRecords = _.reject(filterRecords, _.isEmpty);
+          if (totalRecords?.length == filterRecords?.length) {
+            isDisable = false;
+          }
+        });
+      });
+      return isDisable;
+    }
+  };
 
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <GeneralResultEntryExpand
           id='_id'
-          data={props.data}
+          data={localData}
           totalSize={props.totalSize}
-          isFinishResultDisable={
-            props.data?.length == 0
-              ? true
-              : props.data?.filter(item => {
-                  return item.panelStatus != 'P' && item?.approvalStatus == 'P';
-                })?.length == props.data?.length
-              ? false
-              : true
-          }
+          isFinishResultDisable={isFinishResultDisable(props.data)}
           columns={[
             {
               dataField: '_id',
@@ -80,6 +118,26 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'labId',
               text: 'Lab Id',
               editable: false,
+            },
+            {
+              dataField: 'name',
+              text: 'Patient Name',
+              editable: false,
+              formatter: (cellContent, row) => {
+                const maxLength = 8;
+                const displayTestName =
+                  row.name.length > maxLength
+                    ? row.name.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.name;
+
+                return (
+                  <div className='flex flex-row'>
+                    <span
+                      title={row.name}
+                    >{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
             },
             {
               dataField: 'sex',
@@ -567,7 +625,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               csvExport: false,
               // hidden: !props.isDelete,
               formatter: (cell, row, rowIndex, formatExtraData) => (
-                <>
+                <div key={row?._id}>
                   {!_.isEmpty(row?.result) && (
                     <div className='flex flex-row'>
                       <>
@@ -616,7 +674,32 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       </>
                     </div>
                   )}
-                </>
+                  {selectId == row._id ? (
+                    <Tooltip tooltipText='Expand'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => {
+                          props.onExpand && props.onExpand('');
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  ) : (
+                    <Tooltip tooltipText='Expand'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => {
+                          props.onExpand && props.onExpand(row);
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
+                </div>
               ),
               headerClasses: 'sticky right-0  bg-gray-500 text-white',
               classes: (cell, row, rowIndex, colIndex) => {

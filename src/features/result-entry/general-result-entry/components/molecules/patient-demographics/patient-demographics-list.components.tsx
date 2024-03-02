@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
-
+import { Form } from '@/library/components';
 import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 
 import { TableBootstrap } from './table-bootstrap.components';
 
-interface PendingPanelApprovalListProps {
+interface PatientDemographicsListProps {
   data: any;
   totalSize: number;
   isDelete?: boolean;
@@ -25,8 +25,8 @@ interface PendingPanelApprovalListProps {
   onReport?: (item: any) => void;
 }
 
-export const PendingPanelApprovalList = observer(
-  (props: PendingPanelApprovalListProps) => {
+export const PatientDemographicsList = observer(
+  (props: PatientDemographicsListProps) => {
     const [selectedItem, setSelectedItem] = useState<any>({});
     return (
       <>
@@ -44,71 +44,85 @@ export const PendingPanelApprovalList = observer(
                 csvExport: false,
               },
               {
-                dataField: 'labId',
-                text: 'Lab Id',
+                dataField: 'pId',
+                text: 'Pid',
                 sort: true,
                 editable: false,
               },
               {
-                dataField: 'sampleId',
-                text: 'Sample Id',
+                dataField: 'name',
+                text: 'Name',
                 sort: true,
                 editable: false,
               },
               {
-                dataField: 'panel',
-                text: 'Panel',
+                dataField: 'age',
+                text: 'Age',
                 sort: true,
                 editable: false,
-                headerClasses: 'textHeaderl',
               },
               {
-                dataField: 'dueDate',
-                text: 'Due Date',
+                dataField: 'sex',
+                text: 'Sex',
+                sort: true,
+                editable: false,
+              },
+              {
+                dataField: 'dob',
+                text: 'DOB',
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return row?.dueDate
-                    ? dayjs(row.dueDate).format('DD-MM-YYYY HH:mm:ss')
+                  return row?.dob
+                    ? dayjs(row.dob).format('DD-MM-YYYY HH:mm:ss')
                     : '';
                 },
               },
-
               {
-                dataField: 'status',
-                text: 'Status',
+                dataField: 'patientMobileNo',
+                text: 'patientMobileNo',
                 sort: true,
                 editable: false,
               },
               {
-                dataField: 'sampleType',
-                text: 'Sample Type',
+                dataField: 'doctorId',
+                text: 'Doctor Id',
                 sort: true,
                 editable: false,
               },
               {
-                dataField: 'containerId',
-                text: 'Container Id',
+                dataField: 'doctorMobileNo',
+                text: 'Doctor Mobile No',
                 sort: true,
                 editable: false,
               },
               {
-                dataField: 'comments',
-                text: 'Comments',
+                dataField: 'registrationLocation',
+                text: 'Registration Location',
                 sort: true,
                 editable: false,
               },
               {
-                dataField: 'pLab',
-                text: 'PLab',
+                dataField: 'contactNo',
+                text: 'Contact Number',
                 sort: true,
                 editable: false,
               },
               {
-                dataField: 'department',
-                text: 'Department',
+                dataField: 'history',
+                text: 'History',
                 sort: true,
+                csvFormatter: (col, row) =>
+                  `${row.history ? (row.history ? 'Yes' : 'No') : 'No'}`,
                 editable: false,
+                formatter: (cell, row) => {
+                  return (
+                    <>
+                      {' '}
+                      <Form.Toggle disabled={true} value={row.history} />
+                    </>
+                  );
+                },
               },
               {
                 text: 'Company Code',
