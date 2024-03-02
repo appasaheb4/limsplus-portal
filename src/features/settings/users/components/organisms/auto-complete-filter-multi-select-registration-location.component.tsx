@@ -1,7 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {observer} from 'mobx-react';
-import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from '@/library/components';
-import {useStores} from '@/stores';
+import React, { useState, useEffect, useRef } from 'react';
+import { observer } from 'mobx-react';
+import {
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+} from '@/library/components';
+import { useStores } from '@/stores';
 
 interface AutoCompleteProps {
   selected: any[];
@@ -9,8 +12,8 @@ interface AutoCompleteProps {
 }
 
 export const AutoCompleteFilterMutiSelectRegistrationLocation = observer(
-  ({selected, onSelect}: AutoCompleteProps) => {
-    const {loading, departmentStore, userStore, registrationLocationsStore} =
+  ({ selected, onSelect }: AutoCompleteProps) => {
+    const { loading, departmentStore, userStore, registrationLocationsStore } =
       useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
@@ -50,7 +53,7 @@ export const AutoCompleteFilterMutiSelectRegistrationLocation = observer(
     return (
       <>
         <div ref={wrapperRef} className='w-full relative'>
-          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+          <AutoCompleteFilterMultiSelectSelectedTopDisplay
             loader={loading}
             placeholder='Search by code or name'
             data={{
@@ -66,11 +69,12 @@ export const AutoCompleteFilterMutiSelectRegistrationLocation = observer(
               selected: userStore.selectedItems?.registrationLocation,
               displayKey: ['locationCode', 'locationName'],
             }}
+            dynamicCheck='locationCode'
             hasError={false}
             onUpdate={item => {
               const registrationLocation =
                 userStore.selectedItems?.registrationLocation;
-              onSelect({registrationLocation});
+              onSelect({ registrationLocation });
               registrationLocationsStore.updateRegistrationLocationsList(
                 registrationLocationsStore.listRegistrationLocationsCopy,
               );

@@ -20,6 +20,8 @@ export const LIST = gql`
         pEndTime
         cutofTime
         secoundCutofTime
+        secondCutoffTimeRequired
+        scheduleForPatAndDept
         processingType
         schFrequency
         reportOn
@@ -114,6 +116,8 @@ export const FILTER = gql`
         cutofTime
         secoundCutofTime
         processingType
+        secondCutoffTimeRequired
+        scheduleForPatAndDept
         schFrequency
         reportOn
         dynamicRT
@@ -153,6 +157,8 @@ export const FIND_BY_FIELDS = gql`
         cutofTime
         secoundCutofTime
         processingType
+        secondCutoffTimeRequired
+        scheduleForPatAndDept
         schFrequency
         reportOn
         dynamicRT

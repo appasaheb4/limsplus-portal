@@ -394,7 +394,7 @@ const MasterPanel = MasterPanelHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
             ),
-            version: item.Version,
+            version: 1,
             environment: item.Environment,
             companyCode: item['Company Code'],
             status: 'D',
@@ -980,7 +980,7 @@ const MasterPanel = MasterPanelHoc(
                             placeholder='Search by code'
                             data={{
                               list: deliveryScheduleStore.listDeliverySchedule,
-                              displayKey: ['schCode'],
+                              displayKey: ['schCode', 'schName'],
                             }}
                             hasError={!!errors.schedule}
                             onFilter={(value: string) => {

@@ -345,7 +345,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Clock
                         disable={
-                          deliveryScheduleStore.deliverySchedule
+                          !deliveryScheduleStore.deliverySchedule
                             .secondCutoffTimeRequired
                         }
                         label='Second Cut-off Time'

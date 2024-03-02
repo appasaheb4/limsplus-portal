@@ -28,6 +28,7 @@ import { resetMasterAnalyte } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
 import dayjs from 'dayjs';
+import { ModalDateRangeFilter } from '@/library/components/molecules/modal/modal-date-filter/modal-date-filter.component';
 
 const MasterAnalyte = MasterAnalyteHoc(
   observer(() => {
@@ -73,6 +74,7 @@ const MasterAnalyte = MasterAnalyteHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [modalDetailsDateRange, setModalDateRange] = useState<any>();
 
     const onSubmitMasterAnalyte = async () => {
       if (!masterAnalyteStore.checkExitsLabEnvCode) {
@@ -271,8 +273,6 @@ const MasterAnalyte = MasterAnalyteHoc(
             global.filter = { mode: 'pagination', page, limit };
           }}
           onFilter={(type, filter, page, limit) => {
-            console.log({ type, filter, page, limit });
-
             masterAnalyteStore.masterAnalyteService.filter({
               input: { type, filter, page, limit },
             });
@@ -366,7 +366,7 @@ const MasterAnalyte = MasterAnalyteHoc(
             analyteType: item['Analyte Type'],
             units: item.Units,
             usage: item.Usage,
-            picture: item.Picture,
+            picture: item.picture,
             repetition: item.Repetition === 'Yes' ? true : false,
             instantResult: item['Instant Result'] === 'Yes' ? true : false,
             calcyName: item['Calculation Name'],
@@ -384,7 +384,7 @@ const MasterAnalyte = MasterAnalyteHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
             ),
-            version: item.Version,
+            version: 1,
             maxReportable: item['Max Reportable'],
             interpretation: item.Interpretation,
             environment: item.Environment,

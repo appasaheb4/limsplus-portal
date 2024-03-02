@@ -11,6 +11,7 @@ import {
   Tooltip,
   sortCaret,
   ModalDateTime,
+  DateRangeFilter,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -532,12 +533,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: 'dateCreation',
             editable: false,
             text: 'Date Creation',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
@@ -548,7 +549,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return (
@@ -581,12 +582,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
                 ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
@@ -598,7 +599,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>;
@@ -626,12 +627,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: 'dateExpire',
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             text: 'Date Expiry',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
                 ? dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')
@@ -642,7 +643,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;

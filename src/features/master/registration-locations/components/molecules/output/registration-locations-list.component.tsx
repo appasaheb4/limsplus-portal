@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
   NumberFilter,
-  DateFilter,
+  DateRangeFilter,
   textFilter,
   customFilter,
   Form,
@@ -381,7 +381,7 @@ export const RegistrationLocationsList = (
                   }}
                 >
                   <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, 'ACCOUNT_TYPE').map(
+                  {lookupItems(props.extraData.lookupItems, 'AC_TYPE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
                         {lookupValue(item)}
@@ -1349,12 +1349,12 @@ export const RegistrationLocationsList = (
           {
             dataField: 'dateCreation',
             text: 'Date Creation',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -1366,7 +1366,7 @@ export const RegistrationLocationsList = (
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return (
@@ -1401,12 +1401,12 @@ export const RegistrationLocationsList = (
           {
             dataField: 'dateActive',
             text: 'Date Active',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
                 ? dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -1418,7 +1418,7 @@ export const RegistrationLocationsList = (
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return (
@@ -1447,12 +1447,12 @@ export const RegistrationLocationsList = (
           {
             dataField: 'dateExpire',
             text: 'Date Expiry',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
                 ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -1464,7 +1464,7 @@ export const RegistrationLocationsList = (
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;

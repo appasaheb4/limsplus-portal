@@ -151,6 +151,7 @@ export const Result = observer((props: ResultProps) => {
               text: 'Ref Ranges',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderxxm',
               style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (

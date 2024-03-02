@@ -1,7 +1,10 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {observer} from 'mobx-react';
-import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from '@/library/components';
-import {useStores} from '@/stores';
+import React, { useState, useEffect, useRef } from 'react';
+import { observer } from 'mobx-react';
+import {
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+} from '@/library/components';
+import { useStores } from '@/stores';
 
 interface AutoCompleteProps {
   selected: any[];
@@ -9,8 +12,8 @@ interface AutoCompleteProps {
 }
 
 export const AutoCompleteFilterMutiSelectCorporateClient = observer(
-  ({selected, onSelect}: AutoCompleteProps) => {
-    const {loading, departmentStore, userStore, corporateClientsStore} =
+  ({ selected, onSelect }: AutoCompleteProps) => {
+    const { loading, departmentStore, userStore, corporateClientsStore } =
       useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
@@ -51,7 +54,7 @@ export const AutoCompleteFilterMutiSelectCorporateClient = observer(
     return (
       <>
         <div ref={wrapperRef} className='w-full relative'>
-          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+          <AutoCompleteFilterMultiSelectSelectedTopDisplay
             loader={loading}
             placeholder='Search by code or name'
             data={{
@@ -65,10 +68,11 @@ export const AutoCompleteFilterMutiSelectCorporateClient = observer(
               selected: userStore.selectedItems?.corporateClient,
               displayKey: ['corporateCode', 'corporateName'],
             }}
+            dynamicCheck='corporateCode'
             hasError={false}
             onUpdate={item => {
               const corporateClient = userStore.selectedItems?.corporateClient;
-              onSelect({corporateClient});
+              onSelect({ corporateClient });
               corporateClientsStore.updateCorporateClientsList(
                 corporateClientsStore.listCorporateClientsCopy,
               );
