@@ -2,17 +2,13 @@
 import React, { useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
+import { Toast, ModalConfirm, MainPageHeading } from '@/library/components';
 import {
-  Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-  ModalConfirm,
-  MainPageHeading,
-} from '@/library/components';
-import { FilterInputTable, GeneralResultEntryList } from '../components';
+  FilterInputTable,
+  GeneralResultEntryList,
+  ModalPatientDemographics,
+} from '../components';
 import { RouterFlow } from '@/flows';
-import { toJS } from 'mobx';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -26,6 +22,11 @@ const GeneralResultEntry = observer(() => {
   } = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);
+  const [selectId, setSelectId] = useState('');
+  const [modalPatientDemographics, setModalPatientDemographics] = useState<any>(
+    { show: false },
+  );
+
   const tableView = useMemo(
     () => (
       <>
@@ -38,6 +39,7 @@ const GeneralResultEntry = observer(() => {
             ) || []
           }
           totalSize={patientResultStore.patientResultListNotAutoUpdateCount}
+          selectedId={selectId}
           isView={RouterFlow.checkPermission(
             routerStore.userPermission,
             'View',
@@ -118,8 +120,8 @@ const GeneralResultEntry = observer(() => {
                   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                     {
                       pLab: loginStore.login?.lab,
-                      testCode:
-                        generalResultEntryStore.filterGeneralResEntry?.testCode,
+                      // testCode:
+                      //   generalResultEntryStore.filterGeneralResEntry?.testCode,
                       finishResult: 'P',
                     },
                   );
@@ -143,8 +145,8 @@ const GeneralResultEntry = observer(() => {
               patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
                   pLab: loginStore.login?.lab,
-                  testCode:
-                    generalResultEntryStore.filterGeneralResEntry?.testCode,
+                  // testCode:
+                  //   generalResultEntryStore.filterGeneralResEntry?.testCode,
                   finishResult: 'P',
                 },
               );
@@ -205,11 +207,23 @@ const GeneralResultEntry = observer(() => {
               patientResultStore.distinctPatientResultCopy,
             );
           }}
+          onExpand={items => {
+            setSelectId(items._id);
+            if (_.isEmpty(items._id)) {
+              setModalPatientDemographics({ show: false });
+            } else {
+              setModalPatientDemographics({
+                show: true,
+                data: [items],
+              });
+            }
+          }}
         />
       </>
     ),
-    [patientResultStore.patientResultListNotAutoUpdate, tableReload],
+    [patientResultStore.patientResultListNotAutoUpdate, tableReload, selectId],
   );
+
   const updateRecords = (id, data) => {
     patientResultStore.patientResultService
       .updateSingleFiled({
@@ -222,6 +236,7 @@ const GeneralResultEntry = observer(() => {
           flagUpdate: undefined,
           testReportOrder: undefined,
           analyteReportOrder: undefined,
+          selectedId: undefined,
         },
       })
       .then(res => {
@@ -240,7 +255,7 @@ const GeneralResultEntry = observer(() => {
             {
               input: {
                 filter: {
-                  ...generalResultEntryStore.filterGeneralResEntry,
+                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
                   finishResult: 'P',
                 },
                 page: 0,
@@ -252,6 +267,7 @@ const GeneralResultEntry = observer(() => {
       });
     setTableReload(!tableReload);
   };
+
   return (
     <>
       <MainPageHeading
@@ -310,7 +326,14 @@ const GeneralResultEntry = observer(() => {
           setModalConfirm({ show: false });
         }}
       />
+      <ModalPatientDemographics
+        {...modalPatientDemographics}
+        onClose={() => {
+          setModalPatientDemographics({ show: false });
+        }}
+      />
     </>
   );
 });
+
 export default GeneralResultEntry;
