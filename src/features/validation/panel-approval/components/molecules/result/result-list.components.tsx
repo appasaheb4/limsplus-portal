@@ -181,6 +181,7 @@ export const ResultList = (props: ResultListProps) => {
               text: 'Ref Ranges',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderxxm',
               style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (

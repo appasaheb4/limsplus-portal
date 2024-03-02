@@ -435,7 +435,6 @@ const RegistrationLocation = RegistrationLocationHoc(
         'locationName',
         'acClass',
         'accountType',
-        'deliveryMode',
         'status',
         'environment',
       ];
@@ -508,7 +507,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             mobileNo: item['Mobile No'],
             email: item.Email,
             reportPriority: item['Report Priority'],
-            deliveryMode: undefined,
+            deliveryMode: [{ code: 'Portal', value: 'Portal' }],
             route: item.Route,
             lab: item.Lab,
             info: item.Info,
