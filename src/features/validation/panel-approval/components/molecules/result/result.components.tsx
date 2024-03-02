@@ -1,4 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
+
+import { Confirm } from '@/library/models';
+import dayjs from 'dayjs';
+
+import { TableBootstrap } from './table-bootstrap.components';
+
 import {
   Form,
   Tooltip,
@@ -7,10 +14,7 @@ import {
   sortCaret,
   customFilter,
 } from '@/library/components';
-import dayjs from 'dayjs';
 
-import { TableBootstrap } from './table-bootstrap.components';
-import { RefRanges } from './ref-ranges.component';
 import { InputResult } from '../../../../../result-entry/general-result-entry/components/molecules/output/input-result.components';
 
 import {
@@ -19,25 +23,18 @@ import {
   getAbnFlag,
   getCretical,
 } from '../../../../../result-entry/general-result-entry/utils';
+import { RefRanges } from './ref-ranges.component';
 
-interface ResultListProps {
+interface ResultProps {
   data: any;
   totalSize: number;
-  isView?: boolean;
   isDelete?: boolean;
-  isUpdate?: boolean;
-  isExport?: boolean;
-  isApproval?: boolean;
-  selectedId?: string;
-  selectedItems?: any;
-  filterRecord?: string;
-  onSelectedRow?: (selectedItem: any, type: string) => void;
-  onUpdateFields?: (fields: any, id: string) => void;
-  onUpdateResult?: (fields: any, id: string) => void;
-  onExpand?: (items: any) => void;
-  onRecheck?: (id: string, patientResultId: string) => void;
-  onRetest?: (id: string, patientResultId: string) => void;
+  isEditModify?: boolean;
+  onUpdate?: (selectedItem: Confirm) => void;
+  onSelectedRow?: (selectedItem: any) => void;
+  onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
+  onUpdateResult?: (fields: any, id: string) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -46,52 +43,25 @@ interface ResultListProps {
   ) => void;
   onClickRow?: (item: any, index: number) => void;
   onReport?: (item: any) => void;
-  onFilterRecord?: (item: any) => void;
+  onUpdateFields?: (fields: any, id: string) => void;
 }
 
 let labId;
 
-export const ResultList = (props: ResultListProps) => {
-  const [selectId, setSelectId] = useState('');
-  const [localData, setLocalData] = useState(props.data);
-  const [selectedRowId, setSelectedRowId] = useState('');
+export const Result = observer((props: ResultProps) => {
+  const [selectedItem, setSelectedItem] = useState<any>({});
   const [widthRefBox, setWidthRefBox] = useState('20px');
+  const [selectedRowId, setSelectedRowId] = useState('');
   const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
   const [conclusionId, setWidthConculsionId] = useState('');
-
-  useEffect(() => {
-    const filterDataByHoldRecord = (data, holdRecord) => {
-      if (holdRecord === 'Pending') {
-        return data.filter(item => item.approvalStatus === 'Pending');
-      } else if (holdRecord === 'Done') {
-        return data.filter(item => item.approvalStatus === 'Done');
-      } else {
-        return data;
-      }
-    };
-    setSelectId(props.selectedId || '');
-    setLocalData(
-      props.selectedId
-        ? props.data
-            ?.filter(item => item._id === props.selectedId)
-            ?.map(item => ({ ...item, selectedId: props.selectedId }))
-        : filterDataByHoldRecord(props.data, props.filterRecord),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedId, props.data, props.filterRecord]);
-
-  useEffect(() => {
-    setLocalData(JSON.parse(JSON.stringify(localData)));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRowId]);
-
   return (
     <>
-      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
-          data={localData}
+          data={props.data}
           totalSize={props.totalSize}
+          selectedItem={selectedItem}
           columns={[
             {
               dataField: '_id',
@@ -323,10 +293,7 @@ export const ResultList = (props: ResultListProps) => {
                           className='text-black'
                           onBlur={conclusion => {
                             props.onUpdateFields &&
-                              props.onUpdateFields(
-                                { conclusion, updateField: 'conclusion' },
-                                row._id,
-                              );
+                              props.onUpdateFields({ conclusion }, row._id);
                             setWidthConculsionId('');
                             setWidthConculsionBox('30px');
                           }}
@@ -454,138 +421,30 @@ export const ResultList = (props: ResultListProps) => {
               editable: false,
               sort: true,
             },
-            {
-              dataField: 'approvalStatus',
-              text: 'Action',
-              sort: true,
-              editable: false,
-              formatter: (cellContent, row) => (
-                <div className='flex flex-row gap-1' key={row?._id}>
-                  {props.isApproval && (
-                    <>
-                      <Tooltip tooltipText='Approved'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() => {
-                            props.onUpdateFields &&
-                              props.onUpdateFields(
-                                { approvalStatus: 'Approved' },
-                                row._id,
-                              );
-                            props.onExpand && props.onExpand('');
-                          }}
-                        >
-                          {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
-                        </Icons.IconContext>
-                      </Tooltip>
-                      <Tooltip tooltipText='Rejected'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() => {
-                            props.onUpdateFields &&
-                              props.onUpdateFields(
-                                { approvalStatus: 'Rejected' },
-                                row._id,
-                              );
-                          }}
-                        >
-                          {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
-                        </Icons.IconContext>
-                      </Tooltip>
-                      <Tooltip tooltipText='Recheck'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() => {
-                            props.onRecheck &&
-                              props.onRecheck(row?._id, row?.patientResultId);
-                          }}
-                        >
-                          <Icons.RIcon
-                            nameIcon='GoIssueReopened'
-                            propsIcon={{ color: '#ffffff' }}
-                          />
-                        </Icons.IconContext>
-                      </Tooltip>
-                      <Tooltip tooltipText='Retest'>
-                        <Icons.IconContext
-                          color='#fff'
-                          size='20'
-                          onClick={() => {
-                            props.onRetest &&
-                              props.onRetest(row?._id, row?.patientResultId);
-                          }}
-                        >
-                          <Icons.RIcon
-                            nameIcon='VscIssueReopened'
-                            propsIcon={{ color: '#ffffff' }}
-                          />
-                        </Icons.IconContext>
-                      </Tooltip>
-                    </>
-                  )}
-                  {selectId == row._id ? (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() => {
-                          props.onExpand && props.onExpand('');
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  ) : (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() => {
-                          props.onExpand && props.onExpand(row);
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  )}
-                </div>
-              ),
-              headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
-              classes: (cell, row, rowIndex, colIndex) => {
-                return 'sticky right-0 bg-gray-500';
-              },
-              style: (cell, row, rowIndex, colIndex) => {
-                return {
-                  zIndex: props.data?.length - rowIndex,
-                };
-              },
-            },
           ]}
-          isDelete={props.isDelete}
-          isEditModify={props.isUpdate}
-          isExport={props.isExport}
+          isEditModify={props.isEditModify}
           isSelectRow={true}
-          fileName='Report Panel Approval'
-          onSelectedRow={(rows, type) => {
-            props.onSelectedRow && props.onSelectedRow(rows, type);
+          fileName='Pending Panel Approval'
+          onSelectedRow={rows => {
+            props.onSelectedRow &&
+              props.onSelectedRow(rows.map((item: any) => item._id));
           }}
-          onFilter={(type, filter, page, size) => {
-            props.onFilter && props.onFilter(type, filter, page, size);
+          onUpdateItem={(value: any, dataField: string, id: string) => {
+            props.onUpdateItem && props.onUpdateItem(value, dataField, id);
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size);
           }}
-          clearAllFilter={() => {
-            labId('');
+          onFilter={(type, filter, page, size) => {
+            props.onFilter && props.onFilter(type, filter, page, size);
           }}
-          onFilterRecord={item => {
-            props.onFilterRecord && props.onFilterRecord(item);
+          clearAllFilter={() => {}}
+          onClickRow={(item, index) => {
+            setSelectedItem(item);
+            props.onClickRow && props.onClickRow(item, index);
           }}
         />
       </div>
     </>
   );
-};
+});

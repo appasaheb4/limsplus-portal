@@ -107,6 +107,7 @@ export const DisplayResult = observer(
               className={
                 'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
               }
+              onKeyDown={e => e.key === 'Enter' && e.target.blur()}
               onBlur={e => {
                 const { name } = e.target;
                 const [fieldName, fieldIndex] = name.split('-');
@@ -117,7 +118,6 @@ export const DisplayResult = observer(
                 if (nextfield !== null) {
                   nextfield.focus();
                 }
-
                 const result = e.target.value;
                 if (result) {
                   onSelect &&
@@ -238,6 +238,7 @@ export const DisplayResult = observer(
               label=''
               placeholder='Result'
               defaultValue={row?.result}
+              onKeyDown={e => e.key === 'Enter' && e.target.blur()}
               onBlur={e => {
                 const [fieldName, fieldIndex] = e.target.name.split('-');
                 const fieldIntIndex = Number.parseInt(fieldIndex, 10);

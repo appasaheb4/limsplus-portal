@@ -1,7 +1,7 @@
-import {makeObservable, action, observable, computed} from 'mobx';
+import { makeObservable, action, observable, computed } from 'mobx';
 import _ from 'lodash';
-import {PatientResultService} from '../services';
-import {PatientResult} from '../models';
+import { PatientResultService } from '../services';
+import { PatientResult } from '../models';
 
 export class PatientResultStore {
   patientResultList: PatientResult[] = [];
@@ -69,6 +69,7 @@ export class PatientResultStore {
         return alert(res.patientResultRecordsForGRE.message);
       } else {
         let data: any = res.patientResultRecordsForGRE.patientResultList;
+        console.log({ data });
         data = data.map(item => {
           return {
             ...item,
@@ -91,7 +92,7 @@ export class PatientResultStore {
   }
 
   updatePatientResultByLabId(res: any) {
-    let {data} = res.patientResult;
+    let { data } = res.patientResult;
     data = data?.map(item => {
       return {
         ...item,

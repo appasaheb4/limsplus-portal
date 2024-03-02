@@ -110,6 +110,7 @@ module.exports = {
     'no-async-promise-executor': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',
     'unicorn/prefer-dom-node-append': 'off',
+    'unicorn/no-array-for-each': 'off',
     '@typescript-eslint/ban-types': [
       'error',
       {

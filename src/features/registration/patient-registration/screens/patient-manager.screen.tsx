@@ -377,7 +377,11 @@ export const PatientManager = PatientManagerHoc(
                                   'year',
                                 ) < 150
                               ) {
-                                setValue('age', getDiffByDate(birthDate));
+                                setValue(
+                                  'age',
+                                  getAgeByAgeObject(getDiffByDate(birthDate))
+                                    ?.age,
+                                );
                                 if (
                                   dayjs(new Date()).diff(
                                     dayjs(birthDate),

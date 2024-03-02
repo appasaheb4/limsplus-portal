@@ -23,7 +23,7 @@ import { Buttons, Icons, Tooltip } from '@/library/components';
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 
-interface TableBootstrapReportProps {
+interface TableBootstrapProps {
   id: string;
   data: any;
   totalSize?: number;
@@ -37,13 +37,10 @@ interface TableBootstrapReportProps {
   isExport?: boolean;
   isSelectRow?: boolean;
   selectedItem?: any;
-  isPagination?: boolean;
   onDelete?: (selectedItem: any) => void;
-  onSelectedRow?: (selectedItem: any) => void;
+  onSelectedRow?: (selectedItem: any, type: string) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
-  onPagination?: (type: string) => void;
-  onUpdateDeliveryStatus?: () => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -52,9 +49,9 @@ interface TableBootstrapReportProps {
   ) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
-  onFindDeliveryStatus?: (item: string) => void;
+  onFilterRecord?: (item: any) => void;
 }
-export const TableBootstrapReport = ({
+export const TableBootstrap = ({
   id,
   data,
   totalSize = 10,
@@ -68,20 +65,16 @@ export const TableBootstrapReport = ({
   isExport = true,
   isSelectRow,
   selectedItem,
-  isPagination = true,
   onSelectedRow,
   onUpdateItem,
   onPageSizeChange,
-  onUpdateDeliveryStatus,
   onFilter,
-  onPagination,
   clearAllFilter,
   onClickRow,
-  onFindDeliveryStatus,
-}: TableBootstrapReportProps) => {
+  onFilterRecord,
+}: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const [selectedStatus, setSelectedStatus] = useState(null);
 
   const customTotal = (from, to, size) => {
     return (
@@ -95,10 +88,13 @@ export const TableBootstrapReport = ({
   };
 
   const statusData = [
-    { code: 'Hold', value: 'Hold', color: 'green' },
+    { code: 'Done', value: 'Done', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
-    { code: 'Done', value: 'Done', color: 'orange' },
-    { code: 'All', value: 'All', color: 'red' },
+    { code: 'Recheck', value: 'Recheck', color: 'yellow' },
+    { code: 'Retest', value: 'Retest', color: 'orange' },
+    { code: 'Hold', value: 'Hold', color: 'indigo' },
+    { code: '', value: 'All', color: 'red' },
+    { code: 'Recall', value: 'Recall', color: 'gray' },
   ];
 
   const sizePerPageRenderer = ({
@@ -107,6 +103,32 @@ export const TableBootstrapReport = ({
     onSizePerPageChange,
   }) => (
     <div className='btn-group items-center' role='group'>
+      {isSelectRow && (
+        <div className='flex flex-row gap-1 border-solid border-2 p-1'>
+          <Tooltip tooltipText='Approved'>
+            <Icons.IconContext
+              color='#fff'
+              size='30'
+              onClick={() => {
+                onSelectedRow && onSelectedRow(selectedRow, 'Approved');
+              }}
+            >
+              {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
+            </Icons.IconContext>
+          </Tooltip>
+          <Tooltip tooltipText='Rejected'>
+            <Icons.IconContext
+              color='#fff'
+              size='30'
+              onClick={() => {
+                onSelectedRow && onSelectedRow(selectedRow, 'Rejected');
+              }}
+            >
+              {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
+            </Icons.IconContext>
+          </Tooltip>
+        </div>
+      )}
       <input
         type='number'
         min='0'
@@ -132,6 +154,7 @@ export const TableBootstrapReport = ({
       ))}
     </div>
   );
+
   const options = {
     cutome: true,
     totalSize: totalSize,
@@ -171,8 +194,27 @@ export const TableBootstrapReport = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   };
+
   let searchProps: any = {
     placeholder: searchPlaceholder,
+  };
+
+  const handleOnSelect = (rows: any, isSelect) => {
+    if (isSelect) {
+      if (selectedRow) {
+        let itemSelected: any[] = selectedRow;
+        itemSelected.push(rows);
+        setSelectedRow(itemSelected);
+      } else {
+        setSelectedRow([rows]);
+      }
+    }
+  };
+
+  const handleOnSelectAll = (isSelect, rows) => {
+    if (isSelect) {
+      setSelectedRow(rows);
+    }
   };
 
   const handleTableChange = (
@@ -188,7 +230,6 @@ export const TableBootstrapReport = ({
       searchText,
     },
   ) => {
-    // console.log({type});
     if (type === 'cellEdit' && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId);
@@ -277,17 +318,32 @@ export const TableBootstrapReport = ({
     </div>
   );
 
+  const rowEvents = {
+    onClick: (e, row, rowIndex) => {
+      onClickRow && onClickRow(row, rowIndex);
+    },
+  };
+
   const rowStyle = (row, rowIndex) => {
-    if (row?.isAnyCritical || (row?.isAnyABNFlag && row?.isAnyCritical)) {
-      return {
-        backgroundColor: '#FF0000',
-        color: '#FFFF00',
-      };
-    } else if (row?.isAnyABNFlag) {
-      return {
-        backgroundColor: '#FFFF00',
-        color: '#FF0000',
-      };
+    switch (row?.colorScheme?.envRangeColor) {
+      case 'BOTH':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      case 'BACKGROUND':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+        };
+        break;
+      case 'FONT':
+        return {
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      default:
+        break;
     }
   };
 
@@ -327,26 +383,26 @@ export const TableBootstrapReport = ({
                   onChange={value => {
                     console.log({ value });
                   }}
-                  style={{ marginTop: 10 }}
                 />
                 <ClearSearchButton
-                  className={`inline-flex bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
                   {...props.searchProps}
                 />
                 <button
-                  className={`px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
                   onClick={clearAllFilter}
                 >
                   Clear all filters
                 </button>
                 {isExport && (
                   <ExportCSVButton
-                    className={`inline-flex bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
                     {...props.csvProps}
                   >
                     Export CSV!!
                   </ExportCSVButton>
                 )}
+
                 {isFilterOpen ? (
                   <Buttons.Button
                     size='medium'
@@ -368,36 +424,18 @@ export const TableBootstrapReport = ({
                     <Icons.IconFa.FaChevronDown />
                   </Buttons.Button>
                 )}
-                <Tooltip
-                  tooltipText='All generate report update'
-                  position='top'
-                >
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    disabled={
-                      !data.some(item => item.deliveryStatus === 'Pending')
-                    }
-                    onClick={() => {
-                      onUpdateDeliveryStatus && onUpdateDeliveryStatus();
-                    }}
-                  >
-                    <Icons.IconTb.TbExchange />
-                  </Buttons.Button>
-                </Tooltip>
                 <div className='flex gap-4'>
                   {statusData.map(status => (
                     <button
                       key={status.code}
                       className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
-                      onClick={() => onFindDeliveryStatus?.(status.code)}
+                      onClick={() => onFilterRecord?.(status.value)}
                     >
                       {status.value}
                     </button>
                   ))}
                 </div>
               </div>
-
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>
                   <CustomToggleList
@@ -408,7 +446,7 @@ export const TableBootstrapReport = ({
                   />
                 </div>
               )}
-              <div className='scrollTable'>
+              <div className='scrollTable mb-2'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
@@ -417,46 +455,41 @@ export const TableBootstrapReport = ({
                   {...paginationTableProps}
                   filter={filterFactory()}
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                  onTableChange={handleTableChange}
+                  selectRow={
+                    isSelectRow
+                      ? {
+                          mode: 'checkbox',
+                          onSelect: handleOnSelect,
+                          onSelectAll: handleOnSelectAll,
+                        }
+                      : undefined
+                  }
+                  cellEdit={
+                    isEditModify
+                      ? cellEditFactory({
+                          mode: 'dbclick',
+                          blurToSave: true,
+                        })
+                      : undefined
+                  }
+                  rowEvents={rowEvents}
                   rowStyle={rowStyle}
+                  onTableChange={handleTableChange}
                 />
               </div>
-
-              <div className='flex items-center gap-2 mt-2'>
-                <Icons.IconContext
-                  color='#fff'
-                  size='25'
-                  style={{
-                    backgroundColor: '#808080',
-                    width: 32,
-                    height: 32,
-                    borderRadius: 16,
-                    align: 'center',
-                    padding: 4,
-                  }}
-                  onClick={async () => {
-                    onPagination && onPagination('next');
-                  }}
-                >
-                  <Icons.IconBi.BiSkipNext />
-                </Icons.IconContext>
-                <Icons.IconContext
-                  color='#fff'
-                  size='25'
-                  style={{
-                    backgroundColor: '#808080',
-                    width: 32,
-                    height: 32,
-                    borderRadius: 16,
-                    align: 'center',
-                    padding: 4,
-                  }}
-                  onClick={async () => {
-                    onPagination && onPagination('prev');
-                  }}
-                >
-                  <Icons.IconBi.BiSkipPrevious />
-                </Icons.IconContext>
+              <div className='flex  items-center   p-2 justify-start gap-2 bg-[#6A727F] rounded-md   text-white w-full'>
+                <div className='flex items-center gap-2 '>
+                  <SizePerPageDropdownStandalone
+                    {...Object.assign(
+                      {},
+                      { ...paginationProps, hideSizePerPage: false },
+                    )}
+                  />
+                  <PaginationListStandalone {...paginationProps} />
+                </div>
+                <div className='flex items-center gap-2'>
+                  <PaginationTotalStandalone {...paginationProps} />
+                </div>
               </div>
             </div>
           )}

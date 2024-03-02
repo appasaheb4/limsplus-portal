@@ -84,9 +84,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
         case 'Hold': {
           return data.filter(item => item.deliveryStatus === 'Hold');
         }
-        case 'UnHold': {
-          return data.filter(item => item.deliveryStatus === 'UnHold');
-        }
         case 'Pending': {
           return data.filter(item => item.deliveryStatus === 'Pending');
         }
@@ -697,8 +694,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                           color={
                             row?.deliveryStatus !== 'Done' &&
                             row?.deliveryStatus !== 'Cancel' &&
-                            row?.deliveryStatus !== 'Hold' &&
-                            row?.deliveryStatus !== 'UnHold'
+                            row?.deliveryStatus !== 'Hold'
                               ? '#ffffff'
                               : '#5A5A5A'
                           }
@@ -707,8 +703,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                             if (
                               row?.deliveryStatus !== 'Done' &&
                               row?.deliveryStatus !== 'Cancel' &&
-                              row?.deliveryStatus !== 'Hold' &&
-                              row?.deliveryStatus !== 'UnHold'
+                              row?.deliveryStatus !== 'Hold'
                             ) {
                               props.onUpdate &&
                                 props.onUpdate({
@@ -729,7 +724,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                     {props.isHold && (
                       <Tooltip
                         tooltipText={`${
-                          row?.deliveryStatus === 'Hold' ? 'UnHold' : 'Hold'
+                          row?.deliveryStatus === 'Hold' ? 'Pending' : 'Hold'
                         }`}
                         position='bottom'
                       >
@@ -746,13 +741,13 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                                 props.onUpdate({
                                   type:
                                     row?.deliveryStatus === 'Hold'
-                                      ? 'UnHold'
+                                      ? 'Pending'
                                       : 'Hold',
                                   visitId: row?.visitId,
                                   show: true,
                                   id: row._id,
                                   title: 'Are you sure?',
-                                  body: 'Hold item',
+                                  body: 'Delivery status update',
                                 });
                             }
                           }}
@@ -766,7 +761,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         <Icons.IconContext
                           color={
                             row?.deliveryStatus !== 'Hold' &&
-                            row?.deliveryStatus !== 'UnHold' &&
                             row?.deliveryStatus !== 'Cancel'
                               ? '#ffffff'
                               : '#5A5A5A'
@@ -775,7 +769,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                           onClick={() => {
                             if (
                               row?.deliveryStatus !== 'Hold' &&
-                              row?.deliveryStatus !== 'UnHold' &&
                               row?.deliveryStatus !== 'Cancel'
                             ) {
                               props.onUpdate &&

@@ -1,17 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
-import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-  Toast,
-  MainPageHeading,
-} from '@/library/components';
+import { Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
 import {
-  PendingPanelApprovalList,
-  ResultList,
+  PanelApprovalList,
+  Result,
   PatientDemographicsList,
 } from '../components';
 import '@/library/assets/css/accordion.css';
@@ -130,9 +124,9 @@ const PanelApproval = observer(() => {
     setTableReload(!tableReaload);
   };
 
-  const resultTable = useMemo(
+  const panelApprovalTable = useMemo(
     () => (
-      <ResultList
+      <PanelApprovalList
         data={panelApprovalStore.panelApprovalList || []}
         totalSize={panelApprovalStore.panelApprovalListCount}
         selectedId={selectId}
@@ -238,7 +232,7 @@ const PanelApproval = observer(() => {
       />
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <span className='font-bold text-lg underline'>Result</span>
-        {resultTable}
+        {panelApprovalTable}
         <span className='text-red'>
           Note: Report Priority= Daily single-single update.
         </span>
@@ -247,12 +241,22 @@ const PanelApproval = observer(() => {
       {expandItem?.length > 0 && (
         <>
           <div className='p-1 rounded-lg shadow-xl overflow-auto mt-4'>
-            <span className='font-bold text-lg underline'>
-              Pending Panel Approval
-            </span>
-            <PendingPanelApprovalList
+            <span className='font-bold text-lg underline'>Result</span>
+            <Result
               data={expandItem || []}
               totalSize={expandItem.length}
+              onUpdateResult={(fields: any, id: string) => {
+                updateResultRecords(id, fields);
+              }}
+              onUpdateFields={(fields: any, id: string) => {
+                updateRecords({
+                  show: true,
+                  type: 'update',
+                  data: { fields, id },
+                  title: 'Are you sure?',
+                  body: 'Update items!',
+                });
+              }}
             />
             <span className='font-bold text-lg underline'>
               Patient Demographics
