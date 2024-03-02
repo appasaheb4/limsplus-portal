@@ -14,6 +14,7 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
+  Icons,
 } from '@/library/components';
 import {
   CommonInputTable,
@@ -28,6 +29,8 @@ import { resetReferenceRange } from '../startup';
 import dayjs from 'dayjs';
 import * as XLSX from 'xlsx';
 import { getDays } from '../utils';
+import { getDefaultLookupItem } from '@/library/utils';
+import { useForm } from 'react-hook-form';
 
 const ReferenceRanges = ReferenceRangesHoc(
   observer(() => {
@@ -40,6 +43,15 @@ const ReferenceRanges = ReferenceRangesHoc(
       refernceRangesStore,
       routerStore,
     } = useStores();
+    const {
+      control,
+      handleSubmit,
+      formState: { errors },
+      setValue,
+      clearErrors,
+      setError,
+      reset,
+    } = useForm({ mode: 'all' });
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddView, setHideAddView] = useState<boolean>(true);
@@ -456,6 +468,48 @@ const ReferenceRanges = ReferenceRangesHoc(
       ],
     );
 
+    const addItem = () => {
+      const refRangesInputList =
+        refernceRangesStore.referenceRanges?.refRangesInputList;
+      refRangesInputList.push({
+        rangeId:
+          refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
+        analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
+        analyteName: refernceRangesStore.referenceRanges?.analyteName,
+        analyteDepartments:
+          refernceRangesStore.referenceRanges?.analyteDepartments,
+        department: refernceRangesStore.referenceRanges?.department,
+        species: refernceRangesStore.referenceRanges?.species,
+        sex: refernceRangesStore.referenceRanges?.sex,
+        rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
+        instType: refernceRangesStore.referenceRanges?.instType,
+        lab: refernceRangesStore.referenceRanges?.lab,
+        picture: refernceRangesStore.referenceRanges?.picture,
+        version: 1,
+        dateCreation: new Date(),
+        dateActive: new Date(),
+        dateExpire: new Date(
+          dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+        ),
+        enterBy: loginStore.login.userId,
+        status: 'A',
+        // companyCode: refernceRangesStore.referenceRanges?.companyCode,
+        // environment: getDefaultLookupItem(
+        //   routerStore.lookupItems,
+        //   'ENVIRONMENT',
+        // ),
+        type: 'insert',
+        rangeType: getDefaultLookupItem(routerStore.lookupItems, 'RANGE_TYPE'),
+        validationLevel: Number.parseInt(
+          getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
+        ),
+      });
+      refernceRangesStore.updateReferenceRanges({
+        ...refernceRangesStore.referenceRanges,
+        refRangesInputList,
+      });
+    };
+
     return (
       <>
         <MainPageHeading
@@ -494,6 +548,12 @@ const ReferenceRanges = ReferenceRangesHoc(
                 <CommonInputTable
                   isVersionUpgrade={isVersionUpgrade}
                   isReload={isCommonTableReload}
+                  reset={reset}
+                  setValue={setValue}
+                  clearErrors={clearErrors}
+                  setError={setError}
+                  control={control}
+                  errors={errors}
                 />
                 {refRangesInputTable}
               </div>
@@ -516,6 +576,18 @@ const ReferenceRanges = ReferenceRangesHoc(
                 size='medium'
                 type='solid'
                 icon={Svg.Save}
+                onClick={handleSubmit(addItem)}
+              >
+                Add
+              </Buttons.Button>
+              <Buttons.Button
+                size='medium'
+                type='solid'
+                icon={Svg.Save}
+                disabled={
+                  toJS(refernceRangesStore.referenceRanges?.refRangesInputList)
+                    .length < 1
+                }
                 onClick={() => onSubmitReferenceRanges()}
               >
                 Save

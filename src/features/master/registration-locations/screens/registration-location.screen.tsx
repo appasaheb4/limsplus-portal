@@ -435,7 +435,6 @@ const RegistrationLocation = RegistrationLocationHoc(
         'locationName',
         'acClass',
         'accountType',
-        'deliveryMode',
         'status',
         'environment',
       ];
@@ -508,7 +507,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             mobileNo: item['Mobile No'],
             email: item.Email,
             reportPriority: item['Report Priority'],
-            deliveryMode: undefined,
+            deliveryMode: [{ code: 'Portal', value: 'Portal' }],
             route: item.Route,
             lab: item.Lab,
             info: item.Info,
@@ -530,7 +529,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             dateExpire: new Date(
               dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
             ),
-            version: item.Version,
+            version: 1,
             enteredBy: loginStore.login.userId,
             openingTime: item['Opening Time'],
             closingTime: item['Closing Time'],
@@ -2296,6 +2295,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                   registrationLocationsStore.updateRegistrationLocations({
                     ...modalConfirm.data,
                     _id: undefined,
+                    priceList: [{ id: 0, maxDis: 0 }],
                     existsVersionId: modalConfirm.data._id,
                     existsRecordId: undefined,
                     version: Number.parseInt(modalConfirm.data.version + 1),

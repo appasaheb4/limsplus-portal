@@ -10,14 +10,11 @@
   font-size: 14px;
 }
 
-.react-bootstrap-table .table td,
-.table th {
-  padding: 2;
-}
 
 .react-bootstrap-table .table th,
 .table td {
-  padding: 2;
+  padding: 6px;
+  vertical-align: middle; /* Center text vertically */
 }
 
 th {
@@ -28,6 +25,9 @@ th {
 
 .scrollTable .react-bootstrap-table-page-btns-ul {
   display: none;
+}
+.filter-label {
+  margin-bottom: 0 !important;
 }
 
 /* date filter hide comp */

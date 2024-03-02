@@ -341,15 +341,12 @@ const Lab = LabHoc(
             labLog: undefined,
             image: undefined,
             environment: item?.Environment,
-            autoRelease: item['Auto Release'] === 'Yes' ? true : false,
             requireReceveInLab:
               item['Require Receve In Lab'] === 'Yes' ? true : false,
             requireScainIn: item['Require Scain In'] === 'Yes' ? true : false,
             routingDept: item['Routing Dept'] === 'Yes' ? true : false,
             reportFormat: item['Report Format'] === 'Yes' ? true : false,
             printLable: item['Print Lable'] === 'Yes' ? true : false,
-            abnFlag: item['Abn Flag'] === 'Yes' ? true : false,
-            critical: item.Critical == 'Yes' ? true : false,
             fyiLine: item['Fyi Line'],
             workLine: item['Work Line'],
             priceList: undefined,
@@ -1246,46 +1243,6 @@ const Lab = LabHoc(
                         rules={{ required: false }}
                         defaultValue=''
                       />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Abn Flag'
-                            hasError={!!errors.abnFlag}
-                            value={value}
-                            onChange={abnFlag => {
-                              onChange(abnFlag);
-                              labStore.updateLabs({
-                                ...labStore.labs,
-                                abnFlag,
-                              });
-                            }}
-                          />
-                        )}
-                        name='abnFlag'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Critical'
-                            hasError={!!errors.critical}
-                            value={value}
-                            onChange={critical => {
-                              onChange(critical);
-                              labStore.updateLabs({
-                                ...labStore.labs,
-                                critical,
-                              });
-                            }}
-                          />
-                        )}
-                        name='critical'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
                     </Grid>
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
@@ -1609,27 +1566,6 @@ const Lab = LabHoc(
                     /> */}
 
                     <Grid cols={4}>
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Auto Release'
-                            hasError={!!errors.autoRelease}
-                            value={value}
-                            onChange={autoRelease => {
-                              onChange(autoRelease);
-                              labStore.updateLabs({
-                                ...labStore.labs,
-                                autoRelease,
-                              });
-                            }}
-                          />
-                        )}
-                        name='autoRelease'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (

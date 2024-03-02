@@ -56,7 +56,7 @@ interface TableBootstrapProps {
 export const sortCaret = (order, column) => {
   if (!order)
     return (
-      <div className='flex flex-row absolute right-2 bottom-1/3'>
+      <div className='flex flex-row absolute right-4 bottom-1/3'>
         <Icons.IconContext color='#fff' size='20'>
           {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
         </Icons.IconContext>
@@ -67,7 +67,7 @@ export const sortCaret = (order, column) => {
     );
   else if (order === 'asc')
     return (
-      <div className='flex flex-row absolute right-2 bottom-1/3'>
+      <div className='flex flex-row absolute right-4 bottom-1/3'>
         <Icons.IconContext color='#fff' size='20'>
           {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
         </Icons.IconContext>
@@ -78,7 +78,7 @@ export const sortCaret = (order, column) => {
     );
   else if (order === 'desc')
     return (
-      <div className='flex flex-row absolute right-2 bottom-1/3'>
+      <div className='flex flex-row absolute right-4 bottom-1/3'>
         <Icons.IconContext color='#fff' size='10'>
           {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
         </Icons.IconContext>
@@ -589,6 +589,13 @@ export const TableBootstrap = ({
         })}
     </div>
   );
+  const rowStyle = (row, rowIndex) => {
+    if (row.status === 'I')
+      return {
+        backgroundColor: '#D4D4D4',
+        color: 'FFFF00',
+      };
+  };
 
   return (
     // <div className='flex h-[calc(100vh_-_20vh)]'>
@@ -648,25 +655,29 @@ export const TableBootstrap = ({
                 )}
 
                 {isFilterOpen ? (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronUp />
-                  </Buttons.Button>
+                  <div className='ml-2'>
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsFilterOpen(!isFilterOpen);
+                      }}
+                    >
+                      <Icons.IconFa.FaChevronUp />
+                    </Buttons.Button>
+                  </div>
                 ) : (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronDown />
-                  </Buttons.Button>
+                  <div className='ml-2'>
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsFilterOpen(!isFilterOpen);
+                      }}
+                    >
+                      <Icons.IconFa.FaChevronDown />
+                    </Buttons.Button>
+                  </div>
                 )}
               </div>
               {isFilterOpen && (
@@ -704,8 +715,9 @@ export const TableBootstrap = ({
                         })
                       : undefined
                   }
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                  headerClasses='bg-gray-500 text-white whitespace-nowrap align-middle mt-2'
                   onTableChange={handleTableChange}
+                  rowStyle={rowStyle}
                 />
               </div>
               {totalSize && (

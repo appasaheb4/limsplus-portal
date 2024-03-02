@@ -3,6 +3,7 @@ import { Form, Icons } from '@/library/components';
 import { sidebarBackgroundImage } from '@/library/assets';
 import { stores } from '@/stores';
 import { SketchPicker } from 'react-color';
+import { GrPowerReset } from 'react-icons/gr';
 
 interface SideBarColorBgImagesProps {
   data: Array<{ color: string }>;
@@ -19,10 +20,6 @@ const SideBarColorBgImages = ({
   const [sideBarChecked, setSideBarChecked] = useState(false);
   const [sideBarFontColorChecked, setSideBarFontcolorChecked] = useState(false);
   const [navIconColorChecked, setNavIconColorChecked] = useState(false);
-  const [navBarColor, setNavBarColor] = useState('#ffffff');
-  const [sideBarColor, setSideBarColor] = useState('#ffffff');
-  const [sideBarFontColor, setSideBarFontColor] = useState('#ffffff');
-  const [navIconColor, setNavIconColor] = useState('#000');
   const [currentColor, setCurrentColor] = useState('#ffffff');
   const sideImages = useMemo(() => {
     return (
@@ -66,101 +63,61 @@ const SideBarColorBgImages = ({
     );
   }, []);
 
-  const navbarChangeColor = color => {
-    setNavBarColor(color.hex);
-    setSideBarColor(sideBarColor);
-    setSideBarFontColor(sideBarFontColor);
-    setNavIconColor(navIconColor);
-    stores.appStore.updateApplicationSetting({
-      ...stores.appStore.applicationSetting,
-      navBarColor: color.hex,
-    });
-  };
-
-  const sidebarColorChangeHandler = color => {
-    setSideBarColor(color.hex);
-    setSideBarFontColor(sideBarFontColor);
-    setNavIconColor(navIconColor);
-    setNavBarColor(navBarColor);
-    stores.appStore.updateApplicationSetting({
-      ...stores.appStore.applicationSetting,
-      sideBarColor: color.hex,
-    });
-  };
-
-  const sidebarFontColorChangeHandler = color => {
-    setSideBarFontColor(color.hex);
-    setNavIconColor(navIconColor);
-    setNavBarColor(navBarColor);
-    setSideBarColor(sideBarColor);
-    stores.appStore.updateApplicationSetting({
-      ...stores.appStore.applicationSetting,
-      sidebarFontColor: color.hex,
-    });
-  };
-
-  const navbarIconChangeHandler = color => {
-    setNavIconColor(color.hex);
-    setNavBarColor(navBarColor);
-    setSideBarColor(sideBarColor);
-    setSideBarFontColor(sideBarFontColor);
-    stores.appStore.updateApplicationSetting({
-      ...stores.appStore.applicationSetting,
-      navbarIconColor: color.hex,
-    });
-  };
-
-  const handleNavBarChange = () => {
-    setNavBarChecked(!navBarChecked);
-    if (navBarChecked) {
-      setNavBarColor('#fff');
-      stores.appStore.updateApplicationSetting({
-        ...stores.appStore.applicationSetting,
-        navBarColor: '',
-      });
-    }
-  };
-
-  const handleSideBarChange = () => {
-    setSideBarChecked(!sideBarChecked);
-    if (sideBarChecked) {
-      setSideBarColor('#fff');
-      stores.appStore.updateApplicationSetting({
-        ...stores.appStore.applicationSetting,
-        sideBarColor: '',
-      });
-    }
-  };
-
-  const handleSideBarFontColorChange = () => {
-    setSideBarFontcolorChecked(!sideBarFontColorChecked);
+  const handleChangeColor = color => {
+    setCurrentColor(color.hex);
     if (sideBarFontColorChecked) {
-      setSideBarFontColor('#fff');
       stores.appStore.updateApplicationSetting({
         ...stores.appStore.applicationSetting,
-        sidebarFontColor: '',
+        sidebarFontColor: color.hex,
+      });
+    } else if (sideBarChecked) {
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        sideBarColor: color.hex,
+      });
+    } else if (navBarChecked) {
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        navBarColor: color.hex,
+      });
+    } else if (navIconColorChecked) {
+      stores.appStore.updateApplicationSetting({
+        ...stores.appStore.applicationSetting,
+        navbarIconColor: color.hex,
       });
     }
   };
 
-  const handleNavIconColorChange = () => {
-    setNavIconColorChecked(!navIconColorChecked);
-    if (navIconColorChecked) {
-      setNavIconColor('#000');
-      stores.appStore.updateApplicationSetting({
-        ...stores.appStore.applicationSetting,
-        navbarIconColor: '',
-      });
+  const handleCheckboxChange = checkboxType => {
+    switch (checkboxType) {
+      case 'navBar':
+        setNavBarChecked(!navBarChecked);
+        setSideBarChecked(false);
+        setSideBarFontcolorChecked(false);
+        setNavIconColorChecked(false);
+        break;
+      case 'sideBar':
+        setSideBarChecked(!sideBarChecked);
+        setNavBarChecked(false);
+        setSideBarFontcolorChecked(false);
+        setNavIconColorChecked(false);
+        break;
+      case 'sidebarFont':
+        setSideBarFontcolorChecked(!sideBarFontColorChecked);
+        setNavBarChecked(false);
+        setSideBarChecked(false);
+        setNavIconColorChecked(false);
+        break;
+      case 'navIconColor':
+        setNavIconColorChecked(!navIconColorChecked);
+        setNavBarChecked(false);
+        setSideBarChecked(false);
+        setSideBarFontcolorChecked(false);
+        break;
+      default:
+        break;
     }
   };
-
-  const color = sideBarFontColorChecked
-    ? sideBarFontColor
-    : sideBarChecked
-    ? sideBarColor
-    : navIconColorChecked
-    ? navIconColor
-    : navBarColor;
 
   return (
     <React.Fragment>
@@ -168,63 +125,99 @@ const SideBarColorBgImages = ({
         <hr />
         <div className='flex justify-between gap-2 mt-2'>
           <Form.InputWrapper label='SideBar Color'>
-            <input
-              type='checkbox'
-              name='target'
-              value='sideBarColor'
-              checked={sideBarChecked}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-              onChange={() => handleSideBarChange()}
-            />
+            <div className='flex gap-1'>
+              <input
+                type='checkbox'
+                name='target'
+                value='sideBarColor'
+                checked={sideBarChecked}
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                onChange={() => handleCheckboxChange('sideBar')}
+              />
+              <div>
+                <GrPowerReset
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      sideBarColor: '',
+                    });
+                  }}
+                />
+              </div>
+            </div>
           </Form.InputWrapper>
+
           <Form.InputWrapper label='Navbar Color'>
-            <input
-              type='checkbox'
-              name='target'
-              value='navBarColor'
-              checked={navBarChecked}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-              onChange={() => handleNavBarChange()}
-            />
+            <div className='flex gap-1'>
+              <input
+                type='checkbox'
+                name='target'
+                value='navBarColor'
+                checked={navBarChecked}
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                onChange={() => handleCheckboxChange('navBar')}
+              />
+              <div>
+                <GrPowerReset
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      navBarColor: '',
+                    });
+                  }}
+                />
+              </div>
+            </div>
           </Form.InputWrapper>
           <Form.InputWrapper label='Font Color'>
-            <input
-              type='checkbox'
-              name='target'
-              value='navBarColor'
-              checked={sideBarFontColorChecked}
-              onChange={() => handleNavIconColorChange()}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-            />
+            <div className='flex gap-1'>
+              <input
+                type='checkbox'
+                name='target'
+                value='navBarColor'
+                checked={sideBarFontColorChecked}
+                onChange={() => handleCheckboxChange('sidebarFont')}
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+              />
+              <div>
+                <GrPowerReset
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      sidebarFontColor: '',
+                    });
+                  }}
+                />
+              </div>
+            </div>
           </Form.InputWrapper>
           <Form.InputWrapper label='Icon Color'>
-            <input
-              type='checkbox'
-              name='target'
-              value='navBarColor'
-              checked={navIconColorChecked}
-              onChange={() => handleSideBarFontColorChange()}
-              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-            />
+            <div className='flex gap-1 items-center'>
+              <input
+                type='checkbox'
+                name='target'
+                value='navBarColor'
+                checked={navIconColorChecked}
+                onChange={() => handleCheckboxChange('navIconColor')}
+                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+              />
+              <div>
+                <GrPowerReset
+                  onClick={() => {
+                    stores.appStore.updateApplicationSetting({
+                      ...stores.appStore.applicationSetting,
+                      navbarIconColor: '',
+                    });
+                  }}
+                />
+              </div>
+            </div>
           </Form.InputWrapper>
         </div>
-        <div className='w-full flex justify-center mb-3'>
+        <div className='w-full flex justify-center mt-2 mb-3'>
           <SketchPicker
-            color={color}
-            onChangeComplete={color => {
-              if (sideBarFontColorChecked) {
-                sidebarFontColorChangeHandler(color);
-              }
-              if (sideBarChecked) {
-                sidebarColorChangeHandler(color);
-              }
-              if (navBarChecked) {
-                navbarChangeColor(color);
-              }
-              if (navIconColorChecked) {
-                navbarIconChangeHandler(color);
-              }
-            }}
+            color={currentColor}
+            onChangeComplete={handleChangeColor}
           />
         </div>
 
@@ -272,5 +265,4 @@ const SideBarColorBgImages = ({
     </React.Fragment>
   );
 };
-
-export default React.memo(SideBarColorBgImages);
+export default SideBarColorBgImages;

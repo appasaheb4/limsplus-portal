@@ -6,7 +6,7 @@ import {
   Icons,
   textFilter,
   sortCaret,
-  DateFilter,
+  DateRangeFilter,
   customFilter,
   NumberFilter,
   DepartmentList,
@@ -932,12 +932,12 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               dataField: 'dateCreation',
               editable: false,
               text: 'Date Creation',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateCreation
                   ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -948,7 +948,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -963,12 +963,12 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               text: 'Date Expiry',
-              headerClasses: 'textHeader11',
-              sort: true,
+              headerClasses: 'textHeader',
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) =>
                 row.dateExpire
                   ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -979,7 +979,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (

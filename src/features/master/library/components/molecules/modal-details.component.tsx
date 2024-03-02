@@ -79,6 +79,7 @@ const ModalDetails = ({
                         theme='snow'
                         value={value}
                         modules={modules}
+                        readOnly={status}
                         onChange={details => {
                           setValue(details);
                         }}

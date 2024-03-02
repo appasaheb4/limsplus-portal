@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import {
   NumberFilter,
-  DateFilter,
+  DateRangeFilter,
   TableBootstrap,
   textFilter,
   customFilter,
@@ -109,6 +109,8 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
   // const [interfaceManagerList, setInterfaceManagerList] = useState([]);
   const interfaceManagerListImportRef = useRef([]);
   const interfaceManagerListExportRef = useRef([]);
+  const [selectedRowId, setSelectedRowId] = useState('');
+  const [widthRefBox, setWidthRefBox] = useState('20px');
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -1236,19 +1238,55 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
           {
             dataField: 'panelList',
             text: 'Panel List',
-            headerClasses: 'textHeader5',
-            sort: true,
+            headerClasses: 'textHeader1',
+            // sort: true,
+            style: { width: widthRefBox },
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             formatter: (cell, row) => {
               return (
-                <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
-                  {row.panelList?.map(item => (
-                    <span className='shadow-xl p-2 '>
-                      {item?.panelCode + ' - ' + item?.panelName}
-                    </span>
-                  ))}
-                </div>
+                <>
+                  <div>
+                    {row.panelList?.length > 0 && (
+                      <Tooltip
+                        tooltipText={
+                          row._id != selectedRowId
+                            ? 'Expand Panel List'
+                            : 'Collapse Panel List'
+                        }
+                      >
+                        <Icons.IconContext
+                          color='#000000'
+                          size='20'
+                          onClick={() => {
+                            if (row._id === selectedRowId) {
+                              setSelectedRowId('');
+                              setWidthRefBox('30px');
+                            } else {
+                              setSelectedRowId(row._id);
+                              setWidthRefBox('800px');
+                            }
+                          }}
+                        >
+                          {Icons.getIconTag(
+                            row._id != selectedRowId
+                              ? Icons.IconBi.BiExpand
+                              : Icons.IconBi.BiCollapse,
+                          )}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+                  </div>
+                  {selectedRowId == row?._id && (
+                    <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
+                      {row.panelList?.map(item => (
+                        <span className='shadow-xl p-2 '>
+                          {item?.panelCode + ' - ' + item?.panelName}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </>
               );
             },
             editorRenderer: (
@@ -1401,12 +1439,12 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             dataField: 'dateCreation',
             editable: false,
             text: 'Date Creation',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -1417,7 +1455,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return (
@@ -1453,12 +1491,12 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             dataField: 'dateActive',
             editable: false,
             text: 'Date Active',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
                 ? dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -1469,7 +1507,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return (
@@ -1499,12 +1537,12 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             dataField: 'dateExpire',
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             text: 'Date Expiry',
-            headerClasses: 'textHeader11',
-            sort: true,
+            headerClasses: 'textHeader',
+            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            sortCaret: (order, column) => sortCaret(order, column),
+            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
                 ? dayjs(row.dateExpire || 0).format('DD-MM-YYYY HH:mm:ss')
@@ -1515,7 +1553,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               },
             }),
             filterRenderer: (onFilter, column) => (
-              <DateFilter onFilter={onFilter} column={column} />
+              <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
               return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;

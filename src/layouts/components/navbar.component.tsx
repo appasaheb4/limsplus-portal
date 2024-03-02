@@ -80,7 +80,8 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                 propsIcon={{
                   color:
                     stores.appStore.applicationSetting.theme === 'dark'
-                      ? '#ffffff'
+                      ? stores.appStore.applicationSetting.navbarIconColor ||
+                        '#ffffff'
                       : stores.appStore.applicationSetting.navbarIconColor,
                   size: 22,
                 }}
@@ -102,8 +103,11 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   <Tooltip tooltipText='Dashboard'>
                     <Icons.IconContext
                       color={
-                        stores.appStore.applicationSetting.navbarIconColor ||
-                        '#000'
+                        stores.appStore.applicationSetting.theme === 'dark'
+                          ? stores.appStore.applicationSetting
+                              .navbarIconColor || '#ffffff'
+                          : stores.appStore.applicationSetting
+                              .navbarIconColor || '#000'
                       }
                       size='18'
                     >
@@ -216,8 +220,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                     <Icons.IconContext
                       color={`${
                         stores.appStore.applicationSetting.theme === 'dark'
-                          ? '#ffffff'
-                          : '#000000'
+                          ? stores.appStore.applicationSetting
+                              .navbarIconColor || '#ffffff'
+                          : stores.appStore.applicationSetting
+                              .navbarIconColor || '#000'
                       }`}
                       size='18'
                     >
@@ -230,10 +236,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   </Tooltip>
                 </Buttons.Button>
               </div>
-              <Tooltip tooltipText={'User session'}>
-                <span
-                  className='flex rounded-md p-2 shadow-4 items-center border-2 border-white'
-                  style={{ cursor: 'pointer' }}
+              <div>
+                <button
+                  type='button'
+                  className={`inline-flex items-center text-sm rounded-lg shadow-sm dark:text-white  font-medium  border border-gray-400 hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed text-center `}
                   onClick={() => {
                     if (loginStore.login.loginActivityList.length > 0) {
                       setModalSessionAllowed({
@@ -246,10 +252,17 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                       });
                     }
                   }}
+                  style={{
+                    padding: '7px',
+                    color: stores.appStore.applicationSetting.navbarIconColor,
+                  }}
                 >
-                  {loginStore.login?.sessionAllowed}
-                </span>
-              </Tooltip>
+                  <Tooltip tooltipText={'User session'}>
+                    {loginStore.login?.sessionAllowed}
+                  </Tooltip>
+                </button>
+              </div>
+
               <div className='mx-2'>
                 <DarkModeSwitcher
                   //isDisable={appStore.applicationSetting.isExpandScreen}
@@ -272,7 +285,12 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                     />
                   </Tooltip>
                 </div>
-                <span className='sm:mt-2 d-none d-sm-inline-block '>
+                <span
+                  className='sm:mt-2 d-none d-sm-inline-block '
+                  style={{
+                    color: stores.appStore.applicationSetting.navbarIconColor,
+                  }}
+                >
                   {loginStore.login?.fullName}
                 </span>
               </div>

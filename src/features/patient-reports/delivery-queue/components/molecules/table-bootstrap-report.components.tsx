@@ -97,6 +97,8 @@ export const TableBootstrapReport = ({
   const statusData = [
     { code: 'Hold', value: 'Hold', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
+    { code: 'Hold', value: 'Hold', color: 'green' },
+    { code: 'Cancel', value: 'Cancel', color: 'red' },
     { code: 'Done', value: 'Done', color: 'orange' },
     { code: 'All', value: 'All', color: 'red' },
   ];
@@ -385,11 +387,11 @@ export const TableBootstrapReport = ({
                     <Icons.IconTb.TbExchange />
                   </Buttons.Button>
                 </Tooltip>
-                <div className='flex gap-4'>
+                <div className='flex gap-2'>
                   {statusData.map(status => (
                     <button
                       key={status.code}
-                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                      className={`px-2 py-2 bg-${status.color}-600 text-white rounded w-20`}
                       onClick={() => onFindDeliveryStatus?.(status.code)}
                     >
                       {status.value}

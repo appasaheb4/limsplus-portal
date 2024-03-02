@@ -780,6 +780,9 @@ const CommentManager = CommentManagerHoc(
                         hasError={!!errors.investigationCode}
                       >
                         <InvestigationDetails
+                          displayValue={
+                            commentManagerStore.commentManager.investigationCode
+                          }
                           investigationType={
                             commentManagerStore.commentManager.investigationType
                           }
@@ -1686,6 +1689,8 @@ const CommentManager = CommentManagerHoc(
                     existsVersionId: undefined,
                     existsRecordId: modalConfirm.data._id,
                     versions: 1,
+                    investigationCode: modalConfirm.data.investigationCode,
+                    investigationName: modalConfirm.data.investigationName,
                     dateCreation: new Date(),
                     dateActive: new Date(),
                     dateExpire: new Date(

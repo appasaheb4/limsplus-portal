@@ -8,6 +8,7 @@ interface InvestigationDetailsProps {
   investigationType: string;
   isError?: boolean;
   disable?: boolean;
+  displayValue?: string;
   onSelect: (items: any) => void;
 }
 
@@ -17,6 +18,7 @@ export const InvestigationDetails = observer(
     disable = false,
     isError,
     onSelect,
+    displayValue,
   }: InvestigationDetailsProps) => {
     const {
       loading,
@@ -128,6 +130,7 @@ export const InvestigationDetails = observer(
     return (
       <div>
         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+          displayValue={displayValue}
           loader={loading}
           disable={disable}
           data={{

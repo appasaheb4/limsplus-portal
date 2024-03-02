@@ -5,7 +5,7 @@ import {
   Icons,
   textFilter,
   customFilter,
-  DateFilter,
+  DateRangeFilter,
   NumberFilter,
   sortCaret,
 } from '@/library/components';
@@ -177,20 +177,20 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             {
               dataField: 'deliveryDate',
               text: 'Delivery Date',
-              sort: true,
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader',
               filter: customFilter({
                 getFilter: filter => {
                   deliveryDate = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -205,20 +205,20 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             {
               dataField: 'reportDate',
               text: 'Report Date',
-              sort: true,
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader',
               filter: customFilter({
                 getFilter: filter => {
                   reportDate = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -327,20 +327,20 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             {
               dataField: 'startDate',
               text: 'Start Date',
-              sort: true,
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader',
               filter: customFilter({
                 getFilter: filter => {
                   startDate = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (
@@ -355,20 +355,20 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             {
               dataField: 'endDate',
               text: 'End Date',
-              sort: true,
+              // sort: true,
               headerStyle: {
                 fontSize: 0,
               },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader11',
+              headerClasses: 'textHeader',
               filter: customFilter({
                 getFilter: filter => {
                   endDate = filter;
                 },
               }),
               filterRenderer: (onFilter, column) => (
-                <DateFilter onFilter={onFilter} column={column} />
+                <DateRangeFilter onFilter={onFilter} column={column} />
               ),
               formatter: (cell, row) => {
                 return (

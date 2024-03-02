@@ -19,6 +19,12 @@ interface CommonInputTableProps {
   data?: any;
   isVersionUpgrade?: boolean;
   isReload?: boolean;
+  reset: any;
+  setValue: any;
+  clearErrors: any;
+  setError: any;
+  control: any;
+  errors: any;
 }
 
 export const CommonInputTable = observer(
@@ -26,6 +32,12 @@ export const CommonInputTable = observer(
     data,
     isVersionUpgrade = false,
     isReload = false,
+    reset,
+    setValue,
+    clearErrors,
+    setError,
+    control,
+    errors,
   }: CommonInputTableProps) => {
     const {
       loading,
@@ -37,16 +49,6 @@ export const CommonInputTable = observer(
       loginStore,
       labStore,
     } = useStores();
-
-    const {
-      control,
-      handleSubmit,
-      formState: { errors },
-      setValue,
-      clearErrors,
-      setError,
-      reset,
-    } = useForm({ mode: 'all' });
 
     const [isDisableLab, setIsDisableLab] = useState<boolean>(false);
     const [isDisableEquipmentType, setIsDisableEquipmentType] =
@@ -105,48 +107,6 @@ export const CommonInputTable = observer(
       }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refernceRangesStore.referenceRanges?.rangeSetOn]);
-
-    const addItem = () => {
-      const refRangesInputList =
-        refernceRangesStore.referenceRanges?.refRangesInputList;
-      refRangesInputList.push({
-        rangeId:
-          refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
-        analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
-        analyteName: refernceRangesStore.referenceRanges?.analyteName,
-        analyteDepartments:
-          refernceRangesStore.referenceRanges?.analyteDepartments,
-        department: refernceRangesStore.referenceRanges?.department,
-        species: refernceRangesStore.referenceRanges?.species,
-        sex: refernceRangesStore.referenceRanges?.sex,
-        rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
-        instType: refernceRangesStore.referenceRanges?.instType,
-        lab: refernceRangesStore.referenceRanges?.lab,
-        picture: refernceRangesStore.referenceRanges?.picture,
-        version: 1,
-        dateCreation: new Date(),
-        dateActive: new Date(),
-        dateExpire: new Date(
-          dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-        ),
-        enterBy: loginStore.login.userId,
-        status: 'A',
-        // companyCode: refernceRangesStore.referenceRanges?.companyCode,
-        // environment: getDefaultLookupItem(
-        //   routerStore.lookupItems,
-        //   'ENVIRONMENT',
-        // ),
-        type: 'insert',
-        rangeType: getDefaultLookupItem(routerStore.lookupItems, 'RANGE_TYPE'),
-        validationLevel: Number.parseInt(
-          getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
-        ),
-      });
-      refernceRangesStore.updateReferenceRanges({
-        ...refernceRangesStore.referenceRanges,
-        refRangesInputList,
-      });
-    };
 
     return (
       <div
@@ -512,14 +472,14 @@ export const CommonInputTable = observer(
             </tr>
           </tbody>
         </Table>
-        <Buttons.Button
+        {/* <Buttons.Button
           size='medium'
           type='solid'
           onClick={handleSubmit(addItem)}
         >
           <Icons.EvaIcon icon='plus-circle-outline' />
           {'Add'}
-        </Buttons.Button>
+        </Buttons.Button> */}
       </div>
     );
   },

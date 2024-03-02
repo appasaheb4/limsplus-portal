@@ -1,32 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { observer } from 'mobx-react';
 
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
   Form,
   Svg,
   ModalConfirm,
-  AutocompleteSearchGroupBy,
   MainPageHeading,
 } from '@/library/components';
 import { BannerList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
-import { useHistory } from 'react-router-dom';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
 import { connect } from 'react-redux';
+import useGlobalKeydown from '@/hooks/use-global-key-down';
 
 const Banner = BannerHoc(
-  observer(({ sidebar }) => {
+  observer(() => {
     const { loginStore, routerStore, bannerStore, appStore } = useStores();
     const {
       control,
@@ -35,7 +31,6 @@ const Banner = BannerHoc(
       setValue,
       reset,
     } = useForm();
-    const history = useHistory();
 
     useEffect(() => {
       // Default value initialization
@@ -49,6 +44,22 @@ const Banner = BannerHoc(
     const [hideAddBanner, setHideAddBanner] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
+    const handleCtrlS = useCallback(() => {
+      handleSubmit(onSubmitBanner)();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const handleCtrlX = useCallback(() => {
+      reset();
+      resetBanner();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useGlobalKeydown({
+      s: handleCtrlS,
+      x: handleCtrlX,
+    });
 
     const onSubmitBanner = async () => {
       await bannerStore.BannerService.addBanner({
@@ -416,6 +427,4 @@ const Banner = BannerHoc(
   }),
 );
 
-export default connect((store: any) => ({
-  sidebar: store.sidebar,
-}))(Banner);
+export default Banner;
