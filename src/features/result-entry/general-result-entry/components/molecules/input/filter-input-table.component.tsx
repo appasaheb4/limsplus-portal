@@ -439,7 +439,7 @@ export const FilterInputTable = observer(() => {
           </tr>
         </tbody>
       </Table>
-      <Buttons.Button
+      {/* <Buttons.Button
         size='small'
         type='solid'
         onClick={() => {
@@ -457,14 +457,14 @@ export const FilterInputTable = observer(() => {
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
               pLab: loginStore.login?.lab,
-              testCode: generalResultEntryStore.filterGeneralResEntry?.testCode,
+              // testCode: generalResultEntryStore.filterGeneralResEntry?.testCode,
               finishResult: 'P',
             },
           );
         }}
       >
         {'Clear Filter'}
-      </Buttons.Button>
+      </Buttons.Button> */}
     </div>
   );
 });

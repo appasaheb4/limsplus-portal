@@ -16,9 +16,8 @@ import paginationFactory, {
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
-import { debounce } from '@/core-utils';
 
-import { Buttons, Icons, Tooltip } from '@/library/components';
+import { Buttons, Icons } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -34,11 +33,10 @@ interface TableBootstrapProps {
   fileName: string;
   isDelete?: boolean;
   isEditModify?: boolean;
-  isExport?: boolean;
   isSelectRow?: boolean;
   selectedItem?: any;
   onDelete?: (selectedItem: any) => void;
-  onSelectedRow?: (selectedItem: any, type: string) => void;
+  onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, limit: number) => void;
   onFilter?: (
@@ -49,7 +47,6 @@ interface TableBootstrapProps {
   ) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
-  onFilterRecord?: (item: any) => void;
 }
 export const TableBootstrap = ({
   id,
@@ -60,9 +57,7 @@ export const TableBootstrap = ({
   sizePerPage = 10,
   columns,
   fileName,
-  isDelete = true,
   isEditModify,
-  isExport = true,
   isSelectRow,
   selectedItem,
   onSelectedRow,
@@ -71,7 +66,6 @@ export const TableBootstrap = ({
   onFilter,
   clearAllFilter,
   onClickRow,
-  onFilterRecord,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -87,46 +81,12 @@ export const TableBootstrap = ({
     );
   };
 
-  const statusData = [
-    { code: 'Pending', value: 'Pending', color: 'blue' },
-    { code: 'Recheck', value: 'Recheck', color: 'yellow' },
-    { code: 'Retest', value: 'Retest', color: 'orange' },
-    { code: 'Hold', value: 'Hold', color: 'indigo' },
-    { code: 'Recall', value: 'Recall', color: 'gray' },
-  ];
-
   const sizePerPageRenderer = ({
     options,
     currSizePerPage,
     onSizePerPageChange,
   }) => (
     <div className='btn-group items-center' role='group'>
-      {isSelectRow && (
-        <div className='flex flex-row gap-1 border-solid border-2 p-1'>
-          <Tooltip tooltipText='Approved'>
-            <Icons.IconContext
-              color='#fff'
-              size='30'
-              onClick={() => {
-                onSelectedRow && onSelectedRow(selectedRow, 'Approved');
-              }}
-            >
-              {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
-            </Icons.IconContext>
-          </Tooltip>
-          <Tooltip tooltipText='Rejected'>
-            <Icons.IconContext
-              color='#fff'
-              size='30'
-              onClick={() => {
-                onSelectedRow && onSelectedRow(selectedRow, 'Rejected');
-              }}
-            >
-              {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
-            </Icons.IconContext>
-          </Tooltip>
-        </div>
-      )}
       <input
         type='number'
         min='0'
@@ -152,7 +112,6 @@ export const TableBootstrap = ({
       ))}
     </div>
   );
-
   const options = {
     cutome: true,
     totalSize: totalSize,
@@ -192,11 +151,9 @@ export const TableBootstrap = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   };
-
   let searchProps: any = {
     placeholder: searchPlaceholder,
   };
-
   const handleOnSelect = (rows: any, isSelect) => {
     if (isSelect) {
       if (selectedRow) {
@@ -228,6 +185,7 @@ export const TableBootstrap = ({
       searchText,
     },
   ) => {
+    // console.log({type});
     if (type === 'cellEdit' && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId);
@@ -249,20 +207,18 @@ export const TableBootstrap = ({
         const object = { [key]: values.filterVal };
         filter = Object.assign(filter, object);
       }
-      if (onFilter)
-        debounce(() => {
-          onFilter(
-            type,
-            filter,
-            type === 'filter' && page === 1 ? 0 : page,
-            sizePerPage,
-          );
-        });
+      onFilter &&
+        onFilter(
+          type,
+          filter,
+          type === 'filter' && page === 1 ? 0 : page,
+          sizePerPage,
+        );
     }
     if (type === 'search') {
-      debounce(() => {
+      setTimeout(() => {
         onFilter && onFilter(type, { srText: searchText }, page, sizePerPage);
-      });
+      }, 2000);
     }
     if (type === 'sort') {
       let result;
@@ -323,25 +279,8 @@ export const TableBootstrap = ({
   };
 
   const rowStyle = (row, rowIndex) => {
-    switch (row?.colorScheme?.envRangeColor) {
-      case 'BOTH':
-        return {
-          backgroundColor: row?.colorScheme?.cellColor,
-          color: row?.colorScheme?.fontColor,
-        };
-        break;
-      case 'BACKGROUND':
-        return {
-          backgroundColor: row?.colorScheme?.cellColor,
-        };
-        break;
-      case 'FONT':
-        return {
-          color: row?.colorScheme?.fontColor,
-        };
-        break;
-      default:
-        break;
+    if (row._id == selectedItem?._id) {
+      return { backgroundColor: '#a9a9a9' };
     }
   };
 
@@ -374,77 +313,7 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center gap-2 flex-wrap'>
-                <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={value => {
-                    console.log({ value });
-                  }}
-                />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.searchProps}
-                />
-                <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button>
-                {isExport && (
-                  <ExportCSVButton
-                    className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                    {...props.csvProps}
-                  >
-                    Export CSV!!
-                  </ExportCSVButton>
-                )}
-
-                {isFilterOpen ? (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronUp />
-                  </Buttons.Button>
-                ) : (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronDown />
-                  </Buttons.Button>
-                )}
-                <div className='flex gap-4'>
-                  {statusData.map(status => (
-                    <button
-                      key={status.code}
-                      className={`bg-${status.color}-600 ml-2 px-2 w-20 py-2 focus:outline-none items-center outline shadow-sm font-medium  text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
-                      onClick={() => onFilterRecord?.(status.value)}
-                    >
-                      {status.value}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10'}>
-                  <CustomToggleList
-                    contextual='primary'
-                    className='list-custom-class'
-                    btnClassName='list-btn-custom-class'
-                    {...props.columnToggleProps}
-                  />
-                </div>
-              )}
-              <div className='scrollTable mb-2'>
+              <div className='scrollTable'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
@@ -453,41 +322,10 @@ export const TableBootstrap = ({
                   {...paginationTableProps}
                   filter={filterFactory()}
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                  selectRow={
-                    isSelectRow
-                      ? {
-                          mode: 'checkbox',
-                          onSelect: handleOnSelect,
-                          onSelectAll: handleOnSelectAll,
-                        }
-                      : undefined
-                  }
-                  cellEdit={
-                    isEditModify
-                      ? cellEditFactory({
-                          mode: 'dbclick',
-                          blurToSave: true,
-                        })
-                      : undefined
-                  }
+                  onTableChange={handleTableChange}
                   rowEvents={rowEvents}
                   rowStyle={rowStyle}
-                  onTableChange={handleTableChange}
                 />
-              </div>
-              <div className='flex  items-center   p-2 justify-start gap-2 bg-[#6A727F] rounded-md   text-white w-full'>
-                <div className='flex items-center gap-2 '>
-                  <SizePerPageDropdownStandalone
-                    {...Object.assign(
-                      {},
-                      { ...paginationProps, hideSizePerPage: false },
-                    )}
-                  />
-                  <PaginationListStandalone {...paginationProps} />
-                </div>
-                <div className='flex items-center gap-2'>
-                  <PaginationTotalStandalone {...paginationProps} />
-                </div>
               </div>
             </div>
           )}

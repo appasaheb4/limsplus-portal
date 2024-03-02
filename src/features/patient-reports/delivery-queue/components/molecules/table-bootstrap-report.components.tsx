@@ -95,6 +95,7 @@ export const TableBootstrapReport = ({
   };
 
   const statusData = [
+    { code: 'Hold', value: 'Hold', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
     { code: 'Hold', value: 'Hold', color: 'green' },
     { code: 'Cancel', value: 'Cancel', color: 'red' },
