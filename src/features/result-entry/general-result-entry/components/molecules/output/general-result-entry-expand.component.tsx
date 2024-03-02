@@ -405,7 +405,7 @@ export const GeneralResultEntryExpand = ({
                   {isExport && (
                     <ExportCSVButton
                       className={
-                        'inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white'
+                        'bg-gray-500 px-2 w-28 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                       }
                       {...props.csvProps}
                     >
@@ -438,7 +438,7 @@ export const GeneralResultEntryExpand = ({
                     {statusData.map(status => (
                       <button
                         key={status.code}
-                        className={`bg-${status.color}-600 ml-2 px-4 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                        className={`bg-${status.color}-600 ml-2 px-2 w-20 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                         onClick={() => handleStatusClick(status.code)}
                       >
                         {status.value}
@@ -448,7 +448,7 @@ export const GeneralResultEntryExpand = ({
                   <button
                     disabled={isFinishResultDisable}
                     className={
-                      'ml-3 px-4 py-2 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                      'ml-3 px-2 py-2 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                     }
                     onClick={onFinishResult}
                   >
