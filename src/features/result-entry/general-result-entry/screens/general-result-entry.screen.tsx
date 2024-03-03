@@ -131,81 +131,84 @@ const GeneralResultEntry = observer(() => {
           }}
           onFilterFinishResult={async finishResult => {
             if (finishResult === '') {
-              generalResultEntryStore.updateFilterGeneralResEntry({
-                ...generalResultEntryStore.filterGeneralResEntry,
-                pLab: '',
-                departement: '',
-                testStatus: '',
-                resultStatus: '',
-                testCode: '',
-                analyteCode: '',
-                labId: '',
-                finishResult: '',
-              });
+              // generalResultEntryStore.updateFilterGeneralResEntry({
+              //   ...generalResultEntryStore.filterGeneralResEntry,
+              //   // pLab: '',
+              //   departement: '',
+              //   testStatus: '',
+              //   resultStatus: '',
+              //   testCode: '',
+              //   analyteCode: '',
+              //   labId: '',
+              //   finishResult: '',
+              // });
               patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
-                  pLab: loginStore.login?.lab,
-                  // testCode:
-                  //   generalResultEntryStore.filterGeneralResEntry?.testCode,
-                  finishResult: 'P',
+                  //pLab: loginStore.login?.lab,
+                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  // finishResult: 'P',
                 },
               );
-            } else
-              generalResultEntryStore.updateFilterGeneralResEntry({
-                ...generalResultEntryStore.filterGeneralResEntry,
-                finishResult,
-              });
-            const input = _.pickBy(
-              {
-                ...generalResultEntryStore.filterGeneralResEntry,
-                finishResult,
-              },
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              function (value, key) {
-                return !(value === undefined || value === null || value === '');
-              },
-            );
-            patientResultStore.patientResultService.patientListForGeneralResultEntry(
-              {
-                input: {
-                  filter: {
-                    ...input,
-                  },
-                  page: 0,
-                  limit: 10,
+            } else {
+              // generalResultEntryStore.updateFilterGeneralResEntry({
+              //   ...generalResultEntryStore.filterGeneralResEntry,
+              //   finishResult,
+              // });
+              const input = _.pickBy(
+                {
+                  ...generalResultEntryStore.filterGeneralResEntry,
+                  finishResult,
                 },
-              },
-            );
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                // function (value, key) {
+                //   return !(value === undefined || value === null || value === '');
+                // },
+              );
+              patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                {
+                  input: {
+                    filter: {
+                      ...input,
+                    },
+                    page: 0,
+                    limit: 10,
+                  },
+                },
+              );
+            }
           }}
-          onTestStatusFilter={item => {
-            generalResultEntryStore.updateFilterGeneralResEntry({
-              ...generalResultEntryStore.filterGeneralResEntry,
-              testStatus: item,
-            });
-            const input = _.pickBy(
-              {
-                ...generalResultEntryStore.filterGeneralResEntry,
-                testStatus: item,
-              },
-              // eslint-disable-next-line @typescript-eslint/no-unused-vars
-              function (value, key) {
-                return !(value === undefined || value === null || value === '');
-              },
-            );
-            patientResultStore.patientResultService.patientListForGeneralResultEntry(
-              {
-                input: {
-                  filter: {
-                    ...input,
-                  },
-                  page: 0,
-                  limit: 10,
+          onTestStatusFilter={testStatus => {
+            if (testStatus != '') {
+              const input = _.pickBy(
+                {
+                  ...generalResultEntryStore.filterGeneralResEntry,
+                  testStatus,
                 },
-              },
-            );
-            patientResultStore.filterDistinctPatientResult(
-              patientResultStore.distinctPatientResultCopy,
-            );
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                // function (value, key) {
+                //   return !(value === undefined || value === null || value === '');
+                // },
+              );
+              patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                {
+                  input: {
+                    filter: {
+                      ...input,
+                    },
+                    page: 0,
+                    limit: 10,
+                  },
+                },
+              );
+              patientResultStore.filterDistinctPatientResult(
+                patientResultStore.distinctPatientResultCopy,
+              );
+            } else {
+            }
+            // generalResultEntryStore.updateFilterGeneralResEntry({
+            //   ...generalResultEntryStore.filterGeneralResEntry,
+            //   testStatus: item,
+            // });
           }}
           onExpand={items => {
             setSelectId(items._id);
@@ -329,6 +332,7 @@ const GeneralResultEntry = observer(() => {
       <ModalPatientDemographics
         {...modalPatientDemographics}
         onClose={() => {
+          setSelectId('');
           setModalPatientDemographics({ show: false });
         }}
       />
