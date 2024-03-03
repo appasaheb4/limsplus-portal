@@ -53,7 +53,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   };
 
   useEffect(() => {
-    console.log({ ids: props?.selectedId });
     setSelectId(props?.selectedId || '');
     setLocalData(
       props.selectedId
@@ -129,12 +128,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   row.name.length > maxLength
                     ? row.name.slice(0, Math.max(0, maxLength)) + '...'
                     : row.name;
-
                 return (
                   <div className='flex flex-row'>
-                    <span
-                      title={row.name}
-                    >{`${displayTestName}`}</span>
+                    <span title={row.name}>{`${displayTestName}`}</span>
                   </div>
                 );
               },
@@ -625,7 +621,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               csvExport: false,
               // hidden: !props.isDelete,
               formatter: (cell, row, rowIndex, formatExtraData) => (
-                <div key={row?._id}>
+                <div className='flex gap-2 items-center' key={row?._id}>
                   {!_.isEmpty(row?.result) && (
                     <div className='flex flex-row'>
                       <>

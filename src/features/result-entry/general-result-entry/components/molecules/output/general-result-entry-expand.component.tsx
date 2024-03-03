@@ -78,10 +78,6 @@ export const GeneralResultEntryExpand = ({
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
 
-  const handleStatusClick = code => {
-    onFilterFinishResult && onFilterFinishResult(code);
-  };
-
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -356,10 +352,11 @@ export const GeneralResultEntryExpand = ({
       </div>
     );
   };
+
   const statusData = [
     { code: 'P', value: 'Pending', color: 'blue' },
-    { code: 'C', value: 'Recheck', color: 'orange' },
-    { code: 'T', value: 'Retest', color: 'pink' },
+    { code: 'RC', value: 'Recheck', color: 'orange' },
+    { code: 'RT', value: 'Retest', color: 'pink' },
     { code: 'D', value: 'Done', color: 'green' },
     { code: '', value: 'All', color: 'red' },
   ];
@@ -439,7 +436,10 @@ export const GeneralResultEntryExpand = ({
                       <button
                         key={status.code}
                         className={`bg-${status.color}-600 ml-2 px-2 w-20 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
-                        onClick={() => handleStatusClick(status.code)}
+                        onClick={() => {
+                          onFilterFinishResult &&
+                            onFilterFinishResult(status.code);
+                        }}
                       >
                         {status.value}
                       </button>
@@ -448,7 +448,7 @@ export const GeneralResultEntryExpand = ({
                   <button
                     disabled={isFinishResultDisable}
                     className={
-                      'ml-3 px-2 py-2 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                      'ml-2 px-2 py-2 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                     }
                     onClick={onFinishResult}
                   >

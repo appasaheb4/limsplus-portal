@@ -191,7 +191,14 @@ const PanelApproval = observer(() => {
         onRecheck={async (id: string, patientResultId: string) => {
           await patientResultStore.patientResultService
             .updateStatus({
-              input: { filter: { id, patientResultId, mode: 'reCheck' } },
+              input: {
+                filter: {
+                  id,
+                  patientResultId,
+                  mode: 'reCheck',
+                  // finishResult: 'RC', // for gre filter
+                },
+              },
             })
             .then(res => {
               Toast.success({
@@ -203,7 +210,14 @@ const PanelApproval = observer(() => {
         onRetest={async (id: string, patientResultId: string) => {
           await patientResultStore.patientResultService
             .updateStatus({
-              input: { filter: { id, patientResultId, mode: 'reTest' } },
+              input: {
+                filter: {
+                  id,
+                  patientResultId,
+                  mode: 'reTest',
+                  // finishResult: 'RT', // for gre filter
+                },
+              },
             })
             .then(res => {
               Toast.success({
@@ -231,7 +245,7 @@ const PanelApproval = observer(() => {
         store={loginStore}
       />
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
-        <span className='font-bold text-lg underline'>Result</span>
+        {/* <span className='font-bold text-lg underline'>Panel Approval</span> */}
         {panelApprovalTable}
         <span className='text-red'>
           Note: Report Priority= Daily single-single update.

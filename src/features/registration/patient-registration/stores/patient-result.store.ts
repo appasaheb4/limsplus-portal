@@ -69,7 +69,6 @@ export class PatientResultStore {
         return alert(res.patientResultRecordsForGRE.message);
       } else {
         let data: any = res.patientResultRecordsForGRE.patientResultList;
-        console.log({ data });
         data = data.map(item => {
           return {
             ...item,
