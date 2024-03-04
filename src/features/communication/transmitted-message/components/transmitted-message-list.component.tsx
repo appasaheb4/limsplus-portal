@@ -353,6 +353,7 @@ export const TransmittedMessageList = observer(
           }}
           hideExcelSheet={['_id']}
           dynamicStylingFields={[]}
+          isShowCircleButton={false}
         />
       </div>
     );

@@ -326,7 +326,7 @@ const Banner = BannerHoc(
                 });
               }}
               setHideAddBanner={setHideAddBanner}
-              hideAddBanner={hideAddBanner}
+              isHideAddBanner={hideAddBanner}
             />
           </div>
           <ModalConfirm

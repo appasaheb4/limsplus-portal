@@ -66,6 +66,8 @@ interface TestPanelMappingListProps {
     dataField: string,
     id: string,
   ) => void;
+  isInputView: boolean;
+  setInputView: any;
 }
 
 export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
@@ -1042,6 +1044,8 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
             'lab',
           ]}
           hideExcelSheet={['_id', 'opration']}
+          isHideForm={props.isInputView}
+          setHideForm={props.setInputView}
         />
         <ModalReportOrder
           {...modalResultOrder}

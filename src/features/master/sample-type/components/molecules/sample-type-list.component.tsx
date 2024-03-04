@@ -37,6 +37,8 @@ interface SampleTypeListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  isHideAddLab: boolean;
+  setHideAddLab: any;
 }
 
 export const SampleTypeList = (props: SampleTypeListProps) => {
@@ -360,6 +362,8 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
             'environment',
           ]}
           hideExcelSheet={['_id', 'opration']}
+          isHideForm={props.isHideAddLab}
+          setHideForm={props.setHideAddLab}
         />
       </div>
     </>

@@ -273,10 +273,12 @@ export const Library = LibraryHoc(
               [dataField]: value,
             });
           }}
+          isHideAddLab={hideAddLab}
+          setHideAddLab={setHideAddLab}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [libraryStore.listLibrary],
+      [libraryStore.listLibrary, hideAddLab],
     );
 
     const checkExistsRecords = async (
@@ -373,15 +375,7 @@ export const Library = LibraryHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
-          />
-        )}
+
         <div className='mx-auto flex-wrap'>
           <div
             className={

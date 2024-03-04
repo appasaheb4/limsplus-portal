@@ -68,6 +68,8 @@ interface PriceListProps {
     dataField: string,
     id: string,
   ) => void;
+  isHideAddView: boolean;
+  setHideAddView: any;
 }
 
 export const PriceListList = (props: PriceListProps) => {
@@ -1013,6 +1015,8 @@ export const PriceListList = (props: PriceListProps) => {
             'environment',
           ]}
           hideExcelSheet={['_id', 'opration']}
+          isHideForm={props.isHideAddView}
+          setHideForm={props.setHideAddView}
         />
       </div>
     </>

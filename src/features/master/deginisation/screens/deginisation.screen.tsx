@@ -147,12 +147,6 @@ const Deginisation = DeginisationHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddDeginisation}
-            onClick={() => setHideAddDeginisation(!hideAddDeginisation)}
-          />
-        )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -485,6 +479,8 @@ const Deginisation = DeginisationHoc(
                   });
                 }
               }}
+              isHideAddDeginisation={hideAddDeginisation}
+              setHideAddDeginisation={setHideAddDeginisation}
             />
           </div>
 

@@ -62,6 +62,8 @@ interface PossibleResultsListProps {
     id: string,
   ) => void;
   onUpdatePossibleResult?: (row: any, id: string) => void;
+  setHideAddLookup: any;
+  isHideAddLookup: boolean;
 }
 
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
@@ -759,6 +761,8 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
         }}
         dynamicStylingFields={['analyteCode', 'environment', 'status']}
         hideExcelSheet={['_id', 'opration']}
+        isHideForm={props.isHideAddLookup}
+        setHideForm={props.setHideAddLookup}
       />
     </div>
   );

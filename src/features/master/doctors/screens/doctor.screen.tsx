@@ -298,10 +298,12 @@ const Doctors = DoctorsHoc(
               [dataField]: value,
             });
           }}
+          isHideAddSection={hideAddSection}
+          setHideAddSection={setHideAddSection}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [doctorsStore.listDoctors],
+      [doctorsStore.listDoctors, hideAddSection],
     );
 
     const checkExistsRecords = async (
@@ -415,12 +417,6 @@ const Doctors = DoctorsHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
-          />
-        )}
         <div className='mx-auto flex-wrap'>
           <div
             className={

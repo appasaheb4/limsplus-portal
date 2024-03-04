@@ -89,6 +89,8 @@ interface MasterAnalyteProps {
     dataField: string,
     id: string,
   ) => void;
+  isInputView: boolean;
+  setInputView: any;
 }
 
 export const MasterAnalyteList = (props: MasterAnalyteProps) => {
@@ -1796,6 +1798,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             'environment',
           ]}
           hideExcelSheet={['_id', 'opration']}
+          isHideForm={props.isInputView}
+          setHideForm={props.setInputView}
         />
       </div>
     </>

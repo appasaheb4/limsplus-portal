@@ -80,6 +80,8 @@ interface CompanyListProps {
     id: string,
   ) => void;
   onVersionUpgrade?: (item: any) => void;
+  isHideView: boolean;
+  setIsHideView: any;
 }
 const dynamicStylingFields = ['title', 'environment'];
 const hideExcelSheet = ['_id', 'image', 'operation'];
@@ -1154,6 +1156,8 @@ export const CompanyList = (props: CompanyListProps) => {
         }}
         dynamicStylingFields={dynamicStylingFields}
         hideExcelSheet={hideExcelSheet}
+        isHideForm={props.isHideView}
+        setHideForm={props.setIsHideView}
       />
     </div>
   );

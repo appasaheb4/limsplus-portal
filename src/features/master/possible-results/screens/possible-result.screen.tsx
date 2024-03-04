@@ -287,6 +287,8 @@ export const PossibleResults = PossibleResultHoc(
               [dataField]: value,
             });
           }}
+          setHideAddLookup={setHideAddLookup}
+          isHideAddLookup={hideAddLookup}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -371,12 +373,6 @@ export const PossibleResults = PossibleResultHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddLookup}
-            onClick={() => setHideAddLookup(!hideAddLookup)}
-          />
-        )}
         <div className='mx-auto'>
           <div
             className={

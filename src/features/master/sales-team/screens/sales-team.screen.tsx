@@ -246,10 +246,12 @@ export const SalesTeam = SalesTeamHoc(
               [dataField]: value,
             });
           }}
+          isHideAddSection={hideAddSection}
+          setHideAddSection={setHideAddSection}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [salesTeamStore.listSalesTeam],
+      [salesTeamStore.listSalesTeam, hideAddSection],
     );
 
     const handleFileUpload = (file: any) => {
@@ -374,12 +376,7 @@ export const SalesTeam = SalesTeamHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
-          />
-        )}
+
         <div className=' mx-auto flex-wrap'>
           <div
             className={

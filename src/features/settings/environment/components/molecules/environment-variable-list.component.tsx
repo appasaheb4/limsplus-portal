@@ -38,6 +38,8 @@ interface EnvironmentVariableProps {
     totalSize: number,
   ) => void;
   onApproval: (records: any) => void;
+  hideInputView: boolean;
+  setHideInputView: any;
 }
 export const EnvironmentVariableList = observer(
   (props: EnvironmentVariableProps) => {
@@ -445,6 +447,8 @@ export const EnvironmentVariableList = observer(
             }}
             dynamicStylingFields={['environmentVariable', 'category']}
             hideExcelSheet={['_id', 'opration']}
+            isHideForm={props.hideInputView}
+            setHideForm={props.setHideInputView}
           />
         </div>
       </>

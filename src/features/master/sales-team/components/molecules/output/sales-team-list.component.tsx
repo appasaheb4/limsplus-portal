@@ -61,6 +61,8 @@ interface SalesTeamListProps {
     dataField: string,
     id: string,
   ) => void;
+  isHideAddSection: boolean;
+  setHideAddSection: any;
 }
 
 export const SalesTeamList = (props: SalesTeamListProps) => {
@@ -674,6 +676,8 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           'environment',
         ]}
         hideExcelSheet={['opration', '_id']}
+        isHideForm={props.isHideAddSection}
+        setHideForm={props.setHideAddSection}
       />
     </div>
   );

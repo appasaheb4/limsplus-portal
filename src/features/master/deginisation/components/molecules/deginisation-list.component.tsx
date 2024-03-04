@@ -34,6 +34,8 @@ interface DeginisationListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  isHideAddDeginisation: boolean;
+  setHideAddDeginisation: any;
 }
 const dynamicStylingFields = ['code', 'description', 'environment'];
 const hideExcelSheet = ['_id', 'opration'];
@@ -301,6 +303,8 @@ export const DeginisationList = (props: DeginisationListProps) => {
         }}
         hideExcelSheet={hideExcelSheet}
         dynamicStylingFields={dynamicStylingFields}
+        isHideForm={props.isHideAddDeginisation}
+        setHideForm={props.setHideAddDeginisation}
       />
     </div>
   );

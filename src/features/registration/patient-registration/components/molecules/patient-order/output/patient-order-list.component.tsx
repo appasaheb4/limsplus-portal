@@ -31,6 +31,9 @@ interface PatientOrderListProps {
     totalSize: number,
   ) => void;
   onBarcode?: (item: any) => void;
+  hideInputView: boolean;
+  setHideInputView: any;
+  disabled: boolean;
 }
 
 let labid;
@@ -52,6 +55,9 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
           data={props.data}
           totalSize={props.totalSize}
           isPagination={false}
+          isHideForm={props.hideInputView}
+          setHideForm={props.setHideInputView}
+          circleButtonDisable={props.disabled}
           columns={[
             {
               dataField: '_id',

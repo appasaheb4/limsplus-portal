@@ -166,10 +166,12 @@ export const Department = DeginisationHoc(
               });
             }
           }}
+          isHideAddDepartment={hideAddDepartment}
+          setHideAddDepartment={setHideAddDepartment}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [departmentStore.listDepartment],
+      [departmentStore.listDepartment, hideAddDepartment],
     );
 
     const handleFileUpload = (file: any) => {
@@ -261,12 +263,6 @@ export const Department = DeginisationHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddDepartment}
-            onClick={() => setHideAddDepartment(!hideAddDepartment)}
-          />
-        )}
         <div className='mx-auto'>
           <div
             className={

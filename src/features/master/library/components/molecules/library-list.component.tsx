@@ -65,6 +65,8 @@ interface LibraryListProps {
     dataField: string,
     id: string,
   ) => void;
+  isHideAddLab: boolean;
+  setHideAddLab: any;
 }
 
 export const LibraryList = (props: LibraryListProps) => {
@@ -797,6 +799,8 @@ export const LibraryList = (props: LibraryListProps) => {
             'status',
             'environment',
           ]}
+          isHideForm={props.isHideAddLab}
+          setHideForm={props.setHideAddLab}
         />
         <ModalDetails
           {...modalDetails}

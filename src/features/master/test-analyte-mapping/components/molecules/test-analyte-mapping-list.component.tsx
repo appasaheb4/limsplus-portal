@@ -70,6 +70,8 @@ interface TestAnalyteMappingListProps {
     dataField: string,
     id: string,
   ) => void;
+  isInputView: boolean;
+  setInputView: any;
 }
 
 export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
@@ -970,6 +972,8 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
             'environment',
           ]}
           hideExcelSheet={['_id', 'opration']}
+          isHideForm={props.isInputView}
+          setHideForm={props.setInputView}
         />
         <ModalResultReportOrder
           {...modalResultOrder}

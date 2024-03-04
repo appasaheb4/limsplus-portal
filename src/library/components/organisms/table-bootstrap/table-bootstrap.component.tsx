@@ -55,6 +55,8 @@ interface TableBootstrapProps {
   registrationExtraData?: boolean;
   isHideForm?: boolean;
   setHideForm?: Function;
+  isShowCircleButton?: boolean;
+  circleButtonDisable?: boolean;
 }
 
 export const sortCaret = (order, column) => {
@@ -118,6 +120,8 @@ export const TableBootstrap = ({
   registrationExtraData = false,
   setHideForm,
   isHideForm = false,
+  isShowCircleButton = true,
+  circleButtonDisable = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -698,14 +702,19 @@ export const TableBootstrap = ({
                   </div>
                 )}
                 <div>
-                  {RouterFlow.checkPermission(
-                    routerStore.userPermission,
-                    'Add',
-                  ) && (
-                    <Buttons.ButtonCircleAddRemove
-                      show={isHideForm}
-                      onClick={() => setHideForm?.(!isHideForm)}
-                    />
+                  {isShowCircleButton && (
+                    <>
+                      {RouterFlow.checkPermission(
+                        routerStore.userPermission,
+                        'Add',
+                      ) && (
+                        <Buttons.ButtonCircleAddRemoveBottom
+                          show={isHideForm}
+                          disabled={circleButtonDisable}
+                          onClick={() => setHideForm?.(!isHideForm)}
+                        />
+                      )}
+                    </>
                   )}
                 </div>
               </div>

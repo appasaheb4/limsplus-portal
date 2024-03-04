@@ -418,10 +418,12 @@ const RegistrationLocation = RegistrationLocationHoc(
               [dataField]: value,
             });
           }}
+          isHideAddSection={hideAddSection}
+          setHideAddSection={setHideAddSection}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [registrationLocationsStore.listRegistrationLocations],
+      [registrationLocationsStore.listRegistrationLocations, hideAddSection],
     );
 
     const checkExistsRecords = async (
@@ -559,12 +561,7 @@ const RegistrationLocation = RegistrationLocationHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
-          />
-        )}
+
         <div className=' mx-auto flex-wrap'>
           <div
             className={

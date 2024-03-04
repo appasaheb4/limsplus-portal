@@ -231,21 +231,6 @@ export const PatientManager = PatientManagerHoc(
 
     return (
       <>
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemoveBottom
-            style={{ bottom: 140 }}
-            show={hideInputView}
-            disabled={
-              getFilterField(patientRegistrationStore?.defaultValues)?.key ==
-                'labId' ||
-              getFilterField(patientRegistrationStore?.defaultValues)?.key ==
-                'pId'
-                ? true
-                : false
-            }
-            onClick={() => setHideInputView(!hideInputView)}
-          />
-        )}
         <div
           className={
             'p-1 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
@@ -1816,6 +1801,16 @@ export const PatientManager = PatientManagerHoc(
                 ...field,
               });
             }}
+            hideInputView={hideInputView}
+            setHideInputView={setHideInputView}
+            disabled={
+              getFilterField(patientRegistrationStore?.defaultValues)?.key ==
+                'labId' ||
+              getFilterField(patientRegistrationStore?.defaultValues)?.key ==
+                'pId'
+                ? true
+                : false
+            }
           />
         </div>
         <hr />

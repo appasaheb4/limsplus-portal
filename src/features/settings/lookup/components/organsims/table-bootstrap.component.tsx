@@ -22,6 +22,8 @@ import { Buttons, Icons } from '@/library/components';
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 import ExcelJS from 'exceljs';
+import { RouterFlow } from '@/flows';
+import { useStores } from '@/stores';
 interface TableBootstrapProps {
   id: string;
   editorId?: string;
@@ -49,6 +51,8 @@ interface TableBootstrapProps {
   clearAllFilter?: () => void;
   dynamicStylingFields?: any;
   hideExcelSheet?: any;
+  isHideForm?: boolean;
+  setHideForm?: Function;
 }
 export const TableBootstrap = ({
   id,
@@ -70,9 +74,12 @@ export const TableBootstrap = ({
   clearAllFilter,
   dynamicStylingFields,
   hideExcelSheet,
+  setHideForm,
+  isHideForm = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const { routerStore } = useStores();
 
   const customTotal = (from, to, size) => {
     return (
@@ -414,66 +421,84 @@ export const TableBootstrap = ({
           columnToggle
         >
           {props => (
-            <div>
-              <div className='flex items-center flex-wrap'>
-                <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={value => {
-                    console.log({ value });
-                  }}
-                />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.searchProps}
-                />
-                <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button>
-                {isExport && (
+            <div className='flex flex-col'>
+              <div className='flex flex-row justify-between items-center flex-wrap'>
+                <div className='flex items-center flex-wrap'>
+                  <SearchBar
+                    {...searchProps}
+                    {...props.searchProps}
+                    onChange={value => {
+                      console.log({ value });
+                    }}
+                  />
+                  <ClearSearchButton
+                    className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    {...props.searchProps}
+                  />
                   <button
                     className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                    onClick={exportToExcel}
+                    onClick={clearAllFilter}
                   >
-                    Export CSV!!
+                    Clear all filters
                   </button>
-                )}
-                {isFilterOpen ? (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronUp />
-                  </Buttons.Button>
-                ) : (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronDown />
-                  </Buttons.Button>
-                )}
-              </div>
-              {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10 '}>
-                  <CustomToggleList
-                    contextual='primary'
-                    className='list-custom-class'
-                    btnClassName='list-btn-custom-class'
-                    {...props.columnToggleProps}
-                  />
+                  {isExport && (
+                    <button
+                      className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                      onClick={exportToExcel}
+                    >
+                      Export CSV!!
+                    </button>
+                  )}
+
+                  {isFilterOpen ? (
+                    <div className='ml-2'>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsFilterOpen(!isFilterOpen);
+                        }}
+                      >
+                        <Icons.IconFa.FaChevronUp />
+                      </Buttons.Button>
+                    </div>
+                  ) : (
+                    <div className='ml-2'>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsFilterOpen(!isFilterOpen);
+                        }}
+                      >
+                        <Icons.IconFa.FaChevronDown />
+                      </Buttons.Button>
+                    </div>
+                  )}
                 </div>
-              )}
-              <div className='scrollTable'>
+                {isFilterOpen && (
+                  <div className={'flex mb-2 overflow-auto h-10'}>
+                    <CustomToggleList
+                      contextual='primary'
+                      className='list-custom-class'
+                      btnClassName='list-btn-custom-class'
+                      {...props.columnToggleProps}
+                    />
+                  </div>
+                )}
+                <div>
+                  {RouterFlow.checkPermission(
+                    routerStore.userPermission,
+                    'Add',
+                  ) && (
+                    <Buttons.ButtonCircleAddRemove
+                      show={isHideForm}
+                      onClick={() => setHideForm?.(!isHideForm)}
+                    />
+                  )}
+                </div>
+              </div>
+              <div className='scrollTable h-[calc(100vh_-_30vh)] mb-2'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
@@ -498,22 +523,29 @@ export const TableBootstrap = ({
                         })
                       : undefined
                   }
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                  headerClasses='bg-gray-500 text-white whitespace-nowrap align-middle mt-2'
                   onTableChange={handleTableChange}
                 />
               </div>
-              <div className='flex items-center gap-2 mt-2  flex-wrap'>
-                <SizePerPageDropdownStandalone
-                  {...Object.assign(
-                    {},
-                    { ...paginationProps, hideSizePerPage: false },
-                  )}
-                />
-                <PaginationListStandalone {...paginationProps} />
-              </div>
-              <div className='flex items-center gap-2 mt-2'>
-                <PaginationTotalStandalone {...paginationProps} />
-              </div>
+              {totalSize && (
+                <div className='flex  items-center   p-2 justify-start gap-2 bg-[#6A727F] rounded-md   text-white w-full'>
+                  <div className='flex'>
+                    <SizePerPageDropdownStandalone
+                      {...Object.assign(
+                        {},
+                        { ...paginationProps, hideSizePerPage: false },
+                      )}
+                    />
+                  </div>
+
+                  <div className='flex items-center gap-2 flex-wrap'>
+                    <PaginationListStandalone {...paginationProps} />
+                  </div>
+                  <div className='flex items-center gap-2 '>
+                    <PaginationTotalStandalone {...paginationProps} />
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </ToolkitProvider>

@@ -69,7 +69,7 @@ const MasterPackage = MasterPackageHOC(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
@@ -336,10 +336,12 @@ const MasterPackage = MasterPackageHOC(
               [dataField]: value,
             });
           }}
+          isInputView={isInputView}
+          setInputView={setIsInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [masterPackageStore.listMasterPackage],
+      [masterPackageStore.listMasterPackage, isInputView],
     );
 
     const handleOnDragEndResultOrder = (result: any) => {
@@ -449,19 +451,11 @@ const MasterPackage = MasterPackageHOC(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={!isInputView}
-            onClick={() => setIsInputView(!isInputView)}
-          />
-        )}
+
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (!isInputView ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs

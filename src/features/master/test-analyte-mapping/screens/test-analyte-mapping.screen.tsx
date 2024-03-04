@@ -58,7 +58,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       reset,
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setInputView] = useState<boolean>(false);
+    const [isInputView, setInputView] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
     const [instResultMappingRecords, setInstResultMappingRecords] =
       useState<any>();
@@ -346,10 +346,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               [dataField]: value,
             });
           }}
+          isInputView={isInputView}
+          setInputView={setInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [testAnalyteMappingStore.listTestAnalyteMapping],
+      [testAnalyteMappingStore.listTestAnalyteMapping, isInputView],
     );
 
     const fetchSegmentMappingKeysValue = () => {
@@ -471,19 +473,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={!isInputView}
-            onClick={() => setInputView(!isInputView)}
-          />
-        )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (!isInputView ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs

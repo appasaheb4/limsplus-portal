@@ -291,7 +291,7 @@ const Lab = LabHoc(
             }
           }}
           setHideAddLab={setHideAddLab}
-          hideAddLab={hideAddLab}
+          isHideAddLab={hideAddLab}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps

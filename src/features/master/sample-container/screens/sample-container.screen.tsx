@@ -157,12 +157,6 @@ const SampleContainer = SampleContainerHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddBanner}
-            onClick={() => setHideAddBanner(!hideAddBanner)}
-          />
-        )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -509,6 +503,8 @@ const SampleContainer = SampleContainerHoc(
                   });
                 }
               }}
+              isHideAddLab={hideAddBanner}
+              setHideAddLab={setHideAddBanner}
             />
           </div>
           <ModalConfirm
