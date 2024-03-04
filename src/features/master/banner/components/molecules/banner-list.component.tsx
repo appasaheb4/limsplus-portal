@@ -39,6 +39,8 @@ interface BannerListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  setHideAddBanner: any;
+  hideAddBanner: boolean;
 }
 const dynamicStylingFields = ['title', 'environment'];
 const hideExcelSheet = ['_id', 'image', 'operation'];
@@ -395,6 +397,8 @@ export const BannerList = (props: BannerListProps) => {
         }}
         dynamicStylingFields={dynamicStylingFields}
         hideExcelSheet={hideExcelSheet}
+        isHideForm={props.hideAddBanner}
+        setHideForm={props.setHideAddBanner}
       />
     </div>
   );

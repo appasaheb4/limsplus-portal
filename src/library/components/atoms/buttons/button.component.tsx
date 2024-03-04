@@ -85,10 +85,6 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
             alignItems: 'center',
             width: 60,
             height: 60,
-            position: 'fixed',
-            bottom: 60,
-            right: 40,
-            zIndex: 1,
           }}
           onClick={() => props.onClick(true)}
         >
@@ -103,10 +99,6 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
             alignItems: 'center',
             width: 60,
             height: 60,
-            position: 'fixed',
-            bottom: 60,
-            right: 40,
-            zIndex: 1,
           }}
           onClick={() => props.onClick(false)}
         >
