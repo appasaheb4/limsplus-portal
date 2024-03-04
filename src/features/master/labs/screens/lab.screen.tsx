@@ -290,10 +290,12 @@ const Lab = LabHoc(
               });
             }
           }}
+          setHideAddLab={setHideAddLab}
+          hideAddLab={hideAddLab}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [labStore.listLabs],
+      [labStore.listLabs, hideAddLab],
     );
 
     const handleFileUpload = (file: any) => {
@@ -417,15 +419,6 @@ const Lab = LabHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
-          />
-        )}
         <div className='mx-auto flex-wrap'>
           <div
             className={

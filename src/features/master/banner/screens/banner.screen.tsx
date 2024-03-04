@@ -86,12 +86,6 @@ const Banner = BannerHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddBanner}
-            onClick={() => setHideAddBanner(!hideAddBanner)}
-          />
-        )}
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -331,6 +325,8 @@ const Banner = BannerHoc(
                   body: 'Update deginisation!',
                 });
               }}
+              setHideAddBanner={setHideAddBanner}
+              hideAddBanner={hideAddBanner}
             />
           </div>
           <ModalConfirm
