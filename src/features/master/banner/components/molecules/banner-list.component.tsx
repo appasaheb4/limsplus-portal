@@ -40,7 +40,7 @@ interface BannerListProps {
   ) => void;
   onApproval: (record: any) => void;
   setHideAddBanner: any;
-  hideAddBanner: boolean;
+  isHideAddBanner: boolean;
 }
 const dynamicStylingFields = ['title', 'environment'];
 const hideExcelSheet = ['_id', 'image', 'operation'];
@@ -397,7 +397,7 @@ export const BannerList = (props: BannerListProps) => {
         }}
         dynamicStylingFields={dynamicStylingFields}
         hideExcelSheet={hideExcelSheet}
-        isHideForm={props.hideAddBanner}
+        isHideForm={props.isHideAddBanner}
         setHideForm={props.setHideAddBanner}
       />
     </div>

@@ -250,12 +250,7 @@ const Company = CompanyHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={isHideView}
-            onClick={() => setIsHideView(!isHideView)}
-          />
-        )}
+
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -1505,6 +1500,8 @@ const Company = CompanyHoc(
                   [dataField]: value,
                 });
               }}
+              isHideView={isHideView}
+              setIsHideView={setIsHideView}
             />
           </div>
           <ModalConfirm

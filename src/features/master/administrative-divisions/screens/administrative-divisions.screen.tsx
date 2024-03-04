@@ -168,12 +168,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={isHideView}
-            onClick={() => setIsHideView(!isHideView)}
-          />
-        )}
+
         <div className=' mx-auto flex-wrap'>
           <div
             className={
@@ -721,6 +716,8 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   });
                 }
               }}
+              isHideView={isHideView}
+              setIsHideView={setIsHideView}
             />
           </div>
           <ModalConfirm

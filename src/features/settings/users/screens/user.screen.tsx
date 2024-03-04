@@ -322,10 +322,12 @@ export const Users = UsersHoc(
               [dataField]: value,
             });
           }}
+          hideAddUser={hideAddUser}
+          setHideAddUser={setHideAddUser}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [userStore.userList],
+      [userStore.userList, hideAddUser],
     );
 
     const handleFileUpload = (file: any) => {
@@ -451,15 +453,7 @@ export const Users = UsersHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddUser}
-            onClick={status => setHideAddUser(!hideAddUser)}
-          />
-        )}
+
         <div className=' mx-auto flex-wrap'>
           <div
             className={

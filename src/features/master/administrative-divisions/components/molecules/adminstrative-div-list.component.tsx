@@ -48,6 +48,8 @@ interface AdminstrativeDivListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  isHideView: boolean;
+  setIsHideView: any;
 }
 
 export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
@@ -607,6 +609,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
         }}
         hideExcelSheet={['_id', 'opration']}
         dynamicStylingFields={['country', 'state', 'district', 'environment']}
+        isHideForm={props.isHideView}
+        setHideForm={props.setIsHideView}
       />
     </div>
   );

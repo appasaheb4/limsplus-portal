@@ -362,10 +362,12 @@ const CorporateClients = CorporateClientsHoc(
               [dataField]: value,
             });
           }}
+          isHideAddView={hideAddView}
+          setHideAddView={setHideAddView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [corporateClientsStore.listCorporateClients],
+      [corporateClientsStore.listCorporateClients, hideAddView],
     );
 
     const handleFileUpload = (file: any) => {
@@ -487,12 +489,7 @@ const CorporateClients = CorporateClientsHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddView}
-            onClick={() => setHideAddView(!hideAddView)}
-          />
-        )}
+
         <div className='mx-auto flex-wrap'>
           <div
             className={

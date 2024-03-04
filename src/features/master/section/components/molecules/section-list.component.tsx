@@ -46,6 +46,8 @@ interface SectionListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  isHideAddSection: boolean;
+  setHideAddSection: any;
 }
 
 export const SectionList = (props: SectionListProps) => {
@@ -552,6 +554,8 @@ export const SectionList = (props: SectionListProps) => {
           'environment',
         ]}
         hideExcelSheet={['_id', 'opration']}
+        isHideForm={props.isHideAddSection}
+        setHideForm={props.setHideAddSection}
       />
     </div>
   );

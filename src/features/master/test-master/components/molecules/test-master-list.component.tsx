@@ -99,6 +99,8 @@ interface TestMasterProps {
     dataField: string,
     id: string,
   ) => void;
+  isInputView: boolean;
+  setInputView: any;
 }
 
 export const TestMasterList = (props: TestMasterProps) => {
@@ -2079,6 +2081,8 @@ export const TestMasterList = (props: TestMasterProps) => {
             'environment',
           ]}
           hideExcelSheet={['_id', 'opration']}
+          isHideForm={props.isInputView}
+          setHideForm={props.setInputView}
         />
       </div>
     </>

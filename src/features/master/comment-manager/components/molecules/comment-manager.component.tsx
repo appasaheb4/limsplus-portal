@@ -75,6 +75,8 @@ interface CommentManagerListProps {
     dataField: string,
     id: string,
   ) => void;
+  isHideAddView: boolean;
+  setIsHideAddView: any;
 }
 
 export const CommentManagerList = (props: CommentManagerListProps) => {
@@ -1276,6 +1278,8 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
             'environment',
           ]}
           hideExcelSheet={['_id', 'opration']}
+          isHideForm={props.isHideAddView}
+          setHideForm={props.setIsHideAddView}
         />
       </div>
     </>

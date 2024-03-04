@@ -65,6 +65,8 @@ interface TestSampleMappingListProps {
   ) => void;
   onApproval: (record: any) => void;
   onUpdateDepartment?: (row: any, id: any) => void;
+  isHideAddLab: boolean;
+  setHideAddLab: any;
 }
 
 export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
@@ -1177,6 +1179,8 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
           }}
           dynamicStylingFields={['testCode', 'sampleCode', 'environment']}
           hideExcelSheet={['opration', '_id']}
+          isHideForm={props.isHideAddLab}
+          setHideForm={props.setHideAddLab}
         />
       </div>
     </>

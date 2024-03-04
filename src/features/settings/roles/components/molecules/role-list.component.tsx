@@ -32,6 +32,8 @@ interface RoleListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  hideAddRole: boolean;
+  setHideAddRole: any;
 }
 
 export const RoleList = (props: RoleListProps) => {
@@ -295,6 +297,8 @@ export const RoleList = (props: RoleListProps) => {
       }}
       dynamicStylingFields={['code', 'description', 'environment', 'status']}
       hideExcelSheet={['opration', '_id']}
+      isHideForm={props.hideAddRole}
+      setHideForm={props.setHideAddRole}
     />
   );
 };

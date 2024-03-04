@@ -126,13 +126,6 @@ export const EnvironmentVariable = observer(
     };
     return (
       <>
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemoveBottom
-            style={{ bottom: 40 }}
-            show={hideInputView}
-            onClick={() => setHideInputView(!hideInputView)}
-          />
-        )}
         <div
           className={
             'p-1 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
@@ -494,6 +487,8 @@ export const EnvironmentVariable = observer(
                 });
               }
             }}
+            hideInputView={hideInputView}
+            setHideInputView={setHideInputView}
           />
         </div>
       </>

@@ -154,12 +154,6 @@ const Methods = MethodsHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
-          />
-        )}
         <div className=' mx-auto flex-wrap'>
           <div
             className={
@@ -507,6 +501,8 @@ const Methods = MethodsHoc(
                   });
                 }
               }}
+              isHideAddSection={hideAddSection}
+              setHideAddSection={setHideAddSection}
             />
           </div>
           <ModalConfirm

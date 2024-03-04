@@ -95,6 +95,8 @@ interface CorporateClientListProps {
     dataField: string,
     id: string,
   ) => void;
+  isHideAddView: boolean;
+  setHideAddView: any;
 }
 
 export const CorporateClient = observer((props: CorporateClientListProps) => {
@@ -1921,6 +1923,8 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
           'environment',
         ]}
         hideExcelSheet={['_id', 'opration']}
+        isHideForm={props.isHideAddView}
+        setHideForm={props.setHideAddView}
       />
     </div>
   );

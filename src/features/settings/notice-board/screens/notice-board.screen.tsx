@@ -137,10 +137,12 @@ const NoticeBoard = NoticeBoardHoc(
               });
             }
           }}
+          isHideView={isHideView}
+          setIsHideView={setIsHideView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [noticeBoardStore.noticeBoardList],
+      [noticeBoardStore.noticeBoardList, isHideView],
     );
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
@@ -215,12 +217,7 @@ const NoticeBoard = NoticeBoardHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={isHideView}
-            onClick={() => setIsHideView(!isHideView)}
-          />
-        )}
+
         <div
           className={
             'p-2 rounded-lg shadow-xl ' + (isHideView ? 'hidden' : 'shown')

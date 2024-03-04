@@ -71,17 +71,6 @@ const DataConversation = DataConversationHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddDataConversation}
-            onClick={status =>
-              setHideAddDataConversation(!hideAddDataConversation)
-            }
-          />
-        )}
         <div className=' mx-auto  flex-wrap'>
           <div
             className={
@@ -247,6 +236,8 @@ const DataConversation = DataConversationHoc(
                 });
                 global.filter = { mode: 'filter', type, filter, page, limit };
               }}
+              isHideAddDataConversation={hideAddDataConversation}
+              setHideAddDataConversation={setHideAddDataConversation}
             />
           </div>
           <ModalConfirm

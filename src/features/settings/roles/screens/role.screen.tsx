@@ -109,12 +109,7 @@ const Role = RolesHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddRole}
-            onClick={() => setHideAddRole(!hideAddRole)}
-          />
-        )}
+
         <div className=' mx-auto  flex-wrap'>
           <div
             className={
@@ -309,6 +304,8 @@ const Role = RolesHoc(
                   });
                 }
               }}
+              hideAddRole={hideAddRole}
+              setHideAddRole={setHideAddRole}
             />
           </div>
           <ModalConfirm

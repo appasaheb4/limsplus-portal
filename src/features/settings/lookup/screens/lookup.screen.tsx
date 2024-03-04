@@ -113,12 +113,6 @@ const Lookup = observer(() => {
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
-      {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-        <Buttons.ButtonCircleAddRemove
-          show={hideAddLab}
-          onClick={() => setHideAddLab(!hideAddLab)}
-        />
-      )}
 
       <div className='mx-auto flex-wrap'>
         <div
@@ -237,6 +231,8 @@ const Lookup = observer(() => {
                   });
                 }
               }}
+              hideAddLab={hideAddLab}
+              setHideAddLab={setHideAddLab}
             />
           </div>
           <ModalConfirm

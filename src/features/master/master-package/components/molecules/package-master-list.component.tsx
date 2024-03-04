@@ -67,6 +67,8 @@ interface PackageMasterListProps {
     dataField: string,
     id: string,
   ) => void;
+  isInputView: boolean;
+  setInputView: any;
 }
 
 export const PackageMasterList = (props: PackageMasterListProps) => {
@@ -921,6 +923,8 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           'environment',
         ]}
         hideExcelSheet={['_id', 'opration']}
+        isHideForm={props.isInputView}
+        setHideForm={props.setInputView}
       />
       <ModalReportOrder
         {...modalResultOrder}

@@ -157,10 +157,12 @@ const Section = SectionHoc(
               });
             }
           }}
+          isHideAddSection={hideAddSection}
+          setHideAddSection={setHideAddSection}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [sectionStore.listSection],
+      [sectionStore.listSection, hideAddSection],
     );
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
@@ -244,12 +246,6 @@ const Section = SectionHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
-          />
-        )}
         <div className=' mx-auto flex-wrap'>
           <div
             className={

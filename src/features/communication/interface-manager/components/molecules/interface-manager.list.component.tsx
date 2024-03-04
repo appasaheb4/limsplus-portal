@@ -43,6 +43,8 @@ interface InterfaceManagerListProps {
     page: number,
     totalSize: number,
   ) => void;
+  isHideAddInterfaceManager: boolean;
+  setHideAddInterfaceManager: any;
 }
 
 export const InterfaceManagerList = observer(
@@ -720,6 +722,8 @@ export const InterfaceManagerList = observer(
             'environment',
           ]}
           hideExcelSheet={['_id', 'operation']}
+          isHideForm={props.isHideAddInterfaceManager}
+          setHideForm={props.setHideAddInterfaceManager}
         />
       </div>
     );

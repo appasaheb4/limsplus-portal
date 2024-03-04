@@ -43,7 +43,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       reset,
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     useEffect(() => {
@@ -167,10 +167,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
               });
             }
           }}
+          isInputView={isInputView}
+          setIsInputView={setIsInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [environmentStore.environmentSettingsList],
+      [environmentStore.environmentSettingsList, isInputView],
     );
 
     const checkExistsRecords = async (
@@ -210,13 +212,6 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
 
     return (
       <>
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemoveBottom
-            style={{ bottom: 40 }}
-            show={!isInputView}
-            onClick={() => setIsInputView(!isInputView)}
-          />
-        )}
         <div
           className={
             'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')

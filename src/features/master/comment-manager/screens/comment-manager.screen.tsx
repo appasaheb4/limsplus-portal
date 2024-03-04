@@ -277,10 +277,12 @@ const CommentManager = CommentManagerHoc(
               [dataField]: value,
             });
           }}
+          isHideAddView={isHideAddView}
+          setIsHideAddView={setIsHideAddView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [commentManagerStore.commentManagerList],
+      [commentManagerStore.commentManagerList, isHideAddView],
     );
 
     const handleFileUpload = (file: any) => {
@@ -429,15 +431,7 @@ const CommentManager = CommentManagerHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={isHideAddView}
-            onClick={() => setIsHideAddView(!isHideAddView)}
-          />
-        )}
+
         <div className='mx-auto flex-wrap'>
           <div
             className={

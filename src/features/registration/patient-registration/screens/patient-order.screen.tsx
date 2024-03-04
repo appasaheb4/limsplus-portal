@@ -250,75 +250,71 @@ export const PatientOrder = PatientOrderHoc(
           onAddPanels={data => {
             setModalAddPanel({ visible: true, data });
           }}
+          hideInputView={hideInputView}
+          setHideInputView={() => {
+            {
+              setHideInputView(!hideInputView);
+              if (
+                hideInputView &&
+                patientVisitStore.listPatientVisit?.length == 1
+              ) {
+                const item = patientVisitStore.listPatientVisit[0];
+                setIsPrintPrimaryBarcod(item?.isPrintPrimaryBarcod || false);
+                setValue('labId', item?.labId + ' - ' + item.patientName);
+                patientOrderStore.updatePatientOrder({
+                  ...patientOrderStore.patientOrder,
+                  pId: item?.pId,
+                  visitId: item.visitId,
+                  labId: item.labId as any,
+                  rLab: item.rLab,
+                  patientName: item.patientName,
+                  age: item?.age,
+                  ageUnits: item?.ageUnits,
+                });
+                patientVisitStore.updatePatientVisitList(
+                  patientVisitStore.listPatientVisitCopy,
+                );
+                if (item.labId)
+                  patientOrderStore.patientOrderService
+                    .checkExistsRecords({
+                      input: {
+                        filter: {
+                          fildes: {
+                            labId: item.labId,
+                            documentType: 'patientOrder',
+                          },
+                        },
+                      },
+                    })
+                    .then(res => {
+                      if (res.checkExistsRecordsPatientOrder.success) {
+                        patientOrderStore.updateExistsRecords(true);
+                        Toast.error({
+                          message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
+                        });
+                      } else patientOrderStore.updateExistsRecords(false);
+                    });
+              }
+            }
+          }}
+          disabled={
+            patientVisitStore.listPatientVisit?.length > 0
+              ? patientOrderStore.listPatientOrder?.length == 0
+                ? false
+                : getFilterField(patientRegistrationStore?.defaultValues)
+                    ?.key == 'labId'
+                ? true
+                : false
+              : true
+          }
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [patientOrderStore.listPatientOrder],
+      [patientOrderStore.listPatientOrder, hideInputView],
     );
 
     return (
       <>
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') &&
-          !patientRegistrationStore.defaultValues?.filterLock && (
-            <Buttons.ButtonCircleAddRemoveBottom
-              style={{ bottom: 60 }}
-              show={hideInputView}
-              disabled={
-                patientVisitStore.listPatientVisit?.length > 0
-                  ? patientOrderStore.listPatientOrder?.length == 0
-                    ? false
-                    : getFilterField(patientRegistrationStore?.defaultValues)
-                        ?.key == 'labId'
-                    ? true
-                    : false
-                  : true
-              }
-              onClick={() => {
-                setHideInputView(!hideInputView);
-                if (
-                  hideInputView &&
-                  patientVisitStore.listPatientVisit?.length == 1
-                ) {
-                  const item = patientVisitStore.listPatientVisit[0];
-                  setIsPrintPrimaryBarcod(item?.isPrintPrimaryBarcod || false);
-                  setValue('labId', item?.labId + ' - ' + item.patientName);
-                  patientOrderStore.updatePatientOrder({
-                    ...patientOrderStore.patientOrder,
-                    pId: item?.pId,
-                    visitId: item.visitId,
-                    labId: item.labId as any,
-                    rLab: item.rLab,
-                    patientName: item.patientName,
-                    age: item?.age,
-                    ageUnits: item?.ageUnits,
-                  });
-                  patientVisitStore.updatePatientVisitList(
-                    patientVisitStore.listPatientVisitCopy,
-                  );
-                  if (item.labId)
-                    patientOrderStore.patientOrderService
-                      .checkExistsRecords({
-                        input: {
-                          filter: {
-                            fildes: {
-                              labId: item.labId,
-                              documentType: 'patientOrder',
-                            },
-                          },
-                        },
-                      })
-                      .then(res => {
-                        if (res.checkExistsRecordsPatientOrder.success) {
-                          patientOrderStore.updateExistsRecords(true);
-                          Toast.error({
-                            message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
-                          });
-                        } else patientOrderStore.updateExistsRecords(false);
-                      });
-                }
-              }}
-            />
-          )}
         <div
           className={
             'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')

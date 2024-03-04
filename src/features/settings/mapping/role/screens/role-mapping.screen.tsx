@@ -256,10 +256,15 @@ const RoleMapping = observer(() => {
           });
           global.filter = { mode: 'filter', type, filter, page, limit };
         }}
+        hideAddRoleMapping={hideAddRoleMapping}
+        setHideAddRoleMapping={() => {
+          setHideAddRoleMapping(!hideAddRoleMapping);
+          setRouter();
+        }}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [roleMappingStore.roleMappingList],
+    [roleMappingStore.roleMappingList, hideAddRoleMapping],
   );
 
   return (
@@ -268,15 +273,7 @@ const RoleMapping = observer(() => {
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
-      {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
-        <Buttons.ButtonCircleAddRemove
-          show={hideAddRoleMapping}
-          onClick={status => {
-            setRouter();
-            setHideAddRoleMapping(!hideAddRoleMapping);
-          }}
-        />
-      )}
+
       <div className=' mx-auto  flex-wrap'>
         <div
           className={

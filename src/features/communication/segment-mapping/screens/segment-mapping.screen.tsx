@@ -297,10 +297,12 @@ const SegmentMapping = SegmentMappingHoc(
             });
             global.filter = { mode: 'filter', type, filter, page, limit };
           }}
+          setHideAddSegmentMapping={setHideAddSegmentMapping}
+          isHideAddSegmentMapping={hideAddSegmentMapping}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [segmentMappingStore.listSegmentMapping],
+      [segmentMappingStore.listSegmentMapping, hideAddSegmentMapping],
     );
 
     return (
@@ -309,15 +311,6 @@ const SegmentMapping = SegmentMappingHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSegmentMapping}
-            onClick={status => setHideAddSegmentMapping(!hideAddSegmentMapping)}
-          />
-        )}
 
         <div className=' mx-auto flex-wrap'>
           <div

@@ -41,6 +41,8 @@ interface NoticeBoardsListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  isHideView: boolean;
+  setIsHideView: any;
 }
 
 export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
@@ -424,6 +426,8 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
           }}
           dynamicStylingFields={['lab', 'header', 'action']}
           hideExcelSheet={['opration', '_id']}
+          isHideForm={props.isHideView}
+          setHideForm={props.setIsHideView}
         />
       </div>
     </>

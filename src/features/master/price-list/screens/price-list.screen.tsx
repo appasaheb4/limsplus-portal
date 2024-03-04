@@ -303,10 +303,12 @@ export const PriceList = PriceListHoc(
               [dataField]: value,
             });
           }}
+          isHideAddView={hideAddView}
+          setHideAddView={setHideAddView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [priceListStore.listPriceList],
+      [priceListStore.listPriceList, hideAddView],
     );
 
     const handleFileUpload = (file: any) => {
@@ -400,15 +402,7 @@ export const PriceList = PriceListHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddView}
-            onClick={() => setHideAddView(!hideAddView)}
-          />
-        )}
+
         <div className='mx-auto flex-wrap'>
           <div
             className={

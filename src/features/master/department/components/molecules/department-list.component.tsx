@@ -53,6 +53,8 @@ interface DepartmentListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
+  isHideAddDepartment: boolean;
+  setHideAddDepartment: any;
 }
 
 const dynamicStylingFields = [
@@ -825,6 +827,8 @@ export const DepartmentList = (props: DepartmentListProps) => {
         }}
         dynamicStylingFields={dynamicStylingFields}
         hideExcelSheet={hideExcelSheet}
+        isHideForm={props.isHideAddDepartment}
+        setHideForm={props.setHideAddDepartment}
       />
     </div>
   );

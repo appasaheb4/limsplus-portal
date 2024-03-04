@@ -89,17 +89,7 @@ const InterfaceManager = InterfaceManagerHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddInterfaceManager}
-            onClick={status =>
-              setHideAddInterfaceManager(!hideAddInterfaceManager)
-            }
-          />
-        )}
+
         <div className=' mx-auto  flex-wrap'>
           <div
             className={
@@ -504,6 +494,8 @@ const InterfaceManager = InterfaceManagerHoc(
                 });
                 global.filter = { mode: 'filter', type, filter, page, limit };
               }}
+              isHideAddInterfaceManager={hideAddInterfaceManager}
+              setHideAddInterfaceManager={setHideAddInterfaceManager}
             />
           </div>
           <ModalConfirm

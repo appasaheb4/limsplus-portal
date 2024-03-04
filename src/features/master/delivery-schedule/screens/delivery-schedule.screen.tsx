@@ -171,15 +171,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
-          />
-        )}
+
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -1018,6 +1010,8 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   });
                 }
               }}
+              isHideAddLab={hideAddLab}
+              setHideAddLab={setHideAddLab}
             />
           </div>
           <ModalConfirm

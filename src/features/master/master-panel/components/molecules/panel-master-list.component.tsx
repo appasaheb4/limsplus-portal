@@ -103,6 +103,8 @@ interface PanelMasterListProps {
     dataField: string,
     id: string,
   ) => void;
+  isInputView: boolean;
+  setInputView: any;
 }
 
 export const PanelMasterList = (props: PanelMasterListProps) => {
@@ -2111,6 +2113,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             'environment',
           ]}
           hideExcelSheet={['_id', 'opration']}
+          isHideForm={props.isInputView}
+          setHideForm={props.setInputView}
         />
       </div>
     </>
