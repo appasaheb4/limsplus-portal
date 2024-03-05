@@ -373,6 +373,24 @@ export const PossibleResults = PossibleResultHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {!hideAddLookup && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={hideAddLookup}
+                  onClick={() => setHideAddLookup(!hideAddLookup)}
+                />
+              )}
+            </>
+          )}
+        </div>
         <div className='mx-auto'>
           <div
             className={

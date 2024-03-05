@@ -402,6 +402,24 @@ export const PriceList = PriceListHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {!hideAddView && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={hideAddView}
+                  onClick={() => setHideAddView(!hideAddView)}
+                />
+              )}
+            </>
+          )}
+        </div>
 
         <div className='mx-auto flex-wrap'>
           <div

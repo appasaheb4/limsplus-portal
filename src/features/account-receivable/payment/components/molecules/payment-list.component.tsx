@@ -24,6 +24,8 @@ interface PaymentListProps {
     page: number,
     totalSize: number,
   ) => void;
+  isInputView: boolean;
+  setIsInputView: any;
 }
 
 export const PaymentList = (props: PaymentListProps) => {

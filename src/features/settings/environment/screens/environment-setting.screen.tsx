@@ -213,6 +213,24 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     return (
       <>
         <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {!isInputView && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={isInputView}
+                  onClick={() => setIsInputView(!isInputView)}
+                />
+              )}
+            </>
+          )}
+        </div>
+        <div
           className={
             'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')
           }
