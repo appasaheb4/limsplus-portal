@@ -251,7 +251,6 @@ const PanelApproval = observer(() => {
           Note: Report Priority= Daily single-single update.
         </span>
       </div>
-
       {expandItem?.length > 0 && (
         <>
           <div className='p-1 rounded-lg shadow-xl overflow-auto mt-4'>

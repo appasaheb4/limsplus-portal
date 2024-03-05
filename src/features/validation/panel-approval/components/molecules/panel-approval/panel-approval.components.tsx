@@ -105,12 +105,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               sort: true,
               editable: false,
             },
-            {
-              dataField: 'sampleId',
-              text: 'Sample Id',
-              sort: true,
-              editable: false,
-            },
+
             {
               dataField: 'panel',
               text: 'Panel',
@@ -136,18 +131,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               sort: true,
               editable: false,
             },
-            {
-              dataField: 'sampleType',
-              text: 'Sample Type',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'containerId',
-              text: 'Container Id',
-              sort: true,
-              editable: false,
-            },
+
             {
               dataField: 'comments',
               text: 'Comments',
@@ -166,19 +150,6 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               sort: true,
               editable: false,
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              editable: false,
-            },
-            {
-              text: 'Environment',
-              dataField: 'environment',
-              editable: false,
-              sort: true,
-            },
-
             {
               dataField: 'approvalStatus',
               text: 'Action',
