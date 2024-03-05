@@ -50,7 +50,7 @@ export const PageBranding = observer(() => {
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalView, setModalView] = useState<ModalViewProps>();
-  const [isInputView, setIsInputView] = useState<boolean>(false);
+  const [isInputView, setIsInputView] = useState<boolean>(true);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
   const [isClearReset, setClearReset] = useState<boolean>(false);
 
@@ -133,17 +133,23 @@ export const PageBranding = observer(() => {
 
   return (
     <>
-      {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-        <Buttons.ButtonCircleAddRemoveBottom
-          style={{ bottom: 50 }}
-          show={!isInputView}
-          onClick={() => setIsInputView(!isInputView)}
-        />
-      )}
+      <div className='flex justify-end'>
+        {!isInputView && (
+          <>
+            {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+              <Buttons.ButtonCircleAddRemoveBottom
+                show={isInputView}
+                onClick={() => setIsInputView(!isInputView)}
+              />
+            )}
+          </>
+        )}
+      </div>
+
       <div className='mx-auto flex-wrap'>
         <div
           className={
-            'rounded-lg shadow-xl p-2 ' + (!isInputView ? 'hidden' : 'shown')
+            'rounded-lg shadow-xl p-2 ' + (isInputView ? 'hidden' : 'shown')
           }
         >
           <Grid cols={2}>
@@ -465,6 +471,8 @@ export const PageBranding = observer(() => {
                   }
                 });
             }}
+            setIsInputView={setIsInputView}
+            isInputView={isInputView}
           />
         </div>
       </div>
