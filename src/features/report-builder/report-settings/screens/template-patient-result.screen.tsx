@@ -43,7 +43,7 @@ export const TemplatePatientResult = observer(() => {
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalView, setModalView] = useState<ModalViewProps>();
-  const [isInputView, setIsInputView] = useState<boolean>(false);
+  const [isInputView, setIsInputView] = useState<boolean>(true);
   const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
   const onSave = () => {
@@ -88,16 +88,21 @@ export const TemplatePatientResult = observer(() => {
 
   return (
     <>
-      {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-        <Buttons.ButtonCircleAddRemoveBottom
-          style={{ bottom: 50 }}
-          show={!isInputView}
-          onClick={() => setIsInputView(!isInputView)}
-        />
-      )}
+      <div className='flex justify-end'>
+        {!isInputView && (
+          <>
+            {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+              <Buttons.ButtonCircleAddRemoveBottom
+                show={isInputView}
+                onClick={() => setIsInputView(!isInputView)}
+              />
+            )}
+          </>
+        )}
+      </div>
       <div
         className={
-          'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')
+          'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
         }
       >
         <Grid cols={2}>
@@ -458,6 +463,8 @@ export const TemplatePatientResult = observer(() => {
               children: <>{getTemplate(item.tempCode, item)}</>,
             });
           }}
+          setIsInputView={setIsInputView}
+          isInputView={isInputView}
         />
       </div>
       <ModalConfirm

@@ -73,13 +73,18 @@ export const PageLayout = observer(() => {
 
   return (
     <>
-      {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-        <Buttons.ButtonCircleAddRemoveBottom
-          style={{ bottom: 40 }}
-          show={isInputView}
-          onClick={() => setIsInputView(!isInputView)}
-        />
-      )}
+      <div className='flex justify-end'>
+        {!isInputView && (
+          <>
+            {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+              <Buttons.ButtonCircleAddRemoveBottom
+                show={isInputView}
+                onClick={() => setIsInputView(!isInputView)}
+              />
+            )}
+          </>
+        )}
+      </div>
       <div className='mx-auto flex-wrap'>
         <div
           className={
@@ -488,6 +493,8 @@ export const PageLayout = observer(() => {
                 ),
               });
             }}
+            setIsInputView={setIsInputView}
+            isInputView={isInputView}
           />
         </div>
       </div>
