@@ -141,6 +141,24 @@ export const Result = observer((props: ResultProps) => {
               ),
             },
             {
+              dataField: 'sampleId',
+              text: 'Sample Id',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'sampleType',
+              text: 'Sample Type',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'containerId',
+              text: 'Container Id',
+              sort: true,
+              editable: false,
+            },
+            {
               dataField: 'units',
               text: 'Units',
               sort: true,
