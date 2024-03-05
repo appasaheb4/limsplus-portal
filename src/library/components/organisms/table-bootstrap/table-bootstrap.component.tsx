@@ -702,7 +702,7 @@ export const TableBootstrap = ({
                   </div>
                 )}
                 <div>
-                  {isShowCircleButton && (
+                  {isHideForm && (
                     <>
                       {RouterFlow.checkPermission(
                         routerStore.userPermission,

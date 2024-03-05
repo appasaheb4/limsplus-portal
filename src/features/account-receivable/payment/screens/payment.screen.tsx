@@ -43,7 +43,7 @@ const Payment = PaymentHoc(
       reset,
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [totalReceivedAmount, setTotalReceivedAmount] = useState<number>(0);
     useEffect(() => {
       // Default value initialization
@@ -151,12 +151,21 @@ const Payment = PaymentHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={!isInputView}
-            onClick={() => setIsInputView(!isInputView)}
-          />
-        )}
+        <div className='flex justify-end'>
+          {!isInputView && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={isInputView}
+                  onClick={() => setIsInputView(!isInputView)}
+                />
+              )}
+            </>
+          )}
+        </div>
         <div className=' mx-auto flex-wrap'>
           <div
             className={
@@ -750,6 +759,8 @@ const Payment = PaymentHoc(
                 //   input: {type, filter, page, limit},
                 // });
               }}
+              isInputView={isInputView}
+              setIsInputView={setIsInputView}
             />
           </div>
         </div>

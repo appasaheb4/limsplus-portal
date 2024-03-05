@@ -217,7 +217,24 @@ const NoticeBoard = NoticeBoardHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {!isHideView && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={isHideView}
+                  onClick={() => setIsHideView(!isHideView)}
+                />
+              )}
+            </>
+          )}
+        </div>
         <div
           className={
             'p-2 rounded-lg shadow-xl ' + (isHideView ? 'hidden' : 'shown')

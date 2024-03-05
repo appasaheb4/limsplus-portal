@@ -232,6 +232,24 @@ export const PatientManager = PatientManagerHoc(
     return (
       <>
         <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {!hideInputView && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={hideInputView}
+                  onClick={() => setHideInputView(!hideInputView)}
+                />
+              )}
+            </>
+          )}
+        </div>
+        <div
           className={
             'p-1 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')
           }

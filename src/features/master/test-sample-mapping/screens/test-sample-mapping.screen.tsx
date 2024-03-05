@@ -323,6 +323,25 @@ const TestSampleMapping = TestSampleMappingHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {!hideAddLab && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={hideAddLab}
+                  onClick={() => setHideAddLab(!hideAddLab)}
+                />
+              )}
+            </>
+          )}
+        </div>
+
         <div className='mx-auto flex-wrap'>
           <div
             className={

@@ -157,6 +157,24 @@ const SampleContainer = SampleContainerHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {!hideAddBanner && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={hideAddBanner}
+                  onClick={() => setHideAddBanner(!hideAddBanner)}
+                />
+              )}
+            </>
+          )}
+        </div>
         <div className='mx-auto flex-wrap'>
           <div
             className={

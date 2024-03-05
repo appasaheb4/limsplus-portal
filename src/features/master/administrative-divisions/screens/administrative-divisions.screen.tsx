@@ -168,6 +168,24 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {!isHideView && (
+            <>
+              {RouterFlow.checkPermission(
+                routerStore.userPermission,
+                'Add',
+              ) && (
+                <Buttons.ButtonCircleAddRemoveBottom
+                  show={isHideView}
+                  onClick={() => setIsHideView(!isHideView)}
+                />
+              )}
+            </>
+          )}
+        </div>
 
         <div className=' mx-auto flex-wrap'>
           <div
