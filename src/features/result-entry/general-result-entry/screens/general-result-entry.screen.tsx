@@ -178,17 +178,11 @@ const GeneralResultEntry = observer(() => {
             }
           }}
           onTestStatusFilter={testStatus => {
+            const input = _.pickBy({
+              ...generalResultEntryStore.filterGeneralResEntry,
+              testStatus,
+            });
             if (testStatus != '') {
-              const input = _.pickBy(
-                {
-                  ...generalResultEntryStore.filterGeneralResEntry,
-                  testStatus,
-                },
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                // function (value, key) {
-                //   return !(value === undefined || value === null || value === '');
-                // },
-              );
               patientResultStore.patientResultService.patientListForGeneralResultEntry(
                 {
                   input: {
@@ -204,6 +198,18 @@ const GeneralResultEntry = observer(() => {
                 patientResultStore.distinctPatientResultCopy,
               );
             } else {
+              patientResultStore.patientResultService.findNotEqualToResult({
+                input: {
+                  filter: {
+                    ...input,
+                    testStatus: undefined,
+                    notEqualToKey: 'testStatus',
+                    notEqualToValue: 'P',
+                  },
+                  page: 0,
+                  limit: 10,
+                },
+              });
             }
             // generalResultEntryStore.updateFilterGeneralResEntry({
             //   ...generalResultEntryStore.filterGeneralResEntry,

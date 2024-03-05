@@ -21,6 +21,7 @@ import {
   PATIENT_RESULT_RECORDS,
   UPDATE_FIELDS_BY_IDS,
   UPDATE_STATUS_RECORD,
+  FIND_NOT_EQUAL_TO_RESULT,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -211,6 +212,61 @@ export class PatientResultService {
                   count:
                     response.data.patientResultListForGenResEntry.paginatorInfo
                       .count,
+                },
+              },
+            });
+          }
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findNotEqualToResult = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      const filter = _.pickBy(
+        variables.input.filter,
+        v => v !== null && v !== undefined && v !== '',
+      );
+      client
+        .mutate({
+          mutation: FIND_NOT_EQUAL_TO_RESULT,
+          variables: {
+            ...variables,
+            input: { filter },
+          },
+        })
+        .then((response: any) => {
+          console.log({ response });
+          if (!response.data.findNotEqualToResultList.success) {
+            return this.listPatientResultNotAutoUpdate({
+              pLab: stores.loginStore.login?.lab,
+              finishResult: 'P',
+            });
+          } else {
+            let data: any =
+              response.data.findNotEqualToResultList.patientResultList;
+            data = data.map(item => {
+              return {
+                ...item,
+                testReportOrder: item?.extraData?.testReportOrder,
+                analyteReportOrder: item?.extraData?.analyteReportOrder,
+              };
+            });
+            data = _.sortBy(data, [
+              'labId',
+              'testReportOrder',
+              'analyteReportOrder',
+            ]);
+            stores.patientResultStore.patientResultListForGeneralResEntry({
+              patientResultListForGenResEntry: {
+                patientResultList: data,
+                paginatorInfo: {
+                  count:
+                    response.data.findNotEqualToResultList.paginatorInfo.count,
                 },
               },
             });
