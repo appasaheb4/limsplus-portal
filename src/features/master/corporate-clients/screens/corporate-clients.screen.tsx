@@ -19,6 +19,7 @@ import {
   ImportFile,
   MainPageHeading,
   AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  ModalPostalCode,
 } from '@/library/components';
 import { CorporateClient, DeliveryMode } from '../components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
@@ -53,12 +54,29 @@ const CorporateClients = CorporateClientsHoc(
       resetField,
     } = useForm();
 
+    const [isPostalCode, setIsPostalCodeData] = useState(false);
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddView, setHideAddView] = useState<boolean>(true);
     const [interfaceManagerList, setInterfaceManagerList] = useState([]);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'F5') {
+          event.preventDefault();
+          setIsPostalCodeData(true);
+        }
+      };
+
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
       // Default value initialization
@@ -874,50 +892,25 @@ const CorporateClients = CorporateClientsHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
+                      <Form.Input
                         label='Postal Code'
-                        id='postalCode'
                         hasError={!!errors.postalCode}
-                      >
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
-                          data={{
-                            list: labStore.addressDetails,
-                            displayKey: [
-                              'Name',
-                              'Block',
-                              'District',
-                              'State',
-                              'Country',
-                              'Pincode',
-                            ],
-                          }}
-                          hasError={!!errors.postalCode}
-                          // displayValue={value}
-                          onFilter={(value: string) => {
-                            if (value?.length == 6) {
-                              labStore.LabService?.getAddressDetailsByPincode(
-                                value,
-                              );
-                            }
-                          }}
-                          onSelect={item => {
-                            onChange(item.Pincode);
+                        placeholder='Search....'
+                        value={value}
+                        //disabled={true}
+                        onChange={postalCode => {
+                          onChange(postalCode);
+                          if (postalCode?.length == 6) {
+                            labStore.LabService?.getAddressDetailsByPincode(
+                              postalCode,
+                            );
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
-                              country: item?.Country?.toUpperCase(),
-                              state: item?.State?.toUpperCase(),
-                              district: item?.District?.toUpperCase(),
-                              city: item?.Block?.toUpperCase(),
-                              area: item?.Name?.toUpperCase(),
-                              // postalCode: Number.parseInt(item.Pincode),
-                              zone: '', // adding later zone and sbu using administrative divisions
-                              sbu: '',
+                              postalCode,
                             });
-                            labStore.updateAddressDetails([]);
-                          }}
-                        />
-                      </Form.InputWrapper>
+                          }
+                        }}
+                      />
                     )}
                     name='postalCode'
                     rules={{ required: false }}
@@ -932,7 +925,7 @@ const CorporateClients = CorporateClientsHoc(
                         hasError={!!errors.country}
                         placeholder='Country'
                         value={value}
-                        //disabled={true}
+                        disabled={true}
                         onChange={country => {
                           onChange(country);
                           corporateClientsStore.updateCorporateClients({
@@ -955,7 +948,7 @@ const CorporateClients = CorporateClientsHoc(
                         hasError={!!errors.state}
                         placeholder='State'
                         value={value}
-                        //disabled={true}
+                        disabled={true}
                         onChange={state => {
                           onChange(state);
                           corporateClientsStore.updateCorporateClients({
@@ -978,7 +971,7 @@ const CorporateClients = CorporateClientsHoc(
                         hasError={!!errors.district}
                         placeholder='District'
                         value={value}
-                        //disabled={true}
+                        disabled={true}
                         onChange={district => {
                           onChange(district);
                           corporateClientsStore.updateCorporateClients({
@@ -1001,7 +994,7 @@ const CorporateClients = CorporateClientsHoc(
                         hasError={!!errors.city}
                         placeholder='City'
                         value={value}
-                        //disabled={true}
+                        disabled={true}
                         onChange={city => {
                           onChange(city);
                           corporateClientsStore.updateCorporateClients({
@@ -1023,7 +1016,7 @@ const CorporateClients = CorporateClientsHoc(
                         hasError={!!errors.area}
                         placeholder='Area'
                         value={value}
-                        //disabled={true}
+                        disabled={true}
                         onChange={area => {
                           onChange(area);
                           corporateClientsStore.updateCorporateClients({
@@ -2055,6 +2048,51 @@ const CorporateClients = CorporateClientsHoc(
           <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             {tableView}
           </div>
+
+          <ModalPostalCode
+            postalCode={corporateClientsStore.corporateClients.postalCode}
+            show={isPostalCode}
+            data={
+              corporateClientsStore.corporateClients.postalCode
+                ? labStore?.addressDetails
+                : [
+                    {
+                      Pincode: '',
+                      Country: '',
+                      State: '',
+                      District: '',
+                      Block: '',
+                      Name: '',
+                    },
+                  ]
+            }
+            onSelectedRow={item => {
+              corporateClientsStore.updateCorporateClients({
+                ...corporateClientsStore.corporateClients,
+                country: item?.Country?.toUpperCase(),
+                state: item?.State?.toUpperCase(),
+                district: item?.District?.toUpperCase(),
+                city: item?.Block?.toUpperCase(),
+                area: item?.Name?.toUpperCase(),
+                postalCode: Number.parseInt(item.Pincode),
+                zone: '',
+                sbu: '',
+              });
+              setIsPostalCodeData(false);
+            }}
+            close={() => {
+              corporateClientsStore.updateCorporateClients({
+                ...corporateClientsStore.corporateClients,
+                country: '',
+                state: '',
+                district: '',
+                city: '',
+                area: '',
+                postalCode: Number(''),
+              });
+              setIsPostalCodeData(false);
+            }}
+          />
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {
