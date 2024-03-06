@@ -18,6 +18,7 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
+  ModalPostalCode,
 } from '@/library/components';
 import { LabList, PriceListTable } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -56,6 +57,7 @@ const Lab = LabHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isPostalCode, setIsPostalCodeData] = useState(false);
 
     useEffect(() => {
       (async function () {
@@ -102,6 +104,22 @@ const Lab = LabHoc(
       setValue('priceList', labStore.labs?.priceList);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [labStore.labs]);
+
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (labStore.addressDetails && event.key === 'F5') {
+          event.preventDefault();
+          setIsPostalCodeData(true);
+        }
+      };
+
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const onSubmitLab = async () => {
       if (!labStore.checkExitsEnvCode) {
@@ -529,56 +547,28 @@ const Lab = LabHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
+                        <Form.Input
                           label='Postal Code'
-                          id='postalCode'
                           hasError={!!errors.postalCode}
-                        >
-                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                            loader={loading}
-                            data={{
-                              list: labStore?.addressDetails,
-                              displayKey: [
-                                'Name',
-                                'Block',
-                                'District',
-                                'State',
-                                'Country',
-                                'Pincode',
-                              ],
-                            }}
-                            displayValue={value}
-                            hasError={!!errors.postalCode}
-                            onFilter={(value: string) => {
-                              if (value?.length == 6) {
-                                labStore.LabService?.getAddressDetailsByPincode(
-                                  value,
-                                );
-                              }
-                            }}
-                            onSelect={item => {
-                              onChange(item.Pincode);
-                              labStore.updateLabs({
-                                ...labStore.labs,
-                                country: item?.Country?.toUpperCase(),
-                                state: item?.State?.toUpperCase(),
-                                district: item?.District?.toUpperCase(),
-                                city: item?.Block?.toUpperCase(),
-                                area: item?.Name?.toUpperCase(),
-                                postalCode: item.Pincode,
-                              });
-                              labStore.updateAddressDetails([]);
-                            }}
-                          />
-                        </Form.InputWrapper>
+                          placeholder='Search....'
+                          value={value}
+                          //disabled={true}
+                          onChange={postalCode => {
+                            onChange(postalCode);
+                            if (postalCode?.length == 6) {
+                              labStore.LabService?.getAddressDetailsByPincode(
+                                postalCode,
+                              );
+                            }
+                          }}
+                        />
                       )}
                       name='postalCode'
                       rules={{ required: false }}
-                      defaultValue={labStore.labs.area}
+                      defaultValue=''
                     />
 
                     <Controller
@@ -589,7 +579,7 @@ const Lab = LabHoc(
                           hasError={!!errors.country}
                           placeholder='Country'
                           value={value}
-                          //disabled={true}
+                          disabled={true}
                           onChange={country => {
                             onChange(country);
                             labStore.updateLabs({
@@ -612,7 +602,7 @@ const Lab = LabHoc(
                           hasError={!!errors.state}
                           placeholder='State'
                           value={value}
-                          //disabled={true}
+                          disabled={true}
                           onChange={state => {
                             onChange(state);
                             labStore.updateLabs({
@@ -635,7 +625,7 @@ const Lab = LabHoc(
                           hasError={!!errors.district}
                           placeholder='District'
                           value={value}
-                          //disabled={true}
+                          disabled={true}
                           onChange={district => {
                             onChange(district);
                             labStore.updateLabs({
@@ -658,7 +648,7 @@ const Lab = LabHoc(
                           hasError={!!errors.city}
                           placeholder='City'
                           value={value}
-                          //disabled={true}
+                          disabled={true}
                           onChange={city => {
                             onChange(city);
                             labStore.updateLabs({
@@ -681,7 +671,7 @@ const Lab = LabHoc(
                           hasError={!!errors.area}
                           placeholder='Area'
                           value={value}
-                          //disabled={true}
+                          disabled={true}
                           onChange={area => {
                             onChange(area);
                             labStore.updateLabs({
@@ -1716,6 +1706,27 @@ const Lab = LabHoc(
           <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             {tableView}
           </div>
+          <ModalPostalCode
+            show={isPostalCode}
+            data={labStore?.addressDetails}
+            onSelectedRow={item => {
+              labStore.updateLabs({
+                ...labStore.labs,
+                country: item?.Country?.toUpperCase(),
+                state: item?.State?.toUpperCase(),
+                district: item?.District?.toUpperCase(),
+                city: item?.Block?.toUpperCase(),
+                area: item?.Name?.toUpperCase(),
+                postalCode: item.Pincode,
+              });
+              labStore.updateAddressDetails([]);
+              setIsPostalCodeData(false);
+            }}
+            close={() => {
+              labStore.updateAddressDetails([]);
+              setIsPostalCodeData(false);
+            }}
+          />
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {
