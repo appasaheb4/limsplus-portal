@@ -1243,7 +1243,8 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             headerClasses: 'textHeader1',
             // sort: true,
             style: { width: widthRefBox },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: (content, row, rowIndex, columnIndex) =>
+              row.isPredefinedPanel,
             csvFormatter: col => (col ? col : ''),
             formatter: (cell, row) => {
               return (

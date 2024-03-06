@@ -102,12 +102,13 @@ const Lab = LabHoc(
       setValue('reportFormat', labStore.labs?.reportFormat);
       setValue('specificFormat', labStore.labs?.specificFormat);
       setValue('priceList', labStore.labs?.priceList);
+      setValue('postalCode', labStore.labs?.postalCode);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [labStore.labs]);
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (labStore.addressDetails && event.key === 'F5') {
+        if (event.key === 'F5') {
           event.preventDefault();
           setIsPostalCodeData(true);
         }
@@ -431,6 +432,8 @@ const Lab = LabHoc(
       [priceGroupItems, priceListItems],
     );
 
+    console.log(labStore.labs.postalCode);
+
     return (
       <>
         <MainPageHeading
@@ -562,6 +565,10 @@ const Lab = LabHoc(
                               labStore.LabService?.getAddressDetailsByPincode(
                                 postalCode,
                               );
+                              labStore.updateLabs({
+                                ...labStore.labs,
+                                postalCode,
+                              });
                             }
                           }}
                         />
@@ -1707,8 +1714,22 @@ const Lab = LabHoc(
             {tableView}
           </div>
           <ModalPostalCode
+            postalCode={labStore?.labs?.postalCode}
             show={isPostalCode}
-            data={labStore?.addressDetails}
+            data={
+              labStore?.labs?.postalCode
+                ? labStore?.addressDetails
+                : [
+                    {
+                      Pincode: '',
+                      Country: '',
+                      State: '',
+                      District: '',
+                      Block: '',
+                      Name: '',
+                    },
+                  ]
+            }
             onSelectedRow={item => {
               labStore.updateLabs({
                 ...labStore.labs,
@@ -1719,11 +1740,18 @@ const Lab = LabHoc(
                 area: item?.Name?.toUpperCase(),
                 postalCode: item.Pincode,
               });
-              labStore.updateAddressDetails([]);
               setIsPostalCodeData(false);
             }}
             close={() => {
-              labStore.updateAddressDetails([]);
+              labStore.updateLabs({
+                ...labStore.labs,
+                country: '',
+                state: '',
+                district: '',
+                city: '',
+                area: '',
+                postalCode: '',
+              });
               setIsPostalCodeData(false);
             }}
           />

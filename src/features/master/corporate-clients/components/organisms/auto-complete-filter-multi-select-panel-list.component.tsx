@@ -1,8 +1,11 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
-import {observer} from 'mobx-react';
-import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from '@/library/components';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import {
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+} from '@/library/components';
+import { useStores } from '@/stores';
 
 interface AutoCompleteFilterMultiSelectPanelListProps {
   disable: boolean;
@@ -16,7 +19,7 @@ export const AutoCompleteFilterMultiSelectPanelList = observer(
     selected,
     onSelect,
   }: AutoCompleteFilterMultiSelectPanelListProps) => {
-    const {loginStore, masterPanelStore, corporateClientsStore} = useStores();
+    const { loginStore, masterPanelStore, corporateClientsStore } = useStores();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
     const useOutsideAlerter = ref => {
@@ -51,7 +54,7 @@ export const AutoCompleteFilterMultiSelectPanelList = observer(
     return (
       <>
         <div ref={wrapperRef} className='w-full relative'>
-          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+          <AutoCompleteFilterMultiSelectSelectedTopDisplay
             loader={false}
             placeholder='Search by code'
             disable={!disable}

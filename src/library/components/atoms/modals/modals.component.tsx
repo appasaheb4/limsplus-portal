@@ -256,6 +256,7 @@ export const ModalImportFile = (props: ModalImportFileProps) => {
 };
 
 interface ModalPostalCodeProps {
+  postalCode: any;
   show?: boolean;
   data?: any;
   click?: (type?: string) => void;
@@ -266,10 +267,32 @@ interface ModalPostalCodeProps {
 export const ModalPostalCode = (props: ModalPostalCodeProps) => {
   const [showModal, setShowModal] = React.useState(props.show);
   const [editRow, setEditRow] = useState<any>();
-  const [data, setData] = useState<any[]>(props.data || []);
+  const [data, setData] = useState<any[]>(
+    props.data || [
+      {
+        Pincode: '',
+        Country: '',
+        State: '',
+        District: '',
+        Block: '',
+        Name: '',
+      },
+    ],
+  );
   useEffect(() => {
     setShowModal(props.show);
-    setData(props.data || []);
+    setData(
+      props.data || [
+        {
+          Pincode: '',
+          Country: '',
+          State: '',
+          District: '',
+          Block: '',
+          Name: '',
+        },
+      ],
+    );
   }, [props]);
 
   return (
@@ -277,7 +300,7 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
       {showModal && (
         <>
           <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
-            <div className='relative w-auto my-6 mx-auto max-w-3xl'>
+            <div className='relative w-auto my-6 mx-auto max-w-5xl'>
               {/*content*/}
               <div
                 className={`border-0 rounded-lg shadow-lg relative flex flex-col w-full ${
@@ -293,6 +316,16 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
                       props.close && props.close();
                       props.onClose && props.onClose();
                       setShowModal(false);
+                      setData([
+                        {
+                          Pincode: '',
+                          Country: '',
+                          State: '',
+                          District: '',
+                          Block: '',
+                          Name: '',
+                        },
+                      ]);
                     }}
                   >
                     <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
@@ -334,16 +367,13 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
                       <Table striped bordered>
                         <thead>
                           <tr className='p-0 text-xs'>
-                            <th
-                              className='text-white'
-                              style={{ minWidth: 100 }}
-                            >
+                            <th className='text-white' style={{ minWidth: 60 }}>
+                              Postal Code
+                            </th>
+                            <th className='text-white' style={{ minWidth: 60 }}>
                               Country
                             </th>
-                            <th
-                              className='text-white'
-                              style={{ minWidth: 100 }}
-                            >
+                            <th className='text-white' style={{ minWidth: 70 }}>
                               State
                             </th>
                             <th
@@ -352,10 +382,7 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
                             >
                               District
                             </th>
-                            <th
-                              className='text-white'
-                              style={{ minWidth: 100 }}
-                            >
+                            <th className='text-white' style={{ minWidth: 70 }}>
                               City
                             </th>
                             <th
@@ -370,14 +397,29 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
                           </tr>
                         </thead>
                         <tbody className='text-xs'>
-                          {props?.data?.map((item, index) => (
+                          {data?.map((item, index) => (
                             <tr key={index}>
                               <td>
                                 <Form.Input
+                                  value={item?.Pincode}
+                                  disabled={!props.postalCode ? false : true}
+                                  onChange={Pincode => {
+                                    const rowData = [...data];
+                                    rowData[index].Pincode = Pincode;
+                                    setData(rowData);
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                <Form.Input
                                   value={item?.Country?.toUpperCase()}
-                                  disabled={editRow !== index}
+                                  disabled={
+                                    !props.postalCode
+                                      ? false
+                                      : editRow !== index
+                                  }
                                   onChange={Country => {
-                                    const rowData = [...props.data];
+                                    const rowData = [...data];
                                     rowData[index].Country = Country;
                                     setData(rowData);
                                   }}
@@ -385,44 +427,60 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
                               </td>
                               <td>
                                 <Form.Input
-                                  disabled={editRow !== index}
+                                  disabled={
+                                    !props.postalCode
+                                      ? false
+                                      : editRow !== index
+                                  }
                                   value={item?.State?.toUpperCase()}
                                   onChange={State => {
-                                    const rowData = [...props.data];
-                                    rowData[index][State] = State;
+                                    const rowData = [...data];
+                                    rowData[index].State = State;
                                     setData(rowData);
                                   }}
                                 />
                               </td>
                               <td>
-                                <Form.Input
-                                  disabled={editRow !== index}
+                                <Form.MultilineInput
+                                  disabled={
+                                    !props.postalCode
+                                      ? false
+                                      : editRow !== index
+                                  }
                                   value={item?.District?.toUpperCase()}
                                   onChange={District => {
-                                    const rowData = [...props.data];
-                                    rowData[index][District] = District;
+                                    const rowData = [...data];
+                                    rowData[index].District = District;
                                     setData(rowData);
                                   }}
                                 />
                               </td>
                               <td>
                                 <Form.Input
-                                  disabled={editRow !== index}
+                                  disabled={
+                                    !props.postalCode
+                                      ? false
+                                      : editRow !== index
+                                  }
                                   value={item?.Block?.toUpperCase()}
                                   onChange={Block => {
-                                    const rowData = [...props.data];
-                                    rowData[index][Block] = Block;
+                                    const rowData = [...data];
+                                    rowData[index].Block = Block;
                                     setData(rowData);
                                   }}
                                 />
                               </td>
                               <td>
-                                <Form.Input
-                                  disabled={editRow !== index}
+                                <Form.MultilineInput
+                                  disabled={
+                                    !props.postalCode
+                                      ? false
+                                      : editRow !== index
+                                  }
                                   value={item?.Name?.toUpperCase()}
                                   onChange={Name => {
-                                    const rowData = [...props.data];
-                                    rowData[index][Name] = Name;
+                                    const rowData = [...data];
+                                    rowData[index].Name = Name;
                                     setData(rowData);
                                   }}
                                 />
@@ -448,6 +506,16 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
                                         props.onSelectedRow &&
                                           props.onSelectedRow(item);
                                         setShowModal(false);
+                                        setData([
+                                          {
+                                            Pincode: '',
+                                            Country: '',
+                                            State: '',
+                                            District: '',
+                                            Block: '',
+                                            Name: '',
+                                          },
+                                        ]);
                                       }}
                                     />
                                   </Tooltip>
@@ -471,6 +539,16 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
                       props.close && props.close();
                       props.onClose && props.onClose();
                       setShowModal(false);
+                      setData([
+                        {
+                          Pincode: '',
+                          Country: '',
+                          State: '',
+                          District: '',
+                          Block: '',
+                          Name: '',
+                        },
+                      ]);
                     }}
                   >
                     No

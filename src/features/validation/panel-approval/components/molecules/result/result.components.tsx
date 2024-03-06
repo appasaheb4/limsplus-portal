@@ -93,14 +93,36 @@ export const Result = observer((props: ResultProps) => {
               text: 'Test',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader3',
+              formatter: (cellContent, row) => {
+                const maxLength = 4;
+                const displayTestName =
+                  row.test.length > maxLength
+                    ? row.test.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.test;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.test}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
             },
             {
               dataField: 'analyte',
               text: 'Analyte',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader1',
+              formatter: (cellContent, row) => {
+                const maxLength = 7;
+                const displayTestName =
+                  row.analyte.length > maxLength
+                    ? row.analyte.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.analyte;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.analyte}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
             },
             {
               dataField: 'result',
