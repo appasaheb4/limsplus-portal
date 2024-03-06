@@ -116,7 +116,18 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               text: 'Panel',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderl',
+              formatter: (cellContent, row) => {
+                const maxLength = 8;
+                const displayTestName =
+                  row.panel.length > maxLength
+                    ? row.panel.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.panel;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.panel}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
             },
             {
               dataField: 'dueDate',

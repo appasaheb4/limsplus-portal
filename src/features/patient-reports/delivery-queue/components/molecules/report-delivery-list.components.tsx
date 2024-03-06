@@ -599,23 +599,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 },
               }),
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
-            },
+
             {
               text: 'Company Code',
               dataField: 'companyCode',
