@@ -375,20 +375,13 @@ export const PossibleResults = PossibleResultHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
         >
-          {!hideAddLookup && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={hideAddLookup}
-                  onClick={() => setHideAddLookup(!hideAddLookup)}
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddLookup}
+              onClick={() => setHideAddLookup(!hideAddLookup)}
+            />
           )}
         </div>
         <div className='mx-auto'>

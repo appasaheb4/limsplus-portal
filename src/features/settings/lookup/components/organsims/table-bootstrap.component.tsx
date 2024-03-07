@@ -486,17 +486,6 @@ export const TableBootstrap = ({
                     />
                   </div>
                 )}
-                <div>
-                  {RouterFlow.checkPermission(
-                    routerStore.userPermission,
-                    'Add',
-                  ) && (
-                    <Buttons.ButtonCircleAddRemove
-                      show={isHideForm}
-                      onClick={() => setHideForm?.(!isHideForm)}
-                    />
-                  )}
-                </div>
               </div>
               <div className='scrollTable h-[calc(100vh_-_30vh)] mb-2'>
                 <BootstrapTable

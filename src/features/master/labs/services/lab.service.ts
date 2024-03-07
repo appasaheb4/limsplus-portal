@@ -192,9 +192,8 @@ export class LabService {
         service
           ?.get(`${endpoints.external.postalpincode}/${pincode}`)
           .then(response => {
-            console.log(response.data);
             stores.labStore.updateAddressDetails(response.data[0]?.PostOffice);
-            resolve(response?.data);
+            resolve(response?.data[0]?.PostOffice);
           })
           .catch(error => {
             reject(error.message);

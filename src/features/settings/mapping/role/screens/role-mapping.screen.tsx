@@ -256,15 +256,10 @@ const RoleMapping = observer(() => {
           });
           global.filter = { mode: 'filter', type, filter, page, limit };
         }}
-        hideAddRoleMapping={hideAddRoleMapping}
-        setHideAddRoleMapping={() => {
-          setHideAddRoleMapping(!hideAddRoleMapping);
-          setRouter();
-        }}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [roleMappingStore.roleMappingList, hideAddRoleMapping],
+    [roleMappingStore.roleMappingList],
   );
 
   return (
@@ -277,15 +272,14 @@ const RoleMapping = observer(() => {
         className='flex justify-end'
         style={{ position: 'fixed', right: '17px' }}
       >
-        {!hideAddRoleMapping && (
-          <>
-            {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-              <Buttons.ButtonCircleAddRemoveBottom
-                show={hideRole}
-                onClick={() => setHideAddRoleMapping(!hideAddRoleMapping)}
-              />
-            )}
-          </>
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+          <Buttons.ButtonCircleAddRemoveBottom
+            show={hideAddRoleMapping}
+            onClick={() => {
+              setRouter();
+              setHideAddRoleMapping(!hideAddRoleMapping);
+            }}
+          />
         )}
       </div>
       <div className=' mx-auto  flex-wrap'>

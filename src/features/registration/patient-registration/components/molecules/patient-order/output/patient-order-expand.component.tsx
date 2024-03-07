@@ -815,18 +815,6 @@ export const PatientOrderExpand = ({
                     />
                   </div>
                 )}
-                <div>
-                  {RouterFlow.checkPermission(
-                    routerStore.userPermission,
-                    'Add',
-                  ) && (
-                    <Buttons.ButtonCircleAddRemoveBottom
-                      show={isHideForm}
-                      disabled={circleButtonDisable}
-                      onClick={() => setHideForm?.(!isHideForm)}
-                    />
-                  )}
-                </div>
               </div>
               <div className='scrollTable'>
                 <BootstrapTable

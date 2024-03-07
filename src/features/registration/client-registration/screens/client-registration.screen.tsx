@@ -183,15 +183,11 @@ const ClientRegistration = observer(() => {
         store={loginStore}
       />
       <div className='flex justify-end'>
-        {!hideAddSegmentMapping && (
-          <>
-            {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-              <Buttons.ButtonCircleAddRemoveBottom
-                show={hideAddSegmentMapping}
-                onClick={() => setHideAddSegmentMapping(!hideAddSegmentMapping)}
-              />
-            )}
-          </>
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+          <Buttons.ButtonCircleAddRemoveBottom
+            show={hideAddSegmentMapping}
+            onClick={() => setHideAddSegmentMapping(!hideAddSegmentMapping)}
+          />
         )}
       </div>
 

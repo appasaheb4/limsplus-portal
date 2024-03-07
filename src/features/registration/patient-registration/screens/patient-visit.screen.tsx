@@ -342,50 +342,6 @@ export const PatientVisit = PatientVisitHoc(
               [dataField]: value,
             });
           }}
-          hideInputView={hideInputView}
-          setHideInputView={() => {
-            setHideInputView(!hideInputView);
-            if (
-              hideInputView &&
-              patientManagerStore.listPatientManger?.length == 1
-            ) {
-              const item = patientManagerStore.listPatientManger[0];
-              const age =
-                getAgeByAgeObject(getDiffByDate(item.birthDate)).age || 0;
-              const ageUnits = getAgeByAgeObject(
-                getDiffByDate(item.birthDate),
-              ).ageUnit;
-              setValue('age', age);
-              setValue('ageUnits', ageUnits);
-              setValue(
-                'pId',
-                item.pId +
-                  ' - ' +
-                  `${item.firstName} ${
-                    item.middleName ? item.middleName : ''
-                  } ${item.lastName}`,
-              );
-              patientVisitStore.updatePatientVisit({
-                ...patientVisitStore.patientVisit,
-                pId: item.pId,
-                patientName: `${item.firstName} ${
-                  item.middleName ? item.middleName : ''
-                } ${item.lastName}`,
-                birthDate: item?.birthDate,
-                age,
-                ageUnits,
-                sex: item?.sex,
-              });
-            }
-          }}
-          disabled={
-            patientManagerStore?.listPatientManger?.length > 0
-              ? getFilterField(patientRegistrationStore?.defaultValues)?.key ==
-                'labId'
-                ? true
-                : false
-              : true
-          }
         />
       ),
       [patientVisitStore.listPatientVisit, hideInputView],
@@ -394,18 +350,53 @@ export const PatientVisit = PatientVisitHoc(
     return (
       <>
         <div className='flex justify-end'>
-          {!hideInputView && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={hideInputView}
-                  onClick={() => setHideInputView(!hideInputView)}
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideInputView}
+              disabled={
+                patientManagerStore?.listPatientManger?.length > 0
+                  ? getFilterField(patientRegistrationStore?.defaultValues)
+                      ?.key == 'labId'
+                    ? true
+                    : false
+                  : true
+              }
+              onClick={() => {
+                setHideInputView(!hideInputView);
+                if (
+                  hideInputView &&
+                  patientManagerStore.listPatientManger?.length == 1
+                ) {
+                  const item = patientManagerStore.listPatientManger[0];
+                  const age =
+                    getAgeByAgeObject(getDiffByDate(item.birthDate)).age || 0;
+                  const ageUnits = getAgeByAgeObject(
+                    getDiffByDate(item.birthDate),
+                  ).ageUnit;
+                  setValue('age', age);
+                  setValue('ageUnits', ageUnits);
+                  setValue(
+                    'pId',
+                    item.pId +
+                      ' - ' +
+                      `${item.firstName} ${
+                        item.middleName ? item.middleName : ''
+                      } ${item.lastName}`,
+                  );
+                  patientVisitStore.updatePatientVisit({
+                    ...patientVisitStore.patientVisit,
+                    pId: item.pId,
+                    patientName: `${item.firstName} ${
+                      item.middleName ? item.middleName : ''
+                    } ${item.lastName}`,
+                    birthDate: item?.birthDate,
+                    age,
+                    ageUnits,
+                    sex: item?.sex,
+                  });
+                }
+              }}
+            />
           )}
         </div>
         <div

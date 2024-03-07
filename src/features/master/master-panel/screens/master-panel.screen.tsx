@@ -462,20 +462,13 @@ const MasterPanel = MasterPanelHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
         >
-          {!isInputView && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={isInputView}
-                  onClick={() => setIsInputView(!isInputView)}
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={isInputView}
+              onClick={() => setIsInputView(!isInputView)}
+            />
           )}
         </div>
 

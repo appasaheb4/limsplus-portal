@@ -701,7 +701,7 @@ export const TableBootstrap = ({
                     />
                   </div>
                 )}
-                <div>
+                {/* <div>
                   {isHideForm && (
                     <>
                       {RouterFlow.checkPermission(
@@ -716,7 +716,7 @@ export const TableBootstrap = ({
                       )}
                     </>
                   )}
-                </div>
+                </div> */}
               </div>
               <div className='scrollTable h-[calc(100vh_-_30vh)] mb-2'>
                 <BootstrapTable

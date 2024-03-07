@@ -73,22 +73,15 @@ const DataConversation = DataConversationHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
         >
-          {!hideAddDataConversation && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={hideAddDataConversation}
-                  onClick={() =>
-                    setHideAddDataConversation(!hideAddDataConversation)
-                  }
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddDataConversation}
+              onClick={() =>
+                setHideAddDataConversation(!hideAddDataConversation)
+              }
+            />
           )}
         </div>
         <div className=' mx-auto  flex-wrap'>

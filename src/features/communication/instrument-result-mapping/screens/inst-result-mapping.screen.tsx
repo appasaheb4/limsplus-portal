@@ -332,17 +332,13 @@ const InstResultMapping = observer(() => {
 
       <div
         className='flex justify-end'
-        style={{ position: 'fixed', right: '17px' }}
+        style={{ position: 'fixed', right: '17px', top: '130px' }}
       >
-        {!isInputView && (
-          <>
-            {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-              <Buttons.ButtonCircleAddRemoveBottom
-                show={isInputView}
-                onClick={() => setInputView(!isInputView)}
-              />
-            )}
-          </>
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+          <Buttons.ButtonCircleAddRemoveBottom
+            show={isInputView}
+            onClick={() => setInputView(!isInputView)}
+          />
         )}
       </div>
 

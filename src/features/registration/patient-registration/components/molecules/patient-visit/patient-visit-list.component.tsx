@@ -51,9 +51,6 @@ interface PatientVisitProps {
     dataField: string,
     id: string,
   ) => void;
-  hideInputView: boolean;
-  setHideInputView: any;
-  disabled: boolean;
 }
 
 let labId;
@@ -1420,9 +1417,6 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
           }}
           dynamicStylingFields={[]}
           hideExcelSheet={['_id', 'opration']}
-          isHideForm={props.hideInputView}
-          setHideForm={props.setHideInputView}
-          circleButtonDisable={props.disabled}
         />
       </div>
     </>

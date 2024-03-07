@@ -159,20 +159,13 @@ const SampleContainer = SampleContainerHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
         >
-          {!hideAddBanner && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={hideAddBanner}
-                  onClick={() => setHideAddBanner(!hideAddBanner)}
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddBanner}
+              onClick={() => setHideAddBanner(!hideAddBanner)}
+            />
           )}
         </div>
         <div className='mx-auto flex-wrap'>

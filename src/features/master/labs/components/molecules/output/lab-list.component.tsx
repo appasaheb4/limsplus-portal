@@ -11,6 +11,7 @@ import {
   sortCaret,
   Toast,
   NumberFilter,
+  ModalPostalCode,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { useStores } from '@/stores';
@@ -90,7 +91,7 @@ const dynamicStylingFields = [
 const hideExcelSheet = ['_id', 'opration', 'image'];
 
 export const LabList = (props: LabListProps) => {
-  const { salesTeamStore } = useStores();
+  const { salesTeamStore, labStore } = useStores();
   const {
     control,
     handleSubmit,
@@ -101,6 +102,10 @@ export const LabList = (props: LabListProps) => {
   } = useForm();
   const [selectedRowId, setSelectedRowId] = useState('');
   const [widthRefBox, setWidthRefBox] = useState('20px');
+  const [modalPostalCodeUpdate, setModalPostalCodeUpdate] = useState<any>({
+    show: false,
+  });
+  const [inputPostalCode, setInputPostalCode] = useState<any>();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -184,10 +189,24 @@ export const LabList = (props: LabListProps) => {
                 columnIndex,
               ) => (
                 <>
-                  <AutoCompleteFilterSingleSelectPostalCode
-                    onSelect={item => {
-                      props.onUpdateFileds &&
-                        props.onUpdateFileds({ ...item }, row._id);
+                  <Form.Input
+                    placeholder='Search....'
+                    // value={row.postalCode}
+                    //disabled={true}
+                    onChange={postalCode => {
+                      if (postalCode?.length == 6) {
+                        labStore.LabService?.getAddressDetailsByPincode(
+                          postalCode,
+                        ).then(res => {
+                          setModalPostalCodeUpdate({
+                            ...modalPostalCodeUpdate,
+                            show: true,
+                            id: row._id,
+                            data: res,
+                            postalCode,
+                          });
+                        });
+                      }
                     }}
                   />
                 </>
@@ -1449,6 +1468,31 @@ export const LabList = (props: LabListProps) => {
           dynamicStylingFields={dynamicStylingFields}
           setHideForm={props.setHideAddLab}
           isHideForm={props.isHideAddLab}
+        />
+        <ModalPostalCode
+          postalCode={modalPostalCodeUpdate.postalCode}
+          show={modalPostalCodeUpdate.show}
+          data={modalPostalCodeUpdate.data}
+          onSelectedRow={item => {
+            const finalData = {
+              country: item?.Country?.toUpperCase(),
+              state: item?.State?.toUpperCase(),
+              district: item?.District?.toUpperCase(),
+              city: item?.Block?.toUpperCase(),
+              area: item?.Name?.toUpperCase(),
+              postalCode: item.Pincode,
+            };
+            props.onUpdateFileds &&
+              props.onUpdateFileds({ ...finalData }, modalPostalCodeUpdate.id);
+            setModalPostalCodeUpdate({
+              show: false,
+            });
+          }}
+          close={() => {
+            setModalPostalCodeUpdate({
+              show: false,
+            });
+          }}
         />
       </div>
     </>

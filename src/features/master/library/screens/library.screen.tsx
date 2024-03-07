@@ -378,20 +378,13 @@ export const Library = LibraryHoc(
 
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
         >
-          {!hideAddLab && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={hideAddLab}
-                  onClick={() => setHideAddLab(!hideAddLab)}
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddLab}
+              onClick={() => setHideAddLab(!hideAddLab)}
+            />
           )}
         </div>
         <div className='mx-auto flex-wrap'>
