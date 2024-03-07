@@ -77,6 +77,18 @@ export const RoleList = (props: RoleListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          formatter: (cellContent, row) => {
+            const maxLength = 5;
+            const displayTestName =
+              row.description.length > maxLength
+                ? row.description.slice(0, Math.max(0, maxLength)) + '...'
+                : row.description;
+            return (
+              <div className='flex flex-row'>
+                <span title={row.description}>{`${displayTestName}`}</span>
+              </div>
+            );
+          },
           headerClasses: 'textHeader',
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
