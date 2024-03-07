@@ -33,8 +33,6 @@ interface RoleMappingListProps {
     page: number,
     totalSize: number,
   ) => void;
-  setHideAddRoleMapping: any;
-  hideAddRoleMapping: boolean;
 }
 
 export const RoleMappingList = observer((props: RoleMappingListProps) => {
@@ -320,8 +318,6 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
           }}
           dynamicStylingFields={['role']}
           hideExcelSheet={['_id', 'opration']}
-          isHideForm={props.hideAddRoleMapping}
-          setHideForm={props.setHideAddRoleMapping}
         />
       </div>
     </>

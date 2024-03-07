@@ -212,22 +212,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
 
     return (
       <>
-        <div
-          className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
-        >
-          {!isInputView && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={isInputView}
-                  onClick={() => setIsInputView(!isInputView)}
-                />
-              )}
-            </>
+        <div className='flex justify-end'>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={isInputView}
+              onClick={() => setIsInputView(!isInputView)}
+            />
           )}
         </div>
         <div

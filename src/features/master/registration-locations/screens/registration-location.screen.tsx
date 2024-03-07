@@ -581,20 +581,13 @@ const RegistrationLocation = RegistrationLocationHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
         >
-          {!hideAddSection && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={hideAddSection}
-                  onClick={() => setHideAddSection(!hideAddSection)}
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddSection}
+              onClick={() => setHideAddSection(!hideAddSection)}
+            />
           )}
         </div>
 

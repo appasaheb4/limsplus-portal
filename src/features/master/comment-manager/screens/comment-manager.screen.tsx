@@ -433,20 +433,13 @@ const CommentManager = CommentManagerHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
         >
-          {!isHideAddView && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={isHideAddView}
-                  onClick={() => setIsHideAddView(!isHideAddView)}
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={isHideAddView}
+              onClick={() => setIsHideAddView(!isHideAddView)}
+            />
           )}
         </div>
         <div className='mx-auto flex-wrap'>

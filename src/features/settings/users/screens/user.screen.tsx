@@ -455,20 +455,13 @@ export const Users = UsersHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
         >
-          {!hideAddUser && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={hideAddUser}
-                  onClick={() => setHideAddUser(!hideAddUser)}
-                />
-              )}
-            </>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddUser}
+              onClick={() => setHideAddUser(!hideAddUser)}
+            />
           )}
         </div>
         <div className=' mx-auto flex-wrap'>

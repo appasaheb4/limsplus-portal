@@ -119,8 +119,8 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           style={{
             backgroundColor: '#007BFF',
             alignItems: 'center',
-            width: 60,
-            height: 60,
+            width: 50,
+            height: 50,
           }}
           onClick={() => props.onClick(true)}
           isDisable={props.disabled || false}
@@ -134,8 +134,8 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           style={{
             backgroundColor: '#007BFF',
             alignItems: 'center',
-            width: 60,
-            height: 60,
+            width: 50,
+            height: 50,
           }}
           onClick={() => props.onClick(false)}
         >
