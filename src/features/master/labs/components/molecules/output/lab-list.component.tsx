@@ -154,6 +154,18 @@ export const LabList = (props: LabListProps) => {
               style: {
                 textTransform: 'uppercase',
               },
+              formatter: (cellContent, row) => {
+                const maxLength = 5;
+                const displayTestName =
+                  row.name.length > maxLength
+                    ? row.name.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.name;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.name}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {

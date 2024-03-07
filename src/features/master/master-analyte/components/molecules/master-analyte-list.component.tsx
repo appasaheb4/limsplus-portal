@@ -196,6 +196,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+              
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -203,6 +204,18 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   description = filter;
                 },
               }),
+              formatter: (cellContent, row) => {
+                const maxLength = 5;
+                const displayTestName =
+                  row.description.length > maxLength
+                    ? row.description.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.description;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.description}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
