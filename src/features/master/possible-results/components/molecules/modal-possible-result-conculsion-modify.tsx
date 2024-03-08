@@ -24,6 +24,37 @@ export const ModalPossibleResultConclusionModify = observer(
       });
     }, [props]);
 
+    const handleAddConclusionResult = () => {
+      const { result, possibleValue, abNormal, critical } = localInput;
+      if (!result || !possibleValue) {
+        alert('Please fill in both result and possible value.');
+        return;
+      }
+      let updatedConclusionResult = [
+        ...(values.conclusionResult || []),
+        { result, possibleValue, abNormal, critical },
+      ];
+      updatedConclusionResult = updatedConclusionResult.map(
+        ({ result, possibleValue, abNormal, critical }) => ({
+          result,
+          possibleValue,
+          abNormal,
+          critical,
+        }),
+      );
+      setValues({
+        ...values,
+        conclusionResult: updatedConclusionResult,
+      });
+
+      // Clear the input fields
+      setLocalInput({
+        result: '',
+        possibleValue: '',
+        abNormal: false,
+        critical: false,
+      });
+    };
     return (
       <Container>
         {showModal && (
@@ -89,54 +120,7 @@ export const ModalPossibleResultConclusionModify = observer(
                         <Buttons.Button
                           size='medium'
                           type='solid'
-                          onClick={() => {
-                            const result = localInput?.result;
-                            const possibleValue = localInput?.possibleValue;
-                            const abNormal = localInput?.abNormal;
-                            const critical = localInput?.critical;
-                            let conclusionResult =
-                              values.conclusionResult || [];
-                            if (
-                              result === undefined ||
-                              possibleValue === undefined
-                            )
-                              return alert('Please enter value and code.');
-                            if (result !== undefined) {
-                              conclusionResult !== undefined
-                                ? conclusionResult.push({
-                                    result,
-                                    possibleValue,
-                                    abNormal,
-                                    critical,
-                                  })
-                                : (conclusionResult = [
-                                    {
-                                      result,
-                                      possibleValue,
-                                      abNormal,
-                                      critical,
-                                    },
-                                  ]);
-                              conclusionResult = _.map(conclusionResult, o =>
-                                _.pick(o, [
-                                  'result',
-                                  'possibleValue',
-                                  'abNormal',
-                                  'critical',
-                                ]),
-                              );
-                              setValues({
-                                ...values,
-                                conclusionResult: conclusionResult,
-                              });
-                              setLocalInput({
-                                result: '',
-                                possibleValue: '',
-                                abNormal: false,
-                                critical: false,
-                              });
-                            }
-                          }}
+                          onClick={handleAddConclusionResult}
                         >
                           <Icons.EvaIcon icon='plus-circle-outline' />
                           {'Add'}
@@ -152,23 +136,15 @@ export const ModalPossibleResultConclusionModify = observer(
                             type='solid'
                             icon={Svg.Remove}
                             onClick={() => {
-                              const firstArr =
-                                values?.conclusionResult?.slice(0, index) || [];
-                              const secondArr =
-                                values?.conclusionResult?.slice(index + 1) ||
-                                [];
-                              let finalArray = [...firstArr, ...secondArr];
-                              finalArray = _.map(finalArray, o =>
-                                _.pick(o, [
-                                  'result',
-                                  'possibleValue',
-                                  'abNormal',
-                                  'critical',
-                                ]),
-                              );
-                              setValues({
-                                ...values,
-                                conclusionResult: finalArray,
+                              setValues(prevValues => {
+                                const updatedResult =
+                                  prevValues.conclusionResult.filter(
+                                    (_: any, i) => i !== index,
+                                  );
+                                return {
+                                  ...prevValues,
+                                  conclusionResult: updatedResult,
+                                };
                               });
                             }}
                           >
