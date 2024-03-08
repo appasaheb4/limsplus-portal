@@ -108,7 +108,7 @@ const Lab = LabHoc(
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'F5') {
+        if (!labStore.labs.postalCode && event.key === 'F5') {
           event.preventDefault();
           setIsPostalCodeData(true);
         }
@@ -560,6 +560,7 @@ const Lab = LabHoc(
                                 ...labStore.labs,
                                 postalCode,
                               });
+                              setIsPostalCodeData(true);
                             }
                           }}
                         />
@@ -1722,6 +1723,7 @@ const Lab = LabHoc(
                   ]
             }
             onSelectedRow={item => {
+              console.log(item);
               labStore.updateLabs({
                 ...labStore.labs,
                 country: item?.Country?.toUpperCase(),
@@ -1729,7 +1731,7 @@ const Lab = LabHoc(
                 district: item?.District?.toUpperCase(),
                 city: item?.Block?.toUpperCase(),
                 area: item?.Name?.toUpperCase(),
-                postalCode: item.Pincode,
+                postalCode: item?.Pincode,
               });
               setIsPostalCodeData(false);
             }}

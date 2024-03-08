@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stores } from '../../../stores';
 import { lookupItems, lookupValue } from '@/library/utils';
 import {
@@ -105,7 +105,6 @@ export const LabList = (props: LabListProps) => {
   const [modalPostalCodeUpdate, setModalPostalCodeUpdate] = useState<any>({
     show: false,
   });
-  const [inputPostalCode, setInputPostalCode] = useState<any>();
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -153,18 +152,6 @@ export const LabList = (props: LabListProps) => {
               },
               style: {
                 textTransform: 'uppercase',
-              },
-              formatter: (cellContent, row) => {
-                const maxLength = 5;
-                const displayTestName =
-                  row.name.length > maxLength
-                    ? row.name.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.name;
-                return (
-                  <div className='flex flex-row'>
-                    <span title={row.name}>{`${displayTestName}`}</span>
-                  </div>
-                );
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({

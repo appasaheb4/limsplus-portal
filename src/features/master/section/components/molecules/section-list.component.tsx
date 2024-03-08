@@ -134,18 +134,6 @@ export const SectionList = (props: SectionListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            formatter: (cellContent, row) => {
-              const maxLength = 5;
-              const displayTestName =
-                row.name.length > maxLength
-                  ? row.name.slice(0, Math.max(0, maxLength)) + '...'
-                  : row.name;
-              return (
-                <div className='flex flex-row'>
-                  <span title={row.name}>{`${displayTestName}`}</span>
-                </div>
-              );
-            },
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({

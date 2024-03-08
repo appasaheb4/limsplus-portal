@@ -83,7 +83,7 @@ const Doctors = DoctorsHoc(
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'F5') {
+        if (!doctorsStore.doctors?.postalCode && event.key === 'F5') {
           event.preventDefault();
           setIsPostalCodeData(true);
         }
@@ -789,6 +789,7 @@ const Doctors = DoctorsHoc(
                               ...doctorsStore.doctors,
                               postalCode,
                             });
+                            setIsPostalCodeData(true);
                           }
                         }}
                       />
