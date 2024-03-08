@@ -1951,7 +1951,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             district: item?.District?.toUpperCase(),
             city: item?.Block?.toUpperCase(),
             area: item?.Name?.toUpperCase(),
-            postalCode: item.Pincode,
+            postalCode: Number(item.Pincode),
           };
           props.onUpdateFileds &&
             props.onUpdateFileds({ ...finalData }, modalPostalCodeUpdate.id);

@@ -313,7 +313,10 @@ const RegistrationLocation = RegistrationLocationHoc(
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'F5') {
+        if (
+          !registrationLocationsStore.registrationLocations?.postalCode &&
+          event.key === 'F5'
+        ) {
           event.preventDefault();
           setIsPostalCodeData(true);
         }
@@ -1108,6 +1111,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                                   postalCode,
                                 },
                               );
+                              setIsPostalCodeData(true);
                             }
                           }}
                         />

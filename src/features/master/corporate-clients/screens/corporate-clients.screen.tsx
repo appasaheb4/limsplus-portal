@@ -64,7 +64,10 @@ const CorporateClients = CorporateClientsHoc(
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === 'F5') {
+        if (
+          !corporateClientsStore.corporateClients?.postalCode &&
+          event.key === 'F5'
+        ) {
           event.preventDefault();
           setIsPostalCodeData(true);
         }
@@ -901,6 +904,7 @@ const CorporateClients = CorporateClientsHoc(
                               ...corporateClientsStore.corporateClients,
                               postalCode,
                             });
+                            setIsPostalCodeData(true);
                           }
                         }}
                       />
