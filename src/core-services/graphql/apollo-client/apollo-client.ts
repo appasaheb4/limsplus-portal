@@ -95,8 +95,11 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     });
   }
   if (networkError) {
-    stores.setLoading(false);
-    console.log(`[Network error]: ${networkError}`);
+    if (networkError.message === 'Failed to fetch') {
+      alert('Backend Server is not responding. Please try again later.');
+    } else {
+      alert(`[Network error]: ${networkError}`);
+    }
   }
 });
 
