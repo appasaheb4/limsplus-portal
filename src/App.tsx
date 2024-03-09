@@ -87,7 +87,7 @@ const App = () => {
     eventEmitter.emit('loadApi', {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(stores.loading);
+
   return (
     <>
       <Toast
