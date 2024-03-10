@@ -27,6 +27,7 @@ export const DisplayResult = observer(
       generalResultEntryStore,
     } = useStores();
     const { control } = useForm();
+    const [selectedRowId, setSelectedRowId] = useState('');
     const [conclusionResult, setConclusionResult] = useState<Array<any>>();
     const [libraryList, setLibraryList] = useState<Array<any>>();
     const resultRef = useRef<any>();
@@ -140,68 +141,97 @@ export const DisplayResult = observer(
         {row.resultType === 'D' ? (
           !row?.result ? (
             <>
-              <div style={{ maxHeight: '200px', overflowY: 'scroll' }}>
-                <Table striped bordered>
-                  <thead>
-                    <tr className='p-0 text-xs'>
-                      <th className='text-white' style={{ minWidth: 70 }}>
-                        Result
-                      </th>
-                      <th className='text-white' style={{ minWidth: 70 }}>
-                        PossibleValue
-                      </th>
-                      <th className='text-white' style={{ minWidth: 50 }}>
-                        Ab Normal
-                      </th>
-                      <th className='text-white' style={{ minWidth: 50 }}>
-                        Critical
-                      </th>
-                      <th className='text-white sticky right-0 z-10'>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className='text-xs'>
-                    {conclusionResult?.map((item, index) => {
-                      return (
-                        <>
-                          <tr>
-                            <td>{item.result}</td>
-                            <td>{item.possibleValue}</td>
-                            <td>
-                              {item.abNormal
-                                ? item.abNormal
-                                  ? 'Yes'
-                                  : 'No'
-                                : 'No'}
-                            </td>
-                            <td>
-                              {item.critical
-                                ? item.critical
-                                  ? 'Yes'
-                                  : 'No'
-                                : 'No'}
-                            </td>
-                            <td>
-                              <FiArrowRightCircle
-                                size={20}
-                                onClick={() => {
-                                  const selectedValue = JSON.stringify(item);
-                                  const defaultItem = JSON.parse(selectedValue);
-                                  onSelect?.({
-                                    result: defaultItem.possibleValue,
-                                    alpha: defaultItem.result,
-                                    abnFlag: defaultItem.abNormal,
-                                    critical: defaultItem.critical,
-                                  });
-                                }}
-                              />
-                            </td>
-                          </tr>
-                        </>
-                      );
-                    })}
-                  </tbody>
-                </Table>
-              </div>
+              <Tooltip
+                tooltipText={row._id != selectedRowId ? 'Expand' : 'Collapse'}
+              >
+                <Icons.IconContext
+                  color='#000000'
+                  size='20'
+                  onClick={() => {
+                    if (row._id === selectedRowId) {
+                      setSelectedRowId('');
+                    } else {
+                      setSelectedRowId(row._id);
+                    }
+                  }}
+                >
+                  {Icons.getIconTag(
+                    row._id != selectedRowId
+                      ? Icons.IconBi.BiExpand
+                      : Icons.IconBi.BiCollapse,
+                  )}
+                </Icons.IconContext>
+              </Tooltip>
+              {selectedRowId == row._id ? (
+                <>
+                  <div style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+                    <Table striped bordered>
+                      <thead>
+                        <tr className='p-0 text-xs'>
+                          <th className='text-white' style={{ minWidth: 70 }}>
+                            Result
+                          </th>
+                          <th className='text-white' style={{ minWidth: 70 }}>
+                            PossibleValue
+                          </th>
+                          <th className='text-white' style={{ minWidth: 50 }}>
+                            Ab Normal
+                          </th>
+                          <th className='text-white' style={{ minWidth: 50 }}>
+                            Critical
+                          </th>
+                          <th className='text-white sticky right-0 z-10'>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className='text-xs'>
+                        {conclusionResult?.map((item, index) => {
+                          return (
+                            <>
+                              <tr>
+                                <td>{item.result}</td>
+                                <td>{item.possibleValue}</td>
+                                <td>
+                                  {item.abNormal
+                                    ? item.abNormal
+                                      ? 'Yes'
+                                      : 'No'
+                                    : 'No'}
+                                </td>
+                                <td>
+                                  {item.critical
+                                    ? item.critical
+                                      ? 'Yes'
+                                      : 'No'
+                                    : 'No'}
+                                </td>
+                                <td>
+                                  <FiArrowRightCircle
+                                    size={20}
+                                    onClick={() => {
+                                      const selectedValue =
+                                        JSON.stringify(item);
+                                      const defaultItem =
+                                        JSON.parse(selectedValue);
+                                      onSelect?.({
+                                        result: defaultItem.possibleValue,
+                                        alpha: defaultItem.result,
+                                        abnFlag: defaultItem.abNormal,
+                                        critical: defaultItem.critical,
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </div>
+                </>
+              ) : null}
             </>
           ) : (
             <span>

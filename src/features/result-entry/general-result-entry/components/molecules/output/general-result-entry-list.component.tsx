@@ -277,15 +277,17 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   <>
                     <div className='flex flex-row gap-4'>
                       <span>
-                        {row.loNor == 'NaN' &&
-                        row.hiNor == 'NaN' &&
-                        row.loNor == '' &&
-                        row.hiNor == ''
-                          ? '-'
-                          : row.loNor == 'NaN' || ''
-                          ? '<' + '' + row.hiNor
-                          : row.hiNor == 'NaN' || ''
-                          ? row.loNor + '' + '>'
+                        {row.resultType === 'D'
+                          ? row.loNor == 'NaN' &&
+                            row.hiNor == 'NaN' &&
+                            row.loNor == '' &&
+                            row.hiNor == ''
+                            ? '-'
+                            : row.loNor == 'NaN' || ''
+                            ? '<' + '' + row.hiNor
+                            : row.hiNor == 'NaN' || ''
+                            ? row.loNor + '' + '>'
+                            : row.loNor + '-' + row.hiNor
                           : row.loNor + '-' + row.hiNor}
                       </span>
                       <div>
