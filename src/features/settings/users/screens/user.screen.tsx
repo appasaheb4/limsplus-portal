@@ -322,12 +322,10 @@ export const Users = UsersHoc(
               [dataField]: value,
             });
           }}
-          hideAddUser={hideAddUser}
-          setHideAddUser={setHideAddUser}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [userStore.userList, hideAddUser],
+      [userStore.userList],
     );
 
     const handleFileUpload = (file: any) => {

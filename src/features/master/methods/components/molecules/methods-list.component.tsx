@@ -36,8 +36,6 @@ interface MethodsListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
-  isHideAddSection: boolean;
-  setHideAddSection: any;
 }
 
 export const MethodsList = (props: MethodsListProps) => {
@@ -328,8 +326,6 @@ export const MethodsList = (props: MethodsListProps) => {
           'environment',
         ]}
         hideExcelSheet={['opration', '_id']}
-        isHideForm={props.isHideAddSection}
-        setHideForm={props.setHideAddSection}
       />
     </div>
   );

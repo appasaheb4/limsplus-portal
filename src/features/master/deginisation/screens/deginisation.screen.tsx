@@ -490,8 +490,6 @@ const Deginisation = DeginisationHoc(
                   });
                 }
               }}
-              isHideAddDeginisation={hideAddDeginisation}
-              setHideAddDeginisation={setHideAddDeginisation}
             />
           </div>
 

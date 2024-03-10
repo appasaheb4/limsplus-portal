@@ -295,12 +295,10 @@ const MasterAnalyte = MasterAnalyteHoc(
               [dataField]: value,
             });
           }}
-          isInputView={isInputView}
-          setInputView={setIsInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [masterAnalyteStore.listMasterAnalyte, isInputView],
+      [masterAnalyteStore.listMasterAnalyte],
     );
 
     const defaultResult = useMemo(

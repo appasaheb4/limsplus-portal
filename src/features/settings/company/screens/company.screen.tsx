@@ -1512,8 +1512,6 @@ const Company = CompanyHoc(
                   [dataField]: value,
                 });
               }}
-              isHideView={isHideView}
-              setIsHideView={setIsHideView}
             />
           </div>
           <ModalConfirm

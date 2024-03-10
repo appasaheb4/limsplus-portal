@@ -141,7 +141,48 @@ export const DisplayResult = observer(
         {row.resultType === 'D' ? (
           !row?.result ? (
             <>
-              <Tooltip
+              <select
+                name={`field-${row.index}`}
+                className={
+                  'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                }
+                onChange={e => {
+                  const [fieldName, fieldIndex] = e.target.name.split('-');
+                  const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+                  const nextfield: any = document.querySelector(
+                    `[name=field-${fieldIntIndex + 1}]`,
+                  );
+                  if (nextfield !== null) {
+                    nextfield.focus();
+                  }
+                  const defaultItem = JSON.parse(e.target.value);
+                  if (defaultItem) {
+                    onSelect &&
+                      onSelect({
+                        result: defaultItem.possibleValue,
+                        alpha: defaultItem.result,
+                        abnFlag: defaultItem.abNormal,
+                        critical: defaultItem.critical,
+                      });
+                  }
+                }}
+              >
+                <option selected>Select</option>
+                {conclusionResult?.map((item: any, index: number) => (
+                  <option key={index} value={JSON.stringify(item)}>
+                    {`Result: ${item.result} ,
+               PossibleValue: ${item.possibleValue} ,
+               Ab Normal: ${
+                 item.abNormal ? (item.abNormal ? 'Yes' : 'No') : 'No'
+               } ,
+               Critical: ${
+                 item.critical ? (item.critical ? 'Yes' : 'No') : 'No'
+               }`}
+                  </option>
+                ))}
+              </select>
+
+              {/* <Tooltip
                 tooltipText={row._id != selectedRowId ? 'Expand' : 'Collapse'}
               >
                 <Icons.IconContext
@@ -229,9 +270,7 @@ export const DisplayResult = observer(
                         })}
                       </tbody>
                     </Table>
-                  </div>
-                </>
-              ) : null}
+                  </div> */}
             </>
           ) : (
             <span>

@@ -38,8 +38,6 @@ interface SampleContainerListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
-  isHideAddLab: boolean;
-  setHideAddLab: any;
 }
 
 export const SampleContainerList = (props: SampleContainerListProps) => {
@@ -414,8 +412,6 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
         }}
         dynamicStylingFields={['containerCode', 'containerName', 'environment']}
         hideExcelSheet={['operation', '_id', 'image']}
-        isHideForm={props.isHideAddLab}
-        setHideForm={props.setHideAddLab}
       />
     </div>
   );

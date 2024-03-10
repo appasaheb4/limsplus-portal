@@ -166,12 +166,10 @@ export const Department = DeginisationHoc(
               });
             }
           }}
-          isHideAddDepartment={hideAddDepartment}
-          setHideAddDepartment={setHideAddDepartment}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [departmentStore.listDepartment, hideAddDepartment],
+      [departmentStore.listDepartment],
     );
 
     const handleFileUpload = (file: any) => {

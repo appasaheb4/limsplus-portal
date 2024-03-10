@@ -336,12 +336,10 @@ const MasterPackage = MasterPackageHOC(
               [dataField]: value,
             });
           }}
-          isInputView={isInputView}
-          setInputView={setIsInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [masterPackageStore.listMasterPackage, isInputView],
+      [masterPackageStore.listMasterPackage],
     );
 
     const handleOnDragEndResultOrder = (result: any) => {

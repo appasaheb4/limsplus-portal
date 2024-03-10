@@ -101,8 +101,6 @@ interface RegistrationLocationsListProps {
     dataField: string,
     id: string,
   ) => void;
-  isHideAddSection: boolean;
-  setHideAddSection: any;
 }
 
 export const RegistrationLocationsList = (
@@ -1870,8 +1868,6 @@ export const RegistrationLocationsList = (
           'environment',
         ]}
         hideExcelSheet={['_id', 'opration']}
-        isHideForm={props.isHideAddSection}
-        setHideForm={props.setHideAddSection}
       />
       <ModalPostalCode
         postalCode={modalPostalCodeUpdate.postalCode}

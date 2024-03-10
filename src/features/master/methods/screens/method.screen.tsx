@@ -512,8 +512,6 @@ const Methods = MethodsHoc(
                   });
                 }
               }}
-              isHideAddSection={hideAddSection}
-              setHideAddSection={setHideAddSection}
             />
           </div>
           <ModalConfirm

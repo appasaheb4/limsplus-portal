@@ -545,8 +545,6 @@ const SampleType = SampleTypeHoc(
                   });
                 }
               }}
-              isHideAddLab={hideAddLab}
-              setHideAddLab={setHideAddLab}
             />
           </div>
           <ModalConfirm

@@ -157,12 +157,10 @@ const Section = SectionHoc(
               });
             }
           }}
-          isHideAddSection={hideAddSection}
-          setHideAddSection={setHideAddSection}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [sectionStore.listSection, hideAddSection],
+      [sectionStore.listSection],
     );
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();

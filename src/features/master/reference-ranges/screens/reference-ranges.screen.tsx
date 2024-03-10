@@ -291,8 +291,6 @@ const ReferenceRanges = ReferenceRangesHoc(
               [dataField]: value,
             });
           }}
-          isHideAddView={hideAddView}
-          setHideAddView={setHideAddView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps

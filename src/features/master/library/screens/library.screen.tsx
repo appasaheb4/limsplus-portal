@@ -290,12 +290,10 @@ export const Library = LibraryHoc(
               [dataField]: value,
             });
           }}
-          isHideAddLab={hideAddLab}
-          setHideAddLab={setHideAddLab}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [libraryStore.listLibrary, hideAddLab],
+      [libraryStore.listLibrary],
     );
 
     const checkExistsRecords = async (

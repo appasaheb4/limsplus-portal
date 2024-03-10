@@ -82,8 +82,6 @@ interface ReferenceRangesProps {
     dataField: string,
     id: string,
   ) => void;
-  isHideAddView: boolean;
-  setHideAddView: any;
 }
 
 export const ReferenceRangesList = (props: ReferenceRangesProps) => {
@@ -1454,8 +1452,6 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
             'environment',
           ]}
           hideExcelSheet={['opration', 'rangeId', '_id']}
-          isHideForm={props.isHideAddView}
-          setHideForm={props.setHideAddView}
         />
       </div>
     </>

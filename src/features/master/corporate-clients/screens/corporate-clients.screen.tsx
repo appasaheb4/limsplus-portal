@@ -384,8 +384,6 @@ const CorporateClients = CorporateClientsHoc(
               [dataField]: value,
             });
           }}
-          isHideAddView={hideAddView}
-          setHideAddView={setHideAddView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
