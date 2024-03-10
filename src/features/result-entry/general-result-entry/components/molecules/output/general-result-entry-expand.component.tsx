@@ -402,7 +402,7 @@ export const GeneralResultEntryExpand = ({
                   {isExport && (
                     <ExportCSVButton
                       className={
-                        'bg-gray-500 px-2 w-28 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                        'bg-gray-500 w-32 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                       }
                       {...props.csvProps}
                     >

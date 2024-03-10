@@ -68,12 +68,44 @@ const ModalDetails = ({
         {showModal && (
           <>
             <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
-              <div className='relative w-auto my-6 mx-auto max-w-3xl'>
+              <div
+                className='relative  my-6 mx-auto'
+                style={{
+                  height: '842px',
+                  width: '595px',
+                  /* to centre page on screen*/
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+              >
                 {/*content*/}
                 <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                   {/*header*/}
                   <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                     <h3 className='text-3xl font-semibold'>Update details</h3>
+                    {!status && (
+                      <>
+                        <Buttons.Button
+                          size='medium'
+                          type='outline'
+                          onClick={() => {
+                            setModalDetail({
+                              show: true,
+                              title: 'Import Doc File',
+                            });
+                          }}
+                        >
+                          <span className='flex flex-row'>
+                            <Icons.EvaIcon
+                              icon='arrowhead-down-outline'
+                              size='medium'
+                              color={Styles.COLORS.BLACK}
+                            />
+                            Import
+                          </span>
+                        </Buttons.Button>
+                      </>
+                    )}
                     <button
                       className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                       onClick={() => {
@@ -88,7 +120,7 @@ const ModalDetails = ({
                   </div>
                   {/*body*/}
                   <div className='relative p-2 flex-auto'>
-                    <div className='grid grid-cols-2 gap-2'>
+                    <div className='grid grid-cols-1'>
                       <div>
                         <ReactQuill
                           placeholder='Type here'
@@ -101,29 +133,6 @@ const ModalDetails = ({
                           }}
                         />
                       </div>
-                      {!status && (
-                        <>
-                          <Buttons.Button
-                            size='medium'
-                            type='outline'
-                            onClick={() => {
-                              setModalDetail({
-                                show: true,
-                                title: 'Import Doc File',
-                              });
-                            }}
-                          >
-                            <span className='flex flex-row'>
-                              <Icons.EvaIcon
-                                icon='arrowhead-down-outline'
-                                size='medium'
-                                color={Styles.COLORS.BLACK}
-                              />
-                              Import
-                            </span>
-                          </Buttons.Button>
-                        </>
-                      )}
                     </div>
                   </div>
                   {/*footer*/}

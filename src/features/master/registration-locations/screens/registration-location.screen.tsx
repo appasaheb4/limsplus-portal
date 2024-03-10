@@ -314,6 +314,7 @@ const RegistrationLocation = RegistrationLocationHoc(
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (
+          !hideAddSection &&
           !registrationLocationsStore.registrationLocations?.postalCode &&
           event.key === 'F5'
         ) {
@@ -328,7 +329,7 @@ const RegistrationLocation = RegistrationLocationHoc(
         window.removeEventListener('keydown', handleKeyDown);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [hideAddSection]);
 
     const tableView = useMemo(
       () => (
@@ -444,7 +445,7 @@ const RegistrationLocation = RegistrationLocationHoc(
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [registrationLocationsStore.listRegistrationLocations, hideAddSection],
+      [registrationLocationsStore.listRegistrationLocations],
     );
 
     const checkExistsRecords = async (
