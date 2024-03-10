@@ -249,8 +249,6 @@ const DataConversation = DataConversationHoc(
                 });
                 global.filter = { mode: 'filter', type, filter, page, limit };
               }}
-              isHideAddDataConversation={hideAddDataConversation}
-              setHideAddDataConversation={setHideAddDataConversation}
             />
           </div>
           <ModalConfirm

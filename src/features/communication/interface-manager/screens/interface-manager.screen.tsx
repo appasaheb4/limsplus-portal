@@ -507,8 +507,6 @@ const InterfaceManager = InterfaceManagerHoc(
                 });
                 global.filter = { mode: 'filter', type, filter, page, limit };
               }}
-              isHideAddInterfaceManager={hideAddInterfaceManager}
-              setHideAddInterfaceManager={setHideAddInterfaceManager}
             />
           </div>
           <ModalConfirm

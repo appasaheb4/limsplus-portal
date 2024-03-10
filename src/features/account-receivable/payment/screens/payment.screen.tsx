@@ -151,19 +151,15 @@ const Payment = PaymentHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        <div className='flex justify-end'>
-          {!isInputView && (
-            <>
-              {RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Add',
-              ) && (
-                <Buttons.ButtonCircleAddRemoveBottom
-                  show={isInputView}
-                  onClick={() => setIsInputView(!isInputView)}
-                />
-              )}
-            </>
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={isInputView}
+              onClick={() => setIsInputView(!isInputView)}
+            />
           )}
         </div>
         <div className=' mx-auto flex-wrap'>
@@ -759,8 +755,6 @@ const Payment = PaymentHoc(
                 //   input: {type, filter, page, limit},
                 // });
               }}
-              isInputView={isInputView}
-              setIsInputView={setIsInputView}
             />
           </div>
         </div>

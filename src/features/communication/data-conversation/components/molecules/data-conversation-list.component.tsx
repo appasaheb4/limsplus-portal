@@ -33,8 +33,6 @@ interface ConversationMappingListProps {
     page: number,
     totalSize: number,
   ) => void;
-  isHideAddDataConversation: boolean;
-  setHideAddDataConversation: any;
 }
 
 export const DataConversationList = (props: ConversationMappingListProps) => {
@@ -277,8 +275,6 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
         }}
         dynamicStylingFields={['hexadecimal', 'binary', 'environment']}
         hideExcelSheet={['_id', 'operation']}
-        isHideForm={props.isHideAddDataConversation}
-        setHideForm={props.setHideAddDataConversation}
       />
     </div>
   );

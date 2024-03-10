@@ -297,12 +297,10 @@ const SegmentMapping = SegmentMappingHoc(
             });
             global.filter = { mode: 'filter', type, filter, page, limit };
           }}
-          setHideAddSegmentMapping={setHideAddSegmentMapping}
-          isHideAddSegmentMapping={hideAddSegmentMapping}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [segmentMappingStore.listSegmentMapping, hideAddSegmentMapping],
+      [segmentMappingStore.listSegmentMapping],
     );
 
     return (
