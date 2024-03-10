@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-indent-props */
 import React from 'react';
-import {IconContext as Context, IconType} from 'react-icons';
-import {Icons} from '../..';
+import { IconContext as Context, IconType } from 'react-icons';
+import { Icons } from '../..';
 import Icon from 'react-eva-icons';
 import loadable from '@loadable/component';
-import {IconBaseProps} from 'react-icons/lib';
+import { IconBaseProps } from 'react-icons/lib';
 
 import * as IconRi from 'react-icons/ri';
 import * as IconIm from 'react-icons/im';
@@ -31,6 +31,7 @@ export interface IconsProps {
   size?: string;
   icon?: IconType | any;
   color?: string;
+  isDisable?: boolean;
   onClick?: () => void;
   children?: React.ReactNode;
   style?: any;
@@ -39,9 +40,18 @@ export interface IconsProps {
 export const IconContext: React.FunctionComponent<IconsProps> = props => {
   return (
     <Context.Provider
-      value={{color: props.color || '#fff', size: props.size || '20'}}
+      value={{
+        color: props.isDisable ? '#808080' : props.color || '#fff',
+        size: props.size || '20',
+      }}
     >
-      <div onClick={props.onClick && props.onClick} style={props.style}>
+      <div
+        onClick={() => {
+          if (props.isDisable) return;
+          props.onClick && props.onClick();
+        }}
+        style={props.style}
+      >
         {props.children}
       </div>
     </Context.Provider>
