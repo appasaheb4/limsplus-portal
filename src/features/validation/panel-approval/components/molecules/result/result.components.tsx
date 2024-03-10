@@ -69,25 +69,7 @@ export const Result = observer((props: ResultProps) => {
               hidden: true,
               csvExport: false,
             },
-            {
-              dataField: 'labId',
-              text: 'Lab Id',
-              sort: true,
-              editable: false,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              // headerClasses: 'textHeader3',
-              filter: customFilter({
-                getFilter: filter => {
-                  labId = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
-            },
+
             {
               dataField: 'test',
               text: 'Test',
@@ -428,18 +410,18 @@ export const Result = observer((props: ResultProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              editable: false,
-            },
-            {
-              text: 'Environment',
-              dataField: 'environment',
-              editable: false,
-              sort: true,
-            },
+            // {
+            //   text: 'Company Code',
+            //   dataField: 'companyCode',
+            //   sort: true,
+            //   editable: false,
+            // },
+            // {
+            //   text: 'Environment',
+            //   dataField: 'environment',
+            //   editable: false,
+            //   sort: true,
+            // },
           ]}
           isEditModify={props.isEditModify}
           isSelectRow={true}

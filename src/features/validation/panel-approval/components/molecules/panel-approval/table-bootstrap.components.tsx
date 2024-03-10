@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -22,6 +22,7 @@ import { Buttons, Icons, Tooltip } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
+import { Result } from '../result/result.components';
 
 interface TableBootstrapProps {
   id: string;
@@ -50,12 +51,15 @@ interface TableBootstrapProps {
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
   onFilterRecord?: (item: any) => void;
+  onUpdateResult?: (id: string, fields: any) => void;
+  onUpdateFields?: (item: any, id: string) => void;
 }
+
 export const TableBootstrap = ({
   id,
   data,
   totalSize = 10,
-  searchPlaceholder = 'Search...',
+  searchPlaceholder = 'Search by labId or sampleId',
   page = 0,
   sizePerPage = 10,
   columns,
@@ -72,29 +76,27 @@ export const TableBootstrap = ({
   clearAllFilter,
   onClickRow,
   onFilterRecord,
+  onUpdateResult,
+  onUpdateFields,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [expanded, setExpanded] = useState([0, 1]);
 
-  const customTotal = (from, to, size) => {
-    return (
-      <>
-        <div className='clearfix' />
-        <span>
-          Showing {from} to {to} of {size} Results
-        </span>
-      </>
-    );
-  };
+  useEffect(() => {
+    setTimeout(() => {
+      var expandButton: any = document.getElementsByClassName('expand-cell')[0];
+      expandButton?.click();
+    }, 1000);
+  }, []);
 
   const statusData = [
-    { code: 'Done', value: 'Done', color: 'green' },
     { code: 'Pending', value: 'Pending', color: 'blue' },
-    { code: 'Recheck', value: 'Recheck', color: 'yellow' },
-    { code: 'Retest', value: 'Retest', color: 'orange' },
+    { code: 'ReCheck', value: 'Recheck', color: 'yellow' },
+    { code: 'ReTest', value: 'Retest', color: 'orange' },
     { code: 'Hold', value: 'Hold', color: 'indigo' },
-    { code: '', value: 'All', color: 'red' },
-    { code: 'Recall', value: 'Recall', color: 'gray' },
+    { code: 'All', value: 'All', color: 'red' },
+    { code: 'ReCall', value: 'Recall', color: 'gray' },
   ];
 
   const sizePerPageRenderer = ({
@@ -165,7 +167,6 @@ export const TableBootstrap = ({
     nextPageText: '>',
     lastPageText: '>>',
     disablePageTitle: true,
-    paginationTotalRenderer: customTotal,
     hideSizePerPage: true,
     showTotal: false,
     alwaysShowAllBtns: true,
@@ -347,6 +348,43 @@ export const TableBootstrap = ({
     }
   };
 
+  const handleOnExpand = (row, isExpand, rowIndex, e) => {
+    if (isExpand) {
+      setExpanded([...expanded, row.id]);
+    } else {
+      setExpanded(expanded.filter(x => x !== row.id));
+    }
+  };
+
+  const expandRow = {
+    renderer: row => (
+      <div>
+        <Result
+          data={row[1] || []}
+          totalSize={row[1].length}
+          onUpdateResult={(fields: any, id: string) => {
+            onUpdateResult && onUpdateResult(id, fields);
+          }}
+          onUpdateFields={(fields: any, id: string) => {
+            onUpdateFields && onUpdateFields(fields, id);
+          }}
+        />
+      </div>
+    ),
+    showExpandColumn: true,
+    // onExpand: (row, isExpand, rowIndex, e) => {
+    //   console.log(row.id);
+    //   console.log(isExpand);
+    //   console.log(rowIndex);
+    //   console.log(e);
+    // },
+    // onExpandAll: (isExpandAll, rows, e) => {
+    //   console.log(isExpandAll);
+    //   console.log(rows);
+    //   console.log(e);
+    // },
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -376,64 +414,69 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center gap-2 flex-wrap'>
-                <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={value => {
-                    console.log({ value });
-                  }}
-                />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.searchProps}
-                />
-                <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button>
-                {isExport && (
-                  <ExportCSVButton
-                    className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                    {...props.csvProps}
-                  >
-                    Export CSV!!
-                  </ExportCSVButton>
-                )}
-
-                {isFilterOpen ? (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
+              <div className='flex items-center gap-2 flex-wrap justify-between'>
+                <div className='flex items-center  gap-2 flex-wrap'>
+                  <SearchBar
+                    {...searchProps}
+                    {...props.searchProps}
+                    onChange={value => {
+                      console.log({ value });
                     }}
+                  />
+                  <ClearSearchButton
+                    className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    {...props.searchProps}
+                  />
+                  <button
+                    className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                    onClick={clearAllFilter}
                   >
-                    <Icons.IconFa.FaChevronUp />
-                  </Buttons.Button>
-                ) : (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronDown />
-                  </Buttons.Button>
-                )}
-                <div className='flex gap-4'>
-                  {statusData.map(status => (
-                    <button
-                      key={status.code}
-                      className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
-                      onClick={() => onFilterRecord?.(status.value)}
+                    Clear all filters
+                  </button>
+                  {isExport && (
+                    <ExportCSVButton
+                      className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                      {...props.csvProps}
                     >
-                      {status.value}
-                    </button>
-                  ))}
+                      Export CSV!!
+                    </ExportCSVButton>
+                  )}
+
+                  {isFilterOpen ? (
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsFilterOpen(!isFilterOpen);
+                      }}
+                    >
+                      <Icons.IconFa.FaChevronUp />
+                    </Buttons.Button>
+                  ) : (
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsFilterOpen(!isFilterOpen);
+                      }}
+                    >
+                      <Icons.IconFa.FaChevronDown />
+                    </Buttons.Button>
+                  )}
+                  <div className='flex gap-4'>
+                    {statusData.map(status => (
+                      <button
+                        key={status.code}
+                        className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                        onClick={() => onFilterRecord?.(status.code)}
+                      >
+                        {status.value}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className='flex bg-blue-700 w-10 h-10 rounded-full justify-center items-center text-xl'>
+                  <span className='text-white'>{totalSize}</span>
                 </div>
               </div>
               {isFilterOpen && (
@@ -448,6 +491,7 @@ export const TableBootstrap = ({
               )}
               <div className='scrollTable mb-2'>
                 <BootstrapTable
+                  keyField='_id'
                   remote
                   {...props.baseProps}
                   noDataIndication='Table is Empty'
@@ -455,15 +499,15 @@ export const TableBootstrap = ({
                   {...paginationTableProps}
                   filter={filterFactory()}
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                  selectRow={
-                    isSelectRow
-                      ? {
-                          mode: 'checkbox',
-                          onSelect: handleOnSelect,
-                          onSelectAll: handleOnSelectAll,
-                        }
-                      : undefined
-                  }
+                  // selectRow={
+                  //   isSelectRow
+                  //     ? {
+                  //         mode: 'checkbox',
+                  //         onSelect: handleOnSelect,
+                  //         onSelectAll: handleOnSelectAll,
+                  //       }
+                  //     : undefined
+                  // }
                   cellEdit={
                     isEditModify
                       ? cellEditFactory({
@@ -475,21 +519,8 @@ export const TableBootstrap = ({
                   rowEvents={rowEvents}
                   rowStyle={rowStyle}
                   onTableChange={handleTableChange}
+                  expandRow={expandRow}
                 />
-              </div>
-              <div className='flex  items-center   p-2 justify-start gap-2 bg-[#6A727F] rounded-md   text-white w-full'>
-                <div className='flex items-center gap-2 '>
-                  <SizePerPageDropdownStandalone
-                    {...Object.assign(
-                      {},
-                      { ...paginationProps, hideSizePerPage: false },
-                    )}
-                  />
-                  <PaginationListStandalone {...paginationProps} />
-                </div>
-                <div className='flex items-center gap-2'>
-                  <PaginationTotalStandalone {...paginationProps} />
-                </div>
               </div>
             </div>
           )}

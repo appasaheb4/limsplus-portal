@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {PendingPanelApproval} from '../models';
-import {PanelApprovalService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { PendingPanelApproval } from '../models';
+import { PanelApprovalService } from '../services';
 
 export class PanelApprovalStore {
   panelApprovalList!: Array<PendingPanelApproval>;

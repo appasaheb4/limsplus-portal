@@ -131,39 +131,16 @@ const GeneralResultEntry = observer(() => {
           }}
           onFilterFinishResult={async finishResult => {
             if (finishResult === '') {
-              // generalResultEntryStore.updateFilterGeneralResEntry({
-              //   ...generalResultEntryStore.filterGeneralResEntry,
-              //   // pLab: '',
-              //   departement: '',
-              //   testStatus: '',
-              //   resultStatus: '',
-              //   testCode: '',
-              //   analyteCode: '',
-              //   labId: '',
-              //   finishResult: '',
-              // });
               patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
-                  //pLab: loginStore.login?.lab,
                   pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
-                  // finishResult: 'P',
                 },
               );
             } else {
-              // generalResultEntryStore.updateFilterGeneralResEntry({
-              //   ...generalResultEntryStore.filterGeneralResEntry,
-              //   finishResult,
-              // });
-              const input = _.pickBy(
-                {
-                  ...generalResultEntryStore.filterGeneralResEntry,
-                  finishResult,
-                },
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                // function (value, key) {
-                //   return !(value === undefined || value === null || value === '');
-                // },
-              );
+              const input = _.pickBy({
+                ...generalResultEntryStore.filterGeneralResEntry,
+                finishResult,
+              });
               patientResultStore.patientResultService.patientListForGeneralResultEntry(
                 {
                   input: {
@@ -254,12 +231,6 @@ const GeneralResultEntry = observer(() => {
             message: `😊 ${res.updatePatientResult.message}`,
             timer: 2000,
           });
-          // if (!generalResultEntryStore.filterGeneralResEntry)
-          //   patientResultStore.patientResultService.listPatientResult({
-          //     pLab: loginStore.login?.lab,
-          //     finishResult: 'P',
-          //   });
-          // else
           patientResultStore.patientResultService.patientListForGeneralResultEntry(
             {
               input: {
@@ -308,18 +279,11 @@ const GeneralResultEntry = observer(() => {
                     message: `😊 ${res.updateByFieldsPatientResult.message}`,
                     timer: 2000,
                   });
-                  // if (!generalResultEntryStore.filterGeneralResEntry)
-                  //   patientResultStore.patientResultService.listPatientResult({
-                  //     pLab: loginStore.login?.lab,
-                  //     finishResult: 'P',
-                  //   });
-                  // else
                   patientResultStore.patientResultService.patientListForGeneralResultEntry(
                     {
                       input: {
                         filter: {
                           ...generalResultEntryStore.filterGeneralResEntry,
-                          // panelStatus: 'P',
                           finishResult: 'P',
                         },
                         page: 0,
