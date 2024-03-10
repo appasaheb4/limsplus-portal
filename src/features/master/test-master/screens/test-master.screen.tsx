@@ -311,12 +311,10 @@ const TestMater = TestMasterHOC(
               [dataField]: value,
             });
           }}
-          isInputView={isInputView}
-          setInputView={setIsInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [testMasterStore.listTestMaster, isInputView],
+      [testMasterStore.listTestMaster],
     );
 
     const handleFileUpload = (file: any) => {

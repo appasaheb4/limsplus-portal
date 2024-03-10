@@ -137,12 +137,10 @@ const NoticeBoard = NoticeBoardHoc(
               });
             }
           }}
-          isHideView={isHideView}
-          setIsHideView={setIsHideView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [noticeBoardStore.noticeBoardList, isHideView],
+      [noticeBoardStore.noticeBoardList],
     );
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();

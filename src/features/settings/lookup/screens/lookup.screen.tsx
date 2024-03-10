@@ -242,8 +242,6 @@ const Lookup = observer(() => {
                   });
                 }
               }}
-              hideAddLab={hideAddLab}
-              setHideAddLab={setHideAddLab}
             />
           </div>
           <ModalConfirm

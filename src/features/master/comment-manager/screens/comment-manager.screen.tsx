@@ -277,12 +277,10 @@ const CommentManager = CommentManagerHoc(
               [dataField]: value,
             });
           }}
-          isHideAddView={isHideAddView}
-          setIsHideAddView={setIsHideAddView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [commentManagerStore.commentManagerList, isHideAddView],
+      [commentManagerStore.commentManagerList],
     );
 
     const handleFileUpload = (file: any) => {

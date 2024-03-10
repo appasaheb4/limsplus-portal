@@ -495,8 +495,6 @@ export const EnvironmentVariable = observer(
                 });
               }
             }}
-            hideInputView={hideInputView}
-            setHideInputView={setHideInputView}
           />
         </div>
       </>

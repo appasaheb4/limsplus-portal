@@ -440,8 +440,6 @@ const RegistrationLocation = RegistrationLocationHoc(
               [dataField]: value,
             });
           }}
-          isHideAddSection={hideAddSection}
-          setHideAddSection={setHideAddSection}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -43,8 +43,6 @@ interface SessionManagementListProps {
     totalSize: number,
   ) => void;
   onApproval: (records: any) => void;
-  isInputView: boolean;
-  setIsInputView: any;
 }
 
 export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
@@ -585,8 +583,6 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
           }}
           hideExcelSheet={['_id', 'opration']}
           dynamicStylingFields={['variable', 'value', 'environment']}
-          isHideForm={props.isInputView}
-          setHideForm={props.setIsInputView}
         />
       </div>
     </>

@@ -336,8 +336,6 @@ const Banner = BannerHoc(
                   body: 'Update deginisation!',
                 });
               }}
-              setHideAddBanner={setHideAddBanner}
-              isHideAddBanner={hideAddBanner}
             />
           </div>
           <ModalConfirm

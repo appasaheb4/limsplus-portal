@@ -514,8 +514,6 @@ const SampleContainer = SampleContainerHoc(
                   });
                 }
               }}
-              isHideAddLab={hideAddBanner}
-              setHideAddLab={setHideAddBanner}
             />
           </div>
           <ModalConfirm

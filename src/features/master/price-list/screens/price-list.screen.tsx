@@ -303,12 +303,10 @@ export const PriceList = PriceListHoc(
               [dataField]: value,
             });
           }}
-          isHideAddView={hideAddView}
-          setHideAddView={setHideAddView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [priceListStore.listPriceList, hideAddView],
+      [priceListStore.listPriceList],
     );
 
     const handleFileUpload = (file: any) => {

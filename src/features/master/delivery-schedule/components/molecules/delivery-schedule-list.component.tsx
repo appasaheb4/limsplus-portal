@@ -50,8 +50,6 @@ interface DeliverySchduleListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
-  isHideAddLab: boolean;
-  setHideAddLab: any;
 }
 
 export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
@@ -895,8 +893,6 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
           }}
           dynamicStylingFields={['schCode', 'environment']}
           hideExcelSheet={['_id', 'opration']}
-          isHideForm={props.isHideAddLab}
-          setHideForm={props.setHideAddLab}
         />
       </div>
     </>

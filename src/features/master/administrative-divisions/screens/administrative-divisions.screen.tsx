@@ -727,8 +727,6 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   });
                 }
               }}
-              isHideView={isHideView}
-              setIsHideView={setIsHideView}
             />
           </div>
           <ModalConfirm

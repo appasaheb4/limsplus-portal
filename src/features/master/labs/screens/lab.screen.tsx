@@ -309,8 +309,6 @@ const Lab = LabHoc(
               });
             }
           }}
-          setHideAddLab={setHideAddLab}
-          isHideAddLab={hideAddLab}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -1723,7 +1721,6 @@ const Lab = LabHoc(
                   ]
             }
             onSelectedRow={item => {
-             
               labStore.updateLabs({
                 ...labStore.labs,
                 country: item?.Country?.toUpperCase(),

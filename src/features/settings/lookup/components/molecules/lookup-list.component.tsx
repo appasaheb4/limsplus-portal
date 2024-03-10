@@ -46,8 +46,6 @@ interface LookupListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
-  hideAddLab: boolean;
-  setHideAddLab: any;
 }
 
 export const LookupList = (props: LookupListProps) => {
@@ -75,8 +73,6 @@ export const LookupList = (props: LookupListProps) => {
         editorId={props.uiVariable?.editorId}
         data={props.data}
         totalSize={props.totalSize}
-        isHideForm={props.hideAddLab}
-        setHideForm={props.setHideAddLab}
         columns={[
           {
             dataField: '_id',

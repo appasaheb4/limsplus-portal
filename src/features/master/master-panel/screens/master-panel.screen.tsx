@@ -323,12 +323,10 @@ const MasterPanel = MasterPanelHoc(
               [dataField]: value,
             });
           }}
-          isInputView={isInputView}
-          setInputView={setIsInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [masterPanelStore.listMasterPanel, isInputView],
+      [masterPanelStore.listMasterPanel],
     );
 
     const handleFileUpload = (file: any) => {

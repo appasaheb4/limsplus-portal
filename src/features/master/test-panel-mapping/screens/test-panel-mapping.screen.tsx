@@ -363,12 +363,10 @@ const TestPanelMapping = TestPanelMappingHoc(
               [dataField]: value,
             });
           }}
-          isInputView={isInputView}
-          setInputView={setIsInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [testPanelMappingStore.listTestPanelMapping, isInputView],
+      [testPanelMappingStore.listTestPanelMapping],
     );
 
     const handleFileUpload = (file: any) => {

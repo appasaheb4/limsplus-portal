@@ -167,12 +167,10 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
               });
             }
           }}
-          isInputView={isInputView}
-          setIsInputView={setIsInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [environmentStore.environmentSettingsList, isInputView],
+      [environmentStore.environmentSettingsList],
     );
 
     const checkExistsRecords = async (

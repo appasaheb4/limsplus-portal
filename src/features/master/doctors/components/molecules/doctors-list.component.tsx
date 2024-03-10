@@ -90,8 +90,6 @@ interface DoctorsListProps {
     dataField: string,
     id: string,
   ) => void;
-  isHideAddSection: boolean;
-  setHideAddSection: any;
 }
 
 export const DoctorsList = (props: DoctorsListProps) => {
@@ -1606,8 +1604,6 @@ export const DoctorsList = (props: DoctorsListProps) => {
           'environment',
         ]}
         hideExcelSheet={['_id', 'opration']}
-        isHideForm={props.isHideAddSection}
-        setHideForm={props.setHideAddSection}
       />
       <ModalPostalCode
         postalCode={modalPostalCodeUpdate.postalCode}

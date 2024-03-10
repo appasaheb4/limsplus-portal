@@ -91,8 +91,6 @@ interface UserListProps {
     dataField: string,
     id: string,
   ) => void;
-  hideAddUser: boolean;
-  setHideAddUser: any;
 }
 
 export const UserList = (props: UserListProps) => {
@@ -1777,8 +1775,6 @@ export const UserList = (props: UserListProps) => {
             'passwordHistory',
             'passChanged',
           ]}
-          isHideForm={props.hideAddUser}
-          setHideForm={props.setHideAddUser}
         />
         <ModalDefaultLabDeptUpdate
           {...modalDefaultLabDeptUpdate}

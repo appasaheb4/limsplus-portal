@@ -89,8 +89,6 @@ interface MasterAnalyteProps {
     dataField: string,
     id: string,
   ) => void;
-  isInputView: boolean;
-  setInputView: any;
 }
 
 export const MasterAnalyteList = (props: MasterAnalyteProps) => {
@@ -196,7 +194,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerStyle: {
                 fontSize: 0,
               },
-              
+
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
@@ -1799,8 +1797,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             'environment',
           ]}
           hideExcelSheet={['_id', 'opration']}
-          isHideForm={props.isInputView}
-          setHideForm={props.setInputView}
         />
       </div>
     </>

@@ -1020,8 +1020,6 @@ const DeliverySchedule = DeliveryScheduleHoc(
                   });
                 }
               }}
-              isHideAddLab={hideAddLab}
-              setHideAddLab={setHideAddLab}
             />
           </div>
           <ModalConfirm

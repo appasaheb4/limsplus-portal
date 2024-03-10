@@ -346,12 +346,10 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
               [dataField]: value,
             });
           }}
-          isInputView={isInputView}
-          setInputView={setInputView}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [testAnalyteMappingStore.listTestAnalyteMapping, isInputView],
+      [testAnalyteMappingStore.listTestAnalyteMapping],
     );
 
     const fetchSegmentMappingKeysValue = () => {

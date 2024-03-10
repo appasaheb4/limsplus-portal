@@ -78,8 +78,6 @@ interface LabListProps {
     totalSize: number,
   ) => void;
   onApproval: (record: any) => void;
-  setHideAddLab: any;
-  isHideAddLab: boolean;
 }
 const dynamicStylingFields = [
   'code',
@@ -1483,8 +1481,6 @@ export const LabList = (props: LabListProps) => {
           }}
           hideExcelSheet={hideExcelSheet}
           dynamicStylingFields={dynamicStylingFields}
-          setHideForm={props.setHideAddLab}
-          isHideForm={props.isHideAddLab}
         />
         <ModalPostalCode
           postalCode={modalPostalCodeUpdate.postalCode}

@@ -246,12 +246,10 @@ export const SalesTeam = SalesTeamHoc(
               [dataField]: value,
             });
           }}
-          isHideAddSection={hideAddSection}
-          setHideAddSection={setHideAddSection}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [salesTeamStore.listSalesTeam, hideAddSection],
+      [salesTeamStore.listSalesTeam],
     );
 
     const handleFileUpload = (file: any) => {

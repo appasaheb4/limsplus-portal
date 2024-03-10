@@ -287,8 +287,6 @@ export const PossibleResults = PossibleResultHoc(
               [dataField]: value,
             });
           }}
-          setHideAddLookup={setHideAddLookup}
-          isHideAddLookup={hideAddLookup}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
