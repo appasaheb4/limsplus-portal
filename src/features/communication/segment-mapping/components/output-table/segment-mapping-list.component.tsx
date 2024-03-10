@@ -57,8 +57,6 @@ interface SegmentMappingListProps {
     page: number,
     totalSize: number,
   ) => void;
-  setHideAddSegmentMapping: any;
-  isHideAddSegmentMapping: boolean;
 }
 
 export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
@@ -1063,8 +1061,6 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
           }}
           hideExcelSheet={['_id', 'opration']}
           dynamicStylingFields={['dataFlow', 'instType', 'protocol']}
-          isHideForm={props.isHideAddSegmentMapping}
-          setHideForm={props.setHideAddSegmentMapping}
         />
       </div>
     </>
