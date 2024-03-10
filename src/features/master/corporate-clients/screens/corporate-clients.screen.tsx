@@ -65,6 +65,7 @@ const CorporateClients = CorporateClientsHoc(
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (
+          !hideAddView &&
           !corporateClientsStore.corporateClients?.postalCode &&
           event.key === 'F5'
         ) {
@@ -79,7 +80,7 @@ const CorporateClients = CorporateClientsHoc(
         window.removeEventListener('keydown', handleKeyDown);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [hideAddView]);
 
     useEffect(() => {
       // Default value initialization
@@ -388,7 +389,7 @@ const CorporateClients = CorporateClientsHoc(
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [corporateClientsStore.listCorporateClients, hideAddView],
+      [corporateClientsStore.listCorporateClients],
     );
 
     const handleFileUpload = (file: any) => {

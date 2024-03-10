@@ -83,7 +83,11 @@ const Doctors = DoctorsHoc(
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (!doctorsStore.doctors?.postalCode && event.key === 'F5') {
+        if (
+          !hideAddSection &&
+          !doctorsStore.doctors?.postalCode &&
+          event.key === 'F5'
+        ) {
           event.preventDefault();
           setIsPostalCodeData(true);
         }
@@ -95,7 +99,7 @@ const Doctors = DoctorsHoc(
         window.removeEventListener('keydown', handleKeyDown);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [hideAddSection]);
 
     const onSubmitDoctors = async () => {
       if (!doctorsStore.checkExitsLabEnvCode) {
@@ -321,7 +325,7 @@ const Doctors = DoctorsHoc(
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [doctorsStore.listDoctors, hideAddSection],
+      [doctorsStore.listDoctors],
     );
 
     const checkExistsRecords = async (

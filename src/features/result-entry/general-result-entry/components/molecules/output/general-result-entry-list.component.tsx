@@ -280,10 +280,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
                         (row.loNor === ' ' && row.hiNor === ' ')
                           ? '-'
-                          : row.loNor === 'NaN' && row.hiNor === ' '
-                          ? '<'
-                          : row.loNor === ' ' && row.hiNor === 'NaN'
-                          ? '>'
+                          : row.loNor === 'NaN'
+                          ? '<' + '' + row.hiNor
+                          : row.hiNor === 'NaN'
+                          ? row.loNor + '' + '>'
                           : row.loNor + '-' + row.hiNor}
                       </span>
                       <div>

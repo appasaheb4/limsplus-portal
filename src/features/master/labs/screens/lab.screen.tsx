@@ -108,7 +108,7 @@ const Lab = LabHoc(
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (!labStore.labs.postalCode && event.key === 'F5') {
+        if (!hideAddLab && !labStore.labs.postalCode && event.key === 'F5') {
           event.preventDefault();
           setIsPostalCodeData(true);
         }
@@ -120,7 +120,7 @@ const Lab = LabHoc(
         window.removeEventListener('keydown', handleKeyDown);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [hideAddLab]);
 
     const onSubmitLab = async () => {
       if (!labStore.checkExitsEnvCode) {
@@ -314,7 +314,7 @@ const Lab = LabHoc(
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [labStore.listLabs, hideAddLab],
+      [labStore.listLabs],
     );
 
     const handleFileUpload = (file: any) => {
@@ -1723,7 +1723,7 @@ const Lab = LabHoc(
                   ]
             }
             onSelectedRow={item => {
-              console.log(item);
+             
               labStore.updateLabs({
                 ...labStore.labs,
                 country: item?.Country?.toUpperCase(),

@@ -562,6 +562,26 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                   placeholder='Search....'
                   // value={row.postalCode}
                   //disabled={true}
+                  onKeyDown={e => {
+                    if (e.key === 'F5') {
+                      e.preventDefault();
+                      setModalPostalCodeUpdate({
+                        ...modalPostalCodeUpdate,
+                        show: true,
+                        id: row._id,
+                        data: [
+                          {
+                            Pincode: '',
+                            Country: '',
+                            State: '',
+                            District: '',
+                            Block: '',
+                            Name: '',
+                          },
+                        ],
+                      });
+                    }
+                  }}
                   onChange={postalCode => {
                     if (postalCode?.length == 6) {
                       labStore.LabService?.getAddressDetailsByPincode(
