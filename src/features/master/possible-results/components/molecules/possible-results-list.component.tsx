@@ -68,6 +68,8 @@ interface PossibleResultsListProps {
 
 export const PossibleResultsList = (props: PossibleResultsListProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
+  const [selectedRowId, setSelectedRowId] = useState('');
+  const [widthRefBox, setWidthRefBox] = useState('150px');
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
@@ -150,6 +152,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             dataField: 'conclusionResult',
             text: 'Conclusion Result',
             headerClasses: 'textHeader4',
+            style: { width: widthRefBox },
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -172,24 +175,62 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             }),
             editable: false,
             formatter: (cellContent, row) => (
-              <div className='flex flex-wrap max-w-2xl overflow-scroll'>
-                <List space={2} justify='center'>
-                  {row.conclusionResult.map(item => (
-                    <div className='mb-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='solid'
-                        onClick={() => {}}
+              <>
+                {row.conclusionResult?.length > 0 && (
+                  <>
+                    <Tooltip
+                      tooltipText={
+                        row._id != selectedRowId ? 'Expand' : 'Collapse'
+                      }
+                    >
+                      <Icons.IconContext
+                        color='#000000'
+                        size='20'
+                        onClick={() => {
+                          if (row._id === selectedRowId) {
+                            setSelectedRowId('');
+                            setWidthRefBox('150px');
+                          } else {
+                            setSelectedRowId(row._id);
+                            setWidthRefBox('800px');
+                          }
+                        }}
                       >
-                        {`Result: ${item.result}
+                        {Icons.getIconTag(
+                          row._id != selectedRowId
+                            ? Icons.IconBi.BiExpand
+                            : Icons.IconBi.BiCollapse,
+                        )}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  </>
+                )}
+                {selectedRowId == row._id && (
+                  <>
+                    <div
+                      style={{ width: widthRefBox }}
+                      className='flex flex-wrap max-w-2xl overflow-scroll'
+                    >
+                      <List space={2} justify='center'>
+                        {row.conclusionResult.map(item => (
+                          <div className='mb-2'>
+                            <Buttons.Button
+                              size='medium'
+                              type='solid'
+                              onClick={() => {}}
+                            >
+                              {`Result: ${item.result}
                          PossibleValue: ${item.possibleValue}
                          Ab Normal: ${item.abNormal}
                          Critical: ${item.critical}`}
-                      </Buttons.Button>
+                            </Buttons.Button>
+                          </div>
+                        ))}
+                      </List>
                     </div>
-                  ))}
-                </List>
-              </div>
+                  </>
+                )}
+              </>
             ),
           },
           {
