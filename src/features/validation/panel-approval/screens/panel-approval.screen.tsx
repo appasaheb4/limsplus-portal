@@ -1,27 +1,17 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import { Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
-import {
-  PanelApprovalList,
-  Result,
-  PatientDemographicsList,
-} from '../components';
+import { PanelApprovalList, PatientDemographicsList } from '../components';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const PanelApproval = observer(() => {
-  const {
-    loading,
-    panelApprovalStore,
-    transactionDetailsStore,
-    routerStore,
-    loginStore,
-    patientResultStore,
-    receiptStore,
-  } = useStores();
+  const { panelApprovalStore, routerStore, loginStore, patientResultStore } =
+    useStores();
 
   const {
     control,
@@ -29,11 +19,21 @@ const PanelApproval = observer(() => {
     formState: { errors },
     setValue,
   } = useForm();
+  const [data, setData] = useState<Array<any>>([]);
   const [receiptPath, setReceiptPath] = useState<string>();
   const [expandItem, setExpandItem] = useState<any>([]);
-  const [tableReaload, setTableReload] = useState<boolean>(false);
+  const [tableReload, setTableReload] = useState<boolean>(false);
   const [selectId, setSelectId] = useState('');
   const [filterRecord, setFilterRecord] = useState<string>('');
+
+  useEffect(() => {
+    const uniqueList = _.groupBy(
+      panelApprovalStore.panelApprovalList,
+      item => `${item.labId}-${item.panelCode}`,
+    );
+    if (uniqueList)
+      setData(Object.keys(uniqueList).map(key => [key, uniqueList[key]]));
+  }, [panelApprovalStore.panelApprovalList]);
 
   const updateRecords = payload => {
     const { type, data } = payload;
@@ -51,7 +51,8 @@ const PanelApproval = observer(() => {
               Toast.success({
                 message: `😊 ${res.updatePanelApproval.message}`,
               });
-              panelApprovalStore.panelApprovalService.listPanelApproval();
+              panelApprovalStore.panelApprovalService.listPanelApproval({});
+              setTableReload(!tableReload);
             }
           });
         break;
@@ -71,7 +72,26 @@ const PanelApproval = observer(() => {
               Toast.success({
                 message: `😊 ${res.updatePanelApproval.message}`,
               });
-              panelApprovalStore.panelApprovalService.listPanelApproval();
+              panelApprovalStore.panelApprovalService.listPanelApproval({});
+              setTableReload(!tableReload);
+            }
+          });
+        break;
+      }
+      case 'updateByIds': {
+        panelApprovalStore.panelApprovalService
+          .updateByIds({
+            input: {
+              ...data.fields,
+              ids: data.ids,
+            },
+          })
+          .then((res: any) => {
+            if (res.updateByIdsPanelApproval.success) {
+              Toast.success({
+                message: `😊 ${res.updateByIdsPanelApproval.message}`,
+              });
+              panelApprovalStore.panelApprovalService.listPanelApproval({});
             }
           });
         break;
@@ -118,16 +138,16 @@ const PanelApproval = observer(() => {
             message: `😊 ${res.updatePatientResult.message}`,
             timer: 2000,
           });
-          panelApprovalStore.panelApprovalService.listPanelApproval();
+          panelApprovalStore.panelApprovalService.listPanelApproval({});
         }
       });
-    setTableReload(!tableReaload);
+    setTableReload(!tableReload);
   };
 
   const panelApprovalTable = useMemo(
     () => (
       <PanelApprovalList
-        data={panelApprovalStore.panelApprovalList || []}
+        data={data || []}
         totalSize={panelApprovalStore.panelApprovalListCount}
         selectedId={selectId}
         filterRecord={filterRecord}
@@ -157,11 +177,11 @@ const PanelApproval = observer(() => {
             body: 'Update items!',
           });
         }}
-        onUpdateFields={(fields: any, id: string) => {
+        onUpdateFields={(fields: any, ids: string[]) => {
           updateRecords({
             show: true,
-            type: 'update',
-            data: { fields, id },
+            type: 'updateByIds',
+            data: { fields, ids },
             title: 'Are you sure?',
             body: 'Update items!',
           });
@@ -170,18 +190,19 @@ const PanelApproval = observer(() => {
           updateResultRecords(id, fields);
         }}
         onExpand={items => {
-          setSelectId(items._id);
+          console.log({ items });
           if (typeof items == 'object') {
+            setSelectId(items?._id);
             setExpandItem([items]);
           } else {
             setExpandItem([]);
           }
         }}
         onPageSizeChange={(page, limit) => {
-          panelApprovalStore.panelApprovalService.listPanelApproval(
+          panelApprovalStore.panelApprovalService.listPanelApproval({
             page,
             limit,
-          );
+          });
         }}
         onFilter={(type, filter, page, limit) => {
           panelApprovalStore.panelApprovalService.filter({
@@ -196,7 +217,7 @@ const PanelApproval = observer(() => {
                   id,
                   patientResultId,
                   mode: 'reCheck',
-                  // finishResult: 'RC', // for gre filter
+                  approvalStatus: 'ReCheck',
                 },
               },
             })
@@ -204,7 +225,7 @@ const PanelApproval = observer(() => {
               Toast.success({
                 message: `😊 ${res.updateStatusPatientResult.message}`,
               });
-              panelApprovalStore.panelApprovalService?.listPanelApproval();
+              panelApprovalStore.panelApprovalService?.listPanelApproval({});
             });
         }}
         onRetest={async (id: string, patientResultId: string) => {
@@ -215,7 +236,7 @@ const PanelApproval = observer(() => {
                   id,
                   patientResultId,
                   mode: 'reTest',
-                  // finishResult: 'RT', // for gre filter
+                  approvalStatus: 'ReTest',
                 },
               },
             })
@@ -223,19 +244,25 @@ const PanelApproval = observer(() => {
               Toast.success({
                 message: `😊 ${res.updateStatusPatientResult.message}`,
               });
-              panelApprovalStore.panelApprovalService?.listPanelApproval();
+              panelApprovalStore.panelApprovalService?.listPanelApproval({});
             });
         }}
-        onFilterRecord={setFilterRecord}
+        onFilterRecord={status => {
+          if (status == 'ReCall') return alert('WIP');
+          else if (status == 'All') {
+            panelApprovalStore.panelApprovalService.listPanelApproval({
+              isNotEqualToApproved: true,
+            });
+          } else {
+            panelApprovalStore.panelApprovalService.find({
+              input: { filter: { approvalStatus: status } },
+            });
+          }
+        }}
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      panelApprovalStore.panelApprovalList,
-      tableReaload,
-      selectId,
-      filterRecord,
-    ],
+    [data, tableReload, selectId, filterRecord],
   );
 
   return (
@@ -247,31 +274,13 @@ const PanelApproval = observer(() => {
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         {/* <span className='font-bold text-lg underline'>Panel Approval</span> */}
         {panelApprovalTable}
-        <span className='text-red'>
+        <span className='text-red hidden'>
           Note: Report Priority= Daily single-single update.
         </span>
       </div>
-
       {expandItem?.length > 0 && (
         <>
           <div className='p-1 rounded-lg shadow-xl overflow-auto mt-4'>
-            <span className='font-bold text-lg underline'>Result</span>
-            <Result
-              data={expandItem || []}
-              totalSize={expandItem.length}
-              onUpdateResult={(fields: any, id: string) => {
-                updateResultRecords(id, fields);
-              }}
-              onUpdateFields={(fields: any, id: string) => {
-                updateRecords({
-                  show: true,
-                  type: 'update',
-                  data: { fields, id },
-                  title: 'Are you sure?',
-                  body: 'Update items!',
-                });
-              }}
-            />
             <span className='font-bold text-lg underline'>
               Patient Demographics
             </span>

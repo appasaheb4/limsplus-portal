@@ -78,6 +78,19 @@ export const PATIENT_LIST_FOR_GENERAL_RES_ENTRY = gql`
   }
 `;
 
+export const FIND_NOT_EQUAL_TO_RESULT = gql`
+  mutation ($input: PatientResultInput!) {
+    findNotEqualToResultList(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      patientResultList
+    }
+  }
+`;
+
 export const FILTER_PATIENT_RESULT_WITH_LABID = gql`
   mutation ($input: PatientResultInput!) {
     filterPatientResultWithLabId(input: $input) {

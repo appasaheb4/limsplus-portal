@@ -365,7 +365,7 @@ export const GeneralResultEntryExpand = ({
     { code: 'N', value: 'Normal', color: 'blue' },
     { code: 'A', value: 'Abnormal', color: 'yellow' },
     { code: 'C', value: 'Critical', color: 'green' },
-    { code: 'ALL', value: 'All', color: 'red' },
+    { code: '', value: 'All', color: 'red' },
   ];
 
   return (
