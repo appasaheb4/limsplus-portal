@@ -17,6 +17,7 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
+  ModalPostalCode,
 } from '@/library/components';
 import { DoctorsList } from '../components';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
@@ -73,11 +74,32 @@ const Doctors = DoctorsHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [doctorsStore.doctors]);
 
+    const [isPostalCode, setIsPostalCodeData] = useState(false);
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddSection, setHideAddSection] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (
+          !hideAddSection &&
+          !doctorsStore.doctors?.postalCode &&
+          event.key === 'F5'
+        ) {
+          event.preventDefault();
+          setIsPostalCodeData(true);
+        }
+      };
+
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [hideAddSection]);
 
     const onSubmitDoctors = async () => {
       if (!doctorsStore.checkExitsLabEnvCode) {
@@ -415,12 +437,17 @@ const Doctors = DoctorsHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddSection}
+              onClick={() => setHideAddSection(!hideAddSection)}
+            />
+          )}
+        </div>
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -748,50 +775,26 @@ const Doctors = DoctorsHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
+                      <Form.Input
                         label='Postal Code'
-                        id='postalCode'
                         hasError={!!errors.postalCode}
-                      >
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
-                          data={{
-                            list: labStore.addressDetails,
-                            displayKey: [
-                              'Name',
-                              'Block',
-                              'District',
-                              'State',
-                              'Country',
-                              'Pincode',
-                            ],
-                          }}
-                          hasError={!!errors.postalCode}
-                          displayValue={value}
-                          onFilter={(value: string) => {
-                            if (value?.length == 6) {
-                              labStore.LabService?.getAddressDetailsByPincode(
-                                value,
-                              );
-                            }
-                          }}
-                          onSelect={item => {
-                            onChange(item.Pincode);
+                        placeholder='Search....'
+                        value={value}
+                        //disabled={true}
+                        onChange={postalCode => {
+                          onChange(postalCode);
+                          if (postalCode?.length == 6) {
+                            labStore.LabService?.getAddressDetailsByPincode(
+                              postalCode,
+                            );
                             doctorsStore.updateDoctors({
                               ...doctorsStore.doctors,
-                              country: item?.Country?.toUpperCase(),
-                              state: item?.State?.toUpperCase(),
-                              district: item?.District?.toUpperCase(),
-                              city: item?.Block?.toUpperCase(),
-                              area: item?.Name?.toUpperCase(),
-                              postalCode: Number.parseInt(item.Pincode),
-                              zone: '',
-                              sbu: '',
+                              postalCode,
                             });
-                            labStore.updateAddressDetails([]);
-                          }}
-                        />
-                      </Form.InputWrapper>
+                            setIsPostalCodeData(true);
+                          }
+                        }}
+                      />
                     )}
                     name='postalCode'
                     rules={{ required: false }}
@@ -1757,6 +1760,48 @@ const Doctors = DoctorsHoc(
           <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             {tableView}
           </div>
+          <ModalPostalCode
+            postalCode={doctorsStore.doctors?.postalCode}
+            show={isPostalCode}
+            data={
+              doctorsStore.doctors?.postalCode
+                ? labStore?.addressDetails
+                : [
+                    {
+                      Pincode: '',
+                      Country: '',
+                      State: '',
+                      District: '',
+                      Block: '',
+                      Name: '',
+                    },
+                  ]
+            }
+            onSelectedRow={item => {
+              doctorsStore.updateDoctors({
+                ...doctorsStore.doctors,
+                country: item?.Country?.toUpperCase(),
+                state: item?.State?.toUpperCase(),
+                district: item?.District?.toUpperCase(),
+                city: item?.Block?.toUpperCase(),
+                area: item?.Name?.toUpperCase(),
+                postalCode: item.Pincode,
+              });
+              setIsPostalCodeData(false);
+            }}
+            close={() => {
+              doctorsStore.updateDoctors({
+                ...doctorsStore.doctors,
+                country: '',
+                state: '',
+                district: '',
+                city: '',
+                area: '',
+                postalCode: '',
+              });
+              setIsPostalCodeData(false);
+            }}
+          />
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {

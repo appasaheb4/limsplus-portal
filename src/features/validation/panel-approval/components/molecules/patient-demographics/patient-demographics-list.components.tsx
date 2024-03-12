@@ -73,9 +73,20 @@ export const PatientDemographicsList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return row?.dob
-                    ? dayjs(row.dob).format('DD-MM-YYYY HH:mm:ss')
-                    : '';
+                  const maxLength = 5;
+                  const displayTestName =
+                    row.dob.length > maxLength
+                      ? dayjs(row.dob)
+                          .format('DD-MM-YYYY HH:mm:ss')
+                          .slice(0, Math.max(0, maxLength)) + '...'
+                      : dayjs(row.dob).format('DD-MM-YYYY HH:mm:ss');
+                  return (
+                    <div className='flex flex-row'>
+                      <span
+                        title={dayjs(row.dob).format('DD-MM-YYYY HH:mm:ss')}
+                      >{`${displayTestName}`}</span>
+                    </div>
+                  );
                 },
               },
               {
@@ -101,6 +112,23 @@ export const PatientDemographicsList = observer(
                 text: 'Registration Location',
                 sort: true,
                 editable: false,
+                formatter: (cellContent, row) => {
+                  const maxLength = 15;
+                  const displayTestName =
+                    row.registrationLocation.length > maxLength
+                      ? row.registrationLocation.slice(
+                          0,
+                          Math.max(0, maxLength),
+                        ) + '...'
+                      : row.registrationLocation;
+                  return (
+                    <div className='flex flex-row'>
+                      <span
+                        title={row.registrationLocation}
+                      >{`${displayTestName}`}</span>
+                    </div>
+                  );
+                },
               },
               {
                 dataField: 'contactNo',

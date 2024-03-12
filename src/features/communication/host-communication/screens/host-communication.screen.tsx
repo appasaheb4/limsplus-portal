@@ -101,17 +101,6 @@ const HostCommunication = HostCommunicationHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddHostCommunication}
-            onClick={status =>
-              setHideAddHostCommunication(!hideAddHostCommunication)
-            }
-          />
-        )}
 
         <div className='mx-auto'>
           <div className='p-2 rounded-lg shadow-xl'>

@@ -41,6 +41,9 @@ interface PatientMangerProps {
     totalSize: number,
   ) => void;
   onDirectUpdateField?: (id: any, fileds: any) => void;
+  hideInputView: boolean;
+  setHideInputView: any;
+  disabled: any;
 }
 
 let pId;
@@ -963,6 +966,9 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             companyCode('');
             environment('');
           }}
+          isHideForm={props.hideInputView}
+          setHideForm={props.setHideInputView}
+          circleButtonDisable={props.disabled}
         />
       </div>
     </>

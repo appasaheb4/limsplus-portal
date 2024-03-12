@@ -58,7 +58,7 @@ const MasterPanel = MasterPanelHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
@@ -458,19 +458,22 @@ const MasterPanel = MasterPanelHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={!isInputView}
-            onClick={() => setIsInputView(!isInputView)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={isInputView}
+              onClick={() => setIsInputView(!isInputView)}
+            />
+          )}
+        </div>
+
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (!isInputView ? 'hidden' : 'shown')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs

@@ -261,12 +261,17 @@ export const Department = DeginisationHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddDepartment}
-            onClick={() => setHideAddDepartment(!hideAddDepartment)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddDepartment}
+              onClick={() => setHideAddDepartment(!hideAddDepartment)}
+            />
+          )}
+        </div>
         <div className='mx-auto'>
           <div
             className={

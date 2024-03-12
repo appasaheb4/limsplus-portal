@@ -59,7 +59,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [txtDisable, setTxtDisable] = useState(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
@@ -470,19 +470,22 @@ const TestPanelMapping = TestPanelMappingHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={!isInputView}
-            onClick={() => setIsInputView(!isInputView)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={isInputView}
+              onClick={() => setIsInputView(!isInputView)}
+            />
+          )}
+        </div>
+
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs

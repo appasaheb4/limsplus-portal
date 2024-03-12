@@ -292,7 +292,10 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   }}
                 >
                   {loginStore.login?.fullName}
+                  <br />
+                  {loginStore.login?.role}
                 </span>
+                <br />
               </div>
             </DropdownToggle>
           </span>

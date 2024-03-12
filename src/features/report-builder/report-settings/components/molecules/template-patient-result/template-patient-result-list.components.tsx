@@ -28,6 +28,8 @@ interface TemplatePatientResultProps {
     totalSize: number,
   ) => void;
   onPdfPreview?: (selectedItem: any) => void;
+  setIsInputView: any;
+  isInputView: boolean;
 }
 
 let sectionSetting;
@@ -44,6 +46,8 @@ export const TemplatePatientResultList = observer(
             id='_id'
             data={props.data}
             totalSize={props.totalSize}
+            isHideForm={props.isInputView}
+            setHideForm={props.setIsInputView}
             columns={[
               {
                 dataField: '_id',

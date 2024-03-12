@@ -268,15 +268,20 @@ const RoleMapping = observer(() => {
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
-      {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
-        <Buttons.ButtonCircleAddRemove
-          show={hideAddRoleMapping}
-          onClick={status => {
-            setRouter();
-            setHideAddRoleMapping(!hideAddRoleMapping);
-          }}
-        />
-      )}
+      <div
+        className='flex justify-end'
+        style={{ position: 'fixed', right: '17px', zIndex: 1 }}
+      >
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+          <Buttons.ButtonCircleAddRemoveBottom
+            show={hideAddRoleMapping}
+            onClick={() => {
+              setRouter();
+              setHideAddRoleMapping(!hideAddRoleMapping);
+            }}
+          />
+        )}
+      </div>
       <div className=' mx-auto  flex-wrap'>
         <div
           className={

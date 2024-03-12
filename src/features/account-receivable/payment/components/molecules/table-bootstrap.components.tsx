@@ -19,6 +19,8 @@ import '@/library/components/organisms/style.css';
 
 import { Buttons, Icons } from '@/library/components';
 import { debounce } from '@/core-utils';
+import { useStores } from '@/stores';
+import { RouterFlow } from '@/flows';
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 
@@ -47,6 +49,8 @@ interface TableBootstrapProps {
   ) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
+  isHideForm?: boolean;
+  setHideForm?: Function;
 }
 export const TableBootstrap = ({
   id,
@@ -67,10 +71,12 @@ export const TableBootstrap = ({
   onFilter,
   clearAllFilter,
   onClickRow,
+  setHideForm,
+  isHideForm = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-
+  const { routerStore } = useStores();
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -311,65 +317,86 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center flex-wrap'>
-                <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={value => {
-                    console.log({ value });
-                  }}
-                />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.searchProps}
-                />
-                <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button>
-                {isExport && (
-                  <ExportCSVButton
-                    className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                    {...props.csvProps}
-                  >
-                    Export CSV!!
-                  </ExportCSVButton>
-                )}
-
-                {isFilterOpen ? (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
+              <div className='flex flex-row justify-between items-center flex-wrap'>
+                <div className='flex items-center flex-wrap'>
+                  <SearchBar
+                    {...searchProps}
+                    {...props.searchProps}
+                    onChange={value => {
+                      console.log({ value });
                     }}
-                  >
-                    <Icons.IconFa.FaChevronUp />
-                  </Buttons.Button>
-                ) : (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronDown />
-                  </Buttons.Button>
-                )}
-              </div>
-              {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10'}>
-                  <CustomToggleList
-                    contextual='primary'
-                    className='list-custom-class'
-                    btnClassName='list-btn-custom-class'
-                    {...props.columnToggleProps}
                   />
+                  <ClearSearchButton
+                    className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    {...props.searchProps}
+                  />
+                  <button
+                    className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                    onClick={clearAllFilter}
+                  >
+                    Clear all filters
+                  </button>
+                  {isExport && (
+                    <ExportCSVButton
+                      className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                      {...props.csvProps}
+                    >
+                      Export CSV!!
+                    </ExportCSVButton>
+                  )}
+
+                  {isFilterOpen ? (
+                    <div className='ml-2'>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsFilterOpen(!isFilterOpen);
+                        }}
+                      >
+                        <Icons.IconFa.FaChevronUp />
+                      </Buttons.Button>
+                    </div>
+                  ) : (
+                    <div className='ml-2'>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsFilterOpen(!isFilterOpen);
+                        }}
+                      >
+                        <Icons.IconFa.FaChevronDown />
+                      </Buttons.Button>
+                    </div>
+                  )}
                 </div>
-              )}
+                {isFilterOpen && (
+                  <div className={'flex mb-2 overflow-auto h-10'}>
+                    <CustomToggleList
+                      contextual='primary'
+                      className='list-custom-class'
+                      btnClassName='list-btn-custom-class'
+                      {...props.columnToggleProps}
+                    />
+                  </div>
+                )}
+                <div>
+                  {isHideForm && (
+                    <>
+                      {RouterFlow.checkPermission(
+                        routerStore.userPermission,
+                        'Add',
+                      ) && (
+                        <Buttons.ButtonCircleAddRemoveBottom
+                          show={isHideForm}
+                          onClick={() => setHideForm?.(!isHideForm)}
+                        />
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
               <div className='scrollTable'>
                 <BootstrapTable
                   remote

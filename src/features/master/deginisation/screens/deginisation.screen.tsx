@@ -147,12 +147,17 @@ const Deginisation = DeginisationHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddDeginisation}
-            onClick={() => setHideAddDeginisation(!hideAddDeginisation)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddDeginisation}
+              onClick={() => setHideAddDeginisation(!hideAddDeginisation)}
+            />
+          )}
+        </div>
         <div className='mx-auto flex-wrap'>
           <div
             className={

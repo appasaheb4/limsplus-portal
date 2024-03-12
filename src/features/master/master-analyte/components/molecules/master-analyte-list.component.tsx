@@ -194,6 +194,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               headerStyle: {
                 fontSize: 0,
               },
+
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({

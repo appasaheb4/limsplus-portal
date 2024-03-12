@@ -89,17 +89,20 @@ const InterfaceManager = InterfaceManagerHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddInterfaceManager}
-            onClick={status =>
-              setHideAddInterfaceManager(!hideAddInterfaceManager)
-            }
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddInterfaceManager}
+              onClick={() =>
+                setHideAddInterfaceManager(!hideAddInterfaceManager)
+              }
+            />
+          )}
+        </div>
+
         <div className=' mx-auto  flex-wrap'>
           <div
             className={

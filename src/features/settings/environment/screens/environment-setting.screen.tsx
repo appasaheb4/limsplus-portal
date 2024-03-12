@@ -43,7 +43,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       reset,
     } = useForm();
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [isInputView, setIsInputView] = useState<boolean>(false);
+    const [isInputView, setIsInputView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     useEffect(() => {
@@ -210,13 +210,14 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
 
     return (
       <>
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemoveBottom
-            style={{ bottom: 40 }}
-            show={!isInputView}
-            onClick={() => setIsInputView(!isInputView)}
-          />
-        )}
+        <div className='flex justify-end'>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={isInputView}
+              onClick={() => setIsInputView(!isInputView)}
+            />
+          )}
+        </div>
         <div
           className={
             'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')

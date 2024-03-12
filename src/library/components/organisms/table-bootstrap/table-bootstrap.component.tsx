@@ -22,6 +22,8 @@ import { Buttons, Icons } from '../..';
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 import ExcelJS from 'exceljs';
+import { RouterFlow } from '@/flows';
+import { useStores } from '@/stores';
 interface TableBootstrapProps {
   id: string;
   data: any;
@@ -51,6 +53,10 @@ interface TableBootstrapProps {
   dynamicStylingFields?: any;
   hideExcelSheet?: any;
   registrationExtraData?: boolean;
+  isHideForm?: boolean;
+  setHideForm?: Function;
+  isShowCircleButton?: boolean;
+  circleButtonDisable?: boolean;
 }
 
 export const sortCaret = (order, column) => {
@@ -112,10 +118,14 @@ export const TableBootstrap = ({
   dynamicStylingFields,
   hideExcelSheet,
   registrationExtraData = false,
+  setHideForm,
+  isHideForm = false,
+  isShowCircleButton = true,
+  circleButtonDisable = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-
+  const { routerStore } = useStores();
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -627,69 +637,87 @@ export const TableBootstrap = ({
         >
           {props => (
             <div className='flex flex-col'>
-              <div className='flex items-center flex-wrap'>
-                <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={value => {
-                    console.log({ value });
-                  }}
-                />
-                <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.searchProps}
-                />
-                <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button>
-                {isExport && (
+              <div className='flex flex-row justify-between items-center flex-wrap'>
+                <div className='flex items-center flex-wrap'>
+                  <SearchBar
+                    {...searchProps}
+                    {...props.searchProps}
+                    onChange={value => {
+                      console.log({ value });
+                    }}
+                  />
+                  <ClearSearchButton
+                    className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    {...props.searchProps}
+                  />
                   <button
                     className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                    onClick={exportToExcel}
+                    onClick={clearAllFilter}
                   >
-                    Export CSV!!
+                    Clear all filters
                   </button>
-                )}
+                  {isExport && (
+                    <button
+                      className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                      onClick={exportToExcel}
+                    >
+                      Export CSV!!
+                    </button>
+                  )}
 
-                {isFilterOpen ? (
-                  <div className='ml-2'>
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsFilterOpen(!isFilterOpen);
-                      }}
-                    >
-                      <Icons.IconFa.FaChevronUp />
-                    </Buttons.Button>
-                  </div>
-                ) : (
-                  <div className='ml-2'>
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsFilterOpen(!isFilterOpen);
-                      }}
-                    >
-                      <Icons.IconFa.FaChevronDown />
-                    </Buttons.Button>
+                  {isFilterOpen ? (
+                    <div className='ml-2'>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsFilterOpen(!isFilterOpen);
+                        }}
+                      >
+                        <Icons.IconFa.FaChevronUp />
+                      </Buttons.Button>
+                    </div>
+                  ) : (
+                    <div className='ml-2'>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsFilterOpen(!isFilterOpen);
+                        }}
+                      >
+                        <Icons.IconFa.FaChevronDown />
+                      </Buttons.Button>
+                    </div>
+                  )}
+                </div>
+                {isFilterOpen && (
+                  <div className={'flex mb-2 overflow-auto h-10'}>
+                    <CustomToggleList
+                      contextual='primary'
+                      className='list-custom-class'
+                      btnClassName='list-btn-custom-class'
+                      {...props.columnToggleProps}
+                    />
                   </div>
                 )}
+                {/* <div>
+                  {isHideForm && (
+                    <>
+                      {RouterFlow.checkPermission(
+                        routerStore.userPermission,
+                        'Add',
+                      ) && (
+                        <Buttons.ButtonCircleAddRemoveBottom
+                          show={isHideForm}
+                          disabled={circleButtonDisable}
+                          onClick={() => setHideForm?.(!isHideForm)}
+                        />
+                      )}
+                    </>
+                  )}
+                </div> */}
               </div>
-              {isFilterOpen && (
-                <div className={'flex mb-2 overflow-auto h-10'}>
-                  <CustomToggleList
-                    contextual='primary'
-                    className='list-custom-class'
-                    btnClassName='list-btn-custom-class'
-                    {...props.columnToggleProps}
-                  />
-                </div>
-              )}
               <div className='scrollTable h-[calc(100vh_-_30vh)] mb-2'>
                 <BootstrapTable
                   remote

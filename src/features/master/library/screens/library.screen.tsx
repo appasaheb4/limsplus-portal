@@ -16,6 +16,8 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
+  Icons,
+  ModalImportFile,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { Library as LibraryModel } from '../models';
@@ -30,6 +32,8 @@ import { resetLibrary } from '../startup';
 import * as XLSX from 'xlsx';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { Styles } from '@/config';
+import mammoth from 'mammoth';
 
 const modules = {
   toolbar: [
@@ -70,7 +74,7 @@ export const Library = LibraryHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
-
+    const [modalDetail, setModalDetail] = useState<any>();
     const {
       control,
       handleSubmit,
@@ -130,6 +134,19 @@ export const Library = LibraryHoc(
           message: '😔 Already some record exists.',
         });
       }
+    };
+
+    const handleFileChange = async (file: any) => {
+      const reader = new FileReader();
+      reader.addEventListener('load', async (e: any) => {
+        const arrayBuffer: any = e.target.result;
+        const result = await mammoth.extractRawText({ arrayBuffer });
+        libraryStore.updateLibrary({
+          ...libraryStore.library,
+          details: result.value,
+        });
+      });
+      reader.readAsArrayBuffer(file);
     };
 
     const onUpdateSingleField = payload => {
@@ -373,15 +390,18 @@ export const Library = LibraryHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
-          />
-        )}
+
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddLab}
+              onClick={() => setHideAddLab(!hideAddLab)}
+            />
+          )}
+        </div>
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -717,6 +737,26 @@ export const Library = LibraryHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    onClick={() => {
+                      setModalDetail({
+                        show: true,
+                        title: 'Import Doc File',
+                      });
+                    }}
+                  >
+                    <span className='flex flex-row'>
+                      <Icons.EvaIcon
+                        icon='arrowhead-down-outline'
+                        size='medium'
+                        color={Styles.COLORS.BLACK}
+                      />
+                      Import
+                    </span>
+                  </Buttons.Button>
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -956,6 +996,17 @@ export const Library = LibraryHoc(
           <div className='p-2 rounded-lg shadow-xl overflow-auto'>
             {tableView}
           </div>
+          <ModalImportFile
+            accept='.docx'
+            {...modalDetail}
+            click={(file: any) => {
+              setModalDetail({ show: false });
+              handleFileChange(file);
+            }}
+            close={() => {
+              setModalDetail({ show: false });
+            }}
+          />
           <ModalConfirm
             {...modalConfirm}
             click={(action?: string) => {

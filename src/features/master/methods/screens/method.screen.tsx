@@ -154,12 +154,17 @@ const Methods = MethodsHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSection}
-            onClick={() => setHideAddSection(!hideAddSection)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddSection}
+              onClick={() => setHideAddSection(!hideAddSection)}
+            />
+          )}
+        </div>
         <div className=' mx-auto flex-wrap'>
           <div
             className={

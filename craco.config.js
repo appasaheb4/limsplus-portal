@@ -23,6 +23,7 @@ module.exports = {
           util: require.resolve('util'),
           buffer: require.resolve('buffer'),
           asset: require.resolve('assert'),
+          path: require.resolve('path-browserify'),
         },
       },
       plugins: [
