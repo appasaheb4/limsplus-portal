@@ -399,7 +399,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'editable',
               text: 'Editable',
-              headerClasses: 'textHeader1',
+
               sort: true,
               editable: false,
               csvFormatter: (col, row) =>
@@ -423,7 +423,6 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'details',
               text: 'Details',
-              headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
@@ -452,7 +451,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,

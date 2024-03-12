@@ -57,6 +57,8 @@ interface ClientRegistrationListProps {
     totalSize: number,
   ) => void;
   onSingleFieldUpdate?: (id: string, fields: any) => void;
+  hideAddSegmentMapping: boolean;
+  setHideAddSegmentMapping: any;
 }
 
 export const ClientRegistrationList = observer(
@@ -79,6 +81,8 @@ export const ClientRegistrationList = observer(
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
+          isHideForm={props.hideAddSegmentMapping}
+          setHideForm={props.setHideAddSegmentMapping}
           columns={[
             {
               dataField: '_id',

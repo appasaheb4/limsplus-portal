@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable no-console */
 import React from 'react';
-import {ComponentStory, ComponentMeta} from '@storybook/react';
-import {TableBootstrap} from './table-bootstrap.component';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { TableBootstrap } from './table-bootstrap.component';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

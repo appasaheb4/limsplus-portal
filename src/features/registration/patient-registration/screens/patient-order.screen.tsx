@@ -258,11 +258,58 @@ export const PatientOrder = PatientOrderHoc(
 
     return (
       <>
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') &&
-          !patientRegistrationStore.defaultValues?.filterLock && (
+        <div className='flex justify-end'>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
-              style={{ bottom: 60 }}
               show={hideInputView}
+              onClick={() => {
+                {
+                  setHideInputView(!hideInputView);
+                  if (
+                    hideInputView &&
+                    patientVisitStore.listPatientVisit?.length == 1
+                  ) {
+                    const item = patientVisitStore.listPatientVisit[0];
+                    setIsPrintPrimaryBarcod(
+                      item?.isPrintPrimaryBarcod || false,
+                    );
+                    setValue('labId', item?.labId + ' - ' + item.patientName);
+                    patientOrderStore.updatePatientOrder({
+                      ...patientOrderStore.patientOrder,
+                      pId: item?.pId,
+                      visitId: item.visitId,
+                      labId: item.labId as any,
+                      rLab: item.rLab,
+                      patientName: item.patientName,
+                      age: item?.age,
+                      ageUnits: item?.ageUnits,
+                    });
+                    patientVisitStore.updatePatientVisitList(
+                      patientVisitStore.listPatientVisitCopy,
+                    );
+                    if (item.labId)
+                      patientOrderStore.patientOrderService
+                        .checkExistsRecords({
+                          input: {
+                            filter: {
+                              fildes: {
+                                labId: item.labId,
+                                documentType: 'patientOrder',
+                              },
+                            },
+                          },
+                        })
+                        .then(res => {
+                          if (res.checkExistsRecordsPatientOrder.success) {
+                            patientOrderStore.updateExistsRecords(true);
+                            Toast.error({
+                              message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
+                            });
+                          } else patientOrderStore.updateExistsRecords(false);
+                        });
+                  }
+                }
+              }}
               disabled={
                 patientVisitStore.listPatientVisit?.length > 0
                   ? patientOrderStore.listPatientOrder?.length == 0
@@ -273,52 +320,9 @@ export const PatientOrder = PatientOrderHoc(
                     : false
                   : true
               }
-              onClick={() => {
-                setHideInputView(!hideInputView);
-                if (
-                  hideInputView &&
-                  patientVisitStore.listPatientVisit?.length == 1
-                ) {
-                  const item = patientVisitStore.listPatientVisit[0];
-                  setIsPrintPrimaryBarcod(item?.isPrintPrimaryBarcod || false);
-                  setValue('labId', item?.labId + ' - ' + item.patientName);
-                  patientOrderStore.updatePatientOrder({
-                    ...patientOrderStore.patientOrder,
-                    pId: item?.pId,
-                    visitId: item.visitId,
-                    labId: item.labId as any,
-                    rLab: item.rLab,
-                    patientName: item.patientName,
-                    age: item?.age,
-                    ageUnits: item?.ageUnits,
-                  });
-                  patientVisitStore.updatePatientVisitList(
-                    patientVisitStore.listPatientVisitCopy,
-                  );
-                  if (item.labId)
-                    patientOrderStore.patientOrderService
-                      .checkExistsRecords({
-                        input: {
-                          filter: {
-                            fildes: {
-                              labId: item.labId,
-                              documentType: 'patientOrder',
-                            },
-                          },
-                        },
-                      })
-                      .then(res => {
-                        if (res.checkExistsRecordsPatientOrder.success) {
-                          patientOrderStore.updateExistsRecords(true);
-                          Toast.error({
-                            message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
-                          });
-                        } else patientOrderStore.updateExistsRecords(false);
-                      });
-                }
-              }}
             />
           )}
+        </div>
         <div
           className={
             'p-2 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')

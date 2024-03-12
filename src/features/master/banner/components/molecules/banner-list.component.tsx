@@ -67,7 +67,18 @@ export const BannerList = (props: BannerListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            style: {
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            formatter: (cellContent, row) => (
+              <span title={row.title}>{cellContent}</span>
+            ),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
               getFilter: filter => {

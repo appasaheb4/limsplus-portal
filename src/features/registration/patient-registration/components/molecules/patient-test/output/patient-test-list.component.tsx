@@ -92,6 +92,18 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             {
               dataField: 'panelCode',
               text: 'Panel Code',
+              formatter: (cellContent, row) => {
+                const maxLength = 5;
+                const displayTestName =
+                  row.panelCode.length > maxLength
+                    ? row.panelCode.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.panelCode;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.panelCode}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
             },
             {
               dataField: 'panelName',
@@ -100,10 +112,34 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             {
               dataField: 'testCode',
               text: 'Test Code',
+              formatter: (cellContent, row) => {
+                const maxLength = 5;
+                const displayTestName =
+                  row.testCode.length > maxLength
+                    ? row.testCode.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.testCode;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.testCode}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
             },
             {
               dataField: 'testName',
               text: 'Test Name',
+              formatter: (cellContent, row) => {
+                const maxLength = 5;
+                const displayTestName =
+                  row.testName.length > maxLength
+                    ? row.testName.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.testName;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.testName}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
             },
             {
               dataField: 'confidential',
@@ -170,6 +206,18 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             {
               dataField: 'sampleType',
               text: 'Sample Type',
+              formatter: (cellContent, row) => {
+                const maxLength = 5;
+                const displayTestName =
+                  row.sampleType.length > maxLength
+                    ? row.sampleType.slice(0, Math.max(0, maxLength)) + '...'
+                    : row.sampleType;
+                return (
+                  <div className='flex flex-row'>
+                    <span title={row.sampleType}>{`${displayTestName}`}</span>
+                  </div>
+                );
+              },
             },
             {
               dataField: 'specimenId',

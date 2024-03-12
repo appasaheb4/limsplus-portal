@@ -1,9 +1,8 @@
-import {action, computed, makeObservable, observable} from 'mobx';
+import { action, computed, makeObservable, observable } from 'mobx';
 
 export class Store {
   private isLoading: boolean;
   flagLoading: boolean;
-
   constructor() {
     this.isLoading = false;
     this.flagLoading = true;

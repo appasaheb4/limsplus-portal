@@ -309,15 +309,17 @@ const SegmentMapping = SegmentMappingHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddSegmentMapping}
-            onClick={status => setHideAddSegmentMapping(!hideAddSegmentMapping)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddSegmentMapping}
+              onClick={() => setHideAddSegmentMapping(!hideAddSegmentMapping)}
+            />
+          )}
+        </div>
 
         <div className=' mx-auto flex-wrap'>
           <div

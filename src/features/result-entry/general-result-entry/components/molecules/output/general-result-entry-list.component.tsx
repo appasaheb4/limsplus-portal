@@ -122,17 +122,17 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'name',
               text: 'Patient Name',
               editable: false,
+              headerClasses: 'textHeaderm',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '130px',
+                position: 'relative',
+              },
               formatter: (cellContent, row) => {
-                const maxLength = 8;
-                const displayTestName =
-                  row.name.length > maxLength
-                    ? row.name.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.name;
-                return (
-                  <div className='flex flex-row'>
-                    <span title={row.name}>{`${displayTestName}`}</span>
-                  </div>
-                );
+                return <span title={row.name}>{cellContent}</span>;
               },
             },
             {

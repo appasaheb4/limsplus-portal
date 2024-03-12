@@ -85,10 +85,6 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
             alignItems: 'center',
             width: 60,
             height: 60,
-            position: 'fixed',
-            bottom: 60,
-            right: 40,
-            zIndex: 1,
           }}
           onClick={() => props.onClick(true)}
         >
@@ -103,10 +99,6 @@ export const ButtonCircleAddRemove: React.FunctionComponent<
             alignItems: 'center',
             width: 60,
             height: 60,
-            position: 'fixed',
-            bottom: 60,
-            right: 40,
-            zIndex: 1,
           }}
           onClick={() => props.onClick(false)}
         >
@@ -127,12 +119,8 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           style={{
             backgroundColor: '#007BFF',
             alignItems: 'center',
-            width: 60,
-            height: 60,
-            position: 'absolute',
-            bottom: props.style?.bottom || 60,
-            right: 40,
-            zIndex: 1,
+            width: 50,
+            height: 50,
           }}
           onClick={() => props.onClick(true)}
           isDisable={props.disabled || false}
@@ -146,12 +134,8 @@ export const ButtonCircleAddRemoveBottom: React.FunctionComponent<
           style={{
             backgroundColor: '#007BFF',
             alignItems: 'center',
-            width: 60,
-            height: 60,
-            position: 'absolute',
-            bottom: props.style?.bottom || 60,
-            right: 40,
-            zIndex: 1,
+            width: 50,
+            height: 50,
           }}
           onClick={() => props.onClick(false)}
         >

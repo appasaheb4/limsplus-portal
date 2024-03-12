@@ -537,7 +537,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                 </>
               ),
             },
-          
+
             {
               dataField: 'ageFrom',
               text: 'Age From',

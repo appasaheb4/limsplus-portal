@@ -54,6 +54,18 @@ export const PatientDemographicsList = observer(
                 text: 'Name',
                 sort: true,
                 editable: false,
+                headerClasses: 'textHeaderm',
+                style: {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  minWidth: 0,
+                  maxWidth: '130px',
+                  position: 'relative',
+                },
+                formatter: (cellContent, row) => (
+                  <span title={row.name}>{cellContent}</span>
+                ),
               },
               {
                 dataField: 'age',
@@ -73,9 +85,7 @@ export const PatientDemographicsList = observer(
                 sort: true,
                 editable: false,
                 formatter: (cell, row) => {
-                  return row?.dob
-                    ? dayjs(row.dob).format('DD-MM-YYYY HH:mm:ss')
-                    : '';
+                  return row.dob && dayjs(row.dob).format('DD-MM-YYYY');
                 },
               },
               {
@@ -101,6 +111,20 @@ export const PatientDemographicsList = observer(
                 text: 'Registration Location',
                 sort: true,
                 editable: false,
+                headerClasses: 'textHeaderl',
+                style: {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  minWidth: 0,
+                  maxWidth: '190px',
+                  position: 'relative',
+                },
+                formatter: (cellContent, row) => {
+                  return (
+                    <span title={row.registrationLocation}>{cellContent}</span>
+                  );
+                },
               },
               {
                 dataField: 'contactNo',

@@ -43,7 +43,7 @@ const InstResultMapping = observer(() => {
   } = useForm();
 
   const [modalImportFile, setModalImportFile] = useState({});
-  const [isInputView, setInputView] = useState<boolean>(false);
+  const [isInputView, setInputView] = useState<boolean>(true);
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [pLabs, setPLabs] = useState<Array<string>>();
@@ -329,12 +329,18 @@ const InstResultMapping = observer(() => {
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
-      {RouterFlow.checkPermission(toJS(routerStore.userPermission), 'Add') && (
-        <Buttons.ButtonCircleAddRemove
-          show={!isInputView}
-          onClick={status => setInputView(!isInputView)}
-        />
-      )}
+
+      <div
+        className='flex justify-end'
+        style={{ position: 'fixed', right: '17px', top: '130px' }}
+      >
+        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+          <Buttons.ButtonCircleAddRemoveBottom
+            show={isInputView}
+            onClick={() => setInputView(!isInputView)}
+          />
+        )}
+      </div>
 
       <div className=' mx-auto flex-wrap'>
         <div
@@ -445,6 +451,8 @@ const InstResultMapping = observer(() => {
             });
             global.filter = { mode: 'filter', type, filter, page, limit };
           }}
+          isInputView={isInputView}
+          setInputView={setInputView}
         />
       </div>
       <ModalImportFile

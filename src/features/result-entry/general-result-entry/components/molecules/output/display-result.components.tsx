@@ -11,6 +11,8 @@ import { observer } from 'mobx-react';
 import { FormHelper } from '@/helper';
 import { useStores } from '@/stores';
 import { useForm } from 'react-hook-form';
+import { Table } from 'reactstrap';
+import { FiArrowRightCircle } from 'react-icons/fi';
 interface DisplayResultProps {
   row: any;
   onSelect?: (item) => void;
@@ -25,6 +27,7 @@ export const DisplayResult = observer(
       generalResultEntryStore,
     } = useStores();
     const { control } = useForm();
+    const [selectedRowId, setSelectedRowId] = useState('');
     const [conclusionResult, setConclusionResult] = useState<Array<any>>();
     const [libraryList, setLibraryList] = useState<Array<any>>();
     const resultRef = useRef<any>();
@@ -137,36 +140,37 @@ export const DisplayResult = observer(
 
         {row.resultType === 'D' ? (
           !row?.result ? (
-            <select
-              name={`field-${row.index}`}
-              className={
-                'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-              }
-              onChange={e => {
-                const [fieldName, fieldIndex] = e.target.name.split('-');
-                const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                const nextfield: any = document.querySelector(
-                  `[name=field-${fieldIntIndex + 1}]`,
-                );
-                if (nextfield !== null) {
-                  nextfield.focus();
+            <>
+              <select
+                name={`field-${row.index}`}
+                className={
+                  'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                 }
-                const defaultItem = JSON.parse(e.target.value);
-                if (defaultItem) {
-                  onSelect &&
-                    onSelect({
-                      result: defaultItem.possibleValue,
-                      alpha: defaultItem.result,
-                      abnFlag: defaultItem.abNormal,
-                      critical: defaultItem.critical,
-                    });
-                }
-              }}
-            >
-              <option selected>Select</option>
-              {conclusionResult?.map((item: any, index: number) => (
-                <option key={index} value={JSON.stringify(item)}>
-                  {`Result: ${item.result} ,
+                onChange={e => {
+                  const [fieldName, fieldIndex] = e.target.name.split('-');
+                  const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+                  const nextfield: any = document.querySelector(
+                    `[name=field-${fieldIntIndex + 1}]`,
+                  );
+                  if (nextfield !== null) {
+                    nextfield.focus();
+                  }
+                  const defaultItem = JSON.parse(e.target.value);
+                  if (defaultItem) {
+                    onSelect &&
+                      onSelect({
+                        result: defaultItem.possibleValue,
+                        alpha: defaultItem.result,
+                        abnFlag: defaultItem.abNormal,
+                        critical: defaultItem.critical,
+                      });
+                  }
+                }}
+              >
+                <option selected>Select</option>
+                {conclusionResult?.map((item: any, index: number) => (
+                  <option key={index} value={JSON.stringify(item)}>
+                    {`Result: ${item.result} ,
                PossibleValue: ${item.possibleValue} ,
                Ab Normal: ${
                  item.abNormal ? (item.abNormal ? 'Yes' : 'No') : 'No'
@@ -174,9 +178,100 @@ export const DisplayResult = observer(
                Critical: ${
                  item.critical ? (item.critical ? 'Yes' : 'No') : 'No'
                }`}
-                </option>
-              ))}
-            </select>
+                  </option>
+                ))}
+              </select>
+
+              {/* <Tooltip
+                tooltipText={row._id != selectedRowId ? 'Expand' : 'Collapse'}
+              >
+                <Icons.IconContext
+                  color='#000000'
+                  size='20'
+                  onClick={() => {
+                    if (row._id === selectedRowId) {
+                      setSelectedRowId('');
+                    } else {
+                      setSelectedRowId(row._id);
+                    }
+                  }}
+                >
+                  {Icons.getIconTag(
+                    row._id != selectedRowId
+                      ? Icons.IconBi.BiExpand
+                      : Icons.IconBi.BiCollapse,
+                  )}
+                </Icons.IconContext>
+              </Tooltip>
+              {selectedRowId == row._id ? (
+                <>
+                  <div style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+                    <Table striped bordered>
+                      <thead>
+                        <tr className='p-0 text-xs'>
+                          <th className='text-white' style={{ minWidth: 70 }}>
+                            Result
+                          </th>
+                          <th className='text-white' style={{ minWidth: 70 }}>
+                            PossibleValue
+                          </th>
+                          <th className='text-white' style={{ minWidth: 50 }}>
+                            Ab Normal
+                          </th>
+                          <th className='text-white' style={{ minWidth: 50 }}>
+                            Critical
+                          </th>
+                          <th className='text-white sticky right-0 z-10'>
+                            Action
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className='text-xs'>
+                        {conclusionResult?.map((item, index) => {
+                          return (
+                            <>
+                              <tr>
+                                <td>{item.result}</td>
+                                <td>{item.possibleValue}</td>
+                                <td>
+                                  {item.abNormal
+                                    ? item.abNormal
+                                      ? 'Yes'
+                                      : 'No'
+                                    : 'No'}
+                                </td>
+                                <td>
+                                  {item.critical
+                                    ? item.critical
+                                      ? 'Yes'
+                                      : 'No'
+                                    : 'No'}
+                                </td>
+                                <td>
+                                  <FiArrowRightCircle
+                                    size={20}
+                                    onClick={() => {
+                                      const selectedValue =
+                                        JSON.stringify(item);
+                                      const defaultItem =
+                                        JSON.parse(selectedValue);
+                                      onSelect?.({
+                                        result: defaultItem.possibleValue,
+                                        alpha: defaultItem.result,
+                                        abnFlag: defaultItem.abNormal,
+                                        critical: defaultItem.critical,
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            </>
+                          );
+                        })}
+                      </tbody>
+                    </Table>
+                  </div> */}
+            </>
           ) : (
             <span>
               {row?.result?.split('\n').map((str, index) => (

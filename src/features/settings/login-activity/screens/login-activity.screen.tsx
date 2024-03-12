@@ -297,6 +297,7 @@ const LoginActivity = observer(() => {
               fileName='Login Activity'
               dynamicStylingFields={[]}
               hideExcelSheet={['_id']}
+              isShowCircleButton={false}
             />
           </div>
         </div>

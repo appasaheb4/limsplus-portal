@@ -33,6 +33,8 @@ interface InstResultMappingListProps {
   ) => void;
   getTestDetails?: (lab: string) => void;
   getAnalyteDetails?: (testCode: string) => void;
+  isInputView: boolean;
+  setInputView: any;
 }
 
 let key;
@@ -603,6 +605,8 @@ export const InstResultMappingList = observer(
           }}
           dynamicStylingFields={[]}
           hideExcelSheet={['operation', '_id', 'key']}
+          isHideForm={props.isInputView}
+          setHideForm={props.setInputView}
         />
       </div>
     );

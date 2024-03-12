@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { Container } from 'reactstrap';
 import { observer } from 'mobx-react';
 import { Form, Buttons, Icons, Svg } from '@/library/components';
+import { lookupValue } from '@/library/utils';
 
 interface ModalLookupValuesModifyProps {
   show?: boolean;
@@ -26,6 +27,41 @@ export const ModalLookupValuesModify = observer(
         defaultItems: props.defaultItems,
       });
     }, [props]);
+
+    const handleAddLookup = () => {
+      const { code, value, flagUpperCase } = localInput;
+
+      // Check if any of the input fields are empty
+      if (!code || !value) {
+        alert('Please fill in both value and code.');
+        return;
+      }
+
+      // Add the new department to the array
+      let updatedArrValues = [
+        ...(values.arrValues || []),
+        { code, value, flagUpperCase },
+      ];
+      updatedArrValues = updatedArrValues.map(
+        ({ code, value, flagUpperCase }) => ({
+          code,
+          value,
+          flagUpperCase,
+        }),
+      );
+
+      setValues({
+        ...values,
+        arrValues: updatedArrValues,
+      });
+
+      // Clear the input fields
+      setLocalInput({
+        value: '',
+        code: '',
+        flagUpperCase: false,
+      });
+    };
 
     return (
       <Container>
@@ -84,41 +120,7 @@ export const ModalLookupValuesModify = observer(
                         <Buttons.Button
                           size='medium'
                           type='solid'
-                          onClick={() => {
-                            const value = localInput?.value;
-                            const code = localInput?.code;
-                            const flagUpperCase = localInput?.flagUpperCase;
-                            let arrValue = values.arrValues || [];
-                            if (value === undefined || code === undefined)
-                              return alert('Please enter value and code.');
-                            if (value !== undefined) {
-                              arrValue !== undefined
-                                ? arrValue.push({
-                                    value,
-                                    code,
-                                    flagUpperCase,
-                                  })
-                                : (arrValue = [
-                                    {
-                                      value,
-                                      code,
-                                      flagUpperCase,
-                                    },
-                                  ]);
-                              arrValue = _.map(arrValue, o =>
-                                _.pick(o, ['code', 'value', 'flagUpperCase']),
-                              );
-                              setValues({
-                                ...value,
-                                arrValues: arrValue,
-                              });
-                              setLocalInput({
-                                value: '',
-                                code: '',
-                                flagUpperCase,
-                              });
-                            }
-                          }}
+                          onClick={handleAddLookup}
                         >
                           <Icons.EvaIcon icon='plus-circle-outline' />
                           {'Add'}
@@ -134,17 +136,15 @@ export const ModalLookupValuesModify = observer(
                             type='solid'
                             icon={Svg.Remove}
                             onClick={() => {
-                              const firstArr =
-                                values?.arrValues?.slice(0, index) || [];
-                              const secondArr =
-                                values?.arrValues?.slice(index + 1) || [];
-                              let finalArray = [...firstArr, ...secondArr];
-                              finalArray = _.map(finalArray, o =>
-                                _.pick(o, ['code', 'value', 'flagUpperCase']),
-                              );
-                              setValues({
-                                ...values,
-                                arrValues: finalArray,
+                              setValues(prevValues => {
+                                const updatedLookup =
+                                  prevValues.arrValues.filter(
+                                    (_: any, i) => i !== index,
+                                  );
+                                return {
+                                  ...prevValues,
+                                  arrValues: updatedLookup,
+                                };
                               });
                             }}
                           >
@@ -163,6 +163,7 @@ export const ModalLookupValuesModify = observer(
                           className={
                             'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                           }
+                          // value={lookupValue(values.defaultItem)}
                           onChange={e => {
                             if (e.target.value === 'removeItem') {
                               setValues({

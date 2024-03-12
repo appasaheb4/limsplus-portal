@@ -87,6 +87,7 @@ const App = () => {
     eventEmitter.emit('loadApi', {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
       <Toast
@@ -136,7 +137,7 @@ const App = () => {
         >
           <Alert severity='error'>{process.env.REACT_APP_ENV}</Alert>
         </Snackbar>
-        {stores.flagLoading && stores.loading && <ModalLoader />}
+        {stores.loading && <ModalLoader />}
       </ApolloProvider>
     </>
   );

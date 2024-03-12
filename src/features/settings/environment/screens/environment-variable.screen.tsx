@@ -126,13 +126,14 @@ export const EnvironmentVariable = observer(
     };
     return (
       <>
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemoveBottom
-            style={{ bottom: 40 }}
-            show={hideInputView}
-            onClick={() => setHideInputView(!hideInputView)}
-          />
-        )}
+        <div className='flex justify-end'>
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideInputView}
+              onClick={() => setHideInputView(!hideInputView)}
+            />
+          )}
+        </div>
         <div
           className={
             'p-1 rounded-lg shadow-xl ' + (hideInputView ? 'hidden' : 'shown')

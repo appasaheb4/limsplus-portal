@@ -371,12 +371,17 @@ export const PossibleResults = PossibleResultHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddLookup}
-            onClick={() => setHideAddLookup(!hideAddLookup)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddLookup}
+              onClick={() => setHideAddLookup(!hideAddLookup)}
+            />
+          )}
+        </div>
         <div className='mx-auto'>
           <div
             className={

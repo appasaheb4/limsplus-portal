@@ -53,7 +53,7 @@ const TestSampleMapping = TestSampleMappingHoc(
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
-    const [hideAddLab, setHideAddLab] = useState<boolean>(false);
+    const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
@@ -321,19 +321,22 @@ const TestSampleMapping = TestSampleMappingHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={!hideAddLab}
-            onClick={() => setHideAddLab(!hideAddLab)}
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddLab}
+              onClick={() => setHideAddLab(!hideAddLab)}
+            />
+          )}
+        </div>
+
         <div className='mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'shown' : 'hidden')
+              'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
             <ManualImportTabs

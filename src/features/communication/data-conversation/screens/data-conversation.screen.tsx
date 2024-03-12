@@ -71,17 +71,19 @@ const DataConversation = DataConversationHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-        {RouterFlow.checkPermission(
-          toJS(routerStore.userPermission),
-          'Add',
-        ) && (
-          <Buttons.ButtonCircleAddRemove
-            show={hideAddDataConversation}
-            onClick={status =>
-              setHideAddDataConversation(!hideAddDataConversation)
-            }
-          />
-        )}
+        <div
+          className='flex justify-end'
+          style={{ position: 'fixed', right: '17px', top: '130px' }}
+        >
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+            <Buttons.ButtonCircleAddRemoveBottom
+              show={hideAddDataConversation}
+              onClick={() =>
+                setHideAddDataConversation(!hideAddDataConversation)
+              }
+            />
+          )}
+        </div>
         <div className=' mx-auto  flex-wrap'>
           <div
             className={
