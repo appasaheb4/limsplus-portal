@@ -8,6 +8,7 @@ import {
   customFilter,
 } from '@/library/components';
 import dayjs from 'dayjs';
+import _ from 'lodash';
 
 import { TableBootstrap } from './table-bootstrap.components';
 import { RefRanges } from '../result/ref-ranges.component';
@@ -32,7 +33,7 @@ interface PanelApprovalListProps {
   selectedItems?: any;
   filterRecord?: string;
   onSelectedRow?: (selectedItem: any, type: string) => void;
-  onUpdateFields?: (fields: any, id: string) => void;
+  onUpdateFields?: (fields: any, id: string[]) => void;
   onUpdateResult?: (fields: any, id: string) => void;
   onExpand?: (items: any) => void;
   onRecheck?: (id: string, patientResultId: string) => void;
@@ -60,30 +61,34 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
   const [conclusionId, setWidthConculsionId] = useState('');
 
   useEffect(() => {
-    const filterDataByHoldRecord = (data, holdRecord) => {
-      if (holdRecord === 'Pending') {
-        return data.filter(item => item.approvalStatus === 'Pending');
-      } else if (holdRecord === 'Done') {
-        return data.filter(item => item.approvalStatus === 'Done');
-      } else {
-        return data;
-      }
-    };
-    setSelectId(props.selectedId || '');
-    setLocalData(
-      props.selectedId
-        ? props.data
-            ?.filter(item => item._id === props.selectedId)
-            ?.map(item => ({ ...item, selectedId: props.selectedId }))
-        : filterDataByHoldRecord(props.data, props.filterRecord),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedId, props.data, props.filterRecord]);
+    setLocalData(JSON.parse(JSON.stringify(props.data)));
+  }, [props.data, props.selectedId]);
 
-  useEffect(() => {
-    setLocalData(JSON.parse(JSON.stringify(localData)));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedRowId]);
+  // useEffect(() => {
+  //   const filterDataByHoldRecord = (data, holdRecord) => {
+  //     if (holdRecord === 'Pending') {
+  //       return data.filter(item => item.approvalStatus === 'Pending');
+  //     } else if (holdRecord === 'Done') {
+  //       return data.filter(item => item.approvalStatus === 'Done');
+  //     } else {
+  //       return data;
+  //     }
+  //   };
+  //   setSelectId(props.selectedId || '');
+  //   setLocalData(
+  //     props.selectedId
+  //       ? props.data
+  //           ?.filter(item => item._id === props.selectedId)
+  //           ?.map(item => ({ ...item, selectedId: props.selectedId }))
+  //       : filterDataByHoldRecord(props.data, props.filterRecord),
+  //   );
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [props.selectedId, props.data, props.filterRecord]);
+
+  // useEffect(() => {
+  //   setLocalData(JSON.parse(JSON.stringify(localData)));
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [selectedRowId]);
 
   return (
     <>
@@ -104,29 +109,18 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               text: 'Lab Id',
               sort: true,
               editable: false,
-            },
-            {
-              dataField: 'sampleId',
-              text: 'Sample Id',
-              sort: true,
-              editable: false,
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.labId}</span>;
+              },
             },
             {
               dataField: 'panel',
               text: 'Panel',
               sort: true,
               editable: false,
-              formatter: (cellContent, row) => {
-                const maxLength = 8;
-                const displayTestName =
-                  row.panel.length > maxLength
-                    ? row.panel.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.panel;
-                return (
-                  <div className='flex flex-row'>
-                    <span title={row.panel}>{`${displayTestName}`}</span>
-                  </div>
-                );
+              headerClasses: 'textHeaderl',
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.panel}</span>;
               },
             },
             {
@@ -135,8 +129,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               sort: true,
               editable: false,
               formatter: (cell, row) => {
-                return row?.dueDate
-                  ? dayjs(row.dueDate).format('DD-MM-YYYY HH:mm:ss')
+                return row[1][0]?.dueDate
+                  ? dayjs(row[1][0]?.dueDate).format('DD-MM-YYYY HH:mm:ss')
                   : '';
               },
             },
@@ -146,68 +140,61 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               text: 'Status',
               sort: true,
               editable: false,
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.status}</span>;
+              },
             },
-            {
-              dataField: 'sampleType',
-              text: 'Sample Type',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'containerId',
-              text: 'Container Id',
-              sort: true,
-              editable: false,
-            },
+
             {
               dataField: 'comments',
               text: 'Comments',
               sort: true,
               editable: false,
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.comments}</span>;
+              },
             },
             {
               dataField: 'pLab',
               text: 'PLab',
               sort: true,
               editable: false,
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.pLab}</span>;
+              },
             },
             {
               dataField: 'department',
               text: 'Department',
               sort: true,
               editable: false,
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.department}</span>;
+              },
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              editable: false,
-            },
-            {
-              text: 'Environment',
-              dataField: 'environment',
-              editable: false,
-              sort: true,
-            },
-
             {
               dataField: 'approvalStatus',
               text: 'Action',
               sort: true,
               editable: false,
               formatter: (cellContent, row) => (
-                <div className='flex flex-row gap-1' key={row?._id}>
+                <div className='flex flex-row gap-1' key={row[1][0]?._id}>
                   {props.isApproval && (
                     <>
                       <Tooltip tooltipText='Approved'>
                         <Icons.IconContext
                           color='#fff'
                           size='20'
+                          isDisable={
+                            row[1][0]?.approvalStatus == 'Hold' ? true : false
+                          }
                           onClick={() => {
                             props.onUpdateFields &&
                               props.onUpdateFields(
-                                { approvalStatus: 'Approved' },
-                                row._id,
+                                {
+                                  approvalStatus: 'Approved',
+                                },
+                                _.map(row[1], '_id'),
                               );
                             props.onExpand && props.onExpand('');
                           }}
@@ -215,33 +202,57 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                           {Icons.getIconTag(Icons.Iconai.AiFillCheckCircle)}
                         </Icons.IconContext>
                       </Tooltip>
-                      <Tooltip tooltipText='Rejected'>
+                      <Tooltip
+                        tooltipText={`${
+                          row[1][0]?.approvalStatus == 'Hold'
+                            ? 'Pending'
+                            : 'Hold'
+                        } `}
+                      >
                         <Icons.IconContext
                           color='#fff'
                           size='20'
                           onClick={() => {
                             props.onUpdateFields &&
                               props.onUpdateFields(
-                                { approvalStatus: 'Rejected' },
-                                row._id,
+                                {
+                                  approvalStatus:
+                                    row[1][0]?.approvalStatus == 'Hold'
+                                      ? 'Pending'
+                                      : 'Hold',
+                                },
+                                _.map(row[1], '_id'),
                               );
                           }}
                         >
-                          {Icons.getIconTag(Icons.Iconai.AiFillCloseCircle)}
+                          {row[1][0]?.approvalStatus == 'Hold'
+                            ? Icons.getIconTag(Icons.Iconmd.MdOutlinePending)
+                            : Icons.getIconTag(Icons.Iconmd.MdBackHand)}
                         </Icons.IconContext>
                       </Tooltip>
                       <Tooltip tooltipText='Recheck'>
                         <Icons.IconContext
                           color='#fff'
                           size='20'
+                          isDisable={
+                            row[1][0]?.approvalStatus == 'Hold' ? true : false
+                          }
                           onClick={() => {
                             props.onRecheck &&
-                              props.onRecheck(row?._id, row?.patientResultId);
+                              props.onRecheck(
+                                row[1][0]?._id,
+                                row[1][0]?.patientResultId,
+                              );
                           }}
                         >
                           <Icons.RIcon
                             nameIcon='GoIssueReopened'
-                            propsIcon={{ color: '#ffffff' }}
+                            propsIcon={{
+                              color:
+                                row[1][0]?.approvalStatus == 'Hold'
+                                  ? '#808080'
+                                  : '#ffffff',
+                            }}
                           />
                         </Icons.IconContext>
                       </Tooltip>
@@ -249,20 +260,31 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                         <Icons.IconContext
                           color='#fff'
                           size='20'
+                          isDisable={
+                            row[1][0]?.approvalStatus == 'Hold' ? true : false
+                          }
                           onClick={() => {
                             props.onRetest &&
-                              props.onRetest(row?._id, row?.patientResultId);
+                              props.onRetest(
+                                row[1][0]?._id,
+                                row[1][0]?.patientResultId,
+                              );
                           }}
                         >
                           <Icons.RIcon
-                            nameIcon='VscIssueReopened'
-                            propsIcon={{ color: '#ffffff' }}
+                            nameIcon='TbBrandSpeedtest'
+                            propsIcon={{
+                              color:
+                                row[1][0]?.approvalStatus == 'Hold'
+                                  ? '#808080'
+                                  : '#ffffff',
+                            }}
                           />
                         </Icons.IconContext>
                       </Tooltip>
                     </>
                   )}
-                  {selectId == row._id ? (
+                  {selectId == row[1][0]._id ? (
                     <Tooltip tooltipText='Expand'>
                       <Icons.IconContext
                         color='#fff'
@@ -280,7 +302,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                         color='#fff'
                         size='20'
                         onClick={() => {
-                          props.onExpand && props.onExpand(row);
+                          props.onExpand && props.onExpand(row[1][0]);
                         }}
                       >
                         {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
@@ -319,6 +341,13 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
           }}
           onFilterRecord={item => {
             props.onFilterRecord && props.onFilterRecord(item);
+          }}
+          // diff action to handle
+          // onUpdateFields={(fields: any, id: string) => {
+          //   props.onUpdateFields && props.onUpdateFields({ ...fields }, id);
+          // }}
+          onUpdateResult={(id, fields) => {
+            props.onUpdateResult && props.onUpdateResult(id, fields);
           }}
         />
       </div>

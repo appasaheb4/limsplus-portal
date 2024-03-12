@@ -152,18 +152,18 @@ export const PatientDemographicsList = observer(
                   );
                 },
               },
-              {
-                text: 'Company Code',
-                dataField: 'companyCode',
-                sort: true,
-                editable: false,
-              },
-              {
-                text: 'Environment',
-                dataField: 'environment',
-                editable: false,
-                sort: true,
-              },
+              // {
+              //   text: 'Company Code',
+              //   dataField: 'companyCode',
+              //   sort: true,
+              //   editable: false,
+              // },
+              // {
+              //   text: 'Environment',
+              //   dataField: 'environment',
+              //   editable: false,
+              //   sort: true,
+              // },
             ]}
             isEditModify={props.isEditModify}
             isSelectRow={true}

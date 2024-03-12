@@ -339,7 +339,6 @@ export const ExtraDataPatientVisitList = observer(
                   <DateRangeFilter onFilter={onFilter} column={column} />
                 ),
                 formatter: (cell, row) => {
-                  console.log({ row });
                   return (
                     <>
                       {row.extraData?.receivedDate
