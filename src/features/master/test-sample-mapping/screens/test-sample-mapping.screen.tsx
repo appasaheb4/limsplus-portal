@@ -196,8 +196,6 @@ const TestSampleMapping = TestSampleMappingHoc(
               id,
             });
           }}
-          isHideAddLab={hideAddLab}
-          setHideAddLab={setHideAddLab}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
