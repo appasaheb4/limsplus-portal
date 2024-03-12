@@ -19,6 +19,7 @@ import {
 import { Confirm } from '@/library/models';
 import { AutoCompleteFilterSingleSelectAnalyteCode } from '../index';
 import { AutoCompleteCompanyList } from '@/core-components';
+import { Table } from 'reactstrap';
 let analyteCode;
 let analyteName;
 let conclusionResult;
@@ -205,26 +206,51 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                 )}
                 {selectedRowId == row._id && (
                   <>
-                    <div
-                      style={{ width: widthRefBox }}
-                      className='flex flex-wrap max-w-2xl overflow-scroll'
-                    >
-                      <List space={2} justify='center'>
-                        {row.conclusionResult.map(item => (
-                          <div className='mb-2'>
-                            <Buttons.Button
-                              size='medium'
-                              type='solid'
-                              onClick={() => {}}
-                            >
-                              {`Result: ${item.result}
-                         PossibleValue: ${item.possibleValue}
-                         Ab Normal: ${item.abNormal}
-                         Critical: ${item.critical}`}
-                            </Buttons.Button>
-                          </div>
-                        ))}
-                      </List>
+                    <div style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+                      <Table striped bordered>
+                        <thead>
+                          <tr className='p-0 text-xs'>
+                            <th className='text-white' style={{ minWidth: 70 }}>
+                              Result
+                            </th>
+                            <th className='text-white' style={{ minWidth: 70 }}>
+                              PossibleValue
+                            </th>
+                            <th className='text-white' style={{ minWidth: 50 }}>
+                              Ab Normal
+                            </th>
+                            <th className='text-white' style={{ minWidth: 50 }}>
+                              Critical
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className='text-xs'>
+                          {row?.conclusionResult?.map((item, index) => {
+                            return (
+                              <>
+                                <tr>
+                                  <td>{item.result}</td>
+                                  <td>{item.possibleValue}</td>
+                                  <td>
+                                    {item.abNormal
+                                      ? item.abNormal
+                                        ? 'Yes'
+                                        : 'No'
+                                      : 'No'}
+                                  </td>
+                                  <td>
+                                    {item.critical
+                                      ? item.critical
+                                        ? 'Yes'
+                                        : 'No'
+                                      : 'No'}
+                                  </td>
+                                </tr>
+                              </>
+                            );
+                          })}
+                        </tbody>
+                      </Table>
                     </div>
                   </>
                 )}

@@ -54,18 +54,18 @@ export const PatientDemographicsList = observer(
                 text: 'Name',
                 sort: true,
                 editable: false,
-                formatter: (cellContent, row) => {
-                  const maxLength = 8;
-                  const displayTestName =
-                    row.name.length > maxLength
-                      ? row.name.slice(0, Math.max(0, maxLength)) + '...'
-                      : row.name;
-                  return (
-                    <div className='flex flex-row'>
-                      <span title={row.name}>{`${displayTestName}`}</span>
-                    </div>
-                  );
+                headerClasses: 'textHeaderm',
+                style: {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  minWidth: 0,
+                  maxWidth: '130px',
+                  position: 'relative',
                 },
+                formatter: (cellContent, row) => (
+                  <span title={row.name}>{cellContent}</span>
+                ),
               },
               {
                 dataField: 'age',
@@ -111,21 +111,18 @@ export const PatientDemographicsList = observer(
                 text: 'Registration Location',
                 sort: true,
                 editable: false,
+                headerClasses: 'textHeaderl',
+                style: {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  minWidth: 0,
+                  maxWidth: '190px',
+                  position: 'relative',
+                },
                 formatter: (cellContent, row) => {
-                  const maxLength = 15;
-                  const displayTestName =
-                    row.registrationLocation.length > maxLength
-                      ? row.registrationLocation.slice(
-                          0,
-                          Math.max(0, maxLength),
-                        ) + '...'
-                      : row.registrationLocation;
                   return (
-                    <div className='flex flex-row'>
-                      <span
-                        title={row.registrationLocation}
-                      >{`${displayTestName}`}</span>
-                    </div>
+                    <span title={row.registrationLocation}>{cellContent}</span>
                   );
                 },
               },

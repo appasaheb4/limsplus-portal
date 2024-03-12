@@ -1,10 +1,8 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {
-  Form,
-} from '@/library/components';
-import {Confirm} from '@/library/models';
-import {TableBootstrap} from './table-bootstrap.components';
+import { observer } from 'mobx-react';
+import { Form } from '@/library/components';
+import { Confirm } from '@/library/models';
+import { TableBootstrap } from './table-bootstrap.components';
 
 interface OrderDeliveredProps {
   data: any;
@@ -26,7 +24,7 @@ interface OrderDeliveredProps {
 export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
   return (
     <>
-      <div style={{position: 'relative'}}>
+      <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
           data={props.data}
@@ -67,6 +65,18 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               text: 'Panel Name',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderA',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '40px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return <span title={row.panelName}>{cellContent}</span>;
+              },
             },
             {
               dataField: 'testCode',
@@ -80,6 +90,17 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '40px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return <span title={row.testName}>{cellContent}</span>;
+              },
             },
             {
               dataField: 'analyteCode',
@@ -94,6 +115,17 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '40px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return <span title={row.analyteName}>{cellContent}</span>;
+              },
             },
             {
               dataField: 'rep',
