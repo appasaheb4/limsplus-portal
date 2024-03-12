@@ -424,12 +424,23 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   clientName = filter;
                 },
               }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return <span title={row.clientName}>{cellContent}</span>;
+              },
             },
             {
               dataField: 'registrationLocation',
@@ -441,7 +452,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader8',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   registrationLocation = filter;
@@ -458,7 +469,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader8',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   registrationLocationCode = filter;
@@ -475,7 +486,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   doctorCode = filter;
@@ -492,7 +503,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   doctorName = filter;

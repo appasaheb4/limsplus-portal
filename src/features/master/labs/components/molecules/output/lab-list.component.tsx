@@ -162,7 +162,6 @@ export const LabList = (props: LabListProps) => {
             {
               dataField: 'postalCode',
               text: 'Postal Code',
-
               sort: true,
               headerClasses: 'textHeader2',
               headerStyle: {
