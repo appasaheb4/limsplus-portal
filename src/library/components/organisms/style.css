@@ -73,6 +73,10 @@ th {
 }
 .react-bootstrap-table .textHeader {
   min-width: 250px;
+  white-space: 'nowrap';
+  overflow: 'hidden';
+  text-overflow: 'ellipsis';
+  cursor: 'pointer';
 }
 
 .react-bootstrap-table .textHeader1 {
