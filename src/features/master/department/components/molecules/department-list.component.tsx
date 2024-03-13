@@ -143,7 +143,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
           {
             dataField: 'name',
             text: 'Name',
-            headerClasses: 'textHeader1',
+            headerClasses: 'textHeader',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -155,7 +155,18 @@ export const DepartmentList = (props: DepartmentListProps) => {
               },
             }),
             editorStyle: { textTransform: 'uppercase' },
-            style: { textTransform: 'uppercase' },
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.name}>{cellContent}</span>
+            ),
             editable: false,
           },
           {

@@ -14,6 +14,7 @@ import { TableBootstrap } from '../organsims/table-bootstrap.component';
 import { Confirm } from '@/library/models';
 import { dashboardRouter as dashboardRoutes } from '@/routes';
 import { AutoCompleteCompanyList } from '@/core-components';
+import { Table } from 'reactstrap';
 let router = dashboardRoutes;
 
 let documentName;
@@ -192,7 +193,43 @@ export const LookupList = (props: LookupListProps) => {
             editable: false,
             formatter: (cellContent, row) => (
               <>
-                <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
+                <div style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+                  <Table striped bordered>
+                    <thead>
+                      <tr className='p-0 text-xs'>
+                        <th className='text-white' style={{ minWidth: 70 }}>
+                          Code
+                        </th>
+                        <th className='text-white' style={{ minWidth: 70 }}>
+                          Value
+                        </th>
+                        <th className='text-white' style={{ minWidth: 50 }}>
+                          Flag Uppercase
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className='text-xs'>
+                      {row?.arrValue?.map((item, index) => {
+                        return (
+                          <>
+                            <tr>
+                              <td>{lookupValue(item)}</td>
+                              <td>{lookupValue(item)}</td>
+                              <td>
+                                {item.flagUpperCase
+                                  ? item.flagUpperCase
+                                    ? 'Yes'
+                                    : 'No'
+                                  : 'No'}
+                              </td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
+                {/* <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
                   {row.arrValue.map(item => (
                     <div className='mb-2'>
                       <Buttons.Button
@@ -211,18 +248,30 @@ export const LookupList = (props: LookupListProps) => {
                       </Buttons.Button>
                     </div>
                   ))}
-                </div>
+                </div> */}
               </>
             ),
           },
           {
             dataField: 'description',
             text: 'Description',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeader',
             sort: true,
             headerStyle: {
               fontSize: 0,
             },
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.description}>{cellContent}</span>
+            ),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),

@@ -111,7 +111,18 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            style: { textTransform: 'uppercase' },
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.description}>{cellContent}</span>
+            ),
             editorStyle: { textTransform: 'uppercase' },
             sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
