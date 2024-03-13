@@ -84,6 +84,7 @@ export const PatientDemographicsList = observer(
                 text: 'DOB',
                 sort: true,
                 editable: false,
+                headerClasses: 'textHeaderm',
                 formatter: (cell, row) => {
                   return row.dob && dayjs(row.dob).format('DD-MM-YYYY');
                 },
