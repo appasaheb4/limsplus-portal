@@ -80,13 +80,24 @@ export const DeginisationList = (props: DeginisationListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.description}>{cellContent}</span>
+            ),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
               getFilter: filter => {
                 description = filter;
               },
             }),
-            style: { textTransform: 'uppercase' },
             editorStyle: { textTransform: 'uppercase' },
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },

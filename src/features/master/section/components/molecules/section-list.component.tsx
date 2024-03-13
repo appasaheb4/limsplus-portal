@@ -127,11 +127,23 @@ export const SectionList = (props: SectionListProps) => {
           {
             dataField: 'name',
             text: 'Name',
-            headerClasses: 'textHeader1',
+            headerClasses: 'textHeader',
             sort: true,
             headerStyle: {
               fontSize: 0,
             },
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.name}>{cellContent}</span>
+            ),
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -140,7 +152,6 @@ export const SectionList = (props: SectionListProps) => {
               },
             }),
             editorStyle: { textTransform: 'uppercase' },
-            style: { textTransform: 'uppercase' },
             editable: false,
           },
           {

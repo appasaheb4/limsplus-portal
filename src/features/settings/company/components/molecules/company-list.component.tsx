@@ -129,6 +129,18 @@ export const CompanyList = (props: CompanyListProps) => {
             headerStyle: {
               fontSize: 0,
             },
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.name}>{cellContent}</span>
+            ),
             editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
@@ -145,7 +157,18 @@ export const CompanyList = (props: CompanyListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            style: { textTransform: 'uppercase' },
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.description}>{cellContent}</span>
+            ),
             editorStyle: { textTransform: 'uppercase' },
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),

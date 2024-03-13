@@ -77,6 +77,18 @@ export const RoleList = (props: RoleListProps) => {
           headerStyle: {
             fontSize: 0,
           },
+          style: {
+            textTransform: 'uppercase',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            minWidth: 0,
+            maxWidth: '250px',
+            position: 'relative',
+          },
+          formatter: (cellContent, row) => (
+            <span title={row.description}>{cellContent}</span>
+          ),
           headerClasses: 'textHeader',
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
@@ -85,7 +97,6 @@ export const RoleList = (props: RoleListProps) => {
             },
           }),
           editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-          style: { textTransform: 'uppercase' },
           editorStyle: { textTransform: 'uppercase' },
         },
         {
