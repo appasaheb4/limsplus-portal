@@ -23,6 +23,7 @@ import {
   AutoCompleteFilterSingleSelectContainerName,
   AutoCompleteFilterSingleSelectDepartment,
 } from '../index';
+import { Table } from 'reactstrap';
 
 let testCode;
 let sampleCode;
@@ -614,25 +615,56 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               // }),
               formatter: (cellContent, row) => (
                 <>
-                  <List space={2} direction='row' justify='center'>
-                    {row.sharedSample && (
-                      <>
-                        {row.departments?.map(item => (
-                          <div className='mb-2'>
-                            <Buttons.Button
-                              size='medium'
-                              type='solid'
-                              onClick={() => {}}
-                            >
-                              {`Department: ${item.code} - ${item.name}`}
-                              {` Prefrence: ${item.prefrence}`}
-                              {` Tat In Min: ${item.tatInMin}`}
-                            </Buttons.Button>
-                          </div>
-                        ))}
-                      </>
-                    )}
-                  </List>
+                  {row.departments?.length > 1 && (
+                    <>
+                      <div style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+                        <Table striped bordered>
+                          <thead>
+                            <tr className='p-0 text-xs'>
+                              <th
+                                className='text-white'
+                                style={{ minWidth: 70 }}
+                              >
+                                Code
+                              </th>
+                              <th
+                                className='text-white'
+                                style={{ minWidth: 70 }}
+                              >
+                                Value
+                              </th>
+                              <th
+                                className='text-white'
+                                style={{ minWidth: 50 }}
+                              >
+                                Prefrence
+                              </th>
+                              <th
+                                className='text-white'
+                                style={{ minWidth: 50 }}
+                              >
+                                Tat In Min
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody className='text-xs'>
+                            {row?.departments?.map((item, index) => {
+                              return (
+                                <>
+                                  <tr>
+                                    <td>{item.code}</td>
+                                    <td>{item.name}</td>
+                                    <td>{item.prefrence}</td>
+                                    <td>{item.tatInMin}</td>
+                                  </tr>
+                                </>
+                              );
+                            })}
+                          </tbody>
+                        </Table>
+                      </div>
+                    </>
+                  )}
                 </>
               ),
             },

@@ -49,12 +49,6 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               editable: false,
             },
             {
-              dataField: 'orderId',
-              text: 'Order Id',
-              sort: true,
-              editable: false,
-            },
-            {
               dataField: 'panelCode',
               text: 'Panel Code',
               sort: true,
