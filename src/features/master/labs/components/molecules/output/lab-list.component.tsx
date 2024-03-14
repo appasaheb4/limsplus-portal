@@ -144,13 +144,22 @@ export const LabList = (props: LabListProps) => {
               dataField: 'name',
               text: 'Name',
               sort: true,
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader',
               headerStyle: {
                 fontSize: 0,
               },
               style: {
                 textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
               },
+              formatter: (cellContent, row) => (
+                <span title={row.name}>{cellContent}</span>
+              ),
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
                 getFilter: filter => {

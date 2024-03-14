@@ -414,8 +414,8 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center gap-2 flex-wrap justify-between'>
-                <div className='flex items-center  gap-2 flex-wrap'>
+              <div className='flex items-center gap-1 flex-wrap justify-between'>
+                <div className='flex items-center flex-wrap'>
                   <SearchBar
                     {...searchProps}
                     {...props.searchProps}
@@ -424,7 +424,7 @@ export const TableBootstrap = ({
                     }}
                   />
                   <ClearSearchButton
-                    className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    className={`inline-flex ml-2 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
                     {...props.searchProps}
                   />
                   <button
@@ -463,7 +463,7 @@ export const TableBootstrap = ({
                       <Icons.IconFa.FaChevronDown />
                     </Buttons.Button>
                   )}
-                  <div className='flex gap-4'>
+                  <div className='flex gap-2'>
                     {statusData.map(status => (
                       <button
                         key={status.code}

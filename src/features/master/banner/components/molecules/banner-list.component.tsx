@@ -63,10 +63,10 @@ export const BannerList = (props: BannerListProps) => {
             dataField: 'title',
             text: 'Title',
             sort: true,
-            headerClasses: 'textHeader',
             headerStyle: {
               fontSize: 0,
             },
+            headerClasses: 'textHeader',
             style: {
               whiteSpace: 'nowrap',
               overflow: 'hidden',
@@ -75,10 +75,10 @@ export const BannerList = (props: BannerListProps) => {
               maxWidth: '250px',
               position: 'relative',
             },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cellContent, row) => (
               <span title={row.title}>{cellContent}</span>
             ),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
               getFilter: filter => {

@@ -284,16 +284,46 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             }),
             formatter: (cellContent, row) => (
               <>
-                {row?.defaultConclusion && (
-                  <label>
-                    {`Result: ${row.defaultConclusion.result || ''} 
-                       PossibleValue: ${
-                         row.defaultConclusion.possibleValue || ''
-                       }
-                       Ab Normal: ${row.defaultConclusion.abNormal || false}
-                       Critical: ${row.defaultConclusion.critical || false}`}
-                  </label>
-                )}
+                <Table striped bordered>
+                  <thead>
+                    <tr className='p-0 text-xs'>
+                      <th className='text-white' style={{ minWidth: 70 }}>
+                        Result
+                      </th>
+                      <th className='text-white' style={{ minWidth: 70 }}>
+                        PossibleValue
+                      </th>
+                      <th className='text-white' style={{ minWidth: 50 }}>
+                        Ab Normal
+                      </th>
+                      <th className='text-white' style={{ minWidth: 50 }}>
+                        Critical
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className='text-xs'>
+                    <>
+                      <tr>
+                        <td>{row.defaultConclusion.result}</td>
+                        <td>{row.defaultConclusion.possibleValue}</td>
+                        <td>
+                          {row.defaultConclusion.abNormal
+                            ? row.defaultConclusion.abNormal
+                              ? 'Yes'
+                              : 'No'
+                            : 'No'}
+                        </td>
+                        <td>
+                          {row.defaultConclusion.critical
+                            ? row.defaultConclusion.critical
+                              ? 'Yes'
+                              : 'No'
+                            : 'No'}
+                        </td>
+                      </tr>
+                    </>
+                  </tbody>
+                </Table>
               </>
             ),
             editorRenderer: (
