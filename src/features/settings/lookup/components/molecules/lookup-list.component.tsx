@@ -216,11 +216,10 @@ export const LookupList = (props: LookupListProps) => {
                               <td>{lookupValue(item)}</td>
                               <td>{lookupValue(item)}</td>
                               <td>
-                                {item.flagUpperCase
-                                  ? item.flagUpperCase
-                                    ? 'Yes'
-                                    : 'No'
-                                  : 'No'}
+                                <Form.Toggle
+                                  disabled={true}
+                                  value={item.flagUpperCase}
+                                />
                               </td>
                             </tr>
                           </>
