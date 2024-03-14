@@ -195,7 +195,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeaderm',
               filter: customFilter({
                 getFilter: filter => {
                   deliveryDate = filter;
@@ -223,7 +223,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeaderm',
               filter: customFilter({
                 getFilter: filter => {
                   reportDate = filter;
@@ -345,7 +345,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeaderm',
               filter: customFilter({
                 getFilter: filter => {
                   startDate = filter;
@@ -373,7 +373,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeaderm',
               filter: customFilter({
                 getFilter: filter => {
                   endDate = filter;
@@ -402,7 +402,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   errorMsg = filter;

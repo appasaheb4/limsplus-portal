@@ -59,13 +59,13 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               text: 'Panel Name',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderA',
+              headerClasses: 'textHeadersxm',
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 minWidth: 0,
-                maxWidth: '40px',
+                maxWidth: '150px',
                 position: 'relative',
               },
               formatter: (cellContent, row) => {
@@ -82,6 +82,7 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               dataField: 'testName',
               text: 'Test Name',
               sort: true,
+              headerClasses: 'textHeadersxm',
               csvFormatter: col => (col ? col : ''),
               editable: false,
               style: {
@@ -89,7 +90,7 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 minWidth: 0,
-                maxWidth: '40px',
+                maxWidth: '150px',
                 position: 'relative',
               },
               formatter: (cellContent, row) => {
@@ -107,6 +108,7 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
               dataField: 'analyteName',
               text: 'Analyte Name',
               sort: true,
+              headerClasses: 'textHeadersxm',
               csvFormatter: col => (col ? col : ''),
               editable: false,
               style: {
@@ -114,7 +116,7 @@ export const OrderDeliveredList = observer((props: OrderDeliveredProps) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 minWidth: 0,
-                maxWidth: '40px',
+                maxWidth: '150px',
                 position: 'relative',
               },
               formatter: (cellContent, row) => {

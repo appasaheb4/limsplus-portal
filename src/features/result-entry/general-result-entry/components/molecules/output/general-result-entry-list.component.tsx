@@ -157,13 +157,21 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Analyte Code - Name',
               editable: false,
               headerClasses: 'textHeader',
-              formatter: (cellContent, row) => (
-                <>
-                  <div className='flex flex-row'>
-                    {`${row.analyteCode} - ${row.analyteName}`}
-                  </div>
-                </>
-              ),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return (
+                  <span title={`${row.analyteCode} - ${row.analyteName}`}>
+                    {cellContent} - {row.analyteName}
+                  </span>
+                );
+              },
             },
             {
               dataField: 'result',
@@ -489,7 +497,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'resultDate',
               text: 'Result Date',
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeaderm',
               formatter: (cell, row) => {
                 return (
                   <>{dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}</>
@@ -500,20 +508,20 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'testCode',
               text: 'Test Code - Name',
               editable: false,
-              // headerClasses: 'textHeader',
+              headerClasses: 'textHeader',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
               formatter: (cellContent, row) => {
-                const maxLength = 5;
-                const displayTestName =
-                  row.testName.length > maxLength
-                    ? row.testName.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.testName;
-
                 return (
-                  <div className='flex flex-row'>
-                    <span
-                      title={row.testName}
-                    >{`${row.testCode} - ${displayTestName}`}</span>
-                  </div>
+                  <span title={`${row.testCode} - ${row.testName}`}>
+                    {cellContent} - {row.testName}
+                  </span>
                 );
               },
             },
