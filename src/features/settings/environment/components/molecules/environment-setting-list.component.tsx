@@ -331,7 +331,19 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                   description = filter;
                 },
               }),
-              headerClasses: 'textHeader3',
+              style: {
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.description}>{cellContent}</span>
+              ),
+              headerClasses: 'textHeader',
               editorRenderer: (
                 editorProps,
                 value,

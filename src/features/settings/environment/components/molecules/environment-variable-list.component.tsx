@@ -134,13 +134,25 @@ export const EnvironmentVariableList = observer(
               {
                 dataField: 'description',
                 text: 'Description',
-                headerClasses: 'textHeader3',
+                headerClasses: 'textHeader',
                 editable: (content, row, rowIndex, columnIndex) => row.isModify,
                 filter: textFilter({
                   getFilter: filter => {
                     description = filter;
                   },
                 }),
+                style: {
+                  textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  minWidth: 0,
+                  maxWidth: '250px',
+                  position: 'relative',
+                },
+                formatter: (cellContent, row) => (
+                  <span title={row.description}>{cellContent}</span>
+                ),
                 sort: true,
                 headerStyle: {
                   fontSize: 0,

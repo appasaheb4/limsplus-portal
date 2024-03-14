@@ -155,6 +155,7 @@ export const Result = observer((props: ResultProps) => {
               text: 'Sample Type',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader',
             },
             {
               dataField: 'containerId',
@@ -398,7 +399,7 @@ export const Result = observer((props: ResultProps) => {
               text: 'Approval Date',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeaderm',
               formatter: (cell, row) => {
                 return row.approvalDate
                   ? dayjs(row.approvalDate).format('DD-MM-YYYY HH:mm:ss')

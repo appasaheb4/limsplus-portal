@@ -342,11 +342,23 @@ export const TestMasterList = (props: TestMasterProps) => {
             {
               dataField: 'description',
               text: 'Description',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader',
               sort: true,
               headerStyle: {
                 fontSize: 0,
               },
+              style: {
+                textTransform: 'uppercase',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.description}>{cellContent}</span>
+              ),
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
