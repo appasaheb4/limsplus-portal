@@ -217,7 +217,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                               PossibleValue
                             </th>
                             <th className='text-white' style={{ minWidth: 50 }}>
-                              Ab Normal
+                              Abnormal
                             </th>
                             <th className='text-white' style={{ minWidth: 50 }}>
                               Critical
@@ -232,18 +232,16 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                                   <td>{item.result}</td>
                                   <td>{item.possibleValue}</td>
                                   <td>
-                                    {item.abNormal
-                                      ? item.abNormal
-                                        ? 'Yes'
-                                        : 'No'
-                                      : 'No'}
+                                    <Form.Toggle
+                                      value={item.abNormal}
+                                      disabled={true}
+                                    />
                                   </td>
                                   <td>
-                                    {item.critical
-                                      ? item.critical
-                                        ? 'Yes'
-                                        : 'No'
-                                      : 'No'}
+                                    <Form.Toggle
+                                      value={item.critical}
+                                      disabled={true}
+                                    />
                                   </td>
                                 </tr>
                               </>
@@ -294,7 +292,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         PossibleValue
                       </th>
                       <th className='text-white' style={{ minWidth: 50 }}>
-                        Ab Normal
+                        Abnormal
                       </th>
                       <th className='text-white' style={{ minWidth: 50 }}>
                         Critical
@@ -307,18 +305,16 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                         <td>{row.defaultConclusion.result}</td>
                         <td>{row.defaultConclusion.possibleValue}</td>
                         <td>
-                          {row.defaultConclusion.abNormal
-                            ? row.defaultConclusion.abNormal
-                              ? 'Yes'
-                              : 'No'
-                            : 'No'}
+                          <Form.Toggle
+                            value={row?.defaultConclusion?.abNormal}
+                            disabled={true}
+                          />
                         </td>
                         <td>
-                          {row.defaultConclusion.critical
-                            ? row.defaultConclusion.critical
-                              ? 'Yes'
-                              : 'No'
-                            : 'No'}
+                          <Form.Toggle
+                            value={row?.defaultConclusion?.critical}
+                            disabled={true}
+                          />
                         </td>
                       </tr>
                     </>

@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectDeliveryScheduleProps {
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectDeliverySchedule = observer(
-  ({onSelect}: AutoCompleteFilterSingleSelectDeliveryScheduleProps) => {
-    const {loading, deliveryScheduleStore} = useStores();
+  ({ onSelect }: AutoCompleteFilterSingleSelectDeliveryScheduleProps) => {
+    const { loading, deliveryScheduleStore } = useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -114,7 +114,7 @@ export const AutoCompleteFilterSingleSelectDeliverySchedule = observer(
                           {' '}
                           <label className='ml-2 mt-1 text-black'>
                             {' '}
-                            {item.schCode}
+                            {item.schCode} - {item.schName}
                           </label>
                         </li>
                       </>
