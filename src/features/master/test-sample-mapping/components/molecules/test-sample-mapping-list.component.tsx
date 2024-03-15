@@ -615,7 +615,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               // }),
               formatter: (cellContent, row) => (
                 <>
-                  {row.departments?.length > 1 && (
+                  {row?.departments?.length > 0 && (
                     <>
                       <div style={{ maxHeight: '200px', overflowY: 'scroll' }}>
                         <Table striped bordered>
@@ -641,9 +641,9 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                               </th>
                               <th
                                 className='text-white'
-                                style={{ minWidth: 50 }}
+                                style={{ minWidth: 70 }}
                               >
-                                Tat In Min
+                                TAT in Min
                               </th>
                             </tr>
                           </thead>

@@ -92,7 +92,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
             {
               dataField: 'schName',
               text: 'Delivery Schedule',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -104,8 +104,21 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                   schName = filter;
                 },
               }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+                textTransform: 'uppercase',
+              },
               editorStyle: { textTransform: 'uppercase' },
-              style: { textTransform: 'uppercase' },
+              formatter: (cellContent, row) => {
+                return (
+                  <span title={row.schName.toUpperCase()}>{cellContent}</span>
+                );
+              },
             },
             {
               dataField: 'sundayProcessing',

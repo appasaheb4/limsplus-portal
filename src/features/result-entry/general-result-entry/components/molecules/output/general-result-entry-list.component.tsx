@@ -462,7 +462,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           ? false
                           : true
                       }
-                      value={row.abnFlag}
+                      value={row.critical ? true : row.abnFlag}
                       onChange={abnFlag => {
                         props.onUpdateValue({ abnFlag }, row._id);
                       }}

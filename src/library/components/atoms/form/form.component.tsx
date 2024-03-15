@@ -48,7 +48,7 @@ export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (
       hasError={props.hasError}
       style={{ ...props.style }}
     >
-      <span className='dark:text-white'>{props.label}</span>
+      <span className='dark:text-white w-10'>{props.label}</span>
     </Label>
     {props.children}
   </div>

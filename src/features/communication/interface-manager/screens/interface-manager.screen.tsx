@@ -91,7 +91,7 @@ const InterfaceManager = InterfaceManagerHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px', top: '130px' }}
+          style={{ position: 'fixed', right: '17px' }}
         >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom

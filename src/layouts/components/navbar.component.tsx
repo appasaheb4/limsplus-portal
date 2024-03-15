@@ -293,7 +293,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                 >
                   {loginStore.login?.fullName}
                   <br />
-                  {loginStore.login?.role}
+                  {`(${loginStore.login?.role})`}
                 </span>
                 <br />
               </div>

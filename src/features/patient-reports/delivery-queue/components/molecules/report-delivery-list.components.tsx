@@ -121,6 +121,25 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               csvExport: false,
             },
             {
+              dataField: 'deliveryId',
+              text: 'Delivery Id',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              headerClasses: 'textHeader2',
+              filter: customFilter({
+                getFilter: filter => {
+                  deliveryId = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <NumberFilter onFilter={onFilter} column={column} />
+              ),
+            },
+            {
               dataField: 'labId',
               text: 'Lab Id',
               sort: true,
@@ -129,7 +148,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader2',
               filter: customFilter({
                 getFilter: filter => {
                   labId = filter;
@@ -167,25 +186,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 },
               }),
             },
-            {
-              dataField: 'deliveryId',
-              text: 'Delivery Id',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              editable: false,
-              headerClasses: 'textHeader3',
-              filter: customFilter({
-                getFilter: filter => {
-                  deliveryId = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
-            },
+
             {
               dataField: 'deliveryDate',
               text: 'Delivery Date',
@@ -411,24 +412,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             },
             {
               dataField: 'clientCode',
-              text: 'Client Code',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              headerClasses: 'textHeader3',
-              filter: textFilter({
-                getFilter: filter => {
-                  clientCode = filter;
-                },
-              }),
-            },
-            {
-              dataField: 'clientName',
-              text: 'Client Name',
+              text: 'Client Code - Name',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -439,7 +423,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
-                  clientName = filter;
+                  clientCode = filter;
                 },
               }),
               style: {
@@ -451,29 +435,16 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 position: 'relative',
               },
               formatter: (cellContent, row) => {
-                return <span title={row.clientName}>{cellContent}</span>;
+                return (
+                  <span title={`${row.clientCode} - ${row.clientName}`}>
+                    {cellContent} - {row.clientName}
+                  </span>
+                );
               },
-            },
-            {
-              dataField: 'registrationLocation',
-              text: 'Registration Location',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              headerClasses: 'textHeader',
-              filter: textFilter({
-                getFilter: filter => {
-                  registrationLocation = filter;
-                },
-              }),
             },
             {
               dataField: 'registrationLocationCode',
-              text: 'Registration Location Code',
+              text: 'Registration Location Code - Name',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -487,6 +458,23 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                   registrationLocationCode = filter;
                 },
               }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return (
+                  <span
+                    title={`${row.registrationLocationCode} - ${row.registrationLocation}`}
+                  >
+                    {cellContent} - {row.registrationLocation}
+                  </span>
+                );
+              },
             },
             {
               dataField: 'doctorCode',
@@ -623,23 +611,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               }),
             },
 
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              editable: false,
-              headerClasses: 'textHeader2',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  environment = filter;
-                },
-              }),
-            },
             {
               dataField: 'environment',
               text: 'Environment',
