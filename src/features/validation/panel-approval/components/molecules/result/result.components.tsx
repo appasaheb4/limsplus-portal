@@ -190,12 +190,7 @@ export const Result = observer((props: ResultProps) => {
               sort: true,
               editable: false,
             },
-            {
-              dataField: 'units',
-              text: 'Units',
-              sort: true,
-              editable: false,
-            },
+
             {
               dataField: 'refRangesList',
               text: 'Ref Ranges',
@@ -301,6 +296,12 @@ export const Result = observer((props: ResultProps) => {
                   </>
                 );
               },
+            },
+            {
+              dataField: 'units',
+              text: 'Units',
+              sort: true,
+              editable: false,
             },
             {
               dataField: 'conclusion',
