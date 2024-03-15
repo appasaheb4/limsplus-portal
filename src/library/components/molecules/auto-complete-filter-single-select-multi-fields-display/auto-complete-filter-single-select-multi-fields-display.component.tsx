@@ -132,11 +132,6 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                 className={`mt-1 absolute  w-full bg-gray-100 p-2 rounded-sm `}
                 style={{
                   zIndex: 500,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  minWidth: 0,
-                  maxWidth: '100%',
                 }}
               >
                 <ul>
