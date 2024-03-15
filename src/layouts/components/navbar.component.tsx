@@ -293,7 +293,9 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                 >
                   {loginStore.login?.fullName}
                   <br />
-                  {`(${loginStore.login?.role})`}
+                  <span style={{ fontSize: '12px' }}>
+                    {loginStore.login?.role}
+                  </span>
                 </span>
                 <br />
               </div>

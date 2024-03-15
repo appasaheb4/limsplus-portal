@@ -274,6 +274,50 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               ),
             },
             {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={
+                        row.resultType === 'F' || row.resultType === 'M'
+                          ? false
+                          : true
+                      }
+                      value={row.critical ? true : row.abnFlag}
+                      onChange={abnFlag => {
+                        props.onUpdateValue({ abnFlag }, row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'critical',
+              text: 'Critical',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={
+                        row.resultType === 'F' || row.resultType === 'M'
+                          ? false
+                          : true
+                      }
+                      value={row.critical}
+                      onChange={critical => {
+                        props.onUpdateValue({ critical }, row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'normalRange',
               text: 'Normal Range',
               sort: true,
@@ -449,50 +493,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Result Status',
               editable: false,
             },
-            {
-              dataField: 'abnFlag',
-              text: 'Abn Flag',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={
-                        row.resultType === 'F' || row.resultType === 'M'
-                          ? false
-                          : true
-                      }
-                      value={row.critical ? true : row.abnFlag}
-                      onChange={abnFlag => {
-                        props.onUpdateValue({ abnFlag }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={
-                        row.resultType === 'F' || row.resultType === 'M'
-                          ? false
-                          : true
-                      }
-                      value={row.critical}
-                      onChange={critical => {
-                        props.onUpdateValue({ critical }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
+          
             {
               dataField: 'resultDate',
               text: 'Result Date',

@@ -145,6 +145,33 @@ export const Result = observer((props: ResultProps) => {
               ),
             },
             {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.abnFlag} />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'critical',
+              text: 'Critical',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle disabled={true} value={row.critical} />
+                  </>
+                );
+              },
+            },
+
+            {
               dataField: 'sampleId',
               text: 'Sample Id',
               sort: true,
@@ -326,33 +353,6 @@ export const Result = observer((props: ResultProps) => {
                       </div>
                     )}
                   </div>
-                );
-              },
-            },
-
-            {
-              dataField: 'abnFlag',
-              text: 'Abn Flag',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle disabled={true} value={row.abnFlag} />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle disabled={true} value={row.critical} />
-                  </>
                 );
               },
             },
