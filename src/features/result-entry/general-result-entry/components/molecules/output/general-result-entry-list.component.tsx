@@ -426,6 +426,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
             {
+              dataField: 'units',
+              text: 'Units',
+              editable: false,
+            },
+            {
               dataField: 'conclusion',
               text: 'Conclusion',
               editable: false,
@@ -484,16 +489,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             },
 
             {
-              dataField: 'units',
-              text: 'Units',
-              editable: false,
-            },
-            {
               dataField: 'resultStatus',
               text: 'Result Status',
               editable: false,
             },
-          
+
             {
               dataField: 'resultDate',
               text: 'Result Date',
