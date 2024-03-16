@@ -632,7 +632,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                       const validationLevel: any = e.target.value;
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          validationLevel,
+                          Number.parseInt(validationLevel),
                           column.dataField,
                           row._id,
                         );
@@ -871,10 +871,9 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 </>
               ),
             },
-
             {
               dataField: 'autoRelease',
-              text: 'Auto Release',
+              text: 'Auto Approval',
               sort: true,
               csvFormatter: (col, row) =>
                 `${row.autoRelease ? (row.autoRelease ? 'Yes' : 'No') : 'No'}`,

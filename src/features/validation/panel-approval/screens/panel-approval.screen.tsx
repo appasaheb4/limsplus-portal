@@ -12,7 +12,6 @@ import 'react-accessible-accordion/dist/fancy-example.css';
 const PanelApproval = observer(() => {
   const { panelApprovalStore, routerStore, loginStore, patientResultStore } =
     useStores();
-
   const {
     control,
     handleSubmit,
@@ -272,7 +271,6 @@ const PanelApproval = observer(() => {
         store={loginStore}
       />
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
-        {/* <span className='font-bold text-lg underline'>Panel Approval</span> */}
         {panelApprovalTable}
         <span className='text-red hidden'>
           Note: Report Priority= Daily single-single update.

@@ -906,7 +906,7 @@ export const TestMasterList = (props: TestMasterProps) => {
 
             {
               dataField: 'autoFinish',
-              text: 'Auto Finish',
+              text: 'Auto Submit',
               sort: true,
               csvFormatter: (col, row) =>
                 `${row.autoFinish ? (row.autoFinish ? 'Yes' : 'No') : 'No'}`,

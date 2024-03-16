@@ -363,7 +363,7 @@ const MasterPanel = MasterPanelHoc(
             workflow: item.Workflow,
             category: item.Category,
             panelType: item['Panel Type'],
-            autoRelease: item['Auto Release'] === 'Yes' ? true : false,
+            autoRelease: item['Auto Approval'] === 'Yes' ? true : false,
             holdOOS: item['Hold OOS'] === 'Yes' ? true : false,
             confidential: item.Confidential === 'Yes' ? true : false,
             urgent: item.Urgent === 'Yes' ? true : false,
@@ -1137,7 +1137,7 @@ const MasterPanel = MasterPanelHoc(
                         control={control}
                         render={({ field: { onChange, value } }) => (
                           <Form.Toggle
-                            label='Auto Release'
+                            label='Auto Approval'
                             id='modeAutoRelease'
                             hasError={!!errors.autoRelease}
                             value={value}
