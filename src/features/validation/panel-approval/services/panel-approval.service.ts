@@ -23,12 +23,15 @@ export class PanelApprovalService {
     page = 0,
     limit = 20,
     isNotEqualToApproved = false,
+    validationLevel = stores.loginStore.login?.validationLevel,
   }) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
           mutation: PANEL_APPROVAL_LIST,
-          variables: { input: { page, limit, isNotEqualToApproved } },
+          variables: {
+            input: { page, limit, isNotEqualToApproved, validationLevel },
+          },
         })
         .then((response: any) => {
           stores.panelApprovalStore.updatePanelApproval(response.data);

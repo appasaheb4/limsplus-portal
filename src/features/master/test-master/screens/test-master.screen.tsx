@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -351,7 +348,7 @@ const TestMater = TestMasterHOC(
             testType: item['Test Type'],
             workflowCode: item['Workflow Code'],
             cptCode: item['CPT Code'],
-            autoFinish: item['Auto Finish'] === 'Yes' ? true : false,
+            autoFinish: item['Auto Submit'] === 'Yes' ? true : false,
             holdOOS: item['Hold OOS'] === 'Yes' ? true : false,
             confidential: item.Confidential === 'Yes' ? true : false,
             urgent: item.Urgent === 'Yes' ? true : false,
@@ -1175,8 +1172,7 @@ const TestMater = TestMasterHOC(
                         control={control}
                         render={({ field: { onChange, value } }) => (
                           <Form.Toggle
-                            label='AutoFinish'
-                            id='modeAutoFinish'
+                            label='Auto Submit'
                             hasError={!!errors.autoFinish}
                             value={value}
                             onChange={autoFinish => {
