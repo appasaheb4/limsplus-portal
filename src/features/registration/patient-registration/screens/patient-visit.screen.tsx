@@ -1310,7 +1310,7 @@ export const PatientVisit = PatientVisitHoc(
                   defaultValue=''
                 />
 
-                <Grid cols={4}>
+                <Grid cols={3}>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

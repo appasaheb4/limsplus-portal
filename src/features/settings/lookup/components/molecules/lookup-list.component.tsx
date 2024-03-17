@@ -203,9 +203,6 @@ export const LookupList = (props: LookupListProps) => {
                         <th className='text-white' style={{ minWidth: 70 }}>
                           Value
                         </th>
-                        <th className='text-white' style={{ minWidth: 50 }}>
-                          Flag Uppercase
-                        </th>
                       </tr>
                     </thead>
                     <tbody className='text-xs'>
@@ -215,12 +212,6 @@ export const LookupList = (props: LookupListProps) => {
                             <tr>
                               <td>{lookupValue(item)}</td>
                               <td>{lookupValue(item)}</td>
-                              <td>
-                                <Form.Toggle
-                                  disabled={true}
-                                  value={item.flagUpperCase}
-                                />
-                              </td>
                             </tr>
                           </>
                         );

@@ -130,7 +130,9 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
           ? options.length > 0 && (
               <div
                 className={`mt-1 absolute  w-full bg-gray-100 p-2 rounded-sm `}
-                style={{ zIndex: 500 }}
+                style={{
+                  zIndex: 500,
+                }}
               >
                 <ul>
                   <PerfectScrollbar>

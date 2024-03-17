@@ -14,6 +14,7 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
+  AutoCompleteFilterMultiKeySingleSelect,
 } from '@/library/components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
 import { TestMasterList } from '../components';
@@ -443,7 +444,7 @@ const TestMater = TestMasterHOC(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px', top: '130px' }}
+          style={{ position: 'fixed', right: '17px' }}
         >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
@@ -875,12 +876,12 @@ const TestMater = TestMasterHOC(
                           label='Schedule'
                           hasError={!!errors.schedule}
                         >
-                          <AutoCompleteFilterSingleSelect
+                          <AutoCompleteFilterMultiKeySingleSelect
                             loader={loading}
                             placeholder='Search by code'
                             data={{
                               list: deliveryScheduleStore.listDeliverySchedule,
-                              displayKey: 'schCode',
+                              displayKey: ['schCode', 'schName'],
                               findKey: 'schCode',
                             }}
                             displayValue={value}

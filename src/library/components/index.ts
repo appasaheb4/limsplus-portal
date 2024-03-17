@@ -48,6 +48,7 @@ export * from './molecules/modal/modal-view/modal-view.component';
 export * from './molecules/auto-complete-filter-multi-select-selected-top-dispaly/auto-complete-filter-muti-select-selected-top-display.component';
 export * from './molecules/modal/modal-date-time/modal-date-time.component';
 export * from './molecules/auto-complete-search/autocomplete-search.component';
+export * from './molecules/auto-complete-filter-multi-key-single-select/auto-complete-filter-multi-key-single-select.component';
 
 export * from './organisms/filter-comp';
 export * from './organisms/table-bootstrap/table-bootstrap.component';

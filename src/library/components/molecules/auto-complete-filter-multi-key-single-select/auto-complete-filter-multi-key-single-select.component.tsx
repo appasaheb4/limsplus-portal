@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Spinner } from 'react-bootstrap';
 import { Icons } from '../..';
 
-interface AutoCompleteFilterSingleSelectProps {
+interface AutoCompleteFilterMultiKeySingleSelectProps {
   loader?: boolean;
   disable?: boolean;
   displayValue?: string;
@@ -14,7 +14,7 @@ interface AutoCompleteFilterSingleSelectProps {
   onSelect: (item: any) => any;
 }
 
-export const AutoCompleteFilterSingleSelect = ({
+export const AutoCompleteFilterMultiKeySingleSelect = ({
   disable = false,
   loader = false,
   displayValue = '',
@@ -23,7 +23,7 @@ export const AutoCompleteFilterSingleSelect = ({
   hasError = false,
   onFilter,
   onSelect,
-}: AutoCompleteFilterSingleSelectProps) => {
+}: AutoCompleteFilterMultiKeySingleSelectProps) => {
   const [value, setValue] = useState<string>(displayValue);
   const [options, setOptions] = useState<any[]>();
   const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -103,13 +103,23 @@ export const AutoCompleteFilterSingleSelect = ({
                         key={index}
                         className='text-gray-400 flex items-center'
                         onClick={() => {
-                          setValue(item[data.displayKey]);
+                          setValue(
+                            data.displayKey
+                              .map(key => `${item[key]}`)
+                              .join(' - '),
+                          );
                           setIsListOpen(false);
                           onSelect(item);
                         }}
                       >
                         <label className='ml-2 mt-1 text-black'>
-                          {item[data.displayKey]}
+                          {data.displayKey
+                            .map(
+                              key =>
+                                `${item[key]}
+                              `,
+                            )
+                            .join(' - ')}
                         </label>
                       </li>
                     </>
