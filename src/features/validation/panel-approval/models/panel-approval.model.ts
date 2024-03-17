@@ -51,12 +51,13 @@ export class PendingPanelApproval {
   autoRelease: boolean;
   patientOrderId: string;
   reportPriority: string;
+  validationLevel: number;
   enteredBy: string;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.pId = rawData.pId;
     this.name = rawData.name;
@@ -109,6 +110,7 @@ export class PendingPanelApproval {
     this.autoRelease = rawData.autoRelease;
     this.patientOrderId = rawData.patientOrderId;
     this.reportPriority = rawData.reportPriority;
+    this.validationLevel = rawData.validationLevel;
     this.enteredBy = rawData.enteredBy;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;

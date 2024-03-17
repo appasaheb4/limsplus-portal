@@ -63,6 +63,7 @@ export const PANEL_APPROVAL_LIST = gql`
         patientResultId
         reportPriority
         colorScheme
+        validationLevel
         companyCode
         environment
         enteredBy
@@ -155,6 +156,7 @@ export const FIND = gql`
         patientResultId
         reportPriority
         colorScheme
+        validationLevel
         companyCode
         environment
         enteredBy
@@ -229,6 +231,7 @@ export const FILTER = gql`
         patientResultId
         reportPriority
         colorScheme
+        validationLevel
         companyCode
         environment
         enteredBy
