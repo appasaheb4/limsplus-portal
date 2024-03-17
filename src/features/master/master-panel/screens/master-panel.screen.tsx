@@ -460,7 +460,7 @@ const MasterPanel = MasterPanelHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px', top: '130px' }}
+          style={{ position: 'fixed', right: '17px' }}
         >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
@@ -1111,7 +1111,7 @@ const MasterPanel = MasterPanelHoc(
                       defaultValue=''
                     />
 
-                    <Grid cols={5}>
+                    <Grid cols={3}>
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -1172,47 +1172,6 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='holdOOS'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Confidential'
-                            hasError={!!errors.confidential}
-                            value={value}
-                            onChange={confidential => {
-                              onChange(confidential);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                confidential,
-                              });
-                            }}
-                          />
-                        )}
-                        name='confidential'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Urgent'
-                            style={{ marginLeft: 5 }}
-                            hasError={!!errors.urgent}
-                            value={value}
-                            onChange={urgent => {
-                              onChange(urgent);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                urgent,
-                              });
-                            }}
-                          />
-                        )}
-                        name='urgent'
                         rules={{ required: false }}
                         defaultValue=''
                       />
@@ -1743,7 +1702,7 @@ const MasterPanel = MasterPanelHoc(
                       defaultValue=''
                     />
 
-                    <Grid cols={5}>
+                    <Grid cols={3}>
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -1809,46 +1768,6 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='repitation'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Print Label'
-                            hasError={!!errors.printLabel}
-                            value={value}
-                            onChange={printLabel => {
-                              onChange(printLabel);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                printLabel,
-                              });
-                            }}
-                          />
-                        )}
-                        name=' printLabel'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Is Saleable'
-                            hasError={!!errors.isSaleable}
-                            value={value}
-                            onChange={isSaleable => {
-                              onChange(isSaleable);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                isSaleable,
-                              });
-                            }}
-                          />
-                        )}
-                        name='isSaleable'
                         rules={{ required: false }}
                         defaultValue=''
                       />
@@ -2276,6 +2195,87 @@ const MasterPanel = MasterPanelHoc(
                           />
                         )}
                         name='method'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Confidential'
+                            hasError={!!errors.confidential}
+                            value={value}
+                            onChange={confidential => {
+                              onChange(confidential);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                confidential,
+                              });
+                            }}
+                          />
+                        )}
+                        name='confidential'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Urgent'
+                            style={{ marginLeft: 5 }}
+                            hasError={!!errors.urgent}
+                            value={value}
+                            onChange={urgent => {
+                              onChange(urgent);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                urgent,
+                              });
+                            }}
+                          />
+                        )}
+                        name='urgent'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Print Label'
+                            hasError={!!errors.printLabel}
+                            value={value}
+                            onChange={printLabel => {
+                              onChange(printLabel);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                printLabel,
+                              });
+                            }}
+                          />
+                        )}
+                        name=' printLabel'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Is Saleable'
+                            hasError={!!errors.isSaleable}
+                            value={value}
+                            onChange={isSaleable => {
+                              onChange(isSaleable);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                isSaleable,
+                              });
+                            }}
+                          />
+                        )}
+                        name='isSaleable'
                         rules={{ required: false }}
                         defaultValue=''
                       />

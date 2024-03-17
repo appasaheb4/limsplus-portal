@@ -35,15 +35,11 @@ export const ModalDepartmentModify = observer(
       }
 
       // Add the new department to the array
-      let updatedDepartments: any = [];
-      if (values.departments !== undefined) {
-        updatedDepartments = [
-          ...values.departments,
-          { code, name, prefrence, tatInMin },
-        ];
-      } else {
-        updatedDepartments = [{ code, name, prefrence, tatInMin }];
-      }
+      let updatedDepartments = values.departments || []; // Initialize as empty array if undefined
+      updatedDepartments = [
+        ...updatedDepartments,
+        { code, name, prefrence, tatInMin },
+      ];
 
       setValues({
         ...values,
@@ -133,7 +129,7 @@ export const ModalDepartmentModify = observer(
                             onClick={() => {
                               setValues(prevValues => {
                                 const updatedDepartments =
-                                  prevValues.departments.filter(
+                                  prevValues?.departments?.filter(
                                     (_: any, i) => i !== index,
                                   );
                                 return {

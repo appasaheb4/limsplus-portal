@@ -286,14 +286,16 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                   </Tooltip>
                 </div>
                 <span
-                  className='sm:mt-2 d-none d-sm-inline-block '
+                  className='sm:mt-2 d-none d-sm-inline-block text-center'
                   style={{
                     color: stores.appStore.applicationSetting.navbarIconColor,
                   }}
                 >
                   {loginStore.login?.fullName}
                   <br />
-                  {loginStore.login?.role}
+                  <span style={{ fontSize: '10px', textAlign: 'center' }}>
+                    {`(${loginStore.login?.role})`}
+                  </span>
                 </span>
                 <br />
               </div>
