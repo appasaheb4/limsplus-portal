@@ -343,9 +343,9 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
             props.onFilterRecord && props.onFilterRecord(item);
           }}
           // diff action to handle
-          // onUpdateFields={(fields: any, id: string) => {
-          //   props.onUpdateFields && props.onUpdateFields({ ...fields }, id);
-          // }}
+          onUpdateFields={(fields: any, id: string) => {
+            props.onUpdateFields && props.onUpdateFields({ ...fields }, [id]);
+          }}
           onUpdateResult={(id, fields) => {
             props.onUpdateResult && props.onUpdateResult(id, fields);
           }}
