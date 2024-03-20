@@ -95,8 +95,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
-          data={localData}
-          totalSize={props.totalSize}
+          data={localData?.length > 0 ? [localData[0]] : []}
+          totalSize={localData?.length}
           columns={[
             {
               dataField: '_id',
@@ -134,17 +134,15 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                   : '';
               },
             },
-
             {
-              dataField: 'status',
-              text: 'Status',
+              dataField: 'approvalStatus',
+              text: 'Approval Status',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
-                return <span>{row[1][0]?.status}</span>;
+                return <span>{row[1][0]?.approvalStatus}</span>;
               },
             },
-
             {
               dataField: 'comments',
               text: 'Comments',
