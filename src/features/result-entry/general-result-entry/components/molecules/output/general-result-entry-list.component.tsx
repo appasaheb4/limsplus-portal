@@ -38,6 +38,7 @@ interface GeneralResultEntryListProps {
   onFilterFinishResult?: (code: string) => void;
   onTestStatusFilter?: (code: string) => void;
   onExpand?: (items: any) => void;
+  onTableReload?: () => void;
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
@@ -726,10 +727,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
           clearAllFilter={() => {}}
-          onFinishResult={() => {
+          onFinishResult={selectedRow => {
             props.onFinishResult &&
               props.onFinishResult(
-                props.data?.map(item => {
+                selectedRow?.map(item => {
                   if (
                     item?.panelStatus != 'P' &&
                     item?.testStatus != 'P' &&
@@ -744,6 +745,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           }}
           onTestStatusFilter={item => {
             props.onTestStatusFilter && props.onTestStatusFilter(item);
+          }}
+          onTableReload={() => {
+            props.onTableReload && props.onTableReload();
           }}
         />
       </div>

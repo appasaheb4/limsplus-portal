@@ -59,6 +59,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
   const [widthRefBox, setWidthRefBox] = useState('20px');
   const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
   const [conclusionId, setWidthConculsionId] = useState('');
+  const [isAllRecordDisplay, setIsAllRecordDisplay] = useState(false);
+  const [fetchIndex, setFetchIndex] = useState<number>(0);
 
   useEffect(() => {
     setLocalData(JSON.parse(JSON.stringify(props.data)));
@@ -95,7 +97,13 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
         <TableBootstrap
           id='_id'
-          data={localData?.length > 0 ? [localData[0]] : []}
+          data={
+            localData?.length > 0
+              ? isAllRecordDisplay
+                ? localData
+                : [localData[fetchIndex]]
+              : []
+          }
           totalSize={localData?.length}
           columns={[
             {
@@ -338,6 +346,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
             labId('');
           }}
           onFilterRecord={item => {
+            // if (item == 'Pending') setIsAllRecordDisplay(false);
+            // else setIsAllRecordDisplay(true);
             props.onFilterRecord && props.onFilterRecord(item);
           }}
           // diff action to handle
@@ -346,6 +356,17 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
           }}
           onUpdateResult={(id, fields) => {
             props.onUpdateResult && props.onUpdateResult(id, fields);
+          }}
+          onPagination={type => {
+            if (type == 'next') {
+              fetchIndex < localData?.length - 1
+                ? setFetchIndex(fetchIndex + 1)
+                : setFetchIndex(localData?.length - 1);
+            } else {
+              fetchIndex != 0 && fetchIndex < localData?.length
+                ? setFetchIndex(fetchIndex - 1)
+                : setFetchIndex(fetchIndex);
+            }
           }}
         />
       </div>
