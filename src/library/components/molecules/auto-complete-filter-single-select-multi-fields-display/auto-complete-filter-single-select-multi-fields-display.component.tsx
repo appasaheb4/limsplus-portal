@@ -157,7 +157,19 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                           }}
                         >
                           {' '}
-                          <label className='ml-2 mt-1 text-black'>
+                          <label
+                            className='ml-2 mt-1 text-black'
+                            style={{
+                              textOverflow: 'ellipsis',
+                              minWidth: 0,
+                              overflow: 'hidden',
+                              maxWidth: '334px',
+                              whiteSpace: 'nowrap',
+                            }}
+                            title={data.displayKey
+                              .map(key => item[key])
+                              .join(' - ')}
+                          >
                             {data.displayKey
                               .map(
                                 key =>

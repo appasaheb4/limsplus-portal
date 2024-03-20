@@ -698,7 +698,7 @@ export const RegistrationLocationsList = (
           {
             dataField: 'address',
             text: 'Address',
-            headerClasses: 'textHeader2',
+            headerClasses: 'textHeader',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -711,9 +711,21 @@ export const RegistrationLocationsList = (
                 address = filter;
               },
             }),
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
             editor: {
               type: Type.TEXTAREA,
             },
+            formatter: (cellContent, row) => (
+              <span title={row.address}>{cellContent}</span>
+            ),
           },
           {
             dataField: 'sbu',

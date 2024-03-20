@@ -69,23 +69,28 @@ export const Result = observer((props: ResultProps) => {
               hidden: true,
               csvExport: false,
             },
-
+            {
+              dataField: 'sampleId',
+              text: 'Sample Id',
+              sort: true,
+              editable: false,
+            },
             {
               dataField: 'test',
               text: 'Test',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderm',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '130px',
+                position: 'relative',
+              },
               formatter: (cellContent, row) => {
-                const maxLength = 4;
-                const displayTestName =
-                  row.test.length > maxLength
-                    ? row.test.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.test;
-                return (
-                  <div className='flex flex-row'>
-                    <span title={row.test}>{`${displayTestName}`}</span>
-                  </div>
-                );
+                return <span title={row.test}>{cellContent}</span>;
               },
             },
             {
@@ -93,17 +98,17 @@ export const Result = observer((props: ResultProps) => {
               text: 'Analyte',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderm',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '130px',
+                position: 'relative',
+              },
               formatter: (cellContent, row) => {
-                const maxLength = 7;
-                const displayTestName =
-                  row.analyte.length > maxLength
-                    ? row.analyte.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.analyte;
-                return (
-                  <div className='flex flex-row'>
-                    <span title={row.analyte}>{`${displayTestName}`}</span>
-                  </div>
-                );
+                return <span title={row.analyte}>{cellContent}</span>;
               },
             },
             {
@@ -172,19 +177,6 @@ export const Result = observer((props: ResultProps) => {
             },
 
             {
-              dataField: 'sampleId',
-              text: 'Sample Id',
-              sort: true,
-              editable: false,
-            },
-            {
-              dataField: 'sampleType',
-              text: 'Sample Type',
-              sort: true,
-              editable: false,
-              headerClasses: 'textHeader',
-            },
-            {
               dataField: 'validationLevel',
               text: 'Validation Level',
               sort: true,
@@ -216,12 +208,6 @@ export const Result = observer((props: ResultProps) => {
                   </select>
                 </>
               ),
-            },
-            {
-              dataField: 'containerId',
-              text: 'Container Id',
-              sort: true,
-              editable: false,
             },
 
             {
@@ -390,7 +376,30 @@ export const Result = observer((props: ResultProps) => {
                 );
               },
             },
-
+            {
+              dataField: 'sampleType',
+              text: 'Sample Type',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeaderm',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '130px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return <span title={row.sampleType}>{cellContent}</span>;
+              },
+            },
+            {
+              dataField: 'containerId',
+              text: 'Container Id',
+              sort: true,
+              editable: false,
+            },
             {
               dataField: 'remarks',
               text: 'Remarks',

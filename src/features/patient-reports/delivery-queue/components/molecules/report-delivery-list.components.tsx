@@ -124,20 +124,8 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               dataField: 'deliveryId',
               text: 'Delivery Id',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader2',
-              filter: customFilter({
-                getFilter: filter => {
-                  deliveryId = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              headerClasses: 'textHeaderxxs',
             },
             {
               dataField: 'labId',

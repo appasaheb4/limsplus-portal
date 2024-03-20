@@ -220,7 +220,6 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'birthDate',
               text: 'Birthdate',
-              headerClasses: 'textHeader',
               // sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -302,7 +301,6 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'age',
               text: 'Age',
-              headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
@@ -343,7 +341,6 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
             {
               dataField: 'ageUnit',
               text: 'Age Unit',
-              headerClasses: 'textHeader',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
