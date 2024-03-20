@@ -188,10 +188,6 @@ const GeneralResultEntry = observer(() => {
                 },
               });
             }
-            // generalResultEntryStore.updateFilterGeneralResEntry({
-            //   ...generalResultEntryStore.filterGeneralResEntry,
-            //   testStatus: item,
-            // });
           }}
           onExpand={items => {
             setSelectId(items._id);
@@ -203,6 +199,9 @@ const GeneralResultEntry = observer(() => {
                 data: [items],
               });
             }
+          }}
+          onTableReload={() => {
+            setTableReload(!tableReload);
           }}
         />
       </>
