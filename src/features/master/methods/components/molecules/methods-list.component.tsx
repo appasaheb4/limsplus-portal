@@ -76,7 +76,7 @@ export const MethodsList = (props: MethodsListProps) => {
           {
             dataField: 'methodsName',
             text: 'Methods Name',
-            headerClasses: 'textHeader4',
+            headerClasses: 'textHeader',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -90,7 +90,18 @@ export const MethodsList = (props: MethodsListProps) => {
             }),
             editable: false,
             editorStyle: { textTransform: 'uppercase' },
-            style: { textTransform: 'uppercase' },
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.methodsName}>{cellContent}</span>
+            ),
           },
           {
             dataField: 'description',

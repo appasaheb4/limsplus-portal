@@ -138,7 +138,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'externalLabId',
               text: 'External Lab Id',
-              headerClasses: 'textHeader2',
+              // headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: (col, row) => (col ? col : false),
               editable: false,
@@ -187,7 +187,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'visitDate',
               text: 'Visit Date',
-              headerClasses: 'textHeader',
+              // headerClasses: 'textHeader',
               // sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -250,7 +250,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'registrationDate',
               text: 'Registration Date',
-              headerClasses: 'textHeader',
+              // headerClasses: 'textHeader',
               // sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -337,7 +337,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'collectionDate',
               text: 'Collection Date',
-              headerClasses: 'textHeader',
+              // headerClasses: 'textHeader',
               // sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -412,7 +412,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'dueDate',
               text: 'Due Date',
-              headerClasses: 'textHeader',
+              // headerClasses: 'textHeader',
               // sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -475,7 +475,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'birthDate',
               text: 'Birth Date',
-              headerClasses: 'textHeader',
+              // headerClasses: 'textHeader',
               // sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -1053,6 +1053,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'resultDate',
               text: 'Result Date',
+              headerClasses: 'textHeader',
               editable: false,
               formatter: (cell, row) => {
                 return (
