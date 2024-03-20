@@ -120,6 +120,7 @@ export const GeneralResultEntryExpand = ({
       ))}
     </div>
   );
+
   const options = {
     cutome: true,
     totalSize: totalSize,
@@ -158,9 +159,6 @@ export const GeneralResultEntryExpand = ({
     ],
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
-  };
-  const searchProps: any = {
-    placeholder: searchPlaceholder,
   };
 
   const handleTableChange = (
@@ -265,60 +263,6 @@ export const GeneralResultEntryExpand = ({
     </div>
   );
 
-  const expandRow = {
-    renderer: row =>
-      row?.resultType === 'V' ? (
-        <div className='z-0'>
-          <h1 className='hidden'>{JSON.stringify(row)}</h1>
-          <RefRangesExpandList
-            id='_id'
-            data={row?.refRangesList || []}
-            totalSize={row?.refRangesList?.length || 0}
-            columns={[
-              {
-                dataField: 'result',
-                text: 'Result',
-                editable: false,
-                formatter: () => (
-                  <>
-                    <span>{row.result}</span>
-                  </>
-                ),
-              },
-              {
-                dataField: 'rangeType',
-                text: 'Range Type',
-              },
-              {
-                dataField: 'low',
-                text: 'Low',
-              },
-              {
-                dataField: 'high',
-                text: 'High',
-              },
-              {
-                dataField: 'rangeSetOn',
-                text: 'Range Set On',
-              },
-              {
-                dataField: 'rangeId',
-                text: 'Range Id',
-              },
-              {
-                dataField: 'version',
-                text: 'Range Version',
-              },
-            ]}
-            onSelectedRow={rows => {}}
-            onUpdateItem={(value: any, dataField: string, id: string) => {}}
-          />
-        </div>
-      ) : null,
-    showExpandColumn: true,
-    expandByColumnOnly: true,
-  };
-
   const rowStyle = (row, rowIndex) => {
     switch (row?.colorScheme?.envRangeColor) {
       case 'BOTH':
@@ -351,6 +295,24 @@ export const GeneralResultEntryExpand = ({
         {status}
       </div>
     );
+  };
+
+  const handleOnSelect = (rows: any, isSelect) => {
+    if (isSelect) {
+      if (selectedRow) {
+        const itemSelected: any[] = selectedRow;
+        itemSelected.push(rows);
+        setSelectedRow(itemSelected);
+      } else {
+        setSelectedRow([rows]);
+      }
+    }
+  };
+
+  const handleOnSelectAll = (isSelect, rows) => {
+    if (isSelect) {
+      setSelectedRow(rows);
+    }
   };
 
   const statusData = [
@@ -430,7 +392,6 @@ export const GeneralResultEntryExpand = ({
                       <Icons.IconFa.FaChevronDown />
                     </Buttons.Button>
                   )}
-
                   <div className='flex'>
                     {statusData.map(status => (
                       <button
@@ -455,7 +416,6 @@ export const GeneralResultEntryExpand = ({
                     Submit
                   </button>
                 </div>
-
                 <div className='flex justify-end gap-2'>
                   {testStatus.map(status => (
                     <button
@@ -468,7 +428,6 @@ export const GeneralResultEntryExpand = ({
                   ))}
                 </div>
               </div>
-
               {isFilterOpen && (
                 <div className={'mb-2 overflow-auto h-10'}>
                   <CustomToggleList
@@ -479,15 +438,20 @@ export const GeneralResultEntryExpand = ({
                   />
                 </div>
               )}
-
               <div className='scrollTable'>
                 <BootstrapTable
+                  keyField='_id'
                   remote
                   {...props.baseProps}
                   noDataIndication='Table is Empty'
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
+                  selectRow={{
+                    mode: 'checkbox',
+                    onSelect: handleOnSelect,
+                    onSelectAll: handleOnSelectAll,
+                  }}
                   cellEdit={
                     isEditModify
                       ? cellEditFactory({
@@ -498,7 +462,6 @@ export const GeneralResultEntryExpand = ({
                   }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
                   onTableChange={handleTableChange}
-                  // expandRow={expandRow}
                   rowStyle={rowStyle}
                 />
               </div>

@@ -372,17 +372,6 @@ export const TableBootstrap = ({
       </div>
     ),
     showExpandColumn: true,
-    // onExpand: (row, isExpand, rowIndex, e) => {
-    //   console.log(row.id);
-    //   console.log(isExpand);
-    //   console.log(rowIndex);
-    //   console.log(e);
-    // },
-    // onExpandAll: (isExpandAll, rows, e) => {
-    //   console.log(isExpandAll);
-    //   console.log(rows);
-    //   console.log(e);
-    // },
   };
 
   return (
