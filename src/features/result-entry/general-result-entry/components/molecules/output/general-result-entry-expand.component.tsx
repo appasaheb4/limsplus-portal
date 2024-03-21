@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -46,10 +46,11 @@ interface GeneralResultEntryExpandProps {
     page: number,
     totalSize: number,
   ) => void;
-  onFinishResult?: () => void;
+  onFinishResult?: (selectedRow: any) => void;
   clearAllFilter?: () => void;
   onFilterFinishResult?: (code: string) => void;
   onTestStatusFilter?: (code: string) => void;
+  onTableReload?: () => void;
 }
 export const GeneralResultEntryExpand = ({
   id,
@@ -73,8 +74,10 @@ export const GeneralResultEntryExpand = ({
   clearAllFilter,
   onFilterFinishResult,
   onTestStatusFilter,
+  onTableReload,
 }: GeneralResultEntryExpandProps) => {
-  const [selectedRow, setSelectedRow] = useState<any[]>();
+  const selectedRow = useRef<any[]>([]);
+
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
 
@@ -298,20 +301,22 @@ export const GeneralResultEntryExpand = ({
   };
 
   const handleOnSelect = (rows: any, isSelect) => {
+    onTableReload && onTableReload();
     if (isSelect) {
-      if (selectedRow) {
-        const itemSelected: any[] = selectedRow;
+      if (selectedRow.current) {
+        const itemSelected: any[] = selectedRow.current;
         itemSelected.push(rows);
-        setSelectedRow(itemSelected);
+        selectedRow.current = itemSelected;
       } else {
-        setSelectedRow([rows]);
+        selectedRow.current = [rows];
       }
     }
   };
 
   const handleOnSelectAll = (isSelect, rows) => {
+    onTableReload && onTableReload();
     if (isSelect) {
-      setSelectedRow(rows);
+      selectedRow.current = rows;
     }
   };
 
@@ -406,15 +411,6 @@ export const GeneralResultEntryExpand = ({
                       </button>
                     ))}
                   </div>
-                  <button
-                    disabled={isFinishResultDisable}
-                    className={
-                      'ml-2 px-2 py-2 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                    }
-                    onClick={onFinishResult}
-                  >
-                    Submit
-                  </button>
                 </div>
                 <div className='flex justify-end gap-2'>
                   {testStatus.map(status => (
@@ -464,6 +460,23 @@ export const GeneralResultEntryExpand = ({
                   onTableChange={handleTableChange}
                   rowStyle={rowStyle}
                 />
+              </div>
+              <div>
+                <button
+                  disabled={
+                    selectedRow.current?.length > 0
+                      ? false && isFinishResultDisable
+                      : true
+                  }
+                  className={
+                    'py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                  }
+                  onClick={() =>
+                    onFinishResult && onFinishResult(selectedRow.current)
+                  }
+                >
+                  Submit
+                </button>
               </div>
             </div>
           )}
