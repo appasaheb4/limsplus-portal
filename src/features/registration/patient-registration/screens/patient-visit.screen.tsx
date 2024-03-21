@@ -1040,7 +1040,7 @@ export const PatientVisit = PatientVisitHoc(
                     )}
                     name='doctorId'
                     rules={{ required: true }}
-                    defaultValue={doctorsStore.listDoctors}
+                    defaultValue=''
                   />
                 )}
                 <Controller

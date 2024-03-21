@@ -80,7 +80,7 @@ export const Result = observer((props: ResultProps) => {
               text: 'Test',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderm',
+              headerClasses: 'textHeader2',
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -98,7 +98,7 @@ export const Result = observer((props: ResultProps) => {
               text: 'Analyte',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderm',
+              headerClasses: 'textHeader2',
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',

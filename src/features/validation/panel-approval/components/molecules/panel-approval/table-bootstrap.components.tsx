@@ -405,7 +405,7 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center gap-1 flex-wrap justify-between'>
+              <div className='flex items-center  flex-wrap justify-between'>
                 <div className='flex items-center flex-wrap'>
                   <SearchBar
                     {...searchProps}
@@ -415,18 +415,18 @@ export const TableBootstrap = ({
                     }}
                   />
                   <ClearSearchButton
-                    className={`inline-flex ml-2 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    className={`inline-flex px-1 ml-2  bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center  text-white`}
                     {...props.searchProps}
                   />
                   <button
-                    className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                    className={`ml-2 p-2  focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md  text-white`}
                     onClick={clearAllFilter}
                   >
                     Clear all filters
                   </button>
                   {isExport && (
                     <ExportCSVButton
-                      className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                      className={`inline-flex  px-1 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center text-white`}
                       {...props.csvProps}
                     >
                       Export CSV!!
@@ -454,11 +454,11 @@ export const TableBootstrap = ({
                       <Icons.IconFa.FaChevronDown />
                     </Buttons.Button>
                   )}
-                  <div className='flex gap-2'>
+                  <div className='flex ml-2 flex-wrap gap-1'>
                     {statusData.map(status => (
                       <button
                         key={status.code}
-                        className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                        className={`px-3.5 py-2 bg-${status.color}-600 text-white rounded`}
                         onClick={() => onFilterRecord?.(status.code)}
                       >
                         {status.value}
