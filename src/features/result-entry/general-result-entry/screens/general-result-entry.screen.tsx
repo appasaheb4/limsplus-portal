@@ -131,7 +131,7 @@ const GeneralResultEntry = observer(() => {
           }}
           onFilterFinishResult={async finishResult => {
             if (finishResult === '') {
-              patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+              patientResultStore.patientResultService.listPatientResultNotFinished(
                 {
                   pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
                 },

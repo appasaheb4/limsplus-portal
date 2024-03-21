@@ -9,6 +9,7 @@ import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import { stores } from '@/stores';
 import {
   LIST_PATIENT_RESULT,
+  LIST_PATIENT_RESULT_NOT_FINISHED,
   LIST_PATIENT_RESULT_WITH_LABID,
   FILTER_PATIENT_RESULT,
   FILTER_PATIENT_RESULT_WITH_LABID,
@@ -59,6 +60,34 @@ export class PatientResultService {
         .then((response: any) => {
           stores.patientResultStore.updatePatientResult(response.data);
           resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  listPatientResultNotFinished = (filter, page = 0, limit = 10) =>
+    new Promise<any>((resolve, reject) => {
+      const env =
+        stores.loginStore.login && stores.loginStore.login.environment;
+      const role = stores.loginStore.login && stores.loginStore.login.role;
+      client
+        .mutate({
+          mutation: LIST_PATIENT_RESULT_NOT_FINISHED,
+          variables: { input: { filter, page, limit, env, role } },
+        })
+        .then((res: any) => {
+          stores.patientResultStore.updatePatientResultNotAutoUpdate({
+            patientResultRecordsForGRE: {
+              success: res.data.findAllNotFinishedResults.success,
+              message: res.data.findAllNotFinishedResults.message,
+              patientResultList:
+                res.data.findAllNotFinishedResults.patientResultList,
+              paginatorInfo: {
+                count: res.data.findAllNotFinishedResults.paginatorInfo.count,
+              },
+            },
+          });
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),
