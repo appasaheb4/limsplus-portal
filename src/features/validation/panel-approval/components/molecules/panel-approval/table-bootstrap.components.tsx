@@ -53,6 +53,7 @@ interface TableBootstrapProps {
   onFilterRecord?: (item: any) => void;
   onUpdateResult?: (id: string, fields: any) => void;
   onUpdateFields?: (item: any, id: string) => void;
+  onPagination?: (type: string) => void;
 }
 
 export const TableBootstrap = ({
@@ -78,6 +79,7 @@ export const TableBootstrap = ({
   onFilterRecord,
   onUpdateResult,
   onUpdateFields,
+  onPagination,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -510,6 +512,42 @@ export const TableBootstrap = ({
                   onTableChange={handleTableChange}
                   expandRow={expandRow}
                 />
+              </div>
+              <div className='flex items-center gap-2 mt-2'>
+                <Icons.IconContext
+                  color='#fff'
+                  size='25'
+                  style={{
+                    backgroundColor: '#808080',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    align: 'center',
+                    padding: 4,
+                  }}
+                  onClick={async () => {
+                    onPagination && onPagination('next');
+                  }}
+                >
+                  <Icons.IconBi.BiSkipNext />
+                </Icons.IconContext>
+                <Icons.IconContext
+                  color='#fff'
+                  size='25'
+                  style={{
+                    backgroundColor: '#808080',
+                    width: 32,
+                    height: 32,
+                    borderRadius: 16,
+                    align: 'center',
+                    padding: 4,
+                  }}
+                  onClick={async () => {
+                    onPagination && onPagination('prev');
+                  }}
+                >
+                  <Icons.IconBi.BiSkipPrevious />
+                </Icons.IconContext>
               </div>
             </div>
           )}
