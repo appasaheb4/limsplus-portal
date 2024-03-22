@@ -565,6 +565,23 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               }),
             },
             {
+              dataField: 'userComments',
+              text: 'User Comments',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+              headerClasses: 'textHeader',
+              filter: textFilter({
+                getFilter: filter => {
+                  userComments = filter;
+                },
+              }),
+            }, 
+            {
               dataField: 'enteredBy',
               text: 'Entered By',
               sort: true,
@@ -581,23 +598,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 },
               }),
             },
-            {
-              dataField: 'userComments',
-              text: 'User Comments',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              headerClasses: 'textHeader',
-              filter: textFilter({
-                getFilter: filter => {
-                  userComments = filter;
-                },
-              }),
-            },
+           
 
             {
               dataField: 'environment',
