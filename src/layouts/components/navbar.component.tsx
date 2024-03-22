@@ -275,29 +275,38 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
         <UncontrolledDropdown nav inNavbar className='flex'>
           <span>
             <DropdownToggle nav>
-              <div className='flex flex-row gap-2'>
+              <div className='flex flex-row gap-2 items-center justify-center '>
                 <div style={{ width: '40px', height: '40px' }}>
                   <Tooltip tooltipText={'User profile'}>
                     <img
                       className='rounded-full'
                       src={loginStore.login?.picture || Assets.defaultAvatar}
                       alt={loginStore.login?.fullName}
+                      style={{
+                        maxWidth: '100%',
+                        height: 'auto',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignContent: 'center',
+                        alignItems: 'center',
+                        marginTop: '5px',
+                      }}
                     />
                   </Tooltip>
                 </div>
-                <span
-                  className='sm:mt-2 d-none d-sm-inline-block text-center'
-                  style={{
-                    color: stores.appStore.applicationSetting.navbarIconColor,
-                  }}
-                >
-                  {loginStore.login?.fullName}
-                  <br />
+                <div className='flex flex-col'>
+                  <span
+                    className='sm:mt-2 d-none d-sm-inline-block text-center'
+                    style={{
+                      color: stores.appStore.applicationSetting.navbarIconColor,
+                    }}
+                  >
+                    {loginStore.login?.fullName}
+                  </span>
                   <span style={{ fontSize: '10px', textAlign: 'center' }}>
                     {`(${loginStore.login?.role})`}
                   </span>
-                </span>
-                <br />
+                </div>
               </div>
             </DropdownToggle>
           </span>
