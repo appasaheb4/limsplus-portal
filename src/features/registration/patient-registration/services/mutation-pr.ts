@@ -13,6 +13,19 @@ export const LIST_PATIENT_RESULT = gql`
   }
 `;
 
+export const LIST_PATIENT_RESULT_NOT_FINISHED = gql`
+  mutation ($input: PatientResultInput!) {
+    findAllNotFinishedResults(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      patientResultList
+    }
+  }
+`;
+
 export const PATIENT_RESULT_RECORDS = gql`
   mutation ($input: PatientResultInput!) {
     patientResultRecordsForGRE(input: $input) {
