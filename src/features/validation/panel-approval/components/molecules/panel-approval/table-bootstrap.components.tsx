@@ -374,6 +374,8 @@ export const TableBootstrap = ({
       </div>
     ),
     showExpandColumn: true,
+    expandByColumnOnly: true,
+    expanded: [0, 1],
   };
 
   return (
@@ -510,8 +512,20 @@ export const TableBootstrap = ({
                   rowEvents={rowEvents}
                   rowStyle={rowStyle}
                   onTableChange={handleTableChange}
-                  expandRow={expandRow}
+                  // expandRow={expandRow}
                 />
+                <div className='px-2 -mt-2'>
+                  <Result
+                    data={data?.length > 0 ? data[0][1] : []}
+                    totalSize={data?.length > 0 ? data[0][1]?.length : []}
+                    onUpdateResult={(fields: any, id: string) => {
+                      onUpdateResult && onUpdateResult(id, fields);
+                    }}
+                    onUpdateFields={(fields: any, id: string) => {
+                      onUpdateFields && onUpdateFields(fields, id);
+                    }}
+                  />
+                </div>
               </div>
               <div className='flex items-center gap-2 mt-2'>
                 <Icons.IconContext
