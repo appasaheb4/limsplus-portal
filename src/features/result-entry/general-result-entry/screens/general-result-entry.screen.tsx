@@ -120,8 +120,6 @@ const GeneralResultEntry = observer(() => {
                   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                     {
                       pLab: loginStore.login?.lab,
-                      // testCode:
-                      //   generalResultEntryStore.filterGeneralResEntry?.testCode,
                       finishResult: 'P',
                     },
                   );
@@ -134,6 +132,14 @@ const GeneralResultEntry = observer(() => {
               patientResultStore.patientResultService.listPatientResultNotFinished(
                 {
                   pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  isAll: true,
+                },
+              );
+            } else if (finishResult === 'D') {
+              patientResultStore.patientResultService.listPatientResultNotFinished(
+                {
+                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  isAll: false,
                 },
               );
             } else {
@@ -159,35 +165,49 @@ const GeneralResultEntry = observer(() => {
               ...generalResultEntryStore.filterGeneralResEntry,
               testStatus,
             });
-            if (testStatus != '') {
-              patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                {
-                  input: {
-                    filter: {
-                      ...input,
-                    },
-                    page: 0,
-                    limit: 10,
-                  },
-                },
-              );
-              patientResultStore.filterDistinctPatientResult(
-                patientResultStore.distinctPatientResultCopy,
-              );
-            } else {
-              patientResultStore.patientResultService.findNotEqualToResult({
+            patientResultStore.patientResultService.filterPatientResultListGRETestStatus(
+              {
                 input: {
                   filter: {
                     ...input,
-                    testStatus: undefined,
-                    notEqualToKey: 'testStatus',
-                    notEqualToValue: 'P',
                   },
                   page: 0,
                   limit: 10,
                 },
-              });
-            }
+              },
+            );
+            patientResultStore.filterDistinctPatientResult(
+              patientResultStore.distinctPatientResultCopy,
+            );
+            // if (testStatus != '') {
+            //   patientResultStore.patientResultService.patientListForGeneralResultEntry(
+            //     {
+            //       input: {
+            //         filter: {
+            //           ...input,
+            //         },
+            //         page: 0,
+            //         limit: 10,
+            //       },
+            //     },
+            //   );
+            //   patientResultStore.filterDistinctPatientResult(
+            //     patientResultStore.distinctPatientResultCopy,
+            //   );
+            // } else {
+            //   patientResultStore.patientResultService.findNotEqualToResult({
+            //     input: {
+            //       filter: {
+            //         ...input,
+            //         testStatus: undefined,
+            //         notEqualToKey: 'testStatus',
+            //         notEqualToValue: 'P',
+            //       },
+            //       page: 0,
+            //       limit: 10,
+            //     },
+            //   });
+            // }
           }}
           onExpand={items => {
             setSelectId(items._id);
