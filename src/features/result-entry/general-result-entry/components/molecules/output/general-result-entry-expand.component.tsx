@@ -18,6 +18,7 @@ import { Confirm } from '@/library/models';
 
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { debounce } from '@/core-utils';
+import { PatientDemographicsList } from '../patient-demographics/patient-demographics-list.components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -51,6 +52,7 @@ interface GeneralResultEntryExpandProps {
   onFilterFinishResult?: (code: string) => void;
   onTestStatusFilter?: (code: string) => void;
   onTableReload?: () => void;
+  selectedRowData?: any;
 }
 export const GeneralResultEntryExpand = ({
   id,
@@ -75,6 +77,7 @@ export const GeneralResultEntryExpand = ({
   onFilterFinishResult,
   onTestStatusFilter,
   onTableReload,
+  selectedRowData,
 }: GeneralResultEntryExpandProps) => {
   const selectedRow = useRef<any[]>([]);
 
@@ -434,6 +437,14 @@ export const GeneralResultEntryExpand = ({
                   />
                 </div>
               )}
+              <div>
+                {selectedRowData?.length > 0 && (
+                  <PatientDemographicsList
+                    data={selectedRowData || []}
+                    totalSize={selectedRowData?.length}
+                  />
+                )}
+              </div>
               <div className='scrollTable'>
                 <BootstrapTable
                   keyField='_id'

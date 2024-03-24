@@ -138,51 +138,10 @@ export const DisplayResult = observer(
           )
         ) : null}
 
-        {row.resultType === 'D' ? (
-          !row?.result ? (
+        {row.resultType === 'D' &&
+          (!row?.result ? (
             <>
-              <select
-                name={`field-${row.index}`}
-                className={
-                  'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-                }
-                onChange={e => {
-                  const [fieldName, fieldIndex] = e.target.name.split('-');
-                  const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                  const nextfield: any = document.querySelector(
-                    `[name=field-${fieldIntIndex + 1}]`,
-                  );
-                  if (nextfield !== null) {
-                    nextfield.focus();
-                  }
-                  const defaultItem = JSON.parse(e.target.value);
-                  if (defaultItem) {
-                    onSelect &&
-                      onSelect({
-                        result: defaultItem.possibleValue,
-                        alpha: defaultItem.result,
-                        abnFlag: defaultItem.abNormal,
-                        critical: defaultItem.critical,
-                      });
-                  }
-                }}
-              >
-                <option selected>Select</option>
-                {conclusionResult?.map((item: any, index: number) => (
-                  <option key={index} value={JSON.stringify(item)}>
-                    {`Result: ${item.result} ,
-               PossibleValue: ${item.possibleValue} ,
-               Ab Normal: ${
-                 item.abNormal ? (item.abNormal ? 'Yes' : 'No') : 'No'
-               } ,
-               Critical: ${
-                 item.critical ? (item.critical ? 'Yes' : 'No') : 'No'
-               }`}
-                  </option>
-                ))}
-              </select>
-
-              {/* <Tooltip
+              <Tooltip
                 tooltipText={row._id != selectedRowId ? 'Expand' : 'Collapse'}
               >
                 <Icons.IconContext
@@ -209,20 +168,17 @@ export const DisplayResult = observer(
                     <Table striped bordered>
                       <thead>
                         <tr className='p-0 text-xs'>
-                          <th className='text-white' style={{ minWidth: 70 }}>
+                          <th className='text-white' style={{ minWidth: 150 }}>
                             Result
                           </th>
-                          <th className='text-white' style={{ minWidth: 70 }}>
+                          <th className='text-white' style={{ minWidth: 150 }}>
                             PossibleValue
                           </th>
-                          <th className='text-white' style={{ minWidth: 50 }}>
-                            Ab Normal
+                          <th className='text-white' style={{ minWidth: 150 }}>
+                            Abnormal
                           </th>
-                          <th className='text-white' style={{ minWidth: 50 }}>
+                          <th className='text-white' style={{ minWidth: 150 }}>
                             Critical
-                          </th>
-                          <th className='text-white sticky right-0 z-10'>
-                            Action
                           </th>
                         </tr>
                       </thead>
@@ -230,38 +186,31 @@ export const DisplayResult = observer(
                         {conclusionResult?.map((item, index) => {
                           return (
                             <>
-                              <tr>
+                              <tr
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => {
+                                  const selectedValue = JSON.stringify(item);
+                                  const defaultItem = JSON.parse(selectedValue);
+                                  onSelect?.({
+                                    result: defaultItem.possibleValue,
+                                    alpha: defaultItem.result,
+                                    abnFlag: defaultItem.abNormal,
+                                    critical: defaultItem.critical,
+                                  });
+                                }}
+                              >
                                 <td>{item.result}</td>
                                 <td>{item.possibleValue}</td>
                                 <td>
-                                  {item.abNormal
-                                    ? item.abNormal
-                                      ? 'Yes'
-                                      : 'No'
-                                    : 'No'}
+                                  <Form.Toggle
+                                    value={item.abNormal}
+                                    disabled={true}
+                                  />
                                 </td>
                                 <td>
-                                  {item.critical
-                                    ? item.critical
-                                      ? 'Yes'
-                                      : 'No'
-                                    : 'No'}
-                                </td>
-                                <td>
-                                  <FiArrowRightCircle
-                                    size={20}
-                                    onClick={() => {
-                                      const selectedValue =
-                                        JSON.stringify(item);
-                                      const defaultItem =
-                                        JSON.parse(selectedValue);
-                                      onSelect?.({
-                                        result: defaultItem.possibleValue,
-                                        alpha: defaultItem.result,
-                                        abnFlag: defaultItem.abNormal,
-                                        critical: defaultItem.critical,
-                                      });
-                                    }}
+                                  <Form.Toggle
+                                    value={item.critical}
+                                    disabled={true}
                                   />
                                 </td>
                               </tr>
@@ -270,7 +219,9 @@ export const DisplayResult = observer(
                         })}
                       </tbody>
                     </Table>
-                  </div> */}
+                  </div>
+                </>
+              ) : null}
             </>
           ) : (
             <span>
@@ -278,8 +229,7 @@ export const DisplayResult = observer(
                 <p key={index}>{str}</p>
               ))}
             </span>
-          )
-        ) : null}
+          ))}
 
         {row.resultType === 'L' ? (
           !row?.result ? (

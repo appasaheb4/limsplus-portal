@@ -39,6 +39,7 @@ interface GeneralResultEntryListProps {
   onTestStatusFilter?: (code: string) => void;
   onExpand?: (items: any) => void;
   onTableReload?: () => void;
+  selectedRowData?: any;
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
@@ -48,6 +49,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [widthRefBox, setWidthRefBox] = useState('60px');
   const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
   const [localData, setLocalData] = useState(props.data);
+  const [selectedRowData, setSelectedRowData] = useState<any>([]);
 
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
@@ -680,7 +682,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       </>
                     </div>
                   )}
-                  {selectId == row._id ? (
+                  {selectId == row?._id ? (
                     <Tooltip tooltipText='Expand'>
                       <Icons.IconContext
                         color='#fff'
@@ -749,6 +751,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           onTableReload={() => {
             props.onTableReload && props.onTableReload();
           }}
+          selectedRowData={props.selectedRowData}
         />
       </div>
     </>
