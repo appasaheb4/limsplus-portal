@@ -179,7 +179,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeader4',
               editable: (content, row, rowIndex, columnIndex) =>
                 row.approvalStatus == 'P' ? true : false,
               formatter: (cellContent, row) => (
