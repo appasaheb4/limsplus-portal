@@ -437,14 +437,19 @@ export const GeneralResultEntryExpand = ({
                   />
                 </div>
               )}
-              <div>
-                {selectedRowData?.length > 0 && (
-                  <PatientDemographicsList
-                    data={selectedRowData || []}
-                    totalSize={selectedRowData?.length}
-                  />
-                )}
-              </div>
+              {selectedRowData?.length > 0 && (
+                <>
+                  <div className='mt-2'>
+                    <span className='text-lg font-bold leading-4 mt-2'>
+                      Patient Demographics
+                    </span>
+                    <PatientDemographicsList
+                      data={selectedRowData || []}
+                      totalSize={selectedRowData?.length}
+                    />
+                  </div>
+                </>
+              )}
               <div className='scrollTable'>
                 <BootstrapTable
                   keyField='_id'
