@@ -78,6 +78,7 @@ export const GeneralResultEntryExpand = ({
 }: GeneralResultEntryExpandProps) => {
   const selectedRow = useRef<any[]>([]);
 
+  const [filterStatus, setFilterStatus] = useState('P');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
 
@@ -301,23 +302,32 @@ export const GeneralResultEntryExpand = ({
   };
 
   const handleOnSelect = (rows: any, isSelect) => {
+    console.log({ rows });
+
     onTableReload && onTableReload();
+    let itemSelected: any[] = selectedRow.current;
     if (isSelect) {
       if (selectedRow.current) {
-        const itemSelected: any[] = selectedRow.current;
         itemSelected.push(rows);
-        selectedRow.current = itemSelected;
+        // selectedRow.current = itemSelected;
       } else {
-        selectedRow.current = [rows];
+        itemSelected = [rows];
       }
+    } else {
+      itemSelected.pop();
     }
+    selectedRow.current = itemSelected;
   };
 
   const handleOnSelectAll = (isSelect, rows) => {
+    let itemSelected;
     onTableReload && onTableReload();
     if (isSelect) {
-      selectedRow.current = rows;
+      itemSelected = rows;
+    } else {
+      itemSelected = [];
     }
+    selectedRow.current = itemSelected;
   };
 
   const statusData = [
@@ -403,6 +413,7 @@ export const GeneralResultEntryExpand = ({
                         key={status.code}
                         className={`bg-${status.color}-600 ml-2 px-2 w-20 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                         onClick={() => {
+                          setFilterStatus(status.code);
                           onFilterFinishResult &&
                             onFilterFinishResult(status.code);
                         }}
@@ -417,7 +428,10 @@ export const GeneralResultEntryExpand = ({
                     <button
                       key={status.code}
                       className={`bg-${status.color}-600 px-4 py-2 focus:outline-none  items-center  outline shadow-sm  font-medium  text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
-                      onClick={() => onTestStatusFilter?.(status.code)}
+                      onClick={() => {
+                        setFilterStatus(status.code);
+                        onTestStatusFilter?.(status.code);
+                      }}
                     >
                       {status.value}
                     </button>
@@ -445,6 +459,8 @@ export const GeneralResultEntryExpand = ({
                   filter={filterFactory()}
                   selectRow={{
                     mode: 'checkbox',
+                    style: { backgroundColor: '#c8e6c9' },
+                    hideSelectColumn: filterStatus == 'P' ? false : true,
                     onSelect: handleOnSelect,
                     onSelectAll: handleOnSelectAll,
                   }}
@@ -461,23 +477,25 @@ export const GeneralResultEntryExpand = ({
                   rowStyle={rowStyle}
                 />
               </div>
-              <div>
-                <button
-                  disabled={
-                    selectedRow.current?.length > 0
-                      ? false && isFinishResultDisable
-                      : true
-                  }
-                  className={
-                    'py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                  }
-                  onClick={() =>
-                    onFinishResult && onFinishResult(selectedRow.current)
-                  }
-                >
-                  Submit
-                </button>
-              </div>
+              {filterStatus == 'P' && (
+                <div>
+                  <button
+                    disabled={
+                      selectedRow.current?.length > 0
+                        ? false && isFinishResultDisable
+                        : true
+                    }
+                    className={
+                      'py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                    }
+                    onClick={() =>
+                      onFinishResult && onFinishResult(selectedRow.current)
+                    }
+                  >
+                    Submit
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </ToolkitProvider>
