@@ -613,6 +613,8 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -726,8 +728,6 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -1002,6 +1002,73 @@ export const PatientVisit = PatientVisitHoc(
                     defaultValue=''
                   />
                 )}
+
+                <Grid cols={3}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='History'
+                        id='toggleHistory'
+                        hasError={!!errors.history}
+                        value={value}
+                        onChange={history => {
+                          onChange(history);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            history,
+                          });
+                        }}
+                      />
+                    )}
+                    name='history'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='Hold Report'
+                        id='toggleHistory'
+                        hasError={!!errors.holdReport}
+                        value={value}
+                        onChange={holdReport => {
+                          onChange(holdReport);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            holdReport,
+                          });
+                        }}
+                      />
+                    )}
+                    name='holdReport'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='Specific Format'
+                        hasError={!!errors.specificFormat}
+                        value={value}
+                        onChange={specificFormat => {
+                          onChange(specificFormat);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            specificFormat,
+                          });
+                        }}
+                      />
+                    )}
+                    name='specificFormat'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                </Grid>
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -1107,73 +1174,6 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-
-                <Grid cols={3}>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='History'
-                        id='toggleHistory'
-                        hasError={!!errors.history}
-                        value={value}
-                        onChange={history => {
-                          onChange(history);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            history,
-                          });
-                        }}
-                      />
-                    )}
-                    name='history'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='Hold Report'
-                        id='toggleHistory'
-                        hasError={!!errors.holdReport}
-                        value={value}
-                        onChange={holdReport => {
-                          onChange(holdReport);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            holdReport,
-                          });
-                        }}
-                      />
-                    )}
-                    name='holdReport'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='Specific Format'
-                        hasError={!!errors.specificFormat}
-                        value={value}
-                        onChange={specificFormat => {
-                          onChange(specificFormat);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            specificFormat,
-                          });
-                        }}
-                      />
-                    )}
-                    name='specificFormat'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                </Grid>
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
