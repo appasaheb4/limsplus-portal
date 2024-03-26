@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {CorporateClients, SelectedItems} from '../models';
-import {CorporateClientsService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { CorporateClients, SelectedItems } from '../models';
+import { CorporateClientsService } from '../services';
 import dayjs from 'dayjs';
 
 export class CorporateClientsStore {
@@ -25,8 +25,9 @@ export class CorporateClientsStore {
       version: 1,
       confidential: false,
       urgent: false,
-      priceList: [{id: 0, maxDis: 0}],
+      priceList: [{ id: 0, maxDis: 0 }],
       isEmployeeCode: false,
+      reportFormat: false,
       specificFormat: false,
       isBalanceCheck: true,
       isPredefinedPanel: false,
@@ -72,7 +73,7 @@ export class CorporateClientsStore {
       version: 1,
       confidential: false,
       urgent: false,
-      priceList: [{id: 0, maxDis: 0}],
+      priceList: [{ id: 0, maxDis: 0 }],
       isEmployeeCode: false,
       specificFormat: false,
       isBalanceCheck: true,

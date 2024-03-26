@@ -128,6 +128,10 @@ const CorporateClients = CorporateClientsHoc(
         corporateClientsStore.corporateClients?.reportPriority,
       );
       setValue(
+        'reportFormat',
+        corporateClientsStore.corporateClients?.reportFormat,
+      );
+      setValue(
         'deliveryMode',
         corporateClientsStore.corporateClients?.deliveryMode,
       );
