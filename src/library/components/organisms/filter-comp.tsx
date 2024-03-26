@@ -316,11 +316,8 @@ export const DateRangeFilter = props => {
       <Container>
         {showModal && (
           <>
-            <div
-              className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none z-50'
-              style={{ top: '180px' }}
-            >
-              <div className='relative w-auto my-6 mx-auto max-w-3xl '>
+            <div className='flex justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 outline-none focus:outline-none z-50'>
+              <div className='relative my-6 w-fit '>
                 <div
                   className={`border-0 rounded-lg shadow-lg relative flex flex-col w-full ${
                     stores.appStore.applicationSetting.theme === 'dark'
@@ -343,7 +340,7 @@ export const DateRangeFilter = props => {
                     </button>
                   </div>
                   <div className='flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                    <div className='items-center justify-center flex mb-2'>
+                    <div className='items-center justify-center flex'>
                       <img
                         src={
                           stores.appStore.applicationSetting.theme === 'dark'
@@ -352,24 +349,22 @@ export const DateRangeFilter = props => {
                         }
                         className='img-fluid'
                         style={{
-                          width: '200px',
+                          width: '180px',
                           height: '150px',
-                          marginTop: '-40px',
+                          marginTop: '-60px',
                         }}
                         alt='lims plus'
                       />
                     </div>
-                    <div>
-                      <div className='items-center justify-center flex'>
-                        <span className='text-2xl dark:text-white text-black'>
-                          Date Range Picker
-                        </span>
-                      </div>
+                    <div className='items-center justify-center flex'>
+                      <span className='text-2xl dark:text-white text-black'>
+                        Date Range Picker
+                      </span>
                     </div>
                   </div>
 
                   <div className='relative p-2 flex flex-row gap-2'>
-                    <div className='flex flex-col w-50'>
+                    <div className='flex flex-col w-40'>
                       <span className='dark:text-white text-black text-sm'>
                         From Date
                       </span>
@@ -380,7 +375,7 @@ export const DateRangeFilter = props => {
                         className='leading-4 p-2 focus:outline-none focus:ring shadow-sm text-base border-2 border-gray-300 rounded-md text-black'
                       />
                     </div>
-                    <div className='flex flex-col w-50'>
+                    <div className='flex flex-col w-40'>
                       <span className='dark:text-white text-black text-sm'>
                         To Date
                       </span>
@@ -429,10 +424,21 @@ export const DateRangeFilter = props => {
                       </div>
                     </div>
                   </div>
-
                   <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>
                     <button
-                      className={`bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ${
+                      className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
+                      type='button'
+                      style={{ transition: 'all .15s ease' }}
+                      onClick={() => {
+                        setShowModal(false);
+                        setStartDate(null);
+                        setEndDate(null);
+                      }}
+                    >
+                      No
+                    </button>
+                    <button
+                      className={`bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-4 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ${
                         !datesFilled && 'opacity-50 cursor-not-allowed'
                       }`}
                       type='button'
@@ -447,18 +453,6 @@ export const DateRangeFilter = props => {
                       disabled={!datesFilled}
                     >
                       Yes
-                    </button>
-                    <button
-                      className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
-                      type='button'
-                      style={{ transition: 'all .15s ease' }}
-                      onClick={() => {
-                        setShowModal(false);
-                        setStartDate(null);
-                        setEndDate(null);
-                      }}
-                    >
-                      No
                     </button>
                   </div>
                 </div>

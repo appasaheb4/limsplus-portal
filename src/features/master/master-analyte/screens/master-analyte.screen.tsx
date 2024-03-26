@@ -157,6 +157,7 @@ const MasterAnalyte = MasterAnalyteHoc(
         });
       }
     };
+
     const onUpdateSingleField = payload => {
       masterAnalyteStore.masterAnalyteService
         .updateSingleFiled({
