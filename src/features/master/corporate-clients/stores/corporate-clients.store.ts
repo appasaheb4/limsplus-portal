@@ -24,7 +24,7 @@ export class CorporateClientsStore {
       ),
       version: 1,
       confidential: false,
-      urgent: false,
+      urgent: true,
       priceList: [{ id: 0, maxDis: 0 }],
       isEmployeeCode: false,
       reportFormat: false,
