@@ -23,6 +23,7 @@ import {
   UPDATE_FIELDS_BY_IDS,
   UPDATE_STATUS_RECORD,
   FIND_NOT_EQUAL_TO_RESULT,
+  FILTER_PATIENT_RESULT_LIST_TEST_STATUS,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -241,6 +242,62 @@ export class PatientResultService {
                   count:
                     response.data.patientResultListForGenResEntry.paginatorInfo
                       .count,
+                },
+              },
+            });
+          }
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterPatientResultListGRETestStatus = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      const filter = _.pickBy(
+        variables.input.filter,
+        v => v !== null && v !== undefined && v !== '',
+      );
+      client
+        .mutate({
+          mutation: FILTER_PATIENT_RESULT_LIST_TEST_STATUS,
+          variables: {
+            ...variables,
+            input: { filter },
+          },
+        })
+        .then((response: any) => {
+          if (!response.data.filterPatientResultListGRETestStatus.success) {
+            return this.listPatientResultNotAutoUpdate({
+              pLab: stores.loginStore.login?.lab,
+              finishResult: 'P',
+            });
+          } else {
+            let data: any =
+              response.data.filterPatientResultListGRETestStatus
+                .patientResultList;
+            data = data.map(item => {
+              return {
+                ...item,
+                testReportOrder: item?.extraData?.testReportOrder,
+                analyteReportOrder: item?.extraData?.analyteReportOrder,
+              };
+            });
+            data = _.sortBy(data, [
+              'labId',
+              'testReportOrder',
+              'analyteReportOrder',
+            ]);
+            stores.patientResultStore.patientResultListForGeneralResEntry({
+              patientResultListForGenResEntry: {
+                patientResultList: data,
+                paginatorInfo: {
+                  count:
+                    response.data.filterPatientResultListGRETestStatus
+                      .paginatorInfo.count,
                 },
               },
             });

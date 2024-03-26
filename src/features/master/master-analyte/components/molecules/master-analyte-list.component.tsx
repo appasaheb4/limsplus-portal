@@ -93,15 +93,12 @@ interface MasterAnalyteProps {
 
 export const MasterAnalyteList = (props: MasterAnalyteProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
-
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
-
   const todayDate = new Date();
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
-
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
@@ -1292,28 +1289,28 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                   <>{dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
                 );
               },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <Form.InputDateTime
-                    value={new Date(row.dateCreation)}
-                    onFocusRemove={dateCreation => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          dateCreation,
-                          column.dataField,
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
-              ),
+              // editorRenderer: (
+              //   editorProps,
+              //   value,
+              //   row,
+              //   column,
+              //   rowIndex,
+              //   columnIndex,
+              // ) => (
+              //   <>
+              //     <Form.InputDateTime
+              //       value={new Date(row.dateCreation)}
+              //       onFocusRemove={dateCreation => {
+              //         props.onUpdateItem &&
+              //           props.onUpdateItem(
+              //             dateCreation,
+              //             column.dataField,
+              //             row._id,
+              //           );
+              //       }}
+              //     />
+              //   </>
+              // ),
             },
             {
               dataField: 'dateActive',
