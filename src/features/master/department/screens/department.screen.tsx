@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -22,13 +19,11 @@ import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { DeginisationHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { FormHelper } from '@/helper';
 import { resetDepartment } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import { AutoCompleteCompanyList } from '@/core-components';
 import { toJS } from 'mobx';
 
 export const Department = DeginisationHoc(
@@ -54,6 +49,7 @@ export const Department = DeginisationHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -64,7 +60,7 @@ export const Department = DeginisationHoc(
     }, [departmentStore.department]);
 
     const onSubmitDepartment = () => {
-      if (!departmentStore.checkExitsCode) {
+      if (!isExistsRecord) {
         departmentStore.DepartmentService.adddepartment({
           input: isImport
             ? { isImport, arrImportRecords }
@@ -87,7 +83,7 @@ export const Department = DeginisationHoc(
         setIsVersionUpgrade(false);
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code!',
+          message: '😔 Already some record exists.',
         });
       }
     };
@@ -215,21 +211,13 @@ export const Department = DeginisationHoc(
 
     const checkExistsRecords = async (
       fields = departmentStore.department,
-      length = 0,
-      status = 'A',
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'lab',
-        'code',
-        'name',
-        'name',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['lab', 'code', 'name', 'status', 'environment'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields, status }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -237,21 +225,23 @@ export const Department = DeginisationHoc(
       }
       return departmentStore.DepartmentService.findByFields({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsDepartments?.success &&
-          res.findByFieldsDepartments?.data?.length > length
-        ) {
-          //setIsExistsRecord(true);
+        if (res.findByFieldsDepartments?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
 
@@ -388,22 +378,13 @@ export const Department = DeginisationHoc(
                         }}
                         onBlur={code => {
                           onChange(code);
-                          departmentStore.DepartmentService.checkExitsLabEnvCode(
+                          checkExistsRecords(
                             {
-                              input: {
-                                code,
-                                env: departmentStore.department?.environment,
-                                lab: departmentStore.department?.lab,
-                              },
+                              ...departmentStore.department,
+                              code,
                             },
-                          ).then(res => {
-                            if (res.checkDepartmentExistsRecord.success) {
-                              departmentStore.setExitsCode(true);
-                              Toast.error({
-                                message: `😔 ${res.checkDepartmentExistsRecord.message}`,
-                              });
-                            } else departmentStore.setExitsCode(false);
-                          });
+                            true,
+                          );
                         }}
                       />
                     )}
@@ -435,6 +416,15 @@ export const Department = DeginisationHoc(
                             ...departmentStore.department,
                             name,
                           });
+                        }}
+                        onBlur={name => {
+                          checkExistsRecords(
+                            {
+                              ...departmentStore.department,
+                              name,
+                            },
+                            true,
+                          );
                         }}
                       />
                     )}

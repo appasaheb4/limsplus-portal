@@ -198,7 +198,6 @@ const Company = CompanyHoc(
           },
         })
         .then(res => {
-          console.log({ res });
           if (res.findByFieldsCompany?.success) {
             setIsExistsRecord(true);
             Toast.error({
