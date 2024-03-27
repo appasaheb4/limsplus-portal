@@ -57,7 +57,9 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
 
     useEffect(() => {
       setOptions(
-        departmentStore.listDepartment.filter(item => item.lab === lab),
+        departmentStore.listDepartment.filter(
+          item => item.lab === lab && item.status == 'A',
+        ),
       );
     }, [departmentStore.listDepartment, lab]);
 
@@ -87,7 +89,6 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
         onFilter(search);
       }
     };
-    console.log({ value });
 
     return (
       <>

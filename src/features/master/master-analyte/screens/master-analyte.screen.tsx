@@ -489,7 +489,9 @@ const MasterAnalyte = MasterAnalyteHoc(
                                 : false
                             }
                             data={{
-                              list: labStore.listLabs,
+                              list: labStore.listLabs?.filter(
+                                item => item.status == 'A',
+                              ),
                               displayKey: 'name',
                               findKey: 'name',
                             }}

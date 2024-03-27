@@ -296,7 +296,6 @@ export const SalesTeam = SalesTeamHoc(
       const requiredFields = [
         'salesTerritory',
         'empCode',
-        // 'targets',
         'status',
         'environment',
       ];
