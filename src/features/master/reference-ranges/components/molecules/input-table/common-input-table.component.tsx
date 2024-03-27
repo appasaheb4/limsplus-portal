@@ -59,7 +59,6 @@ export const CommonInputTable = observer(
       reset();
       // setValue('species', refernceRangesStore.referenceRanges?.species);
       // setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
-      console.log('reload data');
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isReload]);
 
@@ -137,9 +136,6 @@ export const CommonInputTable = observer(
               <th className='text-white' style={{ minWidth: '190px' }}>
                 Inst Type
               </th>
-              {/* <th className='text-white' style={{ minWidth: '190px' }}>
-                Company Code
-              </th> */}
             </tr>{' '}
           </thead>
           <tbody className='text-xs'>
@@ -192,6 +188,8 @@ export const CommonInputTable = observer(
                             page: 0,
                             limit: 10,
                           },
+                        }).then(res => {
+                          console.log({ res });
                         });
                       }}
                     />
@@ -448,27 +446,6 @@ export const CommonInputTable = observer(
                   defaultValue=''
                 />
               </td>
-              {/* <td>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <AutoCompleteCompanyList
-                      isLabel={false}
-                      hasError={!!errors.companyCode}
-                      onSelect={companyCode => {
-                        onChange(companyCode);
-                        refernceRangesStore.updateReferenceRanges({
-                          ...refernceRangesStore.referenceRanges,
-                          companyCode,
-                        });
-                      }}
-                    />
-                  )}
-                  name='companyCode'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-              </td> */}
             </tr>
           </tbody>
         </Table>
