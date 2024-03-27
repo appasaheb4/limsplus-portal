@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   List,
   Grid,
@@ -14,7 +11,6 @@ import {
   Form,
   ModalChangePasswordByAdmin,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
@@ -900,7 +896,9 @@ export const Users = UsersHoc(
                           loader={loading}
                           placeholder='Search by code or name'
                           data={{
-                            list: labStore.listLabs,
+                            list: labStore.listLabs?.filter(
+                              item => item.status == 'A',
+                            ),
                             displayKey: ['code', 'name'],
                           }}
                           displayValue={value}
@@ -1037,7 +1035,11 @@ export const Users = UsersHoc(
                                 code: '*',
                                 name: '*',
                               },
-                            ].concat(labStore.listLabs),
+                            ].concat(
+                              labStore.listLabs?.filter(
+                                item => item.status == 'A',
+                              ),
+                            ),
                             selected: userStore.selectedItems?.labs,
                             displayKey: ['code', 'name'],
                           }}
@@ -1141,12 +1143,15 @@ export const Users = UsersHoc(
                             ].concat(
                               userStore.user.lab?.length > 0
                                 ? userStore.user.lab?.some(e => e.code !== '*')
-                                  ? departmentStore.listDepartment?.filter(o1 =>
-                                      userStore.user?.lab?.some(
-                                        o2 => o1.lab === o2.code,
-                                      ),
+                                  ? departmentStore.listDepartment?.filter(
+                                      o1 =>
+                                        userStore.user?.lab?.some(
+                                          o2 => o1.lab === o2.code,
+                                        ) && o1.status == 'A',
                                     )
-                                  : departmentStore.listDepartment
+                                  : departmentStore.listDepartment?.filter(
+                                      item => item.status == 'A',
+                                    )
                                 : [],
                             ),
                             selected: userStore.selectedItems?.department,

@@ -369,7 +369,9 @@ export const CommonInputTable = observer(
                       placeholder='Search by code or name'
                       hasError={!!errors.lab}
                       data={{
-                        list: labStore.listLabs,
+                        list: labStore.listLabs?.filter(
+                          item => item.status == 'A',
+                        ),
                         displayKey: ['code', 'name'],
                       }}
                       displayValue={value}

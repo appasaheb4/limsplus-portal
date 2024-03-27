@@ -3,9 +3,6 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -1202,14 +1199,16 @@ const Doctors = DoctorsHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
-                        label='Registartion Location'
+                        label='Registration Location'
                         hasError={!!errors.registrationLocation}
                       >
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
                           placeholder='Search by locationCode or locationName'
                           data={{
-                            list: registrationLocationsStore.listRegistrationLocations,
+                            list: registrationLocationsStore.listRegistrationLocations?.filter(
+                              item => item.status == 'A',
+                            ),
                             displayKey: ['locationCode', 'locationName'],
                           }}
                           hasError={!!errors.registrationLocation}

@@ -11,7 +11,6 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
-  Icons,
 } from '@/library/components';
 import {
   CommonInputTable,
@@ -467,7 +466,7 @@ const ReferenceRanges = ReferenceRangesHoc(
     const addItem = () => {
       const refRangesInputList =
         refernceRangesStore.referenceRanges?.refRangesInputList;
-      console.log({ refRangesInputList });
+      // console.log({ refRangesInputList });
 
       refRangesInputList.push({
         rangeId:
