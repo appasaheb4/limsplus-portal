@@ -279,16 +279,25 @@ export const TableBootstrapReport = ({
   );
 
   const rowStyle = (row, rowIndex) => {
-    if (row?.isAnyCritical || (row?.isAnyABNFlag && row?.isAnyCritical)) {
-      return {
-        backgroundColor: '#FF0000',
-        color: '#FFFF00',
-      };
-    } else if (row?.isAnyABNFlag) {
-      return {
-        backgroundColor: '#FFFF00',
-        color: '#FF0000',
-      };
+    switch (row?.colorScheme?.envRangeColor) {
+      case 'BOTH':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      case 'BACKGROUND':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+        };
+        break;
+      case 'FONT':
+        return {
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      default:
+        break;
     }
   };
 

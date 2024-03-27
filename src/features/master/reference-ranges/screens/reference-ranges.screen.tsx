@@ -465,12 +465,15 @@ const ReferenceRanges = ReferenceRangesHoc(
       [
         refernceRangesStore.referenceRanges?.refRangesInputList?.length,
         refernceRangesStore.referenceRanges?.refreshList,
+        departmentStore.listDepartment,
       ],
     );
 
     const addItem = () => {
       const refRangesInputList =
         refernceRangesStore.referenceRanges?.refRangesInputList;
+      console.log({ refRangesInputList });
+
       refRangesInputList.push({
         rangeId:
           refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
@@ -493,17 +496,13 @@ const ReferenceRanges = ReferenceRangesHoc(
         ),
         enterBy: loginStore.login.userId,
         status: 'A',
-        // companyCode: refernceRangesStore.referenceRanges?.companyCode,
-        // environment: getDefaultLookupItem(
-        //   routerStore.lookupItems,
-        //   'ENVIRONMENT',
-        // ),
         type: 'insert',
         rangeType: getDefaultLookupItem(routerStore.lookupItems, 'RANGE_TYPE'),
         validationLevel: Number.parseInt(
           getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
         ),
       });
+
       refernceRangesStore.updateReferenceRanges({
         ...refernceRangesStore.referenceRanges,
         refRangesInputList,
@@ -578,7 +577,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               <Buttons.Button
                 size='medium'
                 type='solid'
-                icon={Svg.Save}
+                icon={Svg.Plus}
                 onClick={handleSubmit(addItem)}
               >
                 Add
