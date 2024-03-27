@@ -3,9 +3,6 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   List,
   Svg,
@@ -378,7 +375,6 @@ const ReferenceRanges = ReferenceRangesHoc(
         'status',
         'environment',
       ];
-
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields, status }[item]?.toString())) return item;
       });
@@ -401,7 +397,6 @@ const ReferenceRanges = ReferenceRangesHoc(
             res.findByFieldsReferenceRanges?.success &&
             res.findByFieldsReferenceRanges?.data?.length > length
           ) {
-            //setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });

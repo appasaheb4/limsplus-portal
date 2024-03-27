@@ -582,7 +582,9 @@ const MasterPanel = MasterPanelHoc(
                               list:
                                 loginStore.login.role !== 'SYSADMIN'
                                   ? loginStore.login.labList
-                                  : labStore.listLabs,
+                                  : labStore.listLabs?.filter(
+                                      item => item.status == 'A',
+                                    ),
                               displayKey: 'name',
                               findKey: 'name',
                             }}

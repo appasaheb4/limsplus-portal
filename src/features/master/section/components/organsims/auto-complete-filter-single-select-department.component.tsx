@@ -49,7 +49,9 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
     }, [displayValue]);
 
     useEffect(() => {
-      setOptions(departmentStore.listDepartment);
+      setOptions(
+        departmentStore.listDepartment?.filter(item => item.status == 'A'),
+      );
     }, [departmentStore.listDepartment]);
 
     const onFilter = (value: string) => {

@@ -4,9 +4,6 @@ import _ from 'lodash';
 import dayjs from 'dayjs';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -125,6 +122,10 @@ const Lab = LabHoc(
     const onSubmitLab = async () => {
       if (!labStore.checkExitsEnvCode) {
         if (isImport) {
+          const isExists = await checkExistsRecords();
+          if (isExists) {
+            return;
+          }
           labStore.LabService.addLab({
             input: { isImport, arrImportRecords },
           }).then(res => {
@@ -411,7 +412,6 @@ const Lab = LabHoc(
           res.findByFieldsLabs?.success &&
           res.findByFieldsLabs.data?.length > length
         ) {
-          //setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
