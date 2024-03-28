@@ -157,6 +157,8 @@ const Banner = BannerHoc(
                   rules={{ required: true }}
                   defaultValue={bannerStore.banner?.image}
                 />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <div className='flex gap-4'>
                   <Controller
                     control={control}

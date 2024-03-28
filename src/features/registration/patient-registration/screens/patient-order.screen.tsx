@@ -401,7 +401,8 @@ export const PatientOrder = PatientOrderHoc(
                     Lab Id already exits. Please use other lab id.
                   </span>
                 )}
-
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -512,8 +513,8 @@ export const PatientOrder = PatientOrderHoc(
                   }
                 />
               </List>
-              <List direction='col' space={4} justify='stretch' fill></List>
             </Grid>
+            <Grid cols={2}></Grid>
             <div
               className='rounded-lg shadow-xl overflow-scroll mt-2'
               style={{ overflowX: 'scroll' }}
