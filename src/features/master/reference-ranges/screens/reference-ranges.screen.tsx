@@ -176,7 +176,6 @@ const ReferenceRanges = ReferenceRangesHoc(
           }
         });
     };
-
     const tableView = useMemo(
       () => (
         <ReferenceRangesList
@@ -292,7 +291,6 @@ const ReferenceRanges = ReferenceRangesHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [refernceRangesStore.listReferenceRanges],
     );
-
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -352,7 +350,6 @@ const ReferenceRanges = ReferenceRangesHoc(
       });
       reader.readAsBinaryString(file);
     };
-
     const checkExistsRecords = async (
       fields = refernceRangesStore.referenceRanges,
       length = 0,
@@ -403,7 +400,6 @@ const ReferenceRanges = ReferenceRangesHoc(
           } else return false;
         });
     };
-
     const refRangesInputTable = useMemo(
       () =>
         refernceRangesStore.referenceRanges?.refRangesInputList.length > 0 && (
@@ -462,7 +458,6 @@ const ReferenceRanges = ReferenceRangesHoc(
         departmentStore.listDepartment,
       ],
     );
-
     const addItem = () => {
       const refRangesInputList =
         refernceRangesStore.referenceRanges?.refRangesInputList;

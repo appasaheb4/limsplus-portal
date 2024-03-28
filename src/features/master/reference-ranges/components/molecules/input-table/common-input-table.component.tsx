@@ -3,8 +3,7 @@ import { Table } from 'reactstrap';
 import dayjs from 'dayjs';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  Icons,
-  Buttons,
+  Toast,
 } from '@/library/components';
 import {
   lookupItems,
@@ -151,7 +150,9 @@ export const CommonInputTable = observer(
                       disable={isVersionUpgrade}
                       displayValue={value}
                       data={{
-                        list: masterAnalyteStore.listMasterAnalyte,
+                        list: masterAnalyteStore.listMasterAnalyte?.filter(
+                          item => item.status == 'A',
+                        ),
                         displayKey: ['analyteCode', 'analyteName'],
                       }}
                       onFilter={(value: string) => {
@@ -179,18 +180,24 @@ export const CommonInputTable = observer(
                         masterAnalyteStore.updateMasterAnalyteList(
                           masterAnalyteStore.listMasterAnalyteCopy,
                         );
-                        departmentStore.DepartmentService.filter({
-                          input: {
-                            type: 'filter',
-                            filter: {
-                              code: item.departments,
+                        if (item.departments) {
+                          departmentStore.DepartmentService.filter({
+                            input: {
+                              type: 'filter',
+                              filter: {
+                                code: item.departments,
+                              },
+                              page: 0,
+                              limit: 10,
                             },
-                            page: 0,
-                            limit: 10,
-                          },
-                        }).then(res => {
-                          console.log({ res });
-                        });
+                          }).then(res => {
+                            console.log({ res });
+                          });
+                        } else {
+                          Toast.error({
+                            message: '😔 Department not found.',
+                          });
+                        }
                       }}
                     />
                   )}
@@ -209,10 +216,11 @@ export const CommonInputTable = observer(
                       displayValue={value}
                       placeholder='Search by code or name'
                       data={{
-                        list: departmentStore.listDepartment.filter(item =>
-                          refernceRangesStore.referenceRanges?.analyteDepartments?.includes(
-                            item.code,
-                          ),
+                        list: departmentStore.listDepartment.filter(
+                          item =>
+                            refernceRangesStore.referenceRanges?.analyteDepartments?.includes(
+                              item.code,
+                            ) && item.status == 'A',
                         ),
                         displayKey: ['code', 'name'],
                       }}
