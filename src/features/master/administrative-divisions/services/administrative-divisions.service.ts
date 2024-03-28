@@ -5,8 +5,8 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   REMOVE_RECORDS,
@@ -26,7 +26,7 @@ export class AdministrativeDivisionsService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
           stores.administrativeDivisions.updateAdministrativeDivList(

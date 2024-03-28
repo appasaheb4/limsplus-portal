@@ -1,5 +1,6 @@
 import { ToastContainer } from 'react-toastify';
 import Toast from '../../library/modules/toast';
+
 import * as Buttons from './atoms/buttons/button.component';
 import * as Form from './atoms/form/form.component';
 import * as Svg from './atoms/svg.component';
@@ -24,6 +25,7 @@ export * from './atoms/files/import-file.component';
 export * from './atoms/table/static-input.component';
 export * from './atoms/table/static-input-lookup.component';
 export * from './atoms/tabs/tabs.component';
+export * from '../../library/modules/toast/module';
 
 export * from './molecules/auto-complete/auto-complete.component';
 export * from './molecules/auto-complete-check/auto-complete-check.component';

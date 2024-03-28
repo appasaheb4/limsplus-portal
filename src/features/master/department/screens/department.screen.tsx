@@ -54,33 +54,39 @@ export const Department = DeginisationHoc(
     useEffect(() => {
       // Default value initialization
       setValue('lab', loginStore.login.lab);
-      // setValue('environment', departmentStore.department?.environment);
       setValue('status', departmentStore.department?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [departmentStore.department]);
 
-    const onSubmitDepartment = () => {
+    const onSubmitDepartment = async () => {
       if (!isExistsRecord) {
-        departmentStore.DepartmentService.adddepartment({
-          input: isImport
-            ? { isImport, arrImportRecords }
-            : {
-                arrImportRecords,
-                ...departmentStore.department,
-              },
-        }).then(res => {
-          if (res.createDepartment.success) {
-            Toast.success({
-              message: `😊 ${res.createDepartment.message}`,
-            });
-          }
-        });
-        setHideAddDepartment(true);
-        reset();
-        resetDepartment();
-        setArrImportRecords([]);
-        setIsImport(false);
-        setIsVersionUpgrade(false);
+        const isExists = await checkExistsRecords();
+        if (!isExists) {
+          departmentStore.DepartmentService.adddepartment({
+            input: isImport
+              ? { isImport, arrImportRecords }
+              : {
+                  arrImportRecords,
+                  ...departmentStore.department,
+                },
+          }).then(res => {
+            if (res.createDepartment.success) {
+              Toast.success({
+                message: `😊 ${res.createDepartment.message}`,
+              });
+            }
+          });
+          setHideAddDepartment(true);
+          reset();
+          resetDepartment();
+          setArrImportRecords([]);
+          setIsImport(false);
+          setIsVersionUpgrade(false);
+        } else {
+          Toast.warning({
+            message: '😔 Already some record exists.',
+          });
+        }
       } else {
         Toast.warning({
           message: '😔 Already some record exists.',
@@ -210,12 +216,12 @@ export const Department = DeginisationHoc(
     };
 
     const checkExistsRecords = async (
-      fields = departmentStore.department,
+      fields: any = departmentStore.department,
       isSingleCheck = false,
     ) => {
-      const requiredFields = ['lab', 'code', 'name', 'status', 'environment'];
+      const requiredFields = ['lab', 'code', 'name', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
       if (isEmpty && !isSingleCheck) {
         Toast.error({
@@ -331,22 +337,6 @@ export const Department = DeginisationHoc(
                               lab: item.code,
                             });
                             labStore.updateLabList(labStore.listLabsCopy);
-                            departmentStore.DepartmentService.checkExitsLabEnvCode(
-                              {
-                                input: {
-                                  code: departmentStore.department?.code,
-                                  env: departmentStore.department?.environment,
-                                  lab: item.code,
-                                },
-                              },
-                            ).then(res => {
-                              if (res.checkDepartmentExistsRecord.success) {
-                                departmentStore.setExitsCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkDepartmentExistsRecord.message}`,
-                                });
-                              } else departmentStore.setExitsCode(false);
-                            });
                           }}
                         />
                       </Form.InputWrapper>
@@ -380,7 +370,6 @@ export const Department = DeginisationHoc(
                           onChange(code);
                           checkExistsRecords(
                             {
-                              ...departmentStore.department,
                               code,
                             },
                             true,
@@ -416,15 +405,6 @@ export const Department = DeginisationHoc(
                             ...departmentStore.department,
                             name,
                           });
-                        }}
-                        onBlur={name => {
-                          checkExistsRecords(
-                            {
-                              ...departmentStore.department,
-                              name,
-                            },
-                            true,
-                          );
                         }}
                       />
                     )}
@@ -815,24 +795,6 @@ export const Department = DeginisationHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          departmentStore.updateDepartment({
-                            ...departmentStore.department,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -870,72 +832,6 @@ export const Department = DeginisationHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            departmentStore.updateDepartment({
-                              ...departmentStore.department,
-                              environment,
-                            });
-                            departmentStore.DepartmentService.checkExitsLabEnvCode(
-                              {
-                                input: {
-                                  code: departmentStore.department?.code,
-                                  env: environment,
-                                  lab: departmentStore.department?.lab,
-                                },
-                              },
-                            ).then(res => {
-                              if (res.checkDepartmentExistsRecord.success) {
-                                departmentStore.setExitsCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkDepartmentExistsRecord.message}`,
-                                });
-                              } else departmentStore.setExitsCode(false);
-                            });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : departmentStore.department?.environment ||
-                                'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (
