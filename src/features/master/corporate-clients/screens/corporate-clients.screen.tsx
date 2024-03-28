@@ -61,6 +61,7 @@ const CorporateClients = CorporateClientsHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
@@ -148,7 +149,7 @@ const CorporateClients = CorporateClientsHoc(
     }, [corporateClientsStore.corporateClients]);
 
     const onSubmitCoporateClients = async () => {
-      if (!corporateClientsStore.checkExistsEnvCode) {
+      if (!isExistsRecord) {
         if (
           !corporateClientsStore.corporateClients?.existsVersionId &&
           !corporateClientsStore.corporateClients?.existsRecordId
@@ -222,7 +223,7 @@ const CorporateClients = CorporateClientsHoc(
         resetCorporateClient();
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate records available',
         });
       }
     };
@@ -461,45 +462,40 @@ const CorporateClients = CorporateClientsHoc(
     };
 
     const checkExistsRecords = async (
-      fields = corporateClientsStore.corporateClients,
-      length = 0,
-      status = 'A',
+      fields: any = corporateClientsStore.corporateClients,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'corporateCode',
-        'corporateName',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['corporateCode', 'corporateName', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return corporateClientsStore.corporateClientsService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsCorporateClient?.success &&
-            res.findByFieldsCorporateClient.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsCorporateClient?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -561,34 +557,17 @@ const CorporateClients = CorporateClientsHoc(
                             corporateCode: corporateCode.toUpperCase(),
                           });
                         }}
-                        onBlur={code => {
+                        onBlur={async corporateCode => {
                           if (
                             !corporateClientsStore.corporateClients
                               ?.existsVersionId
                           ) {
-                            corporateClientsStore.corporateClientsService
-                              .checkExistsEnvCode({
-                                input: {
-                                  code,
-                                  env: corporateClientsStore.corporateClients
-                                    ?.environment,
-                                },
-                              })
-                              .then(res => {
-                                if (
-                                  res.checkCorporateClientExistsRecord.success
-                                ) {
-                                  corporateClientsStore.updateExistsEnvCode(
-                                    true,
-                                  );
-                                  Toast.error({
-                                    message: `😔 ${res.checkCorporateClientExistsRecord.message}`,
-                                  });
-                                } else
-                                  corporateClientsStore.updateExistsEnvCode(
-                                    false,
-                                  );
-                              });
+                            await checkExistsRecords(
+                              {
+                                corporateCode,
+                              },
+                              true,
+                            );
                           }
                         }}
                       />
