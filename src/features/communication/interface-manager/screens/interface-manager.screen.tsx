@@ -208,6 +208,10 @@ const InterfaceManager = InterfaceManagerHoc(
                   rules={{ required: true }}
                   defaultValue=''
                 />
+
+                <div className='clearfix' />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -242,9 +246,6 @@ const InterfaceManager = InterfaceManagerHoc(
                   defaultValue=''
                 />
 
-                <div className='clearfix' />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
                 <Form.InputWrapper label='Block' id='block'>
                   <Grid cols={2}>
                     <Controller
