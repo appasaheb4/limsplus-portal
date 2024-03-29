@@ -40,11 +40,6 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
     } = useForm();
 
     useEffect(() => {
-      // Default value initialization
-      // setValue(
-      //   'environment',
-      //   administrativeDivisions.administrativeDiv?.environment,
-      // );
       setValue('status', administrativeDivisions.administrativeDiv?.status);
       setValue('sbu', administrativeDivisions.administrativeDiv?.sbu);
       setValue('zone', administrativeDivisions.administrativeDiv?.zone);
@@ -55,35 +50,48 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
     const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
-    const onSubmitAdministrativeDivision = () => {
-      if (administrativeDivisions.administrativeDiv) {
-        if (!administrativeDivisions.administrativeDiv.postalCode && !isImport)
-          return Toast.warning({
-            message: '😔 Please enter postal code!',
-          });
-        administrativeDivisions.administrativeDivisionsService
-          .addAdministrativeDivisions({
-            input: isImport
-              ? { isImport, arrImportRecords }
-              : { isImport, ...administrativeDivisions.administrativeDiv },
-          })
-          .then(res => {
-            if (res.createAdministrativeDivision.success) {
-              Toast.success({
-                message: `😊 ${res.createAdministrativeDivision.message}`,
+    const onSubmitAdministrativeDivision = async () => {
+      if (!isExistsRecord) {
+        if (administrativeDivisions.administrativeDiv) {
+          if (
+            !administrativeDivisions.administrativeDiv.postalCode &&
+            !isImport
+          )
+            return Toast.warning({
+              message: '😔 Please enter postal code!',
+            });
+          const isExists = await checkExistsRecords();
+          if (!isExists) {
+            administrativeDivisions.administrativeDivisionsService
+              .addAdministrativeDivisions({
+                input: isImport
+                  ? { isImport, arrImportRecords }
+                  : { isImport, ...administrativeDivisions.administrativeDiv },
+              })
+              .then(res => {
+                if (res.createAdministrativeDivision.success) {
+                  Toast.success({
+                    message: `😊 ${res.createAdministrativeDivision.message}`,
+                  });
+                  setIsHideView(true);
+                  reset();
+                  resetBanner();
+                  setArrImportRecords([]);
+                  setIsImport(false);
+                }
               });
-              setIsHideView(true);
-              reset();
-              resetBanner();
-              setArrImportRecords([]);
-              setIsImport(false);
-            }
+          } else {
+            Toast.warning({
+              message: '😔 Duplicate record found!',
+            });
+          }
+        } else {
+          Toast.warning({
+            message: '😔 Duplicate record found!',
           });
-      } else {
-        Toast.warning({
-          message: '😔 Please enter all information!',
-        });
+        }
       }
     };
 
@@ -119,46 +127,40 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
     };
 
     const checkExistsRecords = async (
-      fields = administrativeDivisions.administrativeDiv,
-      length = 0,
-      status = 'A',
+      fields: any = administrativeDivisions.administrativeDiv,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'country',
-        'state',
-        'district',
-        'environment',
-        'status',
-      ];
+      const requiredFields = ['country', 'state', 'district', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return administrativeDivisions.administrativeDivisionsService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsAdministrativeDevision?.success &&
-            res.findByFieldsAdministrativeDevision.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsAdministrativeDevision?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -507,24 +509,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          administrativeDivisions.updateAdministrativeDiv({
-                            ...administrativeDivisions.administrativeDiv,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -561,57 +546,6 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Environment'
-                        hasError={!!errors.environment}
-                      >
-                        <select
-                          value={value}
-                          disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            administrativeDivisions.updateAdministrativeDiv({
-                              ...administrativeDivisions.administrativeDiv,
-                              environment,
-                            });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : administrativeDivisions.administrativeDiv
-                                  ?.environment || 'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (

@@ -3,9 +3,6 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -65,6 +62,7 @@ const RegistrationLocation = RegistrationLocationHoc(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [isPostalCode, setIsPostalCodeData] = useState(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       (async function () {
@@ -184,7 +182,7 @@ const RegistrationLocation = RegistrationLocationHoc(
     }, [registrationLocationsStore.registrationLocations]);
 
     const onSubmitRegistrationLocation = async () => {
-      if (!registrationLocationsStore.checkExitsLabEnvCode) {
+      if (!isExistsRecord) {
         if (isImport) {
           registrationLocationsStore.registrationLocationsService
             .addRegistrationLocations({
@@ -275,7 +273,7 @@ const RegistrationLocation = RegistrationLocationHoc(
         registrationLocationsStore.updateSelectedItems(new SelectedItems({}));
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code!',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -447,9 +445,8 @@ const RegistrationLocation = RegistrationLocationHoc(
     );
 
     const checkExistsRecords = async (
-      fields = registrationLocationsStore.registrationLocations,
-      length = 0,
-      status = 'A',
+      fields: any = registrationLocationsStore.registrationLocations,
+      isSingleCheck = false,
     ) => {
       const requiredFields = [
         'lab',
@@ -458,12 +455,11 @@ const RegistrationLocation = RegistrationLocationHoc(
         'acClass',
         'accountType',
         'status',
-        'environment',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -472,22 +468,24 @@ const RegistrationLocation = RegistrationLocationHoc(
       return registrationLocationsStore.registrationLocationsService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsRegistrationLocation?.success &&
-            res.findByFieldsRegistrationLocation.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsRegistrationLocation?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -644,55 +642,26 @@ const RegistrationLocation = RegistrationLocationHoc(
                                 !registrationLocationsStore
                                   .registrationLocations?.existsVersionId
                               ) {
-                                registrationLocationsStore.registrationLocationsService
-                                  .checkExitsLabEnvCode({
-                                    input: {
-                                      code: registrationLocationsStore
-                                        .registrationLocations?.locationCode,
-                                      env: registrationLocationsStore
-                                        .registrationLocations?.environment,
-                                      lab,
+                                labStore.LabService.findByFields({
+                                  input: {
+                                    filter: { code: lab },
+                                  },
+                                }).then(res => {
+                                  registrationLocationsStore.updateRegistrationLocations(
+                                    {
+                                      ...registrationLocationsStore.registrationLocations,
+                                      priceList:
+                                        res.findByFieldsLabs.data.length > 0
+                                          ? res.findByFieldsLabs.data?.length >
+                                            0
+                                            ? res.findByFieldsLabs.data[0]
+                                                ?.priceList
+                                            : undefined
+                                          : registrationLocationsStore
+                                              .registrationLocations.priceList,
                                     },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkRegistrationLocationExistsRecord
-                                        .success
-                                    ) {
-                                      registrationLocationsStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
-                                      });
-                                    } else {
-                                      registrationLocationsStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                      labStore.LabService.findByFields({
-                                        input: {
-                                          filter: { code: lab },
-                                        },
-                                      }).then(res => {
-                                        registrationLocationsStore.updateRegistrationLocations(
-                                          {
-                                            ...registrationLocationsStore.registrationLocations,
-                                            priceList:
-                                              res.findByFieldsLabs.data.length >
-                                              0
-                                                ? res.findByFieldsLabs.data
-                                                    ?.length > 0
-                                                  ? res.findByFieldsLabs.data[0]
-                                                      ?.priceList
-                                                  : undefined
-                                                : registrationLocationsStore
-                                                    .registrationLocations
-                                                    .priceList,
-                                          },
-                                        );
-                                      });
-                                    }
-                                  });
+                                  );
+                                });
                               }
                             }}
                           >
@@ -733,37 +702,12 @@ const RegistrationLocation = RegistrationLocationHoc(
                               },
                             );
                           }}
-                          onBlur={code => {
+                          onBlur={locationCode => {
                             if (
                               !registrationLocationsStore.registrationLocations
                                 ?.existsVersionId
                             ) {
-                              registrationLocationsStore.registrationLocationsService
-                                .checkExitsLabEnvCode({
-                                  input: {
-                                    code,
-                                    env: registrationLocationsStore
-                                      .registrationLocations?.environment,
-                                    lab: registrationLocationsStore
-                                      .registrationLocations?.lab,
-                                  },
-                                })
-                                .then(res => {
-                                  if (
-                                    res.checkRegistrationLocationExistsRecord
-                                      .success
-                                  ) {
-                                    registrationLocationsStore.updateExistsLabEnvCode(
-                                      true,
-                                    );
-                                    Toast.error({
-                                      message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
-                                    });
-                                  } else
-                                    registrationLocationsStore.updateExistsLabEnvCode(
-                                      false,
-                                    );
-                                });
+                              checkExistsRecords({ locationCode }, true);
                             }
                           }}
                         />
@@ -1124,7 +1068,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1149,7 +1092,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1174,7 +1116,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1919,26 +1860,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <AutoCompleteCompanyList
-                          hasError={!!errors.companyCode}
-                          onSelect={companyCode => {
-                            onChange(companyCode);
-                            registrationLocationsStore.updateRegistrationLocations(
-                              {
-                                ...registrationLocationsStore.registrationLocations,
-                                companyCode,
-                              },
-                            );
-                          }}
-                        />
-                      )}
-                      name='companyCode'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1980,94 +1901,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Environment'
-                          hasError={!!errors.environment}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              !!errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            onChange={e => {
-                              const environment = e.target.value;
-                              onChange(environment);
-                              registrationLocationsStore.updateRegistrationLocations(
-                                {
-                                  ...registrationLocationsStore.registrationLocations,
-                                  environment,
-                                },
-                              );
-                              if (
-                                !registrationLocationsStore
-                                  .registrationLocations?.existsVersionId
-                              ) {
-                                registrationLocationsStore.registrationLocationsService
-                                  .checkExitsLabEnvCode({
-                                    input: {
-                                      code: registrationLocationsStore
-                                        .registrationLocations?.locationCode,
-                                      env: environment,
-                                      lab: registrationLocationsStore
-                                        .registrationLocations?.lab,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkRegistrationLocationExistsRecord
-                                        .success
-                                    ) {
-                                      registrationLocationsStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkRegistrationLocationExistsRecord.message}`,
-                                      });
-                                    } else
-                                      registrationLocationsStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : registrationLocationsStore
-                                    .registrationLocations?.environment ||
-                                  'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
-
                     <Grid cols={4}>
                       <Controller
                         control={control}

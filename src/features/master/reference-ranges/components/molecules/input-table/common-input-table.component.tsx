@@ -3,8 +3,7 @@ import { Table } from 'reactstrap';
 import dayjs from 'dayjs';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  Icons,
-  Buttons,
+  Toast,
 } from '@/library/components';
 import {
   lookupItems,
@@ -59,7 +58,6 @@ export const CommonInputTable = observer(
       reset();
       // setValue('species', refernceRangesStore.referenceRanges?.species);
       // setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
-      console.log('reload data');
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isReload]);
 
@@ -137,9 +135,6 @@ export const CommonInputTable = observer(
               <th className='text-white' style={{ minWidth: '190px' }}>
                 Inst Type
               </th>
-              {/* <th className='text-white' style={{ minWidth: '190px' }}>
-                Company Code
-              </th> */}
             </tr>{' '}
           </thead>
           <tbody className='text-xs'>
@@ -155,7 +150,9 @@ export const CommonInputTable = observer(
                       disable={isVersionUpgrade}
                       displayValue={value}
                       data={{
-                        list: masterAnalyteStore.listMasterAnalyte,
+                        list: masterAnalyteStore.listMasterAnalyte?.filter(
+                          item => item.status == 'A',
+                        ),
                         displayKey: ['analyteCode', 'analyteName'],
                       }}
                       onFilter={(value: string) => {
@@ -183,16 +180,24 @@ export const CommonInputTable = observer(
                         masterAnalyteStore.updateMasterAnalyteList(
                           masterAnalyteStore.listMasterAnalyteCopy,
                         );
-                        departmentStore.DepartmentService.filter({
-                          input: {
-                            type: 'filter',
-                            filter: {
-                              code: item.departments,
+                        if (item.departments) {
+                          departmentStore.DepartmentService.filter({
+                            input: {
+                              type: 'filter',
+                              filter: {
+                                code: item.departments,
+                              },
+                              page: 0,
+                              limit: 10,
                             },
-                            page: 0,
-                            limit: 10,
-                          },
-                        });
+                          }).then(res => {
+                            console.log({ res });
+                          });
+                        } else {
+                          Toast.error({
+                            message: '😔 Department not found.',
+                          });
+                        }
                       }}
                     />
                   )}
@@ -211,10 +216,11 @@ export const CommonInputTable = observer(
                       displayValue={value}
                       placeholder='Search by code or name'
                       data={{
-                        list: departmentStore.listDepartment.filter(item =>
-                          refernceRangesStore.referenceRanges?.analyteDepartments?.includes(
-                            item.code,
-                          ),
+                        list: departmentStore.listDepartment.filter(
+                          item =>
+                            refernceRangesStore.referenceRanges?.analyteDepartments?.includes(
+                              item.code,
+                            ) && item.status == 'A',
                         ),
                         displayKey: ['code', 'name'],
                       }}
@@ -371,7 +377,9 @@ export const CommonInputTable = observer(
                       placeholder='Search by code or name'
                       hasError={!!errors.lab}
                       data={{
-                        list: labStore.listLabs,
+                        list: labStore.listLabs?.filter(
+                          item => item.status == 'A',
+                        ),
                         displayKey: ['code', 'name'],
                       }}
                       displayValue={value}
@@ -448,27 +456,6 @@ export const CommonInputTable = observer(
                   defaultValue=''
                 />
               </td>
-              {/* <td>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <AutoCompleteCompanyList
-                      isLabel={false}
-                      hasError={!!errors.companyCode}
-                      onSelect={companyCode => {
-                        onChange(companyCode);
-                        refernceRangesStore.updateReferenceRanges({
-                          ...refernceRangesStore.referenceRanges,
-                          companyCode,
-                        });
-                      }}
-                    />
-                  )}
-                  name='companyCode'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-              </td> */}
             </tr>
           </tbody>
         </Table>

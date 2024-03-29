@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -53,12 +50,10 @@ export const PossibleResults = PossibleResultHoc(
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [modalPossibleResultModify, setPossibleResultModify] =
       useState<any>();
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
+
     useEffect(() => {
       // Default value initialization
-      // setValue(
-      //   'environment',
-      //   possibleResultsStore.possibleResults?.environment,
-      // );
       setValue('status', possibleResultsStore.possibleResults?.status);
       setValue('dateExpire', possibleResultsStore.possibleResults?.dateExpire);
       setValue('version', possibleResultsStore.possibleResults?.version);
@@ -79,9 +74,9 @@ export const PossibleResults = PossibleResultHoc(
     }, [possibleResultsStore.possibleResults]);
 
     const onSubmitPossibleResult = async () => {
-      if (possibleResultsStore.checkExistsRecords && !isImport) {
+      if (isExistsRecord) {
         return Toast.warning({
-          message: '😔 Please use diff code',
+          message: '😔 Duplicate record found',
         });
       }
       if (!_.isEmpty(possibleResultsStore.possibleResults.existsRecordId)) {
@@ -328,40 +323,40 @@ export const PossibleResults = PossibleResultHoc(
     };
 
     const checkExistsRecords = async (
-      fields = possibleResultsStore.possibleResults,
-      length = 0,
-      status = 'A',
+      fields: any = possibleResultsStore.possibleResults,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = ['analyteCode', 'status', 'environment'];
+      const requiredFields = ['analyteCode', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return possibleResultsStore.possibleResultsService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsPossibleResult?.success &&
-            res.findByFieldsPossibleResult.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsPossibleResult?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -429,29 +424,9 @@ export const PossibleResults = PossibleResultHoc(
                             masterAnalyteStore.updateMasterAnalyteList(
                               masterAnalyteStore.listMasterAnalyteCopy,
                             );
-                            possibleResultsStore.possibleResultsService
-                              .checkExistsEnvCode({
-                                input: {
-                                  code: item.analyteCode,
-                                  env: possibleResultsStore.possibleResults
-                                    ?.environment,
-                                },
-                              })
-                              .then(res => {
-                                if (
-                                  res.checkPossibleResultExistsRecord.success
-                                ) {
-                                  possibleResultsStore.updateExistsRecords(
-                                    true,
-                                  );
-                                  Toast.error({
-                                    message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
-                                  });
-                                } else
-                                  possibleResultsStore.updateExistsRecords(
-                                    false,
-                                  );
-                              });
+                            checkExistsRecords({
+                              analyteCode: item.analyteCode?.toUpperCase(),
+                            });
                           }}
                         />
                       </Form.InputWrapper>
@@ -731,79 +706,6 @@ export const PossibleResults = PossibleResultHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            possibleResultsStore.updatePossibleResults({
-                              ...possibleResultsStore.possibleResults,
-                              environment,
-                            });
-                            possibleResultsStore.possibleResultsService
-                              .checkExistsEnvCode({
-                                input: {
-                                  code: possibleResultsStore.possibleResults
-                                    .analyteCode,
-                                  env: environment,
-                                },
-                              })
-                              .then(res => {
-                                if (
-                                  res.checkPossibleResultExistsRecord.success
-                                ) {
-                                  possibleResultsStore.updateExistsRecords(
-                                    true,
-                                  );
-                                  Toast.error({
-                                    message: `😔 ${res.checkPossibleResultExistsRecord.message}`,
-                                  });
-                                } else
-                                  possibleResultsStore.updateExistsRecords(
-                                    false,
-                                  );
-                              });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : possibleResultsStore.possibleResults
-                                  ?.environment || 'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -824,7 +726,6 @@ export const PossibleResults = PossibleResultHoc(
                     defaultValue=''
                   />
                 </List>
-
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
@@ -906,24 +807,6 @@ export const PossibleResults = PossibleResultHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          possibleResultsStore.updatePossibleResults({
-                            ...possibleResultsStore.possibleResults,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -991,7 +874,6 @@ export const PossibleResults = PossibleResultHoc(
                 type='outline'
                 icon={Svg.Remove}
                 onClick={() => {
-                  //rootStore.LookupStore.clear();
                   window.location.reload();
                 }}
               >

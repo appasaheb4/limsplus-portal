@@ -75,6 +75,7 @@ const MasterPackage = MasterPackageHOC(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [duplicateRecord, setDupliacteRecord] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       setValue(
@@ -108,7 +109,7 @@ const MasterPackage = MasterPackageHOC(
     }, [masterPackageStore.masterPackage]);
 
     const onSubmitMasterPackage = async () => {
-      if (!masterPackageStore.checkExitsLabEnvCode) {
+      if (!isExistsRecord) {
         if (
           !masterPackageStore.masterPackage?.existsVersionId &&
           !masterPackageStore.masterPackage?.existsRecordId
@@ -183,7 +184,7 @@ const MasterPackage = MasterPackageHOC(
         masterPackageStore.updateSelectedItems(new SelectedItems({}));
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -398,9 +399,8 @@ const MasterPackage = MasterPackageHOC(
     };
 
     const checkExistsRecords = async (
-      fields = masterPackageStore.masterPackage,
-      length = 0,
-      status = 'A',
+      fields: any = masterPackageStore.masterPackage,
+      isSingleCheck = false,
     ) => {
       const requiredFields = [
         'lab',
@@ -408,12 +408,11 @@ const MasterPackage = MasterPackageHOC(
         'packageCode',
         'panelCode',
         'status',
-        'environment',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -422,24 +421,24 @@ const MasterPackage = MasterPackageHOC(
       return masterPackageStore.masterPackageService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          console.log({ res });
-
-          if (
-            res.findByFieldsPackageMaster?.success &&
-            res.findByFieldsPackageMaster?.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsPackageMaster?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -518,40 +517,6 @@ const MasterPackage = MasterPackageHOC(
                                 lab: item.code,
                               });
                               labStore.updateLabList(labStore.listLabsCopy);
-                              if (
-                                !masterPackageStore.masterPackage
-                                  ?.existsVersionId
-                              ) {
-                                masterPackageStore.masterPackageService
-                                  .checkExistsRecords({
-                                    input: {
-                                      lab: item.code,
-                                      packageCode:
-                                        masterPackageStore.masterPackage
-                                          ?.packageCode,
-                                      panelCode:
-                                        masterPackageStore.masterPackage
-                                          ?.panelCode,
-                                      env: masterPackageStore.masterPackage
-                                        ?.environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkPackageMasterExistsRecord.success
-                                    ) {
-                                      masterPackageStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      masterPackageStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
                             }}
                           />
                         </Form.InputWrapper>
@@ -615,33 +580,12 @@ const MasterPackage = MasterPackageHOC(
                                 !masterPackageStore.masterPackage
                                   ?.existsVersionId
                               ) {
-                                masterPackageStore.masterPackageService
-                                  .checkExistsRecords({
-                                    input: {
-                                      lab: masterPackageStore.masterPackage.lab,
-                                      packageCode: packageItem.panelCode,
-                                      panelCode:
-                                        masterPackageStore.masterPackage
-                                          ?.panelCode,
-                                      env: masterPackageStore.masterPackage
-                                        ?.environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkPackageMasterExistsRecord.success
-                                    ) {
-                                      masterPackageStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      masterPackageStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
+                                checkExistsRecords(
+                                  {
+                                    packageCode: packageItem.panelCode,
+                                  },
+                                  true,
+                                );
                               }
                             }}
                           >
@@ -671,7 +615,7 @@ const MasterPackage = MasterPackageHOC(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    {masterPackageStore.checkExitsLabEnvCode && (
+                    {isExistsRecord && (
                       <span className='text-red-600 font-medium relative'>
                         Code already exits. Please use other code.
                       </span>
@@ -751,38 +695,6 @@ const MasterPackage = MasterPackageHOC(
                               masterPanelStore.updatePanelMasterList(
                                 masterPanelStore.listMasterPanelCopy,
                               );
-                              if (
-                                !masterPackageStore.masterPackage
-                                  ?.existsVersionId
-                              ) {
-                                masterPackageStore.masterPackageService
-                                  .checkExistsRecords({
-                                    input: {
-                                      lab: masterPackageStore.masterPackage.lab,
-                                      packageCode:
-                                        masterPackageStore.masterPackage
-                                          ?.packageCode,
-                                      panelCode,
-                                      env: masterPackageStore.masterPackage
-                                        ?.environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkPackageMasterExistsRecord.success
-                                    ) {
-                                      masterPackageStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      masterPackageStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
                             }}
                             onFilter={(value: string) => {
                               masterPanelStore.masterPanelService.filterByFields(
@@ -839,12 +751,7 @@ const MasterPackage = MasterPackageHOC(
                                 : 'border-gray-300'
                             } rounded-md`}
                           >
-                            <option selected>
-                              {/* {masterPackageStore.masterPackage?.panelName?.join(
-                                ',',
-                              ) || 'Select'} */}
-                              Select
-                            </option>
+                            <option selected>Select</option>
                           </select>
                         </Form.InputWrapper>
                       )}
@@ -852,24 +759,6 @@ const MasterPackage = MasterPackageHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <AutoCompleteCompanyList
-                          hasError={!!errors.companyCode}
-                          onSelect={companyCode => {
-                            onChange(companyCode);
-                            masterPackageStore.updateMasterPackage({
-                              ...masterPackageStore.masterPackage,
-                              companyCode,
-                            });
-                          }}
-                        />
-                      )}
-                      name='companyCode'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1253,92 +1142,6 @@ const MasterPackage = MasterPackageHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Environment'
-                          hasError={!!errors.environment}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            onChange={e => {
-                              const environment = e.target.value;
-                              onChange(environment);
-                              masterPackageStore.updateMasterPackage({
-                                ...masterPackageStore.masterPackage,
-                                environment,
-                              });
-                              if (
-                                !masterPackageStore.masterPackage
-                                  ?.existsVersionId
-                              ) {
-                                masterPackageStore.masterPackageService
-                                  .checkExistsRecords({
-                                    input: {
-                                      lab: masterPackageStore.masterPackage.lab,
-                                      packageCode:
-                                        masterPackageStore.masterPackage
-                                          ?.packageCode,
-                                      panelCode:
-                                        masterPackageStore.masterPackage
-                                          ?.panelCode,
-                                      env: environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkPackageMasterExistsRecord.success
-                                    ) {
-                                      masterPackageStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkPackageMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      masterPackageStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : masterPackageStore.masterPackage
-                                    ?.environment || 'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            )?.map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                   </List>
                 </Grid>
               </>

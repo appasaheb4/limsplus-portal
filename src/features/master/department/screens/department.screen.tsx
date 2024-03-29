@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -22,13 +19,11 @@ import { lookupItems, lookupValue } from '@/library/utils';
 import { useForm, Controller } from 'react-hook-form';
 import { DeginisationHoc } from '../hoc';
 import { useStores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { FormHelper } from '@/helper';
 import { resetDepartment } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import { AutoCompleteCompanyList } from '@/core-components';
 import { toJS } from 'mobx';
 
 export const Department = DeginisationHoc(
@@ -54,40 +49,47 @@ export const Department = DeginisationHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
       setValue('lab', loginStore.login.lab);
-      // setValue('environment', departmentStore.department?.environment);
       setValue('status', departmentStore.department?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [departmentStore.department]);
 
-    const onSubmitDepartment = () => {
-      if (!departmentStore.checkExitsCode) {
-        departmentStore.DepartmentService.adddepartment({
-          input: isImport
-            ? { isImport, arrImportRecords }
-            : {
-                arrImportRecords,
-                ...departmentStore.department,
-              },
-        }).then(res => {
-          if (res.createDepartment.success) {
-            Toast.success({
-              message: `😊 ${res.createDepartment.message}`,
-            });
-          }
-        });
-        setHideAddDepartment(true);
-        reset();
-        resetDepartment();
-        setArrImportRecords([]);
-        setIsImport(false);
-        setIsVersionUpgrade(false);
+    const onSubmitDepartment = async () => {
+      if (!isExistsRecord) {
+        const isExists = await checkExistsRecords();
+        if (!isExists) {
+          departmentStore.DepartmentService.adddepartment({
+            input: isImport
+              ? { isImport, arrImportRecords }
+              : {
+                  arrImportRecords,
+                  ...departmentStore.department,
+                },
+          }).then(res => {
+            if (res.createDepartment.success) {
+              Toast.success({
+                message: `😊 ${res.createDepartment.message}`,
+              });
+            }
+          });
+          setHideAddDepartment(true);
+          reset();
+          resetDepartment();
+          setArrImportRecords([]);
+          setIsImport(false);
+          setIsVersionUpgrade(false);
+        } else {
+          Toast.warning({
+            message: '😔 Already some record exists.',
+          });
+        }
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code!',
+          message: '😔 Already some record exists.',
         });
       }
     };
@@ -214,22 +216,14 @@ export const Department = DeginisationHoc(
     };
 
     const checkExistsRecords = async (
-      fields = departmentStore.department,
-      length = 0,
-      status = 'A',
+      fields: any = departmentStore.department,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'lab',
-        'code',
-        'name',
-        'name',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['lab', 'code', 'name', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -237,21 +231,23 @@ export const Department = DeginisationHoc(
       }
       return departmentStore.DepartmentService.findByFields({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsDepartments?.success &&
-          res.findByFieldsDepartments?.data?.length > length
-        ) {
-          //setIsExistsRecord(true);
+        if (res.findByFieldsDepartments?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
 
@@ -320,7 +316,9 @@ export const Department = DeginisationHoc(
                           }
                           displayValue={value}
                           data={{
-                            list: labStore.listLabs,
+                            list: labStore.listLabs?.filter(
+                              item => item.status == 'A',
+                            ),
                             displayKey: 'name',
                             findKey: 'name',
                           }}
@@ -344,22 +342,6 @@ export const Department = DeginisationHoc(
                               lab: item.code,
                             });
                             labStore.updateLabList(labStore.listLabsCopy);
-                            departmentStore.DepartmentService.checkExitsLabEnvCode(
-                              {
-                                input: {
-                                  code: departmentStore.department?.code,
-                                  env: departmentStore.department?.environment,
-                                  lab: item.code,
-                                },
-                              },
-                            ).then(res => {
-                              if (res.checkDepartmentExistsRecord.success) {
-                                departmentStore.setExitsCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkDepartmentExistsRecord.message}`,
-                                });
-                              } else departmentStore.setExitsCode(false);
-                            });
                           }}
                         />
                       </Form.InputWrapper>
@@ -391,22 +373,12 @@ export const Department = DeginisationHoc(
                         }}
                         onBlur={code => {
                           onChange(code);
-                          departmentStore.DepartmentService.checkExitsLabEnvCode(
+                          checkExistsRecords(
                             {
-                              input: {
-                                code,
-                                env: departmentStore.department?.environment,
-                                lab: departmentStore.department?.lab,
-                              },
+                              code,
                             },
-                          ).then(res => {
-                            if (res.checkDepartmentExistsRecord.success) {
-                              departmentStore.setExitsCode(true);
-                              Toast.error({
-                                message: `😔 ${res.checkDepartmentExistsRecord.message}`,
-                              });
-                            } else departmentStore.setExitsCode(false);
-                          });
+                            true,
+                          );
                         }}
                       />
                     )}
@@ -828,24 +800,6 @@ export const Department = DeginisationHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          departmentStore.updateDepartment({
-                            ...departmentStore.department,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -883,72 +837,6 @@ export const Department = DeginisationHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            departmentStore.updateDepartment({
-                              ...departmentStore.department,
-                              environment,
-                            });
-                            departmentStore.DepartmentService.checkExitsLabEnvCode(
-                              {
-                                input: {
-                                  code: departmentStore.department?.code,
-                                  env: environment,
-                                  lab: departmentStore.department?.lab,
-                                },
-                              },
-                            ).then(res => {
-                              if (res.checkDepartmentExistsRecord.success) {
-                                departmentStore.setExitsCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkDepartmentExistsRecord.message}`,
-                                });
-                              } else departmentStore.setExitsCode(false);
-                            });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : departmentStore.department?.environment ||
-                                'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (

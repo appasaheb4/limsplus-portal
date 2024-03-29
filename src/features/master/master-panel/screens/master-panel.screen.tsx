@@ -62,6 +62,7 @@ const MasterPanel = MasterPanelHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
@@ -102,7 +103,7 @@ const MasterPanel = MasterPanelHoc(
     }, [masterPanelStore.masterPanel]);
 
     const onSubmitMasterPanel = async () => {
-      if (!masterPanelStore.checkExitsLabEnvCode) {
+      if (!isExistsRecord) {
         if (
           !masterPanelStore.masterPanel?.existsVersionId &&
           !masterPanelStore.masterPanel?.existsRecordId
@@ -176,7 +177,7 @@ const MasterPanel = MasterPanelHoc(
         resetMasterPanel();
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -406,9 +407,8 @@ const MasterPanel = MasterPanelHoc(
     };
 
     const checkExistsRecords = async (
-      fields = masterPanelStore.masterPanel,
-      length = 0,
-      status = 'A',
+      fields: any = masterPanelStore.masterPanel,
+      isSingleCheck = false,
     ) => {
       const requiredFields = [
         'rLab',
@@ -419,12 +419,11 @@ const MasterPanel = MasterPanelHoc(
         'panelName',
         'schedule',
         'status',
-        'environment',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -433,22 +432,24 @@ const MasterPanel = MasterPanelHoc(
       return masterPanelStore.masterPanelService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsPanelMaster?.success &&
-            res.findByFieldsPanelMaster?.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsPanelMaster?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -524,35 +525,6 @@ const MasterPanel = MasterPanelHoc(
                                 ...masterPanelStore.masterPanel,
                                 rLab,
                               });
-                              if (
-                                !masterPanelStore.masterPanel?.existsVersionId
-                              ) {
-                                masterPanelStore.masterPanelService
-                                  .checkExitsLabEnvCode({
-                                    input: {
-                                      code: masterPanelStore.masterPanel
-                                        ?.panelMethodCode,
-                                      env: masterPanelStore.masterPanel
-                                        ?.environment,
-                                      lab: rLab,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkPanelMasterExistsRecord.success
-                                    ) {
-                                      masterPanelStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      masterPanelStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
                             }}
                           >
                             <option selected>Select</option>
@@ -587,7 +559,9 @@ const MasterPanel = MasterPanelHoc(
                               list:
                                 loginStore.login.role !== 'SYSADMIN'
                                   ? loginStore.login.labList
-                                  : labStore.listLabs,
+                                  : labStore.listLabs?.filter(
+                                      item => item.status == 'A',
+                                    ),
                               displayKey: 'name',
                               findKey: 'name',
                             }}
@@ -772,36 +746,39 @@ const MasterPanel = MasterPanelHoc(
                             });
                           }}
                           onBlur={panelCode => {
-                            masterPanelStore.masterPanelService
-                              .findByFields({
-                                input: { filter: { panelCode } },
-                              })
-                              .then((res: any) => {
-                                if (res.findByFieldsPanelMaster.success) {
-                                  masterPanelStore.updateMasterPanel({
-                                    ...masterPanelStore.masterPanel,
-                                    panelName:
-                                      res.findByFieldsPanelMaster.data?.length >
-                                      0
-                                        ? res.findByFieldsPanelMaster.data[0]
-                                            ?.panelName
-                                        : undefined,
-                                  });
-                                  masterPanelStore.updateMasterPanelActivity({
-                                    ...masterPanelStore.masterPanelActivity,
-                                    disablePanelName: true,
-                                  });
-                                } else {
-                                  masterPanelStore.updateMasterPanel({
-                                    ...masterPanelStore.masterPanel,
-                                    panelName: '',
-                                  });
-                                  masterPanelStore.updateMasterPanelActivity({
-                                    ...masterPanelStore.masterPanelActivity,
-                                    disablePanelName: false,
-                                  });
-                                }
-                              });
+                            if (panelCode) {
+                              checkExistsRecords({ panelCode }, true);
+                              masterPanelStore.masterPanelService
+                                .findByFields({
+                                  input: { filter: { panelCode } },
+                                })
+                                .then((res: any) => {
+                                  if (res.findByFieldsPanelMaster.success) {
+                                    masterPanelStore.updateMasterPanel({
+                                      ...masterPanelStore.masterPanel,
+                                      panelName:
+                                        res.findByFieldsPanelMaster.data
+                                          ?.length > 0
+                                          ? res.findByFieldsPanelMaster.data[0]
+                                              ?.panelName
+                                          : undefined,
+                                    });
+                                    masterPanelStore.updateMasterPanelActivity({
+                                      ...masterPanelStore.masterPanelActivity,
+                                      disablePanelName: true,
+                                    });
+                                  } else {
+                                    masterPanelStore.updateMasterPanel({
+                                      ...masterPanelStore.masterPanel,
+                                      panelName: '',
+                                    });
+                                    masterPanelStore.updateMasterPanelActivity({
+                                      ...masterPanelStore.masterPanelActivity,
+                                      disablePanelName: false,
+                                    });
+                                  }
+                                });
+                            }
                           }}
                         />
                       )}
@@ -809,12 +786,11 @@ const MasterPanel = MasterPanelHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    {masterPanelStore.checkExitsLabEnvCode && (
+                    {isExistsRecord && (
                       <span className='text-red-600 font-medium relative'>
                         Code already exits. Please use other code.
                       </span>
                     )}
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1881,24 +1857,6 @@ const MasterPanel = MasterPanelHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <AutoCompleteCompanyList
-                          hasError={!!errors.companyCode}
-                          onSelect={companyCode => {
-                            onChange(companyCode);
-                            masterPanelStore.updateMasterPanel({
-                              ...masterPanelStore.masterPanel,
-                              companyCode,
-                            });
-                          }}
-                        />
-                      )}
-                      name='companyCode'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1947,12 +1905,6 @@ const MasterPanel = MasterPanelHoc(
                           hasError={!!errors.userId}
                           value={loginStore.login?.userId}
                           disabled={true}
-                          // onChange={(analyteCode) => {
-                          //   masterAnalyteStore.updateMasterAnalyte({
-                          //     ...masterAnalyteStore.masterAnalyte,
-                          //     analyteCode,
-                          //   })
-                          // }}
                         />
                       )}
                       name='userId'
@@ -2081,87 +2033,6 @@ const MasterPanel = MasterPanelHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Environment'
-                          hasError={!!errors.environment}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            onChange={e => {
-                              const environment = e.target.value as string;
-                              onChange(environment);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                environment,
-                              });
-                              if (
-                                !masterPanelStore.masterPanel?.existsVersionId
-                              ) {
-                                masterPanelStore.masterPanelService
-                                  .checkExitsLabEnvCode({
-                                    input: {
-                                      code: masterPanelStore.masterPanel
-                                        ?.panelMethodCode,
-                                      env: environment,
-                                      lab: masterPanelStore.masterPanel?.rLab,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkPanelMasterExistsRecord.success
-                                    ) {
-                                      masterPanelStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkPanelMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      masterPanelStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : masterPanelStore.masterPanel?.environment ||
-                                  'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                     <Grid cols={3}>
                       <Controller
                         control={control}
@@ -2442,5 +2313,4 @@ const MasterPanel = MasterPanelHoc(
     );
   }),
 );
-
 export default MasterPanel;

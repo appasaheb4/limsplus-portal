@@ -3,9 +3,6 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   List,
   Svg,
@@ -14,7 +11,6 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
-  Icons,
 } from '@/library/components';
 import {
   CommonInputTable,
@@ -60,13 +56,14 @@ const ReferenceRanges = ReferenceRangesHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     const onSubmitReferenceRanges = () => {
       if (!isImport) {
         if (
           refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0
         ) {
-          if (!refernceRangesStore.checkExitsRecord) {
+          if (!isExistsRecord) {
             if (
               !_.isEqual(
                 JSON.stringify(
@@ -180,7 +177,6 @@ const ReferenceRanges = ReferenceRangesHoc(
           }
         });
     };
-
     const tableView = useMemo(
       () => (
         <ReferenceRangesList
@@ -296,7 +292,6 @@ const ReferenceRanges = ReferenceRangesHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [refernceRangesStore.listReferenceRanges],
     );
-
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -358,9 +353,8 @@ const ReferenceRanges = ReferenceRangesHoc(
     };
 
     const checkExistsRecords = async (
-      fields = refernceRangesStore.referenceRanges,
-      length = 0,
-      status = 'A',
+      fields: any = refernceRangesStore.referenceRanges,
+      isSingleCheck = false,
     ) => {
       const requiredFields = [
         'analyteCode',
@@ -376,13 +370,11 @@ const ReferenceRanges = ReferenceRangesHoc(
         'version',
         'validationLevel',
         'status',
-        'environment',
       ];
-
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item]?.toString())) return item;
+        if (_.isEmpty({ ...fields }[item]?.toString())) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -391,25 +383,26 @@ const ReferenceRanges = ReferenceRangesHoc(
       return refernceRangesStore.referenceRangesService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsReferenceRanges?.success &&
-            res.findByFieldsReferenceRanges?.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsReferenceRanges?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
-
     const refRangesInputTable = useMemo(
       () =>
         refernceRangesStore.referenceRanges?.refRangesInputList.length > 0 && (
@@ -465,49 +458,63 @@ const ReferenceRanges = ReferenceRangesHoc(
       [
         refernceRangesStore.referenceRanges?.refRangesInputList?.length,
         refernceRangesStore.referenceRanges?.refreshList,
+        departmentStore.listDepartment,
       ],
     );
-
-    const addItem = () => {
+    const addItem = async () => {
       const refRangesInputList =
         refernceRangesStore.referenceRanges?.refRangesInputList;
-      refRangesInputList.push({
-        rangeId:
-          refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
-        analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
-        analyteName: refernceRangesStore.referenceRanges?.analyteName,
-        analyteDepartments:
-          refernceRangesStore.referenceRanges?.analyteDepartments,
-        department: refernceRangesStore.referenceRanges?.department,
-        species: refernceRangesStore.referenceRanges?.species,
-        sex: refernceRangesStore.referenceRanges?.sex,
-        rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
-        instType: refernceRangesStore.referenceRanges?.instType,
-        lab: refernceRangesStore.referenceRanges?.lab,
-        picture: refernceRangesStore.referenceRanges?.picture,
-        version: 1,
-        dateCreation: new Date(),
-        dateActive: new Date(),
-        dateExpire: new Date(
-          dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-        ),
-        enterBy: loginStore.login.userId,
-        status: 'A',
-        // companyCode: refernceRangesStore.referenceRanges?.companyCode,
-        // environment: getDefaultLookupItem(
-        //   routerStore.lookupItems,
-        //   'ENVIRONMENT',
-        // ),
-        type: 'insert',
-        rangeType: getDefaultLookupItem(routerStore.lookupItems, 'RANGE_TYPE'),
-        validationLevel: Number.parseInt(
-          getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
-        ),
-      });
-      refernceRangesStore.updateReferenceRanges({
-        ...refernceRangesStore.referenceRanges,
-        refRangesInputList,
-      });
+      const isExists = await checkExistsRecords(
+        {
+          analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
+          analyteName: refernceRangesStore.referenceRanges?.analyteName,
+          species: refernceRangesStore.referenceRanges?.species,
+          sex: refernceRangesStore.referenceRanges?.sex,
+          rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
+        },
+        true,
+      );
+      if (!isExists) {
+        refRangesInputList.push({
+          rangeId:
+            refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
+          analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
+          analyteName: refernceRangesStore.referenceRanges?.analyteName,
+          analyteDepartments:
+            refernceRangesStore.referenceRanges?.analyteDepartments,
+          department: refernceRangesStore.referenceRanges?.department,
+          species: refernceRangesStore.referenceRanges?.species,
+          sex: refernceRangesStore.referenceRanges?.sex,
+          rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
+          instType: refernceRangesStore.referenceRanges?.instType,
+          lab: refernceRangesStore.referenceRanges?.lab,
+          picture: refernceRangesStore.referenceRanges?.picture,
+          version: 1,
+          dateCreation: new Date(),
+          dateActive: new Date(),
+          dateExpire: new Date(
+            dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+          ),
+          enterBy: loginStore.login.userId,
+          status: 'A',
+          type: 'insert',
+          rangeType: getDefaultLookupItem(
+            routerStore.lookupItems,
+            'RANGE_TYPE',
+          ),
+          validationLevel: Number.parseInt(
+            getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
+          ),
+        });
+        refernceRangesStore.updateReferenceRanges({
+          ...refernceRangesStore.referenceRanges,
+          refRangesInputList,
+        });
+      } else {
+        Toast.error({
+          message: '😔 Duplicate record found!',
+        });
+      }
     };
 
     return (
@@ -583,7 +590,7 @@ const ReferenceRanges = ReferenceRangesHoc(
               <Buttons.Button
                 size='medium'
                 type='solid'
-                icon={Svg.Save}
+                icon={Svg.Plus}
                 onClick={handleSubmit(addItem)}
               >
                 Add

@@ -28,14 +28,11 @@ export const Button = React.forwardRef((props: ButtonProps, ref: Ref<any>) => {
       : props.size === 'large'
       ? 'px-4 py-2 text-base'
       : 'px-3 py-2 text-sm';
-
   const buttonColorClass =
     props.type === 'solid'
       ? 'text-white bg-[#007BFF] hover:bg-[#007BFF] hover:shadow-lg'
       : 'dark:text-white text-gray-600 border border-gray-400 hover:shadow-lg';
-
   const roundedClass = props.pill ? 'rounded-full' : 'rounded-lg';
-
   const Icon = props.icon;
 
   return (

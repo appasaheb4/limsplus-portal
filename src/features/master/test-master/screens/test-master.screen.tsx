@@ -54,6 +54,7 @@ const TestMater = TestMasterHOC(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
@@ -80,7 +81,7 @@ const TestMater = TestMasterHOC(
     }, [testMasterStore.testMaster]);
 
     const onSubmitTestMaster = async () => {
-      if (!testMasterStore.checkExitsLabEnvCode) {
+      if (!isExistsRecord) {
         if (
           !testMasterStore.testMaster?.existsVersionId &&
           !testMasterStore.testMaster?.existsRecordId
@@ -157,7 +158,7 @@ const TestMater = TestMasterHOC(
         resetTestMaster();
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -392,9 +393,8 @@ const TestMater = TestMasterHOC(
     };
 
     const checkExistsRecords = async (
-      fields = testMasterStore.testMaster,
-      length = 0,
-      status = 'A',
+      fields: any = testMasterStore.testMaster,
+      isSingleCheck = false,
     ) => {
       const requiredFields = [
         'rLab',
@@ -403,12 +403,11 @@ const TestMater = TestMasterHOC(
         'testCode',
         'testName',
         'status',
-        'environment',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -417,22 +416,24 @@ const TestMater = TestMasterHOC(
       return testMasterStore.testMasterService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsTestMaster?.success &&
-            res.findByFieldsTestMaster?.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsTestMaster?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -508,35 +509,6 @@ const TestMater = TestMasterHOC(
                                 ...testMasterStore.testMaster,
                                 rLab,
                               });
-                              if (
-                                !testMasterStore.testMaster?.existsVersionId
-                              ) {
-                                testMasterStore.testMasterService
-                                  .checkExitsLabEnvCode({
-                                    input: {
-                                      code: testMasterStore.testMaster
-                                        ?.testCode,
-                                      env: testMasterStore.testMaster
-                                        ?.environment,
-                                      lab: rLab,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestMasterExistsRecord.success
-                                    ) {
-                                      testMasterStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testMasterStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
                             }}
                           >
                             <option selected>Select</option>
@@ -576,7 +548,9 @@ const TestMater = TestMasterHOC(
                             }
                             displayValue={value}
                             data={{
-                              list: labStore.listLabs,
+                              list: labStore.listLabs?.filter(
+                                item => item.status == 'A',
+                              ),
                               displayKey: 'name',
                               findKey: 'name',
                             }}
@@ -712,33 +686,18 @@ const TestMater = TestMasterHOC(
                               testCode: testCode.toUpperCase(),
                             });
                           }}
-                          onBlur={code => {
+                          onBlur={testCode => {
                             if (!testMasterStore.testMaster?.existsVersionId) {
-                              testMasterStore.testMasterService
-                                .checkExitsLabEnvCode({
-                                  input: {
-                                    code,
-                                    env: testMasterStore.testMaster
-                                      ?.environment,
-                                    lab: testMasterStore.testMaster?.rLab,
-                                  },
-                                })
-                                .then(res => {
-                                  if (res.checkTestMasterExistsRecord.success) {
-                                    testMasterStore.updateExistsLabEnvCode(
-                                      true,
-                                    );
-                                    Toast.error({
-                                      message: `😔 ${res.checkTestMasterExistsRecord.message}`,
-                                    });
-                                  } else
-                                    testMasterStore.updateExistsLabEnvCode(
-                                      false,
-                                    );
-                                });
+                              checkExistsRecords(
+                                {
+                                  testCode: testCode.toUpperCase(),
+                                },
+                                true,
+                              );
+
                               testMasterStore.testMasterService
                                 .findByFields({
-                                  input: { filter: { testCode: code } },
+                                  input: { filter: { testCode } },
                                 })
                                 .then((res: any) => {
                                   if (res.findByFieldsTestMaster.success) {
@@ -768,7 +727,7 @@ const TestMater = TestMasterHOC(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    {testMasterStore.checkExitsLabEnvCode && (
+                    {isExistsRecord && (
                       <span className='text-red-600 font-medium relative'>
                         Code already exits. Please use other code.
                       </span>
@@ -1048,31 +1007,6 @@ const TestMater = TestMasterHOC(
                       defaultValue=''
                     />
 
-                    {/* <Controller
-                control={control}
-                render={({ field: { onChange } }) => (
-                  <Form.Input
-                    label="Panel Method"
-                    placeholder={
-                      errors.panelMethod
-                        ? "Please Enter panelMethod"
-                        : "Panel Method"
-                    }
-                    hasError={!!errors.panelMethod}
-                    value={testMasterStore.testMaster?.panelMethod}
-                    onChange={(panelMethod) => {
-                      onChange(panelMethod)
-                      testMasterStore.updateTestMaster({
-                        ...testMasterStore.testMaster,
-                        panelMethod,
-                      })
-                    }}
-                  />
-                )}
-                name="panelMethod"
-                rules={{ required: false }}
-                defaultValue=""
-              /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1259,52 +1193,6 @@ const TestMater = TestMasterHOC(
                   </List>
 
                   <List direction='col' space={4} justify='stretch' fill>
-                    {/* <Form.Input
-                label="Report Group"
-                placeholder="Report Group"
-                value={testMasterStore.testMaster?.reportGroup}
-                onChange={(reportGroup) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    reportGroup,
-                  })
-                }}
-              /> */}
-
-                    {/* <Form.Input
-                label="Tube Groups"
-                placeholder="Tube Groups"
-                value={testMasterStore.testMaster?.tubeGroup}
-                onChange={(tubeGroup) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    tubeGroup,
-                  })
-                }}
-              />
-              <Form.Input
-                label="Label Instruction"
-                placeholder="Label Instruction"
-                value={testMasterStore.testMaster?.labelInstruction}
-                onChange={(labelInstruction) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    labelInstruction,
-                  })
-                }}
-              /> */}
-
-                    {/* <Form.Input
-                label="Sample Type"
-                placeholder="Sample Type"
-                value={testMasterStore.testMaster?.sampleType}
-                onChange={(sampleType) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    sampleType,
-                  })
-                }}
-              /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1331,17 +1219,7 @@ const TestMater = TestMasterHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Form.Input
-                label="Disease"
-                placeholder="Disease"
-                value={testMasterStore.testMaster?.disease}
-                onChange={(disease) => {
-                  testMasterStore.updateTestMaster({
-                    ...testMasterStore.testMaster,
-                    disease,
-                  })
-                }}
-              /> */}
+
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1490,25 +1368,7 @@ const TestMater = TestMasterHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Form.InputWrapper label="Worklist Code">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const worklistCode = e.target.value as string
-                    testMasterStore.updateTestMaster({
-                      ...testMasterStore.testMaster,
-                      worklistCode,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Worklist Code 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </Form.InputWrapper> */}
+
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1844,43 +1704,6 @@ const TestMater = TestMasterHOC(
                     </Grid>
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
-                    {/* <Form.InputWrapper label="Collection Container">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const collectionContainer = e.target.value
-                    testMasterStore.updateTestMaster({
-                      ...testMasterStore.testMaster,
-                      collectionContainer,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Collection Container 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </Form.InputWrapper> */}
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <AutoCompleteCompanyList
-                          hasError={!!errors.companyCode}
-                          onSelect={companyCode => {
-                            onChange(companyCode);
-                            testMasterStore.updateTestMaster({
-                              ...testMasterStore.testMaster,
-                              companyCode,
-                            });
-                          }}
-                        />
-                      )}
-                      name='companyCode'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2083,87 +1906,7 @@ const TestMater = TestMasterHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Environment'
-                          hasError={!!errors.environment}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            onChange={e => {
-                              const environment = e.target.value;
-                              onChange(environment);
-                              testMasterStore.updateTestMaster({
-                                ...testMasterStore.testMaster,
-                                environment,
-                              });
-                              if (
-                                !testMasterStore.testMaster?.existsVersionId
-                              ) {
-                                testMasterStore.testMasterService
-                                  .checkExitsLabEnvCode({
-                                    input: {
-                                      code: testMasterStore.testMaster
-                                        ?.testCode,
-                                      env: environment,
-                                      lab: testMasterStore.testMaster?.rLab,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestMasterExistsRecord.success
-                                    ) {
-                                      testMasterStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testMasterStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : testMasterStore.testMaster?.environment ||
-                                  'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
+
                     <List direction='row'>
                       <Grid cols={4}>
                         <Controller
@@ -2234,26 +1977,7 @@ const TestMater = TestMasterHOC(
                           rules={{ required: false }}
                           defaultValue=''
                         />
-                        {/* <Controller
-                      control={control}
-                      render={({field: {onChange, value}}) => (
-                        <Form.Toggle
-                          label='OOS Hold'
-                          hasError={!!errors.oosHold}
-                          value={value}
-                          onChange={oosHold => {
-                            onChange(oosHold);
-                            testMasterStore.updateTestMaster({
-                              ...testMasterStore.testMaster,
-                              oosHold,
-                            });
-                          }}
-                        />
-                      )}
-                      name=' oosHold'
-                      rules={{required: false}}
-                      defaultValue=''
-                    /> */}
+
                         <Controller
                           control={control}
                           render={({ field: { onChange, value } }) => (
@@ -2296,7 +2020,6 @@ const TestMater = TestMasterHOC(
                         />
                       </Grid>
                     </List>
-                    {/* </Grid> */}
                   </List>
                 </Grid>
               </>

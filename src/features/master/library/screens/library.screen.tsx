@@ -70,11 +70,11 @@ export const Library = LibraryHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [departmentList, setDepartmentList] = useState([]);
-    const [isExistsRecord, setIsExistsRecord] = useState(false);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [modalDetail, setModalDetail] = useState<any>();
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
     const {
       control,
       handleSubmit,
@@ -297,9 +297,8 @@ export const Library = LibraryHoc(
     );
 
     const checkExistsRecords = async (
-      fields = libraryStore.library,
-      length = 0,
-      status = 'A',
+      fields: any = libraryStore.library,
+      isSingleCheck = false,
     ) => {
       const requiredFields = [
         'libraryCode',
@@ -311,28 +310,26 @@ export const Library = LibraryHoc(
         'versions',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item]?.toString())) return item;
+        if (_.isEmpty({ ...fields }[item]?.toString())) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return libraryStore.libraryService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsLibrarys?.success &&
-            res.findByFieldsLibrarys.data?.length > length
-          ) {
+          if (res.findByFieldsLibrarys?.success) {
             setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
@@ -449,7 +446,7 @@ export const Library = LibraryHoc(
                         }}
                         onBlur={libraryCode => {
                           if (libraryCode) {
-                            checkExistsRecords();
+                            checkExistsRecords({ libraryCode }, true);
                           }
                         }}
                       />
@@ -479,9 +476,6 @@ export const Library = LibraryHoc(
                               ...libraryStore.library,
                               lab,
                             });
-                            if (lab) {
-                              checkExistsRecords();
-                            }
                             // fetch department list
                             departmentStore.DepartmentService.findByFields({
                               input: { filter: { lab } },
@@ -532,9 +526,6 @@ export const Library = LibraryHoc(
                               ...libraryStore.library,
                               department,
                             });
-                            if (department) {
-                              checkExistsRecords();
-                            }
                           }}
                         >
                           <option selected>Select</option>
@@ -575,9 +566,6 @@ export const Library = LibraryHoc(
                               ...libraryStore.library,
                               position,
                             });
-                            if (position) {
-                              checkExistsRecords();
-                            }
                           }}
                         >
                           <option selected>Select</option>
@@ -698,9 +686,6 @@ export const Library = LibraryHoc(
                               ...libraryStore.library,
                               parameter,
                             });
-                            if (parameter) {
-                              checkExistsRecords();
-                            }
                           }}
                         >
                           <option selected>Select</option>
@@ -791,25 +776,6 @@ export const Library = LibraryHoc(
                     defaultValue=''
                   />
 
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -830,9 +796,6 @@ export const Library = LibraryHoc(
                               ...libraryStore.library,
                               status,
                             });
-                            if (status) {
-                              checkExistsRecords();
-                            }
                           }}
                         >
                           <option selected>Select</option>
@@ -912,55 +875,6 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Environment'
-                        hasError={!!errors.environment}
-                      >
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={isVersionUpgrade}
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            libraryStore.updateLibrary({
-                              ...libraryStore.library,
-                              environment,
-                            });
-                            if (environment) {
-                              checkExistsRecords();
-                            }
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : libraryStore.library?.environment || 'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (

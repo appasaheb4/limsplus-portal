@@ -4,9 +4,6 @@ import _ from 'lodash';
 import { Table } from 'reactstrap';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -14,7 +11,6 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
@@ -80,6 +76,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     ]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [isDuplicateRecord, setIsDuplicateRecord] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
@@ -91,10 +88,6 @@ const TestPanelMapping = TestPanelMappingHoc(
       setValue('testCode', testPanelMappingStore.testPanelMapping?.testCode);
       setValue('testName', testPanelMappingStore.testPanelMapping?.testName);
       setValue('status', testPanelMappingStore.testPanelMapping?.status);
-      // setValue(
-      //   'environment',
-      //   testPanelMappingStore.testPanelMapping?.environment,
-      // );
       setValue(
         'dateCreation',
         testPanelMappingStore.testPanelMapping?.dateCreation,
@@ -128,7 +121,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     }, [testPanelMappingStore.testPanelMapping]);
 
     const onSubmitTestPanelMapping = async () => {
-      if (!testPanelMappingStore.checkExitsLabEnvCode) {
+      if (!isExistsRecord) {
         if (
           !testPanelMappingStore.testPanelMapping?.existsVersionId &&
           !testPanelMappingStore.testPanelMapping?.existsRecordId
@@ -204,10 +197,11 @@ const TestPanelMapping = TestPanelMappingHoc(
         testPanelMappingStore.updateSelectedItems(new SelectedItems({}));
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
+
     const onUpdateSingleField = payload => {
       testPanelMappingStore.testPanelMappingService
         .updateSingleFiled({
@@ -422,21 +416,14 @@ const TestPanelMapping = TestPanelMappingHoc(
     };
 
     const checkExistsRecords = async (
-      fields = testPanelMappingStore.testPanelMapping,
-      length = 0,
-      status = 'A',
+      fields: any = testPanelMappingStore.testPanelMapping,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'panelCode',
-        'testName',
-        'status',
-        'environment',
-        'lab',
-      ];
+      const requiredFields = ['panelCode', 'testName', 'status', 'lab'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields, status }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -445,22 +432,24 @@ const TestPanelMapping = TestPanelMappingHoc(
       return testPanelMappingStore.testPanelMappingService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsTestPanelMappings?.success &&
-            res.findByFieldsTestPanelMappings?.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsTestPanelMappings?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -525,7 +514,9 @@ const TestPanelMapping = TestPanelMappingHoc(
                                 : false
                             }
                             data={{
-                              list: labStore.listLabs,
+                              list: labStore.listLabs?.filter(
+                                item => item.status == 'A',
+                              ),
                               displayKey: 'name',
                               findKey: 'name',
                             }}
@@ -554,36 +545,18 @@ const TestPanelMapping = TestPanelMappingHoc(
                                 !testPanelMappingStore.testPanelMapping
                                   ?.existsVersionId
                               ) {
-                                testPanelMappingStore.testPanelMappingService
-                                  .checkExistsRecords({
-                                    input: {
-                                      lab: item.code,
-                                      panelCode:
-                                        testPanelMappingStore.testPanelMapping
-                                          ?.panelCode,
-                                      testCode:
-                                        testPanelMappingStore.testPanelMapping
-                                          ?.testCode,
-                                      env: testPanelMappingStore
-                                        .testPanelMapping?.environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestPanelMappingsExistsRecord
-                                        .success
-                                    ) {
-                                      testPanelMappingStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testPanelMappingStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
+                                checkExistsRecords(
+                                  {
+                                    lab: item.code,
+                                    panelCode:
+                                      testPanelMappingStore.testPanelMapping
+                                        ?.panelCode,
+                                    testCode:
+                                      testPanelMappingStore.testPanelMapping
+                                        ?.testCode,
+                                  },
+                                  true,
+                                );
                               }
                             }}
                           />
@@ -619,35 +592,17 @@ const TestPanelMapping = TestPanelMappingHoc(
                                 !testPanelMappingStore.testPanelMapping
                                   ?.existsVersionId
                               ) {
-                                testPanelMappingStore.testPanelMappingService
-                                  .checkExistsRecords({
-                                    input: {
-                                      lab: testPanelMappingStore
-                                        .testPanelMapping?.lab,
-                                      panelCode: item.panelCode,
-                                      testCode:
-                                        testPanelMappingStore.testPanelMapping
-                                          ?.testCode,
-                                      env: testPanelMappingStore
-                                        .testPanelMapping?.environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestPanelMappingsExistsRecord
-                                        .success
-                                    ) {
-                                      testPanelMappingStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testPanelMappingStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
+                                checkExistsRecords(
+                                  {
+                                    lab: testPanelMappingStore.testPanelMapping
+                                      ?.lab,
+                                    panelCode: item.panelCode,
+                                    testCode:
+                                      testPanelMappingStore.testPanelMapping
+                                        ?.testCode,
+                                  },
+                                  true,
+                                );
                               }
                             }}
                           />
@@ -657,7 +612,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    {testPanelMappingStore.checkExitsLabEnvCode && (
+                    {isExistsRecord && (
                       <span className='text-red-600 font-medium relative'>
                         Code already exits. Please use other code.
                       </span>
@@ -742,35 +697,17 @@ const TestPanelMapping = TestPanelMappingHoc(
                                 !testPanelMappingStore.testPanelMapping
                                   ?.existsVersionId
                               ) {
-                                testPanelMappingStore.testPanelMappingService
-                                  .checkExistsRecords({
-                                    input: {
-                                      lab: testPanelMappingStore
-                                        .testPanelMapping?.lab,
-                                      panelCode:
-                                        testPanelMappingStore.testPanelMapping
-                                          ?.panelCode,
-                                      testCode,
-                                      env: testPanelMappingStore
-                                        .testPanelMapping?.environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestPanelMappingsExistsRecord
-                                        .success
-                                    ) {
-                                      testPanelMappingStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testPanelMappingStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
+                                checkExistsRecords(
+                                  {
+                                    lab: testPanelMappingStore.testPanelMapping
+                                      ?.lab,
+                                    panelCode:
+                                      testPanelMappingStore.testPanelMapping
+                                        ?.panelCode,
+                                    testCode,
+                                  },
+                                  true,
+                                );
                               }
                               setValue('testCode', testCode.join(','));
                             }}
@@ -811,24 +748,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <AutoCompleteCompanyList
-                          hasError={!!errors.companyCode}
-                          onSelect={companyCode => {
-                            onChange(companyCode);
-                            testPanelMappingStore.updateTestPanelMapping({
-                              ...testPanelMappingStore.testPanelMapping,
-                              companyCode,
-                            });
-                          }}
-                        />
-                      )}
-                      name='companyCode'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -877,12 +796,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                           value={loginStore.login?.userId}
                           hasError={!!errors.userId}
                           disabled={true}
-                          // onChange={(analyteCode) => {
-                          //   masterAnalyteStore.updateMasterAnalyte({
-                          //     ...masterAnalyteStore.masterAnalyte,
-                          //     analyteCode,
-                          //   })
-                          // }}
                         />
                       )}
                       name='userId'
@@ -908,7 +821,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-
                     <Grid cols={4}>
                       <Controller
                         control={control}
@@ -1037,7 +949,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                         ))}
                       </div>
                     </Form.InputWrapper>
-
                     <Grid cols={3}>
                       <Controller
                         control={control}
@@ -1101,7 +1012,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                       />
                     </Grid>
                   </List>
-
                   <List direction='col' space={4} justify='stretch' fill>
                     <Form.InputWrapper label='Report Order'>
                       <Table striped bordered className='max-h-5' size='sm'>
@@ -1282,98 +1192,6 @@ const TestPanelMapping = TestPanelMappingHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Environment'
-                          hasError={!!errors.environment}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            onChange={e => {
-                              const environment = e.target.value;
-                              onChange(environment);
-                              testPanelMappingStore.updateTestPanelMapping({
-                                ...testPanelMappingStore.testPanelMapping,
-                                environment,
-                              });
-                              if (
-                                !testPanelMappingStore.testPanelMapping
-                                  ?.existsVersionId
-                              ) {
-                                testPanelMappingStore.testPanelMappingService
-                                  .checkExistsRecords({
-                                    input: {
-                                      lab: testPanelMappingStore
-                                        .testPanelMapping?.lab,
-                                      panelCode:
-                                        testPanelMappingStore.testPanelMapping
-                                          ?.panelCode,
-                                      testCode:
-                                        testPanelMappingStore.testPanelMapping
-                                          ?.testCode,
-                                      env: environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestPanelMappingsExistsRecord
-                                        .success
-                                    ) {
-                                      testPanelMappingStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestPanelMappingsExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testPanelMappingStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : testPanelMappingStore.testPanelMapping
-                                    ?.environment || 'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
-                    {/* <Grid cols={5}> */}
-
-                    {/* </Grid> */}
                   </List>
                 </Grid>
               </>

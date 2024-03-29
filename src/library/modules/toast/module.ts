@@ -1,4 +1,4 @@
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 class Toast {
   success = async details => {
     toast.success(details.message, {
@@ -35,3 +35,14 @@ class Toast {
   };
 }
 export default new Toast();
+
+export enum ToastTypes {
+  success = 'success',
+  error = 'error',
+  warning = 'warning',
+}
+
+export interface ToastProps {
+  type: any;
+  message: string;
+}

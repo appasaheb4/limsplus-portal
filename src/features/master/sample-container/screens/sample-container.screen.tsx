@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -45,6 +42,7 @@ const SampleContainer = SampleContainerHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       setValue('status', sampleContainerStore.sampleContainer?.status);
@@ -53,7 +51,7 @@ const SampleContainer = SampleContainerHoc(
     }, [sampleContainerStore.sampleContainer]);
 
     const onSubmitSampleContainer = () => {
-      if (!sampleContainerStore.checkExitsEnvCode) {
+      if (!isExistsRecord) {
         sampleContainerStore.sampleContainerService
           .addSampleContainer({
             input: isImport
@@ -75,7 +73,7 @@ const SampleContainer = SampleContainerHoc(
           });
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -109,45 +107,40 @@ const SampleContainer = SampleContainerHoc(
     };
 
     const checkExistsRecords = async (
-      fields = sampleContainerStore.sampleContainer,
-      length = 0,
-      status = 'A',
+      fields: any = sampleContainerStore.sampleContainer,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'containerCode',
-        'containerName',
-        'environment',
-        'status',
-      ];
+      const requiredFields = ['containerCode', 'containerName', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return sampleContainerStore.sampleContainerService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsSampleContainers?.success &&
-            res.findByFieldsSampleContainers.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsSampleContainers?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -216,26 +209,10 @@ const SampleContainer = SampleContainerHoc(
                             containerCode,
                           });
                         }}
-                        onBlur={code => {
-                          sampleContainerStore.sampleContainerService
-                            .checkExitsEnvCode({
-                              input: {
-                                code,
-                                env: sampleContainerStore.sampleContainer
-                                  ?.environment,
-                              },
-                            })
-                            .then(res => {
-                              if (
-                                res.checkSampleContainersExistsRecord.success
-                              ) {
-                                sampleContainerStore.updateExitsEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkSampleContainersExistsRecord.message}`,
-                                });
-                              } else
-                                sampleContainerStore.updateExitsEnvCode(false);
-                            });
+                        onBlur={containerCode => {
+                          if (containerCode) {
+                            checkExistsRecords({ containerCode }, true);
+                          }
                         }}
                       />
                     )}
@@ -243,7 +220,7 @@ const SampleContainer = SampleContainerHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {sampleContainerStore.checkExitsEnvCode && (
+                  {isExistsRecord && (
                     <span className='text-red-600 font-medium relative'>
                       Code already exits. Please use other code.
                     </span>
