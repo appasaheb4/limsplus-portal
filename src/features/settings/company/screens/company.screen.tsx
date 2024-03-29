@@ -1443,7 +1443,7 @@ const Company = CompanyHoc(
               onSelectedRow={rows => {
                 setModalConfirm({
                   show: true,
-                  type: 'Delete',
+                  type: 'delete',
                   id: rows,
                   title: 'Are you sure?',
                   body: 'Do you want to delete selected record?',
@@ -1514,7 +1514,7 @@ const Company = CompanyHoc(
             click={(action: string) => {
               setModalConfirm({ show: false });
               switch (action) {
-                case 'Delete': {
+                case 'delete': {
                   companyStore.companyService
                     .delete({
                       input: { id: modalConfirm.id },
