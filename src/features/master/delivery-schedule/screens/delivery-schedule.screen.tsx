@@ -28,6 +28,7 @@ import { toJS } from 'mobx';
 import { resetDeliverySchedule } from '../startup';
 import _ from 'lodash';
 import * as XLSX from 'xlsx';
+import { truncate } from 'fs';
 
 const DeliverySchedule = DeliveryScheduleHoc(
   observer(() => {
@@ -45,19 +46,16 @@ const DeliverySchedule = DeliveryScheduleHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
-      // setValue(
-      //   'environment',
-      //   deliveryScheduleStore.deliverySchedule?.environment,
-      // );
       setValue('status', deliveryScheduleStore.deliverySchedule?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deliveryScheduleStore.deliverySchedule]);
 
     const onSubmitDeliverySchedule = () => {
-      if (!deliveryScheduleStore.checkExistsEnvCode) {
+      if (!isExistsRecord) {
         deliveryScheduleStore.deliveryScheduleService
           .addDeliverySchdule({
             input: isImport
@@ -78,7 +76,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
           });
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -128,40 +126,40 @@ const DeliverySchedule = DeliveryScheduleHoc(
     };
 
     const checkExistsRecords = async (
-      fields = deliveryScheduleStore.deliverySchedule,
-      length = 0,
-      status = 'A',
+      fields: any = deliveryScheduleStore.deliverySchedule,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = ['schCode', 'environment', 'status'];
+      const requiredFields = ['schCode', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return deliveryScheduleStore.deliveryScheduleService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsDeliverySchdules?.success &&
-            res.findByFieldsDeliverySchdules.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsDeliverySchdules?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -227,28 +225,13 @@ const DeliverySchedule = DeliveryScheduleHoc(
                             schCode,
                           });
                         }}
-                        onBlur={code => {
-                          deliveryScheduleStore.deliveryScheduleService
-                            .checkExistsEnvCode({
-                              input: {
-                                code,
-                                env: deliveryScheduleStore.deliverySchedule
-                                  ?.environment,
-                              },
-                            })
-                            .then(res => {
-                              if (
-                                res.checkDeliverySchdulesExistsRecord.success
-                              ) {
-                                deliveryScheduleStore.updateExistsEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
-                                });
-                              } else
-                                deliveryScheduleStore.updateExistsEnvCode(
-                                  false,
-                                );
-                            });
+                        onBlur={schCode => {
+                          checkExistsRecords(
+                            {
+                              schCode,
+                            },
+                            true,
+                          );
                         }}
                       />
                     )}
@@ -546,74 +529,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Sch For DEPT'
-                        placeholder={
-                          errors.schForDept
-                            ? 'Please Enter schForDept'
-                            : 'schForDept'
-                        }
-                        hasError={!!errors.schForDept}
-                        value={value}
-                        onChange={schForDept => {
-                          onChange(schForDept);
-                          deliveryScheduleStore.updateDeliverySchedule({
-                            ...deliveryScheduleStore.deliverySchedule,
-                            schForDept,
-                          });
-                        }}
-                      />
-                    )}
-                    name='schForDept'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Sch For PAT'
-                        placeholder={
-                          errors.schForPat
-                            ? 'Please Enter schForPat'
-                            : 'schForPat'
-                        }
-                        hasError={!!errors.schForPat}
-                        value={value}
-                        onChange={schForPat => {
-                          onChange(schForPat);
-                          deliveryScheduleStore.updateDeliverySchedule({
-                            ...deliveryScheduleStore.deliverySchedule,
-                            schForPat,
-                          });
-                        }}
-                      />
-                    )}
-                    name='schForPat'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  /> */}
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          deliveryScheduleStore.updateDeliverySchedule({
-                            ...deliveryScheduleStore.deliverySchedule,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -703,79 +619,6 @@ const DeliverySchedule = DeliveryScheduleHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            deliveryScheduleStore.updateDeliverySchedule({
-                              ...deliveryScheduleStore.deliverySchedule,
-                              environment,
-                            });
-                            deliveryScheduleStore.deliveryScheduleService
-                              .checkExistsEnvCode({
-                                input: {
-                                  code: deliveryScheduleStore.deliverySchedule
-                                    ?.schCode,
-                                  env: environment,
-                                },
-                              })
-                              .then(res => {
-                                if (
-                                  res.checkDeliverySchdulesExistsRecord.success
-                                ) {
-                                  deliveryScheduleStore.updateExistsEnvCode(
-                                    true,
-                                  );
-                                  Toast.error({
-                                    message: `😔 ${res.checkDeliverySchdulesExistsRecord.message}`,
-                                  });
-                                } else
-                                  deliveryScheduleStore.updateExistsEnvCode(
-                                    false,
-                                  );
-                              });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : deliveryScheduleStore.deliverySchedule
-                                  ?.environment || 'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Grid cols={5}>
                     <Controller
                       control={control}

@@ -30,6 +30,7 @@ export const EnvironmentVariable = observer(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [modalConfirm, setModalConfirm] = useState<any>();
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       setValue('status', environmentStore.environmentVariable?.status);
@@ -37,7 +38,7 @@ export const EnvironmentVariable = observer(
     }, [environmentStore.environmentVariable, loginStore.login]);
 
     const onSubmitEnvironmentVariable = () => {
-      if (!environmentStore.checkExistsEnvVariable) {
+      if (!isExistsRecord) {
         environmentStore.EnvironmentService.addEnvironment({
           input: {
             ...environmentStore.environmentVariable,
@@ -57,7 +58,7 @@ export const EnvironmentVariable = observer(
         });
       } else {
         Toast.warning({
-          message: '😔 Please enter diff variable',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -91,15 +92,14 @@ export const EnvironmentVariable = observer(
     };
 
     const checkExistsRecords = async (
-      fields = environmentStore.environmentVariable,
-      length = 0,
-      status = 'A',
+      fields: any = environmentStore.environmentVariable,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = ['variable', 'value', 'environment', 'status'];
+      const requiredFields = ['variable', 'value', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -107,21 +107,24 @@ export const EnvironmentVariable = observer(
       }
       return environmentStore.EnvironmentService.findByFields({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields, documentType: 'environmentVariable' }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+                documentType: 'environmentVariable',
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsEnviroment?.success &&
-          res.findByFieldsEnviroment?.data?.length > length
-        ) {
-          //setIsExistsRecord(true);
+        if (res.findByFieldsEnviroment?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
     return (
@@ -164,26 +167,8 @@ export const EnvironmentVariable = observer(
                           environmentVariable,
                         });
                       }}
-                      onBlur={environmentVariable => {
-                        if (environmentVariable)
-                          environmentStore.EnvironmentService.checkExistsRecord(
-                            {
-                              input: {
-                                filter: {
-                                  environmentVariable,
-                                  documentType: 'environmentVariable',
-                                },
-                              },
-                            },
-                          ).then(res => {
-                            if (res.checkExistsEnviromentRecord.success) {
-                              environmentStore.updateExistsEnvVariable(true);
-                              Toast.error({
-                                message: `😔 ${res.checkExistsEnviromentRecord.message}`,
-                              });
-                            } else
-                              environmentStore.updateExistsEnvVariable(false);
-                          });
+                      onBlur={variable => {
+                        if (variable) checkExistsRecords({ variable }, true);
                       }}
                     />
                   )}
@@ -191,7 +176,7 @@ export const EnvironmentVariable = observer(
                   rules={{ required: true }}
                   defaultValue=''
                 />
-                {environmentStore.checkExistsEnvVariable && (
+                {isExistsRecord && (
                   <span className='text-red-600 font-medium relative'>
                     Environment variable already exits. Please use other
                     variable.
@@ -363,7 +348,7 @@ export const EnvironmentVariable = observer(
                       control={control}
                       render={({ field: { onChange, value } }) => (
                         <Form.Toggle
-                          label='Departmetn'
+                          label='Department'
                           value={value}
                           onChange={allDepartment => {
                             onChange(allDepartment);

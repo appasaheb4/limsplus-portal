@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   List,
   Grid,
@@ -14,7 +11,6 @@ import {
   Form,
   ModalChangePasswordByAdmin,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
@@ -57,6 +53,7 @@ export const Users = UsersHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     const {
       control,
@@ -96,47 +93,53 @@ export const Users = UsersHoc(
     }, [userStore.user]);
 
     const onSubmitUser = async (data: any) => {
-      if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {
-        if (!_.isEmpty(userStore.user.existsRecordId)) {
-          const isExists = await checkExistsRecords();
-          if (isExists) {
-            return;
-          }
-        }
-        userStore &&
-          userStore.UsersService.addUser({
-            input: isImport
-              ? { isImport, arrImportRecords }
-              : {
-                  isImport,
-                  ...userStore.user,
-                  createdBy:
-                    userStore.user?.createdBy || loginStore.login.userId,
-                  companyCode: loginStore.login.companyCode,
-                  __typename: undefined,
-                  __v: undefined,
-                },
-          }).then((res: any) => {
-            if (res.createUser.success) {
-              Toast.success({
-                message: `😊 ${res.createUser.message}`,
-              });
-              setHideAddUser(true);
-              reset();
-              resetUser();
-              userStore.updateSelectedItems(new SelectedItems({}));
-              setArrImportRecords([]);
-              setIsImport(false);
-              setIsVersionUpgrade(false);
-            } else {
-              Toast.error({
-                message: `😔 ${res.createUser.message}`,
-              });
+      if (!isExistsRecord) {
+        if (!userStore.checkExitsUserId && !userStore.checkExistsEmpCode) {
+          if (!_.isEmpty(userStore.user.existsRecordId)) {
+            const isExists = await checkExistsRecords();
+            if (isExists) {
+              return;
             }
+          }
+          userStore &&
+            userStore.UsersService.addUser({
+              input: isImport
+                ? { isImport, arrImportRecords }
+                : {
+                    isImport,
+                    ...userStore.user,
+                    createdBy:
+                      userStore.user?.createdBy || loginStore.login.userId,
+                    companyCode: loginStore.login.companyCode,
+                    __typename: undefined,
+                    __v: undefined,
+                  },
+            }).then((res: any) => {
+              if (res.createUser.success) {
+                Toast.success({
+                  message: `😊 ${res.createUser.message}`,
+                });
+                setHideAddUser(true);
+                reset();
+                resetUser();
+                userStore.updateSelectedItems(new SelectedItems({}));
+                setArrImportRecords([]);
+                setIsImport(false);
+                setIsVersionUpgrade(false);
+              } else {
+                Toast.error({
+                  message: `😔 ${res.createUser.message}`,
+                });
+              }
+            });
+        } else {
+          Toast.warning({
+            message: '😔 Please enter userid or emp code!',
           });
+        }
       } else {
         Toast.warning({
-          message: '😔 Please enter userid or emp code!',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -393,9 +396,8 @@ export const Users = UsersHoc(
     };
 
     const checkExistsRecords = async (
-      fields = userStore.user,
-      length = 0,
-      status = 'A',
+      fields: any = userStore.user,
+      isSingleCheck = false,
     ) => {
       const requiredFields = [
         'defaultLab',
@@ -413,13 +415,12 @@ export const Users = UsersHoc(
         'email',
         'dateOfBirth',
         'exipreDate',
-        'environment',
         'status',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -427,21 +428,23 @@ export const Users = UsersHoc(
       }
       return userStore.UsersService.findByFieldsAndUniqueUserId({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsAndUniqueUserIdUser?.success &&
-          res.findByFieldsAndUniqueUserIdUser?.data?.length > length
-        ) {
-          //setIsExistsRecord(true);
+        if (res.findByFieldsAndUniqueUserIdUser?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
 
@@ -521,6 +524,7 @@ export const Users = UsersHoc(
                         }}
                         onBlur={userId => {
                           if (userId) {
+                            checkExistsRecords({ userId }, true);
                             userStore.UsersService.findByFields({
                               input: {
                                 filter: {
@@ -529,7 +533,6 @@ export const Users = UsersHoc(
                                 },
                               },
                             }).then(res => {
-                              console.log({ res });
                               if (res.findByFieldsUser.success)
                                 userStore.setExitsUserId(true);
                               else userStore.setExitsUserId(false);
@@ -728,6 +731,7 @@ export const Users = UsersHoc(
                         }}
                         onBlur={empCode => {
                           if (empCode) {
+                            checkExistsRecords({ empCode }, true);
                             userStore.UsersService.findUserByEmpCode(empCode)
                               .then(res => {
                                 if (res.checkUserByEmpCode.success)
@@ -905,7 +909,9 @@ export const Users = UsersHoc(
                           loader={loading}
                           placeholder='Search by code or name'
                           data={{
-                            list: labStore.listLabs,
+                            list: labStore.listLabs?.filter(
+                              item => item.status == 'A',
+                            ),
                             displayKey: ['code', 'name'],
                           }}
                           displayValue={value}
@@ -1044,7 +1050,11 @@ export const Users = UsersHoc(
                                 code: '*',
                                 name: '*',
                               },
-                            ].concat(labStore.listLabs),
+                            ].concat(
+                              labStore.listLabs?.filter(
+                                item => item.status == 'A',
+                              ),
+                            ),
                             selected: userStore.selectedItems?.labs,
                             displayKey: ['code', 'name'],
                           }}
@@ -1148,12 +1158,15 @@ export const Users = UsersHoc(
                             ].concat(
                               userStore.user.lab?.length > 0
                                 ? userStore.user.lab?.some(e => e.code !== '*')
-                                  ? departmentStore.listDepartment?.filter(o1 =>
-                                      userStore.user?.lab?.some(
-                                        o2 => o1.lab === o2.code,
-                                      ),
+                                  ? departmentStore.listDepartment?.filter(
+                                      o1 =>
+                                        userStore.user?.lab?.some(
+                                          o2 => o1.lab === o2.code,
+                                        ) && o1.status == 'A',
                                     )
-                                  : departmentStore.listDepartment
+                                  : departmentStore.listDepartment?.filter(
+                                      item => item.status == 'A',
+                                    )
                                 : [],
                             ),
                             selected: userStore.selectedItems?.department,

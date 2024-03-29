@@ -188,6 +188,7 @@ export const Result = observer((props: ResultProps) => {
                     className={
                       'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                     }
+                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
                     onChange={e => {
                       const validationLevel: any = e.target.value;
                       props.onUpdateFields &&
@@ -197,7 +198,9 @@ export const Result = observer((props: ResultProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option selected style={{ color: '#000000' }}>
+                      Select
+                    </option>
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                       .splice(row?.validationLevel, 8)
                       .map((item: any, index: number) => (

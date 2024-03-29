@@ -44,6 +44,7 @@ const Deginisation = DeginisationHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
     useEffect(() => {
       // Default value initialization
@@ -53,7 +54,7 @@ const Deginisation = DeginisationHoc(
     }, [deginisationStore.deginisation]);
 
     const onSubmitDesginiation = () => {
-      if (!deginisationStore.checkExitsCode) {
+      if (!isExistsRecord) {
         deginisationStore.DeginisationService.addDeginisation({
           input: isImport
             ? { isImport, arrImportRecords }
@@ -75,7 +76,7 @@ const Deginisation = DeginisationHoc(
         });
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -106,38 +107,38 @@ const Deginisation = DeginisationHoc(
     };
 
     const checkExistsRecords = async (
-      fields = deginisationStore.deginisation,
-      length = 0,
-      status = 'A',
+      fields: any = deginisationStore.deginisation,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = ['code', 'status', 'environment'];
+      const requiredFields = ['code', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return deginisationStore.DeginisationService.findByFields({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsDesignation?.success &&
-          res.findByFieldsDesignation.data?.length > length
-        ) {
-          //setIsExistsRecord(true);
+        if (res.findByFieldsDesignation?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
 
@@ -207,22 +208,12 @@ const Deginisation = DeginisationHoc(
                             });
                           }}
                           onBlur={code => {
-                            deginisationStore.DeginisationService.checkExitsEnvCode(
+                            checkExistsRecords(
                               {
-                                input: {
-                                  code,
-                                  env: deginisationStore.deginisation
-                                    ?.environment,
-                                },
+                                code,
                               },
-                            ).then(res => {
-                              if (res.checkDesignationsExistsRecord.success) {
-                                deginisationStore.setExitsCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkDesignationsExistsRecord.message}`,
-                                });
-                              } else deginisationStore.setExitsCode(false);
-                            });
+                              true,
+                            );
                           }}
                         />
                       )}
@@ -266,24 +257,6 @@ const Deginisation = DeginisationHoc(
                     />
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <AutoCompleteCompanyList
-                          hasError={!!errors.companyCode}
-                          onSelect={companyCode => {
-                            onChange(companyCode);
-                            deginisationStore.updateDescription({
-                              ...deginisationStore.deginisation,
-                              companyCode,
-                            });
-                          }}
-                        />
-                      )}
-                      name='companyCode'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -321,71 +294,6 @@ const Deginisation = DeginisationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper label='Environment'>
-                          <select
-                            value={value}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            onChange={e => {
-                              const environment = e.target.value;
-                              onChange(environment);
-                              deginisationStore.updateDescription({
-                                ...deginisationStore.deginisation,
-                                environment,
-                              });
-                              deginisationStore.DeginisationService.checkExitsEnvCode(
-                                {
-                                  input: {
-                                    code: deginisationStore.deginisation?.code,
-                                    env: environment,
-                                  },
-                                },
-                              ).then(res => {
-                                if (res.checkDesignationsExistsRecord.success) {
-                                  deginisationStore.setExitsCode(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkDesignationsExistsRecord.message}`,
-                                  });
-                                } else deginisationStore.setExitsCode(false);
-                              });
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : deginisationStore.deginisation?.environment ||
-                                  'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                   </List>
                 </Grid>
               </div>
@@ -403,7 +311,6 @@ const Deginisation = DeginisationHoc(
               </>
             )}
             <br />
-
             <List direction='row' space={3} align='center'>
               <Buttons.Button
                 size='medium'
@@ -497,7 +404,6 @@ const Deginisation = DeginisationHoc(
               }}
             />
           </div>
-
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {

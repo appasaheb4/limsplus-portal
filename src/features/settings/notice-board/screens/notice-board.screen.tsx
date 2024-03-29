@@ -1,9 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Form,
   List,
@@ -42,34 +39,43 @@ const NoticeBoard = NoticeBoardHoc(
     const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('status', noticeBoardStore.noticeBoard?.status);
-      // setValue('environment', noticeBoardStore.noticeBoard?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, noticeBoardStore.noticeBoard]);
 
-    const onNoticeBoardSubmit = () => {
-      noticeBoardStore.NoticeBoardService.addNoticeBoard({
-        input: {
-          ...noticeBoardStore.noticeBoard,
-        },
-      }).then(res => {
-        if (res.createNoticeBoard.success) {
-          Toast.success({
-            message: `😊 ${res.createNoticeBoard.message}`,
+    const onNoticeBoardSubmit = async () => {
+      if (!isExistsRecord) {
+        const isExists = await checkExistsRecords();
+        if (!isExists) {
+          noticeBoardStore.NoticeBoardService.addNoticeBoard({
+            input: {
+              ...noticeBoardStore.noticeBoard,
+            },
+          }).then(res => {
+            if (res.createNoticeBoard.success) {
+              Toast.success({
+                message: `😊 ${res.createNoticeBoard.message}`,
+              });
+              reset();
+              resetNoticeBoard();
+              setIsImport(false);
+            }
           });
-          reset();
-          resetNoticeBoard();
-          setIsImport(false);
         } else {
           Toast.warning({
-            message: '😔 Notice not create.Please try again',
+            message: '😔 Duplicate record found',
           });
         }
-      });
+      } else {
+        Toast.warning({
+          message: '😔 Duplicate record found',
+        });
+      }
     };
 
     const tableView = useMemo(
@@ -169,21 +175,14 @@ const NoticeBoard = NoticeBoardHoc(
       reader.readAsBinaryString(file);
     };
     const checkExistsRecords = async (
-      fields = noticeBoardStore.noticeBoard,
-      length = 0,
-      status = 'A',
+      fields: any = noticeBoardStore.noticeBoard,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'lab',
-        'header',
-        'action',
-        'environment',
-        'status',
-      ];
+      const requiredFields = ['lab', 'header', 'action', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -192,21 +191,23 @@ const NoticeBoard = NoticeBoardHoc(
       //Pass required Field in Array
       return noticeBoardStore.NoticeBoardService.findByFields({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsNoticeBoard?.success &&
-          res.findByFieldsNoticeBoard.data?.length > length
-        ) {
-          //setIsExistsRecord(true);
+        if (res.findByFieldsNoticeBoard?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
     return (
@@ -352,55 +353,6 @@ const NoticeBoard = NoticeBoardHoc(
                 rules={{ required: true }}
                 defaultValue=''
               />
-              {/* <Controller
-                control={control}
-                render={({ field: { onChange, value } }) => (
-                  <Form.InputWrapper
-                    label='Environment'
-                    hasError={!!errors.environment}
-                  >
-                    <select
-                      value={value}
-                      className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                        errors.environment ? 'border-red  ' : 'border-gray-300'
-                      } rounded-md`}
-                      disabled={
-                        loginStore.login && loginStore.login.role !== 'SYSADMIN'
-                          ? true
-                          : false
-                      }
-                      onChange={e => {
-                        const environment = e.target.value;
-                        onChange(environment);
-                        noticeBoardStore.updateNoticeBoard({
-                          ...noticeBoardStore.noticeBoard,
-                          environment,
-                        });
-                      }}
-                    >
-                      <option selected>
-                        {loginStore.login &&
-                        loginStore.login.role !== 'SYSADMIN'
-                          ? 'Select'
-                          : noticeBoardStore.noticeBoard?.environment ||
-                            'Select'}
-                      </option>
-                      {lookupItems(routerStore.lookupItems, 'ENVIRONMENT').map(
-                        (item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ),
-                      )}
-                    </select>
-                  </Form.InputWrapper>
-                )}
-                name='environment'
-                rules={{ required: true }}
-                defaultValue=''
-              /> */}
-            </List>
-            <List direction='col' space={4} justify='stretch' fill>
               <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (

@@ -1076,7 +1076,7 @@ export const CompanyList = (props: CompanyListProps) => {
                           onClick={() =>
                             props.onDelete &&
                             props.onDelete({
-                              type: 'Delete',
+                              type: 'delete',
                               show: true,
                               id: [row?._id],
                               title: 'Are you sure?',

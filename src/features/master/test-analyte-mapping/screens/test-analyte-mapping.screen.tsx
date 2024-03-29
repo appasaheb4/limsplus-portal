@@ -3,9 +3,6 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -13,7 +10,6 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelect,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
@@ -66,6 +62,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [isDuplicateRecord, setIsDuplicateRecord] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
@@ -104,7 +101,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     }, [testAnalyteMappingStore.testAnalyteMapping]);
 
     const onSubmitTestAnalyteMapping = async () => {
-      if (!testAnalyteMappingStore.checkExitsLabEnvCode) {
+      if (!isExistsRecord) {
         if (
           !testAnalyteMappingStore.testAnalyteMapping?.existsVersionId &&
           !testAnalyteMappingStore.testAnalyteMapping?.existsRecordId
@@ -186,7 +183,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
         testAnalyteMappingStore.updateSelectedItems(new SelectedItems({}));
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplication record found',
         });
       }
     };
@@ -423,21 +420,14 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     };
 
     const checkExistsRecords = async (
-      fields = testAnalyteMappingStore.testAnalyteMapping,
-      length = 0,
-      status = 'A',
+      fields: any = testAnalyteMappingStore.testAnalyteMapping,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'lab',
-        'testName',
-        'analyteCode',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['lab', 'testName', 'analyteCode', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -446,22 +436,24 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       return testAnalyteMappingStore.testAnalyteMappingService
         .findByFileds({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFiledsTestAnalyteMappings?.success &&
-            res.findByFiledsTestAnalyteMappings?.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFiledsTestAnalyteMappings?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -529,7 +521,9 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   : false
                               }
                               data={{
-                                list: labStore.listLabs,
+                                list: labStore.listLabs?.filter(
+                                  item => item.status == 'A',
+                                ),
                                 displayKey: 'name',
                                 findKey: 'name',
                               }}
@@ -556,41 +550,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   },
                                 );
                                 labStore.updateLabList(labStore.listLabsCopy);
-                                if (
-                                  !testAnalyteMappingStore.testAnalyteMapping
-                                    ?.existsVersionId
-                                ) {
-                                  testAnalyteMappingStore.testAnalyteMappingService
-                                    .checkExitsRecords({
-                                      input: {
-                                        lab: item.code,
-                                        testCode:
-                                          testAnalyteMappingStore
-                                            .testAnalyteMapping?.testCode,
-                                        analyteCode:
-                                          testAnalyteMappingStore
-                                            .testAnalyteMapping?.analyteCode,
-                                        env: testAnalyteMappingStore
-                                          .testAnalyteMapping?.environment,
-                                      },
-                                    })
-                                    .then(res => {
-                                      if (
-                                        res.checkTestAnalyteMappingsExistsRecord
-                                          .success
-                                      ) {
-                                        testAnalyteMappingStore.updateExistsLabEnvCode(
-                                          true,
-                                        );
-                                        Toast.error({
-                                          message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
-                                        });
-                                      } else
-                                        testAnalyteMappingStore.updateExistsLabEnvCode(
-                                          false,
-                                        );
-                                    });
-                                }
                               }}
                             />
                           </Form.InputWrapper>
@@ -624,7 +583,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {testAnalyteMappingStore.checkExitsLabEnvCode && (
+                    {isExistsRecord && (
                       <span className='text-red-600 font-medium relative'>
                         Code already exits. Please use other code.
                       </span>
@@ -655,35 +614,17 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                 !testAnalyteMappingStore.testAnalyteMapping
                                   ?.existsVersionId
                               ) {
-                                testAnalyteMappingStore.testAnalyteMappingService
-                                  .checkExitsRecords({
-                                    input: {
-                                      lab: testAnalyteMappingStore
-                                        .testAnalyteMapping?.lab,
-                                      testCode: item.testCode,
-                                      analyteCode:
-                                        testAnalyteMappingStore
-                                          .testAnalyteMapping?.analyteCode,
-                                      env: testAnalyteMappingStore
-                                        .testAnalyteMapping?.environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestAnalyteMappingsExistsRecord
-                                        .success
-                                    ) {
-                                      testAnalyteMappingStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testAnalyteMappingStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
+                                checkExistsRecords(
+                                  {
+                                    lab: testAnalyteMappingStore
+                                      .testAnalyteMapping?.lab,
+                                    testCode: item.testCode,
+                                    analyteCode:
+                                      testAnalyteMappingStore.testAnalyteMapping
+                                        ?.analyteCode,
+                                  },
+                                  true,
+                                );
                               }
                             }}
                           />
@@ -777,35 +718,17 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                 !testAnalyteMappingStore.testAnalyteMapping
                                   ?.existsVersionId
                               ) {
-                                testAnalyteMappingStore.testAnalyteMappingService
-                                  .checkExitsRecords({
-                                    input: {
-                                      lab: testAnalyteMappingStore
-                                        .testAnalyteMapping?.lab,
-                                      testCode:
-                                        testAnalyteMappingStore
-                                          .testAnalyteMapping?.testCode,
-                                      analyteCode,
-                                      env: testAnalyteMappingStore
-                                        .testAnalyteMapping?.environment,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestAnalyteMappingsExistsRecord
-                                        .success
-                                    ) {
-                                      testAnalyteMappingStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testAnalyteMappingStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
+                                checkExistsRecords(
+                                  {
+                                    lab: testAnalyteMappingStore
+                                      .testAnalyteMapping?.lab,
+                                    testCode:
+                                      testAnalyteMappingStore.testAnalyteMapping
+                                        ?.testCode,
+                                    analyteCode,
+                                  },
+                                  true,
+                                );
                               }
                             }}
                             onFilter={(value: string) => {
@@ -963,25 +886,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <AutoCompleteCompanyList
-                          hasError={!!errors.companyCode}
-                          onSelect={companyCode => {
-                            onChange(companyCode);
-                            testAnalyteMappingStore.updateTestAnalyteMapping({
-                              ...testAnalyteMappingStore.testAnalyteMapping,
-                              companyCode,
-                            });
-                          }}
-                        />
-                      )}
-                      name='companyCode'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1030,12 +934,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           hasError={!!errors.userId}
                           value={loginStore.login?.userId}
                           disabled={true}
-                          // onChange={(analyteCode) => {
-                          //   masterAnalyteStore.updateMasterAnalyte({
-                          //     ...masterAnalyteStore.masterAnalyte,
-                          //     analyteCode,
-                          //   })
-                          // }}
                         />
                       )}
                       name='userId'
@@ -1389,7 +1287,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                         </tbody>
                       </Table>
                     </Form.InputWrapper>
-
                     <Form.InputWrapper label='Report Order'>
                       <Table striped bordered className='max-h-5' size='sm'>
                         <thead>
@@ -1522,99 +1419,12 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                           }
                           value={value}
                           disabled={true}
-                          // onChange={(analyteCode) => {
-                          //   masterAnalyteStore.updateMasterAnalyte({
-                          //     ...masterAnalyteStore.masterAnalyte,
-                          //     analyteCode,
-                          //   })
-                          // }}
                         />
                       )}
                       name='version'
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper label='Environment'>
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            onChange={e => {
-                              const environment = e.target.value;
-                              onChange(environment);
-                              testAnalyteMappingStore.updateTestAnalyteMapping({
-                                ...testAnalyteMappingStore.testAnalyteMapping,
-                                environment,
-                              });
-                              if (
-                                !testAnalyteMappingStore.testAnalyteMapping
-                                  ?.existsVersionId
-                              ) {
-                                testAnalyteMappingStore.testAnalyteMappingService
-                                  .checkExitsRecords({
-                                    input: {
-                                      code: testAnalyteMappingStore
-                                        .testAnalyteMapping?.testCode,
-                                      env: environment,
-                                      lab: testAnalyteMappingStore
-                                        .testAnalyteMapping?.lab,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkTestAnalyteMappingsExistsRecord
-                                        .success
-                                    ) {
-                                      testAnalyteMappingStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkTestAnalyteMappingsExistsRecord.message}`,
-                                      });
-                                    } else
-                                      testAnalyteMappingStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : testAnalyteMappingStore.testAnalyteMapping
-                                    ?.environment || 'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                   </List>
                 </Grid>
               </>
@@ -1883,5 +1693,4 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
     );
   }),
 );
-
 export default TestAnalyteMapping;

@@ -4,9 +4,6 @@ import _ from 'lodash';
 
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -121,7 +118,7 @@ const Company = CompanyHoc(
           });
       } else {
         Toast.error({
-          message: '😔 Already some record exists.',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -177,7 +174,7 @@ const Company = CompanyHoc(
       fields = companyStore.company as any,
       isSingleCheck = false,
     ) => {
-      const requiredFields = ['code', 'name', 'status', 'environment'];
+      const requiredFields = ['code', 'name', 'status'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields }[item])) return item;
       });
@@ -198,7 +195,6 @@ const Company = CompanyHoc(
           },
         })
         .then(res => {
-          console.log({ res });
           if (res.findByFieldsCompany?.success) {
             setIsExistsRecord(true);
             Toast.error({
@@ -1401,7 +1397,6 @@ const Company = CompanyHoc(
                 )}
               </>
             )}
-
             <br />
             <List direction='row' space={3} align='center'>
               <Buttons.Button
@@ -1452,7 +1447,7 @@ const Company = CompanyHoc(
               onSelectedRow={rows => {
                 setModalConfirm({
                   show: true,
-                  type: 'Delete',
+                  type: 'delete',
                   id: rows,
                   title: 'Are you sure?',
                   body: 'Do you want to delete selected record?',
@@ -1523,7 +1518,7 @@ const Company = CompanyHoc(
             click={(action: string) => {
               setModalConfirm({ show: false });
               switch (action) {
-                case 'Delete': {
+                case 'delete': {
                   companyStore.companyService
                     .delete({
                       input: { id: modalConfirm.id },
