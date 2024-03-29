@@ -136,6 +136,50 @@ export const RefRangesInputTable = observer(
               ),
             },
             {
+              dataField: 'validationLevel',
+              text: 'Validation Level',
+              headerClasses: 'textHeaderm',
+              csvExport: false,
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <>
+                  <select
+                    disabled={row?.rangeType != 'V' ? true : false}
+                    value={row.validationLevel}
+                    className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                    onChange={e => {
+                      const validationLevel = e.target.value;
+                      onUpdateItems &&
+                        onUpdateItems(
+                          {
+                            validationLevel: Number.parseInt(validationLevel),
+                          },
+                          row.rangeId,
+                        );
+                      setTimeout(() => {
+                        duplicateCombination();
+                      }, 1000);
+                    }}
+                  >
+                    <option selected>Select</option>
+                    {lookupItems(extraData.lookupItems, 'VALIDATION_LEVEL').map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item.code}>
+                          {lookupValue(item)}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                </>
+              ),
+            },
+            {
               dataField: 'ageFrom',
               text: 'Age From',
               headerClasses: 'textHeaderm',

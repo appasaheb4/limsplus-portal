@@ -153,7 +153,12 @@ const Payment = PaymentHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{
+            position: 'fixed',
+            right: '30px',
+            top: '135px',
+            zIndex: 9999,
+          }}
         >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
@@ -365,6 +370,9 @@ const Payment = PaymentHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
+              </List>
+
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -395,9 +403,6 @@ const Payment = PaymentHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-              </List>
-
-              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (

@@ -349,7 +349,10 @@ export const PatientVisit = PatientVisitHoc(
 
     return (
       <>
-        <div className='flex justify-end'>
+        <div
+          className='flex justify-end'
+          style={{ position: 'absolute', right: '42px', top: '10px' }}
+        >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
               show={hideInputView}
@@ -407,6 +410,57 @@ export const PatientVisit = PatientVisitHoc(
           <div className='p-2 rounded-lg shadow-xl'>
             <Grid cols={3}>
               <List direction='col' space={4} justify='stretch' fill>
+                {patientVisitStore.patientVisit && (
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Age'
+                        name='txtAge'
+                        disabled={true}
+                        placeholder={
+                          errors.birthDate ? 'Please Enter Age' : 'Age'
+                        }
+                        hasError={!!errors.age}
+                        type='number'
+                        value={value}
+                        onChange={age => {
+                          onChange(age);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            age: Number.parseInt(age),
+                          });
+                        }}
+                      />
+                    )}
+                    name='age'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                )}
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <>
+                      <Form.Input
+                        label='Age Units'
+                        disabled={true}
+                        placeholder={
+                          patientVisitStore.patientVisit?.ageUnits ||
+                          'Age Units'
+                        }
+                        hasError={!!errors.ageUnits}
+                        type='number'
+                        value={value}
+                        onChange={() => {}}
+                      />
+                    </>
+                  )}
+                  name='ageUnits'
+                  rules={{ required: false }}
+                  defaultValue={patientVisitStore.patientVisit?.ageUnits}
+                />
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -562,172 +616,127 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <Form.InputDateTime
-                      label='Registration Date'
-                      name='txtRegistrationDate'
-                      placeholder={
-                        errors.registrationDate
-                          ? 'Please Enter RegistrationDate'
-                          : 'RegistrationDate'
-                      }
-                      hasError={!!errors.registrationDate}
+                    <Form.Toggle
+                      label='New Doctor'
+                      hasError={!!errors.isNewDoctor}
                       value={value}
-                      onChange={registrationDate => {
-                        const selectedRegistrationDate = new Date(
-                          registrationDate,
-                        );
-                        const currentDate = new Date();
-                        const dob = new Date(
-                          patientVisitStore.patientVisit.birthDate,
-                        );
-
-                        if (selectedRegistrationDate < currentDate) {
-                          if (dob > selectedRegistrationDate) {
-                            onChange(registrationDate);
-                            patientVisitStore.updatePatientVisit({
-                              ...patientVisitStore.patientVisit,
-                              registrationDate,
-                            });
-                          } else {
-                            Toast.error({
-                              message:
-                                'BirthDate should not be greater then Registration Date.',
-                            });
-                          }
-                        } else {
-                          Toast.error({
-                            message:
-                              'Registration Date should not be greater than Current Date.',
-                          });
-                        }
-                      }}
-                    />
-                  )}
-                  name='registrationDate'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputDateTime
-                      label='Collection Date'
-                      name='txtCollectionDate'
-                      placeholder={
-                        errors.collectionDate
-                          ? 'Please Enter Collection Date'
-                          : 'Collection Date'
-                      }
-                      hasError={!!errors.collectionDate}
-                      value={value}
-                      maxDate={new Date()}
-                      onChange={collectionDate => {
-                        const date1 = dayjs(collectionDate);
-                        const diffDay = date1.diff(
-                          patientVisitStore.patientVisit.birthDate,
-                          'day',
-                        );
-
-                        if (diffDay > 0) {
-                          onChange(collectionDate);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            collectionDate,
-                          });
-                        } else {
-                          Toast.error({
-                            message:
-                              '😔 Please enter correct collection date. Please note birthrate greater collection date',
-                          });
-                        }
-                      }}
-                    />
-                  )}
-                  name='dateReceived'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputDateTime
-                      label='Due Date'
-                      name='txtDueDate'
-                      placeholder={
-                        errors.dueDate ? 'Please Enter Due Date' : 'Due Date'
-                      }
-                      disabled={true}
-                      hasError={!!errors.dueDate}
-                      value={value}
-                      onChange={dueDate => {
-                        onChange(dueDate);
+                      onChange={isNewDoctor => {
+                        onChange(isNewDoctor);
                         patientVisitStore.updatePatientVisit({
                           ...patientVisitStore.patientVisit,
-                          dueDate,
+                          isNewDoctor,
                         });
                       }}
                     />
                   )}
-                  name='dueDate'
+                  name='isNewDoctor'
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                {patientVisitStore.patientVisit && (
+                {patientVisitStore.patientVisit.isNewDoctor ? (
+                  <>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Doctor Name'
+                          placeholder='Doctor Name'
+                          value={value}
+                          hasError={!!errors.newDoctorName}
+                          onChange={doctorName => {
+                            onChange(doctorName);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              doctorName,
+                            });
+                          }}
+                        />
+                      )}
+                      name='newDoctorName'
+                      rules={{
+                        required: false,
+                      }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Doctor Mobile No'
+                          type='number'
+                          placeholder='Doctor Mobile No'
+                          value={value}
+                          hasError={!!errors.doctorMobileNo}
+                          onChange={doctorMobileNo => {
+                            onChange(doctorMobileNo);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              doctorMobileNo,
+                            });
+                          }}
+                        />
+                      )}
+                      name='doctorMobileNo'
+                      rules={{
+                        required: false,
+                        pattern: FormHelper.patterns.mobileNo,
+                      }}
+                      defaultValue=''
+                    />
+                  </>
+                ) : (
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Age'
-                        name='txtAge'
-                        disabled={true}
-                        placeholder={
-                          errors.birthDate ? 'Please Enter Age' : 'Age'
-                        }
-                        hasError={!!errors.age}
-                        type='number'
-                        value={value}
-                        onChange={age => {
-                          onChange(age);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            age: Number.parseInt(age),
-                          });
-                        }}
-                      />
+                      <Form.InputWrapper
+                        label='Doctor Id'
+                        hasError={!!errors.doctorId}
+                      >
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          placeholder='Search by code or name'
+                          displayValue={value}
+                          data={{
+                            list: doctorsStore.listDoctors,
+                            displayKey: ['doctorCode', 'doctorName'],
+                          }}
+                          hasError={!!errors.doctorId}
+                          onFilter={(value: string) => {
+                            doctorsStore.doctorsService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['doctorCode', 'doctorName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(item.doctorCode);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              doctorId: item.doctorCode,
+                              doctorName: item.doctorName,
+                            });
+                            doctorsStore.updateDoctorsList(
+                              doctorsStore.listDoctorsCopy,
+                            );
+                          }}
+                        />
+                      </Form.InputWrapper>
                     )}
-                    name='age'
-                    rules={{ required: false }}
+                    name='doctorId'
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 )}
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <>
-                      <Form.Input
-                        label='Age Units'
-                        disabled={true}
-                        placeholder={
-                          patientVisitStore.patientVisit?.ageUnits ||
-                          'Age Units'
-                        }
-                        hasError={!!errors.ageUnits}
-                        type='number'
-                        value={value}
-                        onChange={() => {}}
-                      />
-                    </>
-                  )}
-                  name='ageUnits'
-                  rules={{ required: false }}
-                  defaultValue={patientVisitStore.patientVisit?.ageUnits}
-                />
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
                 {registrationLocationsStore.listRegistrationLocations && (
                   <Controller
                     control={control}
@@ -883,6 +892,187 @@ export const PatientVisit = PatientVisitHoc(
                     defaultValue=''
                   />
                 )}
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputDateTime
+                      label='Registration Date'
+                      name='txtRegistrationDate'
+                      placeholder={
+                        errors.registrationDate
+                          ? 'Please Enter RegistrationDate'
+                          : 'RegistrationDate'
+                      }
+                      hasError={!!errors.registrationDate}
+                      value={value}
+                      onChange={registrationDate => {
+                        const selectedRegistrationDate = new Date(
+                          registrationDate,
+                        );
+                        const currentDate = new Date();
+                        const dob = new Date(
+                          patientVisitStore.patientVisit.birthDate,
+                        );
+
+                        if (selectedRegistrationDate < currentDate) {
+                          if (dob > selectedRegistrationDate) {
+                            onChange(registrationDate);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              registrationDate,
+                            });
+                          } else {
+                            Toast.error({
+                              message:
+                                'BirthDate should not be greater then Registration Date.',
+                            });
+                          }
+                        } else {
+                          Toast.error({
+                            message:
+                              'Registration Date should not be greater than Current Date.',
+                          });
+                        }
+                      }}
+                    />
+                  )}
+                  name='registrationDate'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputDateTime
+                      label='Collection Date'
+                      name='txtCollectionDate'
+                      placeholder={
+                        errors.collectionDate
+                          ? 'Please Enter Collection Date'
+                          : 'Collection Date'
+                      }
+                      hasError={!!errors.collectionDate}
+                      value={value}
+                      maxDate={new Date()}
+                      onChange={collectionDate => {
+                        const date1 = dayjs(collectionDate);
+                        const diffDay = date1.diff(
+                          patientVisitStore.patientVisit.birthDate,
+                          'day',
+                        );
+
+                        if (diffDay > 0) {
+                          onChange(collectionDate);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            collectionDate,
+                          });
+                        } else {
+                          Toast.error({
+                            message:
+                              '😔 Please enter correct collection date. Please note birthrate greater collection date',
+                          });
+                        }
+                      }}
+                    />
+                  )}
+                  name='dateReceived'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputDateTime
+                      label='Due Date'
+                      name='txtDueDate'
+                      placeholder={
+                        errors.dueDate ? 'Please Enter Due Date' : 'Due Date'
+                      }
+                      disabled={true}
+                      hasError={!!errors.dueDate}
+                      value={value}
+                      onChange={dueDate => {
+                        onChange(dueDate);
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          dueDate,
+                        });
+                      }}
+                    />
+                  )}
+                  name='dueDate'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+
+                <Grid cols={3}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='History'
+                        id='toggleHistory'
+                        hasError={!!errors.history}
+                        value={value}
+                        onChange={history => {
+                          onChange(history);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            history,
+                          });
+                        }}
+                      />
+                    )}
+                    name='history'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='Hold Report'
+                        id='toggleHistory'
+                        hasError={!!errors.holdReport}
+                        value={value}
+                        onChange={holdReport => {
+                          onChange(holdReport);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            holdReport,
+                          });
+                        }}
+                      />
+                    )}
+                    name='holdReport'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='Specific Format'
+                        hasError={!!errors.specificFormat}
+                        value={value}
+                        onChange={specificFormat => {
+                          onChange(specificFormat);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            specificFormat,
+                          });
+                        }}
+                      />
+                    )}
+                    name='specificFormat'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                </Grid>
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -924,125 +1114,70 @@ export const PatientVisit = PatientVisitHoc(
                   rules={{ required: true }}
                   defaultValue={patientVisitStore.patientVisit?.acClass}
                 />
+
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <Form.Toggle
-                      label='New Doctor'
-                      hasError={!!errors.isNewDoctor}
-                      value={value}
-                      onChange={isNewDoctor => {
-                        onChange(isNewDoctor);
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          isNewDoctor,
-                        });
-                      }}
-                    />
+                    <Form.InputWrapper
+                      label='Report Priority'
+                      hasError={!!errors.reportPriority}
+                    >
+                      <select
+                        value={value}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.reportPriority
+                            ? 'border-red  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const reportPriority = e.target.value as string;
+                          onChange(reportPriority);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            reportPriority,
+                          });
+                        }}
+                      >
+                        <option selected>Select</option>
+                        {lookupItems(
+                          routerStore.lookupItems,
+                          'PATIENT VISIT - REPORT_PRIORITY',
+                        ).map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
                   )}
-                  name='isNewDoctor'
+                  name='reportPriority'
+                  rules={{ required: true }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputWrapper
+                      label='Delivery Mode'
+                      hasError={!!errors.deliveryMode}
+                    >
+                      <AutoCompleteFilterDeliveryMode
+                        lookupField='PATIENT VISIT - DELIVERY_MODE'
+                        onSelect={deliveryMode => {
+                          onChange(deliveryMode);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            deliveryMode,
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='deliveryMode'
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                {patientVisitStore.patientVisit.isNewDoctor ? (
-                  <>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          label='Doctor Name'
-                          placeholder='Doctor Name'
-                          value={value}
-                          hasError={!!errors.newDoctorName}
-                          onChange={doctorName => {
-                            onChange(doctorName);
-                            patientVisitStore.updatePatientVisit({
-                              ...patientVisitStore.patientVisit,
-                              doctorName,
-                            });
-                          }}
-                        />
-                      )}
-                      name='newDoctorName'
-                      rules={{
-                        required: false,
-                      }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          label='Doctor Mobile No'
-                          type='number'
-                          placeholder='Doctor Mobile No'
-                          value={value}
-                          hasError={!!errors.doctorMobileNo}
-                          onChange={doctorMobileNo => {
-                            onChange(doctorMobileNo);
-                            patientVisitStore.updatePatientVisit({
-                              ...patientVisitStore.patientVisit,
-                              doctorMobileNo,
-                            });
-                          }}
-                        />
-                      )}
-                      name='doctorMobileNo'
-                      rules={{
-                        required: false,
-                        pattern: FormHelper.patterns.mobileNo,
-                      }}
-                      defaultValue=''
-                    />
-                  </>
-                ) : (
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Doctor Id'
-                        hasError={!!errors.doctorId}
-                      >
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
-                          placeholder='Search by code or name'
-                          displayValue={value}
-                          data={{
-                            list: doctorsStore.listDoctors,
-                            displayKey: ['doctorCode', 'doctorName'],
-                          }}
-                          hasError={!!errors.doctorId}
-                          onFilter={(value: string) => {
-                            doctorsStore.doctorsService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ['doctorCode', 'doctorName'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            });
-                          }}
-                          onSelect={item => {
-                            onChange(item.doctorCode);
-                            patientVisitStore.updatePatientVisit({
-                              ...patientVisitStore.patientVisit,
-                              doctorId: item.doctorCode,
-                              doctorName: item.doctorName,
-                            });
-                            doctorsStore.updateDoctorsList(
-                              doctorsStore.listDoctorsCopy,
-                            );
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='doctorId'
-                    rules={{ required: true }}
-                    defaultValue={doctorsStore.listDoctors}
-                  />
-                )}
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -1246,136 +1381,6 @@ export const PatientVisit = PatientVisitHoc(
                   />
                 ) : null}
 
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper
-                      label='Report Priority'
-                      hasError={!!errors.reportPriority}
-                    >
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.reportPriority
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const reportPriority = e.target.value as string;
-                          onChange(reportPriority);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            reportPriority,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'PATIENT VISIT - REPORT_PRIORITY',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='reportPriority'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper
-                      label='Delivery Mode'
-                      hasError={!!errors.deliveryMode}
-                    >
-                      <AutoCompleteFilterDeliveryMode
-                        lookupField='PATIENT VISIT - DELIVERY_MODE'
-                        onSelect={deliveryMode => {
-                          onChange(deliveryMode);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            deliveryMode,
-                          });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='deliveryMode'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Grid cols={3}>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='History'
-                        id='toggleHistory'
-                        hasError={!!errors.history}
-                        value={value}
-                        onChange={history => {
-                          onChange(history);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            history,
-                          });
-                        }}
-                      />
-                    )}
-                    name='history'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='Hold Report'
-                        id='toggleHistory'
-                        hasError={!!errors.holdReport}
-                        value={value}
-                        onChange={holdReport => {
-                          onChange(holdReport);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            holdReport,
-                          });
-                        }}
-                      />
-                    )}
-                    name='holdReport'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='Specific Format'
-                        hasError={!!errors.specificFormat}
-                        value={value}
-                        onChange={specificFormat => {
-                          onChange(specificFormat);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            specificFormat,
-                          });
-                        }}
-                      />
-                    )}
-                    name='specificFormat'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                </Grid>
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
                 {patientVisitStore.patientVisit && (
                   <Controller
                     control={control}

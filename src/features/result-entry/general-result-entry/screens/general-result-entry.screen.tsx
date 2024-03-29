@@ -210,8 +210,8 @@ const GeneralResultEntry = observer(() => {
             // }
           }}
           onExpand={items => {
-            setSelectId(items._id);
-            if (_.isEmpty(items._id)) {
+            setSelectId(items?._id);
+            if (_.isEmpty(items?._id)) {
               setModalPatientDemographics({ show: false });
             } else {
               setModalPatientDemographics({
@@ -223,6 +223,7 @@ const GeneralResultEntry = observer(() => {
           onTableReload={() => {
             setTableReload(!tableReload);
           }}
+          selectedRowData={modalPatientDemographics?.data}
         />
       </>
     ),
@@ -316,13 +317,6 @@ const GeneralResultEntry = observer(() => {
         }}
         onClose={() => {
           setModalConfirm({ show: false });
-        }}
-      />
-      <ModalPatientDemographics
-        {...modalPatientDemographics}
-        onClose={() => {
-          setSelectId('');
-          setModalPatientDemographics({ show: false });
         }}
       />
     </>

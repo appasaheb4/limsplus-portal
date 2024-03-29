@@ -18,6 +18,7 @@ import { Confirm } from '@/library/models';
 
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { debounce } from '@/core-utils';
+import { PatientDemographicsList } from '../patient-demographics/patient-demographics-list.components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -51,6 +52,7 @@ interface GeneralResultEntryExpandProps {
   onFilterFinishResult?: (code: string) => void;
   onTestStatusFilter?: (code: string) => void;
   onTableReload?: () => void;
+  selectedRowData?: any;
 }
 export const GeneralResultEntryExpand = ({
   id,
@@ -75,6 +77,7 @@ export const GeneralResultEntryExpand = ({
   onFilterFinishResult,
   onTestStatusFilter,
   onTableReload,
+  selectedRowData,
 }: GeneralResultEntryExpandProps) => {
   const selectedRow = useRef<any[]>([]);
 
@@ -379,7 +382,7 @@ export const GeneralResultEntryExpand = ({
                   {isExport && (
                     <ExportCSVButton
                       className={
-                        'bg-gray-500 w-32 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                        'bg-gray-500 px-3.5 py-1 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                       }
                       {...props.csvProps}
                     >
@@ -407,11 +410,11 @@ export const GeneralResultEntryExpand = ({
                       <Icons.IconFa.FaChevronDown />
                     </Buttons.Button>
                   )}
-                  <div className='flex'>
+                  <div className='flex flex-wrap gap-0'>
                     {statusData.map(status => (
                       <button
                         key={status.code}
-                        className={`bg-${status.color}-600 ml-2 px-2 w-20 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                        className={`bg-${status.color}-600 ml-2 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                         onClick={() => {
                           setFilterStatus(status.code);
                           onFilterFinishResult &&
@@ -423,11 +426,11 @@ export const GeneralResultEntryExpand = ({
                     ))}
                   </div>
                 </div>
-                <div className='flex justify-end gap-2'>
+                <div className='flex justify-end gap-1'>
                   {testStatus.map(status => (
                     <button
                       key={status.code}
-                      className={`bg-${status.color}-600 px-4 py-2 focus:outline-none  items-center  outline shadow-sm  font-medium  text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                      className={`bg-${status.color}-600 px-3.5 py-2 focus:outline-none  items-center  outline shadow-sm  font-medium  text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                       onClick={() => {
                         setFilterStatus(status.code);
                         onTestStatusFilter?.(status.code);
@@ -447,6 +450,19 @@ export const GeneralResultEntryExpand = ({
                     {...props.columnToggleProps}
                   />
                 </div>
+              )}
+              {selectedRowData?.length > 0 && (
+                <>
+                  <div className='mt-2'>
+                    <span className='text-lg font-bold leading-4 mt-2'>
+                      Patient Demographics
+                    </span>
+                    <PatientDemographicsList
+                      data={selectedRowData || []}
+                      totalSize={selectedRowData?.length}
+                    />
+                  </div>
+                </>
               )}
               <div className='scrollTable'>
                 <BootstrapTable

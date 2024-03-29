@@ -258,7 +258,10 @@ export const PatientOrder = PatientOrderHoc(
 
     return (
       <>
-        <div className='flex justify-end'>
+        <div
+          className='flex justify-end'
+          style={{ position: 'absolute', right: '42px', top: '10px' }}
+        >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
               show={hideInputView}
@@ -401,7 +404,8 @@ export const PatientOrder = PatientOrderHoc(
                     Lab Id already exits. Please use other lab id.
                   </span>
                 )}
-
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange } }) => (
@@ -512,8 +516,8 @@ export const PatientOrder = PatientOrderHoc(
                   }
                 />
               </List>
-              <List direction='col' space={4} justify='stretch' fill></List>
             </Grid>
+            <Grid cols={2}></Grid>
             <div
               className='rounded-lg shadow-xl overflow-scroll mt-2'
               style={{ overflowX: 'scroll' }}

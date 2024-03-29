@@ -124,20 +124,8 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               dataField: 'deliveryId',
               text: 'Delivery Id',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader2',
-              filter: customFilter({
-                getFilter: filter => {
-                  deliveryId = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              headerClasses: 'textHeaderxxs',
             },
             {
               dataField: 'labId',
@@ -252,7 +240,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   deliveryStatus = filter;
@@ -268,7 +256,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   reportType = filter;
@@ -313,7 +301,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   destination = filter;
@@ -330,7 +318,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   comments = filter;
@@ -520,7 +508,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   qrCode = filter;
@@ -537,7 +525,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   pdf = filter;
@@ -553,7 +541,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   externalLabId = filter;
@@ -569,27 +557,10 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   employeeCode = filter;
-                },
-              }),
-            },
-            {
-              dataField: 'enteredBy',
-              text: 'Entered By',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              headerClasses: 'textHeader3',
-              filter: textFilter({
-                getFilter: filter => {
-                  enteredBy = filter;
                 },
               }),
             },
@@ -603,18 +574,36 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeader',
               filter: textFilter({
                 getFilter: filter => {
                   userComments = filter;
                 },
               }),
+            }, 
+            {
+              dataField: 'enteredBy',
+              text: 'Entered By',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+              headerClasses: 'textHeader',
+              filter: textFilter({
+                getFilter: filter => {
+                  enteredBy = filter;
+                },
+              }),
             },
+           
 
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader',
               sort: true,
               headerStyle: {
                 fontSize: 0,
