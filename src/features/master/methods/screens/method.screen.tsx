@@ -2,9 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -43,16 +40,16 @@ const Methods = MethodsHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
       setValue('status', methodsStore.methods?.status);
-      // setValue('environment', methodsStore.methods?.environment);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [methodsStore.methods]);
 
     const onSubmitMethods = () => {
-      if (!methodsStore.checkExitsEnvCode) {
+      if (!isExistsRecord) {
         methodsStore.methodsService
           .addMethods({
             input: isImport
@@ -74,7 +71,7 @@ const Methods = MethodsHoc(
           });
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -106,45 +103,40 @@ const Methods = MethodsHoc(
     };
 
     const checkExistsRecords = async (
-      fields = methodsStore.methods,
-      length = 0,
-      status = 'A',
+      fields: any = methodsStore.methods,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'methodsCode',
-        'methodsName',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['methodsCode', 'methodsName', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return methodsStore.methodsService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsMethod?.success &&
-            res.findByFieldsMethod.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsMethod?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -208,22 +200,10 @@ const Methods = MethodsHoc(
                             methodsCode,
                           });
                         }}
-                        onBlur={code => {
-                          methodsStore.methodsService
-                            .checkExitsEnvCode({
-                              input: {
-                                code,
-                                env: methodsStore.methods?.environment,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkMethodsExistsRecord.success) {
-                                methodsStore.updateExitsEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkMethodsExistsRecord.message}`,
-                                });
-                              } else methodsStore.updateExitsEnvCode(false);
-                            });
+                        onBlur={methodsCode => {
+                          if (methodsCode) {
+                            checkExistsRecords({ methodsCode }, true);
+                          }
                         }}
                       />
                     )}
@@ -231,7 +211,7 @@ const Methods = MethodsHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {methodsStore.checkExitsEnvCode && (
+                  {isExistsRecord && (
                     <span className='text-red-600 font-medium relative'>
                       Code already exits. Please use other code.
                     </span>
@@ -292,24 +272,6 @@ const Methods = MethodsHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          methodsStore.updateMethods({
-                            ...methodsStore.methods,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -347,70 +309,6 @@ const Methods = MethodsHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            methodsStore.updateMethods({
-                              ...methodsStore.methods,
-                              environment,
-                            });
-                            methodsStore.methodsService
-                              .checkExitsEnvCode({
-                                input: {
-                                  code: methodsStore.methods?.methodsCode,
-                                  env: environment,
-                                },
-                              })
-                              .then(res => {
-                                if (res.checkMethodsExistsRecord.success) {
-                                  methodsStore.updateExitsEnvCode(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkMethodsExistsRecord.message}`,
-                                  });
-                                } else methodsStore.updateExitsEnvCode(false);
-                              });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : methodsStore.methods?.environment || 'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (

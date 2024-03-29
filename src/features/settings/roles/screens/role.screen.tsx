@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Form,
   List,
@@ -21,7 +18,6 @@ import { useStores } from '@/stores';
 import _ from 'lodash';
 import { RouterFlow } from '@/flows';
 import { resetRole } from '../startup';
-import * as XLSX from 'xlsx';
 
 const Role = RolesHoc(
   observer(() => {
@@ -38,6 +34,7 @@ const Role = RolesHoc(
     const [hideAddRole, setHideAddRole] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
@@ -47,7 +44,7 @@ const Role = RolesHoc(
     }, [roleStore.role]);
 
     const onSubmitRoles = () => {
-      if (!roleStore.checkExitsCode) {
+      if (!isExistsRecord) {
         roleStore.RoleService.addrole({
           input: { ...roleStore.role },
         }).then(res => {
@@ -62,44 +59,44 @@ const Role = RolesHoc(
         });
       } else {
         Toast.warning({
-          message: '😔 Please enter all information!',
+          message: '😔 Duplicate record found',
         });
       }
     };
 
     const checkExistsRecords = async (
-      fields = roleStore.role,
-      length = 0,
-      status = 'A',
+      fields: any = roleStore.role,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = ['code', 'description', 'environment', 'status'];
+      const requiredFields = ['code', 'description', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return roleStore.RoleService.findByFields({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsRoleMapping?.success &&
-          res.findByFieldsRoleMapping.data?.length > length
-        ) {
-          //setIsExistsRecord(true);
+        if (res.findByFieldsRoleMapping?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
 
@@ -148,18 +145,9 @@ const Role = RolesHoc(
                         });
                       }}
                       onBlur={code => {
-                        roleStore.RoleService.checkExitsEnvCode({
-                          input: {
-                            code,
-                          },
-                        }).then(res => {
-                          if (res.checkRoleExistsEnvCode.success) {
-                            roleStore.setExitsCode(true);
-                            Toast.error({
-                              message: `😔 ${res.checkRoleExistsEnvCode.message}`,
-                            });
-                          } else roleStore.setExitsCode(false);
-                        });
+                        if (code) {
+                          checkExistsRecords({ code }, true);
+                        }
                       }}
                     />
                   )}
@@ -167,7 +155,7 @@ const Role = RolesHoc(
                   rules={{ required: true }}
                   defaultValue=''
                 />
-                {roleStore.checkExitsCode && (
+                {isExistsRecord && (
                   <span className='text-red-600 font-medium relative'>
                     Code already exits. Please use other code.
                   </span>

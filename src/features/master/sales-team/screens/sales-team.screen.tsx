@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -55,6 +52,7 @@ export const SalesTeam = SalesTeamHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
@@ -73,7 +71,7 @@ export const SalesTeam = SalesTeamHoc(
     }, [salesTeamStore.salesTeam]);
 
     const onSubmitSalesTeam = async () => {
-      if (!salesTeamStore.checkExistsRecord) {
+      if (!isExistsRecord) {
         if (!_.isEmpty(salesTeamStore.salesTeam.existsRecordId)) {
           const isExists = await checkExistsRecords();
           if (isExists) {
@@ -108,7 +106,7 @@ export const SalesTeam = SalesTeamHoc(
           });
       } else {
         Toast.warning({
-          message: '😔 Please use diff emp code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -289,45 +287,40 @@ export const SalesTeam = SalesTeamHoc(
     };
 
     const checkExistsRecords = async (
-      fields = salesTeamStore.salesTeam,
-      length = 0,
-      status = 'A',
+      fields: any = salesTeamStore.salesTeam,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'salesTerritory',
-        'empCode',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['salesTerritory', 'empCode', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return salesTeamStore.salesTeamService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsSalesTeams?.success &&
-            res.findByFieldsSalesTeams.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsSalesTeams?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -423,18 +416,9 @@ export const SalesTeam = SalesTeamHoc(
                           });
                         }}
                         onBlur={salesTerritory => {
-                          salesTeamStore.salesTeamService
-                            .findByFields({
-                              input: { filter: { salesTerritory } },
-                            })
-                            .then(res => {
-                              if (res.findByFieldsSalesTeams.success) {
-                                salesTeamStore.updateExistsRecord(true);
-                                Toast.warning({
-                                  message: `😔 ${res.findByFieldsSalesTeams.message}`,
-                                });
-                              } else salesTeamStore.updateExistsRecord(false);
-                            });
+                          if (salesTerritory) {
+                            checkExistsRecords({ salesTerritory }, true);
+                          }
                         }}
                       />
                     )}
@@ -484,23 +468,12 @@ export const SalesTeam = SalesTeamHoc(
                               reportingTo: item.reportingTo,
                               empName: item.fullName,
                             });
-                            salesTeamStore.salesTeamService
-                              .checkExistsEnvCode({
-                                input: {
-                                  code: item.empCode,
-                                  env: salesTeamStore.salesTeam?.environment,
-                                },
-                              })
-                              .then(res => {
-                                if (res.checkSalesTeamsExistsRecord.success) {
-                                  salesTeamStore.updateExistsRecord(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
-                                  });
-                                } else {
-                                  setHierarchyAndTarget(item);
-                                }
-                              });
+                            checkExistsRecords(
+                              {
+                                empCode: item.empCode,
+                              },
+                              true,
+                            );
                           }}
                         />
                       </Form.InputWrapper>
@@ -667,24 +640,6 @@ export const SalesTeam = SalesTeamHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          salesTeamStore.updateSalesTeam({
-                            ...salesTeamStore.salesTeam,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -722,71 +677,6 @@ export const SalesTeam = SalesTeamHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            salesTeamStore.updateSalesTeam({
-                              ...salesTeamStore.salesTeam,
-                              environment,
-                            });
-                            salesTeamStore.salesTeamService
-                              .checkExistsEnvCode({
-                                input: {
-                                  code: salesTeamStore.salesTeam?.empCode,
-                                  env: environment,
-                                },
-                              })
-                              .then(res => {
-                                if (res.checkSalesTeamsExistsRecord.success) {
-                                  salesTeamStore.updateExistsRecord(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkSalesTeamsExistsRecord.message}`,
-                                  });
-                                } else salesTeamStore.updateExistsRecord(false);
-                              });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : salesTeamStore.salesTeam?.environment ||
-                                'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (
@@ -803,7 +693,7 @@ export const SalesTeam = SalesTeamHoc(
               </>
             )}
             <br />
-            {salesTeamStore.checkExistsRecord && (
+            {isExistsRecord && (
               <span className='text-red-600 font-medium'>
                 Already exists records. Please enter correct info.
               </span>

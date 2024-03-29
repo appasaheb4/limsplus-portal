@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -43,16 +40,16 @@ const SampleType = SampleTypeHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
-      // setValue('environment', sampleTypeStore.sampleType?.environment);
       setValue('status', sampleTypeStore.sampleType?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sampleTypeStore.sampleType]);
 
     const onSubmitSampleType = () => {
-      if (!sampleTypeStore.checkExitsEnvCode) {
+      if (!isExistsRecord) {
         sampleTypeStore.sampleTypeService
           .addSampleType({
             input: isImport
@@ -74,7 +71,7 @@ const SampleType = SampleTypeHoc(
           });
       } else {
         Toast.warning({
-          message: '😔Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -107,45 +104,40 @@ const SampleType = SampleTypeHoc(
     };
 
     const checkExistsRecords = async (
-      fields = sampleTypeStore.sampleType,
-      length = 0,
-      status = 'A',
+      fields: any = sampleTypeStore.sampleType,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'sampleCode',
-        'sampleType',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['sampleCode', 'sampleType', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return sampleTypeStore.sampleTypeService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsSampleTypes?.success &&
-            res.findByFieldsSampleTypes.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsSampleTypes?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -210,22 +202,10 @@ const SampleType = SampleTypeHoc(
                             sampleCode,
                           });
                         }}
-                        onBlur={code => {
-                          sampleTypeStore.sampleTypeService
-                            .checkExitsEnvCode({
-                              input: {
-                                code,
-                                env: sampleTypeStore.sampleType?.environment,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkSampleTypeExistsRecord.success) {
-                                sampleTypeStore.updateExitsEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkSampleTypeExistsRecord.message}`,
-                                });
-                              } else sampleTypeStore.updateExitsEnvCode(false);
-                            });
+                        onBlur={sampleCode => {
+                          if (sampleCode) {
+                            checkExistsRecords({ sampleCode }, true);
+                          }
                         }}
                       />
                     )}
@@ -233,7 +213,7 @@ const SampleType = SampleTypeHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {sampleTypeStore.checkExitsEnvCode && (
+                  {isExistsRecord && (
                     <span className='text-red-600 font-medium relative'>
                       Code already exits. Please use other code.
                     </span>
@@ -317,24 +297,6 @@ const SampleType = SampleTypeHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          sampleTypeStore.updateSampleType({
-                            ...sampleTypeStore.sampleType,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -372,72 +334,6 @@ const SampleType = SampleTypeHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            sampleTypeStore.updateSampleType({
-                              ...sampleTypeStore.sampleType,
-                              environment,
-                            });
-                            sampleTypeStore.sampleTypeService
-                              .checkExitsEnvCode({
-                                input: {
-                                  code: sampleTypeStore.sampleType?.sampleCode,
-                                  env: environment,
-                                },
-                              })
-                              .then(res => {
-                                if (res.checkSampleTypeExistsRecord.success) {
-                                  sampleTypeStore.updateExitsEnvCode(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkSampleTypeExistsRecord.message}`,
-                                  });
-                                } else
-                                  sampleTypeStore.updateExitsEnvCode(false);
-                              });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : sampleTypeStore.sampleType?.environment ||
-                                'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (

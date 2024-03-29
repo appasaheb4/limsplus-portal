@@ -46,6 +46,8 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     const [isInputView, setIsInputView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
+
     useEffect(() => {
       // Default value initialization
       setValue('status', environmentStore.environmentSettings?.status);
@@ -53,7 +55,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     }, [loginStore.login, environmentStore.environmentSettings]);
 
     const onSubmitSessionManagement = () => {
-      if (!environmentStore.checkExistsEnvSettingsRecord) {
+      if (!isExistsRecord) {
         environmentStore.EnvironmentService.addEnvironment({
           input: {
             ...environmentStore.environmentSettings,
@@ -70,6 +72,10 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
             resetEnvironmentSettings();
             setIsImport(false);
           }
+        });
+      } else {
+        Toast.warning({
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -174,15 +180,14 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
     );
 
     const checkExistsRecords = async (
-      fields = environmentStore.environmentSettings,
-      length = 0,
-      status = 'A',
+      fields: any = environmentStore.environmentSettings,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = ['variable', 'value', 'environment', 'status'];
+      const requiredFields = ['variable', 'value', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -190,21 +195,24 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
       }
       return environmentStore.EnvironmentService.findByFields({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields, documentType: 'environmentSettings' }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+                documentType: 'environmentSettings',
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsEnviroment?.success &&
-          res.findByFieldsEnviroment?.data?.length > length
-        ) {
-          //setIsExistsRecord(true);
+        if (res.findByFieldsEnviroment?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
 
@@ -274,27 +282,12 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         environmentStore.updateEnvVariableList(
                           environmentStore.environmentVariableListCopy,
                         );
-                        environmentStore.EnvironmentService.checkExistsRecord({
-                          input: {
-                            filter: {
-                              variable: item.environmentVariable,
-                              documentType: 'environmentSettings',
-                              environment:
-                                environmentStore.environmentSettings
-                                  ?.environment,
-                            },
+                        checkExistsRecords(
+                          {
+                            variable: item.environmentVariable,
                           },
-                        }).then(res => {
-                          if (res.checkExistsEnviromentRecord.success) {
-                            environmentStore.updateExistsEnvSettingRecord(true);
-                            Toast.error({
-                              message: `😔 ${res.checkExistsEnviromentRecord.message}`,
-                            });
-                          } else
-                            environmentStore.updateExistsEnvSettingRecord(
-                              false,
-                            );
-                        });
+                          true,
+                        );
                       }}
                     />
                   )}
@@ -302,7 +295,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   rules={{ required: true }}
                   defaultValue=''
                 />
-                {environmentStore.checkExistsEnvSettingsRecord && (
+                {isExistsRecord && (
                   <span className='text-red-600 font-medium relative'>
                     Environment variable already exits. Please select other
                     variable.
@@ -675,79 +668,6 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                   rules={{ required: false }}
                   defaultValue=''
                 />
-                {/* <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='Environment'>
-                      <select
-                        value={value}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.environment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        disabled={
-                          loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? true
-                            : false
-                        }
-                        onChange={e => {
-                          const environment = e.target.value;
-                          onChange(environment);
-                          environmentStore.updateEnvironmentSettings({
-                            ...environmentStore.environmentSettings,
-                            environment,
-                          });
-                          environmentStore.EnvironmentService.checkExistsRecord(
-                            {
-                              input: {
-                                filter: {
-                                  variable:
-                                    environmentStore.environmentSettings
-                                      .variable,
-                                  documentType: 'environmentSettings',
-                                  environment,
-                                },
-                              },
-                            },
-                          ).then(res => {
-                            if (res.checkExistsEnviromentRecord.success) {
-                              environmentStore.updateExistsEnvSettingRecord(
-                                true,
-                              );
-                              Toast.error({
-                                message: `😔 ${res.checkExistsEnviromentRecord.message}`,
-                              });
-                            } else
-                              environmentStore.updateExistsEnvSettingRecord(
-                                false,
-                              );
-                          });
-                        }}
-                      >
-                        <option selected>
-                          {loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
-                            ? 'Select'
-                            : environmentStore.environmentSettings
-                                ?.environment || 'Select'}
-                        </option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'ENVIRONMENT SETTING - ENVIRONMENT',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='environment'
-                  rules={{ required: true }}
-                  defaultValue=''
-                /> */}
               </List>
             </Grid>
             <br />

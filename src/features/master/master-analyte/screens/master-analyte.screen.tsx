@@ -74,9 +74,10 @@ const MasterAnalyte = MasterAnalyteHoc(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [modalDetailsDateRange, setModalDateRange] = useState<any>();
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     const onSubmitMasterAnalyte = async () => {
-      if (!masterAnalyteStore.checkExitsLabEnvCode) {
+      if (!isExistsRecord) {
         if (
           !masterAnalyteStore.masterAnalyte?.existsVersionId &&
           !masterAnalyteStore.masterAnalyte?.existsRecordId
@@ -153,7 +154,7 @@ const MasterAnalyte = MasterAnalyteHoc(
         resetMasterAnalyte();
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -398,15 +399,14 @@ const MasterAnalyte = MasterAnalyteHoc(
     };
 
     const checkExistsRecords = async (
-      fields = masterAnalyteStore.masterAnalyte,
-      length = 0,
-      status = 'A',
+      fields: any = masterAnalyteStore.masterAnalyte,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = ['lab', 'analyteCode', 'status', 'environment'];
+      const requiredFields = ['lab', 'analyteCode', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -415,22 +415,24 @@ const MasterAnalyte = MasterAnalyteHoc(
       return masterAnalyteStore.masterAnalyteService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsAnalyteMaster?.success &&
-            res.findByFieldsAnalyteMaster?.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsAnalyteMaster?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -516,36 +518,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                                 lab: item.code,
                               });
                               labStore.updateLabList(labStore.listLabsCopy);
-                              if (
-                                !masterAnalyteStore.masterAnalyte
-                                  ?.existsVersionId
-                              ) {
-                                masterAnalyteStore.masterAnalyteService
-                                  .checkExitsLabEnvCode({
-                                    input: {
-                                      code: masterAnalyteStore.masterAnalyte
-                                        ?.analyteCode,
-                                      env: masterAnalyteStore.masterAnalyte
-                                        ?.environment,
-                                      lab: item.code,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkAnalyteMasterExistsRecord.success
-                                    ) {
-                                      masterAnalyteStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      masterAnalyteStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
                             }}
                           />
                         </Form.InputWrapper>
@@ -575,37 +547,20 @@ const MasterAnalyte = MasterAnalyteHoc(
                               analyteCode: analyteCode.toUpperCase(),
                             });
                           }}
-                          onBlur={code => {
+                          onBlur={analyteCode => {
                             if (
                               !masterAnalyteStore.masterAnalyte?.existsVersionId
                             ) {
-                              masterAnalyteStore.masterAnalyteService
-                                .checkExitsLabEnvCode({
-                                  input: {
-                                    code,
-                                    env: masterAnalyteStore.masterAnalyte
-                                      ?.environment,
-                                    lab: masterAnalyteStore.masterAnalyte?.lab,
-                                  },
-                                })
-                                .then(res => {
-                                  if (
-                                    res.checkAnalyteMasterExistsRecord.success
-                                  ) {
-                                    masterAnalyteStore.updateExistsLabEnvCode(
-                                      true,
-                                    );
-                                    Toast.error({
-                                      message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
-                                    });
-                                  } else
-                                    masterAnalyteStore.updateExistsLabEnvCode(
-                                      false,
-                                    );
-                                });
+                              checkExistsRecords(
+                                {
+                                  analyteCode,
+                                },
+                                true,
+                              );
+
                               masterAnalyteStore.masterAnalyteService
                                 .findByFields({
-                                  input: { filter: { analyteCode: code } },
+                                  input: { filter: { analyteCode } },
                                 })
                                 .then((res: any) => {
                                   if (res.findByFieldsAnalyteMaster.success) {
@@ -1203,85 +1158,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-
-                    {/* <Form.InputDate
-                label="Schedule"
-                name="txtSchedule"
-                placeholder="Schedule"
-                value={moment
-                  .unix(masterAnalyteStore.masterAnalyte?.schedule || 0)
-                  .format("YYYY-MM-DD")}
-                onChange={(e) => {
-                  const schedule = new Date(e.target.value)
-                  const formatDate = moment(schedule).format(
-                    "YYYY-MM-DD HH:mm"
-                  )
-                  masterAnalyteStore.updateMasterAnalyte({
-                    ...masterAnalyteStore.masterAnalyte,
-                    schedule: moment(formatDate).unix(),
-                  })
-                }}
-              />
-              <Form.Input
-                label="Tube Groups"
-                name="txtTubeGroups"
-                placeholder="Tube Groups"
-                value={masterAnalyteStore.masterAnalyte?.tubeGroups}
-                onChange={(tubeGroups) => {
-                  masterAnalyteStore.updateMasterAnalyte({
-                    ...masterAnalyteStore.masterAnalyte,
-                    tubeGroups,
-                  })
-                }}
-              /> */}
-
-                    {/* <Form.InputWrapper label="Workflow">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const workflow = e.target.value as string
-                    masterAnalyteStore.updateMasterAnalyte({
-                      ...masterAnalyteStore.masterAnalyte,
-                      workflow,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems.length > 0 &&
-                    lookupItems
-                      .find((item) => {
-                        return item.fieldName === "WORKFLOW"
-                      })
-                      .arrValue.map((item: any, index: number) => (
-                        <option key={index} value={item.code}>
-                          {lookupValue(item)}
-                        </option>
-                      ))}
-                </select>
-              </Form.InputWrapper>
-              <Form.InputWrapper
-                label="Sample Type"
-                id="optionSampleType"
-              >
-                <select
-                  name="optionSampleTypes"
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const sampleType = e.target.value as string
-                    masterAnalyteStore.updateMasterAnalyte({
-                      ...masterAnalyteStore.masterAnalyte,
-                      sampleType,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["sampleType1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </Form.InputWrapper> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1316,7 +1192,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1343,7 +1218,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1392,7 +1266,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1443,7 +1316,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1468,7 +1340,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1851,89 +1722,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Environment'
-                          hasError={!!errors.environment}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            onChange={e => {
-                              const environment = e.target.value;
-                              onChange(environment);
-                              masterAnalyteStore.updateMasterAnalyte({
-                                ...masterAnalyteStore.masterAnalyte,
-                                environment,
-                              });
-                              if (
-                                !masterAnalyteStore.masterAnalyte
-                                  ?.existsVersionId
-                              ) {
-                                masterAnalyteStore.masterAnalyteService
-                                  .checkExitsLabEnvCode({
-                                    input: {
-                                      code: masterAnalyteStore.masterAnalyte
-                                        ?.analyteCode,
-                                      env: environment,
-                                      lab: masterAnalyteStore.masterAnalyte
-                                        ?.lab,
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkAnalyteMasterExistsRecord.success
-                                    ) {
-                                      masterAnalyteStore.updateExistsLabEnvCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkAnalyteMasterExistsRecord.message}`,
-                                      });
-                                    } else
-                                      masterAnalyteStore.updateExistsLabEnvCode(
-                                        false,
-                                      );
-                                  });
-                              }
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : masterAnalyteStore.masterAnalyte
-                                    ?.environment || 'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
                   </List>
                 </Grid>
               </>
