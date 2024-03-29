@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Accordion, AccordionItem } from 'react-sanfona';
-
 import { useForm } from 'react-hook-form';
 import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   ModalConfirm,
   Toast,
@@ -34,6 +30,7 @@ const Lookup = observer(() => {
   const [hideAddLab, setHideAddLab] = useState<boolean>(true);
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalLookupValuesModify, setModalLookupValuesModify] = useState<any>();
+  const [isExistsRecord, setIsExistsRecord] = useState(false);
 
   useEffect(() => {
     router = router.filter((item: any) => {
@@ -68,20 +65,14 @@ const Lookup = observer(() => {
   };
 
   const checkExistsRecords = async (
-    fields = lookupStore.lookup,
-    length = 0,
-    status = 'A',
+    fields: any = lookupStore.lookup,
+    isSingleCheck = false,
   ) => {
-    const requiredFields = [
-      'documentName',
-      'fieldName',
-      'environment',
-      'status',
-    ];
+    const requiredFields = ['documentName', 'fieldName', 'status'];
     const isEmpty = requiredFields.find(item => {
-      if (_.isEmpty({ ...fields, status }[item])) return item;
+      if (_.isEmpty({ ...fields }[item])) return item;
     });
-    if (isEmpty) {
+    if (isEmpty && !isSingleCheck) {
       Toast.error({
         message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
       });
@@ -90,20 +81,23 @@ const Lookup = observer(() => {
     //Pass required Field in Array
     return lookupStore.LookupService.findByDocument({
       input: {
-        filter: {
-          ..._.pick({ ...fields, status }, requiredFields),
-        },
+        filter: isSingleCheck
+          ? { ...fields }
+          : {
+              ..._.pick({ ...fields }, requiredFields),
+            },
       },
     }).then(res => {
-      if (
-        res.findByDocumentLookup?.success &&
-        res.findByDocumentLookup.data?.length > length
-      ) {
+      if (res.findByDocumentLookup?.success) {
+        setIsExistsRecord(true);
         Toast.error({
           message: '😔 Already some record exists.',
         });
         return true;
-      } else return false;
+      } else {
+        setIsExistsRecord(false);
+        return false;
+      }
     });
   };
 

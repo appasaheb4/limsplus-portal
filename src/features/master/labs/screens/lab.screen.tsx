@@ -55,6 +55,7 @@ const Lab = LabHoc(
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [isPostalCode, setIsPostalCodeData] = useState(false);
+    const [isExistsRecord, setIsExistsRecord] = useState<boolean>(false);
 
     useEffect(() => {
       (async function () {
@@ -120,7 +121,7 @@ const Lab = LabHoc(
     }, [hideAddLab]);
 
     const onSubmitLab = async () => {
-      if (!labStore.checkExitsEnvCode) {
+      if (!isExistsRecord) {
         if (isImport) {
           const isExists = await checkExistsRecords();
           if (isExists) {
@@ -175,7 +176,7 @@ const Lab = LabHoc(
         resetLab();
       } else {
         Toast.warning({
-          message: '😔 Please enter diff code and environment',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -381,21 +382,14 @@ const Lab = LabHoc(
     };
 
     const checkExistsRecords = async (
-      fields = labStore.labs,
-      length = 0,
-      status = 'A',
+      fields: any = labStore.labs,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'code',
-        'name',
-        'defaultLab',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['code', 'name', 'defaultLab', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -403,20 +397,23 @@ const Lab = LabHoc(
       }
       return labStore.LabService.findByFields({
         input: {
-          filter: {
-            ..._.pick({ ...fields, status }, requiredFields),
-          },
+          filter: isSingleCheck
+            ? { ...fields }
+            : {
+                ..._.pick({ ...fields }, requiredFields),
+              },
         },
       }).then(res => {
-        if (
-          res.findByFieldsLabs?.success &&
-          res.findByFieldsLabs.data?.length > length
-        ) {
+        if (res.findByFieldsLabs?.success) {
+          setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
           });
           return true;
-        } else return false;
+        } else {
+          setIsExistsRecord(false);
+          return false;
+        }
       });
     };
 
@@ -489,20 +486,7 @@ const Lab = LabHoc(
                             });
                           }}
                           onBlur={code => {
-                            if (code)
-                              labStore.LabService.checkExitsEnvCode({
-                                input: {
-                                  code,
-                                  env: labStore.labs?.environment,
-                                },
-                              }).then(res => {
-                                if (res.checkLabExitsEnvCode.success) {
-                                  labStore.setExitsEnvCode(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkLabExitsEnvCode.message}`,
-                                  });
-                                } else labStore.setExitsEnvCode(false);
-                              });
+                            if (code) checkExistsRecords({ code }, true);
                           }}
                         />
                       )}
@@ -799,45 +783,6 @@ const Lab = LabHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                  control={control}
-                  render={({field: {onChange,value}}) => (
-                    <Form.InputWrapper
-                      label='Delivery Type'
-                      hasError={!!errors.deliveryType}
-                    >
-                      <select
-                        value={labStore.labs?.deliveryType}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.deliveryType
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const deliveryType = e.target.value;
-                          onChange(deliveryType);
-                          labStore.updateLabs({
-                            ...labStore.labs,
-                            deliveryType,
-                          });
-                        }}
-                      >
-                        <option selected>Select</option>
-                        {lookupItems(
-                          routerStore.lookupItems,
-                          'DELIVERY_TYPE',
-                        ).map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='deliveryType'
-                  rules={{required: false}}
-                  defaultValue=''
-                /> */}
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
                     <Controller
@@ -1044,10 +989,12 @@ const Lab = LabHoc(
                             loader={loading}
                             placeholder='Search by code or name'
                             data={{
-                              // list: labStore?.listLabs.filter(
-                              //   item => item.labType === 'R',
-                              // ),
-                              list: _.uniqBy(labStore?.listLabs, 'code'),
+                              list: _.uniqBy(
+                                labStore?.listLabs?.filter(
+                                  item => item.status == 'A',
+                                ),
+                                'code',
+                              ),
                               displayKey: ['code', 'name'],
                             }}
                             hasError={!!errors.defaultLab}
@@ -1440,25 +1387,6 @@ const Lab = LabHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <AutoCompleteCompanyList
-                          hasError={!!errors.companyCode}
-                          onSelect={companyCode => {
-                            onChange(companyCode);
-                            labStore.updateLabs({
-                              ...labStore.labs,
-                              companyCode,
-                            });
-                          }}
-                        />
-                      )}
-                      name='companyCode'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1496,72 +1424,6 @@ const Lab = LabHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-
-                    {/* <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Environment'
-                          hasError={!!errors.environment}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.environment
-                                ? 'border-red  '
-                                : 'border-gray-300'
-                            } rounded-md`}
-                            disabled={
-                              isVersionUpgrade
-                                ? true
-                                : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
-                                ? true
-                                : false
-                            }
-                            onChange={e => {
-                              const environment = e.target.value;
-                              onChange(environment);
-                              labStore.updateLabs({
-                                ...labStore.labs,
-                                environment,
-                              });
-                              labStore.LabService.checkExitsEnvCode({
-                                input: {
-                                  code: labStore.labs?.code,
-                                  env: environment,
-                                },
-                              }).then(res => {
-                                if (res.checkLabExitsEnvCode.success) {
-                                  labStore.setExitsEnvCode(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkLabExitsEnvCode.message}`,
-                                  });
-                                } else labStore.setExitsEnvCode(false);
-                              });
-                            }}
-                          >
-                            <option selected>
-                              {loginStore.login &&
-                              loginStore.login.role !== 'SYSADMIN'
-                                ? 'Select'
-                                : labStore.labs?.environment || 'Select'}
-                            </option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'ENVIRONMENT',
-                            ).map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='environment'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    /> */}
 
                     <Grid cols={4}>
                       <Controller

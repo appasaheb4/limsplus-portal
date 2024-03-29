@@ -3,9 +3,6 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -13,7 +10,6 @@ import {
   Svg,
   ModalConfirm,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   ManualImportTabs,
   StaticInputTable,
   ImportFile,
@@ -216,6 +212,10 @@ const CorporateClients = CorporateClientsHoc(
                   });
                 }
               });
+          } else {
+            Toast.warning({
+              message: '😔 Duplicate records available',
+            });
           }
         }
         setHideAddView(true);

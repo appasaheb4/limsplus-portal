@@ -4,9 +4,6 @@ import _ from 'lodash';
 
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -121,7 +118,7 @@ const Company = CompanyHoc(
           });
       } else {
         Toast.error({
-          message: '😔 Already some record exists.',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -177,7 +174,7 @@ const Company = CompanyHoc(
       fields = companyStore.company as any,
       isSingleCheck = false,
     ) => {
-      const requiredFields = ['code', 'name', 'status', 'environment'];
+      const requiredFields = ['code', 'name', 'status'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields }[item])) return item;
       });
@@ -1396,7 +1393,6 @@ const Company = CompanyHoc(
                 )}
               </>
             )}
-
             <br />
             <List direction='row' space={3} align='center'>
               <Buttons.Button

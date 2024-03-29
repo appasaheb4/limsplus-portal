@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -57,6 +54,7 @@ export const PriceList = PriceListHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
       // Default value initialization
@@ -76,9 +74,9 @@ export const PriceList = PriceListHoc(
     }, [priceListStore.priceList]);
 
     const onSubmitPriceList = async () => {
-      if (priceListStore.checkExitsPriceGEnvLabCode) {
+      if (isExistsRecord) {
         return Toast.warning({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
       if (
@@ -350,9 +348,8 @@ export const PriceList = PriceListHoc(
     };
 
     const checkExistsRecords = async (
-      fields = priceListStore.priceList,
-      length = 0,
-      status = 'A',
+      fields: any = priceListStore.priceList,
+      isSingleCheck = false,
     ) => {
       const requiredFields = [
         'priceGroup',
@@ -360,12 +357,11 @@ export const PriceList = PriceListHoc(
         'panelCode',
         'price',
         'status',
-        'environment',
       ];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item]?.toString())) return item;
+        if (_.isEmpty({ ...fields }[item]?.toString())) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
@@ -375,22 +371,24 @@ export const PriceList = PriceListHoc(
       return priceListStore.priceListService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          if (
-            res.findByFieldsPriceList?.success &&
-            res.findByFieldsPriceList.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsPriceList?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
 
@@ -458,43 +456,18 @@ export const PriceList = PriceListHoc(
                               description: '',
                             });
                             if (!priceListStore.priceList?.existsVersionId) {
-                              priceListStore.priceListService
-                                .checkExitsRecords({
-                                  input: {
-                                    priceGroup,
-                                    priceList:
-                                      priceListStore.priceList?.priceList || '',
-                                    panelCode:
-                                      priceListStore.priceList.panelCode || '',
-                                    version:
-                                      priceListStore.priceList?.version || 0,
-                                    env:
-                                      priceListStore.priceList.environment ||
-                                      '',
-                                  },
-                                })
-                                .then(res => {
-                                  if (res.checkPriceListExistsRecord.success) {
-                                    setError('priceGroup', { type: 'onBlur' });
-                                    setError('panelCode', { type: 'onBlur' });
-                                    setError('version', { type: 'onBlur' });
-                                    setError('environment', { type: 'onBlur' });
-                                    priceListStore.updateExitsPriceGEnvLabCode(
-                                      true,
-                                    );
-                                    Toast.error({
-                                      message: `😔 ${res.checkPriceListExistsRecord.message}`,
-                                    });
-                                  } else {
-                                    clearErrors('priceGroup');
-                                    clearErrors('panelCode');
-                                    clearErrors('version');
-                                    clearErrors('environment');
-                                    priceListStore.updateExitsPriceGEnvLabCode(
-                                      false,
-                                    );
-                                  }
-                                });
+                              checkExistsRecords(
+                                {
+                                  priceGroup,
+                                  priceList:
+                                    priceListStore.priceList?.priceList || '',
+                                  panelCode:
+                                    priceListStore.priceList.panelCode || '',
+                                  version:
+                                    priceListStore.priceList?.version || 0,
+                                },
+                                true,
+                              );
                             }
                             setError('priceList', { type: 'onBlur' });
                           }}
@@ -559,53 +532,19 @@ export const PriceList = PriceListHoc(
                               );
 
                               if (!priceListStore.priceList?.existsVersionId) {
-                                priceListStore.priceListService
-                                  .checkExitsRecords({
-                                    input: {
-                                      priceGroup:
-                                        priceListStore.priceList?.priceGroup ||
-                                        '',
-                                      priceList: item.invoiceAc?.toString(),
-                                      panelCode:
-                                        priceListStore.priceList.panelCode ||
-                                        '',
-                                      version:
-                                        priceListStore.priceList?.version || 0,
-                                      env:
-                                        priceListStore.priceList.environment ||
-                                        '',
-                                    },
-                                  })
-                                  .then(res => {
-                                    if (
-                                      res.checkPriceListExistsRecord.success
-                                    ) {
-                                      setError('priceGroup', {
-                                        type: 'onBlur',
-                                      });
-                                      setError('priceList', { type: 'onBlur' });
-                                      setError('panelCode', { type: 'onBlur' });
-                                      setError('version', { type: 'onBlur' });
-                                      setError('environment', {
-                                        type: 'onBlur',
-                                      });
-                                      priceListStore.updateExitsPriceGEnvLabCode(
-                                        true,
-                                      );
-                                      Toast.error({
-                                        message: `😔 ${res.checkPriceListExistsRecord.message}`,
-                                      });
-                                    } else {
-                                      clearErrors('priceGroup');
-                                      clearErrors('priceList');
-                                      clearErrors('panelCode');
-                                      clearErrors('version');
-                                      clearErrors('environment');
-                                      priceListStore.updateExitsPriceGEnvLabCode(
-                                        false,
-                                      );
-                                    }
-                                  });
+                                checkExistsRecords(
+                                  {
+                                    priceGroup:
+                                      priceListStore.priceList?.priceGroup ||
+                                      '',
+                                    priceList: item.invoiceAc?.toString(),
+                                    panelCode:
+                                      priceListStore.priceList.panelCode || '',
+                                    version:
+                                      priceListStore.priceList?.version || 0,
+                                  },
+                                  true,
+                                );
                               }
                             }}
                           />
@@ -697,46 +636,18 @@ export const PriceList = PriceListHoc(
                               masterPanelStore.listMasterPanelCopy,
                             );
                             if (!priceListStore.priceList?.existsVersionId) {
-                              priceListStore.priceListService
-                                .checkExitsRecords({
-                                  input: {
-                                    priceGroup:
-                                      priceListStore.priceList?.priceGroup ||
-                                      '',
-                                    priceList:
-                                      priceListStore.priceList?.priceList || '',
-                                    panelCode: item?.panelCode,
-                                    version:
-                                      priceListStore.priceList?.version || 0,
-                                    env:
-                                      priceListStore.priceList.environment ||
-                                      '',
-                                  },
-                                })
-                                .then(res => {
-                                  if (res.checkPriceListExistsRecord.success) {
-                                    setError('priceGroup', { type: 'onBlur' });
-                                    setError('priceList', { type: 'onBlur' });
-                                    setError('panelCode', { type: 'onBlur' });
-                                    setError('version', { type: 'onBlur' });
-                                    setError('environment', { type: 'onBlur' });
-                                    priceListStore.updateExitsPriceGEnvLabCode(
-                                      true,
-                                    );
-                                    Toast.error({
-                                      message: `😔 ${res.checkPriceListExistsRecord.message}`,
-                                    });
-                                  } else {
-                                    clearErrors('priceGroup');
-                                    clearErrors('priceList');
-                                    clearErrors('panelCode');
-                                    clearErrors('version');
-                                    clearErrors('environment');
-                                    priceListStore.updateExitsPriceGEnvLabCode(
-                                      false,
-                                    );
-                                  }
-                                });
+                              checkExistsRecords(
+                                {
+                                  priceGroup:
+                                    priceListStore.priceList?.priceGroup || '',
+                                  priceList:
+                                    priceListStore.priceList?.priceList || '',
+                                  panelCode: item?.panelCode,
+                                  version:
+                                    priceListStore.priceList?.version || 0,
+                                },
+                                true,
+                              );
                             }
                           }}
                         />
@@ -746,7 +657,7 @@ export const PriceList = PriceListHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {priceListStore.checkExitsPriceGEnvLabCode && (
+                  {isExistsRecord && (
                     <span className='text-red-600 font-medium relative'>
                       Code already exits. Please use other code.
                     </span>
@@ -879,24 +790,7 @@ export const PriceList = PriceListHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          priceListStore.updatePriceList({
-                            ...priceListStore.priceList,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1058,100 +952,6 @@ export const PriceList = PriceListHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Environment'
-                        hasError={!!errors.environment}
-                      >
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            priceListStore.updatePriceList({
-                              ...priceListStore.priceList,
-                              environment,
-                            });
-                            if (!priceListStore.priceList?.existsVersionId) {
-                              priceListStore.priceListService
-                                .checkExitsRecords({
-                                  input: {
-                                    priceGroup:
-                                      priceListStore.priceList?.priceGroup ||
-                                      '',
-                                    priceList:
-                                      priceListStore.priceList?.priceList,
-                                    panelCode:
-                                      priceListStore.priceList.panelCode || '',
-                                    version:
-                                      priceListStore.priceList?.version || 0,
-                                    env: environment || '',
-                                  },
-                                })
-                                .then(res => {
-                                  if (res.checkPriceListExistsRecord.success) {
-                                    setError('priceGroup', { type: 'onBlur' });
-                                    setError('priceList', { type: 'onBlur' });
-                                    setError('panelCode', { type: 'onBlur' });
-                                    setError('version', { type: 'onBlur' });
-                                    setError('environment', { type: 'onBlur' });
-                                    priceListStore.updateExitsPriceGEnvLabCode(
-                                      true,
-                                    );
-                                    Toast.error({
-                                      message: `😔 ${res.checkPriceListExistsRecord.message}`,
-                                    });
-                                  } else {
-                                    clearErrors('priceGroup');
-                                    clearErrors('priceList');
-                                    clearErrors('panelCode');
-                                    clearErrors('version');
-                                    clearErrors('environment');
-                                    priceListStore.updateExitsPriceGEnvLabCode(
-                                      false,
-                                    );
-                                  }
-                                });
-                            }
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : priceListStore.priceList?.environment ||
-                                'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (

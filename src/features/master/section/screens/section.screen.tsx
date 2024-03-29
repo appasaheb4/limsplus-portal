@@ -2,9 +2,6 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -46,15 +43,15 @@ const Section = SectionHoc(
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
+    const [isExistsRecord, setIsExistsRecord] = useState(false);
 
     useEffect(() => {
-      // setValue('environment', sectionStore.section?.environment);
       setValue('status', sectionStore.section?.status);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sectionStore.section]);
 
     const onSubmitSection = () => {
-      if (!sectionStore.checkExitsEnvCode) {
+      if (!isExistsRecord) {
         sectionStore.sectionService
           .addSection({
             input: isImport
@@ -80,7 +77,7 @@ const Section = SectionHoc(
           });
       } else {
         Toast.error({
-          message: '😔 Please enter diff code',
+          message: '😔 Duplicate record found',
         });
       }
     };
@@ -162,6 +159,7 @@ const Section = SectionHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [sectionStore.listSection],
     );
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -193,49 +191,42 @@ const Section = SectionHoc(
       });
       reader.readAsBinaryString(file);
     };
+
     const checkExistsRecords = async (
-      fields = sectionStore.section,
-      length = 0,
-      status = 'A',
+      fields: any = sectionStore.section,
+      isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'departmentCode',
-        'code',
-        'name',
-        'status',
-        'environment',
-      ];
+      const requiredFields = ['departmentCode', 'code', 'name', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
-      if (isEmpty) {
+      if (isEmpty && !isSingleCheck) {
         Toast.error({
           message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
         });
         return true;
       }
-      //Pass required Field in Array
       return sectionStore.sectionService
         .findByFields({
           input: {
-            filter: {
-              ..._.pick({ ...fields, status }, requiredFields),
-            },
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
           },
         })
         .then(res => {
-          console.log({ res });
-
-          if (
-            res.findByFieldsSections?.success &&
-            res.findByFieldsSections.data?.length > length
-          ) {
-            //setIsExistsRecord(true);
+          if (res.findByFieldsSections?.success) {
+            setIsExistsRecord(true);
             Toast.error({
               message: '😔 Already some record exists.',
             });
             return true;
-          } else return false;
+          } else {
+            setIsExistsRecord(false);
+            return false;
+          }
         });
     };
     return (
@@ -326,21 +317,9 @@ const Section = SectionHoc(
                           });
                         }}
                         onBlur={code => {
-                          sectionStore.sectionService
-                            .checkExitsEnvCode({
-                              input: {
-                                code,
-                                env: sectionStore.section?.environment,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkSectionExistsRecord.success) {
-                                sectionStore.setExitsEnvCode(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkSectionExistsRecord.message}`,
-                                });
-                              } else sectionStore.setExitsEnvCode(false);
-                            });
+                          if (code) {
+                            checkExistsRecords({ code }, true);
+                          }
                         }}
                       />
                     )}
@@ -348,7 +327,7 @@ const Section = SectionHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {sectionStore.checkExitsEnvCode && (
+                  {isExistsRecord && (
                     <span className='text-red-600 font-medium relative'>
                       Code already exits. Please use other code.
                     </span>
@@ -554,24 +533,6 @@ const Section = SectionHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <AutoCompleteCompanyList
-                        hasError={!!errors.companyCode}
-                        onSelect={companyCode => {
-                          onChange(companyCode);
-                          sectionStore.updateSection({
-                            ...sectionStore.section,
-                            companyCode,
-                          });
-                        }}
-                      />
-                    )}
-                    name='companyCode'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -609,70 +570,6 @@ const Section = SectionHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  {/* <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Environment'>
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.environment
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          disabled={
-                            isVersionUpgrade
-                              ? true
-                              : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
-                          onChange={e => {
-                            const environment = e.target.value;
-                            onChange(environment);
-                            sectionStore.updateSection({
-                              ...sectionStore.section,
-                              environment,
-                            });
-                            sectionStore.sectionService
-                              .checkExitsEnvCode({
-                                input: {
-                                  code: sectionStore.section?.code,
-                                  env: environment,
-                                },
-                              })
-                              .then(res => {
-                                if (res.checkSectionExistsRecord.success) {
-                                  sectionStore.setExitsEnvCode(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkSectionExistsRecord.message}`,
-                                  });
-                                } else sectionStore.setExitsEnvCode(false);
-                              });
-                          }}
-                        >
-                          <option selected>
-                            {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? 'Select'
-                              : sectionStore.section?.environment || 'Select'}
-                          </option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'ENVIRONMENT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='environment'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  /> */}
                 </List>
               </Grid>
             ) : (
@@ -689,7 +586,6 @@ const Section = SectionHoc(
               </>
             )}
             <br />
-
             <List direction='row' space={3} align='center'>
               <Buttons.Button
                 size='medium'
