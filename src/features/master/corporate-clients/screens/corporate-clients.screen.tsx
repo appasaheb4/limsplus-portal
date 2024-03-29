@@ -507,7 +507,12 @@ const CorporateClients = CorporateClientsHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{
+            position: 'fixed',
+            right: '30px',
+            top: '135px',
+            zIndex: 9999,
+          }}
         >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
@@ -1590,26 +1595,7 @@ const CorporateClients = CorporateClientsHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Report Format'
-                          hasError={!!errors.reportFormat}
-                          value={value}
-                          onChange={reportFormat => {
-                            onChange(reportFormat);
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              reportFormat,
-                            });
-                          }}
-                        />
-                      )}
-                      name='reportFormat'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
+
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (

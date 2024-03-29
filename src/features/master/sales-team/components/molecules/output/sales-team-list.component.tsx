@@ -106,7 +106,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
           {
             dataField: 'description',
             text: 'Description',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader',
             sort: true,
             headerStyle: {
               fontSize: 0,

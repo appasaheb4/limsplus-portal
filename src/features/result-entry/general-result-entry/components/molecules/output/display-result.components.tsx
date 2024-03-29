@@ -30,7 +30,12 @@ export const DisplayResult = observer(
     const [selectedRowId, setSelectedRowId] = useState('');
     const [conclusionResult, setConclusionResult] = useState<Array<any>>();
     const [libraryList, setLibraryList] = useState<Array<any>>();
+    const [isOpen, setIsOpen] = useState(false);
     const resultRef = useRef<any>();
+
+    const handleSelect = item => {
+      setIsOpen(false);
+    };
 
     useEffect(() => {
       switch (row?.resultType) {

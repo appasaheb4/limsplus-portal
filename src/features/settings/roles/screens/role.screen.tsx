@@ -108,7 +108,12 @@ const Role = RolesHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{
+            position: 'fixed',
+            right: '30px',
+            top: '135px',
+            zIndex: 9999,
+          }}
         >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
@@ -125,7 +130,7 @@ const Role = RolesHoc(
               (hideAddRole ? 'hidden' : 'shown')
             }
           >
-            <Grid cols={2}>
+            <Grid cols={3}>
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
@@ -160,6 +165,8 @@ const Role = RolesHoc(
                     Code already exits. Please use other code.
                   </span>
                 )}
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -187,6 +194,8 @@ const Role = RolesHoc(
                   rules={{ required: true }}
                   defaultValue=''
                 />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (

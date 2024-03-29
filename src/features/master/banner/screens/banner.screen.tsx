@@ -88,7 +88,12 @@ const Banner = BannerHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{
+            position: 'fixed',
+            right: '30px',
+            top: '135px',
+            zIndex: 9999,
+          }}
         >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
@@ -152,6 +157,8 @@ const Banner = BannerHoc(
                   rules={{ required: true }}
                   defaultValue={bannerStore.banner?.image}
                 />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
                 <div className='flex gap-4'>
                   <Controller
                     control={control}

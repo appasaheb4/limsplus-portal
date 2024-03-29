@@ -407,8 +407,8 @@ export const TableBootstrap = ({
         >
           {props => (
             <div>
-              <div className='flex items-center gap-1 flex-wrap justify-between'>
-                <div className='flex items-center flex-wrap'>
+              <div className='flex flex-row items-center flex-wrap justify-between'>
+                <div className='w-2/3 flex flex-row align-middle items-center'>
                   <SearchBar
                     {...searchProps}
                     {...props.searchProps}
@@ -417,18 +417,22 @@ export const TableBootstrap = ({
                     }}
                   />
                   <ClearSearchButton
-                    className={`inline-flex ml-2 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    className={`bg-gray-500 px-3.5 py-1 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                     {...props.searchProps}
                   />
                   <button
-                    className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                    className={
+                      'bg-gray-500 px-3.5 py-2 mr-2 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                    }
                     onClick={clearAllFilter}
                   >
                     Clear all filters
                   </button>
                   {isExport && (
                     <ExportCSVButton
-                      className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                      className={
+                        'bg-gray-500 px-3.5 py-1.5 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                      }
                       {...props.csvProps}
                     >
                       Export CSV!!
@@ -456,11 +460,11 @@ export const TableBootstrap = ({
                       <Icons.IconFa.FaChevronDown />
                     </Buttons.Button>
                   )}
-                  <div className='flex gap-2'>
+                  <div className='flex ml-2 flex-wrap gap-1'>
                     {statusData.map(status => (
                       <button
                         key={status.code}
-                        className={`px-4 py-2 bg-${status.color}-600 text-white rounded`}
+                        className={`px-3.5 py-2 bg-${status.color}-600 text-white rounded`}
                         onClick={() => onFilterRecord?.(status.code)}
                       >
                         {status.value}

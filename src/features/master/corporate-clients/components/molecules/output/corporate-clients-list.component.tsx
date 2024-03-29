@@ -183,7 +183,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
           {
             dataField: 'corporateName',
             text: 'Client Name',
-            headerClasses: 'textHeader5',
+            headerClasses: 'textHeader',
             sort: true,
             headerStyle: {
               fontSize: 0,
@@ -196,6 +196,18 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               },
             }),
             editable: false,
+            style: {
+              textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.corporateName}>{cellContent}</span>
+            ),
           },
           {
             dataField: 'invoiceAc',

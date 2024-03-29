@@ -456,7 +456,12 @@ export const Users = UsersHoc(
         />
         <div
           className='flex justify-end'
-          style={{ position: 'fixed', right: '17px' }}
+          style={{
+            position: 'fixed',
+            right: '30px',
+            top: '135px',
+            zIndex: 9999,
+          }}
         >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
@@ -965,6 +970,8 @@ export const Users = UsersHoc(
                     rules={{ required: true }}
                     defaultValue={userStore.user?.defaultLab || ''}
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1526,8 +1533,6 @@ export const Users = UsersHoc(
                     rules={{ required: false }}
                     defaultValue={doctorsStore.listDoctors}
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1694,6 +1699,8 @@ export const Users = UsersHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1757,156 +1764,6 @@ export const Users = UsersHoc(
                     rules={{ required: true }}
                     defaultValue={userStore && userStore.user.exipreDate}
                   />
-                  <List space={4} direction='row'>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          type='number'
-                          label='Exipre Days'
-                          placeholder={
-                            errors.expireDays
-                              ? 'Please enter exipre days'
-                              : 'Exipre Days'
-                          }
-                          hasError={!!errors.expireDays}
-                          value={value}
-                          onChange={expireDays => {
-                            onChange(expireDays);
-                            userStore.updateUser({
-                              ...userStore.user,
-                              expireDays: Number.parseInt(expireDays),
-                            });
-                          }}
-                        />
-                      )}
-                      name='expireDays'
-                      rules={{ required: false }}
-                      defaultValue={userStore && userStore.user.expireDays}
-                    />
-                    <div className='mt-3'>
-                      <Buttons.Button
-                        size='medium'
-                        type='solid'
-                        onClick={() => {
-                          const date = new Date(
-                            dayjs(userStore && userStore.user.exipreDate)
-                              .add(
-                                userStore && userStore.user.expireDays,
-                                'days',
-                              )
-                              .format('YYYY-MM-DD HH:mm'),
-                          );
-                          userStore.updateUser({
-                            ...userStore.user,
-                            exipreDate: date,
-                          });
-                        }}
-                      >
-                        Apply Days
-                      </Buttons.Button>
-                    </div>
-                  </List>
-                  <div className='flex flex-row gap-4'>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Confidential'
-                          value={value}
-                          onChange={confidential => {
-                            onChange(confidential);
-                            userStore.updateUser({
-                              ...userStore.user,
-                              confidential,
-                            });
-                          }}
-                        />
-                      )}
-                      name='confidential'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Confirguration'
-                          value={value}
-                          onChange={confirguration => {
-                            onChange(confirguration);
-                            userStore.updateUser({
-                              ...userStore.user,
-                              confirguration,
-                            });
-                          }}
-                        />
-                      )}
-                      name='confirguration'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                  </div>
-                  <Form.InputWrapper
-                    label='Access Permission'
-                    hasError={!!errors.confirguration}
-                    style={{ fontWeight: 'bold' }}
-                  >
-                    <div className='flex flex-row gap-4'>
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Mobile'
-                            value={value}
-                            onChange={mobile => {
-                              onChange(mobile);
-                              userStore.updateUser({
-                                ...userStore.user,
-                                systemInfo: {
-                                  ...userStore.user.systemInfo,
-                                  accessInfo: {
-                                    ...userStore.user.systemInfo?.accessInfo,
-                                    mobile,
-                                  },
-                                },
-                              });
-                            }}
-                          />
-                        )}
-                        name='confirguration'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Desktop'
-                            value={value}
-                            onChange={desktop => {
-                              onChange(desktop);
-                              userStore.updateUser({
-                                ...userStore.user,
-                                systemInfo: {
-                                  ...userStore.user.systemInfo,
-                                  accessInfo: {
-                                    ...userStore.user.systemInfo?.accessInfo,
-                                    desktop,
-                                  },
-                                },
-                              });
-                            }}
-                          />
-                        )}
-                        name='confirguration'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                    </div>
-                  </Form.InputWrapper>
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -2069,6 +1926,154 @@ export const Users = UsersHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
+                  <List space={4} direction='row'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          type='number'
+                          label='Exipre Days'
+                          placeholder={
+                            errors.expireDays
+                              ? 'Please enter exipre days'
+                              : 'Exipre Days'
+                          }
+                          hasError={!!errors.expireDays}
+                          value={value}
+                          onChange={expireDays => {
+                            onChange(expireDays);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              expireDays: Number.parseInt(expireDays),
+                            });
+                          }}
+                        />
+                      )}
+                      name='expireDays'
+                      rules={{ required: false }}
+                      defaultValue={userStore && userStore.user.expireDays}
+                    />
+                    <div className='mt-3'>
+                      <Buttons.Button
+                        size='medium'
+                        type='solid'
+                        onClick={() => {
+                          const date = new Date(
+                            dayjs(userStore && userStore.user.exipreDate)
+                              .add(
+                                userStore && userStore.user.expireDays,
+                                'days',
+                              )
+                              .format('YYYY-MM-DD HH:mm'),
+                          );
+                          userStore.updateUser({
+                            ...userStore.user,
+                            exipreDate: date,
+                          });
+                        }}
+                      >
+                        Apply Days
+                      </Buttons.Button>
+                    </div>
+                  </List>
+                  <div className='flex flex-row gap-4'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Confidential'
+                          value={value}
+                          onChange={confidential => {
+                            onChange(confidential);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              confidential,
+                            });
+                          }}
+                        />
+                      )}
+                      name='confidential'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Confirguration'
+                          value={value}
+                          onChange={confirguration => {
+                            onChange(confirguration);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              confirguration,
+                            });
+                          }}
+                        />
+                      )}
+                      name='confirguration'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </div>
+                  <Form.InputWrapper
+                    label='Access Permission'
+                    hasError={!!errors.confirguration}
+                    style={{ fontWeight: 'bold' }}
+                  >
+                    <div className='flex flex-row gap-4'>
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Mobile'
+                            value={value}
+                            onChange={mobile => {
+                              onChange(mobile);
+                              userStore.updateUser({
+                                ...userStore.user,
+                                systemInfo: {
+                                  ...userStore.user.systemInfo,
+                                  accessInfo: {
+                                    ...userStore.user.systemInfo?.accessInfo,
+                                    mobile,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+                        )}
+                        name='confirguration'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Desktop'
+                            value={value}
+                            onChange={desktop => {
+                              onChange(desktop);
+                              userStore.updateUser({
+                                ...userStore.user,
+                                systemInfo: {
+                                  ...userStore.user.systemInfo,
+                                  accessInfo: {
+                                    ...userStore.user.systemInfo?.accessInfo,
+                                    desktop,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+                        )}
+                        name='confirguration'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                    </div>
+                  </Form.InputWrapper>
                 </List>
               </Grid>
             ) : (
