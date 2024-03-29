@@ -349,7 +349,10 @@ export const PatientVisit = PatientVisitHoc(
 
     return (
       <>
-        <div className='flex justify-end'>
+        <div
+          className='flex justify-end'
+          style={{ position: 'absolute', right: '42px', top: '10px' }}
+        >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
               show={hideInputView}
@@ -615,119 +618,6 @@ export const PatientVisit = PatientVisitHoc(
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputDateTime
-                      label='Registration Date'
-                      name='txtRegistrationDate'
-                      placeholder={
-                        errors.registrationDate
-                          ? 'Please Enter RegistrationDate'
-                          : 'RegistrationDate'
-                      }
-                      hasError={!!errors.registrationDate}
-                      value={value}
-                      onChange={registrationDate => {
-                        const selectedRegistrationDate = new Date(
-                          registrationDate,
-                        );
-                        const currentDate = new Date();
-                        const dob = new Date(
-                          patientVisitStore.patientVisit.birthDate,
-                        );
-
-                        if (selectedRegistrationDate < currentDate) {
-                          if (dob > selectedRegistrationDate) {
-                            onChange(registrationDate);
-                            patientVisitStore.updatePatientVisit({
-                              ...patientVisitStore.patientVisit,
-                              registrationDate,
-                            });
-                          } else {
-                            Toast.error({
-                              message:
-                                'BirthDate should not be greater then Registration Date.',
-                            });
-                          }
-                        } else {
-                          Toast.error({
-                            message:
-                              'Registration Date should not be greater than Current Date.',
-                          });
-                        }
-                      }}
-                    />
-                  )}
-                  name='registrationDate'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputDateTime
-                      label='Collection Date'
-                      name='txtCollectionDate'
-                      placeholder={
-                        errors.collectionDate
-                          ? 'Please Enter Collection Date'
-                          : 'Collection Date'
-                      }
-                      hasError={!!errors.collectionDate}
-                      value={value}
-                      maxDate={new Date()}
-                      onChange={collectionDate => {
-                        const date1 = dayjs(collectionDate);
-                        const diffDay = date1.diff(
-                          patientVisitStore.patientVisit.birthDate,
-                          'day',
-                        );
-
-                        if (diffDay > 0) {
-                          onChange(collectionDate);
-                          patientVisitStore.updatePatientVisit({
-                            ...patientVisitStore.patientVisit,
-                            collectionDate,
-                          });
-                        } else {
-                          Toast.error({
-                            message:
-                              '😔 Please enter correct collection date. Please note birthrate greater collection date',
-                          });
-                        }
-                      }}
-                    />
-                  )}
-                  name='dateReceived'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputDateTime
-                      label='Due Date'
-                      name='txtDueDate'
-                      placeholder={
-                        errors.dueDate ? 'Please Enter Due Date' : 'Due Date'
-                      }
-                      disabled={true}
-                      hasError={!!errors.dueDate}
-                      value={value}
-                      onChange={dueDate => {
-                        onChange(dueDate);
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          dueDate,
-                        });
-                      }}
-                    />
-                  )}
-                  name='dueDate'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
@@ -1002,6 +892,120 @@ export const PatientVisit = PatientVisitHoc(
                     defaultValue=''
                   />
                 )}
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputDateTime
+                      label='Registration Date'
+                      name='txtRegistrationDate'
+                      placeholder={
+                        errors.registrationDate
+                          ? 'Please Enter RegistrationDate'
+                          : 'RegistrationDate'
+                      }
+                      hasError={!!errors.registrationDate}
+                      value={value}
+                      onChange={registrationDate => {
+                        const selectedRegistrationDate = new Date(
+                          registrationDate,
+                        );
+                        const currentDate = new Date();
+                        const dob = new Date(
+                          patientVisitStore.patientVisit.birthDate,
+                        );
+
+                        if (selectedRegistrationDate < currentDate) {
+                          if (dob > selectedRegistrationDate) {
+                            onChange(registrationDate);
+                            patientVisitStore.updatePatientVisit({
+                              ...patientVisitStore.patientVisit,
+                              registrationDate,
+                            });
+                          } else {
+                            Toast.error({
+                              message:
+                                'BirthDate should not be greater then Registration Date.',
+                            });
+                          }
+                        } else {
+                          Toast.error({
+                            message:
+                              'Registration Date should not be greater than Current Date.',
+                          });
+                        }
+                      }}
+                    />
+                  )}
+                  name='registrationDate'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputDateTime
+                      label='Collection Date'
+                      name='txtCollectionDate'
+                      placeholder={
+                        errors.collectionDate
+                          ? 'Please Enter Collection Date'
+                          : 'Collection Date'
+                      }
+                      hasError={!!errors.collectionDate}
+                      value={value}
+                      maxDate={new Date()}
+                      onChange={collectionDate => {
+                        const date1 = dayjs(collectionDate);
+                        const diffDay = date1.diff(
+                          patientVisitStore.patientVisit.birthDate,
+                          'day',
+                        );
+
+                        if (diffDay > 0) {
+                          onChange(collectionDate);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            collectionDate,
+                          });
+                        } else {
+                          Toast.error({
+                            message:
+                              '😔 Please enter correct collection date. Please note birthrate greater collection date',
+                          });
+                        }
+                      }}
+                    />
+                  )}
+                  name='dateReceived'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputDateTime
+                      label='Due Date'
+                      name='txtDueDate'
+                      placeholder={
+                        errors.dueDate ? 'Please Enter Due Date' : 'Due Date'
+                      }
+                      disabled={true}
+                      hasError={!!errors.dueDate}
+                      value={value}
+                      onChange={dueDate => {
+                        onChange(dueDate);
+                        patientVisitStore.updatePatientVisit({
+                          ...patientVisitStore.patientVisit,
+                          dueDate,
+                        });
+                      }}
+                    />
+                  )}
+                  name='dueDate'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
 
                 <Grid cols={3}>
                   <Controller
