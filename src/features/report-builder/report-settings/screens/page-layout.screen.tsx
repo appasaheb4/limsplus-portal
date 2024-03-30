@@ -347,7 +347,8 @@ export const PageLayout = observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.MultilineInput
+                      <>
+                        {/* <Form.MultilineInput
                         label='Main Box CSS'
                         style={{ color: '#ffffff', backgroundColor: '#000000' }}
                         placeholder={
@@ -361,17 +362,23 @@ export const PageLayout = observer(() => {
                             mainBoxCSS,
                           });
                         }}
-                      />
+                      /> */}
+                        <CSSMultiline
+                          onClick={mainBoxCSS => {
+                            onChange(mainBoxCSS);
+                            reportSettingStore.updatePageLayout({
+                              ...reportSettingStore.pageLayout,
+                              mainBoxCSS,
+                            });
+                          }}
+                        />
+                      </>
                     )}
                     name='mainBoxCSS'
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <CSSMultiline
-                    onClick={item => {
-                      console.log({ item });
-                    }}
-                  />
+
                   <a
                     href='https://dev.azure.com/limsplus0644/_git/limsplus-portal?path=/react-styling-cheat-sheet.md&_a=preview'
                     target='_blank'
