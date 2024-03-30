@@ -408,7 +408,7 @@ export const TableBootstrap = ({
           {props => (
             <div>
               <div className='flex flex-row items-center flex-wrap justify-between'>
-                <div className='w-2/3 flex flex-row align-middle items-center'>
+                <div className='flex flex-row items-center flex-wrap'>
                   <SearchBar
                     {...searchProps}
                     {...props.searchProps}

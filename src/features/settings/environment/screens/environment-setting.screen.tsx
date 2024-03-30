@@ -218,7 +218,10 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
 
     return (
       <>
-        <div className='flex justify-end'>
+        <div
+          className='flex justify-end'
+          style={{ position: 'absolute', right: '42px', top: '10px' }}
+        >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
               show={isInputView}
@@ -228,7 +231,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
         </div>
         <div
           className={
-            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')
+            'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
           }
         >
           <div className='p-2 rounded-lg shadow-xl'>

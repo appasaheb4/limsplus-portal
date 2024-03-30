@@ -289,6 +289,9 @@ const SampleContainer = SampleContainerHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                </List>
+
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -317,7 +320,7 @@ const SampleContainer = SampleContainerHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
-                        rows={5}
+                        rows={3}
                         label='Description'
                         hasError={!!errors.description}
                         placeholder={
@@ -339,9 +342,6 @@ const SampleContainer = SampleContainerHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                </List>
-
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
