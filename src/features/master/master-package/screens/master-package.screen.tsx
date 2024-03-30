@@ -759,82 +759,6 @@ const MasterPackage = MasterPackageHOC(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Status'
-                          hasError={!!errors.status}
-                        >
-                          <select
-                            value={value}
-                            disabled={isVersionUpgrade}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.status ? 'border-red  ' : 'border-gray-300'
-                            } rounded-md`}
-                            onChange={e => {
-                              const status = e.target.value;
-                              onChange(status);
-                              masterPackageStore.updateMasterPackage({
-                                ...masterPackageStore.masterPackage,
-                                status,
-                              });
-                            }}
-                          >
-                            <option selected>Select</option>
-                            {lookupItems(
-                              routerStore.lookupItems,
-                              'STATUS',
-                            )?.map((item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ))}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='status'
-                      rules={{ required: true }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          label='Entered By'
-                          placeholder={
-                            errors.userId
-                              ? 'Please Enter Entered By '
-                              : 'Entered By'
-                          }
-                          hasError={!!errors.userId}
-                          value={loginStore.login?.userId}
-                          disabled={true}
-                        />
-                      )}
-                      name='userId'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputDateTime
-                          label='Date Creation'
-                          placeholder={
-                            errors.dateCreation
-                              ? 'Please Enter DateCreation'
-                              : 'Date Creation'
-                          }
-                          hasError={!!errors.dateCreation}
-                          value={value}
-                          disabled={true}
-                        />
-                      )}
-                      name='dateCreation'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
 
                     <Grid cols={3}>
                       <Controller
@@ -1079,6 +1003,82 @@ const MasterPackage = MasterPackageHOC(
                         </tbody>
                       </Table>
                     </Form.InputWrapper>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputWrapper
+                          label='Status'
+                          hasError={!!errors.status}
+                        >
+                          <select
+                            value={value}
+                            disabled={isVersionUpgrade}
+                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                              errors.status ? 'border-red  ' : 'border-gray-300'
+                            } rounded-md`}
+                            onChange={e => {
+                              const status = e.target.value;
+                              onChange(status);
+                              masterPackageStore.updateMasterPackage({
+                                ...masterPackageStore.masterPackage,
+                                status,
+                              });
+                            }}
+                          >
+                            <option selected>Select</option>
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'STATUS',
+                            )?.map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      )}
+                      name='status'
+                      rules={{ required: true }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Entered By'
+                          placeholder={
+                            errors.userId
+                              ? 'Please Enter Entered By '
+                              : 'Entered By'
+                          }
+                          hasError={!!errors.userId}
+                          value={loginStore.login?.userId}
+                          disabled={true}
+                        />
+                      )}
+                      name='userId'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputDateTime
+                          label='Date Creation'
+                          placeholder={
+                            errors.dateCreation
+                              ? 'Please Enter DateCreation'
+                              : 'Date Creation'
+                          }
+                          hasError={!!errors.dateCreation}
+                          value={value}
+                          disabled={true}
+                        />
+                      )}
+                      name='dateCreation'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
 
                     <Controller
                       control={control}

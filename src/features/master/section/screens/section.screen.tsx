@@ -412,6 +412,8 @@ const Section = SectionHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -487,8 +489,6 @@ const Section = SectionHoc(
                     }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

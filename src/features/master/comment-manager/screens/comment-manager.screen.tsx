@@ -863,6 +863,8 @@ const CommentManager = CommentManagerHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -999,8 +1001,6 @@ const CommentManager = CommentManagerHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

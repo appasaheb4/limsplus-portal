@@ -316,31 +316,6 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                     />
                   </Form.InputWrapper>
 
-                  <Form.InputWrapper label='Area'>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          placeholder={
-                            !!errors.area ? 'Please Enter Area' : 'Area'
-                          }
-                          hasError={!!errors.area}
-                          value={value}
-                          onChange={areaValue => {
-                            const area = areaValue.toUpperCase();
-                            onChange(area);
-                            administrativeDivisions.updateAdministrativeDiv({
-                              ...administrativeDivisions.administrativeDiv,
-                              area,
-                            });
-                          }}
-                        />
-                      )}
-                      name='area'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                  </Form.InputWrapper>
                   <Form.InputWrapper label='Postal Code'>
                     <div className='flex flex-row'>
                       <Controller
@@ -442,6 +417,31 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                   </Form.InputWrapper>
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Form.InputWrapper label='Area'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          placeholder={
+                            !!errors.area ? 'Please Enter Area' : 'Area'
+                          }
+                          hasError={!!errors.area}
+                          value={value}
+                          onChange={areaValue => {
+                            const area = areaValue.toUpperCase();
+                            onChange(area);
+                            administrativeDivisions.updateAdministrativeDiv({
+                              ...administrativeDivisions.administrativeDiv,
+                              area,
+                            });
+                          }}
+                        />
+                      )}
+                      name='area'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </Form.InputWrapper>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

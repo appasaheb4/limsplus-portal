@@ -785,42 +785,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          label='Entered By'
-                          placeholder={
-                            errors.userId ? 'Please Enter userId' : 'Entered By'
-                          }
-                          value={loginStore.login?.userId}
-                          hasError={!!errors.userId}
-                          disabled={true}
-                        />
-                      )}
-                      name='userId'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputDateTime
-                          label='Date Creation'
-                          placeholder={
-                            errors.dateCreation
-                              ? 'Please Enter DateCreation'
-                              : 'Date Creation'
-                          }
-                          hasError={!!errors.dateCreation}
-                          value={value}
-                          disabled={true}
-                        />
-                      )}
-                      name='dateCreation'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
+
                     <Grid cols={4}>
                       <Controller
                         control={control}
@@ -1013,6 +978,42 @@ const TestPanelMapping = TestPanelMappingHoc(
                     </Grid>
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Entered By'
+                          placeholder={
+                            errors.userId ? 'Please Enter userId' : 'Entered By'
+                          }
+                          value={loginStore.login?.userId}
+                          hasError={!!errors.userId}
+                          disabled={true}
+                        />
+                      )}
+                      name='userId'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputDateTime
+                          label='Date Creation'
+                          placeholder={
+                            errors.dateCreation
+                              ? 'Please Enter DateCreation'
+                              : 'Date Creation'
+                          }
+                          hasError={!!errors.dateCreation}
+                          value={value}
+                          disabled={true}
+                        />
+                      )}
+                      name='dateCreation'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
                     <Form.InputWrapper label='Report Order'>
                       <Table striped bordered className='max-h-5' size='sm'>
                         <thead>

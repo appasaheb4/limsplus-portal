@@ -494,7 +494,9 @@ export const Department = DeginisationHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                </List>
 
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -548,9 +550,6 @@ export const Department = DeginisationHoc(
                     }}
                     defaultValue=''
                   />
-                </List>
-
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -647,6 +646,8 @@ export const Department = DeginisationHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -667,91 +668,6 @@ export const Department = DeginisationHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Grid cols={4}>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Auto Release'
-                          hasError={!!errors.autoRelease}
-                          value={value}
-                          onChange={autoRelease => {
-                            onChange(autoRelease);
-                            departmentStore.updateDepartment({
-                              ...departmentStore.department,
-                              autoRelease,
-                            });
-                          }}
-                        />
-                      )}
-                      name='autoRelease'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Require receving in Lab'
-                          hasError={!!errors.requireReceveInLab}
-                          value={value}
-                          onChange={requireReceveInLab => {
-                            onChange(requireReceveInLab);
-                            departmentStore.updateDepartment({
-                              ...departmentStore.department,
-                              requireReceveInLab,
-                            });
-                          }}
-                        />
-                      )}
-                      name='requireReceveInLab'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Require Scain In'
-                          hasError={!!errors.requireScainIn}
-                          value={value}
-                          onChange={requireScainIn => {
-                            onChange(requireScainIn);
-                            departmentStore.updateDepartment({
-                              ...departmentStore.department,
-                              requireScainIn,
-                            });
-                          }}
-                        />
-                      )}
-                      name='requireScainIn'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Routing Dept'
-                          hasError={!!errors.routingDept}
-                          value={value}
-                          onChange={routingDept => {
-                            onChange(routingDept);
-                            departmentStore.updateDepartment({
-                              ...departmentStore.department,
-                              routingDept,
-                            });
-                          }}
-                        />
-                      )}
-                      name='routingDept'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                  </Grid>
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -837,6 +753,89 @@ export const Department = DeginisationHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
+                  <Grid cols={4}>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Auto Release'
+                          hasError={!!errors.autoRelease}
+                          value={value}
+                          onChange={autoRelease => {
+                            onChange(autoRelease);
+                            departmentStore.updateDepartment({
+                              ...departmentStore.department,
+                              autoRelease,
+                            });
+                          }}
+                        />
+                      )}
+                      name='autoRelease'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Require receving in Lab'
+                          hasError={!!errors.requireReceveInLab}
+                          value={value}
+                          onChange={requireReceveInLab => {
+                            onChange(requireReceveInLab);
+                            departmentStore.updateDepartment({
+                              ...departmentStore.department,
+                              requireReceveInLab,
+                            });
+                          }}
+                        />
+                      )}
+                      name='requireReceveInLab'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Require Scain In'
+                          hasError={!!errors.requireScainIn}
+                          value={value}
+                          onChange={requireScainIn => {
+                            onChange(requireScainIn);
+                            departmentStore.updateDepartment({
+                              ...departmentStore.department,
+                              requireScainIn,
+                            });
+                          }}
+                        />
+                      )}
+                      name='requireScainIn'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Routing Dept'
+                          hasError={!!errors.routingDept}
+                          value={value}
+                          onChange={routingDept => {
+                            onChange(routingDept);
+                            departmentStore.updateDepartment({
+                              ...departmentStore.department,
+                              routingDept,
+                            });
+                          }}
+                        />
+                      )}
+                      name='routingDept'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </Grid>
                 </List>
               </Grid>
             ) : (
