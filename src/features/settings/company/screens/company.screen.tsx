@@ -246,7 +246,6 @@ const Company = CompanyHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-
         <div
           className='flex justify-end'
           style={{
@@ -263,7 +262,6 @@ const Company = CompanyHoc(
             />
           )}
         </div>
-
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -368,7 +366,6 @@ const Company = CompanyHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

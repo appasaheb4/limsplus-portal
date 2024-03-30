@@ -13,7 +13,7 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import { PageLayoutList } from '../components';
+import { PageLayoutList, CSSMultiline } from '../components';
 import { useForm, Controller } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
 import { useStores } from '@/stores';
@@ -23,6 +23,7 @@ import '@/library/assets/css/accordion.css';
 
 import { PdfTSTemp0001 } from '@/features/report-builder/report-template/components/molecules/pdf/page-layout/temp0001/temp0001.component';
 import { resetReportBody } from '../startup';
+
 export const PageLayout = observer(() => {
   const { loading, routerStore, reportSettingStore } = useStores();
   const {
@@ -37,7 +38,7 @@ export const PageLayout = observer(() => {
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalView, setModalView] = useState<ModalViewProps>();
-  const [isInputView, setIsInputView] = useState<boolean>(true);
+  const [isInputView, setIsInputView] = useState<boolean>(false);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const width = '100%';
@@ -365,6 +366,11 @@ export const PageLayout = observer(() => {
                     name='mainBoxCSS'
                     rules={{ required: false }}
                     defaultValue=''
+                  />
+                  <CSSMultiline
+                    onClick={item => {
+                      console.log({ item });
+                    }}
                   />
                   <a
                     href='https://dev.azure.com/limsplus0644/_git/limsplus-portal?path=/react-styling-cheat-sheet.md&_a=preview'

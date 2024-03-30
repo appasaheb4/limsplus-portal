@@ -22,3 +22,6 @@ export * from './molecules/template-patient-result/template-patient-result-list.
 export * from './molecules/template-patient-result/report-body.components';
 export * from './molecules/template-patient-result/end-of-page.components';
 export * from './molecules/template-patient-result/end-of-report.components';
+
+// css
+export * from './molecules/css-multiline-input/css-multiline-input';
