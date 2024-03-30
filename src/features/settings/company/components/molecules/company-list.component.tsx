@@ -42,7 +42,6 @@ let customerCare;
 let gst;
 let sacCode;
 let cinNo;
-let companyLogo;
 let fyiLine;
 let workLine;
 let dateCreation;
@@ -1164,7 +1163,6 @@ export const CompanyList = (props: CompanyListProps) => {
           gst('');
           sacCode('');
           cinNo('');
-          companyLogo('');
           fyiLine('');
           workLine('');
           dateCreation('');
