@@ -348,23 +348,9 @@ export const PageLayout = observer(() => {
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <>
-                        {/* <Form.MultilineInput
-                        label='Main Box CSS'
-                        style={{ color: '#ffffff', backgroundColor: '#000000' }}
-                        placeholder={
-                          "Like fontSize: 12,backgroundColor:'#000000'"
-                        }
-                        value={value}
-                        onChange={mainBoxCSS => {
-                          onChange(mainBoxCSS);
-                          reportSettingStore.updatePageLayout({
-                            ...reportSettingStore.pageLayout,
-                            mainBoxCSS,
-                          });
-                        }}
-                      /> */}
                         <CSSMultiline
-                          onClick={mainBoxCSS => {
+                          defaultValue={value}
+                          onChange={mainBoxCSS => {
                             onChange(mainBoxCSS);
                             reportSettingStore.updatePageLayout({
                               ...reportSettingStore.pageLayout,
@@ -376,11 +362,11 @@ export const PageLayout = observer(() => {
                     )}
                     name='mainBoxCSS'
                     rules={{ required: false }}
-                    defaultValue=''
+                    defaultValue={reportSettingStore.pageLayout.mainBoxCSS}
                   />
 
                   <a
-                    href='https://dev.azure.com/limsplus0644/_git/limsplus-portal?path=/react-styling-cheat-sheet.md&_a=preview'
+                    href='https://react-pdf.org/styling'
                     target='_blank'
                     className='text-red underline'
                     rel='noreferrer'

@@ -199,7 +199,7 @@ export const TemplatePatientResult = observer(() => {
                 )}
                 name='reportBody'
                 rules={{ required: false }}
-                defaultValue={reportSettingStore.reportBodyList}
+                defaultValue={''}
               />
               <Controller
                 control={control}

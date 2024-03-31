@@ -3,7 +3,12 @@ import _ from 'lodash';
 import { Form } from '@/library/components';
 import { properties as propertiesObj } from './css-properties';
 interface CSSMultilineProps {
-  onClick(item): void;
+  label?: string;
+  defaultValue?: string;
+  placeholder?: string;
+  className?: string;
+  style?: any;
+  onChange(item): void;
 }
 const mapToArray = (arr: any) => {
   const res: any = [];
@@ -15,21 +20,27 @@ const mapToArray = (arr: any) => {
   return res;
 };
 const data = mapToArray(propertiesObj);
-export const CSSMultiline = ({ onClick }: CSSMultilineProps) => {
-  const [value, setValue] = useState('');
+export const CSSMultiline = ({
+  label = 'Main Box CSS',
+  defaultValue = '',
+  className = '',
+  style = {},
+  placeholder = "Like fontSize: 12,backgroundColor:'#000000',",
+  onChange,
+}: CSSMultilineProps) => {
+  const value = useRef('');
   const [properties, setProperties] = useState<Array<any>>([]);
   const [isListOpen, setIsListOpen] = useState<boolean>(false);
   useEffect(() => {
-    console.log({ data });
-
+    value.current = defaultValue;
     setProperties(data);
-  }, []);
-  const valueRef = useRef('');
+  }, [defaultValue]);
   const useOutsideAlerter = ref => {
     useEffect(() => {
       function handleClickOutside(event) {
         if (ref.current && !ref.current.contains(event.target)) {
           setIsListOpen(false);
+          onChange(value.current);
         }
       }
       document.addEventListener('mousedown', handleClickOutside);
@@ -44,7 +55,7 @@ export const CSSMultiline = ({ onClick }: CSSMultilineProps) => {
 
   const list: Array<any> = [];
   const filter = (css: string) => {
-    let matchString: any = css?.split(';');
+    let matchString: any = css?.split(',');
     matchString = matchString[matchString?.length - 1];
     matchString = matchString?.split(':')[0];
     matchString = matchString?.split("'")[0];
@@ -65,15 +76,16 @@ export const CSSMultiline = ({ onClick }: CSSMultilineProps) => {
   };
 
   return (
-    <div ref={wrapperRef}>
+    <div className='flex flex-col w-full' ref={wrapperRef}>
       <Form.MultilineInput
-        label='Main Box CSS'
-        style={{ color: '#ffffff', backgroundColor: '#000000' }}
-        placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-        value={value}
+        label={label}
+        style={{ color: '#ffffff', backgroundColor: '#000000', ...style }}
+        placeholder={placeholder}
+        value={value.current}
+        className={className}
         onKeyUp={onKeyUp}
         onChange={css => {
-          setValue(css);
+          value.current = css;
           filter(css);
         }}
       />
@@ -87,18 +99,23 @@ export const CSSMultiline = ({ onClick }: CSSMultilineProps) => {
                   <li
                     className='flex -mt-2 px-2 h-8 bg-slate-800  rounded-md items-center cursor-pointer'
                     onClick={() => {
-                      let existsString: any = value?.split(';');
-                      if (value.includes(';')) {
+                      let existsString: any = value.current?.split(',');
+                      if (value.current.includes(',')) {
                         existsString = existsString.map(item => {
                           if (item?.includes(':')) return item;
                         });
                         if (prop != 'number')
-                          existsString.push(`${item[0]}:'${prop}';`);
-                        else existsString.push(`${item[0]}:20;`);
-                        setValue(existsString.join(';').replaceAll(';;', ';'));
+                          existsString.push(`${item[0]}:'${prop}',`);
+                        else existsString.push(`${item[0]}:1,`);
+                        value.current = existsString
+                          .join(',')
+                          .replaceAll(',,', ',');
                       } else {
-                        if (prop != 'number') setValue(`${item[0]}:'${prop}';`);
-                        else existsString.push(`${item[0]}:20;`);
+                        if (prop != 'number')
+                          value.current = `${item[0]}:'${prop}',`;
+                        else {
+                          value.current = `${item[0]}:1,`;
+                        }
                       }
                       filter(existsString.join(''));
                     }}

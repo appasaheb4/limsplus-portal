@@ -56,9 +56,13 @@ export const PageBranding = observer(() => {
 
   useEffect(() => {
     // Default value initialization
+    setValue('headerVisible', reportSettingStore.pageBranding?.isHeader);
     setValue('subHeaderVisible', reportSettingStore.pageBranding?.isSubHeader);
+    setValue('footerVisible', reportSettingStore.pageBranding?.isFooter);
+    setValue('pageNumber', reportSettingStore.pageBranding?.isPdfPageNumber);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reportSettingStore.pageBranding]);
+
   const onSave = () => {
     if (isExistsTempCode)
       return Toast.error({
@@ -167,7 +171,7 @@ export const PageBranding = observer(() => {
                 )}
                 name='layoutCode'
                 rules={{ required: true }}
-                defaultValue={reportSettingStore.pageLayoutList}
+                defaultValue={''}
               />
               <Controller
                 control={control}
@@ -228,33 +232,6 @@ export const PageBranding = observer(() => {
                         brandingTitle: brandingTitle?.toUpperCase(),
                       });
                     }}
-                    // onBlur={brandingTitle => {
-                    //   reportSettingStore.pageBrandingService
-                    //     .findByFields({
-                    //       input: {
-                    //         filter: {
-                    //           tempCode:
-                    //             reportSettingStore.pageBranding?.tempCode || '',
-                    //           brandingTitle: brandingTitle?.toUpperCase(),
-                    //         },
-                    //       },
-                    //     })
-                    //     .then(res => {
-                    //       if (res.findByFieldsPageBranding.success) {
-                    //         setError('tempCode', {type: 'onBlur'});
-                    //         setError('brandingTitle', {type: 'onBlur'});
-                    //         Toast.error({
-                    //           message:
-                    //             '😔 Already exists temp code. Please select diff.',
-                    //         });
-                    //         return setIsExistsTempCode(true);
-                    //       } else {
-                    //         clearErrors('tempCode');
-                    //         clearErrors('brandingTitle');
-                    //         return setIsExistsTempCode(false);
-                    //       }
-                    //     });
-                    // }}
                   />
                 )}
                 name='brandingTitle'

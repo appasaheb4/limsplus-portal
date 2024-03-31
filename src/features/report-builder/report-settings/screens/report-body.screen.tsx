@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import {
   Toast,
   Buttons,
@@ -52,11 +53,40 @@ export const ReportBody = observer(() => {
       return Toast.error({
         message: '😔 Already exists report code. Please select diff.',
       });
+    // if (
+    //   !reportSettingStore.reportBody?.general &&
+    //   !reportSettingStore.reportBody?.panel &&
+    //   !reportSettingStore.reportBody?.test &&
+    //   !reportSettingStore.reportBody?.analyte
+    // )
+    //   return Toast.error({
+    //     message: '😔 Please enter anyone correct style',
+    //   });
     if (
-      !reportSettingStore.reportBody?.general &&
-      !reportSettingStore.reportBody?.panel &&
-      !reportSettingStore.reportBody?.test &&
-      !reportSettingStore.reportBody?.analyte
+      _.every(
+        Object.keys(reportSettingStore.reportBody?.general || {})?.map(
+          key => reportSettingStore.reportBody?.general[key],
+        ),
+        item => item?.length == 0,
+      ) &&
+      _.every(
+        Object.keys(reportSettingStore.reportBody?.panel || {})?.map(
+          key => reportSettingStore.reportBody?.panel[key],
+        ),
+        item => item?.length == 0,
+      ) &&
+      _.every(
+        Object.keys(reportSettingStore.reportBody?.test || {})?.map(
+          key => reportSettingStore.reportBody?.test[key],
+        ),
+        item => item?.length == 0,
+      ) &&
+      _.every(
+        Object.keys(reportSettingStore.reportBody?.analyte || {})?.map(
+          key => reportSettingStore.reportBody?.analyte[key],
+        ),
+        item => item?.length == 0,
+      )
     )
       return Toast.error({
         message: '😔 Please enter anyone correct style',
@@ -76,6 +106,9 @@ export const ReportBody = observer(() => {
         }
         setIsInputView(false);
         reset();
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 1000);
       });
   };
 
