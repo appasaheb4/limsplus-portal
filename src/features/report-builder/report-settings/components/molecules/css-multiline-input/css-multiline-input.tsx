@@ -1,17 +1,27 @@
 import React, { useEffect, useState, useRef } from 'react';
 import _ from 'lodash';
 import { Form } from '@/library/components';
-const cssProperties = require('./css-properties.json');
+import { properties as propertiesObj } from './css-properties';
 interface CSSMultilineProps {
   onClick(item): void;
 }
-
-const data = Object.keys(cssProperties).map(key => [key, cssProperties[key]]);
+const mapToArray = (arr: any) => {
+  const res: any = [];
+  arr.forEach(function (obj, index) {
+    const key = Object.keys(obj)[0];
+    const value = key;
+    res.push([value, obj[key]]);
+  });
+  return res;
+};
+const data = mapToArray(propertiesObj);
 export const CSSMultiline = ({ onClick }: CSSMultilineProps) => {
   const [value, setValue] = useState('');
   const [properties, setProperties] = useState<Array<any>>([]);
   const [isListOpen, setIsListOpen] = useState<boolean>(false);
   useEffect(() => {
+    console.log({ data });
+
     setProperties(data);
   }, []);
   const valueRef = useRef('');
@@ -34,17 +44,17 @@ export const CSSMultiline = ({ onClick }: CSSMultilineProps) => {
 
   const list: Array<any> = [];
   const filter = (css: string) => {
-    let matchString: any = css.split(';');
+    let matchString: any = css?.split(';');
     matchString = matchString[matchString?.length - 1];
+    matchString = matchString?.split(':')[0];
+    matchString = matchString?.split("'")[0];
     if (css?.length == 0) return setProperties(data);
     else {
       data?.map(item => {
         const innerItem: Array<any> = [];
-        item[1]?.find(prop => {
-          const isItems = prop.startsWith(matchString);
-          if (isItems) innerItem.push(prop);
-        });
-        if (innerItem?.length > 0) list.push([item[0], innerItem]);
+        const isItems = item[0]?.startsWith(matchString);
+        if (isItems) innerItem.push(item[0]);
+        if (innerItem?.length > 0) list.push([item[0], item[1]]);
       });
       setProperties(list);
     }
@@ -82,11 +92,15 @@ export const CSSMultiline = ({ onClick }: CSSMultilineProps) => {
                         existsString = existsString.map(item => {
                           if (item?.includes(':')) return item;
                         });
-                        existsString.push(`${prop}: ;`);
+                        if (prop != 'number')
+                          existsString.push(`${item[0]}:'${prop}';`);
+                        else existsString.push(`${item[0]}:20;`);
                         setValue(existsString.join(';').replaceAll(';;', ';'));
                       } else {
-                        setValue(`${prop}: ;`);
+                        if (prop != 'number') setValue(`${item[0]}:'${prop}';`);
+                        else existsString.push(`${item[0]}:20;`);
                       }
+                      filter(existsString.join(''));
                     }}
                   >
                     {' '}
