@@ -1,20 +1,21 @@
-import React, { useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {Form, Grid} from '@/library/components';
-import {useForm, Controller} from 'react-hook-form';
-import {useStores} from '@/stores';
-import {resizeFile} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { Form, Grid } from '@/library/components';
+import { useForm, Controller } from 'react-hook-form';
+import { useStores } from '@/stores';
+import { resizeFile } from '@/library/utils';
+import { CSSMultiline } from '../..';
 
 interface HeaderComponentProps {
   isClearReset: boolean;
 }
 
 export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
-  const {reportSettingStore} = useStores();
+  const { reportSettingStore } = useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     setError,
     clearErrors,
@@ -32,7 +33,7 @@ export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
       <Grid cols={1}>
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Form.Input
               label='Title'
               placeholder='Tile'
@@ -51,17 +52,14 @@ export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
             />
           )}
           name='title'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Title CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={titleCSS => {
                 onChange(titleCSS);
                 reportSettingStore.updatePageBranding({
@@ -75,12 +73,12 @@ export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
             />
           )}
           name='titleCSS'
-          rules={{required: false}}
-          defaultValue=''
+          rules={{ required: false }}
+          defaultValue={reportSettingStore.pageBranding.header.titleCSS}
         />
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Form.InputFile
               label='Logo'
               placeholder={'Select Logo'}
@@ -100,17 +98,14 @@ export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
             />
           )}
           name='headerLogo'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Logo CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={'Like borderRadius:25,width:50'}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={logoCSS => {
                 onChange(logoCSS);
                 reportSettingStore.updatePageBranding({
@@ -124,12 +119,12 @@ export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
             />
           )}
           name='logoCSS'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Form.InputFile
               label='Background Image'
               placeholder='Background Image'
@@ -152,17 +147,14 @@ export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
             />
           )}
           name='backgroundImage'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Main Box CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={"Like backgroundColor:'#000000'"}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={mainBoxCSS => {
                 onChange(mainBoxCSS);
                 reportSettingStore.updatePageBranding({
@@ -176,7 +168,7 @@ export const PageBrandingHeader = observer((props: HeaderComponentProps) => {
             />
           )}
           name='mainBoxCSS'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
       </Grid>

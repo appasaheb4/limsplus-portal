@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {Form} from '@/library/components';
-import {useForm, Controller} from 'react-hook-form';
-import {useStores} from '@/stores';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { Form } from '@/library/components';
+import { useForm, Controller } from 'react-hook-form';
+import { useStores } from '@/stores';
+import { CSSMultiline } from '../..';
 
 interface PageBrandingSubHeaderComponentProps {
   isClearReset: boolean;
 }
 export const PageBrandingSubHeader = observer(
   (props: PageBrandingSubHeaderComponentProps) => {
-    const {loading, routerStore, reportSettingStore} = useStores();
+    const { loading, routerStore, reportSettingStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       setError,
       clearErrors,
@@ -30,7 +31,7 @@ export const PageBrandingSubHeader = observer(
       <>
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Form.Input
               label='Title'
               placeholder='Title'
@@ -49,18 +50,15 @@ export const PageBrandingSubHeader = observer(
             />
           )}
           name='title'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
 
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Title CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={titleCSS => {
                 onChange(titleCSS);
                 reportSettingStore.updatePageBranding({
@@ -74,13 +72,13 @@ export const PageBrandingSubHeader = observer(
             />
           )}
           name='titleCSS'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
 
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Form.Input
               label='Sub Title'
               placeholder='Sub Title'
@@ -99,18 +97,15 @@ export const PageBrandingSubHeader = observer(
             />
           )}
           name='subTitle'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
 
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Sub Title CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={subTitleCSS => {
                 onChange(subTitleCSS);
                 reportSettingStore.updatePageBranding({
@@ -124,18 +119,15 @@ export const PageBrandingSubHeader = observer(
             />
           )}
           name='subTitleCSS'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
 
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Main Box CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={"Like backgroundColor:'#000000'"}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={mainBoxCSS => {
                 onChange(mainBoxCSS);
                 reportSettingStore.updatePageBranding({
@@ -149,7 +141,7 @@ export const PageBrandingSubHeader = observer(
             />
           )}
           name='subHeaderMainBoxCss'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
       </>

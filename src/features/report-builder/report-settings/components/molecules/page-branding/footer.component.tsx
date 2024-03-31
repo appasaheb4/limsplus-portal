@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {Form} from '@/library/components';
-import {useForm, Controller} from 'react-hook-form';
-import {useStores} from '@/stores';
-import {resizeFile} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { Form } from '@/library/components';
+import { useForm, Controller } from 'react-hook-form';
+import { useStores } from '@/stores';
+import { resizeFile } from '@/library/utils';
+import { CSSMultiline } from '../..';
 interface PageBrandingFooterComponentProps {
   isClearReset: boolean;
 }
 export const PageBrandingFooter = observer(
   (props: PageBrandingFooterComponentProps) => {
-    const {reportSettingStore} = useStores();
+    const { reportSettingStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       setError,
       clearErrors,
@@ -31,7 +32,7 @@ export const PageBrandingFooter = observer(
       <>
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Form.Input
               label='Title'
               placeholder='Title'
@@ -50,18 +51,15 @@ export const PageBrandingFooter = observer(
             />
           )}
           name='footerTitle'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
 
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Title CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={titleCSS => {
                 onChange(titleCSS);
                 reportSettingStore.updatePageBranding({
@@ -75,12 +73,12 @@ export const PageBrandingFooter = observer(
             />
           )}
           name='footerTitleCSS'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Form.Input
               label='Sub Title'
               placeholder='Sub Title'
@@ -99,18 +97,15 @@ export const PageBrandingFooter = observer(
             />
           )}
           name='subTitle'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
 
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Sub Title CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={subTitleCSS => {
                 onChange(subTitleCSS);
                 reportSettingStore.updatePageBranding({
@@ -124,13 +119,13 @@ export const PageBrandingFooter = observer(
             />
           )}
           name='subTitleCSS'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
 
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
+          render={({ field: { onChange, value } }) => (
             <Form.InputFile
               label='Background Image'
               placeholder='Background Image'
@@ -153,17 +148,14 @@ export const PageBrandingFooter = observer(
             />
           )}
           name='backgroundImage'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
         <Controller
           control={control}
-          render={({field: {onChange, value}}) => (
-            <Form.MultilineInput
-              label='Main Box CSS'
-              style={{color: '#ffffff', backgroundColor: '#000000'}}
-              placeholder={"Like backgroundColor:'#000000'"}
-              value={value}
+          render={({ field: { onChange, value } }) => (
+            <CSSMultiline
+              defaultValue={value}
               onChange={mainBoxCSS => {
                 onChange(mainBoxCSS);
                 reportSettingStore.updatePageBranding({
@@ -177,7 +169,7 @@ export const PageBrandingFooter = observer(
             />
           )}
           name='footerMainBoxCss'
-          rules={{required: false}}
+          rules={{ required: false }}
           defaultValue=''
         />
       </>
