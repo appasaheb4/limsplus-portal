@@ -305,8 +305,6 @@ export const GeneralResultEntryExpand = ({
   };
 
   const handleOnSelect = (rows: any, isSelect) => {
-    console.log({ rows });
-
     onTableReload && onTableReload();
     let itemSelected: any[] = selectedRow.current;
     if (isSelect) {
@@ -476,7 +474,7 @@ export const GeneralResultEntryExpand = ({
                   selectRow={{
                     mode: 'checkbox',
                     style: { backgroundColor: '#c8e6c9' },
-                    hideSelectColumn: filterStatus == 'P' ? false : true,
+                    hideSelectColumn: filterStatus == 'D' ? false : true,
                     onSelect: handleOnSelect,
                     onSelectAll: handleOnSelectAll,
                   }}
@@ -493,7 +491,7 @@ export const GeneralResultEntryExpand = ({
                   rowStyle={rowStyle}
                 />
               </div>
-              {filterStatus == 'P' && (
+              {filterStatus == 'D' && (
                 <div>
                   <button
                     disabled={
