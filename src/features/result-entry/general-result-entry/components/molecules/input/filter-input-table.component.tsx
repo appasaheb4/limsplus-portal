@@ -207,7 +207,7 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
-                <Icons.IconContext
+                {/* <Icons.IconContext
                   color={
                     appStore.applicationSetting.theme != 'dark'
                       ? '#000000'
@@ -247,7 +247,7 @@ export const FilterInputTable = observer(() => {
                   }}
                 >
                   <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext>
+                </Icons.IconContext> */}
               </div>
             </td>
             <td>
@@ -393,7 +393,7 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
-                <Icons.IconContext
+                {/* <Icons.IconContext
                   color={
                     appStore.applicationSetting.theme != 'dark'
                       ? '#000000'
@@ -433,7 +433,7 @@ export const FilterInputTable = observer(() => {
                   }}
                 >
                   <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext>
+                </Icons.IconContext> */}
               </div>
             </td>
           </tr>
