@@ -85,6 +85,8 @@ export const TableBootstrap = ({
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = useState([0, 1]);
 
+  console.log({ len: data?.map(item => item != undefined)?.length });
+
   useEffect(() => {
     setTimeout(() => {
       var expandButton: any = document.getElementsByClassName('expand-cell')[0];
@@ -520,7 +522,11 @@ export const TableBootstrap = ({
                 />
                 <div className='px-2 -mt-2'>
                   <Result
-                    data={data?.length > 0 ? data[0][1] : []}
+                    data={
+                      data?.filter(item => item != _.isEmpty(item))?.length > 0
+                        ? data[0][1]
+                        : []
+                    }
                     totalSize={data?.length > 0 ? data[0][1]?.length : []}
                     onUpdateResult={(fields: any, id: string) => {
                       onUpdateResult && onUpdateResult(id, fields);
