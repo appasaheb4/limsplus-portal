@@ -16,6 +16,7 @@ import {
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   MainPageHeading,
+  ModalPostalCode,
 } from '@/library/components';
 import { CompanyList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -47,7 +48,7 @@ const Company = CompanyHoc(
       reset,
     } = useForm();
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
-
+    const [isPostalCode, setIsPostalCodeData] = useState(false);
     useEffect(() => {
       // Default value initialization
       setValue('code', companyStore.company?.code);
@@ -94,6 +95,22 @@ const Company = CompanyHoc(
     const [isHideView, setIsHideView] = useState<boolean>(true);
     const [isImport, setIsImport] = useState<boolean>(false);
     const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
+
+    useEffect(() => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (!isHideView && !labStore.labs.postalCode && event.key === 'F5') {
+          event.preventDefault();
+          setIsPostalCodeData(true);
+        }
+      };
+
+      window.addEventListener('keydown', handleKeyDown);
+
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isHideView]);
 
     const onSubmit = async () => {
       if (!isExistsRecord) {
@@ -700,7 +717,7 @@ const Company = CompanyHoc(
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
                         label='Postal Code'
-                        type='number'
+                        // type='number'
                         placeholder={
                           errors.postalCode
                             ? 'Please Enter postal code'
@@ -710,10 +727,16 @@ const Company = CompanyHoc(
                         value={value}
                         onChange={postalCode => {
                           onChange(postalCode);
-                          companyStore.updateCompany({
-                            ...companyStore.company,
-                            postalCode: Number.parseInt(postalCode),
-                          });
+                          if (postalCode?.length == 6) {
+                            labStore.LabService?.getAddressDetailsByPincode(
+                              postalCode,
+                            );
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              postalCode,
+                            });
+                            setIsPostalCodeData(true);
+                          }
                         }}
                       />
                     )}
@@ -1471,6 +1494,15 @@ const Company = CompanyHoc(
                   body: 'Do you want to update this record?',
                 });
               }}
+              onUpdateFields={(fileds: any, id: string) => {
+                setModalConfirm({
+                  show: true,
+                  type: 'UpdateFileds',
+                  data: { fileds, id },
+                  title: 'Are you sure?',
+                  body: 'Do you want to update this record?',
+                });
+              }}
               onPageSizeChange={(page, limit) => {
                 companyStore.companyService.list(page, limit);
                 global.filter = { mode: 'pagination', page, limit };
@@ -1513,6 +1545,48 @@ const Company = CompanyHoc(
               }}
             />
           </div>
+          <ModalPostalCode
+            postalCode={companyStore?.company?.postalCode}
+            show={isPostalCode}
+            data={
+              companyStore?.company?.postalCode
+                ? labStore?.addressDetails
+                : [
+                    {
+                      Pincode: '',
+                      Country: '',
+                      State: '',
+                      District: '',
+                      Block: '',
+                      Name: '',
+                    },
+                  ]
+            }
+            onSelectedRow={item => {
+              companyStore.updateCompany({
+                ...companyStore.company,
+                country: item?.Country?.toUpperCase(),
+                state: item?.State?.toUpperCase(),
+                district: item?.District?.toUpperCase(),
+                city: item?.Block?.toUpperCase(),
+                area: item?.Name?.toUpperCase(),
+                postalCode: Number(item?.Pincode),
+              });
+              setIsPostalCodeData(false);
+            }}
+            close={() => {
+              companyStore.updateCompany({
+                ...companyStore.company,
+                country: '',
+                state: '',
+                district: '',
+                city: '',
+                area: '',
+                postalCode: Number(''),
+              });
+              setIsPostalCodeData(false);
+            }}
+          />
           <ModalConfirm
             {...modalConfirm}
             click={(action: string) => {
@@ -1552,6 +1626,39 @@ const Company = CompanyHoc(
                     _id: modalConfirm.data.id,
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
                   });
+                  break;
+                }
+                case 'UpdateFileds': {
+                  companyStore.companyService
+                    .update({
+                      input: {
+                        ...modalConfirm.data.fileds,
+                        _id: modalConfirm.data.id,
+                      },
+                    })
+                    .then((res: any) => {
+                      setModalConfirm({ show: false });
+                      if (res.updateCompany.success) {
+                        Toast.success({
+                          message: `😊 ${res.updateCompany.message}`,
+                        });
+                        if (global?.filter?.mode == 'pagination')
+                          companyStore.companyService.list(
+                            global?.filter?.page,
+                            global?.filter?.limit,
+                          );
+                        else if (global?.filter?.mode == 'filter')
+                          companyStore.companyService.filter({
+                            input: {
+                              type: global?.filter?.type,
+                              filter: global?.filter?.filter,
+                              page: global?.filter?.page,
+                              limit: global?.filter?.limit,
+                            },
+                          });
+                        else companyStore.companyService.list();
+                      }
+                    });
                   break;
                 }
                 case 'UpdateImage': {

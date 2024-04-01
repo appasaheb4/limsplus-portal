@@ -10,20 +10,52 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { observer } from 'mobx-react';
-
+import { useHistory } from 'react-router-dom';
 import { Calendar, Filter, RefreshCw } from 'react-feather';
 import { useStores } from '@/stores';
-import { Tooltip } from '@/library/components';
+import { AutocompleteSearch, Tooltip } from '@/library/components';
+import { connect } from 'react-redux';
+import { RouterFlow } from '@/flows';
 
-const Header = observer(() => {
-  const { loginStore } = useStores();
+const Header = observer(({ sidebar }) => {
+  const { loginStore, routerStore } = useStores();
+  const history = useHistory();
   return (
-    <Row className='mb-2 mb-xl-4'>
+    <Row className='flex flex-row justify-between'>
       <Col xs='auto' className='d-none d-sm-block'>
         <span>Welcome back, {loginStore.login?.fullName}</span>
       </Col>
 
-      <Col xs='auto' className='ml-auto text-right mt-n1'>
+      <Col >
+        {!sidebar?.isOpen && (
+          <div
+            style={{
+              width: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              alignContent: 'center',
+              margin: '0 auto',
+            }}
+          >
+            <AutocompleteSearch
+              data={routerStore.userRouter}
+              onChange={async (item: any, children: any) => {
+                const { permission, selectedComp } =
+                  await RouterFlow.updateSelectedCategory(
+                    item?.name,
+                    children?.name,
+                  );
+                routerStore.updateSelectedComponents(selectedComp);
+                routerStore.updateUserPermission(permission);
+                history.replace(children.path);
+              }}
+            />
+          </div>
+        )}
+      </Col>
+
+      <Col xs='auto'>
         <UncontrolledDropdown className='d-inline mr-2'>
           <DropdownToggle caret color='light' className='bg-white shadow-sm'>
             <Calendar className='feather align-middle mt-n1' /> Today
@@ -50,4 +82,6 @@ const Header = observer(() => {
   );
 });
 
-export default Header;
+export default connect((store: any) => ({
+  sidebar: store.sidebar,
+}))(Header);
