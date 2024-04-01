@@ -97,7 +97,13 @@ export const TemplatePatientResultList = observer(
                 headerClasses: 'textHeader',
                 sort: true,
                 formatter: (cell, row) => {
-                  return <>{row?.reportBody?.reportCode}</>;
+                  return (
+                    <>
+                      {row?.reportBody?.reportCode +
+                        '-' +
+                        row?.reportBody?.reportName}
+                    </>
+                  );
                 },
                 editorRenderer: (
                   editorProps,
