@@ -11,9 +11,11 @@ import {
   DateRangeFilter,
   NumberFilter,
   ModalDateTime,
+  ModalPostalCode,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { MultiSelect } from '@/core-components';
+import { useStores } from '@/stores';
 
 let code;
 let name;
@@ -66,6 +68,7 @@ interface CompanyListProps {
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onUpdateImage?: (value: any, dataField: string, id: string) => void;
+  onUpdateFields?: (items: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -85,7 +88,11 @@ const dynamicStylingFields = ['title', 'environment'];
 const hideExcelSheet = ['_id', 'image', 'operation'];
 
 export const CompanyList = (props: CompanyListProps) => {
+  const { labStore } = useStores();
   const [modalDetails, setModalDetails] = useState<any>();
+  const [modalPostalCodeUpdate, setModalPostalCodeUpdate] = useState<any>({
+    show: false,
+  });
   const editorCell = (row: any) => {
     return row?.status !== 'I' ? true : false;
   };
@@ -304,6 +311,55 @@ export const CompanyList = (props: CompanyListProps) => {
             }),
             filterRenderer: (onFilter, column) => (
               <NumberFilter onFilter={onFilter} column={column} />
+            ),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  placeholder='Search....'
+                  onKeyDown={e => {
+                    if (e.key === 'F5') {
+                      e.preventDefault();
+                      setModalPostalCodeUpdate({
+                        ...modalPostalCodeUpdate,
+                        show: true,
+                        id: row._id,
+                        data: [
+                          {
+                            Pincode: '',
+                            Country: '',
+                            State: '',
+                            District: '',
+                            Block: '',
+                            Name: '',
+                          },
+                        ],
+                      });
+                    }
+                  }}
+                  onChange={postalCode => {
+                    if (postalCode?.length == 6) {
+                      labStore.LabService?.getAddressDetailsByPincode(
+                        postalCode,
+                      ).then(res => {
+                        setModalPostalCodeUpdate({
+                          ...modalPostalCodeUpdate,
+                          show: true,
+                          id: row._id,
+                          data: res,
+                          postalCode,
+                        });
+                      });
+                    }
+                  }}
+                />
+              </>
             ),
           },
           {
@@ -1177,6 +1233,31 @@ export const CompanyList = (props: CompanyListProps) => {
         }}
         dynamicStylingFields={dynamicStylingFields}
         hideExcelSheet={hideExcelSheet}
+      />
+      <ModalPostalCode
+        postalCode={modalPostalCodeUpdate.postalCode}
+        show={modalPostalCodeUpdate.show}
+        data={modalPostalCodeUpdate.data}
+        onSelectedRow={item => {
+          const finalData = {
+            country: item?.Country?.toUpperCase(),
+            state: item?.State?.toUpperCase(),
+            district: item?.District?.toUpperCase(),
+            city: item?.Block?.toUpperCase(),
+            area: item?.Name?.toUpperCase(),
+            postalCode: Number(item.Pincode),
+          };
+          props.onUpdateFields &&
+            props.onUpdateFields({ ...finalData }, modalPostalCodeUpdate.id);
+          setModalPostalCodeUpdate({
+            show: false,
+          });
+        }}
+        close={() => {
+          setModalPostalCodeUpdate({
+            show: false,
+          });
+        }}
       />
     </div>
   );
