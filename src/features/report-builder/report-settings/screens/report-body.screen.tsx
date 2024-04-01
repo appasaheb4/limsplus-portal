@@ -95,6 +95,26 @@ export const ReportBody = observer(() => {
       .addReportBody({
         input: {
           ...reportSettingStore.reportBody,
+          general: _(reportSettingStore.reportBody?.general)
+            .omitBy(_.isUndefined)
+            .omitBy(_.isEmpty)
+            .omitBy(_.isNull)
+            .value(),
+          panel: _(reportSettingStore.reportBody?.panel)
+            .omitBy(_.isUndefined)
+            .omitBy(_.isEmpty)
+            .omitBy(_.isNull)
+            .value(),
+          test: _(reportSettingStore.reportBody?.test)
+            .omitBy(_.isUndefined)
+            .omitBy(_.isEmpty)
+            .omitBy(_.isNull)
+            .value(),
+          analyte: _(reportSettingStore.reportBody?.analyte)
+            .omitBy(_.isUndefined)
+            .omitBy(_.isEmpty)
+            .omitBy(_.isNull)
+            .value(),
         },
       })
       .then(res => {
