@@ -59,8 +59,8 @@ export const Result = observer((props: ResultProps) => {
       <div style={{ position: 'relative' }}>
         <TableBootstrap
           id='_id'
-          data={props.data}
-          totalSize={props.totalSize}
+          data={props?.data}
+          totalSize={props?.totalSize}
           selectedItem={selectedItem}
           columns={[
             {

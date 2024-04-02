@@ -63,7 +63,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
   const [fetchIndex, setFetchIndex] = useState<number>(0);
 
   useEffect(() => {
-    setLocalData(JSON.parse(JSON.stringify(props.data)));
+    setLocalData(JSON.parse(JSON.stringify(props.data)) || []);
   }, [props.data, props.selectedId]);
 
   // useEffect(() => {
@@ -202,6 +202,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                                 },
                                 _.map(row[1], '_id'),
                               );
+                            setFetchIndex(0);
                             props.onExpand && props.onExpand('');
                           }}
                         >
@@ -229,6 +230,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                                 },
                                 _.map(row[1], '_id'),
                               );
+                            setFetchIndex(0);
                           }}
                         >
                           {row[1][0]?.approvalStatus == 'Hold'
@@ -249,6 +251,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                                 row[1][0]?._id,
                                 row[1][0]?.patientResultId,
                               );
+                            setFetchIndex(0);
                           }}
                         >
                           <Icons.RIcon
@@ -275,6 +278,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                                 row[1][0]?._id,
                                 row[1][0]?.patientResultId,
                               );
+                            setFetchIndex(0);
                           }}
                         >
                           <Icons.RIcon

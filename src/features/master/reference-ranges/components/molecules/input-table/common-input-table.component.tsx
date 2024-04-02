@@ -115,10 +115,10 @@ export const CommonInputTable = observer(
           <thead>
             <tr className='p-0 text-xs'>
               <th className='text-white' style={{ minWidth: '190px' }}>
-                Analyte
+                Department
               </th>
               <th className='text-white' style={{ minWidth: '190px' }}>
-                Department
+                Analyte
               </th>
               <th className='text-white' style={{ minWidth: '150px' }}>
                 Species
@@ -145,9 +145,76 @@ export const CommonInputTable = observer(
                   render={({ field: { onChange, value } }) => (
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
+                      hasError={!!errors.department}
+                      displayValue={value}
+                      placeholder='Search by code or name'
+                      data={{
+                        list: departmentStore.listDepartment.filter(
+                          item => item.status == 'A',
+                        ),
+                        displayKey: ['code', 'name'],
+                      }}
+                      disable={isVersionUpgrade ? true : false}
+                      onFilter={(value: string) => {
+                        departmentStore.DepartmentService.filterByFields({
+                          input: {
+                            filter: {
+                              fields: ['code', 'name'],
+                              srText: value,
+                            },
+                            page: 0,
+                            limit: 10,
+                          },
+                        });
+                      }}
+                      onSelect={item => {
+                        onChange(item.code);
+                        refernceRangesStore.updateReferenceRanges({
+                          ...refernceRangesStore.referenceRanges,
+                          department: item.code,
+                        });
+                        if (item.code) {
+                          masterAnalyteStore.masterAnalyteService
+                            .findByFields({
+                              input: {
+                                filter: {
+                                  lab: loginStore.login.lab,
+                                  departments: item.code,
+                                  status: 'A',
+                                },
+                              },
+                            })
+                            .then(res => {
+                              console.log({ res });
+                            });
+                        }
+
+                        departmentStore.updateDepartmentList(
+                          departmentStore.listDepartmentCopy,
+                        );
+                      }}
+                    />
+                  )}
+                  name='department'
+                  rules={{ required: true }}
+                  defaultValue=''
+                />
+              </td>
+              <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
                       hasError={!!errors.analyte}
                       placeholder='Search by code or name'
-                      disable={isVersionUpgrade}
+                      disable={
+                        isVersionUpgrade
+                          ? true
+                          : refernceRangesStore.referenceRanges?.department
+                          ? false
+                          : true
+                      }
                       displayValue={value}
                       data={{
                         list: masterAnalyteStore.listMasterAnalyte?.filter(
@@ -180,82 +247,28 @@ export const CommonInputTable = observer(
                         masterAnalyteStore.updateMasterAnalyteList(
                           masterAnalyteStore.listMasterAnalyteCopy,
                         );
-                        if (item.departments) {
-                          departmentStore.DepartmentService.filter({
-                            input: {
-                              type: 'filter',
-                              filter: {
-                                code: item.departments,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
-                          }).then(res => {
-                            console.log({ res });
-                          });
-                        } else {
-                          Toast.error({
-                            message: '😔 Department not found.',
-                          });
-                        }
+                        // if (item.departments) {
+                        //   departmentStore.DepartmentService.filter({
+                        //     input: {
+                        //       type: 'filter',
+                        //       filter: {
+                        //         code: item.departments,
+                        //       },
+                        //       page: 0,
+                        //       limit: 10,
+                        //     },
+                        //   }).then(res => {
+                        //     console.log({ res });
+                        //   });
+                        // } else {
+                        //   Toast.error({
+                        //     message: '😔 Department not found.',
+                        //   });
+                        // }
                       }}
                     />
                   )}
                   name='analyte'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-              </td>
-              <td>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      hasError={!!errors.department}
-                      displayValue={value}
-                      placeholder='Search by code or name'
-                      data={{
-                        list: departmentStore.listDepartment.filter(
-                          item =>
-                            refernceRangesStore.referenceRanges?.analyteDepartments?.includes(
-                              item.code,
-                            ) && item.status == 'A',
-                        ),
-                        displayKey: ['code', 'name'],
-                      }}
-                      disable={
-                        isVersionUpgrade
-                          ? true
-                          : refernceRangesStore.referenceRanges?.analyteCode
-                          ? false
-                          : true
-                      }
-                      onFilter={(value: string) => {
-                        departmentStore.DepartmentService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ['code', 'name'],
-                              srText: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        });
-                      }}
-                      onSelect={item => {
-                        onChange(item.code);
-                        refernceRangesStore.updateReferenceRanges({
-                          ...refernceRangesStore.referenceRanges,
-                          department: item.code,
-                        });
-                        departmentStore.updateDepartmentList(
-                          departmentStore.listDepartmentCopy,
-                        );
-                      }}
-                    />
-                  )}
-                  name='department'
                   rules={{ required: true }}
                   defaultValue=''
                 />

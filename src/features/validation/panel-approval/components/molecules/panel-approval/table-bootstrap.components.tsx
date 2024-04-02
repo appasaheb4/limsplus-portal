@@ -9,15 +9,11 @@ import ToolkitProvider, {
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import paginationFactory, {
   PaginationProvider,
-  PaginationListStandalone,
-  SizePerPageDropdownStandalone,
-  PaginationTotalStandalone,
 } from 'react-bootstrap-table2-paginator';
 import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 import { debounce } from '@/core-utils';
-
 import { Buttons, Icons, Tooltip } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
@@ -57,7 +53,7 @@ interface TableBootstrapProps {
 }
 
 export const TableBootstrap = ({
-  id,
+  id = '',
   data,
   totalSize = 10,
   searchPlaceholder = 'Search by labId or sampleId',
@@ -84,8 +80,6 @@ export const TableBootstrap = ({
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = useState([0, 1]);
-
-  console.log({ len: data?.map(item => item != undefined)?.length });
 
   useEffect(() => {
     setTimeout(() => {
@@ -274,7 +268,7 @@ export const TableBootstrap = ({
     if (type === 'sort') {
       let result;
       if (sortOrder === 'asc') {
-        result = data.sort((a, b) => {
+        result = data?.sort((a, b) => {
           if (a[sortField] > b[sortField]) {
             return 1;
           } else if (b[sortField] > a[sortField]) {
@@ -283,7 +277,7 @@ export const TableBootstrap = ({
           return 0;
         });
       } else {
-        result = data.sort((a, b) => {
+        result = data?.sort((a, b) => {
           if (a[sortField] > b[sortField]) {
             return -1;
           } else if (b[sortField] > a[sortField]) {
@@ -360,223 +354,227 @@ export const TableBootstrap = ({
     }
   };
 
-  const expandRow = {
-    renderer: row => (
-      <div>
-        <Result
-          data={row[1] || []}
-          totalSize={row[1].length}
-          onUpdateResult={(fields: any, id: string) => {
-            onUpdateResult && onUpdateResult(id, fields);
-          }}
-          onUpdateFields={(fields: any, id: string) => {
-            onUpdateFields && onUpdateFields(fields, id);
-          }}
-        />
-      </div>
-    ),
-    showExpandColumn: true,
-    expandByColumnOnly: true,
-    expanded: [0, 1],
-  };
+  // const expandRow = {
+  //   renderer: row => (
+  //     <div>
+  //       <Result
+  //         data={row[1] || []}
+  //         totalSize={row[1].length}
+  //         onUpdateResult={(fields: any, id: string) => {
+  //           onUpdateResult && onUpdateResult(id, fields);
+  //         }}
+  //         onUpdateFields={(fields: any, id: string) => {
+  //           onUpdateFields && onUpdateFields(fields, id);
+  //         }}
+  //       />
+  //     </div>
+  //   ),
+  //   showExpandColumn: true,
+  //   expandByColumnOnly: true,
+  //   expanded: [0, 1],
+  // };
 
   return (
-    <PaginationProvider
-      pagination={paginationFactory(
-        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
-      )}
-      keyField={id}
-      columns={columns}
-      data={data}
-    >
-      {({ paginationProps, paginationTableProps }) => (
-        <ToolkitProvider
-          keyField={id}
-          bootstrap4
-          data={data}
-          columns={columns}
-          search
-          exportCSV={{
-            fileName: `${fileName}_${dayjs(new Date()).format(
-              'YYYY-MM-DD HH:mm',
-            )}.csv`,
-            noAutoBOM: false,
-            blobType: 'text/csv;charset=ansi',
-            exportAll: false,
-            onlyExportFiltered: true,
-          }}
-          columnToggle
-        >
-          {props => (
-            <div>
-              <div className='flex flex-row items-center flex-wrap justify-between'>
-                <div className='w-2/3 flex flex-row align-middle items-center'>
-                  <SearchBar
-                    {...searchProps}
-                    {...props.searchProps}
-                    onChange={value => {
-                      console.log({ value });
-                    }}
-                  />
-                  <ClearSearchButton
-                    className={`bg-gray-500 px-3.5 py-1 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
-                    {...props.searchProps}
-                  />
-                  <button
-                    className={
-                      'bg-gray-500 px-3.5 py-2 mr-2 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                    }
-                    onClick={clearAllFilter}
-                  >
-                    Clear all filters
-                  </button>
-                  {isExport && (
-                    <ExportCSVButton
+    <>
+      <PaginationProvider
+        pagination={paginationFactory(
+          totalSize !== 0 ? options : { page, sizePerPage, totalSize },
+        )}
+        keyField={id}
+        columns={columns}
+        data={_.without(data, undefined)?.length > 0 ? data : []}
+      >
+        {({ paginationProps, paginationTableProps }) => (
+          <ToolkitProvider
+            keyField={id}
+            bootstrap4
+            data={_.without(data, undefined)?.length > 0 ? data : []}
+            columns={columns}
+            search
+            exportCSV={{
+              fileName: `${fileName}_${dayjs(new Date()).format(
+                'YYYY-MM-DD HH:mm',
+              )}.csv`,
+              noAutoBOM: false,
+              blobType: 'text/csv;charset=ansi',
+              exportAll: false,
+              onlyExportFiltered: true,
+            }}
+            columnToggle
+          >
+            {props => (
+              <div>
+                <div className='flex flex-row items-center flex-wrap justify-between'>
+                  <div className='w-2/3 flex flex-row align-middle items-center'>
+                    <SearchBar
+                      {...searchProps}
+                      {...props.searchProps}
+                      onChange={value => {
+                        console.log({ value });
+                      }}
+                    />
+                    <ClearSearchButton
+                      className={`bg-gray-500 px-3.5 py-1 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                      {...props.searchProps}
+                    />
+                    <button
                       className={
-                        'bg-gray-500 px-3.5 py-1.5 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                        'bg-gray-500 px-3.5 py-2 mr-2 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                       }
-                      {...props.csvProps}
+                      onClick={clearAllFilter}
                     >
-                      Export CSV!!
-                    </ExportCSVButton>
-                  )}
-
-                  {isFilterOpen ? (
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsFilterOpen(!isFilterOpen);
-                      }}
-                    >
-                      <Icons.IconFa.FaChevronUp />
-                    </Buttons.Button>
-                  ) : (
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsFilterOpen(!isFilterOpen);
-                      }}
-                    >
-                      <Icons.IconFa.FaChevronDown />
-                    </Buttons.Button>
-                  )}
-                  <div className='flex ml-2 flex-wrap gap-1'>
-                    {statusData.map(status => (
-                      <button
-                        key={status.code}
-                        className={`px-3.5 py-2 bg-${status.color}-600 text-white rounded`}
-                        onClick={() => onFilterRecord?.(status.code)}
+                      Clear all filters
+                    </button>
+                    {isExport && (
+                      <ExportCSVButton
+                        className={
+                          'bg-gray-500 px-3.5 py-1.5 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                        }
+                        {...props.csvProps}
                       >
-                        {status.value}
-                      </button>
-                    ))}
+                        Export CSV!!
+                      </ExportCSVButton>
+                    )}
+
+                    {isFilterOpen ? (
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsFilterOpen(!isFilterOpen);
+                        }}
+                      >
+                        <Icons.IconFa.FaChevronUp />
+                      </Buttons.Button>
+                    ) : (
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsFilterOpen(!isFilterOpen);
+                        }}
+                      >
+                        <Icons.IconFa.FaChevronDown />
+                      </Buttons.Button>
+                    )}
+                    <div className='flex ml-2 flex-wrap gap-1'>
+                      {statusData.map(status => (
+                        <button
+                          key={status.code}
+                          className={`px-3.5 py-2 bg-${status.color}-600 text-white rounded`}
+                          onClick={() => onFilterRecord?.(status.code)}
+                        >
+                          {status.value}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div className='flex bg-blue-700 w-10 h-10 rounded-full justify-center items-center text-xl'>
+                    <span className='text-white'>{totalSize}</span>
                   </div>
                 </div>
-                <div className='flex bg-blue-700 w-10 h-10 rounded-full justify-center items-center text-xl'>
-                  <span className='text-white'>{totalSize}</span>
-                </div>
-              </div>
-              {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10'}>
-                  <CustomToggleList
-                    contextual='primary'
-                    className='list-custom-class'
-                    btnClassName='list-btn-custom-class'
-                    {...props.columnToggleProps}
-                  />
-                </div>
-              )}
-              <div className='scrollTable mb-2'>
-                <BootstrapTable
-                  keyField='_id'
-                  remote
-                  {...props.baseProps}
-                  noDataIndication='Table is Empty'
-                  hover
-                  {...paginationTableProps}
-                  filter={filterFactory()}
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                  // selectRow={
-                  //   isSelectRow
-                  //     ? {
-                  //         mode: 'checkbox',
-                  //         onSelect: handleOnSelect,
-                  //         onSelectAll: handleOnSelectAll,
-                  //       }
-                  //     : undefined
-                  // }
-                  cellEdit={
-                    isEditModify
-                      ? cellEditFactory({
-                          mode: 'dbclick',
-                          blurToSave: true,
-                        })
-                      : undefined
-                  }
-                  rowEvents={rowEvents}
-                  rowStyle={rowStyle}
-                  onTableChange={handleTableChange}
-                  // expandRow={expandRow}
-                />
-                <div className='px-2 -mt-2'>
-                  <Result
-                    data={
-                      data?.filter(item => item != _.isEmpty(item))?.length > 0
-                        ? data[0][1]
-                        : []
+                {isFilterOpen && (
+                  <div className={'mb-2 overflow-auto h-10'}>
+                    <CustomToggleList
+                      contextual='primary'
+                      className='list-custom-class'
+                      btnClassName='list-btn-custom-class'
+                      {...props.columnToggleProps}
+                    />
+                  </div>
+                )}
+                <div className='scrollTable mb-2'>
+                  <BootstrapTable
+                    keyField='_id'
+                    remote
+                    {...props.baseProps}
+                    noDataIndication='Table is Empty'
+                    hover
+                    {...paginationTableProps}
+                    filter={filterFactory()}
+                    headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                    // selectRow={
+                    //   isSelectRow
+                    //     ? {
+                    //         mode: 'checkbox',
+                    //         onSelect: handleOnSelect,
+                    //         onSelectAll: handleOnSelectAll,
+                    //       }
+                    //     : undefined
+                    // }
+                    cellEdit={
+                      isEditModify
+                        ? cellEditFactory({
+                            mode: 'dbclick',
+                            blurToSave: true,
+                          })
+                        : undefined
                     }
-                    totalSize={data?.length > 0 ? data[0][1]?.length : []}
-                    onUpdateResult={(fields: any, id: string) => {
-                      onUpdateResult && onUpdateResult(id, fields);
-                    }}
-                    onUpdateFields={(fields: any, id: string) => {
-                      onUpdateFields && onUpdateFields(fields, id);
-                    }}
+                    rowEvents={rowEvents}
+                    rowStyle={rowStyle}
+                    onTableChange={handleTableChange}
+                    // expandRow={expandRow}
                   />
+                  <div className='px-2 -mt-2'>
+                    <Result
+                      data={
+                        _.without(data, undefined)?.length > 0 ? data[0][1] : []
+                      }
+                      totalSize={
+                        _.without(data, undefined)?.length > 0
+                          ? data[0][1]?.length
+                          : []
+                      }
+                      onUpdateResult={(fields: any, id: string) => {
+                        onUpdateResult && onUpdateResult(id, fields);
+                      }}
+                      onUpdateFields={(fields: any, id: string) => {
+                        onUpdateFields && onUpdateFields(fields, id);
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className='flex items-center gap-2 mt-2'>
+                  <Icons.IconContext
+                    color='#fff'
+                    size='25'
+                    style={{
+                      backgroundColor: '#808080',
+                      width: 32,
+                      height: 32,
+                      borderRadius: 16,
+                      align: 'center',
+                      padding: 4,
+                    }}
+                    onClick={async () => {
+                      onPagination && onPagination('next');
+                    }}
+                  >
+                    <Icons.IconBi.BiSkipNext />
+                  </Icons.IconContext>
+                  <Icons.IconContext
+                    color='#fff'
+                    size='25'
+                    style={{
+                      backgroundColor: '#808080',
+                      width: 32,
+                      height: 32,
+                      borderRadius: 16,
+                      align: 'center',
+                      padding: 4,
+                    }}
+                    onClick={async () => {
+                      onPagination && onPagination('prev');
+                    }}
+                  >
+                    <Icons.IconBi.BiSkipPrevious />
+                  </Icons.IconContext>
                 </div>
               </div>
-              <div className='flex items-center gap-2 mt-2'>
-                <Icons.IconContext
-                  color='#fff'
-                  size='25'
-                  style={{
-                    backgroundColor: '#808080',
-                    width: 32,
-                    height: 32,
-                    borderRadius: 16,
-                    align: 'center',
-                    padding: 4,
-                  }}
-                  onClick={async () => {
-                    onPagination && onPagination('next');
-                  }}
-                >
-                  <Icons.IconBi.BiSkipNext />
-                </Icons.IconContext>
-                <Icons.IconContext
-                  color='#fff'
-                  size='25'
-                  style={{
-                    backgroundColor: '#808080',
-                    width: 32,
-                    height: 32,
-                    borderRadius: 16,
-                    align: 'center',
-                    padding: 4,
-                  }}
-                  onClick={async () => {
-                    onPagination && onPagination('prev');
-                  }}
-                >
-                  <Icons.IconBi.BiSkipPrevious />
-                </Icons.IconContext>
-              </div>
-            </div>
-          )}
-        </ToolkitProvider>
-      )}
-    </PaginationProvider>
+            )}
+          </ToolkitProvider>
+        )}
+      </PaginationProvider>
+    </>
   );
 };
