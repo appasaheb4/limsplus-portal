@@ -461,6 +461,7 @@ const ReferenceRanges = ReferenceRangesHoc(
         departmentStore.listDepartment,
       ],
     );
+
     const addItem = async () => {
       const refRangesInputList =
         refernceRangesStore.referenceRanges?.refRangesInputList;

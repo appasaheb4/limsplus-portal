@@ -189,7 +189,6 @@ const PanelApproval = observer(() => {
           updateResultRecords(id, fields);
         }}
         onExpand={items => {
-          console.log({ items });
           if (typeof items == 'object') {
             setSelectId(items?._id);
             setExpandItem([items]);
