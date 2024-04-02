@@ -10,7 +10,6 @@
   font-size: 14px;
 }
 
-
 .react-bootstrap-table .table th,
 .table td {
   padding: 6px;
@@ -112,4 +111,9 @@ th {
 }
 .react-bootstrap-table .textHeaderAuto {
   min-width: auto;
+}
+
+.btn-primary:not(:disabled):not(.disabled).inactive {
+  background-color: gray;
+  color: white;
 }

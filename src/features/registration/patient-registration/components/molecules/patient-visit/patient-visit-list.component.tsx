@@ -98,7 +98,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -118,7 +118,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'pId',
               text: 'Pid',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -150,24 +150,24 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'rLab',
               text: 'Rlab',
-              headerClasses: 'textHeader5',
+              // headerClasses: 'textHeader2',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  rLab = filter;
-                },
-              }),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     rLab = filter;
+              //   },
+              // }),
               editable: false,
             },
             {
               dataField: 'visitId',
               text: 'Visit Id',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader2',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -569,38 +569,38 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'age',
               text: 'Age',
-              headerClasses: 'textHeader5',
+
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: customFilter({
-                getFilter: filter => {
-                  age = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : ''),
+              // filter: customFilter({
+              //   getFilter: filter => {
+              //     age = filter;
+              //   },
+              // }),
+              // filterRenderer: (onFilter, column) => (
+              //   <NumberFilter onFilter={onFilter} column={column} />
+              // ),
               editable: false,
             },
             {
               dataField: 'ageUnits',
               text: 'Age Units',
-              headerClasses: 'textHeader5',
+              // headerClasses: 'textHeader2',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  ageUnits = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : ''),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     ageUnits = filter;
+              //   },
+              // }),
               editable: false,
               editorRenderer: (
                 editorProps,
@@ -640,18 +640,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'collectionCenter',
               text: 'Collection Center',
-              headerClasses: 'textHeader5',
+              // headerClasses: 'textHeader2',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  collectionCenter = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : ''),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     collectionCenter = filter;
+              //   },
+              // }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -679,18 +679,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'corporateCode',
               text: 'Corporate Code',
-              headerClasses: 'textHeader5',
+              // headerClasses: 'textHeader2',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  corporateCode = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : ''),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     corporateCode = filter;
+              //   },
+              // }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -728,18 +728,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'acClass',
               text: 'AC Class',
-              headerClasses: 'textHeader5',
+              // headerClasses: 'textHeader2',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  acClass = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : ''),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     acClass = filter;
+              //   },
+              // }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -836,18 +836,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'doctorId',
               text: 'Doctor Id',
-              headerClasses: 'textHeader2',
+              // headerClasses: 'textHeader',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  doctorId = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : ''),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     doctorId = filter;
+              //   },
+              // }),
               editable: (content, row, rowIndex, columnIndex) =>
                 row.isNewDoctor ? false : true,
               editorRenderer: (
@@ -877,18 +877,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'doctorName',
               text: 'Doctor Name',
-              headerClasses: 'textHeader2',
+              // headerClasses: 'textHeader',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  doctorName = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : ''),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     doctorName = filter;
+              //   },
+              // }),
               editable: (content, row, rowIndex, columnIndex) =>
                 row.isNewDoctor ? true : false,
             },
@@ -910,7 +910,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'miscCharges',
               text: 'Misc Charges',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader',
               sort: true,
               csvFormatter: (col, row) => (col ? col : ''),
               editable: false,
@@ -931,7 +931,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'discountCharges',
               text: 'Other Charges',
-              headerClasses: 'textHeader5',
+              headerClasses: 'textHeader',
               sort: true,
               csvFormatter: (col, row) => (col ? col : ''),
               editable: false,
@@ -953,18 +953,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'reportPriority',
               text: 'Report Priority',
-              headerClasses: 'textHeader5',
+              // headerClasses: 'textHeader2',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  reportPriority = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : ''),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     reportPriority = filter;
+              //   },
+              // }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -1007,7 +1007,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'deliveryMode',
               text: 'Delivery Mode',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader',
               sort: true,
               csvFormatter: (col, row) =>
                 row?.deliveryMode ? row?.deliveryMode : '',
@@ -1053,7 +1053,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'resultDate',
               text: 'Result Date',
-              headerClasses: 'textHeader',
+              // headerClasses: 'textHeader',
               editable: false,
               formatter: (cell, row) => {
                 return (
@@ -1114,18 +1114,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'holdReason',
               text: 'Hold Reason',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              filter: textFilter({
-                getFilter: filter => {
-                  holdReason = filter;
-                },
-              }),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     holdReason = filter;
+              //   },
+              // }),
             },
             {
               dataField: 'abnFlag',
@@ -1235,18 +1235,18 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader5',
+              // headerClasses: 'textHeader2',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (col ? col : false),
-              filter: textFilter({
-                getFilter: filter => {
-                  status = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (col ? col : false),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     status = filter;
+              //   },
+              // }),
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               editorRenderer: (
@@ -1285,7 +1285,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             {
               dataField: 'employeeCode',
               text: 'Employee Code',
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader',
               editorStyle: { textTransform: 'uppercase' },
               style: { textTransform: 'uppercase' },
               sort: true,
@@ -1300,35 +1300,35 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               text: 'Company Code',
               dataField: 'companyCode',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
-              headerClasses: 'textHeader2',
+              // csvFormatter: col => (col ? col : ''),
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     companyCode = filter;
+              //   },
+              // }),
+              // headerClasses: 'textHeader',
             },
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader1',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) =>
-                row.extraData?.environment ? row.extraData.environment : '',
-              filter: textFilter({
-                getFilter: filter => {
-                  environment = filter;
-                },
-              }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) =>
+              //   row.extraData?.environment ? row.extraData.environment : '',
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     environment = filter;
+              //   },
+              // }),
               editable: false,
             },
             {
