@@ -292,6 +292,7 @@ const ReferenceRanges = ReferenceRangesHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [refernceRangesStore.listReferenceRanges],
     );
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -403,6 +404,7 @@ const ReferenceRanges = ReferenceRangesHoc(
           }
         });
     };
+
     const refRangesInputTable = useMemo(
       () =>
         refernceRangesStore.referenceRanges?.refRangesInputList.length > 0 && (
@@ -540,7 +542,6 @@ const ReferenceRanges = ReferenceRangesHoc(
             />
           )}
         </div>
-
         <div className='mx-auto flex-wrap'>
           <div
             className={

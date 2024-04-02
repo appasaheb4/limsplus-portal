@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
-import dayjs from 'dayjs';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Toast,
 } from '@/library/components';
-import {
-  lookupItems,
-  getDefaultLookupItem,
-  lookupValue,
-} from '@/library/utils';
+import { lookupItems, lookupValue } from '@/library/utils';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
-import { useForm, Controller } from 'react-hook-form';
-import { AutoCompleteCompanyList } from '@/core-components';
+import { Controller } from 'react-hook-form';
+
 interface CommonInputTableProps {
   data?: any;
   isVersionUpgrade?: boolean;
@@ -48,13 +43,17 @@ export const CommonInputTable = observer(
       loginStore,
       labStore,
     } = useStores();
-
+    const [listAnalyte, setListAnalyte] = useState([]);
     const [isDisableLab, setIsDisableLab] = useState<boolean>(false);
     const [isDisableEquipmentType, setIsDisableEquipmentType] =
       useState<boolean>(false);
 
     useEffect(() => {
-      // Default value initialization
+      setError('department');
+      setError('analyte');
+      setError('species');
+      setError('sex');
+      setError('rangeSetOn');
       reset();
       // setValue('species', refernceRangesStore.referenceRanges?.species);
       // setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
@@ -185,10 +184,17 @@ export const CommonInputTable = observer(
                               },
                             })
                             .then(res => {
-                              console.log({ res });
+                              if (res.findByFieldsAnalyteMaster.success) {
+                                setListAnalyte(
+                                  res.findByFieldsAnalyteMaster?.data,
+                                );
+                              } else {
+                                Toast.error({
+                                  message: '😔 Analyte list not found',
+                                });
+                              }
                             });
                         }
-
                         departmentStore.updateDepartmentList(
                           departmentStore.listDepartmentCopy,
                         );
@@ -197,7 +203,7 @@ export const CommonInputTable = observer(
                   )}
                   name='department'
                   rules={{ required: true }}
-                  defaultValue=''
+                  defaultValue={''}
                 />
               </td>
               <td>
@@ -217,22 +223,16 @@ export const CommonInputTable = observer(
                       }
                       displayValue={value}
                       data={{
-                        list: masterAnalyteStore.listMasterAnalyte?.filter(
-                          item => item.status == 'A',
-                        ),
+                        list: listAnalyte,
                         displayKey: ['analyteCode', 'analyteName'],
                       }}
                       onFilter={(value: string) => {
-                        masterAnalyteStore.masterAnalyteService.filterByFields({
-                          input: {
-                            filter: {
-                              fields: ['analyteCode', 'analyteName'],
-                              srText: value,
-                            },
-                            page: 0,
-                            limit: 10,
-                          },
-                        });
+                        const result = listAnalyte.filter((item: any) =>
+                          item.analyteCode
+                            ?.toLowerCase()
+                            .includes(value?.toLowerCase()),
+                        );
+                        setListAnalyte(result);
                       }}
                       onSelect={item => {
                         onChange(item.analyteCode);
@@ -247,24 +247,6 @@ export const CommonInputTable = observer(
                         masterAnalyteStore.updateMasterAnalyteList(
                           masterAnalyteStore.listMasterAnalyteCopy,
                         );
-                        // if (item.departments) {
-                        //   departmentStore.DepartmentService.filter({
-                        //     input: {
-                        //       type: 'filter',
-                        //       filter: {
-                        //         code: item.departments,
-                        //       },
-                        //       page: 0,
-                        //       limit: 10,
-                        //     },
-                        //   }).then(res => {
-                        //     console.log({ res });
-                        //   });
-                        // } else {
-                        //   Toast.error({
-                        //     message: '😔 Department not found.',
-                        //   });
-                        // }
                       }}
                     />
                   )}
