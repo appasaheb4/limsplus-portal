@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectCollectionCenterProps {
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectCollectionCenter = observer(
-  ({onSelect}: AutoCompleteFilterSingleSelectCollectionCenterProps) => {
-    const {loading, registrationLocationsStore} = useStores();
+  ({ onSelect }: AutoCompleteFilterSingleSelectCollectionCenterProps) => {
+    const { loading, registrationLocationsStore } = useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -39,7 +39,11 @@ export const AutoCompleteFilterSingleSelectCollectionCenter = observer(
     useOutsideAlerter(wrapperRef);
 
     useEffect(() => {
-      setOptions(registrationLocationsStore.listRegistrationLocations);
+      setOptions(
+        registrationLocationsStore.listRegistrationLocations?.filter(
+          item => item.status == 'A',
+        ),
+      );
     }, [registrationLocationsStore.listRegistrationLocations]);
 
     const onFilter = (value: string) => {
