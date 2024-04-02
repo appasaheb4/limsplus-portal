@@ -56,38 +56,38 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
-              headerClasses: 'textHeader4 z-10',
+              // headerClasses: 'textHeader4 z-10',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filter: customFilter({
-                getFilter: filter => {
-                  labid = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // filter: customFilter({
+              //   getFilter: filter => {
+              //     labid = filter;
+              //   },
+              // }),
+              // filterRenderer: (onFilter, column) => (
+              //   <NumberFilter onFilter={onFilter} column={column} />
+              // ),
             },
             {
               dataField: 'orderId',
               text: 'Order Id',
-              headerClasses: 'textHeader4 z-10',
+              // headerClasses: 'textHeader4 z-10',
               sort: true,
-              filter: customFilter({
-                getFilter: filter => {
-                  orderId = filter;
-                },
-              }),
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              // filter: customFilter({
+              //   getFilter: filter => {
+              //     orderId = filter;
+              //   },
+              // }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // filterRenderer: (onFilter, column) => (
+              //   <NumberFilter onFilter={onFilter} column={column} />
+              // ),
             },
             {
               dataField: 'panelCode',
@@ -393,10 +393,10 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             {
               dataField: 'enteredBy',
               text: 'Entered By',
-              headerClasses: 'textHeader1',
+              // headerClasses: 'textHeader1',
               sort: true,
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: (col, row) => (row.enteredBy ? row.enteredBy : ''),
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // csvFormatter: (col, row) => (row.enteredBy ? row.enteredBy : ''),
               formatter: (cell, row) => {
                 return <span>{row.enteredBy}</span>;
               },
@@ -417,7 +417,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               text: 'Company Code',
               dataField: 'companyCode',
               editable: false,
-              headerClasses: 'textHeader2',
+              // headerClasses: 'textHeader2',
             },
             {
               dataField: 'environment',

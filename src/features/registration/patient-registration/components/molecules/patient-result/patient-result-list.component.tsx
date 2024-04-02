@@ -106,7 +106,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -114,16 +114,16 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'pLab',
               text: 'PLab',
-              headerClasses: 'textHeader4',
-              filter: textFilter({
-                getFilter: filter => {
-                  plab = filter;
-                },
-              }),
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // headerClasses: 'textHeader4',
+              // filter: textFilter({
+              //   getFilter: filter => {
+              //     plab = filter;
+              //   },
+              // }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -131,7 +131,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'departement',
               text: 'Departement',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -139,21 +139,21 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'panelCode',
               text: 'Panel Code',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'panelStatus',
               text: 'Panel Status',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'testCode',
               text: 'Test Code',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -161,7 +161,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'analyteCode',
               text: 'Analyte Code',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -169,7 +169,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'analyteName',
               text: 'Analyte Name',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -177,7 +177,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'resultType',
               text: 'Result Type',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -185,7 +185,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'reportable',
               text: 'Reportable',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -207,7 +207,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'calculationFlag',
               text: 'Calculation Flag',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -232,7 +232,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'calcyName',
               text: 'Calculation Name',
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -240,7 +240,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'picture',
               text: 'Picture',
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -248,7 +248,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -256,7 +256,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'units',
               text: 'Units',
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -264,7 +264,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'resultDate',
               text: 'Result Date',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               formatter: (cell, row) => {
                 return (
@@ -281,7 +281,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'alpha',
               text: 'Alpha',
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -289,7 +289,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'numeric',
               text: 'Numeric',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -297,7 +297,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'instResult',
               text: 'Inst Result',
-              headerClasses: 'textHeader6',
+              // headerClasses: 'textHeader6',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -305,7 +305,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'instUnit',
               text: 'Inst Unit',
-              headerClasses: 'textHeader6',
+              // headerClasses: 'textHeader6',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -313,7 +313,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'instResultDate',
               text: 'Inst Result Date',
-              headerClasses: 'textHeader6',
+              // headerClasses: 'textHeader6',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -330,7 +330,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'abnFlag',
               text: 'ABN Flag',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -398,7 +398,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'rangeSetOn',
               text: 'Range Set On',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -406,7 +406,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'rangeId',
               text: 'Range Id',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -414,7 +414,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'sex',
               text: 'Sex',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -422,7 +422,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'age',
               text: 'Age',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -430,7 +430,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'ageUnit',
               text: 'Age Unit',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -438,7 +438,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'species',
               text: 'Species',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -446,7 +446,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'loNor',
               text: 'Lo Nor',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -457,7 +457,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'hiNor',
               text: 'Hi Nor',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -483,7 +483,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'instId',
               text: 'Inst Id',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -491,7 +491,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'instType',
               text: 'Inst Type',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -499,7 +499,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'testStatus',
               text: 'Test Status',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -507,7 +507,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'resultStatus',
               text: 'Result Status',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -548,7 +548,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'analyteMethodCode',
               text: 'Analyte Method Code',
-              headerClasses: 'textHeader6',
+              // headerClasses: 'textHeader6',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -563,7 +563,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'analyteMethodName',
               text: 'Analyte Method Name',
-              headerClasses: 'textHeader6',
+              // headerClasses: 'textHeader6',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -578,7 +578,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'runno',
               text: 'Runno',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -593,7 +593,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'platerunno',
               text: 'Platerunno',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -608,7 +608,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'plateno',
               text: 'Plateno',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -623,7 +623,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'repetation',
               text: 'Repetation',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -638,7 +638,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'version',
               text: 'Analyte Version',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -653,7 +653,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'reportOrder',
               text: 'Report Order',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -668,7 +668,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'reportPriority',
               text: 'Report Priority',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               csvFormatter: (col, row) =>
                 row?.reportPriority ? row.reportPriority : '',
@@ -677,7 +677,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'deliveryMode',
               text: 'Delivery Mode',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               csvFormatter: (col, row) =>
                 row?.deliveryMode ? row.deliveryMode : '',
@@ -698,7 +698,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'enteredBy',
               text: 'Entered By',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -713,7 +713,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'companyCode',
               text: 'Company Code',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               csvFormatter: col => (col ? col : ''),
@@ -721,7 +721,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {

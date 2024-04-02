@@ -255,8 +255,8 @@ export const GeneralResultEntryExpand = ({
               <button
                 type='button'
                 key={column.dataField}
-                className={` btn btn-primary btn-sm whitespace-nowrap ${
-                  column.toggle ? 'active' : ''
+                className={`btn btn-primary btn-sm whitespace-nowrap border-white ${
+                  column.toggle ? 'active' : 'inactive'
                 }`}
                 data-toggle='button'
                 aria-pressed={column.toggle ? 'true' : 'false'}
@@ -265,6 +265,8 @@ export const GeneralResultEntryExpand = ({
                 {column.text}
               </button>
             );
+          } else {
+            return null; // Add this line to return null for the first item
           }
         })}
     </div>
@@ -442,7 +444,7 @@ export const GeneralResultEntryExpand = ({
                 </div>
               </div>
               {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10'}>
+                <div className={'mb-2 overflow-auto h-20 mt-4'}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'
