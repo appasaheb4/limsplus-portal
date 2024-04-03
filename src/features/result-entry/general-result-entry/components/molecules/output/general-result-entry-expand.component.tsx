@@ -444,7 +444,7 @@ export const GeneralResultEntryExpand = ({
                 </div>
               </div>
               {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-20 mt-4'}>
+                <div className={'mb-2 overflow-y-hidden h-12 mt-1'}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'
