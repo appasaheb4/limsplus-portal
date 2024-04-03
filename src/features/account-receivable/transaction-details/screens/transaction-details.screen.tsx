@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
-import {
-  ModalConfirm,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-  Toast,
-  MainPageHeading,
-} from '@/library/components';
+import { ModalConfirm, Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
 import { TransactionHeaderList, TransactionLineList } from '../components';
@@ -90,7 +83,6 @@ const TransactionDetails = observer(() => {
             // });
           }}
           onClickRow={(item, index) => {
-            console.log({ item });
             transactionDetailsStore.transactionDetailsService.findByFieldsTransactionLine(
               {
                 input: {

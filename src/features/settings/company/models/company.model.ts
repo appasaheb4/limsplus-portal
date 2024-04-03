@@ -6,9 +6,11 @@ export class Company {
   name: string;
   description: string;
   module: Array<string>;
-  lab: string;
+  labCode: string;
+  labName: string;
   allowedLab: Array<string>;
-  department: string;
+  departmentCode: string;
+  departmentName: string;
   allowedUser: number;
   allowedInstrument: Array<string>;
   admin: string;
@@ -53,9 +55,11 @@ export class Company {
     this.name = rawData.name;
     this.description = rawData.description;
     this.module = rawData.module;
-    this.lab = rawData.lab;
+    this.labCode = rawData.labCode;
+    this.labName = rawData.labName;
+    this.departmentCode = rawData.departmentCode;
+    this.departmentName = rawData.departmentName;
     this.allowedLab = rawData.allowedLab;
-    this.department = rawData.department;
     this.allowedUser = rawData.allowedUser;
     this.allowedInstrument = rawData.allowedInstrument;
     this.admin = rawData.admin;

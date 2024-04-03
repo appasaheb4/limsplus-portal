@@ -25,6 +25,8 @@ export class TransactionHeader {
   customerGroup: string;
   allMiscCharges: Array<any>;
   discountCharges: object;
+  companyCode: string;
+  environment: string;
   status: string;
   enteredBy: string;
   patientOrderId: string;
@@ -33,7 +35,7 @@ export class TransactionHeader {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.rLab = rawData.rLab;
     this.headerId = rawData.headerId;
@@ -60,6 +62,8 @@ export class TransactionHeader {
     this.customerName = rawData.customerName;
     this.allMiscCharges = rawData.allMiscCharges;
     this.discountCharges = rawData.discountCharges;
+    this.companyCode = rawData.companyCode;
+    this.environment = rawData.environment;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
     this.patientOrderId = rawData.patientOrderId;
