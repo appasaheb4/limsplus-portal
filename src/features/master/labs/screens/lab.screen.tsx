@@ -85,7 +85,6 @@ const Lab = LabHoc(
     useEffect(() => {
       setValue('code', labStore.labs?.code);
       setValue('name', labStore.labs?.name);
-      // setValue('environment', labStore.labs?.environment);
       setValue('defaultLab', labStore.labs?.defaultLab);
       setValue('version', labStore.labs?.version);
       setValue('status', labStore.labs?.status);
@@ -122,11 +121,13 @@ const Lab = LabHoc(
 
     const onSubmitLab = async () => {
       if (!isExistsRecord) {
+        let uniqueItem: any = [];
         if (isImport) {
-          const isExists = await checkExistsRecords();
-          if (isExists) {
-            return;
-          }
+          uniqueItem = arrImportRecords?.map(async item => {
+            const isExists = await checkExistsRecords(item);
+            if (!isExists) return item;
+          });
+          console.log({ uniqueItem });
           labStore.LabService.addLab({
             input: { isImport, arrImportRecords },
           }).then(res => {
