@@ -749,7 +749,9 @@ export const PatientVisit = PatientVisitHoc(
                           loader={loading}
                           placeholder='Search by code or name'
                           data={{
-                            list: registrationLocationsStore.listRegistrationLocations,
+                            list: registrationLocationsStore.listRegistrationLocations?.filter(
+                              item => item.status == 'A',
+                            ),
                             displayKey: ['locationCode', 'locationName'],
                           }}
                           displayValue={value}
@@ -817,7 +819,9 @@ export const PatientVisit = PatientVisitHoc(
                         placeholder='Search by code or name'
                         displayValue={value}
                         data={{
-                          list: corporateClientsStore.listCorporateClients,
+                          list: corporateClientsStore.listCorporateClients?.filter(
+                            item => item.status == 'A',
+                          ),
                           displayKey: ['corporateCode', 'corporateName'],
                         }}
                         hasError={!!errors.corporateCode}

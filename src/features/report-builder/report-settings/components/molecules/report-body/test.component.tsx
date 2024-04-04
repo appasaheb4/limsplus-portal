@@ -1,26 +1,22 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {
-  List,
-  Form,
-} from '@/library/components';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import { List, Form } from '@/library/components';
+import { useStores } from '@/stores';
+import { CSSMultiline } from '../..';
 
 interface TestProps {
   label?: string;
 }
 
-export const Test = observer(({label}: TestProps) => {
-  const {reportSettingStore} = useStores();
+export const Test = observer(({ label }: TestProps) => {
+  const { reportSettingStore } = useStores();
   return (
     <List direction='col' space={1} justify='stretch' fill>
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Print Test Name CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.test?.printTestNameCSS}
+          defaultValue={reportSettingStore.reportBody?.test?.printTestNameCSS}
           onChange={printTestNameCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -49,12 +45,11 @@ export const Test = observer(({label}: TestProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Method Name CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.test?.methodNameCSS}
+          defaultValue={reportSettingStore.reportBody?.test?.methodNameCSS}
           onChange={methodNameCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -83,12 +78,13 @@ export const Test = observer(({label}: TestProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Test Interpretation CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.test?.testInterpretationCSS}
+          defaultValue={
+            reportSettingStore.reportBody?.test?.testInterpretationCSS
+          }
           onChange={testInterpretationCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,

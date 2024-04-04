@@ -13,7 +13,7 @@ import {
   ModalView,
   ModalViewProps,
 } from '@/library/components';
-import { PageLayoutList } from '../components';
+import { PageLayoutList, CSSMultiline } from '../components';
 import { useForm, Controller } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
 import { useStores } from '@/stores';
@@ -23,6 +23,7 @@ import '@/library/assets/css/accordion.css';
 
 import { PdfTSTemp0001 } from '@/features/report-builder/report-template/components/molecules/pdf/page-layout/temp0001/temp0001.component';
 import { resetReportBody } from '../startup';
+
 export const PageLayout = observer(() => {
   const { loading, routerStore, reportSettingStore } = useStores();
   const {
@@ -37,7 +38,7 @@ export const PageLayout = observer(() => {
 
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalView, setModalView] = useState<ModalViewProps>();
-  const [isInputView, setIsInputView] = useState<boolean>(true);
+  const [isInputView, setIsInputView] = useState<boolean>(false);
   const [isExistsTempCode, setIsExistsTempCode] = useState<boolean>(false);
 
   const width = '100%';
@@ -349,28 +350,26 @@ export const PageLayout = observer(() => {
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.MultilineInput
-                        label='Main Box CSS'
-                        style={{ color: '#ffffff', backgroundColor: '#000000' }}
-                        placeholder={
-                          "Like fontSize: 12,backgroundColor:'#000000'"
-                        }
-                        value={value}
-                        onChange={mainBoxCSS => {
-                          onChange(mainBoxCSS);
-                          reportSettingStore.updatePageLayout({
-                            ...reportSettingStore.pageLayout,
-                            mainBoxCSS,
-                          });
-                        }}
-                      />
+                      <>
+                        <CSSMultiline
+                          defaultValue={value}
+                          onChange={mainBoxCSS => {
+                            onChange(mainBoxCSS);
+                            reportSettingStore.updatePageLayout({
+                              ...reportSettingStore.pageLayout,
+                              mainBoxCSS,
+                            });
+                          }}
+                        />
+                      </>
                     )}
                     name='mainBoxCSS'
                     rules={{ required: false }}
-                    defaultValue=''
+                    defaultValue={reportSettingStore.pageLayout.mainBoxCSS}
                   />
+
                   <a
-                    href='https://dev.azure.com/limsplus0644/_git/limsplus-portal?path=/react-styling-cheat-sheet.md&_a=preview'
+                    href='https://react-pdf.org/styling'
                     target='_blank'
                     className='text-red underline'
                     rel='noreferrer'

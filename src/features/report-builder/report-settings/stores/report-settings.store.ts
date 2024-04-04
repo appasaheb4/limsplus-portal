@@ -1,4 +1,4 @@
-import {makeObservable, action, observable, computed} from 'mobx';
+import { makeObservable, action, observable, computed } from 'mobx';
 
 import {
   PageLayoutService,
@@ -107,7 +107,9 @@ export class ReportSettingStore {
       isSubHeader: true,
       isFooter: true,
       isPdfPageNumber: true,
-      header: {},
+      header: {
+        titleCSS: 'fontSize: 14,',
+      },
     });
     this.pageBrandingList = [];
     // this.pageLayout = new PageLayout({});

@@ -364,12 +364,10 @@ const DeliveryQueue = observer(() => {
                 const uniqByPatientResult = _.uniqBy(result, (item: any) => {
                   return item?.reportTemplate;
                 });
-
                 const reportTemplateList: any[] = [];
                 uniqByPatientResult.filter(item => {
                   reportTemplateList.push(item?.reportTemplate?.split(' -')[0]);
                 });
-
                 if (reportTemplateList?.length > 0) {
                   reportSettingStore.templatePatientResultService
                     .getTempPatientResultListByTempCodes({
@@ -389,12 +387,10 @@ const DeliveryQueue = observer(() => {
                           );
                         return Object.assign(item, { reportSettings });
                       });
-
                       const grouped = _.groupBy(
                         patientResultList,
                         item => item.patientResult.reportTemplate,
                       );
-
                       if (_.isEmpty(grouped)) {
                         return Toast.error({
                           message: '😌 Report template not found.',

@@ -1,26 +1,22 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {
-  List,
-  Form,
-} from '@/library/components';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import { List, Form } from '@/library/components';
+import { useStores } from '@/stores';
+import { CSSMultiline } from '../..';
 
 interface PanelProps {
   label?: string;
 }
 
-export const Panel = observer(({label}: PanelProps) => {
-  const {reportSettingStore} = useStores();
+export const Panel = observer(({ label }: PanelProps) => {
+  const { reportSettingStore } = useStores();
   return (
     <List direction='col' space={1} justify='stretch' fill>
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Print Panel Name CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.panel?.printPanelNameCSS}
+          defaultValue={reportSettingStore.reportBody?.panel?.printPanelNameCSS}
           onChange={printPanelNameCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -49,12 +45,10 @@ export const Panel = observer(({label}: PanelProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Method Name CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.panel?.methodNameCSS}
+          defaultValue={reportSettingStore.reportBody?.panel?.methodNameCSS}
           onChange={methodNameCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -83,12 +77,12 @@ export const Panel = observer(({label}: PanelProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Panel Interpretation CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.panel?.panelInterpretationCSS}
+          defaultValue={
+            reportSettingStore.reportBody?.panel?.panelInterpretationCSS
+          }
           onChange={panelInterpretationCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,

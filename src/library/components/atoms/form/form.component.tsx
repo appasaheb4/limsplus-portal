@@ -75,6 +75,7 @@ interface InputProps extends InputWrapperProps {
   onChange?: (e: any) => void;
   onBlur?: (e: any) => void;
   onKeyDown?: (e: any) => void;
+  onKeyUp?: (e: any) => void;
   inputRef?: any;
 }
 
@@ -315,6 +316,7 @@ export const MultilineInput = (props: InputProps) => (
       disabled={props.disabled}
       style={props.style}
       rows={props.rows}
+      onKeyUp={props.onKeyUp && props.onKeyUp}
       placeholder={props.placeholder}
       onChange={e => props.onChange && props.onChange(e.target.value)}
       onBlur={e => props.onBlur && props.onBlur(e.target.value)}

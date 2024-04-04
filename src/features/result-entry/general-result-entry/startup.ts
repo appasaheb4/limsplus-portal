@@ -15,6 +15,8 @@ const startup = async () => {
           {
             pLab,
             finishResult: 'P',
+            panelStatus: 'P',
+            testStatus: 'P',
           },
         );
       });
