@@ -62,7 +62,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
-              // headerClasses: 'textHeader4 z-10',
+              headerClasses: 'textHeader',
               sort: true,
               // headerStyle: {
               //   fontSize: 0,

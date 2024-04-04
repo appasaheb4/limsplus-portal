@@ -585,9 +585,10 @@ export const TableBootstrap = ({
               <button
                 type='button'
                 key={column.dataField}
-                className={` btn btn-primary border-white btn-sm whitespace-nowrap ${
+                className={` btn btn-primary border-white  btn-sm whitespace-nowrap ${
                   column.toggle ? 'active' : 'inactive'
                 }`}
+                style={{ height: '31px' }}
                 data-toggle='button'
                 aria-pressed={column.toggle ? 'true' : 'false'}
                 onClick={() => onColumnToggle(column.dataField)}
@@ -712,7 +713,7 @@ export const TableBootstrap = ({
                 </div> */}
               </div>
               {isFilterOpen && (
-                <div className={'flex mb-2  h-12 overflow-y-hidden'}>
+                <div className={'flex overflow-y-hidden'}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'
@@ -721,7 +722,7 @@ export const TableBootstrap = ({
                   />
                 </div>
               )}
-              <div className='scrollTable h-[calc(100vh_-_30vh)] mb-2'>
+              <div className='scrollTable h-[calc(100vh_-_30vh)] mt-1'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}

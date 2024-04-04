@@ -56,6 +56,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
+              headerClasses: 'textHeaderl',
               // headerClasses: 'textHeader4 z-10',
               sort: true,
               // headerStyle: {
@@ -108,38 +109,38 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             {
               dataField: 'panelName',
               text: 'Panel Name',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '190px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.panelName}>{cellContent}</span>
+              ),
+              headerClasses: 'textHeaderl',
             },
             {
               dataField: 'testCode',
               text: 'Test Code',
-              formatter: (cellContent, row) => {
-                const maxLength = 5;
-                const displayTestName =
-                  row.testCode.length > maxLength
-                    ? row.testCode.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.testCode;
-                return (
-                  <div className='flex flex-row'>
-                    <span title={row.testCode}>{`${displayTestName}`}</span>
-                  </div>
-                );
-              },
             },
             {
               dataField: 'testName',
               text: 'Test Name',
-              formatter: (cellContent, row) => {
-                const maxLength = 5;
-                const displayTestName =
-                  row.testName.length > maxLength
-                    ? row.testName.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.testName;
-                return (
-                  <div className='flex flex-row'>
-                    <span title={row.testName}>{`${displayTestName}`}</span>
-                  </div>
-                );
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '190px',
+                position: 'relative',
               },
+              formatter: (cellContent, row) => (
+                <span title={row.testName}>{cellContent}</span>
+              ),
+              headerClasses: 'textHeaderl',
             },
             {
               dataField: 'confidential',
@@ -189,6 +190,7 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
               dataField: 'resultDate',
               text: 'Result Date',
               editable: false,
+              headerClasses: 'textHeaderl',
               formatter: (cell, row) => {
                 return (
                   <>
@@ -206,18 +208,18 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
             {
               dataField: 'sampleType',
               text: 'Sample Type',
-              formatter: (cellContent, row) => {
-                const maxLength = 5;
-                const displayTestName =
-                  row.sampleType.length > maxLength
-                    ? row.sampleType.slice(0, Math.max(0, maxLength)) + '...'
-                    : row.sampleType;
-                return (
-                  <div className='flex flex-row'>
-                    <span title={row.sampleType}>{`${displayTestName}`}</span>
-                  </div>
-                );
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '190px',
+                position: 'relative',
               },
+              formatter: (cellContent, row) => (
+                <span title={row.sampleType}>{cellContent}</span>
+              ),
+              headerClasses: 'textHeaderl',
             },
             {
               dataField: 'specimenId',

@@ -104,7 +104,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
         : filterDataByHoldRecord(props.data, props.holdRecord),
     );
   }, [props.selectedId, props.data, props.holdRecord]);
-  console.log({ localData });
+
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
@@ -580,7 +580,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                   userComments = filter;
                 },
               }),
-            }, 
+            },
             {
               dataField: 'enteredBy',
               text: 'Entered By',
@@ -598,7 +598,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 },
               }),
             },
-           
 
             {
               dataField: 'environment',

@@ -53,7 +53,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
-              // headerClasses: 'textHeader3',
+              headerClasses: 'textHeaderl',
               sort: true,
               // filter: customFilter({
               //   getFilter: filter => {
@@ -119,7 +119,18 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'sampleType',
               text: 'Sample Type',
-              // headerClasses: 'textHeader3',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '190px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.sampleType}>{cellContent}</span>
+              ),
+              headerClasses: 'textHeaderl',
               sort: true,
               editable: false,
             },
@@ -140,7 +151,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'receivedDate',
               text: 'Received Date',
-              // headerClasses: 'textHeader3',
+              headerClasses: 'textHeaderl',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -156,7 +167,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'collectionDate',
               text: 'Collection Date',
-              // headerClasses: 'textHeader4',
+              headerClasses: 'textHeaderl',
               sort: true,
               editable: false,
               formatter: (cell, row) => {

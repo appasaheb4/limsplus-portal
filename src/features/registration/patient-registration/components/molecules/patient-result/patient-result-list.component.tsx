@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
-import { textFilter, Form, sortCaret } from '@/library/components';
+import {
+  textFilter,
+  Form,
+  sortCaret,
+  Icons,
+  Tooltip,
+} from '@/library/components';
 import { Confirm } from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 import dayjs from 'dayjs';
@@ -31,6 +37,8 @@ let plab;
 let companyCode;
 
 export const PatientResultList = observer((props: PatientResultProps) => {
+  const [refRangeRowId, setRefRangleRowId] = useState('');
+  const [widthRefBox, setWidthRefBox] = useState('60px');
   const editorCell = (row: any) => {
     return false; //row.status !== "I" ? true : false
   };
@@ -106,7 +114,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
-              // headerClasses: 'textHeader4',
+              headerClasses: 'textHeaderl',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -173,7 +181,128 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '190px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.analyteName}>{cellContent}</span>
+              ),
+              headerClasses: 'textHeaderl',
             },
+            {
+              dataField: 'normalRange',
+              text: 'Normal Range',
+              sort: true,
+              headerClasses: 'textHeaderxxm',
+              editable: false,
+              style: { width: widthRefBox },
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <div className='flex flex-row gap-4'>
+                      <span>
+                        {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
+                        (row.loNor === ' ' && row.hiNor === ' ')
+                          ? '-'
+                          : row.loNor === 'NaN' && row.hiNor === ' '
+                          ? '<'
+                          : row.loNor === ' ' && row.hiNor === 'NaN'
+                          ? '>'
+                          : row.loNor + '-' + row.hiNor}
+                      </span>
+                      <div>
+                        {row.refRangesList?.length > 0 && (
+                          <Tooltip
+                            tooltipText={
+                              row._id != refRangeRowId
+                                ? 'Expand Reference Range'
+                                : 'Collapse Reference Range'
+                            }
+                          >
+                            <Icons.IconContext
+                              color='#000000'
+                              size='20'
+                              onClick={() => {
+                                if (row._id === refRangeRowId) {
+                                  setRefRangleRowId('');
+                                  setWidthRefBox('30px');
+                                } else {
+                                  setRefRangleRowId(row._id);
+                                  setWidthRefBox('550px');
+                                }
+                              }}
+                            >
+                              {Icons.getIconTag(
+                                row._id != refRangeRowId
+                                  ? Icons.IconBi.BiExpand
+                                  : Icons.IconBi.BiCollapse,
+                              )}
+                            </Icons.IconContext>
+                          </Tooltip>
+                        )}
+                      </div>
+                    </div>
+                    {refRangeRowId == row._id ? (
+                      <div style={{ width: widthRefBox }}>
+                        <RefRangesExpandList
+                          id='_id'
+                          data={row?.refRangesList || []}
+                          totalSize={row?.refRangesList?.length || 0}
+                          columns={[
+                            {
+                              dataField: 'result',
+                              text: 'Result',
+                              editable: false,
+                              formatter: () => (
+                                <>
+                                  <span>{row.result}</span>
+                                </>
+                              ),
+                            },
+                            {
+                              dataField: 'rangeType',
+                              text: 'Range Type',
+                            },
+                            {
+                              dataField: 'low',
+                              text: 'Low',
+                            },
+                            {
+                              dataField: 'high',
+                              text: 'High',
+                            },
+                            {
+                              dataField: 'rangeSetOn',
+                              text: 'Range Set On',
+                            },
+                            {
+                              dataField: 'rangeId',
+                              text: 'Range Id',
+                            },
+                            {
+                              dataField: 'version',
+                              text: 'Range Version',
+                            },
+                          ]}
+                          onSelectedRow={rows => {}}
+                          onUpdateItem={(
+                            value: any,
+                            dataField: string,
+                            id: string,
+                          ) => {}}
+                        />
+                      </div>
+                    ) : null}
+                  </>
+                );
+              },
+            },
+
             {
               dataField: 'resultType',
               text: 'Result Type',
@@ -264,7 +393,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'resultDate',
               text: 'Result Date',
-              // headerClasses: 'textHeader4',
+              headerClasses: 'textHeaderl',
               sort: true,
               formatter: (cell, row) => {
                 return (
@@ -313,7 +442,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'instResultDate',
               text: 'Inst Result Date',
-              // headerClasses: 'textHeader6',
+              headerClasses: 'textHeaderl',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
@@ -685,12 +814,11 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <div className='flex flex-row flex-wrap gap-2'>
-                    {typeof row?.deliveryMode != 'string' &&
-                      row?.deliveryMode?.map(item => (
-                        <span className='bg-blue-800 rounded-md p-2 text-white'>
-                          {item.value}
-                        </span>
-                      ))}
+                    {row?.deliveryMode?.map(item => (
+                      <span className='bg-blue-800 rounded-md p-2 text-white'>
+                        {item.code}
+                      </span>
+                    ))}
                   </div>
                 );
               },
@@ -739,7 +867,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
           isExport={props.isExport}
           isSelectRow={true}
           fileName='PatientResult'
-          expandRow={expandRow}
+          // expandRow={expandRow}
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));
