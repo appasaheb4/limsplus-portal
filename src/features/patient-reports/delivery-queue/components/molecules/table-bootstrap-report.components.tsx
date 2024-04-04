@@ -249,9 +249,8 @@ export const TableBootstrapReport = ({
       }
     }
   };
-
   const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className='btn-group btn-group-toggle' data-toggle='buttons'>
+    <div className='flex btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
           ...column,
@@ -263,9 +262,10 @@ export const TableBootstrapReport = ({
               <button
                 type='button'
                 key={column.dataField}
-                className={` btn btn-primary  btn-sm whitespace-nowrap ${
-                  column.toggle ? 'active' : ''
+                className={` btn btn-primary border-white  btn-sm whitespace-nowrap ${
+                  column.toggle ? 'active' : 'inactive'
                 }`}
+                style={{ height: '31px' }}
                 data-toggle='button'
                 aria-pressed={column.toggle ? 'true' : 'false'}
                 onClick={() => onColumnToggle(column.dataField)}
@@ -409,7 +409,7 @@ export const TableBootstrapReport = ({
               </div>
 
               {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10'}>
+                <div className={'mb-2 flex overflow-auto'}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'

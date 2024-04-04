@@ -294,7 +294,7 @@ export const TableBootstrap = ({
   };
 
   const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className='btn-group btn-group-toggle' data-toggle='buttons'>
+    <div className='flex btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
           ...column,
@@ -306,9 +306,10 @@ export const TableBootstrap = ({
               <button
                 type='button'
                 key={column.dataField}
-                className={` btn btn-primary  btn-sm whitespace-nowrap ${
-                  column.toggle ? 'active' : ''
+                className={` btn btn-primary border-white  btn-sm whitespace-nowrap ${
+                  column.toggle ? 'active' : 'inactive'
                 }`}
+                style={{ height: '31px' }}
                 data-toggle='button'
                 aria-pressed={column.toggle ? 'true' : 'false'}
                 onClick={() => onColumnToggle(column.dataField)}
@@ -409,13 +410,15 @@ export const TableBootstrap = ({
             <div>
               <div className='flex flex-row items-center flex-wrap justify-between'>
                 <div className='flex flex-row items-center flex-wrap'>
-                  <SearchBar
-                    {...searchProps}
-                    {...props.searchProps}
-                    onChange={value => {
-                      console.log({ value });
-                    }}
-                  />
+                  <div className='mt-2'>
+                    <SearchBar
+                      {...searchProps}
+                      {...props.searchProps}
+                      onChange={value => {
+                        console.log({ value });
+                      }}
+                    />
+                  </div>
                   <ClearSearchButton
                     className={`bg-gray-500 px-3.5 py-1 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                     {...props.searchProps}
@@ -477,7 +480,7 @@ export const TableBootstrap = ({
                 </div>
               </div>
               {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10'}>
+                <div className={'overflow-auto flex'}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'
