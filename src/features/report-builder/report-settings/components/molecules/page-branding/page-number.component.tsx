@@ -1,19 +1,20 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {Form} from '@/library/components';
-import {useForm, Controller} from 'react-hook-form';
-import {useStores} from '@/stores';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { Form } from '@/library/components';
+import { useForm, Controller } from 'react-hook-form';
+import { useStores } from '@/stores';
+import { CSSMultiline } from '../..';
 
 interface PageNumberComponentProps {
   isClearReset: boolean;
 }
 
 export const PageNumber = observer((props: PageNumberComponentProps) => {
-  const {reportSettingStore} = useStores();
+  const { reportSettingStore } = useStores();
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     setError,
     clearErrors,
@@ -30,14 +31,9 @@ export const PageNumber = observer((props: PageNumberComponentProps) => {
     <>
       <Controller
         control={control}
-        render={({field: {onChange, value}}) => (
-          <Form.MultilineInput
-            label='Page Number CSS'
-            style={{color: '#ffffff', backgroundColor: '#000000'}}
-            placeholder={
-              "Like  position: 'absolute',bottom: bottom,right: 5,fontSize: 12,color: 'grey',"
-            }
-            value={value}
+        render={({ field: { onChange, value } }) => (
+          <CSSMultiline
+            defaultValue={value}
             onChange={pageNumberCSS => {
               onChange(pageNumberCSS);
               reportSettingStore.updatePageBranding({
@@ -51,7 +47,7 @@ export const PageNumber = observer((props: PageNumberComponentProps) => {
           />
         )}
         name='pageNumberCSS'
-        rules={{required: false}}
+        rules={{ required: false }}
         defaultValue=''
       />
     </>

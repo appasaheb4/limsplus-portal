@@ -1,26 +1,24 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {
-  List,
-  Form,
-} from '@/library/components';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import { List, Form } from '@/library/components';
+import { useStores } from '@/stores';
+import { CSSMultiline } from '../..';
 
 interface GeneralProps {
   label?: string;
 }
 
-export const General = observer(({label}: GeneralProps) => {
-  const {reportSettingStore} = useStores();
+export const General = observer(({ label }: GeneralProps) => {
+  const { reportSettingStore } = useStores();
   return (
     <List direction='col' space={1} justify='stretch' fill>
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Print Department Name CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.general?.printDepartmentNameCSS}
+          defaultValue={
+            reportSettingStore.reportBody?.general?.printDepartmentNameCSS
+          }
           onChange={printDepartmentNameCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -48,12 +46,12 @@ export const General = observer(({label}: GeneralProps) => {
         />
       </div>
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Package Name Print CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.general?.packageNamePrintCSS}
+          defaultValue={
+            reportSettingStore.reportBody?.general?.packageNamePrintCSS
+          }
           onChange={packageNamePrintCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -64,6 +62,7 @@ export const General = observer(({label}: GeneralProps) => {
             });
           }}
         />
+
         <Form.Toggle
           isToggleLabel={false}
           label='Package Name Print'
@@ -81,12 +80,12 @@ export const General = observer(({label}: GeneralProps) => {
         />
       </div>
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Report Grouping CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.general?.reportGroupingCSS}
+          defaultValue={
+            reportSettingStore.reportBody?.general?.reportGroupingCSS
+          }
           onChange={reportGroupingCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -100,7 +99,7 @@ export const General = observer(({label}: GeneralProps) => {
         <Form.Toggle
           isToggleLabel={false}
           label='Report Grouping'
-          className='w-2/6'
+          className='w-5/6'
           value={reportSettingStore.reportBody?.general?.isReportGrouping}
           onChange={isReportGrouping => {
             reportSettingStore.updateReportBody({
@@ -114,12 +113,10 @@ export const General = observer(({label}: GeneralProps) => {
         />
       </div>
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Report Order CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.general?.reportOrderCSS}
+          defaultValue={reportSettingStore.reportBody?.general?.reportOrderCSS}
           onChange={reportOrderCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -147,12 +144,10 @@ export const General = observer(({label}: GeneralProps) => {
         />
       </div>
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Method Flag CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.general?.methodFlagCSS}
+          defaultValue={reportSettingStore.reportBody?.general?.methodFlagCSS}
           onChange={methodFlagCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -166,7 +161,7 @@ export const General = observer(({label}: GeneralProps) => {
         <Form.Toggle
           isToggleLabel={false}
           label='Method Flag'
-          className='w-2/6'
+          className='w-full'
           value={reportSettingStore.reportBody?.general?.isMethodFlag}
           onChange={isMethodFlag => {
             reportSettingStore.updateReportBody({

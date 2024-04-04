@@ -28,13 +28,15 @@ export class TransactionLine {
   acClass: string;
   accountType: string;
   customerGroup: string;
+  companyCode: string;
+  environment: string;
   status: string;
   enteredBy: string;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.headerId = rawData.headerId;
     this.lineId = rawData.lineId;
@@ -64,6 +66,8 @@ export class TransactionLine {
     this.acClass = rawData.acClass;
     this.accountType = rawData.accountType;
     this.customerGroup = rawData.customerGroup;
+    this.companyCode = rawData.companyCode;
+    this.environment = rawData.environment;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
     this.documentType = rawData.documentType;

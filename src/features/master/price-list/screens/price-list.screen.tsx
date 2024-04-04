@@ -64,7 +64,6 @@ export const PriceList = PriceListHoc(
       setValue('priceGroup', priceListStore.priceList?.priceGroup);
       setValue('priceList', priceListStore.priceList?.priceList);
       setValue('status', priceListStore.priceList?.status);
-      // setValue('environment', priceListStore.priceList?.environment);
       setValue('description', priceListStore.priceList?.description);
       setValue('dateExpire', priceListStore.priceList?.dateExpire);
       setValue('version', priceListStore.priceList?.version);
@@ -509,7 +508,7 @@ export const PriceList = PriceListHoc(
                               list: corporateClientsStore?.listCorporateClients,
                               displayKey: ['invoiceAc', 'corporateName'],
                             }}
-                            displayValue={value}
+                            displayValue={value?.toString()}
                             hasError={!!errors.priceList}
                             onFilter={(value: string) => {
                               corporateClientsStore.corporateClientsService.filterByFields(
@@ -527,6 +526,7 @@ export const PriceList = PriceListHoc(
                             }}
                             onSelect={item => {
                               onChange(item.invoiceAc?.toString());
+                              clearErrors('priceList');
                               priceListStore.updatePriceList({
                                 ...priceListStore.priceList,
                                 priceList: item.invoiceAc?.toString(),

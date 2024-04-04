@@ -49,7 +49,7 @@ interface TableBootstrapProps {
   onClickRow?: (item: any, index: number) => void;
 }
 export const TableBootstrap = ({
-  id,
+  id = '',
   data,
   totalSize = 10,
   searchPlaceholder = 'Search...',

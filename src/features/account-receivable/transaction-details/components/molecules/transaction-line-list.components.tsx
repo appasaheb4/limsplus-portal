@@ -257,18 +257,18 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
-            {
-              text: 'Company Code',
-              dataField: 'companyCode',
-              sort: true,
-              editable: false,
-            },
-            {
-              text: 'Environment',
-              dataField: 'environment',
-              editable: false,
-              sort: true,
-            },
+            // {
+            //   text: 'Company Code',
+            //   dataField: 'companyCode',
+            //   sort: true,
+            //   editable: false,
+            // },
+            // {
+            //   text: 'Environment',
+            //   dataField: 'environment',
+            //   editable: false,
+            //   sort: true,
+            // },
           ]}
           isDelete={props.isDelete}
           isEditModify={props.isUpdate}

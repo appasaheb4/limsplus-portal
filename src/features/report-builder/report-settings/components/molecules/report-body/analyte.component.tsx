@@ -1,26 +1,25 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {
-  List,
-  Form,
-} from '@/library/components';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import { List, Form } from '@/library/components';
+import { useStores } from '@/stores';
+import { CSSMultiline } from '../..';
 
 interface AnalyteProps {
   label?: string;
 }
 
-export const Analyte = observer(({label}: AnalyteProps) => {
-  const {reportSettingStore} = useStores();
+export const Analyte = observer(({ label }: AnalyteProps) => {
+  const { reportSettingStore } = useStores();
   return (
     <List direction='col' space={1} justify='stretch' fill>
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Print Analyte Name CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.printAnalyteNameCSS}
+          defaultValue={
+            reportSettingStore.reportBody?.analyte?.printAnalyteNameCSS
+          }
           onChange={printAnalyteNameCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -49,12 +48,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Method Name CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.methodNameCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.methodNameCSS}
           onChange={methodNameCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -83,12 +81,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Header Item CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.headerItemCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.headerItemCSS}
           onChange={headerItemCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -117,12 +114,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='ABN Flag CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.abnFlagCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.abnFlagCSS}
           onChange={abnFlagCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -151,12 +147,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Critical CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.criticalCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.criticalCSS}
           onChange={criticalCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -185,12 +180,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Lo Nor CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.loNorCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.loNorCSS}
           onChange={loNorCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -219,12 +213,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Hi Nor CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.hiNorCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.hiNorCSS}
           onChange={hiNorCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -253,12 +246,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Result Status CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.resultStatusCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.resultStatusCSS}
           onChange={resultStatusCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -287,12 +279,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Method CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.methodCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.methodCSS}
           onChange={methodCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -321,12 +312,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Reportable CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.reportableCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.reportableCSS}
           onChange={reportableCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -355,12 +345,13 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Interpretation CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.interpretationCSS}
+          defaultValue={
+            reportSettingStore.reportBody?.analyte?.interpretationCSS
+          }
           onChange={interpretationCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -389,12 +380,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Conclusion CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={reportSettingStore.reportBody?.analyte?.conclusionCSS}
+          defaultValue={reportSettingStore.reportBody?.analyte?.conclusionCSS}
           onChange={conclusionCSS => {
             reportSettingStore.updateReportBody({
               ...reportSettingStore.reportBody,
@@ -423,12 +413,11 @@ export const Analyte = observer(({label}: AnalyteProps) => {
       </div>
 
       <div className='flex flex-row flex-auto object-fill gap-2'>
-        <Form.MultilineInput
+        <CSSMultiline
           label='Print Analyte Interpretation CSS'
-          className='w-4/6'
-          style={{color: '#ffffff', backgroundColor: '#000000'}}
+          style={{ color: '#ffffff', backgroundColor: '#000000' }}
           placeholder={"Like fontSize: 12,backgroundColor:'#000000'"}
-          value={
+          defaultValue={
             reportSettingStore.reportBody?.analyte
               ?.printAnalyteInterpretationCSS
           }

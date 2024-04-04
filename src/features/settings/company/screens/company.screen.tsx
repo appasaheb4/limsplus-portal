@@ -55,8 +55,10 @@ const Company = CompanyHoc(
       setValue('name', companyStore.company?.name);
       setValue('description', companyStore.company?.description);
       setValue('module', companyStore.company?.module);
-      setValue('lab', companyStore.company?.lab);
-      setValue('department', companyStore.company?.department);
+      setValue('labCode', companyStore.company?.labCode);
+      setValue('labName', companyStore.company.labName);
+      setValue('departmentCode', companyStore.company?.departmentCode);
+      setValue('departmentName', companyStore.company?.departmentName);
       setValue('allowedUser', companyStore.company?.allowedUser);
       setValue('admin', companyStore.company?.admin);
       setValue('password', companyStore.company?.password);
@@ -263,7 +265,6 @@ const Company = CompanyHoc(
           title={routerStore.selectedComponents?.title || ''}
           store={loginStore}
         />
-
         <div
           className='flex justify-end'
           style={{
@@ -280,7 +281,6 @@ const Company = CompanyHoc(
             />
           )}
         </div>
-
         <div className='mx-auto flex-wrap'>
           <div
             className={
@@ -385,7 +385,6 @@ const Company = CompanyHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -414,7 +413,7 @@ const Company = CompanyHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper label='Lab'>
@@ -444,31 +443,108 @@ const Company = CompanyHoc(
                               onChange(item?.code);
                               companyStore.updateCompany({
                                 ...companyStore.company,
-                                lab: item?.code,
+                                labCode: item?.code,
+                                labName: item?.name,
                               });
                               labStore.updateLabList(labStore.listLabsCopy);
                             }}
                           />
                         ) : (
-                          <Form.Input
-                            label=''
-                            placeholder={
-                              errors.lab ? 'Please Enter lab' : 'Lab'
-                            }
-                            hasError={!!errors.lab}
-                            value={value}
-                            onChange={lab => {
-                              onChange(lab?.toUpperCase());
-                              companyStore.updateCompany({
-                                ...companyStore.company,
-                                lab: lab?.toUpperCase(),
-                              });
-                            }}
-                          />
+                          <>
+                            <Form.Input
+                              label=''
+                              placeholder={
+                                errors.lab
+                                  ? 'Please Enter lab code'
+                                  : 'Lab Code'
+                              }
+                              hasError={!!errors.lab}
+                              value={value}
+                              onChange={lab => {
+                                onChange(lab?.toUpperCase());
+                                companyStore.updateCompany({
+                                  ...companyStore.company,
+                                  labCode: lab?.toUpperCase(),
+                                });
+                              }}
+                            />
+                            <Form.Input
+                              label=''
+                              placeholder={
+                                errors.lab
+                                  ? 'Please Enter lab name'
+                                  : 'Lab Name'
+                              }
+                              hasError={!!errors.lab}
+                              value={value}
+                              onChange={lab => {
+                                onChange(lab?.toUpperCase());
+                                companyStore.updateCompany({
+                                  ...companyStore.company,
+                                  labName: lab?.toUpperCase(),
+                                });
+                              }}
+                            />
+                          </>
                         )}
                       </Form.InputWrapper>
                     )}
                     name='lab'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  /> */}
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper label='Lab Code'>
+                        <Form.Input
+                          label=''
+                          placeholder={
+                            errors.labCode
+                              ? 'Please Enter lab code'
+                              : 'Lab Code'
+                          }
+                          hasError={!!errors.labCode}
+                          value={value}
+                          onChange={lab => {
+                            onChange(lab?.toUpperCase());
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              labCode: lab?.toUpperCase(),
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='labCode'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper label='Lab Name'>
+                        <Form.Input
+                          label=''
+                          placeholder={
+                            errors.labName
+                              ? 'Please Enter lab name'
+                              : 'Lab Name'
+                          }
+                          hasError={!!errors.labName}
+                          value={value}
+                          onChange={lab => {
+                            onChange(lab?.toUpperCase());
+                            companyStore.updateCompany({
+                              ...companyStore.company,
+                              labName: lab?.toUpperCase(),
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='labName'
                     rules={{ required: true }}
                     defaultValue=''
                   />
@@ -617,24 +693,49 @@ const Company = CompanyHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.Input
-                        label='Department'
+                        label='Department Code'
                         placeholder={
-                          errors.department
+                          errors.departmentCode
                             ? 'Please Enter department'
                             : 'Department'
                         }
-                        hasError={!!errors.department}
+                        hasError={!!errors.departmentCode}
                         value={value}
                         onChange={department => {
                           onChange(department?.toUpperCase());
                           companyStore.updateCompany({
                             ...companyStore.company,
-                            department: department?.toUpperCase(),
+                            departmentCode: department?.toUpperCase(),
                           });
                         }}
                       />
                     )}
-                    name='department'
+                    name='departmentCode'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Department Name'
+                        placeholder={
+                          errors.departmentName
+                            ? 'Please Enter department'
+                            : 'Department'
+                        }
+                        hasError={!!errors.departmentName}
+                        value={value}
+                        onChange={department => {
+                          onChange(department?.toUpperCase());
+                          companyStore.updateCompany({
+                            ...companyStore.company,
+                            departmentName: department?.toUpperCase(),
+                          });
+                        }}
+                      />
+                    )}
+                    name='departmentName'
                     rules={{ required: true }}
                     defaultValue=''
                   />
