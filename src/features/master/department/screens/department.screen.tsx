@@ -60,15 +60,33 @@ export const Department = DeginisationHoc(
 
     const onSubmitDepartment = async () => {
       if (!isExistsRecord) {
-        const isExists = await checkExistsRecords();
-        if (!isExists) {
+        const uniqueItem: any = [];
+        if (isImport) {
+          for (let i = 0; i < arrImportRecords?.length; i++) {
+            const isExists = await checkExistsRecords(arrImportRecords[i]);
+            if (!isExists) uniqueItem.push(arrImportRecords[i]);
+            else
+              Toast.error({
+                message: `😔 Same record exists: ${arrImportRecords[i].code} - ${arrImportRecords[i].name}`,
+              });
+          }
+          if (uniqueItem?.length > 0) {
+            departmentStore.DepartmentService.adddepartment({
+              input: { isImport, arrImportRecords: uniqueItem },
+            }).then(res => {
+              if (res.createDepartment.success) {
+                Toast.success({
+                  message: `😊 ${res.createDepartment.message}`,
+                });
+              }
+            });
+          }
+        } else {
           departmentStore.DepartmentService.adddepartment({
-            input: isImport
-              ? { isImport, arrImportRecords }
-              : {
-                  arrImportRecords,
-                  ...departmentStore.department,
-                },
+            input: {
+              isImport,
+              ...departmentStore.department,
+            },
           }).then(res => {
             if (res.createDepartment.success) {
               Toast.success({
@@ -76,17 +94,13 @@ export const Department = DeginisationHoc(
               });
             }
           });
-          setHideAddDepartment(true);
-          reset();
-          resetDepartment();
-          setArrImportRecords([]);
-          setIsImport(false);
-          setIsVersionUpgrade(false);
-        } else {
-          Toast.warning({
-            message: '😔 Already some record exists.',
-          });
         }
+        setHideAddDepartment(true);
+        reset();
+        resetDepartment();
+        setArrImportRecords([]);
+        setIsImport(false);
+        setIsVersionUpgrade(false);
       } else {
         Toast.warning({
           message: '😔 Already some record exists.',

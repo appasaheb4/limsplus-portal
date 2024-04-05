@@ -18,10 +18,7 @@ import {
 import { Confirm } from '@/library/models';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { useStores } from '@/stores';
-import {
-  AutoCompleteFilterSingleSelectPostalCode,
-  AutoCompleteFilterMultiSelectPanelList,
-} from '../..';
+import { AutoCompleteFilterMultiSelectPanelList } from '../..';
 import dayjs from 'dayjs';
 import { FormHelper } from '@/helper';
 import { useForm } from 'react-hook-form';
@@ -67,6 +64,7 @@ let workLine;
 let status;
 let companyCode;
 let environment;
+
 interface CorporateClientListProps {
   data: any;
   totalSize: number;
@@ -1090,7 +1088,9 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sort: true,
             editable: false,
             csvFormatter: (col, row) =>
-              `${row.confidental ? (row.confidental ? 'Yes' : 'No') : 'No'}`,
+              `${
+                row?.confidential ? (row?.confidential ? 'Yes' : 'No') : 'No'
+              }`,
             formatter: (cell, row) => {
               return (
                 <>
@@ -1102,7 +1102,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           confidential,
-                          'confidental',
+                          'confidential',
                           row._id,
                         );
                     }}

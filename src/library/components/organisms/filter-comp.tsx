@@ -1,6 +1,6 @@
 /* eslint-disable */
-import React, { useState, useEffect, useRef } from 'react';
-import { Form, Toast } from '..';
+import React, { useState, useEffect } from 'react';
+import { Toast } from '..';
 import { Container } from 'reactstrap';
 import { stores } from '@/stores';
 import * as Assets from '@/library/assets';
@@ -20,6 +20,7 @@ import { CiSearch } from 'react-icons/ci';
 //       });
 //     }
 //   }, [props.column.filter.props.getFilter]);
+
 //   return (
 //     <>
 //       <div className='flex-row gap-2 inline'>
@@ -63,7 +64,6 @@ export const NumberFilter = props => {
     { value: '<' },
     { value: '<=' },
   ];
-
   return (
     <>
       <div className='flex-row gap-2 inline'>

@@ -121,24 +121,29 @@ const Lab = LabHoc(
 
     const onSubmitLab = async () => {
       if (!isExistsRecord) {
-        let uniqueItem: any = [];
+        const uniqueItem: any = [];
         if (isImport) {
-          uniqueItem = arrImportRecords?.map(async item => {
-            const isExists = await checkExistsRecords(item);
-            if (!isExists) return item;
-          });
-          console.log({ uniqueItem });
-          labStore.LabService.addLab({
-            input: { isImport, arrImportRecords },
-          }).then(res => {
-            if (res.createLab.success) {
-              Toast.success({
-                message: `😊 ${res.createLab.message}`,
+          for (let i = 0; i < arrImportRecords?.length; i++) {
+            const isExists = await checkExistsRecords(arrImportRecords[i]);
+            if (!isExists) uniqueItem.push(arrImportRecords[i]);
+            else
+              Toast.error({
+                message: `😔 Same record exists: ${arrImportRecords[i].code} - ${arrImportRecords[i].name}`,
               });
-              setArrImportRecords([]);
-              setIsImport(false);
-            }
-          });
+          }
+          if (uniqueItem?.length > 0) {
+            labStore.LabService.addLab({
+              input: { isImport, arrImportRecords: uniqueItem },
+            }).then(res => {
+              if (res.createLab.success) {
+                Toast.success({
+                  message: `😊 ${res.createLab.message}`,
+                });
+                setArrImportRecords([]);
+                setIsImport(false);
+              }
+            });
+          }
         } else {
           if (!_.isEmpty(labStore.labs.existsRecordId)) {
             const isExists = await checkExistsRecords();

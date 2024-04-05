@@ -159,7 +159,6 @@ export const FILTER = gql`
         consumedLimit
         customerGroup
         category
-        confidential
         telephone
         mobileNo
         email
@@ -169,6 +168,7 @@ export const FILTER = gql`
         area
         sbu
         zone
+        confidential
         urgent
         schedule
         reportFormat

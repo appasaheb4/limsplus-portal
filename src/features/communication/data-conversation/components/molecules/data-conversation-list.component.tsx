@@ -60,6 +60,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Hexa Decimal',
               getFilter: filter => {
                 hexadecimal = filter;
               },
