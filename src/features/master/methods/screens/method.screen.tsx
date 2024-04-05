@@ -249,11 +249,13 @@ const Methods = MethodsHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.MultilineInput
-                        rows={4}
+                        rows={3}
                         label='Description'
                         placeholder={
                           errors.description
@@ -275,8 +277,6 @@ const Methods = MethodsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

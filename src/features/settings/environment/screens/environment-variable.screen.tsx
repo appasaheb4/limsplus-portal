@@ -129,7 +129,10 @@ export const EnvironmentVariable = observer(
     };
     return (
       <>
-        <div className='flex justify-end'>
+        <div
+          className='flex justify-end'
+          style={{ position: 'absolute', right: '42px', top: '10px' }}
+        >
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
               show={hideInputView}

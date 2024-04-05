@@ -943,15 +943,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                       }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <>{defaultResult}</>
-                      )}
-                      name='defaultResult'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
+
                     <Grid cols={4}>
                       <Controller
                         control={control}
@@ -1052,6 +1044,15 @@ const MasterAnalyte = MasterAnalyteHoc(
                   </List>
 
                   <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <>{defaultResult}</>
+                      )}
+                      name='defaultResult'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1366,50 +1367,6 @@ const MasterAnalyte = MasterAnalyteHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper label='Interpretation'>
-                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                            loader={loading}
-                            placeholder='Search by code'
-                            hasError={!!errors.interpretation}
-                            data={{
-                              list: libraryStore.listLibrary.filter(
-                                item => item.libraryType === 'I',
-                              ),
-                              displayKey: ['code'],
-                            }}
-                            displayValue={value}
-                            onFilter={(value: string) => {
-                              libraryStore.libraryService.filterByFields({
-                                input: {
-                                  filter: {
-                                    fields: ['code'],
-                                    srText: value,
-                                  },
-                                  page: 0,
-                                  limit: 10,
-                                },
-                              });
-                            }}
-                            onSelect={item => {
-                              onChange(item.code);
-                              masterAnalyteStore.updateMasterAnalyte({
-                                ...masterAnalyteStore.masterAnalyte,
-                                interpretation: item.code,
-                              });
-                              libraryStore.updateLibraryList(
-                                libraryStore.listLibraryCopy,
-                              );
-                            }}
-                          />
-                        </Form.InputWrapper>
-                      )}
-                      name='interpretation'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
 
                     <Grid cols={3}>
                       <Controller
@@ -1457,6 +1414,50 @@ const MasterAnalyte = MasterAnalyteHoc(
                     </Grid>
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputWrapper label='Interpretation'>
+                          <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                            loader={loading}
+                            placeholder='Search by code'
+                            hasError={!!errors.interpretation}
+                            data={{
+                              list: libraryStore.listLibrary.filter(
+                                item => item.libraryType === 'I',
+                              ),
+                              displayKey: ['code'],
+                            }}
+                            displayValue={value}
+                            onFilter={(value: string) => {
+                              libraryStore.libraryService.filterByFields({
+                                input: {
+                                  filter: {
+                                    fields: ['code'],
+                                    srText: value,
+                                  },
+                                  page: 0,
+                                  limit: 10,
+                                },
+                              });
+                            }}
+                            onSelect={item => {
+                              onChange(item.code);
+                              masterAnalyteStore.updateMasterAnalyte({
+                                ...masterAnalyteStore.masterAnalyte,
+                                interpretation: item.code,
+                              });
+                              libraryStore.updateLibraryList(
+                                libraryStore.listLibraryCopy,
+                              );
+                            }}
+                          />
+                        </Form.InputWrapper>
+                      )}
+                      name='interpretation'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
                     <Controller
                       control={control}
                       render={() => (

@@ -94,38 +94,32 @@ const PatientRegistration = observer(({ sidebar }) => {
 
   return (
     <>
-      <Header>
-        <div className='flex flex-col w-full'>
-          <div className='flex flex-row justify-between gap-2 items-center'>
-            <div className='flex items-center'>
-              <PageHeading
-                title={stores.routerStore.selectedComponents?.title || ''}
-              />
-            </div>
-            <div style={{ width: '50%' }}>
-              {!sidebar.isOpen && (
-                <>
-                  <AutocompleteSearch
-                    data={routerStore.userRouter}
-                    onChange={async (item: any, children: any) => {
-                      const { permission, selectedComp } =
-                        await RouterFlow.updateSelectedCategory(
-                          item?.name,
-                          children?.name,
-                        );
-                      routerStore.updateSelectedComponents(selectedComp);
-                      routerStore.updateUserPermission(permission);
-                      history.replace(children.path);
-                    }}
-                  />
-                </>
-              )}
-            </div>
+      <div className='relative'>
+        <Header>
+          <PageHeading
+            title={stores.routerStore.selectedComponents?.title || ''}
+          />
+          <PageHeadingLabDetails store={stores.loginStore} />
+        </Header>
 
-            <PageHeadingLabDetails store={loginStore} />
-          </div>
+        <div className='absolute left-[50%] top-7 transform -translate-x-1/2 -translate-y-1/2 w-[500px] z-99'>
+          {!sidebar.isOpen && (
+            <AutocompleteSearch
+              data={stores.routerStore.userRouter}
+              onChange={async (item: any, children: any) => {
+                const { permission, selectedComp } =
+                  await RouterFlow.updateSelectedCategory(
+                    item?.name,
+                    children?.name,
+                  );
+                stores.routerStore.updateSelectedComponents(selectedComp);
+                stores.routerStore.updateUserPermission(permission);
+                history.replace(children.path);
+              }}
+            />
+          )}
         </div>
-      </Header>
+      </div>
       <div>
         <Tabs
           tabs={

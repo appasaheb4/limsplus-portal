@@ -53,94 +53,105 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'labId',
               text: 'Lab Id',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeaderl',
               sort: true,
-              filter: customFilter({
-                getFilter: filter => {
-                  labId = filter;
-                },
-              }),
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              // filter: customFilter({
+              //   getFilter: filter => {
+              //     labId = filter;
+              //   },
+              // }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // filterRenderer: (onFilter, column) => (
+              //   <NumberFilter onFilter={onFilter} column={column} />
+              // ),
               editable: false,
             },
             {
               dataField: 'specimenId',
               text: 'Specimen Id',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
-              filter: customFilter({
-                getFilter: filter => {
-                  labId = filter;
-                },
-              }),
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              // filter: customFilter({
+              //   getFilter: filter => {
+              //     labId = filter;
+              //   },
+              // }),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
+              // filterRenderer: (onFilter, column) => (
+              //   <NumberFilter onFilter={onFilter} column={column} />
+              // ),
               editable: false,
             },
             {
               dataField: 'labLit',
               text: 'Lab List',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'outSourceLab',
               text: 'Out Source Lab',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'outSourceStatus',
               text: 'Out Source Status',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'containerId',
               text: 'Container Name',
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               sort: true,
               editable: false,
             },
             {
               dataField: 'sampleType',
               text: 'Sample Type',
-              headerClasses: 'textHeader3',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '190px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.sampleType}>{cellContent}</span>
+              ),
+              headerClasses: 'textHeaderl',
               sort: true,
               editable: false,
             },
             {
               dataField: 'testList',
               text: 'Test List',
-              headerClasses: 'textHeader3',
+              // headerClasses: 'textHeader3',
               sort: true,
               editable: false,
             },
             {
               dataField: 'departmentList',
               text: 'Department List',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'receivedDate',
               text: 'Received Date',
-              headerClasses: 'textHeader3',
+              headerClasses: 'textHeaderl',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -156,7 +167,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'collectionDate',
               text: 'Collection Date',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeaderl',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -172,7 +183,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'methodCollection',
               text: 'Method Collection',
-              headerClasses: 'textHeader6',
+              // headerClasses: 'textHeader6',
               sort: true,
               editable: false,
             },
@@ -180,7 +191,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'primaryContainer',
               text: 'Primary Container',
-              headerClasses: 'textHeader6',
+              // headerClasses: 'textHeader6',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -225,7 +236,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'uniqueContainer',
               text: 'Unique Container',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -250,7 +261,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'labSpecific',
               text: 'Lab Specific',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -299,7 +310,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'sharedSample',
               text: 'Shared Sample',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
@@ -324,28 +335,28 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             {
               dataField: 'labelInstructions',
               text: 'Label Instructions',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'externalSampleId',
               text: 'External Sample Id',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'enteredBy',
               text: 'Entered By',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
             {
               dataField: 'status',
               text: 'Status',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },
@@ -354,12 +365,12 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               dataField: 'companyCode',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader2',
+              // headerClasses: 'textHeader2',
             },
             {
               dataField: 'environment',
               text: 'Environment',
-              headerClasses: 'textHeader4',
+              // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
             },

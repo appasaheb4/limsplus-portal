@@ -690,41 +690,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Min Test Vol Unit'
-                        hasError={!!errors.minTestVolUnit}
-                      >
-                        <select
-                          value={value}
-                          className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                          onChange={e => {
-                            const minTestVolUnit = e.target.value as string;
-                            onChange(minTestVolUnit);
-                            testSampleMappingStore.updateSampleType({
-                              ...testSampleMappingStore.testSampleMapping,
-                              minTestVolUnit,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'MIN_TEST_VOL_UNIT',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='minTestVolUnit'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
+
                   {testSampleMappingStore.testSampleMapping.sharedSample && (
                     <Form.InputWrapper label='Departments & Prefrence'>
                       <Grid cols={4}>
@@ -1036,6 +1002,41 @@ const TestSampleMapping = TestSampleMappingHoc(
                   </Grid>
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Min Test Vol Unit'
+                        hasError={!!errors.minTestVolUnit}
+                      >
+                        <select
+                          value={value}
+                          className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                          onChange={e => {
+                            const minTestVolUnit = e.target.value as string;
+                            onChange(minTestVolUnit);
+                            testSampleMappingStore.updateSampleType({
+                              ...testSampleMappingStore.testSampleMapping,
+                              minTestVolUnit,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'MIN_TEST_VOL_UNIT',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='minTestVolUnit'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

@@ -704,6 +704,43 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Status'
+                        hasError={!!errors.status}
+                      >
+                        <select
+                          value={value}
+                          disabled={isVersionUpgrade}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.status ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const status = e.target.value;
+                            onChange(status);
+                            libraryStore.updateLibrary({
+                              ...libraryStore.library,
+                              status,
+                            });
+                          }}
+                        >
+                          <option selected>Select</option>
+                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
+                            (item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='status'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
 
                   <Controller
                     control={control}
@@ -775,45 +812,6 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Status'
-                        hasError={!!errors.status}
-                      >
-                        <select
-                          value={value}
-                          disabled={isVersionUpgrade}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.status ? 'border-red  ' : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const status = e.target.value;
-                            onChange(status);
-                            libraryStore.updateLibrary({
-                              ...libraryStore.library,
-                              status,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {lookupItems(routerStore.lookupItems, 'STATUS').map(
-                            (item: any, index: number) => (
-                              <option key={index} value={item.code}>
-                                {lookupValue(item)}
-                              </option>
-                            ),
-                          )}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='status'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-
                   <Controller
                     control={control}
                     render={({ field: { value } }) => (
@@ -847,6 +845,7 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+
                   <Controller
                     control={control}
                     render={({ field: { value } }) => (

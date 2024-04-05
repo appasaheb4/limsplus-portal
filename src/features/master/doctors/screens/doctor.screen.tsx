@@ -857,7 +857,8 @@ const Doctors = DoctorsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -903,8 +904,6 @@ const Doctors = DoctorsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1235,6 +1234,90 @@ const Doctors = DoctorsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                  <Grid cols={4}>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Confidential'
+                          hasError={!!errors.confidential}
+                          value={value}
+                          onChange={confidential => {
+                            onChange(confidential);
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              confidential,
+                            });
+                          }}
+                        />
+                      )}
+                      name='confidential'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Urgent'
+                          hasError={!!errors.urgent}
+                          value={value}
+                          onChange={urgent => {
+                            onChange(urgent);
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              urgent,
+                            });
+                          }}
+                        />
+                      )}
+                      name='urgent'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Report Format'
+                          hasError={!!errors.reportFormat}
+                          value={value}
+                          onChange={reportFormat => {
+                            onChange(reportFormat);
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              reportFormat,
+                            });
+                          }}
+                        />
+                      )}
+                      name='reportFormat'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Toggle
+                          label='Specific Format'
+                          hasError={!!errors.specificFormat}
+                          value={value}
+                          onChange={specificFormat => {
+                            onChange(specificFormat);
+                            doctorsStore.updateDoctors({
+                              ...doctorsStore.doctors,
+                              specificFormat,
+                            });
+                          }}
+                        />
+                      )}
+                      name='specificFormat'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </Grid>
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1329,8 +1412,6 @@ const Doctors = DoctorsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1521,88 +1602,6 @@ const Doctors = DoctorsHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Grid cols={4}>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Confidential'
-                          hasError={!!errors.confidential}
-                          value={value}
-                          onChange={confidential => {
-                            onChange(confidential);
-                            doctorsStore.updateDoctors({
-                              ...doctorsStore.doctors,
-                              confidential,
-                            });
-                          }}
-                        />
-                      )}
-                      name='confidential'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Urgent'
-                          hasError={!!errors.urgent}
-                          value={value}
-                          onChange={urgent => {
-                            onChange(urgent);
-                            doctorsStore.updateDoctors({
-                              ...doctorsStore.doctors,
-                              urgent,
-                            });
-                          }}
-                        />
-                      )}
-                      name='urgent'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Report Format'
-                          hasError={!!errors.reportFormat}
-                          value={value}
-                          onChange={reportFormat => {
-                            onChange(reportFormat);
-                            doctorsStore.updateDoctors({
-                              ...doctorsStore.doctors,
-                              reportFormat,
-                            });
-                          }}
-                        />
-                      )}
-                      name='reportFormat'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Toggle
-                          label='Specific Format'
-                          hasError={!!errors.specificFormat}
-                          value={value}
-                          onChange={specificFormat => {
-                            onChange(specificFormat);
-                            doctorsStore.updateDoctors({
-                              ...doctorsStore.doctors,
-                              specificFormat,
-                            });
-                          }}
-                        />
-                      )}
-                      name='specificFormat'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                  </Grid>
                 </List>
               </Grid>
             ) : (

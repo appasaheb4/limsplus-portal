@@ -160,7 +160,10 @@ export const ReportBody = observer(() => {
 
   return (
     <>
-      <div className='flex justify-end'>
+      <div
+        className='flex justify-end'
+        style={{ position: 'absolute', right: '42px', top: '10px', zIndex: 1 }}
+      >
         {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
           <Buttons.ButtonCircleAddRemoveBottom
             show={isInputView}

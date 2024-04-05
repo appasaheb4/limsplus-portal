@@ -336,78 +336,6 @@ export const PatientOrder = PatientOrderHoc(
               <List direction='col' space={4} justify='stretch' fill>
                 <Controller
                   control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
-                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                        loader={loading}
-                        placeholder='Search by lab id, visit id or name'
-                        disable={
-                          patientRegistrationStore.defaultValues?.isPOLabIdLock
-                        }
-                        data={{
-                          list: patientVisitStore.listPatientVisit,
-                          displayKey: ['labId', 'patientName'],
-                        }}
-                        hasError={!!errors.labId}
-                        displayValue={value}
-                        onSelect={item => {
-                          setIsPrintPrimaryBarcod(
-                            item?.isPrintPrimaryBarcod || false,
-                          );
-                          onChange(item.labId);
-                          patientOrderStore.updatePatientOrder({
-                            ...patientOrderStore.patientOrder,
-                            pId: item?.pId,
-                            visitId: item.visitId,
-                            labId: item.labId,
-                            rLab: item.rLab,
-                            patientName: item.patientName,
-                            age: item?.age,
-                            ageUnits: item?.ageUnits,
-                          });
-                          patientVisitStore.updatePatientVisitList(
-                            patientVisitStore.listPatientVisitCopy,
-                          );
-                          if (item.labId)
-                            patientOrderStore.patientOrderService
-                              .checkExistsRecords({
-                                input: {
-                                  filter: {
-                                    fildes: {
-                                      labId: item.labId,
-                                      documentType: 'patientOrder',
-                                    },
-                                  },
-                                },
-                              })
-                              .then(res => {
-                                if (
-                                  res.checkExistsRecordsPatientOrder.success
-                                ) {
-                                  patientOrderStore.updateExistsRecords(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
-                                  });
-                                } else
-                                  patientOrderStore.updateExistsRecords(false);
-                              });
-                        }}
-                      />
-                    </Form.InputWrapper>
-                  )}
-                  name='labId'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-                {patientOrderStore.checkExistsRecord && (
-                  <span className='text-red-600 font-medium relative'>
-                    Lab Id already exits. Please use other lab id.
-                  </span>
-                )}
-              </List>
-              <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
                   render={({ field: { onChange } }) => (
                     <Form.InputWrapper label='Panel' hasError={!!errors.panel}>
                       <AutoCompleteFilterMultiSelectSelectedTopDisplay
@@ -515,6 +443,78 @@ export const PatientOrder = PatientOrderHoc(
                     masterPanelStore.listMasterPanel
                   }
                 />
+              </List>
+              <List direction='col' space={4} justify='stretch' fill>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputWrapper label='Lab Id' hasError={!!errors.labId}>
+                      <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                        loader={loading}
+                        placeholder='Search by lab id, visit id or name'
+                        disable={
+                          patientRegistrationStore.defaultValues?.isPOLabIdLock
+                        }
+                        data={{
+                          list: patientVisitStore.listPatientVisit,
+                          displayKey: ['labId', 'patientName'],
+                        }}
+                        hasError={!!errors.labId}
+                        displayValue={value}
+                        onSelect={item => {
+                          setIsPrintPrimaryBarcod(
+                            item?.isPrintPrimaryBarcod || false,
+                          );
+                          onChange(item.labId);
+                          patientOrderStore.updatePatientOrder({
+                            ...patientOrderStore.patientOrder,
+                            pId: item?.pId,
+                            visitId: item.visitId,
+                            labId: item.labId,
+                            rLab: item.rLab,
+                            patientName: item.patientName,
+                            age: item?.age,
+                            ageUnits: item?.ageUnits,
+                          });
+                          patientVisitStore.updatePatientVisitList(
+                            patientVisitStore.listPatientVisitCopy,
+                          );
+                          if (item.labId)
+                            patientOrderStore.patientOrderService
+                              .checkExistsRecords({
+                                input: {
+                                  filter: {
+                                    fildes: {
+                                      labId: item.labId,
+                                      documentType: 'patientOrder',
+                                    },
+                                  },
+                                },
+                              })
+                              .then(res => {
+                                if (
+                                  res.checkExistsRecordsPatientOrder.success
+                                ) {
+                                  patientOrderStore.updateExistsRecords(true);
+                                  Toast.error({
+                                    message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
+                                  });
+                                } else
+                                  patientOrderStore.updateExistsRecords(false);
+                              });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='labId'
+                  rules={{ required: true }}
+                  defaultValue=''
+                />
+                {patientOrderStore.checkExistsRecord && (
+                  <span className='text-red-600 font-medium relative'>
+                    Lab Id already exits. Please use other lab id.
+                  </span>
+                )}
               </List>
             </Grid>
             <Grid cols={2}></Grid>

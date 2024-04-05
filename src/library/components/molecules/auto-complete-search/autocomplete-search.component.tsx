@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { Icons } from '../..';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-
+import { FaSearch } from 'react-icons/fa';
 interface AutocompleteSearchProps {
   data?: any[];
   onChange?: (item: any, children: any) => void;
@@ -259,11 +259,9 @@ export const AutocompleteSearch = observer((props: AutocompleteSearchProps) => {
               }
             }}
           />
-          {isListOpen ? (
-            <Icons.IconFa.FaChevronUp />
-          ) : (
-            <Icons.IconFa.FaChevronDown />
-          )}
+          <div style={{ margin: '0px 15px 0px 1px' }}>
+            <FaSearch size={20} />
+          </div>
         </div>
 
         {options && isListOpen

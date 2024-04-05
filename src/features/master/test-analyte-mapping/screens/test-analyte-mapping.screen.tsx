@@ -923,6 +923,74 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       rules={{ required: true }}
                       defaultValue=''
                     />
+
+                    <Grid cols={3}>
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Bill'
+                            id='modeBill'
+                            hasError={!!errors.bill}
+                            value={value}
+                            onChange={bill => {
+                              onChange(bill);
+                              testAnalyteMappingStore.updateTestAnalyteMapping({
+                                ...testAnalyteMappingStore.testAnalyteMapping,
+                                bill,
+                              });
+                            }}
+                          />
+                        )}
+                        name='bill'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Test Method'
+                            id='testMethod'
+                            hasError={!!errors.testMethod}
+                            value={value}
+                            onChange={testMethod => {
+                              onChange(testMethod);
+                              testAnalyteMappingStore.updateTestAnalyteMapping({
+                                ...testAnalyteMappingStore.testAnalyteMapping,
+                                testMethod,
+                              });
+                            }}
+                          />
+                        )}
+                        name='testMethod'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Analyte Method'
+                            id='analyteMethod'
+                            hasError={!!errors.analyteMethod}
+                            value={value}
+                            onChange={analyteMethod => {
+                              onChange(analyteMethod);
+                              testAnalyteMappingStore.updateTestAnalyteMapping({
+                                ...testAnalyteMappingStore.testAnalyteMapping,
+                                analyteMethod,
+                              });
+                            }}
+                          />
+                        )}
+                        name='analyteMethod'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                    </Grid>
+                  </List>
+                  <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1001,74 +1069,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-
-                    <Grid cols={3}>
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Bill'
-                            id='modeBill'
-                            hasError={!!errors.bill}
-                            value={value}
-                            onChange={bill => {
-                              onChange(bill);
-                              testAnalyteMappingStore.updateTestAnalyteMapping({
-                                ...testAnalyteMappingStore.testAnalyteMapping,
-                                bill,
-                              });
-                            }}
-                          />
-                        )}
-                        name='bill'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Test Method'
-                            id='testMethod'
-                            hasError={!!errors.testMethod}
-                            value={value}
-                            onChange={testMethod => {
-                              onChange(testMethod);
-                              testAnalyteMappingStore.updateTestAnalyteMapping({
-                                ...testAnalyteMappingStore.testAnalyteMapping,
-                                testMethod,
-                              });
-                            }}
-                          />
-                        )}
-                        name='testMethod'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Analyte Method'
-                            id='analyteMethod'
-                            hasError={!!errors.analyteMethod}
-                            value={value}
-                            onChange={analyteMethod => {
-                              onChange(analyteMethod);
-                              testAnalyteMappingStore.updateTestAnalyteMapping({
-                                ...testAnalyteMappingStore.testAnalyteMapping,
-                                analyteMethod,
-                              });
-                            }}
-                          />
-                        )}
-                        name='analyteMethod'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                    </Grid>
-                  </List>
-                  <List direction='col' space={4} justify='stretch' fill>
                     <Form.InputWrapper label='Result Order'>
                       <Table striped bordered className='max-h-5' size='sm'>
                         <thead>
