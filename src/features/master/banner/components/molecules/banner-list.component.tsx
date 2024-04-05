@@ -81,6 +81,7 @@ export const BannerList = (props: BannerListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Title',
               getFilter: filter => {
                 title = filter;
               },

@@ -18,7 +18,6 @@ import { RouterFlow } from '@/flows';
 import { BannerHoc } from '../hoc';
 import { useStores } from '@/stores';
 import { resetBanner } from '../startup';
-import { connect } from 'react-redux';
 import useGlobalKeydown from '@/hooks/use-global-key-down';
 
 const Banner = BannerHoc(

@@ -302,7 +302,7 @@ export const TableBootstrap = ({
               break;
           }
         } else if (typeof columnValue === 'boolean') {
-          row[dataField] = columnValue ? 'Yes' : 'No';
+          row[dataField] = columnValue ? 'Yes' : 'No' || 'No';
           row['masterFlags'] = `MethodFlag PM:${
             product['panelMethod'] ? 'Yes' : 'No'
           } - MethodFlag TM:${

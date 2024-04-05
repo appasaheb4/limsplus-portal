@@ -45,6 +45,7 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'PId',
             sort: true,
             filter: textFilter({
+              placeholder: 'PId',
               getFilter: filter => {
                 pId = filter;
               },
@@ -61,6 +62,7 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Lab Id',
             sort: true,
             filter: textFilter({
+              placeholder: 'LabId',
               getFilter: filter => {
                 labId = filter;
               },
