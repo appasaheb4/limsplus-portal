@@ -1116,6 +1116,8 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
+                  </List>
+                  <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1165,8 +1167,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                  </List>
-                  <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1549,51 +1549,6 @@ const RegistrationLocation = RegistrationLocationHoc(
                       defaultValue=''
                     />
 
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Clock
-                          label='Opening Time'
-                          hasError={!!errors.openingTime}
-                          value={value}
-                          onChange={openingTime => {
-                            onChange(openingTime);
-                            registrationLocationsStore.updateRegistrationLocations(
-                              {
-                                ...registrationLocationsStore.registrationLocations,
-                                openingTime,
-                              },
-                            );
-                          }}
-                        />
-                      )}
-                      name='openingTime'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Clock
-                          label='Closing Time'
-                          hasError={!!errors.closingTime}
-                          value={value}
-                          onChange={closingTime => {
-                            onChange(closingTime);
-                            registrationLocationsStore.updateRegistrationLocations(
-                              {
-                                ...registrationLocationsStore.registrationLocations,
-                                closingTime,
-                              },
-                            );
-                          }}
-                        />
-                      )}
-                      name='closingTime'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-
                     <Grid cols={4}>
                       <Controller
                         control={control}
@@ -1664,6 +1619,50 @@ const RegistrationLocation = RegistrationLocationHoc(
                     </Grid>
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Clock
+                          label='Opening Time'
+                          hasError={!!errors.openingTime}
+                          value={value}
+                          onChange={openingTime => {
+                            onChange(openingTime);
+                            registrationLocationsStore.updateRegistrationLocations(
+                              {
+                                ...registrationLocationsStore.registrationLocations,
+                                openingTime,
+                              },
+                            );
+                          }}
+                        />
+                      )}
+                      name='openingTime'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Clock
+                          label='Closing Time'
+                          hasError={!!errors.closingTime}
+                          value={value}
+                          onChange={closingTime => {
+                            onChange(closingTime);
+                            registrationLocationsStore.updateRegistrationLocations(
+                              {
+                                ...registrationLocationsStore.registrationLocations,
+                                closingTime,
+                              },
+                            );
+                          }}
+                        />
+                      )}
+                      name='closingTime'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (

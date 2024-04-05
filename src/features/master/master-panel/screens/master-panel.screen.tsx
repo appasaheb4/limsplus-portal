@@ -1065,34 +1065,8 @@ const MasterPanel = MasterPanelHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          label='Report Order'
-                          type='number'
-                          placeholder={
-                            errors.reportOrder
-                              ? 'Please Enter ReportOrder'
-                              : 'Report Order'
-                          }
-                          hasError={!!errors.reportOrder}
-                          value={value}
-                          onChange={reportOrder => {
-                            onChange(reportOrder);
-                            masterPanelStore.updateMasterPanel({
-                              ...masterPanelStore.masterPanel,
-                              reportOrder: Number.parseInt(reportOrder),
-                            });
-                          }}
-                        />
-                      )}
-                      name='reportOrder'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
 
-                    <Grid cols={3}>
+                    <Grid cols={4}>
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -1156,10 +1130,56 @@ const MasterPanel = MasterPanelHoc(
                         rules={{ required: false }}
                         defaultValue=''
                       />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Require Reveiving in Lab'
+                            hasError={!!errors.requireReceveInLab}
+                            value={value}
+                            onChange={requireReceveInLab => {
+                              onChange(requireReceveInLab);
+                              labStore.updateLabs({
+                                ...labStore.labs,
+                                requireReceveInLab,
+                              });
+                            }}
+                          />
+                        )}
+                        name='requireReceveInLab'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
                     </Grid>
                   </List>
 
                   <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Report Order'
+                          type='number'
+                          placeholder={
+                            errors.reportOrder
+                              ? 'Please Enter ReportOrder'
+                              : 'Report Order'
+                          }
+                          hasError={!!errors.reportOrder}
+                          value={value}
+                          onChange={reportOrder => {
+                            onChange(reportOrder);
+                            masterPanelStore.updateMasterPanel({
+                              ...masterPanelStore.masterPanel,
+                              reportOrder: Number.parseInt(reportOrder),
+                            });
+                          }}
+                        />
+                      )}
+                      name='reportOrder'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1582,6 +1602,131 @@ const MasterPanel = MasterPanelHoc(
                       }}
                       defaultValue=''
                     />
+
+                    <Grid cols={4}>
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Page Break'
+                            hasError={!!errors.pageBreak}
+                            value={value}
+                            onChange={pageBreak => {
+                              onChange(pageBreak);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                pageBreak,
+                              });
+                            }}
+                          />
+                        )}
+                        name='pageBreak'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Age/Sex Action'
+                            hasError={!!errors.ageSexAction}
+                            value={value}
+                            onChange={ageSexAction => {
+                              onChange(ageSexAction);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                ageSexAction,
+                                hiAge: !ageSexAction
+                                  ? ''
+                                  : masterPanelStore.masterPanel?.hiAge,
+                                loAge: !ageSexAction
+                                  ? ''
+                                  : masterPanelStore.masterPanel?.loAge,
+                              });
+                            }}
+                          />
+                        )}
+                        name='ageSexAction'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Repetition'
+                            hasError={!!errors.repitation}
+                            value={value}
+                            onChange={repitation => {
+                              onChange(repitation);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                repitation,
+                              });
+                            }}
+                          />
+                        )}
+                        name='repitation'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Urgent'
+                            style={{ marginLeft: 5 }}
+                            hasError={!!errors.urgent}
+                            value={value}
+                            onChange={urgent => {
+                              onChange(urgent);
+                              masterPanelStore.updateMasterPanel({
+                                ...masterPanelStore.masterPanel,
+                                urgent,
+                              });
+                            }}
+                          />
+                        )}
+                        name='urgent'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                    </Grid>
+                  </List>
+                  <List direction='col' space={4} justify='stretch' fill>
+                    {/* <Form.Input
+                label="Tube Groups"
+                placeholder="Tube Groups"
+                value={masterPanelStore.masterPanel?.tubeGroup}
+                onChange={(tubeGroup) => {
+                  masterPanelStore.updateMasterPanel({
+                    ...masterPanelStore.masterPanel,
+                    tubeGroup,
+                  })
+                }}
+              /> */}
+
+                    {/* <Form.InputWrapper label="Sample Type">
+                <select
+                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
+                  onChange={(e) => {
+                    const sampleType = e.target.value as string
+                    masterPanelStore.updateMasterPanel({
+                      ...masterPanelStore.masterPanel,
+                      sampleType,
+                    })
+                  }}
+                >
+                  <option selected>Select</option>
+                  {["Sample Type 1"].map((item: any, index: number) => (
+                    <option key={index} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </Form.InputWrapper> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1606,7 +1751,6 @@ const MasterPanel = MasterPanelHoc(
                       }}
                       defaultValue=''
                     />
-
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1682,110 +1826,6 @@ const MasterPanel = MasterPanelHoc(
                       }}
                       defaultValue=''
                     />
-
-                    <Grid cols={3}>
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Page Break'
-                            hasError={!!errors.pageBreak}
-                            value={value}
-                            onChange={pageBreak => {
-                              onChange(pageBreak);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                pageBreak,
-                              });
-                            }}
-                          />
-                        )}
-                        name='pageBreak'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Age/Sex Action'
-                            hasError={!!errors.ageSexAction}
-                            value={value}
-                            onChange={ageSexAction => {
-                              onChange(ageSexAction);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                ageSexAction,
-                                hiAge: !ageSexAction
-                                  ? ''
-                                  : masterPanelStore.masterPanel?.hiAge,
-                                loAge: !ageSexAction
-                                  ? ''
-                                  : masterPanelStore.masterPanel?.loAge,
-                              });
-                            }}
-                          />
-                        )}
-                        name='ageSexAction'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Repetition'
-                            hasError={!!errors.repitation}
-                            value={value}
-                            onChange={repitation => {
-                              onChange(repitation);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                repitation,
-                              });
-                            }}
-                          />
-                        )}
-                        name='repitation'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                    </Grid>
-                  </List>
-                  <List direction='col' space={4} justify='stretch' fill>
-                    {/* <Form.Input
-                label="Tube Groups"
-                placeholder="Tube Groups"
-                value={masterPanelStore.masterPanel?.tubeGroup}
-                onChange={(tubeGroup) => {
-                  masterPanelStore.updateMasterPanel({
-                    ...masterPanelStore.masterPanel,
-                    tubeGroup,
-                  })
-                }}
-              /> */}
-
-                    {/* <Form.InputWrapper label="Sample Type">
-                <select
-                  className="leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md"
-                  onChange={(e) => {
-                    const sampleType = e.target.value as string
-                    masterPanelStore.updateMasterPanel({
-                      ...masterPanelStore.masterPanel,
-                      sampleType,
-                    })
-                  }}
-                >
-                  <option selected>Select</option>
-                  {["Sample Type 1"].map((item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-              </Form.InputWrapper> */}
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -2033,7 +2073,7 @@ const MasterPanel = MasterPanelHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Grid cols={3}>
+                    <Grid cols={4}>
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -2094,47 +2134,7 @@ const MasterPanel = MasterPanelHoc(
                         rules={{ required: false }}
                         defaultValue=''
                       />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Urgent'
-                            style={{ marginLeft: 5 }}
-                            hasError={!!errors.urgent}
-                            value={value}
-                            onChange={urgent => {
-                              onChange(urgent);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                urgent,
-                              });
-                            }}
-                          />
-                        )}
-                        name='urgent'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Print Label'
-                            hasError={!!errors.printLabel}
-                            value={value}
-                            onChange={printLabel => {
-                              onChange(printLabel);
-                              masterPanelStore.updateMasterPanel({
-                                ...masterPanelStore.masterPanel,
-                                printLabel,
-                              });
-                            }}
-                          />
-                        )}
-                        name=' printLabel'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
+
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (

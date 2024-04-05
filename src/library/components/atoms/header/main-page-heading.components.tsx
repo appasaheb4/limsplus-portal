@@ -10,28 +10,29 @@ const MainPageHeading = ({ sidebar, title, store }) => {
   const { routerStore } = useStores();
   const history = useHistory();
   return (
-    <div className=' relative'>
+    <div className='relative'>
       <Header>
         <PageHeading title={title || ''} />
-        {!sidebar?.isOpen && (
-          <div style={{ width: '50%' }}>
-            <AutocompleteSearch
-              data={routerStore.userRouter}
-              onChange={async (item: any, children: any) => {
-                const { permission, selectedComp } =
-                  await RouterFlow.updateSelectedCategory(
-                    item?.name,
-                    children?.name,
-                  );
-                routerStore.updateSelectedComponents(selectedComp);
-                routerStore.updateUserPermission(permission);
-                history.replace(children.path);
-              }}
-            />
-          </div>
-        )}
         <PageHeadingLabDetails store={store} />
       </Header>
+
+      <div className='absolute left-[50%] top-7 transform -translate-x-1/2 -translate-y-1/2 w-[500px]  z-99 '>
+        {!sidebar?.isOpen && (
+          <AutocompleteSearch
+            data={routerStore.userRouter}
+            onChange={async (item: any, children: any) => {
+              const { permission, selectedComp } =
+                await RouterFlow.updateSelectedCategory(
+                  item?.name,
+                  children?.name,
+                );
+              routerStore.updateSelectedComponents(selectedComp);
+              routerStore.updateUserPermission(permission);
+              history.replace(children.path);
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 };

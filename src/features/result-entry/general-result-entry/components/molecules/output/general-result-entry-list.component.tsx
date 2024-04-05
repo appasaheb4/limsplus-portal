@@ -120,6 +120,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'labId',
               text: 'Lab Id',
               editable: false,
+              headerClasses: 'textHeaderm',
             },
             {
               dataField: 'name',

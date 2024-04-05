@@ -251,7 +251,7 @@ export const TableBootstrapTranHeader = ({
   };
 
   const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className='btn-group btn-group-toggle' data-toggle='buttons'>
+    <div className='flex btn-group btn-group-toggle' data-toggle='buttons'>
       {columns
         .map(column => ({
           ...column,
@@ -263,9 +263,10 @@ export const TableBootstrapTranHeader = ({
               <button
                 type='button'
                 key={column.dataField}
-                className={` btn btn-primary  btn-sm whitespace-nowrap ${
-                  column.toggle ? 'active' : ''
+                className={` btn btn-primary border-white  btn-sm whitespace-nowrap ${
+                  column.toggle ? 'active' : 'inactive'
                 }`}
+                style={{ height: '31px' }}
                 data-toggle='button'
                 aria-pressed={column.toggle ? 'true' : 'false'}
                 onClick={() => onColumnToggle(column.dataField)}
@@ -321,15 +322,17 @@ export const TableBootstrapTranHeader = ({
           {props => (
             <div>
               <div className='flex items-center flex-wrap'>
-                <SearchBar
-                  {...searchProps}
-                  {...props.searchProps}
-                  onChange={value => {
-                    console.log({ value });
-                  }}
-                />
+                <div className='mt-2'>
+                  <SearchBar
+                    {...searchProps}
+                    {...props.searchProps}
+                    onChange={value => {
+                      console.log({ value });
+                    }}
+                  />
+                </div>
                 <ClearSearchButton
-                  className={`inline-flex ml-4 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                  className={`inline-flex ml-2 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
                   {...props.searchProps}
                 />
                 <button
@@ -369,7 +372,7 @@ export const TableBootstrapTranHeader = ({
                 )}
               </div>
               {isFilterOpen && (
-                <div className={'mb-2 overflow-auto h-10'}>
+                <div className={'flex overflow-auto'}>
                   <CustomToggleList
                     contextual='primary'
                     className='list-custom-class'

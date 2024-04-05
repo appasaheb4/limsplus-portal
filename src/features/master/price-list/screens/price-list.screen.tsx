@@ -690,6 +690,8 @@ export const PriceList = PriceListHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -716,8 +718,6 @@ export const PriceList = PriceListHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -834,25 +834,6 @@ export const PriceList = PriceListHoc(
                     defaultValue=''
                   />
 
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Entered By'
-                        placeholder={
-                          errors.userId
-                            ? 'Please Enter Entered By'
-                            : 'Entered By'
-                        }
-                        hasError={!!errors.userId}
-                        value={loginStore.login?.userId}
-                        disabled={true}
-                      />
-                    )}
-                    name='userId'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
                   <Grid cols={5}>
                     <Controller
                       control={control}
@@ -877,6 +858,25 @@ export const PriceList = PriceListHoc(
                   </Grid>
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Entered By'
+                        placeholder={
+                          errors.userId
+                            ? 'Please Enter Entered By'
+                            : 'Entered By'
+                        }
+                        hasError={!!errors.userId}
+                        value={loginStore.login?.userId}
+                        disabled={true}
+                      />
+                    )}
+                    name='userId'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

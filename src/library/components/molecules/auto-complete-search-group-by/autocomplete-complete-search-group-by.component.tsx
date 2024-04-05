@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { Icons } from '../..';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { FaSearch } from 'react-icons/fa';
 
 interface AutocompleteSearchGroupByProps {
   data?: any[];
@@ -28,7 +29,7 @@ export const AutocompleteSearchGroupBy = observer(
     useEffect(() => {
       setHighlightedIndex(selectedIndex);
     }, [selectedIndex]);
-    
+
     useEffect(() => {
       // Scroll the selected item into view when selectedIndex changes
       if (listRef.current && selectedIndex >= 0) {
@@ -269,11 +270,9 @@ export const AutocompleteSearchGroupBy = observer(
                 }
               }}
             />
-            {isListOpen ? (
-              <Icons.IconFa.FaChevronUp />
-            ) : (
-              <Icons.IconFa.FaChevronDown />
-            )}
+            <div style={{ margin: '0px 2px 0px 1px' }}>
+              <FaSearch size={18} />
+            </div>
           </div>
 
           {options && isListOpen

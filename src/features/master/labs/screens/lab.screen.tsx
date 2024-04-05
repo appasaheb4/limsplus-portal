@@ -769,6 +769,8 @@ const Lab = LabHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
+                  </List>
+                  <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -794,8 +796,6 @@ const Lab = LabHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                  </List>
-                  <List direction='col' space={4} justify='stretch' fill>
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1136,29 +1136,8 @@ const Lab = LabHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          label='Registered Office'
-                          placeholder='Registered Office'
-                          hasError={!!errors.registeredOffice}
-                          value={value}
-                          onChange={registeredOffice => {
-                            onChange(registeredOffice);
-                            labStore.updateLabs({
-                              ...labStore.labs,
-                              registeredOffice,
-                            });
-                          }}
-                        />
-                      )}
-                      name='registeredOffice'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
 
-                    <Grid cols={4}>
+                    <Grid cols={3}>
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
@@ -1199,9 +1178,50 @@ const Lab = LabHoc(
                         rules={{ required: false }}
                         defaultValue=''
                       />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Toggle
+                            label='Require Reveiving in Lab'
+                            hasError={!!errors.requireReceveInLab}
+                            value={value}
+                            onChange={requireReceveInLab => {
+                              onChange(requireReceveInLab);
+                              labStore.updateLabs({
+                                ...labStore.labs,
+                                requireReceveInLab,
+                              });
+                            }}
+                          />
+                        )}
+                        name='requireReceveInLab'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
                     </Grid>
                   </List>
                   <List direction='col' space={4} justify='stretch' fill>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Registered Office'
+                          placeholder='Registered Office'
+                          hasError={!!errors.registeredOffice}
+                          value={value}
+                          onChange={registeredOffice => {
+                            onChange(registeredOffice);
+                            labStore.updateLabs({
+                              ...labStore.labs,
+                              registeredOffice,
+                            });
+                          }}
+                        />
+                      )}
+                      name='registeredOffice'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (
@@ -1437,26 +1457,6 @@ const Lab = LabHoc(
                     />
 
                     <Grid cols={4}>
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Toggle
-                            label='Require Reveiving in Lab'
-                            hasError={!!errors.requireReceveInLab}
-                            value={value}
-                            onChange={requireReceveInLab => {
-                              onChange(requireReceveInLab);
-                              labStore.updateLabs({
-                                ...labStore.labs,
-                                requireReceveInLab,
-                              });
-                            }}
-                          />
-                        )}
-                        name='requireReceveInLab'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
