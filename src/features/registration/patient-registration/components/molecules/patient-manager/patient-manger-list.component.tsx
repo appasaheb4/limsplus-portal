@@ -824,6 +824,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -843,6 +844,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               csvFormatter: (col, row) =>
                 row.environment ? row.environment : '',
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

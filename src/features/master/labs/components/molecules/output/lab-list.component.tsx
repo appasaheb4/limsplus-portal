@@ -1242,6 +1242,7 @@ export const LabList = (props: LabListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
+                placeholder: 'Version',
                 getFilter: filter => {
                   version = filter;
                 },
@@ -1264,6 +1265,7 @@ export const LabList = (props: LabListProps) => {
                 row.status == 'D' || row.status == 'I' ? false : true,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -1311,6 +1313,7 @@ export const LabList = (props: LabListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -1351,6 +1354,7 @@ export const LabList = (props: LabListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

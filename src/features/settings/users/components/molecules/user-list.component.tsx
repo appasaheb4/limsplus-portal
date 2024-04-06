@@ -1418,6 +1418,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -1486,6 +1487,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },
@@ -1536,6 +1538,7 @@ export const UserList = (props: UserListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },

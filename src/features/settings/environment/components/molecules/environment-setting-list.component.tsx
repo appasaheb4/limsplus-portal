@@ -381,6 +381,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -430,6 +431,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -471,6 +473,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               editable: false,
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

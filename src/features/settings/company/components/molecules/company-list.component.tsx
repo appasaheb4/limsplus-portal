@@ -1082,6 +1082,7 @@ export const CompanyList = (props: CompanyListProps) => {
               return <>{row?.environment?.join(',')}</>;
             },
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

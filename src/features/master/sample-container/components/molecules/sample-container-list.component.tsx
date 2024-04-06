@@ -269,6 +269,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -306,6 +307,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sort: true,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

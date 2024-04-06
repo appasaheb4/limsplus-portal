@@ -894,6 +894,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -929,6 +930,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Environment',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },
