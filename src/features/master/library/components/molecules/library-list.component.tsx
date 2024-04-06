@@ -459,6 +459,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -646,6 +647,7 @@ export const LibraryList = (props: LibraryListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -664,6 +666,7 @@ export const LibraryList = (props: LibraryListProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

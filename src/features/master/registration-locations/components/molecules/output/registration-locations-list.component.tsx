@@ -1645,6 +1645,7 @@ export const RegistrationLocationsList = (
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -1686,6 +1687,7 @@ export const RegistrationLocationsList = (
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

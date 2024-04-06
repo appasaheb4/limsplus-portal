@@ -1408,6 +1408,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -1449,6 +1450,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

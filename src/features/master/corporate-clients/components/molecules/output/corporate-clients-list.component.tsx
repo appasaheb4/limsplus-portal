@@ -1735,6 +1735,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -1776,6 +1777,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

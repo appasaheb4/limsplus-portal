@@ -480,6 +480,7 @@ export const InstResultMappingList = observer(
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -514,6 +515,7 @@ export const InstResultMappingList = observer(
               text: 'Environment',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

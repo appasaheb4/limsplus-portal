@@ -715,6 +715,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -756,6 +757,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },
