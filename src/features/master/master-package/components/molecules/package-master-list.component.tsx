@@ -130,6 +130,41 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             ),
           },
           {
+            dataField: 'packageCode',
+            text: 'Package Code',
+            headerClasses: 'textHeader4',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                packageCode = filter;
+              },
+            }),
+          },
+          {
+            dataField: 'packageName',
+            text: 'Package Name',
+            headerClasses: 'textHeader4',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              getFilter: filter => {
+                packageName = filter;
+              },
+            }),
+            editor: false,
+          },
+          {
             dataField: 'serviceType',
             text: 'Service Type',
             headerClasses: 'textHeader2',
@@ -173,41 +208,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               </>
             ),
           },
-          {
-            dataField: 'packageCode',
-            text: 'Package Code',
-            headerClasses: 'textHeader4',
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            sortCaret: (order, column) => sortCaret(order, column),
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                packageCode = filter;
-              },
-            }),
-          },
-          {
-            dataField: 'packageName',
-            text: 'Package Name',
-            headerClasses: 'textHeader4',
-            sort: true,
-            headerStyle: {
-              fontSize: 0,
-            },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            sortCaret: (order, column) => sortCaret(order, column),
-            csvFormatter: col => (col ? col : ''),
-            filter: textFilter({
-              getFilter: filter => {
-                packageName = filter;
-              },
-            }),
-            editor: false,
-          },
+
           {
             dataField: 'panelCode',
             text: 'Panel Code',
@@ -292,6 +293,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               </>
             ),
           },
+
           {
             dataField: 'reportOrder',
             text: 'Report Order',

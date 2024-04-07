@@ -114,6 +114,38 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               csvExport: false,
             },
             {
+              dataField: 'analyteCode',
+              text: 'Analyte Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                getFilter: filter => {
+                  analyteCode = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
+              dataField: 'analyteName',
+              text: 'Analyte Name',
+              headerClasses: 'textHeader4',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                getFilter: filter => {
+                  analyteName = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
               dataField: 'lab',
               text: 'Lab',
               headerClasses: 'textHeader1',
@@ -151,38 +183,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'analyteCode',
-              text: 'Analyte Code',
-              headerClasses: 'textHeader4',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filter: textFilter({
-                getFilter: filter => {
-                  analyteCode = filter;
-                },
-              }),
-              editable: false,
-            },
-            {
-              dataField: 'analyteName',
-              text: 'Analyte Name',
-              headerClasses: 'textHeader4',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filter: textFilter({
-                getFilter: filter => {
-                  analyteName = filter;
-                },
-              }),
-              editable: false,
-            },
+
             {
               dataField: 'description',
               text: 'Description',
