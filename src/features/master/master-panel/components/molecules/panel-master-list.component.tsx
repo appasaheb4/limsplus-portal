@@ -129,6 +129,40 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               csvExport: false,
             },
             {
+              dataField: 'panelCode',
+              text: 'Panel Code',
+              headerClasses: 'textHeader5',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  panelCode = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
+              dataField: 'panelName',
+              text: 'Panel Name',
+              headerClasses: 'textHeader5',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  panelName = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
               dataField: 'rLab',
               text: 'RLab',
               headerClasses: 'textHeader1',
@@ -308,40 +342,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'panelCode',
-              text: 'Panel Code',
-              headerClasses: 'textHeader5',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  panelCode = filter;
-                },
-              }),
-              editable: false,
-            },
-            {
-              dataField: 'panelName',
-              text: 'Panel Name',
-              headerClasses: 'textHeader5',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  panelName = filter;
-                },
-              }),
-              editable: false,
-            },
+
             {
               dataField: 'description',
               text: 'Description',

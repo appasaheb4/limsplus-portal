@@ -518,7 +518,7 @@ export const TableBootstrap = ({
                     onTableChange={handleTableChange}
                     // expandRow={expandRow}
                   />
-                  <div className='px-2 -mt-2'>
+                  <div className='-mt-2'>
                     <Result
                       data={
                         _.without(data, undefined)?.length > 0 ? data[0][1] : []

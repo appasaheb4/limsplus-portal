@@ -125,6 +125,40 @@ export const TestMasterList = (props: TestMasterProps) => {
               csvExport: false,
             },
             {
+              dataField: 'testCode',
+              text: 'Test Code',
+              headerClasses: 'textHeader3',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  testCode = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
+              dataField: 'testName',
+              text: 'Test Name',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                getFilter: filter => {
+                  testName = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
               dataField: 'rLab',
               text: 'RLab',
               headerClasses: 'textHeader2',
@@ -305,40 +339,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'testCode',
-              text: 'Test Code',
-              headerClasses: 'textHeader3',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  testCode = filter;
-                },
-              }),
-              editable: false,
-            },
-            {
-              dataField: 'testName',
-              text: 'Test Name',
-              headerClasses: 'textHeader2',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                getFilter: filter => {
-                  testName = filter;
-                },
-              }),
-              editable: false,
-            },
+
             {
               dataField: 'description',
               text: 'Description',
