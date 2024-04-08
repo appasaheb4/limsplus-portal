@@ -637,6 +637,7 @@ export const UserList = (props: UserListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Lab',
                 getFilter: filter => {
                   lab = filter;
                 },
@@ -682,6 +683,7 @@ export const UserList = (props: UserListProps) => {
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.department.map(item => item.name)}`,
               filter: textFilter({
+                placeholder: 'Department',
                 getFilter: filter => {
                   department = filter;
                 },

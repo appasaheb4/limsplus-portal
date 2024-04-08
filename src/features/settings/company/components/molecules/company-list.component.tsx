@@ -122,6 +122,7 @@ export const CompanyList = (props: CompanyListProps) => {
             editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Code',
               getFilter: filter => {
                 code = filter;
               },
@@ -150,6 +151,7 @@ export const CompanyList = (props: CompanyListProps) => {
             editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Name',
               getFilter: filter => {
                 name = filter;
               },
@@ -179,6 +181,7 @@ export const CompanyList = (props: CompanyListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Description',
               getFilter: filter => {
                 description = filter;
               },
@@ -220,6 +223,7 @@ export const CompanyList = (props: CompanyListProps) => {
             editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Lab',
               getFilter: filter => {
                 lab = filter;
               },
@@ -568,6 +572,7 @@ export const CompanyList = (props: CompanyListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Mobile No',
               getFilter: filter => {
                 mobileNo = filter;
               },
@@ -584,6 +589,7 @@ export const CompanyList = (props: CompanyListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Contact No',
               getFilter: filter => {
                 contactNo = filter;
               },
@@ -834,6 +840,7 @@ export const CompanyList = (props: CompanyListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Fyi Line',
               getFilter: filter => {
                 fyiLine = filter;
               },
@@ -850,6 +857,7 @@ export const CompanyList = (props: CompanyListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Work Line',
               getFilter: filter => {
                 workLine = filter;
               },
@@ -1030,6 +1038,7 @@ export const CompanyList = (props: CompanyListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },

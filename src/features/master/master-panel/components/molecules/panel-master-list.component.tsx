@@ -139,6 +139,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Panel Code',
                 getFilter: filter => {
                   panelCode = filter;
                 },
@@ -156,6 +157,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Panel Name',
                 getFilter: filter => {
                   panelName = filter;
                 },
@@ -173,6 +175,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'RLab',
                 getFilter: filter => {
                   rLab = filter;
                 },
@@ -220,6 +223,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'PLab',
                 getFilter: filter => {
                   pLab = filter;
                 },
@@ -260,6 +264,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Department',
                 getFilter: filter => {
                   department = filter;
                 },
@@ -302,6 +307,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Service Type',
                 getFilter: filter => {
                   serviceType = filter;
                 },
@@ -366,7 +372,8 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: filter => {
+                placeholder: 'Description',
+                getFilter: (filter: any) => {
                   description = filter;
                 },
               }),
@@ -386,6 +393,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Panel Method Code',
                 getFilter: filter => {
                   panelMethodCode = filter;
                 },
@@ -427,6 +435,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Panel Method Name',
                 getFilter: filter => {
                   panelMethodName = filter;
                 },
@@ -488,6 +497,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Short Name',
                 getFilter: filter => {
                   shortName = filter;
                 },
@@ -506,6 +516,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
+                placeholder: 'Price',
                 getFilter: filter => {
                   price = filter;
                 },
@@ -574,6 +585,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Schedule',
                 getFilter: filter => {
                   rLab = filter;
                 },
@@ -609,6 +621,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Validation Level',
                 getFilter: filter => {
                   validationLevel = filter;
                 },
@@ -662,6 +675,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Report Group',
                 getFilter: filter => {
                   reportGroup = filter;
                 },
@@ -679,6 +693,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Report Order',
                 getFilter: filter => {
                   reportOrder = filter;
                 },
@@ -719,6 +734,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Processing',
                 getFilter: filter => {
                   processing = filter;
                 },
@@ -769,6 +785,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Workflow',
                 getFilter: filter => {
                   workflow = filter;
                 },
@@ -787,6 +804,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Category',
                 getFilter: filter => {
                   category = filter;
                 },
@@ -833,6 +851,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Panel Type',
                 getFilter: filter => {
                   panelType = filter;
                 },
@@ -1677,6 +1696,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },

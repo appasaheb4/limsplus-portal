@@ -135,6 +135,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Code',
                 getFilter: filter => {
                   testCode = filter;
                 },
@@ -152,6 +153,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Name',
                 getFilter: filter => {
                   testName = filter;
                 },
@@ -216,6 +218,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'PLab',
                 getFilter: filter => {
                   pLab = filter;
                 },
@@ -255,6 +258,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Department',
                 getFilter: filter => {
                   department = filter;
                 },
@@ -363,7 +367,8 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: filter => {
+                placeholder: 'Description',
+                getFilter: (filter: any) => {
                   description = filter;
                 },
               }),
@@ -404,6 +409,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Short Name',
                 getFilter: filter => {
                   shortName = filter;
                 },
@@ -1583,6 +1589,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },

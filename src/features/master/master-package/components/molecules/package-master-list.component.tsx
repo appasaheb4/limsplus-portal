@@ -104,6 +104,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Lab',
               getFilter: filter => {
                 lab = filter;
               },
@@ -479,6 +480,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },

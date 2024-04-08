@@ -592,6 +592,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },
