@@ -336,7 +336,7 @@ export const Login = observer(() => {
                                           ? 'https://www.limsplussolutions.com'
                                           : 'https://www.limsplussolutions.com',
                                       // webPortal:
-                                      //   'https://config.limsplussolutions.com',
+                                      //   'https://demo.limsplussolutions.com',
                                     },
                                   }).then(async res => {
                                     if (res.checkUserExitsUserId?.success) {
