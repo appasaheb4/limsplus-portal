@@ -128,6 +128,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Description',
               getFilter: filter => {
                 description = filter;
               },
@@ -433,6 +434,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },

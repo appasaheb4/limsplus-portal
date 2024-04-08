@@ -99,6 +99,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Lab',
               getFilter: filter => {
                 lab = filter;
               },
@@ -132,6 +133,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Code',
               getFilter: filter => {
                 code = filter;
               },
@@ -150,6 +152,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Name',
               getFilter: filter => {
                 name = filter;
               },
@@ -180,6 +183,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Short Name',
               getFilter: filter => {
                 shortName = filter;
               },
@@ -199,6 +203,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'HOD',
               getFilter: filter => {
                 hod = filter;
               },
@@ -277,6 +282,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Report Order',
               getFilter: filter => {
                 reportOrder = filter;
               },
@@ -336,6 +342,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Mobile No',
               getFilter: filter => {
                 mobileNo = filter;
               },
@@ -386,6 +393,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Contact No',
               getFilter: filter => {
                 contactNo = filter;
               },
@@ -549,6 +557,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Opening Time',
               getFilter: filter => {
                 openingTime = filter;
               },
@@ -566,6 +575,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Closing Time',
               getFilter: filter => {
                 closingTime = filter;
               },
@@ -584,6 +594,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Fyi Line',
               getFilter: filter => {
                 fyiLine = filter;
               },
@@ -601,6 +612,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Work Line',
               getFilter: filter => {
                 workLine = filter;
               },
@@ -619,6 +631,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },

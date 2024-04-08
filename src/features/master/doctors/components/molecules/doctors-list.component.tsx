@@ -704,6 +704,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Mobile No',
               getFilter: filter => {
                 mobileNo = filter;
               },
@@ -934,6 +935,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Lab',
               getFilter: filter => {
                 lab = filter;
               },
@@ -981,6 +983,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Opening Time',
               getFilter: filter => {
                 openingTime = filter;
               },
@@ -999,6 +1002,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Closing Time',
               getFilter: filter => {
                 closingTime = filter;
               },
@@ -1032,6 +1036,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Fyi Line',
               getFilter: filter => {
                 fyiLine = filter;
               },
@@ -1049,6 +1054,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Work Line',
               getFilter: filter => {
                 workLine = filter;
               },
@@ -1362,6 +1368,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },

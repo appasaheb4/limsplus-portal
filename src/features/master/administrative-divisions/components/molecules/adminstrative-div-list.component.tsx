@@ -393,6 +393,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },

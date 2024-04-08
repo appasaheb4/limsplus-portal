@@ -122,6 +122,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Lab',
                 getFilter: filter => {
                   lab = filter;
                 },
@@ -161,6 +162,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Panel Code',
                 getFilter: filter => {
                   panelCode = filter;
                 },
@@ -201,6 +203,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Code',
                 getFilter: filter => {
                   testCode = filter;
                 },
@@ -243,6 +246,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Name',
                 getFilter: filter => {
                   testName = filter;
                 },
@@ -630,6 +634,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },

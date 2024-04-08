@@ -255,7 +255,8 @@ export const PriceListList = (props: PriceListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: filter => {
+                placeholder: 'Description',
+                getFilter: (filter: any) => {
                   description = filter;
                 },
               }),
@@ -273,6 +274,7 @@ export const PriceListList = (props: PriceListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Panel Code',
                 getFilter: filter => {
                   panelCode = filter;
                 },
@@ -314,6 +316,7 @@ export const PriceListList = (props: PriceListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Panel Name',
                 getFilter: filter => {
                   panelName = filter;
                 },
@@ -557,6 +560,7 @@ export const PriceListList = (props: PriceListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },

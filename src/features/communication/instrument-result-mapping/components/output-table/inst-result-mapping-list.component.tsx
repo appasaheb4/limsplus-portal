@@ -115,6 +115,7 @@ export const InstResultMappingList = observer(
               text: 'PLab',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'PLab',
                 getFilter: filter => {
                   pLab = filter;
                 },
@@ -163,6 +164,7 @@ export const InstResultMappingList = observer(
               text: 'Test Code/Test Name',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Test Code',
                 getFilter: filter => {
                   testCode = filter;
                 },
@@ -319,6 +321,7 @@ export const InstResultMappingList = observer(
               text: 'Analyte Code/Analyte Name',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Analyte Code',
                 getFilter: filter => {
                   analyteCode = filter;
                 },

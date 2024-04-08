@@ -64,6 +64,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Code',
               getFilter: filter => {
                 code = filter;
               },
@@ -94,6 +95,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             ),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Description',
               getFilter: filter => {
                 description = filter;
               },

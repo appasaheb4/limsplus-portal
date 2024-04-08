@@ -98,6 +98,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Code',
                 getFilter: filter => {
                   testCode = filter;
                 },
