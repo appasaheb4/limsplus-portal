@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {ReportDelivery, OrderDelivered} from '../models';
-import {DeliveryQueueService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { ReportDelivery, OrderDelivered } from '../models';
+import { DeliveryQueueService } from '../services';
 
 export class DeliveryQueueStore {
   reportDeliveryList!: Array<ReportDelivery>;

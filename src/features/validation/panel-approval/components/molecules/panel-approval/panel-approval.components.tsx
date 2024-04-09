@@ -358,8 +358,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
           onUpdateFields={(fields: any, id: string) => {
             props.onUpdateFields && props.onUpdateFields({ ...fields }, [id]);
           }}
-          onUpdateResult={(id, fields) => {
-            props.onUpdateResult && props.onUpdateResult(id, fields);
+          onUpdateResult={(fields, id) => {
+            props.onUpdateResult && props.onUpdateResult(fields, id);
           }}
           onPagination={type => {
             if (type == 'next') {
