@@ -145,7 +145,7 @@ const DeliveryQueue = observer(() => {
         }
       });
     }
-    return list;
+    return _.orderBy(list, 'dateOfEntry', 'desc');
   };
 
   const getOrderDeliveredList = async (item: any) =>

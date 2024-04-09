@@ -470,7 +470,6 @@ export const Result = observer((props: ResultProps) => {
               text: 'Final',
               sort: true,
               editable: false,
-              // headerClasses: 'textHeaderl',
             },
             {
               dataField: 'enteredBy',
@@ -479,20 +478,8 @@ export const Result = observer((props: ResultProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
-            // {
-            //   text: 'Company Code',
-            //   dataField: 'companyCode',
-            //   sort: true,
-            //   editable: false,
-            // },
-            // {
-            //   text: 'Environment',
-            //   dataField: 'environment',
-            //   editable: false,
-            //   sort: true,
-            // },
           ]}
-          isEditModify={props.isEditModify}
+          isEditModify={true}
           isSelectRow={true}
           fileName='Pending Panel Approval'
           onSelectedRow={rows => {
