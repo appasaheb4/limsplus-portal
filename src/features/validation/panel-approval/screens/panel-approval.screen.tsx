@@ -98,46 +98,57 @@ const PanelApproval = observer(() => {
     }
   };
 
-  const updateResultRecords = (id, payload) => {
-    patientResultStore.patientResultService
-      .updateSingleFiled({
+  const updateResultRecords = (payload, id, patientResultId) => {
+    panelApprovalStore.panelApprovalService
+      .update({
         input: {
           result: payload?.result,
-          resultType: payload?.resultType,
-          file: payload?.file,
-          labId: payload?.labId,
-          analyteCode: payload?.analyteCode,
-          analyteName: payload?.analyteName,
-          testStatus: payload?.testStatus,
-          rangeType: payload?.rangeType,
-          critical: payload?.critical,
-          abnFlag: payload?.abnFlag,
-          refRangesList: payload?.refRangesList,
-          testCode: payload?.testCode,
-          testName: payload?.testName,
-          panelCode: payload?.panelCode,
-          resultDate: payload?.resultDate,
-          reportPriority: payload?.reportPriority,
-          deliveryMode: payload?.deliveryMode,
-          units: payload?.units,
-          conclusion: payload?.conclusion,
-          loNor: payload?.loNor,
-          hiNor: payload?.hiNor,
-          resultStatus: payload?.resultStatus,
-          panelStatus: payload?.panelStatus,
-          enteredBy: loginStore.login?.userId,
           _id: id,
-          __v: undefined,
-          flagUpdate: undefined,
         },
       })
-      .then(res => {
-        if (res.updatePatientResult.success) {
-          Toast.success({
-            message: `😊 ${res.updatePatientResult.message}`,
-            timer: 2000,
-          });
-          panelApprovalStore.panelApprovalService.listPanelApproval({});
+      .then((res: any) => {
+        if (res.updatePanelApproval.success) {
+          patientResultStore.patientResultService
+            .updateSingleFiled({
+              input: {
+                result: payload?.result,
+                resultType: payload?.resultType,
+                file: payload?.file,
+                labId: payload?.labId,
+                analyteCode: payload?.analyteCode,
+                analyteName: payload?.analyteName,
+                testStatus: payload?.testStatus,
+                rangeType: payload?.rangeType,
+                critical: payload?.critical,
+                abnFlag: payload?.abnFlag,
+                refRangesList: payload?.refRangesList,
+                testCode: payload?.testCode,
+                testName: payload?.testName,
+                panelCode: payload?.panelCode,
+                resultDate: payload?.resultDate,
+                reportPriority: payload?.reportPriority,
+                deliveryMode: payload?.deliveryMode,
+                units: payload?.units,
+                conclusion: payload?.conclusion,
+                loNor: payload?.loNor,
+                hiNor: payload?.hiNor,
+                resultStatus: payload?.resultStatus,
+                panelStatus: payload?.panelStatus,
+                enteredBy: loginStore.login?.userId,
+                _id: patientResultId,
+                __v: undefined,
+                flagUpdate: undefined,
+              },
+            })
+            .then(res => {
+              if (res.updatePatientResult.success) {
+                Toast.success({
+                  message: `😊 ${res.updatePatientResult.message}`,
+                  timer: 2000,
+                });
+                panelApprovalStore.panelApprovalService.listPanelApproval({});
+              }
+            });
         }
       });
     setTableReload(!tableReload);
@@ -185,8 +196,8 @@ const PanelApproval = observer(() => {
             body: 'Update items!',
           });
         }}
-        onUpdateResult={(fields: any, id: string) => {
-          updateResultRecords(id, fields);
+        onUpdateResult={(fields: any, id: string, patientResultId: string) => {
+          updateResultRecords(fields, id, patientResultId);
         }}
         onExpand={items => {
           if (typeof items == 'object') {

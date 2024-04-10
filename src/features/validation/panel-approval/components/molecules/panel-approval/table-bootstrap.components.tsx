@@ -47,7 +47,7 @@ interface TableBootstrapProps {
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
   onFilterRecord?: (item: any) => void;
-  onUpdateResult?: (id: string, fields: any) => void;
+  onUpdateResult?: (fields: any, id: string, patientResultId: string) => void;
   onUpdateFields?: (item: any, id: string) => void;
   onPagination?: (type: string) => void;
 }
@@ -490,8 +490,13 @@ export const TableBootstrap = ({
                           ? data[0][1]?.length
                           : []
                       }
-                      onUpdateResult={(fields: any, id: string) => {
-                        onUpdateResult && onUpdateResult(fields, id);
+                      onUpdateResult={(
+                        fields: any,
+                        id: string,
+                        patientResultId: string,
+                      ) => {
+                        onUpdateResult &&
+                          onUpdateResult(fields, id, patientResultId);
                       }}
                       onUpdateFields={(fields: any, id: string) => {
                         onUpdateFields && onUpdateFields(fields, id);
