@@ -227,7 +227,10 @@ export const SalesTeam = SalesTeamHoc(
             global.filter = { mode: 'filter', type, page, limit, filter };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records);
+            const isExists = await checkExistsRecords({
+              ...records,
+              status: 'A',
+            });
             if (!isExists) {
               setModalConfirm({
                 show: true,

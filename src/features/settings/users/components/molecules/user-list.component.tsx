@@ -138,6 +138,7 @@ export const UserList = (props: UserListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'UserId',
                 getFilter: filter => {
                   userId = filter;
                 },
@@ -157,6 +158,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Full Name',
                 getFilter: filter => {
                   fullName = filter;
                 },
@@ -174,6 +176,7 @@ export const UserList = (props: UserListProps) => {
               csvFormatter: col => (col ? col : ''),
               headerClasses: 'textHeader2',
               filter: textFilter({
+                placeholder: 'User Module',
                 getFilter: filter => {
                   userModule = filter;
                 },
@@ -227,6 +230,7 @@ export const UserList = (props: UserListProps) => {
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.role.map(item => item.code)}`,
               filter: textFilter({
+                placeholder: 'Role',
                 getFilter: filter => {
                   role = filter;
                 },
@@ -272,6 +276,7 @@ export const UserList = (props: UserListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'User Group',
                 getFilter: filter => {
                   userGroup = filter;
                 },
@@ -323,6 +328,7 @@ export const UserList = (props: UserListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Emp Code',
                 getFilter: filter => {
                   empCode = filter;
                 },
@@ -342,6 +348,7 @@ export const UserList = (props: UserListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Reporting To',
                 getFilter: filter => {
                   reportingTo = filter;
                 },
@@ -381,6 +388,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Deginisation',
                 getFilter: filter => {
                   deginisation = filter;
                 },
@@ -420,6 +428,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'User Degree',
                 getFilter: filter => {
                   userDegree = filter;
                 },
@@ -438,6 +447,7 @@ export const UserList = (props: UserListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Default Lab',
                 getFilter: filter => {
                   defaultLab = filter;
                 },
@@ -473,6 +483,7 @@ export const UserList = (props: UserListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Default Department',
                 getFilter: filter => {
                   defaultDepartment = filter;
                 },
@@ -728,6 +739,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Mobile No',
                 getFilter: filter => {
                   mobileNo = filter;
                 },
@@ -786,6 +798,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Contact No',
                 getFilter: filter => {
                   contactNo = filter;
                 },
@@ -844,6 +857,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Email',
                 getFilter: filter => {
                   email = filter;
                 },
@@ -939,6 +953,7 @@ export const UserList = (props: UserListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
+                placeholder: 'Validation Level',
                 getFilter: filter => {
                   validationLevel = filter;
                 },
@@ -1400,6 +1415,7 @@ export const UserList = (props: UserListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Created By',
                 getFilter: filter => {
                   createdBy = filter;
                 },
@@ -1468,6 +1484,7 @@ export const UserList = (props: UserListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
+                placeholder: 'Version',
                 getFilter: filter => {
                   version = filter;
                 },
