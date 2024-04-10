@@ -157,6 +157,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     : col
                   : '',
               filter: textFilter({
+                placeholder: 'Mobile No',
                 getFilter: filter => {
                   mobileNo = filter;
                 },
@@ -434,6 +435,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Title',
                 getFilter: filter => {
                   title = filter;
                 },
@@ -495,6 +497,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     : col
                   : '',
               filter: textFilter({
+                placeholder: 'First Name',
                 getFilter: filter => {
                   firstName = filter;
                 },
@@ -531,6 +534,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     : col
                   : '',
               filter: textFilter({
+                placeholder: 'Middle Name',
                 getFilter: filter => {
                   middleName = filter;
                 },
@@ -565,6 +569,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                     : col
                   : '',
               filter: textFilter({
+                placeholder: 'Last Name',
                 getFilter: filter => {
                   lastName = filter;
                 },
@@ -592,6 +597,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sex',
                 getFilter: filter => {
                   sex = filter;
                 },
@@ -639,6 +645,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Species',
                 getFilter: filter => {
                   species = filter;
                 },
@@ -686,6 +693,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Breed',
                 getFilter: filter => {
                   breed = filter;
                 },
@@ -704,6 +712,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Usual Doctor',
                 getFilter: filter => {
                   usualDoctor = filter;
                 },

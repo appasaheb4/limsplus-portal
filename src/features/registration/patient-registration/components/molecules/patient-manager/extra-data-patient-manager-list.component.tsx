@@ -76,6 +76,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.postcode ? row.extraData?.postcode : '',
                 filter: textFilter({
+                  placeholder: 'PostCode',
                   getFilter: filter => {
                     state = filter;
                   },
@@ -118,6 +119,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.country ? row.extraData?.country : '',
                 filter: textFilter({
+                  placeholder: 'Country',
                   getFilter: filter => {
                     address = filter;
                   },
@@ -139,8 +141,9 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.state ? row.extraData.state : '',
                 filter: textFilter({
+                  placeholder: 'state',
                   getFilter: filter => {
-                    postCode = filter;
+                    state = filter;
                   },
                 }),
                 formatter: (cell, row) => {
@@ -172,6 +175,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.city ? row.extraData?.city : '',
                 filter: textFilter({
+                  placeholder: 'City',
                   getFilter: filter => {
                     city = filter;
                   },
@@ -205,6 +209,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.address ? row.extraData.address : '',
                 filter: textFilter({
+                  placeholder: 'Address',
                   getFilter: filter => {
                     country = filter;
                   },
@@ -229,6 +234,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.email ? row.extraData.email : '',
                 filter: textFilter({
+                  placeholder: 'Email',
                   getFilter: filter => {
                     email = filter;
                   },
@@ -369,6 +375,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.bloodGroup ? row.extraData.bloodGroup : '',
                 filter: textFilter({
+                  placeholder: 'BloodGroup',
                   getFilter: filter => {
                     bloodGroup = filter;
                   },
@@ -389,6 +396,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.followUp ? row.extraData.followUp : '',
                 filter: textFilter({
+                  placeholder: 'FollowUp',
                   getFilter: filter => {
                     followUp = filter;
                   },
@@ -409,6 +417,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.comments ? row.extraData.comments : '',
                 filter: textFilter({
+                  placeholder: 'Comments',
                   getFilter: filter => {
                     comments = filter;
                   },
@@ -429,6 +438,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.fyiLine ? row.extraData.fyiLine : '',
                 filter: textFilter({
+                  placeholder: 'FyiLine',
                   getFilter: filter => {
                     fyiLine = filter;
                   },
@@ -449,6 +459,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.balance ? row.extraData.balance : '',
                 filter: textFilter({
+                  placeholder: 'Balance',
                   getFilter: filter => {
                     balance = filter;
                   },
@@ -482,6 +493,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.enteredBy ? row.extraData.enteredBy : '',
                 filter: textFilter({
+                  placeholder: 'Entered By',
                   getFilter: filter => {
                     enteredBy = filter;
                   },
@@ -503,6 +515,7 @@ export const ExtraDataPatientManagerList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData.status ? row.extraData.status : '',
                 filter: textFilter({
+                  placeholder: 'Status',
                   getFilter: filter => {
                     status = filter;
                   },
