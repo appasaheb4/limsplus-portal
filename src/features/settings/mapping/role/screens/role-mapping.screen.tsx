@@ -393,7 +393,7 @@ const RoleMapping = observer(() => {
                         >
                           {(provided, snapshot) => (
                             <li
-                              className='flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md'
+                              className='flex flex-col mb-2 ml-2 bg-gray-400 p-2 rounded-md md:overflow-x-auto sm:overflow-x-auto'
                               ref={provided.innerRef}
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
