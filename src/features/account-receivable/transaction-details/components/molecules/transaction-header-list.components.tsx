@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Tooltip, Icons } from '@/library/components';
 import { Confirm } from '@/library/models';
@@ -13,6 +13,7 @@ interface TransactionHeaderProps {
   isDelete?: boolean;
   isUpdate?: boolean;
   isExport?: boolean;
+  selectId?: string;
   onUpdate?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
@@ -23,13 +24,14 @@ interface TransactionHeaderProps {
     page: number,
     totalSize: number,
   ) => void;
-  onClickRow?: (item: any, index: number) => void;
+  onExpand?: (item: any) => void;
   onReport?: (item: any) => void;
 }
 const selectedItem = {};
 export const TransactionHeaderList = observer(
   (props: TransactionHeaderProps) => {
     const [selectedItem, setSelectedItem] = useState<any>({});
+
     return (
       <>
         <div className={`${props.isView ? 'shown' : 'hidden'}`}>
@@ -299,6 +301,32 @@ export const TransactionHeaderList = observer(
                           {Icons.getIconTag(Icons.Iconai.AiOutlineFilePdf)}
                         </Icons.IconContext>
                       </Tooltip>
+
+                      {props.selectId === row._id ? (
+                        <Tooltip tooltipText='close'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() => {
+                              props.onExpand && props.onExpand('');
+                            }}
+                          >
+                            {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      ) : (
+                        <Tooltip tooltipText='Expand'>
+                          <Icons.IconContext
+                            color='#fff'
+                            size='20'
+                            onClick={() => {
+                              props.onExpand && props.onExpand(row);
+                            }}
+                          >
+                            {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
+                          </Icons.IconContext>
+                        </Tooltip>
+                      )}
                     </div>
                   </>
                 ),
@@ -332,9 +360,9 @@ export const TransactionHeaderList = observer(
               props.onFilter && props.onFilter(type, filter, page, size);
             }}
             clearAllFilter={() => {}}
-            onClickRow={(item, index) => {
-              setSelectedItem(item);
-              props.onClickRow && props.onClickRow(item, index);
+            onClickRow={item => {
+              // setSelectedItem(item);
+              // props.onClickRow && props.onClickRow(item);
             }}
           />
         </div>
