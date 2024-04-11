@@ -74,6 +74,18 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               text: 'Collection Center Name',
               sort: true,
               editable: false,
+              headerClasses: 'textHeader',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.collectionCenterName}>{cellContent}</span>
+              ),
             },
             {
               dataField: 'corporateCode',
@@ -95,6 +107,7 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeaderm',
               formatter: (cell, row) => {
                 return dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss');
               },
@@ -103,6 +116,7 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               dataField: 'actionDate',
               text: 'Action Date',
               sort: true,
+              headerClasses: 'textHeaderm',
               csvFormatter: col => (col ? col : ''),
               editable: false,
               formatter: (cell, row) => {
@@ -164,6 +178,18 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
+              headerClasses: 'textHeader',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.panelName}>{cellContent}</span>
+              ),
             },
             {
               dataField: 'priceGroup',

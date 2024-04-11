@@ -123,6 +123,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Library Code',
                 getFilter: filter => {
                   libraryCode = filter;
                 },
@@ -225,6 +226,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Position',
                 getFilter: filter => {
                   position = filter;
                 },
@@ -271,6 +273,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Groups',
                 getFilter: filter => {
                   groups = filter;
                 },
@@ -317,6 +320,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Library Type',
                 getFilter: filter => {
                   libraryType = filter;
                 },
@@ -363,6 +367,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Parameter',
                 getFilter: filter => {
                   parameter = filter;
                 },

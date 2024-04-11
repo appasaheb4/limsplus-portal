@@ -195,6 +195,22 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               headerClasses: 'textHeaderl',
             },
             {
+              dataField: 'result',
+              text: 'Result',
+              // headerClasses: 'textHeader3',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
+              dataField: 'units',
+              text: 'Units',
+              // headerClasses: 'textHeader3',
+              sort: true,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+            {
               dataField: 'normalRange',
               text: 'Normal Range',
               sort: true,
@@ -374,22 +390,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
             },
-            {
-              dataField: 'result',
-              text: 'Result',
-              // headerClasses: 'textHeader3',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
-            {
-              dataField: 'units',
-              text: 'Units',
-              // headerClasses: 'textHeader3',
-              sort: true,
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
-            },
+
             {
               dataField: 'resultDate',
               text: 'Result Date',

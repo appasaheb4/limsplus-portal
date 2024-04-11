@@ -114,6 +114,7 @@ export const PriceListList = (props: PriceListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Price Group',
                 getFilter: filter => {
                   priceGroup = filter;
                 },
@@ -169,6 +170,7 @@ export const PriceListList = (props: PriceListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Price List',
                 getFilter: filter => {
                   priceList = filter;
                 },
@@ -494,6 +496,7 @@ export const PriceListList = (props: PriceListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Max Discount',
                 getFilter: filter => {
                   maxDiscount = filter;
                 },

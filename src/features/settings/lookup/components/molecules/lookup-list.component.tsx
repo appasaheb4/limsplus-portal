@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { lookupItems, lookupValue } from '@/library/utils';
+import { lookupCodeValue, lookupItems, lookupValue } from '@/library/utils';
 import {
   AutocompleteGroupBy,
   Buttons,
@@ -93,6 +93,7 @@ export const LookupList = (props: LookupListProps) => {
             csvFormatter: (cell, row, rowIndex) =>
               `${row.documentName?.children.title}`,
             filter: textFilter({
+              placeholder: 'Document Name',
               getFilter: filter => {
                 documentName = filter;
               },
@@ -143,6 +144,7 @@ export const LookupList = (props: LookupListProps) => {
             style: { textTransform: 'uppercase' },
             editorStyle: { textTransform: 'uppercase' },
             filter: textFilter({
+              placeholder: 'Field Name',
               getFilter: filter => {
                 fieldName = filter;
               },
@@ -185,6 +187,7 @@ export const LookupList = (props: LookupListProps) => {
                 item => item.value,
               )} - Code:${row.arrValue.map(item => item.code)}`,
             filter: textFilter({
+              placeholder: 'Value & code',
               getFilter: filter => {
                 arrValue = filter;
               },
@@ -209,7 +212,7 @@ export const LookupList = (props: LookupListProps) => {
                         return (
                           <>
                             <tr>
-                              <td>{lookupValue(item)}</td>
+                              <td>{lookupCodeValue(item)}</td>
                               <td>{lookupValue(item)}</td>
                             </tr>
                           </>
@@ -286,6 +289,7 @@ export const LookupList = (props: LookupListProps) => {
                 item => item.value,
               )} - Code:${row.defaultItem.map(item => item.code)}`,
             filter: textFilter({
+              placeholder: 'Default Item',
               getFilter: filter => {
                 defaultItem = filter;
               },

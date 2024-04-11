@@ -228,6 +228,8 @@ const CorporateClients = CorporateClientsHoc(
       }
     };
 
+    console.log(corporateClientsStore.corporateClients);
+
     const getTemplateForImportList = (interfaceType: string) => {
       interfaceManagerStore.interfaceManagerService
         .findByFields({
@@ -1009,7 +1011,7 @@ const CorporateClients = CorporateClientsHoc(
                         }}
                       />
                     )}
-                    name='area '
+                    name='area'
                     rules={{ required: false }}
                     defaultValue=''
                   />

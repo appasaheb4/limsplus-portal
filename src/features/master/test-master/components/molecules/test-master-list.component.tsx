@@ -171,6 +171,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'RLab',
                 getFilter: filter => {
                   rLab = filter;
                 },
@@ -300,6 +301,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               csvFormatter: (col, row) =>
                 `${row?.section?.code} - ${row?.section?.name}`,
               filter: textFilter({
+                placeholder: 'Section',
                 getFilter: filter => {
                   section = filter;
                 },
@@ -474,6 +476,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Schedule',
                 getFilter: filter => {
                   schedule = filter;
                 },
@@ -567,6 +570,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Processing',
                 getFilter: filter => {
                   processing = filter;
                 },
@@ -620,6 +624,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sample Run On',
                 getFilter: filter => {
                   sampleRunOn = filter;
                 },
@@ -670,6 +675,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Workflow',
                 getFilter: filter => {
                   workflow = filter;
                 },
@@ -717,6 +723,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Disease',
                 getFilter: filter => {
                   disease = filter;
                 },
@@ -763,6 +770,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Category',
                 getFilter: filter => {
                   category = filter;
                 },
@@ -809,6 +817,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Type',
                 getFilter: filter => {
                   testType = filter;
                 },
@@ -855,6 +864,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Workflow Code',
                 getFilter: filter => {
                   workflowCode = filter;
                 },
@@ -903,6 +913,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'CPT Code',
                 getFilter: filter => {
                   cptCode = filter;
                 },
@@ -1020,6 +1031,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Test Method Code',
                 getFilter: filter => {
                   testMethodCode = filter;
                 },
@@ -1061,6 +1073,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Test Method Name',
                 getFilter: filter => {
                   testMethodName = filter;
                 },
@@ -1235,6 +1248,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Label Instruction',
                 getFilter: filter => {
                   labelInstruction = filter;
                 },
@@ -1320,6 +1334,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Prefix',
                 getFilter: filter => {
                   prefix = filter;
                 },
@@ -1367,6 +1382,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sufix',
                 getFilter: filter => {
                   sufix = filter;
                 },
@@ -1413,6 +1429,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Special Instructions',
                 getFilter: filter => {
                   speicalInstructions = filter;
                 },
@@ -1459,6 +1476,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Internal Comments',
                 getFilter: filter => {
                   internalComments = filter;
                 },
@@ -1477,6 +1495,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'External Comments',
                 getFilter: filter => {
                   externalComments = filter;
                 },
@@ -1523,6 +1542,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Right Marker',
                 getFilter: filter => {
                   testRightMarker = filter;
                 },
@@ -1791,6 +1811,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Interpretation',
                 getFilter: filter => {
                   interpretation = filter;
                 },

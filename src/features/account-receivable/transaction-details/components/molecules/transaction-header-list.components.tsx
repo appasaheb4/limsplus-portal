@@ -68,6 +68,7 @@ export const TransactionHeaderList = observer(
                 text: 'Lab Id',
                 sort: true,
                 editable: false,
+                headerClasses: 'textHeaderm',
               },
               {
                 dataField: 'invoiceAc',
@@ -80,6 +81,7 @@ export const TransactionHeaderList = observer(
                 text: 'Invoice Date',
                 sort: true,
                 editable: false,
+                headerClasses: 'textHeaderm',
                 formatter: (cell, row) => {
                   return (
                     row.invoiceDate &&
@@ -92,6 +94,7 @@ export const TransactionHeaderList = observer(
                 text: 'Action Date',
                 sort: true,
                 editable: false,
+                headerClasses: 'textHeaderm',
                 formatter: (cell, row) => {
                   return (
                     row.actionDate &&
@@ -103,6 +106,7 @@ export const TransactionHeaderList = observer(
                 dataField: 'registrationDate',
                 text: 'Registration Date',
                 sort: true,
+                headerClasses: 'textHeaderm',
                 editable: false,
                 formatter: (cell, row) => {
                   return (
@@ -115,6 +119,7 @@ export const TransactionHeaderList = observer(
                 dataField: 'dueDate',
                 text: 'Due Date',
                 sort: true,
+                headerClasses: 'textHeaderm',
                 editable: false,
                 formatter: (cell, row) => {
                   return (
@@ -128,6 +133,7 @@ export const TransactionHeaderList = observer(
                 text: 'Reporting Date',
                 sort: true,
                 editable: false,
+                headerClasses: 'textHeaderm',
                 formatter: (cell, row) => {
                   return (
                     row.reportingDate &&

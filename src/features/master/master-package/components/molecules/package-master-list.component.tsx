@@ -142,6 +142,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Package Code',
               getFilter: filter => {
                 packageCode = filter;
               },
@@ -159,6 +160,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Package Name',
               getFilter: filter => {
                 packageName = filter;
               },
@@ -177,6 +179,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Service Type',
               getFilter: filter => {
                 serviceType = filter;
               },
@@ -222,6 +225,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Panel Code',
               getFilter: filter => {
                 panelCode = filter;
               },
@@ -264,6 +268,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Panel Name',
               getFilter: filter => {
                 panelName = filter;
               },
@@ -527,6 +532,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Entered By',
               getFilter: filter => {
                 enteredBy = filter;
               },

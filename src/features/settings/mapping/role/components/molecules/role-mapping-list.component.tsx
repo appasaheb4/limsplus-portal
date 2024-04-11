@@ -61,6 +61,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: (row, col) => `${col.role?.code}`,
               filter: textFilter({
+                placeholder: 'Role',
                 getFilter: filter => {
                   role = filter;
                 },

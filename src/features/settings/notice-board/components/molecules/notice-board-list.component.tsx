@@ -114,6 +114,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Header',
                 getFilter: filter => {
                   header = filter;
                 },
@@ -131,6 +132,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Message',
                 getFilter: filter => {
                   message = filter;
                 },
@@ -222,6 +224,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Action',
                 getFilter: filter => {
                   action = filter;
                 },

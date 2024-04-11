@@ -82,6 +82,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Department Code',
               getFilter: filter => {
                 departmentCode = filter;
               },
@@ -187,6 +188,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Section In Charge',
               getFilter: filter => {
                 sectionInCharge = filter;
               },
