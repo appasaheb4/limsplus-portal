@@ -66,6 +66,7 @@ export const MethodsList = (props: MethodsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Methods Code',
               getFilter: filter => {
                 methodsCode = filter;
               },
@@ -84,6 +85,7 @@ export const MethodsList = (props: MethodsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Methods Name',
               getFilter: filter => {
                 methodsName = filter;
               },

@@ -73,6 +73,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Variable',
                 getFilter: filter => {
                   variable = filter;
                 },
@@ -173,6 +174,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               csvFormatter: (cell, row, rowIndex) =>
                 `${row.user.map(item => item.fullName).join(' , ')}`,
               filter: textFilter({
+                placeholder: 'Users',
                 getFilter: filter => {
                   user = filter;
                 },
@@ -284,6 +286,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Value',
                 getFilter: filter => {
                   value = filter;
                 },

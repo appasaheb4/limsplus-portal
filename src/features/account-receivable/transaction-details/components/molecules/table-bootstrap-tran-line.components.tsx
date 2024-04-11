@@ -320,7 +320,7 @@ export const TableBootstrapTranLine = ({
         >
           {props => (
             <div>
-              <div className='flex items-center flex-wrap'>
+              {/* <div className='flex items-center flex-wrap'>
                 <div className='mt-2'>
                   <SearchBar
                     {...searchProps}
@@ -379,7 +379,7 @@ export const TableBootstrapTranLine = ({
                     {...props.columnToggleProps}
                   />
                 </div>
-              )}
+              )} */}
               <div className='scrollTable'>
                 <BootstrapTable
                   remote
@@ -394,7 +394,7 @@ export const TableBootstrapTranLine = ({
                   rowStyle={rowStyle}
                 />
               </div>
-              <div className='flex items-center gap-2 mt-2'>
+              {/* <div className='flex items-center gap-2 mt-2'>
                 <SizePerPageDropdownStandalone
                   {...Object.assign(
                     {},
@@ -405,7 +405,7 @@ export const TableBootstrapTranLine = ({
               </div>
               <div className='flex items-center gap-2 mt-2'>
                 <PaginationTotalStandalone {...paginationProps} />
-              </div>
+              </div> */}
             </div>
           )}
         </ToolkitProvider>

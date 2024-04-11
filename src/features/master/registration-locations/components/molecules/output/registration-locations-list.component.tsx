@@ -151,6 +151,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Location Code',
               getFilter: filter => {
                 locationCode = filter;
               },
@@ -168,6 +169,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Location Name',
               getFilter: filter => {
                 locationName = filter;
               },
@@ -185,6 +187,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Client Code',
               getFilter: filter => {
                 corporateCode = filter;
               },
@@ -315,6 +318,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Ac Class',
               getFilter: filter => {
                 acClass = filter;
               },
@@ -360,6 +364,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Account Type',
               getFilter: filter => {
                 accountType = filter;
               },
@@ -409,6 +414,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Customer Group',
               getFilter: filter => {
                 customerGroup = filter;
               },
@@ -459,6 +465,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Method Coln',
               getFilter: filter => {
                 methodColn = filter;
               },
@@ -504,6 +511,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Category',
               getFilter: filter => {
                 category = filter;
               },
@@ -619,6 +627,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             filter: textFilter({
+              placeholder: 'Country',
               getFilter: filter => {
                 country = filter;
               },
@@ -638,6 +647,7 @@ export const RegistrationLocationsList = (
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'State',
               getFilter: filter => {
                 state = filter;
               },
@@ -654,6 +664,7 @@ export const RegistrationLocationsList = (
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'District',
               getFilter: filter => {
                 district = filter;
               },
@@ -672,6 +683,7 @@ export const RegistrationLocationsList = (
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'City',
               getFilter: filter => {
                 city = filter;
               },
@@ -689,6 +701,7 @@ export const RegistrationLocationsList = (
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Area',
               getFilter: filter => {
                 area = filter;
               },
@@ -707,6 +720,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Address',
               getFilter: filter => {
                 address = filter;
               },
@@ -738,6 +752,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'SBU',
               getFilter: filter => {
                 sbu = filter;
               },
@@ -755,6 +770,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Zone',
               getFilter: filter => {
                 zone = filter;
               },
@@ -772,6 +788,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Sales Territory',
               getFilter: filter => {
                 salesTerritoRy = filter;
               },
@@ -807,6 +824,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Telephone',
               getFilter: filter => {
                 telephone = filter;
               },
@@ -916,6 +934,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Email',
               getFilter: filter => {
                 email = filter;
               },
@@ -961,6 +980,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Report Priority',
               getFilter: filter => {
                 reportPriority = filter;
               },
@@ -1055,6 +1075,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Route',
               getFilter: filter => {
                 route = filter;
               },
@@ -1281,6 +1302,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Info',
               getFilter: filter => {
                 info = filter;
               },
@@ -1587,6 +1609,7 @@ export const RegistrationLocationsList = (
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Entered By',
               getFilter: filter => {
                 enteredBy = filter;
               },

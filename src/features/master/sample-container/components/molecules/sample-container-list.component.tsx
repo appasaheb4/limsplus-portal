@@ -68,6 +68,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Container Code',
               getFilter: filter => {
                 containerCode = filter;
               },
@@ -87,6 +88,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Container Name',
               getFilter: filter => {
                 containerName = filter;
               },
@@ -106,6 +108,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Tube Name',
               getFilter: filter => {
                 tubeName = filter;
               },

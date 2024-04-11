@@ -140,6 +140,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sample Code',
                 getFilter: filter => {
                   sampleCode = filter;
                 },
@@ -179,6 +180,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sample Type',
                 getFilter: filter => {
                   sampleType = filter;
                 },
@@ -218,6 +220,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sample Group',
                 getFilter: filter => {
                   sampleGroup = filter;
                 },
@@ -257,6 +260,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Coll Container Code',
                 getFilter: filter => {
                   collContainerCode = filter;
                 },
@@ -296,6 +300,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Coll Container Name',
                 getFilter: filter => {
                   collContainerName = filter;
                 },
@@ -335,6 +340,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Container Code',
                 getFilter: filter => {
                   testContainerCode = filter;
                 },
@@ -374,6 +380,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Test Container Name',
                 getFilter: filter => {
                   testContainerName = filter;
                 },
@@ -682,6 +689,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Min Draw Vol',
                 getFilter: filter => {
                   minDrawVol = filter;
                 },
@@ -701,6 +709,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Min Draw Vol Unit',
                 getFilter: filter => {
                   minDrawVolUnit = filter;
                 },
@@ -752,6 +761,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Min Test Vol',
                 getFilter: filter => {
                   minTestVol = filter;
                 },
@@ -770,6 +780,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Min Test Vol Unit',
                 getFilter: filter => {
                   minTestVolUnit = filter;
                 },
@@ -821,6 +832,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Condition',
                 getFilter: filter => {
                   condition = filter;
                 },
@@ -839,6 +851,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Repention Period',
                 getFilter: filter => {
                   repentionPeriod = filter;
                 },
@@ -858,6 +871,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Repention Units',
                 getFilter: filter => {
                   repentionUnits = filter;
                 },
@@ -909,6 +923,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Label Inst',
                 getFilter: filter => {
                   labelInst = filter;
                 },
@@ -954,6 +969,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Info',
                 getFilter: filter => {
                   info = filter;
                 },
