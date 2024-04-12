@@ -47,7 +47,7 @@ interface TableBootstrapProps {
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
   onFilterRecord?: (item: any) => void;
-  onUpdateResult?: (id: string, fields: any) => void;
+  onUpdateResult?: (fields: any, id: string, patientResultId: string) => void;
   onUpdateFields?: (item: any, id: string) => void;
   onPagination?: (type: string) => void;
 }
@@ -347,34 +347,6 @@ export const TableBootstrap = ({
     }
   };
 
-  const handleOnExpand = (row, isExpand, rowIndex, e) => {
-    if (isExpand) {
-      setExpanded([...expanded, row.id]);
-    } else {
-      setExpanded(expanded.filter(x => x !== row.id));
-    }
-  };
-
-  // const expandRow = {
-  //   renderer: row => (
-  //     <div>
-  //       <Result
-  //         data={row[1] || []}
-  //         totalSize={row[1].length}
-  //         onUpdateResult={(fields: any, id: string) => {
-  //           onUpdateResult && onUpdateResult(id, fields);
-  //         }}
-  //         onUpdateFields={(fields: any, id: string) => {
-  //           onUpdateFields && onUpdateFields(fields, id);
-  //         }}
-  //       />
-  //     </div>
-  //   ),
-  //   showExpandColumn: true,
-  //   expandByColumnOnly: true,
-  //   expanded: [0, 1],
-  // };
-
   return (
     <>
       <PaginationProvider
@@ -496,15 +468,6 @@ export const TableBootstrap = ({
                     {...paginationTableProps}
                     filter={filterFactory()}
                     headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                    // selectRow={
-                    //   isSelectRow
-                    //     ? {
-                    //         mode: 'checkbox',
-                    //         onSelect: handleOnSelect,
-                    //         onSelectAll: handleOnSelectAll,
-                    //       }
-                    //     : undefined
-                    // }
                     cellEdit={
                       isEditModify
                         ? cellEditFactory({
@@ -516,7 +479,6 @@ export const TableBootstrap = ({
                     rowEvents={rowEvents}
                     rowStyle={rowStyle}
                     onTableChange={handleTableChange}
-                    // expandRow={expandRow}
                   />
                   <div className='-mt-2'>
                     <Result
@@ -528,8 +490,13 @@ export const TableBootstrap = ({
                           ? data[0][1]?.length
                           : []
                       }
-                      onUpdateResult={(fields: any, id: string) => {
-                        onUpdateResult && onUpdateResult(id, fields);
+                      onUpdateResult={(
+                        fields: any,
+                        id: string,
+                        patientResultId: string,
+                      ) => {
+                        onUpdateResult &&
+                          onUpdateResult(fields, id, patientResultId);
                       }}
                       onUpdateFields={(fields: any, id: string) => {
                         onUpdateFields && onUpdateFields(fields, id);

@@ -34,7 +34,7 @@ interface ResultProps {
   onSelectedRow?: (selectedItem: any) => void;
   onUpdateItem?: (value: any, dataField: string, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
-  onUpdateResult?: (fields: any, id: string) => void;
+  onUpdateResult?: (fields: any, id: string, patientResultId: string) => void;
   onFilter?: (
     type: string,
     filter: any,
@@ -143,6 +143,7 @@ export const Result = observer((props: ResultProps) => {
                             critical: getCretical(rows.resultType, rows),
                             ...result,
                           },
+                          rows._id,
                           rows.patientResultId,
                         );
                     }}
@@ -329,56 +330,62 @@ export const Result = observer((props: ResultProps) => {
             {
               dataField: 'conclusion',
               text: 'Conclusion',
-              editable: false,
               style: { width: widthConculsionBox },
               formatter: (cell, row) => {
-                return (
-                  <div className='flex flex-col'>
-                    <Tooltip
-                      tooltipText={
-                        row._id != conclusionId ? 'Expand' : 'Collapse'
-                      }
-                    >
-                      <Icons.IconContext
-                        color='#000000'
-                        size='20'
-                        onClick={() => {
-                          if (row._id === conclusionId) {
-                            setWidthConculsionId('');
-                            setWidthConculsionBox('30px');
-                          } else {
-                            setWidthConculsionId(row._id);
-                            setWidthConculsionBox('200px');
-                          }
-                        }}
-                      >
-                        {Icons.getIconTag(
-                          row._id != conclusionId
-                            ? Icons.IconBi.BiExpand
-                            : Icons.IconBi.BiCollapse,
-                        )}
-                      </Icons.IconContext>
-                    </Tooltip>
-
-                    {row._id === conclusionId && (
-                      <div style={{ width: widthConculsionBox }}>
-                        <Form.MultilineInput
-                          rows={3}
-                          placeholder='Conclusion'
-                          className='text-black'
-                          onBlur={conclusion => {
-                            props.onUpdateFields &&
-                              props.onUpdateFields({ conclusion }, row._id);
-                            setWidthConculsionId('');
-                            setWidthConculsionBox('30px');
-                          }}
-                          defaultValue={row?.conclusion}
-                        />
-                      </div>
-                    )}
-                  </div>
-                );
+                return <span>{row?.conclusion?.toString()}</span>;
               },
+              editorRenderer: (
+                editorProps,
+                value,
+                row,
+                column,
+                rowIndex,
+                columnIndex,
+              ) => (
+                <div className='flex flex-col'>
+                  <Tooltip
+                    tooltipText={
+                      row._id != conclusionId ? 'Expand' : 'Collapse'
+                    }
+                  >
+                    <Icons.IconContext
+                      color='#000000'
+                      size='20'
+                      onClick={() => {
+                        if (row._id === conclusionId) {
+                          setWidthConculsionId('');
+                          setWidthConculsionBox('30px');
+                        } else {
+                          setWidthConculsionId(row._id);
+                          setWidthConculsionBox('200px');
+                        }
+                      }}
+                    >
+                      {Icons.getIconTag(
+                        row._id != conclusionId
+                          ? Icons.IconBi.BiExpand
+                          : Icons.IconBi.BiCollapse,
+                      )}
+                    </Icons.IconContext>
+                  </Tooltip>
+                  {row._id === conclusionId && (
+                    <div style={{ width: widthConculsionBox }}>
+                      <Form.MultilineInput
+                        rows={3}
+                        placeholder='Conclusion'
+                        className='text-black'
+                        onBlur={conclusion => {
+                          props.onUpdateFields &&
+                            props.onUpdateFields({ conclusion }, row._id);
+                          setWidthConculsionId('');
+                          setWidthConculsionBox('30px');
+                        }}
+                        defaultValue={row?.conclusion}
+                      />
+                    </div>
+                  )}
+                </div>
+              ),
             },
             {
               dataField: 'sampleType',
@@ -471,7 +478,6 @@ export const Result = observer((props: ResultProps) => {
               text: 'Final',
               sort: true,
               editable: false,
-              // headerClasses: 'textHeaderl',
             },
             {
               dataField: 'enteredBy',
@@ -480,20 +486,8 @@ export const Result = observer((props: ResultProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
-            // {
-            //   text: 'Company Code',
-            //   dataField: 'companyCode',
-            //   sort: true,
-            //   editable: false,
-            // },
-            // {
-            //   text: 'Environment',
-            //   dataField: 'environment',
-            //   editable: false,
-            //   sort: true,
-            // },
           ]}
-          isEditModify={props.isEditModify}
+          isEditModify={true}
           isSelectRow={true}
           fileName='Pending Panel Approval'
           onSelectedRow={rows => {
