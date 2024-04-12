@@ -136,6 +136,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Analyte Code',
                 getFilter: filter => {
                   analyteCode = filter;
                 },
@@ -177,6 +178,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Analyte Name',
                 getFilter: filter => {
                   analyteName = filter;
                 },
@@ -218,6 +220,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Department',
                 getFilter: filter => {
                   department = filter;
                 },
@@ -259,6 +262,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Species',
                 getFilter: filter => {
                   species = filter;
                 },
@@ -305,6 +309,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sex',
                 getFilter: filter => {
                   sex = filter;
                 },
@@ -351,6 +356,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Range Set On',
                 getFilter: filter => {
                   rangeSetOn = filter;
                 },
@@ -404,6 +410,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Type',
                 getFilter: filter => {
                   instType = filter;
                 },
@@ -459,6 +466,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Lab',
                 getFilter: filter => {
                   lab = filter;
                 },
@@ -502,6 +510,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Range Type',
                 getFilter: filter => {
                   rangType = filter;
                 },
@@ -549,6 +558,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Validation Level',
                 getFilter: filter => {
                   validationLevel = filter;
                 },
@@ -656,6 +666,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Age From Unit',
                 getFilter: filter => {
                   ageFromUnit = filter;
                 },
@@ -771,6 +782,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Age To Unit',
                 getFilter: filter => {
                   ageToUnit = filter;
                 },
@@ -831,6 +843,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Low',
                 getFilter: filter => {
                   low = filter;
                 },
@@ -878,6 +891,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'High',
                 getFilter: filter => {
                   high = filter;
                 },
@@ -925,6 +939,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Alpha',
                 getFilter: filter => {
                   alpha = filter;
                 },
@@ -945,6 +960,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Delta Type',
                 getFilter: filter => {
                   deltaRangTeType = filter;
                 },
@@ -963,6 +979,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Delta Interval',
                 getFilter: filter => {
                   deltaInterval = filter;
                 },
@@ -981,6 +998,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Interval Unit',
                 getFilter: filter => {
                   intervalUnit = filter;
                 },
@@ -1031,6 +1049,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },
@@ -1048,6 +1067,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -1279,6 +1299,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -1319,6 +1340,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

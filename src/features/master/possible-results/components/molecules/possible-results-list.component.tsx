@@ -92,6 +92,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             dataField: 'analyteCode',
             text: 'Analyte Code',
             filter: textFilter({
+              placeholder: 'Analyte Code',
               getFilter: filter => {
                 analyteCode = filter;
               },
@@ -141,6 +142,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Analyte Name',
               getFilter: filter => {
                 analyteName = filter;
               },
@@ -276,6 +278,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                 row.defaultConclusion && row.defaultConclusion.critical
               }`,
             filter: textFilter({
+              placeholder: 'Defualt Conclusion',
               getFilter: filter => {
                 defaultConclusion = filter;
               },
@@ -389,6 +392,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Entered By',
               getFilter: filter => {
                 enteredBy = filter;
               },
@@ -593,6 +597,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -639,6 +644,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -680,6 +686,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

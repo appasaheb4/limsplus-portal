@@ -88,6 +88,7 @@ export const TransmittedMessageList = observer(
               editable: false,
               headerClasses: 'textHeader3',
               filter: textFilter({
+                placeholder: 'Lab Id',
                 getFilter: filter => {
                   labId = filter;
                 },
@@ -99,6 +100,7 @@ export const TransmittedMessageList = observer(
               headerClasses: 'textHeader',
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Type',
                 getFilter: filter => {
                   instType = filter;
                 },
@@ -115,6 +117,7 @@ export const TransmittedMessageList = observer(
               headerClasses: 'textHeader',
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Id',
                 getFilter: filter => {
                   instId = filter;
                 },
@@ -131,6 +134,7 @@ export const TransmittedMessageList = observer(
               headerClasses: 'textHeader',
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Protocol',
                 getFilter: filter => {
                   protocol = filter;
                 },
@@ -147,6 +151,7 @@ export const TransmittedMessageList = observer(
               headerClasses: 'textHeader',
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Segment Message',
                 getFilter: filter => {
                   segmentMessage = filter;
                 },
@@ -163,6 +168,7 @@ export const TransmittedMessageList = observer(
               headerClasses: 'textHeader',
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Segment Order',
                 getFilter: filter => {
                   segmentOrder = filter;
                 },
@@ -186,6 +192,7 @@ export const TransmittedMessageList = observer(
                   (item: any) => item.value,
                 )} `,
               filter: textFilter({
+                placeholder: 'Segment Array',
                 getFilter: filter => {
                   segmentArray = filter;
                 },
@@ -257,6 +264,7 @@ export const TransmittedMessageList = observer(
                   ? dayjs(row.dateOfEntry || 0).format('DD-MM-YYYY HH:mm:ss')
                   : '',
               filter: textFilter({
+                placeholder: 'Date Of Entry',
                 getFilter: filter => {
                   dateOfEntry = filter;
                 },
@@ -275,6 +283,7 @@ export const TransmittedMessageList = observer(
               headerClasses: 'textHeader',
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -296,6 +305,7 @@ export const TransmittedMessageList = observer(
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -314,6 +324,7 @@ export const TransmittedMessageList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

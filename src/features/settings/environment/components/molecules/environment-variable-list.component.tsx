@@ -70,6 +70,7 @@ export const EnvironmentVariableList = observer(
                 editable: (content, row, rowIndex, columnIndex) => row.isModify,
                 csvFormatter: col => (col ? col : ''),
                 filter: textFilter({
+                  placeholder: 'Environment Variable',
                   getFilter: filter => {
                     environmentVariable = filter;
                   },
@@ -91,6 +92,7 @@ export const EnvironmentVariableList = observer(
                 editable: (content, row, rowIndex, columnIndex) => row.isModify,
                 csvFormatter: col => (col ? col : ''),
                 filter: textFilter({
+                  placeholder: 'Category',
                   getFilter: filter => {
                     category = filter;
                   },
@@ -137,6 +139,7 @@ export const EnvironmentVariableList = observer(
                 headerClasses: 'textHeader',
                 editable: (content, row, rowIndex, columnIndex) => row.isModify,
                 filter: textFilter({
+                  placeholder: 'Description',
                   getFilter: filter => {
                     description = filter;
                   },
@@ -170,6 +173,7 @@ export const EnvironmentVariableList = observer(
                 },
                 sortCaret: (order, column) => sortCaret(order, column),
                 filter: textFilter({
+                  placeholder: 'Status',
                   getFilter: filter => {
                     status = filter;
                   },
@@ -214,6 +218,7 @@ export const EnvironmentVariableList = observer(
                 headerClasses: 'textHeader3',
                 editable: false,
                 filter: textFilter({
+                  placeholder: 'Entered By',
                   getFilter: filter => {
                     enteredBy = filter;
                   },
@@ -302,6 +307,7 @@ export const EnvironmentVariableList = observer(
                 editable: false,
                 csvFormatter: col => (col ? col : ''),
                 filter: textFilter({
+                  placeholder: 'Company Code',
                   getFilter: filter => {
                     companyCode = filter;
                   },
@@ -343,6 +349,7 @@ export const EnvironmentVariableList = observer(
                 sortCaret: (order, column) => sortCaret(order, column),
                 csvFormatter: col => (col ? col : ''),
                 filter: textFilter({
+                  placeholder: 'Environment',
                   getFilter: filter => {
                     environment = filter;
                   },

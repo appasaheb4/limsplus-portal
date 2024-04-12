@@ -2,6 +2,7 @@ import React from 'react';
 import { textFilter, sortCaret } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { TableBootstrap } from './table-bootstrap.components';
+import dayjs from 'dayjs';
 
 let pId;
 let labId;
@@ -55,7 +56,7 @@ export const PaymentList = (props: PaymentListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
-            headerClasses: 'textHeader3',
+            headerClasses: 'textHeader',
           },
           {
             dataField: 'labId',
@@ -72,7 +73,7 @@ export const PaymentList = (props: PaymentListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
-            headerClasses: 'textHeader3',
+            headerClasses: 'textHeader',
           },
           {
             dataField: 'rLab',
@@ -91,6 +92,18 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Customer Name',
             sort: true,
             editable: false,
+            headerClasses: 'textHeader',
+            style: {
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              minWidth: 0,
+              maxWidth: '250px',
+              position: 'relative',
+            },
+            formatter: (cellContent, row) => (
+              <span title={row.customerName}>{cellContent}</span>
+            ),
           },
           {
             dataField: 'customerGroup',
@@ -116,12 +129,19 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Other Charges',
             sort: true,
             editable: false,
+            formatter: (cell, row) => {
+              return <span>{row.discountCharges}</span>;
+            },
           },
           {
             dataField: 'invoiceDate',
             text: 'Invoice Date',
             sort: true,
             editable: false,
+            headerClasses: 'textHeaderm',
+            formatter: (cell, row) => {
+              return dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss');
+            },
           },
           {
             dataField: 'grossAmount',

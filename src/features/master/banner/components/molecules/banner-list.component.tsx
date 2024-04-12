@@ -200,6 +200,7 @@ export const BannerList = (props: BannerListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -249,6 +250,7 @@ export const BannerList = (props: BannerListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -289,6 +291,7 @@ export const BannerList = (props: BannerListProps) => {
             editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

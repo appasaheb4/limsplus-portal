@@ -81,6 +81,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sch Code',
                 getFilter: filter => {
                   schCode = filter;
                 },
@@ -100,6 +101,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Delivery Schedule',
                 getFilter: filter => {
                   schName = filter;
                 },
@@ -297,6 +299,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Processing Start Time',
                 getFilter: filter => {
                   pStartTime = filter;
                 },
@@ -315,6 +318,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Processing End Time',
                 getFilter: filter => {
                   pEndTime = filter;
                 },
@@ -333,6 +337,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Cut-off Time',
                 getFilter: filter => {
                   cutofTime = filter;
                 },
@@ -382,6 +387,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Second Cut-off Time',
                 getFilter: filter => {
                   secoundCutofTime = filter;
                 },
@@ -403,6 +409,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Processing Type',
                 getFilter: filter => {
                   processingType = filter;
                 },
@@ -470,6 +477,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Report On',
                 getFilter: filter => {
                   reportOn = filter;
                 },
@@ -488,6 +496,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Dynamic Reporting Time Unit',
                 getFilter: filter => {
                   dynamicRT = filter;
                 },
@@ -506,6 +515,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Dynamic Reporting Time Unit',
                 getFilter: filter => {
                   dynamicTU = filter;
                 },
@@ -559,6 +569,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Fixed Reporting Time Unit',
                 getFilter: filter => {
                   fixedRT = filter;
                 },
@@ -635,6 +646,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -769,6 +781,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -810,6 +823,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

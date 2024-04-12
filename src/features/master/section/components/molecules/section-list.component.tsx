@@ -82,6 +82,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Department Code',
               getFilter: filter => {
                 departmentCode = filter;
               },
@@ -116,6 +117,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Code',
               getFilter: filter => {
                 code = filter;
               },
@@ -147,6 +149,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Name',
               getFilter: filter => {
                 name = filter;
               },
@@ -165,6 +168,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Short Name',
               getFilter: filter => {
                 shortName = filter;
               },
@@ -184,6 +188,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Section In Charge',
               getFilter: filter => {
                 sectionInCharge = filter;
               },
@@ -201,6 +206,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Mobile No',
               getFilter: filter => {
                 mobileNo = filter;
               },
@@ -251,6 +257,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Contact No',
               getFilter: filter => {
                 contactNo = filter;
               },
@@ -309,6 +316,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Fyi Line',
               getFilter: filter => {
                 fyiLine = filter;
               },
@@ -326,6 +334,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Work Line',
               getFilter: filter => {
                 workLine = filter;
               },
@@ -344,6 +353,7 @@ export const SectionList = (props: SectionListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -390,6 +400,7 @@ export const SectionList = (props: SectionListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -431,6 +442,7 @@ export const SectionList = (props: SectionListProps) => {
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

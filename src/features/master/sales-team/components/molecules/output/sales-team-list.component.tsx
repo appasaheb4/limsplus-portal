@@ -98,6 +98,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Sales Territory',
               getFilter: filter => {
                 salesTerritory = filter;
               },
@@ -128,6 +129,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Description',
               getFilter: filter => {
                 description = filter;
               },
@@ -144,6 +146,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Employee Code',
               getFilter: filter => {
                 empCode = filter;
               },
@@ -161,6 +164,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Employee Name',
               getFilter: filter => {
                 empName = filter;
               },
@@ -186,6 +190,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                 ?.map?.(item => item.level)
                 .join(' , ')}`,
             filter: textFilter({
+              placeholder: 'Sales Hierarchy',
               getFilter: filter => {
                 salesHierarchy = filter;
               },
@@ -224,6 +229,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
                 ?.map(item => item.month)
                 .join(' , ')}`,
             filter: textFilter({
+              placeholder: 'Target',
               getFilter: filter => {
                 target = filter;
               },
@@ -433,6 +439,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -479,6 +486,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -519,6 +527,7 @@ export const SalesTeamList = (props: SalesTeamListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

@@ -228,6 +228,8 @@ const CorporateClients = CorporateClientsHoc(
       }
     };
 
+    console.log(corporateClientsStore.corporateClients);
+
     const getTemplateForImportList = (interfaceType: string) => {
       interfaceManagerStore.interfaceManagerService
         .findByFields({
@@ -368,7 +370,10 @@ const CorporateClients = CorporateClientsHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records);
+            const isExists = await checkExistsRecords({
+              ...records,
+              status: 'A',
+            });
             if (!isExists) {
               setModalConfirm({
                 show: true,
@@ -1006,7 +1011,7 @@ const CorporateClients = CorporateClientsHoc(
                         }}
                       />
                     )}
-                    name='area '
+                    name='area'
                     rules={{ required: false }}
                     defaultValue=''
                   />

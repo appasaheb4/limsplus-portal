@@ -81,6 +81,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             filter: textFilter({
+              placeholder: 'Country',
               getFilter: filter => {
                 country = filter;
               },
@@ -100,6 +101,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             filter: textFilter({
+              placeholder: 'State',
               getFilter: filter => {
                 state = filter;
               },
@@ -119,6 +121,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             filter: textFilter({
+              placeholder: 'District',
               getFilter: filter => {
                 district = filter;
               },
@@ -138,6 +141,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             filter: textFilter({
+              placeholder: 'City',
               getFilter: filter => {
                 city = filter;
               },
@@ -157,6 +161,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             editorStyle: { textTransform: 'uppercase' },
             style: { textTransform: 'uppercase' },
             filter: textFilter({
+              placeholder: 'Area',
               getFilter: filter => {
                 area = filter;
               },
@@ -174,6 +179,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Postcode',
               getFilter: filter => {
                 postalCode = filter;
               },
@@ -302,6 +308,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'SBU',
               getFilter: filter => {
                 sbu = filter;
               },
@@ -348,6 +355,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Zone',
               getFilter: filter => {
                 zone = filter;
               },
@@ -393,6 +401,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -442,6 +451,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -483,6 +493,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

@@ -143,7 +143,10 @@ const Section = SectionHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecords(records);
+            const isExists = await checkExistsRecords({
+              ...records,
+              status: 'A',
+            });
             if (!isExists) {
               setModalConfirm({
                 show: true,

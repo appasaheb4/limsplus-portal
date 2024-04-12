@@ -65,6 +65,7 @@ const LoginActivity = observer(() => {
                   csvFormatter: (cell, row, rowIndex) =>
                     `UserId: ${row.user.userId}, User Name: ${row.user.fullName},  Lab: ${row.user.lab}, Role: ${row.user.role}`,
                   filter: textFilter({
+                    placeholder: 'User details',
                     getFilter: filter => {
                       userId = filter;
                     },
@@ -91,6 +92,7 @@ const LoginActivity = observer(() => {
                   },
                   sortCaret: (order, column) => sortCaret(order, column),
                   filter: textFilter({
+                    placeholder: 'System info',
                     getFilter: filter => {
                       systemInfo = filter;
                     },
@@ -126,6 +128,7 @@ const LoginActivity = observer(() => {
                   },
                   sortCaret: (order, column) => sortCaret(order, column),
                   filter: textFilter({
+                    placeholder: 'Ip Information',
                     getFilter: filter => {
                       ipInfo = filter;
                     },
@@ -235,6 +238,7 @@ const LoginActivity = observer(() => {
                   editable: false,
                   csvFormatter: col => (col ? col : ''),
                   filter: textFilter({
+                    placeholder: 'Company Code',
                     getFilter: filter => {
                       companyCode = filter;
                     },
@@ -253,6 +257,7 @@ const LoginActivity = observer(() => {
                   sortCaret: (order, column) => sortCaret(order, column),
                   csvFormatter: col => (col ? col : ''),
                   filter: textFilter({
+                    placeholder: 'Environment',
                     getFilter: filter => {
                       environment = filter;
                     },

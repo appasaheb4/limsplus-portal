@@ -62,6 +62,7 @@ export const RoleList = (props: RoleListProps) => {
           headerClasses: 'textHeader',
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
+            placeholder: 'Code',
             getFilter: filter => {
               code = filter;
             },
@@ -92,6 +93,7 @@ export const RoleList = (props: RoleListProps) => {
           headerClasses: 'textHeader',
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
+            placeholder: 'Description',
             getFilter: filter => {
               description = filter;
             },
@@ -111,6 +113,7 @@ export const RoleList = (props: RoleListProps) => {
             row.status == 'D' || row.status == 'I' ? false : true,
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
+            placeholder: 'Status',
             getFilter: filter => {
               status = filter;
             },
@@ -158,6 +161,7 @@ export const RoleList = (props: RoleListProps) => {
           editable: false,
           csvFormatter: col => (col ? col : ''),
           filter: textFilter({
+            placeholder: 'Company Code',
             getFilter: filter => {
               companyCode = filter;
             },
@@ -197,6 +201,7 @@ export const RoleList = (props: RoleListProps) => {
           headerClasses: 'textHeader',
           sortCaret: (order, column) => sortCaret(order, column),
           filter: textFilter({
+            placeholder: 'Environment',
             getFilter: filter => {
               environment = filter;
             },
