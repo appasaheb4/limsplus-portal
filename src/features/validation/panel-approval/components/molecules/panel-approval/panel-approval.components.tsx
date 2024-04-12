@@ -34,7 +34,7 @@ interface PanelApprovalListProps {
   filterRecord?: string;
   onSelectedRow?: (selectedItem: any, type: string) => void;
   onUpdateFields?: (fields: any, id: string[]) => void;
-  onUpdateResult?: (fields: any, id: string) => void;
+  onUpdateResult?: (fields: any, id: string, patientResultId: string) => void;
   onExpand?: (items: any) => void;
   onRecheck?: (id: string, patientResultId: string) => void;
   onRetest?: (id: string, patientResultId: string) => void;
@@ -358,8 +358,9 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
           onUpdateFields={(fields: any, id: string) => {
             props.onUpdateFields && props.onUpdateFields({ ...fields }, [id]);
           }}
-          onUpdateResult={(id, fields) => {
-            props.onUpdateResult && props.onUpdateResult(id, fields);
+          onUpdateResult={(fields, id, patientResultId) => {
+            props.onUpdateResult &&
+              props.onUpdateResult(fields, id, patientResultId);
           }}
           onPagination={type => {
             if (type == 'next') {

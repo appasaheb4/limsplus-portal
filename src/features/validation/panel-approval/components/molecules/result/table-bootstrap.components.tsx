@@ -112,6 +112,7 @@ export const TableBootstrap = ({
       ))}
     </div>
   );
+
   const options = {
     cutome: true,
     totalSize: totalSize,
@@ -151,26 +152,6 @@ export const TableBootstrap = ({
     hidePageListOnlyOnePage: true,
     sizePerPageRenderer: sizePerPageRenderer,
   };
-  let searchProps: any = {
-    placeholder: searchPlaceholder,
-  };
-  const handleOnSelect = (rows: any, isSelect) => {
-    if (isSelect) {
-      if (selectedRow) {
-        let itemSelected: any[] = selectedRow;
-        itemSelected.push(rows);
-        setSelectedRow(itemSelected);
-      } else {
-        setSelectedRow([rows]);
-      }
-    }
-  };
-
-  const handleOnSelectAll = (isSelect, rows) => {
-    if (isSelect) {
-      setSelectedRow(rows);
-    }
-  };
 
   const handleTableChange = (
     type,
@@ -185,7 +166,6 @@ export const TableBootstrap = ({
       searchText,
     },
   ) => {
-    // console.log({type});
     if (type === 'cellEdit' && isEditModify) {
       onUpdateItem &&
         onUpdateItem(cellEdit.newValue, cellEdit.dataField, cellEdit.rowId);
@@ -243,34 +223,6 @@ export const TableBootstrap = ({
       }
     }
   };
-
-  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className='btn-group btn-group-toggle' data-toggle='buttons'>
-      {columns
-        .map(column => ({
-          ...column,
-          toggle: toggles[column.dataField],
-        }))
-        .map((column, index) => {
-          if (index > 0) {
-            return (
-              <button
-                type='button'
-                key={column.dataField}
-                className={` btn btn-primary  btn-sm whitespace-nowrap ${
-                  column.toggle ? 'active' : ''
-                }`}
-                data-toggle='button'
-                aria-pressed={column.toggle ? 'true' : 'false'}
-                onClick={() => onColumnToggle(column.dataField)}
-              >
-                {column.text}
-              </button>
-            );
-          }
-        })}
-    </div>
-  );
 
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
@@ -338,6 +290,14 @@ export const TableBootstrap = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
+                  cellEdit={
+                    isEditModify
+                      ? cellEditFactory({
+                          mode: 'dbclick',
+                          blurToSave: true,
+                        })
+                      : undefined
+                  }
                   headerClasses='bg-gray-500 text-white whitespace-nowrap'
                   onTableChange={handleTableChange}
                   rowEvents={rowEvents}
