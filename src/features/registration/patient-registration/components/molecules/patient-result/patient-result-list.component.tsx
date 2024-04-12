@@ -197,7 +197,7 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              // headerClasses: 'textHeader3',
+              headerClasses: 'textHeaderm',
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),

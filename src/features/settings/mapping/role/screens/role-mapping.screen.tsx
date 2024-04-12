@@ -26,7 +26,6 @@ const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'none',
   display: 'flex',
   padding: grid,
-  overflow: 'auto',
 });
 
 const RoleMapping = observer(() => {
@@ -367,7 +366,7 @@ const RoleMapping = observer(() => {
             </Form.InputWrapper>
           </div>
 
-          <div className='mt-4 overflow-auto'>
+          <div className='mt-4'>
             {routerStore.router && (
               <DragDropContext
                 onDragEnd={(result: any) => {

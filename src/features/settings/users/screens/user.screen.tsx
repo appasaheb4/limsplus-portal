@@ -416,7 +416,6 @@ export const Users = UsersHoc(
         'department',
         'mobileNo',
         'email',
-        'dateOfBirth',
         'exipreDate',
         'status',
       ];
@@ -1704,95 +1703,105 @@ export const Users = UsersHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputDateTime
-                        label='Birth date'
-                        hasError={!!errors.dateOfBirth}
-                        value={value}
-                        onChange={dateOfBirth => {
-                          onChange(dateOfBirth);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            dateOfBirth,
-                          });
-                        }}
-                      />
-                    )}
-                    name='dateOfBirth'
-                    rules={{ required: true }}
-                    defaultValue={userStore && userStore.user.dateOfBirth}
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputDateTime
-                        label='Marriage Anniversary'
-                        hasError={!!errors.marriageAnniversary}
-                        value={value}
-                        onChange={marriageAnniversary => {
-                          onChange(marriageAnniversary);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            marriageAnniversary,
-                          });
-                        }}
-                      />
-                    )}
-                    name='marriageAnniversary'
-                    rules={{ required: true }}
-                    defaultValue={
-                      userStore && userStore.user.marriageAnniversary
-                    }
-                  />
+                  <div className='z-10'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputDateTime
+                          label='Birth date'
+                          hasError={!!errors.dateOfBirth}
+                          value={value}
+                          onChange={dateOfBirth => {
+                            onChange(dateOfBirth);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              dateOfBirth,
+                            });
+                          }}
+                        />
+                      )}
+                      name='dateOfBirth'
+                      rules={{ required: false }}
+                      defaultValue={userStore && userStore.user.dateOfBirth}
+                    />
+                  </div>
 
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputDateTime
-                        label='Exipre Date'
-                        hasError={!!errors.exipreDate}
-                        value={value}
-                        onChange={exipreDate => {
-                          onChange(exipreDate);
-                          userStore.updateUser({
-                            ...userStore.user,
-                            exipreDate,
-                          });
-                        }}
-                      />
-                    )}
-                    name='exipreDate'
-                    rules={{ required: true }}
-                    defaultValue={userStore && userStore.user.exipreDate}
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputDateTime
-                        label='Date Creation'
-                        disabled={true}
-                        value={value}
-                      />
-                    )}
-                    name='dateCreation'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputDateTime
-                        label='Date Active'
-                        disabled={true}
-                        value={value}
-                      />
-                    )}
-                    name='dateActive'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
+                  <div className='z-5'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputDateTime
+                          label='Marriage Anniversary'
+                          hasError={!!errors.marriageAnniversary}
+                          value={value}
+                          onChange={marriageAnniversary => {
+                            onChange(marriageAnniversary);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              marriageAnniversary,
+                            });
+                          }}
+                        />
+                      )}
+                      name='marriageAnniversary'
+                      rules={{ required: true }}
+                      defaultValue={
+                        userStore && userStore.user.marriageAnniversary
+                      }
+                    />
+                  </div>
+                  <div className='z-4'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputDateTime
+                          label='Exipre Date'
+                          hasError={!!errors.exipreDate}
+                          value={value}
+                          onChange={exipreDate => {
+                            onChange(exipreDate);
+                            userStore.updateUser({
+                              ...userStore.user,
+                              exipreDate,
+                            });
+                          }}
+                        />
+                      )}
+                      name='exipreDate'
+                      rules={{ required: true }}
+                      defaultValue={userStore && userStore.user.exipreDate}
+                    />
+                  </div>
+                  <div className='z-3'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputDateTime
+                          label='Date Creation'
+                          disabled={true}
+                          value={value}
+                        />
+                      )}
+                      name='dateCreation'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </div>
+                  <div className='z-2'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputDateTime
+                          label='Date Active'
+                          disabled={true}
+                          value={value}
+                        />
+                      )}
+                      name='dateActive'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </div>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
