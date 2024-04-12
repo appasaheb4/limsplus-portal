@@ -92,6 +92,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Binary',
               getFilter: filter => {
                 binary = filter;
               },
@@ -123,6 +124,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'ASCII',
               getFilter: filter => {
                 ascii = filter;
               },
@@ -154,6 +156,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -172,6 +175,7 @@ export const DataConversationList = (props: ConversationMappingListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

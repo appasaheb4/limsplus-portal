@@ -64,6 +64,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: 'Lab Id',
               headerClasses: 'textHeader',
               sort: true,
+              editable: false,
               // headerStyle: {
               //   fontSize: 0,
               // },
@@ -80,6 +81,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
             {
               dataField: 'visitId',
               text: 'Visit Id',
+              editable: false,
               // headerClasses: 'textHeader4 z-10',
               sort: true,
               // headerStyle: {
@@ -100,6 +102,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               text: 'Order Id',
               // headerClasses: 'textHeader4 z-10',
               sort: true,
+              editable: false,
               // headerStyle: {
               //   fontSize: 0,
               // },
@@ -116,6 +119,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
             {
               dataField: 'panelCode',
               text: 'Panel Code',
+              editable: false,
               // headerClasses: 'textHeader4 z-10',
               sort: true,
               // headerStyle: {

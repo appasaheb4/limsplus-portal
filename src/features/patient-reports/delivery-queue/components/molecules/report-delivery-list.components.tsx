@@ -168,6 +168,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Name',
                 getFilter: filter => {
                   name = filter;
                 },
@@ -241,6 +242,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Delivery Status',
                 getFilter: filter => {
                   deliveryStatus = filter;
                 },
@@ -257,6 +259,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Report Type',
                 getFilter: filter => {
                   reportType = filter;
                 },
@@ -302,6 +305,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Destination',
                 getFilter: filter => {
                   destination = filter;
                 },
@@ -319,6 +323,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Comments',
                 getFilter: filter => {
                   comments = filter;
                 },
@@ -392,6 +397,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Error Msg',
                 getFilter: filter => {
                   errorMsg = filter;
                 },
@@ -409,6 +415,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Client Code - Name',
                 getFilter: filter => {
                   clientCode = filter;
                 },
@@ -441,6 +448,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Registration Location Code - Name',
                 getFilter: filter => {
                   registrationLocationCode = filter;
                 },
@@ -475,6 +483,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Doctor Code',
                 getFilter: filter => {
                   doctorCode = filter;
                 },
@@ -492,6 +501,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Doctor Name',
                 getFilter: filter => {
                   doctorName = filter;
                 },
@@ -509,6 +519,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Qr Code',
                 getFilter: filter => {
                   qrCode = filter;
                 },
@@ -526,6 +537,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'PDF',
                 getFilter: filter => {
                   pdf = filter;
                 },
@@ -542,6 +554,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'External Lab Id',
                 getFilter: filter => {
                   externalLabId = filter;
                 },
@@ -558,6 +571,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Employee Code',
                 getFilter: filter => {
                   employeeCode = filter;
                 },
@@ -575,6 +589,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'User Comments',
                 getFilter: filter => {
                   userComments = filter;
                 },
@@ -592,6 +607,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               editable: false,
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },
@@ -610,6 +626,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

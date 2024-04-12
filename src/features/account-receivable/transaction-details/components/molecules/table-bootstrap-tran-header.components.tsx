@@ -47,7 +47,7 @@ interface TableBootstrapTranHeaderProps {
     totalSize: number,
   ) => void;
   clearAllFilter?: () => void;
-  onClickRow?: (item: any, index: number) => void;
+  onClickRow?: (item?: any) => void;
 }
 export const TableBootstrapTranHeader = ({
   id,
@@ -281,7 +281,7 @@ export const TableBootstrapTranHeader = ({
 
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
-      onClickRow && onClickRow(row, rowIndex);
+      onClickRow && onClickRow(row);
     },
   };
 

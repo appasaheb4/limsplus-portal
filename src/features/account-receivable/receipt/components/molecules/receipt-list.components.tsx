@@ -50,6 +50,7 @@ export const ReceiptList = observer((props: ReceiptListProps) => {
               text: 'Lab Id',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderm',
             },
             {
               dataField: 'grossAmount',

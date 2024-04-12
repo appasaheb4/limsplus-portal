@@ -123,6 +123,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Library Code',
                 getFilter: filter => {
                   libraryCode = filter;
                 },
@@ -140,6 +141,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Lab',
                 getFilter: filter => {
                   lab = filter;
                 },
@@ -187,6 +189,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Department',
                 getFilter: filter => {
                   department = filter;
                 },
@@ -223,6 +226,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Position',
                 getFilter: filter => {
                   position = filter;
                 },
@@ -269,6 +273,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Groups',
                 getFilter: filter => {
                   groups = filter;
                 },
@@ -315,6 +320,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Library Type',
                 getFilter: filter => {
                   libraryType = filter;
                 },
@@ -361,6 +367,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Parameter',
                 getFilter: filter => {
                   parameter = filter;
                 },
@@ -459,6 +466,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -505,6 +513,7 @@ export const LibraryList = (props: LibraryListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },
@@ -646,6 +655,7 @@ export const LibraryList = (props: LibraryListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -664,6 +674,7 @@ export const LibraryList = (props: LibraryListProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

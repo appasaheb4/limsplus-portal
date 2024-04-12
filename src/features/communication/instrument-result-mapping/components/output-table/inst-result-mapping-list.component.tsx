@@ -81,6 +81,7 @@ export const InstResultMappingList = observer(
               text: 'Key',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Key',
                 getFilter: filter => {
                   key = filter;
                 },
@@ -115,6 +116,7 @@ export const InstResultMappingList = observer(
               text: 'PLab',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'PLab',
                 getFilter: filter => {
                   pLab = filter;
                 },
@@ -163,6 +165,7 @@ export const InstResultMappingList = observer(
               text: 'Test Code/Test Name',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Test Code',
                 getFilter: filter => {
                   testCode = filter;
                 },
@@ -238,6 +241,7 @@ export const InstResultMappingList = observer(
               headerClasses: 'textHeader',
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Type',
                 getFilter: filter => {
                   instType = filter;
                 },
@@ -286,6 +290,7 @@ export const InstResultMappingList = observer(
               headerClasses: 'textHeader',
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Id',
                 getFilter: filter => {
                   instId = filter;
                 },
@@ -319,6 +324,7 @@ export const InstResultMappingList = observer(
               text: 'Analyte Code/Analyte Name',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Analyte Code',
                 getFilter: filter => {
                   analyteCode = filter;
                 },
@@ -406,6 +412,7 @@ export const InstResultMappingList = observer(
               text: 'Assay Code',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Assay Code',
                 getFilter: filter => {
                   assayCode = filter;
                 },
@@ -440,6 +447,7 @@ export const InstResultMappingList = observer(
               text: 'Inst Test',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Inst Test',
                 getFilter: filter => {
                   instTest = filter;
                 },
@@ -480,6 +488,7 @@ export const InstResultMappingList = observer(
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -514,6 +523,7 @@ export const InstResultMappingList = observer(
               text: 'Environment',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

@@ -172,6 +172,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Client Code',
               getFilter: filter => {
                 corporateCode = filter;
               },
@@ -189,6 +190,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Client Name',
               getFilter: filter => {
                 corporateName = filter;
               },
@@ -261,6 +263,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Ac Type',
               getFilter: filter => {
                 acType = filter;
               },
@@ -307,6 +310,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Ac Class',
               getFilter: filter => {
                 acClass = filter;
               },
@@ -353,6 +357,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Billing On',
               getFilter: filter => {
                 billingOn = filter;
               },
@@ -401,6 +406,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Billing Frequency',
               getFilter: filter => {
                 billingFrequency = filter;
               },
@@ -454,6 +460,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Customer Group',
               getFilter: filter => {
                 customerGroup = filter;
               },
@@ -505,6 +512,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Category',
               getFilter: filter => {
                 category = filter;
               },
@@ -619,6 +627,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
             filter: textFilter({
+              placeholder: 'Country',
               getFilter: filter => {
                 country = filter;
               },
@@ -638,6 +647,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'State',
               getFilter: filter => {
                 state = filter;
               },
@@ -654,6 +664,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'District',
               getFilter: filter => {
                 district = filter;
               },
@@ -672,6 +683,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'City',
               getFilter: filter => {
                 city = filter;
               },
@@ -689,6 +701,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Area',
               getFilter: filter => {
                 area = filter;
               },
@@ -709,6 +722,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Address',
               getFilter: filter => {
                 address = filter;
               },
@@ -726,6 +740,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Credit Limit',
               getFilter: filter => {
                 creditLimit = filter;
               },
@@ -743,6 +758,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Consumed Limit',
               getFilter: filter => {
                 consumedLimit = filter;
               },
@@ -760,6 +776,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Zone',
               getFilter: filter => {
                 zone = filter;
               },
@@ -777,6 +794,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'SBU',
               getFilter: filter => {
                 sbu = filter;
               },
@@ -794,6 +812,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Sales Territory',
               getFilter: filter => {
                 salesTerritoRy = filter;
               },
@@ -829,6 +848,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Telephone',
               getFilter: filter => {
                 telephone = filter;
               },
@@ -887,6 +907,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Mobile No',
               getFilter: filter => {
                 mobileNo = filter;
               },
@@ -937,6 +958,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Email',
               getFilter: filter => {
                 email = filter;
               },
@@ -982,6 +1004,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Report Priority',
               getFilter: filter => {
                 reportPriority = filter;
               },
@@ -1077,6 +1100,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Info',
               getFilter: filter => {
                 info = filter;
               },
@@ -1458,6 +1482,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Fyi Line',
               getFilter: filter => {
                 fyiLine = filter;
               },
@@ -1475,6 +1500,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Work Line',
               getFilter: filter => {
                 workLine = filter;
               },
@@ -1672,6 +1698,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Entered By',
               getFilter: filter => {
                 enteredBy = filter;
               },
@@ -1689,6 +1716,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -1735,6 +1763,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -1776,6 +1805,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

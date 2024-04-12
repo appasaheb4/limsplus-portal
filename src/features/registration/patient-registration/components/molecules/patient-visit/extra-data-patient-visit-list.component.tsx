@@ -92,6 +92,7 @@ export const ExtraDataPatientVisitList = observer(
                     ? row.extraData.additionalInfo
                     : '',
                 filter: textFilter({
+                  placeholder: 'Additional Information',
                   getFilter: filter => {
                     additionalInfo = filter;
                   },
@@ -112,6 +113,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.invoiceAc ? row.extraData.invoiceAc : '',
                 filter: textFilter({
+                  placeholder: 'Invoice Ac',
                   getFilter: filter => {
                     invoiceAc = filter;
                   },
@@ -173,6 +175,7 @@ export const ExtraDataPatientVisitList = observer(
                     ? row.extraData.billingMethod
                     : '',
                 filter: textFilter({
+                  placeholder: 'Billing Method',
                   getFilter: filter => {
                     billingMethod = filter;
                   },
@@ -229,6 +232,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.billNumber ? row.extraData.billNumber : '',
                 filter: textFilter({
+                  placeholder: 'Bill Number',
                   getFilter: filter => {
                     billNumber = filter;
                   },
@@ -251,6 +255,7 @@ export const ExtraDataPatientVisitList = observer(
                     ? row.extraData.methodCollection
                     : '',
                 filter: textFilter({
+                  placeholder: 'Method Collection',
                   getFilter: filter => {
                     methodCollection = filter;
                   },
@@ -307,6 +312,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.collectedBy ? row.extraData.collectedBy : '',
                 filter: textFilter({
+                  placeholder: 'Collection By',
                   getFilter: filter => {
                     collectedBy = filter;
                   },
@@ -606,6 +612,7 @@ export const ExtraDataPatientVisitList = observer(
                     ? row.extraData.approvalStatus
                     : '',
                 filter: textFilter({
+                  placeholder: 'Approval Status',
                   getFilter: filter => {
                     approvalStatus = filter;
                   },
@@ -662,6 +669,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.reportStatus ? row.extraData.reportStatus : '',
                 filter: textFilter({
+                  placeholder: 'Report Status',
                   getFilter: filter => {
                     reportStatus = filter;
                   },
@@ -783,6 +791,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.enteredBy ? row.extraData.enteredBy : '',
                 filter: textFilter({
+                  placeholder: 'Entered By',
                   getFilter: filter => {
                     enteredBy = filter;
                   },
@@ -804,6 +813,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.height ? row.extraData.height : '',
                 filter: textFilter({
+                  placeholder: 'Height',
                   getFilter: filter => {
                     height = filter;
                   },
@@ -824,6 +834,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.weight ? row.extraData.weight : '',
                 filter: textFilter({
+                  placeholder: 'Weight',
                   getFilter: filter => {
                     weight = filter;
                   },
@@ -844,6 +855,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.archieve ? row.extraData.archieve : '',
                 filter: textFilter({
+                  placeholder: 'Archive',
                   getFilter: filter => {
                     archieve = filter;
                   },
@@ -902,6 +914,7 @@ export const ExtraDataPatientVisitList = observer(
                     ? row.extraData.loginInterface
                     : '',
                 filter: textFilter({
+                  placeholder: 'Login Interface',
                   getFilter: filter => {
                     loginInterface = filter;
                   },
@@ -961,6 +974,7 @@ export const ExtraDataPatientVisitList = observer(
                     ? row.extraData.registrationInterface
                     : '',
                 filter: textFilter({
+                  placeholder: 'Registration Interface',
                   getFilter: filter => {
                     registrationInterface = filter;
                   },
@@ -1019,6 +1033,7 @@ export const ExtraDataPatientVisitList = observer(
                     ? row.extraData.submittingSystem
                     : '',
                 filter: textFilter({
+                  placeholder: 'Submitting System',
                   getFilter: filter => {
                     submittingSystem = filter;
                   },
@@ -1039,6 +1054,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.submittindOn ? row.extraData.submittindOn : '',
                 filter: textFilter({
+                  placeholder: 'Submitting On',
                   getFilter: filter => {
                     submittindOn = filter;
                   },
@@ -1059,6 +1075,7 @@ export const ExtraDataPatientVisitList = observer(
                 csvFormatter: (col, row) =>
                   row.extraData?.accountType ? row.extraData.accountType : '',
                 filter: textFilter({
+                  placeholder: 'Account Type',
                   getFilter: filter => {
                     accountType = filter;
                   },

@@ -143,6 +143,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Lab',
                 getFilter: filter => {
                   lab = filter;
                 },
@@ -190,6 +191,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Department',
                 getFilter: filter => {
                   department = filter;
                 },
@@ -226,6 +228,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Investigation Type',
                 getFilter: filter => {
                   investigationType = filter;
                 },
@@ -273,6 +276,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Investigation Code',
                 getFilter: filter => {
                   investigationCode = filter;
                 },
@@ -316,6 +320,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Investigation Name',
                 getFilter: filter => {
                   investigationName = filter;
                 },
@@ -333,6 +338,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Species',
                 getFilter: filter => {
                   species = filter;
                 },
@@ -379,6 +385,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sex',
                 getFilter: filter => {
                   sex = filter;
                 },
@@ -425,6 +432,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Type',
                 getFilter: filter => {
                   instType = filter;
                 },
@@ -461,6 +469,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Comments Type',
                 getFilter: filter => {
                   commentsType = filter;
                 },
@@ -508,6 +517,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Comments For',
                 getFilter: filter => {
                   commentsFor = filter;
                 },
@@ -599,6 +609,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Age From Unit',
                 getFilter: filter => {
                   ageFromUnit = filter;
                 },
@@ -690,6 +701,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Age To Unit',
                 getFilter: filter => {
                   ageToUnit = filter;
                 },
@@ -738,6 +750,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Low',
                 getFilter: filter => {
                   low = filter;
                 },
@@ -785,6 +798,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'High',
                 getFilter: filter => {
                   high = filter;
                 },
@@ -876,6 +890,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -922,6 +937,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },
@@ -1055,6 +1071,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -1092,6 +1109,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

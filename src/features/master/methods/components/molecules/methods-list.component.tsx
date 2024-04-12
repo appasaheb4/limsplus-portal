@@ -66,6 +66,7 @@ export const MethodsList = (props: MethodsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Methods Code',
               getFilter: filter => {
                 methodsCode = filter;
               },
@@ -84,6 +85,7 @@ export const MethodsList = (props: MethodsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Methods Name',
               getFilter: filter => {
                 methodsName = filter;
               },
@@ -126,6 +128,7 @@ export const MethodsList = (props: MethodsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Description',
               getFilter: filter => {
                 description = filter;
               },
@@ -146,6 +149,7 @@ export const MethodsList = (props: MethodsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -192,6 +196,7 @@ export const MethodsList = (props: MethodsListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -229,6 +234,7 @@ export const MethodsList = (props: MethodsListProps) => {
             csvFormatter: col => (col ? col : ''),
             editable: false,
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

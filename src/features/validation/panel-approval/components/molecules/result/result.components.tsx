@@ -74,13 +74,14 @@ export const Result = observer((props: ResultProps) => {
               text: 'Sample Id',
               sort: true,
               editable: false,
+              headerClasses: 'textHeaderm',
             },
             {
               dataField: 'test',
               text: 'Test',
               sort: true,
               editable: false,
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader6',
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',

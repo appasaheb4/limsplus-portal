@@ -220,10 +220,7 @@ const Payment = PaymentHoc(
                   rules={{
                     required: true,
                   }}
-                  defaultValue={
-                    transactionDetailsStore?.transactionHeaderList ||
-                    paymentStore.payment?.pId
-                  }
+                  defaultValue={''}
                 />
 
                 <Controller
@@ -271,10 +268,7 @@ const Payment = PaymentHoc(
                   rules={{
                     required: true,
                   }}
-                  defaultValue={
-                    transactionDetailsStore?.transactionHeaderList ||
-                    paymentStore.payment?.labId
-                  }
+                  defaultValue={''}
                 />
 
                 <Controller

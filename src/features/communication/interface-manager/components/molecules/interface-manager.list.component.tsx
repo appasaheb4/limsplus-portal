@@ -71,6 +71,7 @@ export const InterfaceManagerList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Interface Type',
                 getFilter: filter => {
                   interfaceType = filter;
                 },
@@ -123,6 +124,7 @@ export const InterfaceManagerList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Type',
                 getFilter: filter => {
                   instrumentType = filter;
                 },
@@ -172,6 +174,7 @@ export const InterfaceManagerList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Name',
                 getFilter: filter => {
                   instrumentName = filter;
                 },
@@ -217,6 +220,7 @@ export const InterfaceManagerList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Protocol',
                 getFilter: filter => {
                   protocol = filter;
                 },
@@ -262,6 +266,7 @@ export const InterfaceManagerList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Block',
                 getFilter: filter => {
                   block = filter;
                 },
@@ -382,6 +387,7 @@ export const InterfaceManagerList = observer(
                   item => item.filed,
                 )},Value${row.fileds.map(item => item.value)}`,
               filter: textFilter({
+                placeholder: 'Fileds',
                 getFilter: filter => {
                   fileds = filter;
                 },
@@ -561,6 +567,7 @@ export const InterfaceManagerList = observer(
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -602,6 +609,7 @@ export const InterfaceManagerList = observer(
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

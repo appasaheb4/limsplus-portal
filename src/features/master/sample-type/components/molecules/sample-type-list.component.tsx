@@ -68,6 +68,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sample Code',
                 getFilter: filter => {
                   sampleCode = filter;
                 },
@@ -87,6 +88,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sample Type',
                 getFilter: filter => {
                   sampleType = filter;
                 },
@@ -108,6 +110,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Descriptions',
                 getFilter: filter => {
                   descriptions = filter;
                 },
@@ -127,6 +130,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sample Group',
                 getFilter: filter => {
                   sampleGroup = filter;
                 },
@@ -143,6 +147,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -192,6 +197,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -233,6 +239,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

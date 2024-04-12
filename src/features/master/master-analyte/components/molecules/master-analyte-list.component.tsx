@@ -114,6 +114,40 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               csvExport: false,
             },
             {
+              dataField: 'analyteCode',
+              text: 'Analyte Code',
+              headerClasses: 'textHeader4',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Analyte Code',
+                getFilter: filter => {
+                  analyteCode = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
+              dataField: 'analyteName',
+              text: 'Analyte Name',
+              headerClasses: 'textHeader4',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Analyte Name',
+                getFilter: filter => {
+                  analyteName = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
               dataField: 'lab',
               text: 'Lab',
               headerClasses: 'textHeader1',
@@ -123,6 +157,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Lab',
                 getFilter: filter => {
                   lab = filter;
                 },
@@ -151,38 +186,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'analyteCode',
-              text: 'Analyte Code',
-              headerClasses: 'textHeader4',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filter: textFilter({
-                getFilter: filter => {
-                  analyteCode = filter;
-                },
-              }),
-              editable: false,
-            },
-            {
-              dataField: 'analyteName',
-              text: 'Analyte Name',
-              headerClasses: 'textHeader4',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filter: textFilter({
-                getFilter: filter => {
-                  analyteName = filter;
-                },
-              }),
-              editable: false,
-            },
+
             {
               dataField: 'description',
               text: 'Description',
@@ -206,7 +210,8 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
-                getFilter: filter => {
+                placeholder: 'Description',
+                getFilter: (filter: any) => {
                   description = filter;
                 },
               }),
@@ -269,6 +274,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Analyte Method Code',
                 getFilter: filter => {
                   analyteMethodCode = filter;
                 },
@@ -310,6 +316,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Analyte Method Name',
                 getFilter: filter => {
                   analyteMethodName = filter;
                 },
@@ -351,6 +358,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Short Name',
                 getFilter: filter => {
                   shortName = filter;
                 },
@@ -439,6 +447,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Range Set On',
                 getFilter: filter => {
                   high = filter;
                 },
@@ -513,6 +522,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Departments',
                 getFilter: filter => {
                   departments = filter;
                 },
@@ -549,6 +559,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Result Type',
                 getFilter: filter => {
                   resultType = filter;
                 },
@@ -600,6 +611,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Default Result',
                 getFilter: filter => {
                   defaultResult = filter;
                 },
@@ -687,6 +699,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Analyte Type',
                 getFilter: filter => {
                   analyteType = filter;
                 },
@@ -738,6 +751,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Units',
                 getFilter: filter => {
                   units = filter;
                 },
@@ -784,6 +798,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Usage',
                 getFilter: filter => {
                   usage = filter;
                 },
@@ -821,7 +836,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             },
             {
               dataField: 'picture',
-              text: 'picture',
+              text: 'Picture',
               headerClasses: 'textHeader3',
               sort: true,
               headerStyle: {
@@ -830,6 +845,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
+                placeholder: 'Picture',
                 getFilter: filter => {
                   picture = filter;
                 },
@@ -1015,6 +1031,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Calculation Name',
                 getFilter: filter => {
                   calcyName = filter;
                 },
@@ -1033,6 +1050,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'CPT Code',
                 getFilter: filter => {
                   cptCode = filter;
                 },
@@ -1051,6 +1069,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Internal Comments',
                 getFilter: filter => {
                   internalComments = filter;
                 },
@@ -1069,6 +1088,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'External Comments',
                 getFilter: filter => {
                   externalComments = filter;
                 },
@@ -1115,6 +1135,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Analyte Right Marker',
                 getFilter: filter => {
                   analyteRightMarker = filter;
                 },
@@ -1210,6 +1231,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -1257,6 +1279,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Entered By',
                 getFilter: filter => {
                   enteredBy = filter;
                 },
@@ -1583,6 +1606,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Interpretation',
                 getFilter: filter => {
                   interpretation = filter;
                 },
@@ -1618,6 +1642,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -1659,6 +1684,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

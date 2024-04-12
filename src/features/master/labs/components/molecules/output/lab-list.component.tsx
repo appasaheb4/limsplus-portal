@@ -134,6 +134,7 @@ export const LabList = (props: LabListProps) => {
               },
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Code',
                 getFilter: filter => {
                   code = filter;
                 },
@@ -162,6 +163,7 @@ export const LabList = (props: LabListProps) => {
               ),
               sortCaret: (order, column) => sortCaret(order, column),
               filter: textFilter({
+                placeholder: 'Name',
                 getFilter: filter => {
                   name = filter;
                 },
@@ -181,6 +183,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Postal Code',
                 getFilter: filter => {
                   postalCode = filter;
                 },
@@ -246,6 +249,7 @@ export const LabList = (props: LabListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               filter: textFilter({
+                placeholder: 'Country',
                 getFilter: filter => {
                   country = filter;
                 },
@@ -265,6 +269,7 @@ export const LabList = (props: LabListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'State',
                 getFilter: filter => {
                   state = filter;
                 },
@@ -285,6 +290,7 @@ export const LabList = (props: LabListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'District',
                 getFilter: filter => {
                   district = filter;
                 },
@@ -305,6 +311,7 @@ export const LabList = (props: LabListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'City',
                 getFilter: filter => {
                   city = filter;
                 },
@@ -325,6 +332,7 @@ export const LabList = (props: LabListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Area',
                 getFilter: filter => {
                   area = filter;
                 },
@@ -346,6 +354,7 @@ export const LabList = (props: LabListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               filter: textFilter({
+                placeholder: 'Address',
                 getFilter: filter => {
                   address = filter;
                 },
@@ -491,6 +500,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Sales Territory',
                 getFilter: filter => {
                   salesTerritory = filter;
                 },
@@ -543,6 +553,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Lab Licence',
                 getFilter: filter => {
                   labLicence = filter;
                 },
@@ -566,6 +577,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Director',
                 getFilter: filter => {
                   director = filter;
                 },
@@ -588,6 +600,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Physician',
                 getFilter: filter => {
                   physician = filter;
                 },
@@ -606,6 +619,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Mobile No',
                 getFilter: filter => {
                   mobileNo = filter;
                 },
@@ -665,6 +679,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Contact No',
                 getFilter: filter => {
                   contactNo = filter;
                 },
@@ -725,6 +740,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Specialty',
                 getFilter: filter => {
                   speciality = filter;
                 },
@@ -743,6 +759,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Lab Type',
                 getFilter: filter => {
                   labType = filter;
                 },
@@ -790,6 +807,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Default Lab',
                 getFilter: filter => {
                   defaultLab = filter;
                 },
@@ -826,6 +844,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Opening Time',
                 getFilter: filter => {
                   openingTime = filter;
                 },
@@ -845,6 +864,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Closing Time',
                 getFilter: filter => {
                   closingTime = filter;
                 },
@@ -863,6 +883,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Email',
                 getFilter: filter => {
                   email = filter;
                 },
@@ -1207,6 +1228,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Fyi Line',
                 getFilter: filter => {
                   fyiLine = filter;
                 },
@@ -1225,6 +1247,7 @@ export const LabList = (props: LabListProps) => {
                 editorCell(row),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Work Line',
                 getFilter: filter => {
                   workLine = filter;
                 },
@@ -1242,6 +1265,7 @@ export const LabList = (props: LabListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: customFilter({
+                placeholder: 'Version',
                 getFilter: filter => {
                   version = filter;
                 },
@@ -1264,6 +1288,7 @@ export const LabList = (props: LabListProps) => {
                 row.status == 'D' || row.status == 'I' ? false : true,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -1311,6 +1336,7 @@ export const LabList = (props: LabListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -1351,6 +1377,7 @@ export const LabList = (props: LabListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

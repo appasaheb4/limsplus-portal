@@ -260,7 +260,10 @@ const CommentManager = CommentManagerHoc(
             };
           }}
           onApproval={async records => {
-            const isExists = await checkExistsRecord(records);
+            const isExists = await checkExistsRecord({
+              ...records,
+              status: 'A',
+            });
             if (!isExists) {
               setModalConfirm({
                 show: true,

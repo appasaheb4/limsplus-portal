@@ -81,6 +81,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Documents',
               getFilter: filter => {
                 documents = filter;
               },
@@ -141,6 +142,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'RLab',
               getFilter: filter => {
                 rLab = filter;
               },
@@ -158,6 +160,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Sample Id',
               getFilter: filter => {
                 sampleId = filter;
               },
@@ -175,6 +178,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'PLab',
               getFilter: filter => {
                 pLab = filter;
               },
@@ -192,6 +196,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Department',
               getFilter: filter => {
                 department = filter;
               },
@@ -209,6 +214,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Panel Code',
               getFilter: filter => {
                 panelCode = filter;
               },
@@ -226,6 +232,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Test Code',
               getFilter: filter => {
                 testCode = filter;
               },
@@ -243,6 +250,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Analyte Code',
               getFilter: filter => {
                 analyteCode = filter;
               },
@@ -260,6 +268,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Event',
               getFilter: filter => {
                 event = filter;
               },
@@ -277,6 +286,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Event On',
               getFilter: filter => {
                 eventOn = filter;
               },
@@ -294,6 +304,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Old Value',
               getFilter: filter => {
                 oldValue = filter;
               },
@@ -311,6 +322,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'New Value',
               getFilter: filter => {
                 newValue = filter;
               },
@@ -328,6 +340,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Delete Value',
               getFilter: filter => {
                 deleteValue = filter;
               },
@@ -372,6 +385,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Event By',
               getFilter: filter => {
                 eventBy = filter;
               },
@@ -389,6 +403,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Comments',
               getFilter: filter => {
                 comments = filter;
               },
@@ -405,6 +420,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -423,6 +439,7 @@ export const EventLogsList = (props: EventLogsListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

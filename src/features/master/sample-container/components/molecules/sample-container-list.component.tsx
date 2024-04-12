@@ -68,6 +68,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Container Code',
               getFilter: filter => {
                 containerCode = filter;
               },
@@ -87,6 +88,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Container Name',
               getFilter: filter => {
                 containerName = filter;
               },
@@ -106,6 +108,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Tube Name',
               getFilter: filter => {
                 tubeName = filter;
               },
@@ -166,6 +169,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Description',
               getFilter: filter => {
                 description = filter;
               },
@@ -220,6 +224,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -269,6 +274,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -306,6 +312,7 @@ export const SampleContainerList = (props: SampleContainerListProps) => {
             sort: true,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

@@ -64,6 +64,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Code',
               getFilter: filter => {
                 code = filter;
               },
@@ -94,6 +95,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             ),
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Description',
               getFilter: filter => {
                 description = filter;
               },
@@ -112,6 +114,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Status',
               getFilter: filter => {
                 status = filter;
               },
@@ -161,6 +164,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
+              placeholder: 'Company Code',
               getFilter: filter => {
                 companyCode = filter;
               },
@@ -196,6 +200,7 @@ export const DeginisationList = (props: DeginisationListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
+              placeholder: 'Environment',
               getFilter: filter => {
                 environment = filter;
               },

@@ -72,6 +72,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Lab',
                 getFilter: filter => {
                   lab = filter;
                 },
@@ -113,6 +114,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Header',
                 getFilter: filter => {
                   header = filter;
                 },
@@ -130,6 +132,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Message',
                 getFilter: filter => {
                   message = filter;
                 },
@@ -173,6 +176,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Status',
                 getFilter: filter => {
                   status = filter;
                 },
@@ -220,6 +224,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Action',
                 getFilter: filter => {
                   action = filter;
                 },
@@ -263,6 +268,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -304,6 +310,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },

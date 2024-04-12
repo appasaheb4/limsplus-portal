@@ -104,6 +104,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               csvFormatter: col => (col ? col : ''),
               sort: true,
               filter: textFilter({
+                placeholder: 'Data Flow',
                 getFilter: filter => {
                   dataFlow = filter;
                 },
@@ -151,6 +152,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               sort: true,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Inst Type',
                 getFilter: filter => {
                   instType = filter;
                 },
@@ -187,6 +189,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Protocol',
                 getFilter: filter => {
                   protocol = filter;
                 },
@@ -217,6 +220,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               headerClasses: 'textHeader',
               sort: true,
               filter: textFilter({
+                placeholder: 'Segments',
                 getFilter: filter => {
                   segments = filter;
                 },
@@ -268,6 +272,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               headerClasses: 'textHeader',
 
               filter: textFilter({
+                placeholder: 'Segment Order',
                 getFilter: filter => {
                   segmentOrder = filter;
                 },
@@ -332,6 +337,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Element No',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Element No',
                 getFilter: filter => {
                   elementNo = filter;
                 },
@@ -367,6 +373,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Element Name',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Element Name',
                 getFilter: filter => {
                   elementName = filter;
                 },
@@ -402,6 +409,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Lims Tables',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Lims Tables',
                 getFilter: filter => {
                   limsTables = filter;
                 },
@@ -455,6 +463,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Lims Document Type',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Lims Document Type',
                 getFilter: filter => {
                   limsDocumentType = filter;
                 },
@@ -505,6 +514,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Lims Fields',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Lims Fields',
                 getFilter: filter => {
                   limsFields = filter;
                 },
@@ -600,6 +610,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Element Sequence',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Element Sequence',
                 getFilter: filter => {
                   elementSequence = filter;
                 },
@@ -638,6 +649,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Transmitted Data',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Transmitted Data',
                 getFilter: filter => {
                   transmittedData = filter;
                 },
@@ -673,6 +685,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Default Value',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Default Value',
                 getFilter: filter => {
                   defaultValue = filter;
                 },
@@ -708,6 +721,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Field Array',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Field Array',
                 getFilter: filter => {
                   fieldArray = filter;
                 },
@@ -772,6 +786,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Field Type',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Field Type',
                 getFilter: filter => {
                   fieldType = filter;
                 },
@@ -822,6 +837,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Field Length',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Field Length',
                 getFilter: filter => {
                   fieldLength = filter;
                 },
@@ -894,6 +910,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               editable: false,
               csvFormatter: col => (col ? col : ''),
               filter: textFilter({
+                placeholder: 'Company Code',
                 getFilter: filter => {
                   companyCode = filter;
                 },
@@ -929,6 +946,7 @@ export const SegmentMappingList = observer((props: SegmentMappingListProps) => {
               text: 'Environment',
               headerClasses: 'textHeader',
               filter: textFilter({
+                placeholder: 'Environment',
                 getFilter: filter => {
                   environment = filter;
                 },
