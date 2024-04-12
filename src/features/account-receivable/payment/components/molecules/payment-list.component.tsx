@@ -129,6 +129,7 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Other Charges',
             sort: true,
             editable: false,
+            headerClasses: 'textHeader',
             formatter: (cell, row) => {
               return <span>{row.discountCharges}</span>;
             },

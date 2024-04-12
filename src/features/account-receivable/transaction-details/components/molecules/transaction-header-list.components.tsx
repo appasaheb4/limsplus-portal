@@ -31,13 +31,26 @@ const selectedItem = {};
 export const TransactionHeaderList = observer(
   (props: TransactionHeaderProps) => {
     const [selectedItem, setSelectedItem] = useState<any>({});
+    const [selectId, setSelectId] = useState('');
+    const [localData, setLocalData] = useState(props.data);
+
+    useEffect(() => {
+      setSelectId(props.selectId || '');
+      setLocalData(
+        props.selectId
+          ? props.data
+              ?.filter(item => item._id === props.selectId)
+              ?.map(item => ({ ...item, selectedId: props.selectId }))
+          : props.data,
+      );
+    }, [props.selectId, props.data]);
 
     return (
       <>
         <div className={`${props.isView ? 'shown' : 'hidden'}`}>
           <TableBootstrapTranHeader
             id='_id'
-            data={props.data}
+            data={localData}
             totalSize={props.totalSize}
             selectedItem={selectedItem}
             columns={[
@@ -302,7 +315,7 @@ export const TransactionHeaderList = observer(
                         </Icons.IconContext>
                       </Tooltip>
 
-                      {props.selectId === row._id ? (
+                      {selectId === row._id ? (
                         <Tooltip tooltipText='close'>
                           <Icons.IconContext
                             color='#fff'
