@@ -242,3 +242,36 @@ export const FILTER = gql`
     }
   }
 `;
+
+export const RECALL = gql`
+  mutation ($input: PanelApprovalInput!) {
+    reCallPanelApproval(input: $input) {
+      success
+      message
+      data {
+        _id
+        name
+        labId
+        panel
+        test
+        analyte
+        result
+        panelCode
+        testCode
+        testName
+        analyteName
+        analyteCode
+        approvalDate
+        approvalStatus
+        patientOrderId
+        patientResultId
+        companyCode
+        environment
+        enteredBy
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;

@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-indent-props */
 import React from 'react';
+import _ from 'lodash';
 import { IconContext as Context, IconType } from 'react-icons';
-import { Icons } from '../..';
+import { Icons, Tooltip } from '../..';
 import Icon from 'react-eva-icons';
 import loadable from '@loadable/component';
 import { IconBaseProps } from 'react-icons/lib';
@@ -252,12 +253,14 @@ export const EvaIcon: React.FunctionComponent<IconProps> = (
 interface RIconProps {
   nameIcon: string;
   propsIcon?: IconBaseProps;
+  tooltip?: string;
   onClick?: () => void;
 }
 
 export const RIcon = ({
   nameIcon,
   propsIcon,
+  tooltip = '',
   onClick,
 }: RIconProps): JSX.Element => {
   try {
@@ -274,7 +277,13 @@ export const RIcon = ({
     );
     return (
       <div onClick={() => onClick && onClick()}>
-        <ElementIcon {...propsIcon} />
+        {!_.isEmpty(tooltip) ? (
+          <Tooltip tooltipText={tooltip}>
+            <ElementIcon {...propsIcon} />
+          </Tooltip>
+        ) : (
+          <ElementIcon {...propsIcon} />
+        )}
       </div>
     );
   } catch (error) {

@@ -4,7 +4,11 @@ import _ from 'lodash';
 import { Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
-import { PanelApprovalList, PatientDemographicsList } from '../components';
+import {
+  PanelApprovalList,
+  PatientDemographicsList,
+  ModalRecall,
+} from '../components';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -24,6 +28,13 @@ const PanelApproval = observer(() => {
   const [tableReload, setTableReload] = useState<boolean>(false);
   const [selectId, setSelectId] = useState('');
   const [filterRecord, setFilterRecord] = useState<string>('');
+  const [modalRecall, setModalRecall] = useState<{
+    visible: boolean;
+    data?: Array<any>;
+  }>({
+    visible: false,
+    data: [],
+  });
 
   useEffect(() => {
     const uniqueList = _.groupBy(
@@ -256,9 +267,22 @@ const PanelApproval = observer(() => {
               panelApprovalStore.panelApprovalService?.listPanelApproval({});
             });
         }}
-        onFilterRecord={status => {
-          if (status == 'ReCall') return alert('WIP');
-          else if (status == 'All') {
+        onFilterRecord={async status => {
+          if (status == 'ReCall') {
+            let data = [];
+            await panelApprovalStore.panelApprovalService
+              .reCallList({ input: { filter: { type: 'fetch' } } })
+              .then(res => {
+                if (res.reCallPanelApproval?.success) {
+                  data = res.reCallPanelApproval?.data;
+                } else {
+                  Toast.warning({
+                    message: '😊 Delivery status pending not found',
+                  });
+                }
+              });
+            setModalRecall({ visible: true, data });
+          } else if (status == 'All') {
             panelApprovalStore.panelApprovalService.listPanelApproval({
               isNotEqualToApproved: true,
             });
@@ -299,6 +323,28 @@ const PanelApproval = observer(() => {
           </div>
         </>
       )}
+      <ModalRecall
+        {...modalRecall}
+        onRecall={async (item: any) => {
+          console.log({ item });
+
+          await panelApprovalStore.panelApprovalService
+            .reCallList({ input: { filter: { ...item, type: 'update' } } })
+            .then(res => {
+              console.log({ res });
+
+              if (res.reCallPanelApproval?.success) {
+                setModalRecall({
+                  ...modalRecall,
+                  data: modalRecall.data?.filter(e => e._id != item?._id),
+                });
+              }
+            });
+        }}
+        onClose={() => {
+          setModalRecall({ visible: false });
+        }}
+      />
     </>
   );
 });

@@ -13,7 +13,8 @@ import {
   UPDATE_BY_IDS_RECORD,
   FILTER,
   FIND,
-} from './mutation-panel-approval';
+  RECALL,
+} from './mutation';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -108,6 +109,21 @@ export class PanelApprovalService {
               },
             },
           });
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  reCallList = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: RECALL,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

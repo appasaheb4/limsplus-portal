@@ -3,8 +3,6 @@ import _ from 'lodash';
 import { Container } from 'reactstrap';
 import { observer } from 'mobx-react';
 import { Form, Buttons, Icons, Svg } from '@/library/components';
-import { lookupValue } from '@/library/utils';
-
 interface ModalLookupValuesModifyProps {
   show?: boolean;
   arrValues?: any;
