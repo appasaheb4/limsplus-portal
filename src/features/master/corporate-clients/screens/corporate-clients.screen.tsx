@@ -228,8 +228,6 @@ const CorporateClients = CorporateClientsHoc(
       }
     };
 
-    console.log(corporateClientsStore.corporateClients);
-
     const getTemplateForImportList = (interfaceType: string) => {
       interfaceManagerStore.interfaceManagerService
         .findByFields({
