@@ -52,7 +52,6 @@ export const FilterInputTable = observer(() => {
             <th className='text-white' style={{ minWidth: 190 }}>
               Test Code / Name
             </th>
-
             <th className='text-white' style={{ minWidth: 190 }}>
               LabId
             </th>
@@ -207,7 +206,7 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
-                {/* <Icons.IconContext
+                <Icons.IconContext
                   color={
                     appStore.applicationSetting.theme != 'dark'
                       ? '#000000'
@@ -247,7 +246,7 @@ export const FilterInputTable = observer(() => {
                   }}
                 >
                   <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext> */}
+                </Icons.IconContext>
               </div>
             </td>
             <td>
@@ -259,6 +258,9 @@ export const FilterInputTable = observer(() => {
                       loader={loading}
                       hasError={!!errors.testCode}
                       placeholder='Search by code '
+                      displayValue={
+                        generalResultEntryStore.filterGeneralResEntry?.testCode
+                      }
                       data={{
                         list: _.uniqBy(
                           patientResultStore.distinctPatientResult?.filter(
@@ -321,6 +323,47 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={''}
                 />
+                <Icons.IconContext
+                  color={
+                    appStore.applicationSetting.theme != 'dark'
+                      ? '#000000'
+                      : '#ffffff'
+                  }
+                  size='30'
+                  onClick={() => {
+                    const input = _.pickBy(
+                      {
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        testCode: '',
+                      },
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                      function (value, key) {
+                        return !(
+                          value === undefined ||
+                          value === null ||
+                          value === ''
+                        );
+                      },
+                    );
+                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                      {
+                        input: {
+                          filter: {
+                            ...input,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      },
+                    );
+                    generalResultEntryStore.updateFilterGeneralResEntry({
+                      ...generalResultEntryStore.filterGeneralResEntry,
+                      testCode: '',
+                    });
+                  }}
+                >
+                  <Icons.Iconai.AiFillCloseCircle />
+                </Icons.IconContext>
               </div>
             </td>
 
@@ -393,7 +436,7 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
-                {/* <Icons.IconContext
+                <Icons.IconContext
                   color={
                     appStore.applicationSetting.theme != 'dark'
                       ? '#000000'
@@ -433,7 +476,7 @@ export const FilterInputTable = observer(() => {
                   }}
                 >
                   <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext> */}
+                </Icons.IconContext>
               </div>
             </td>
           </tr>

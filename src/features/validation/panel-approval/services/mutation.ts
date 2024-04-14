@@ -59,6 +59,7 @@ export const PANEL_APPROVAL_LIST = gql`
         approvalDate
         approvalStatus
         autoRelease
+        isResultUpdate
         patientOrderId
         patientResultId
         reportPriority
@@ -152,6 +153,7 @@ export const FIND = gql`
         approvalDate
         approvalStatus
         autoRelease
+        isResultUpdate
         patientOrderId
         patientResultId
         reportPriority
@@ -227,6 +229,7 @@ export const FILTER = gql`
         approvalDate
         approvalStatus
         autoRelease
+        isResultUpdate
         patientOrderId
         patientResultId
         reportPriority

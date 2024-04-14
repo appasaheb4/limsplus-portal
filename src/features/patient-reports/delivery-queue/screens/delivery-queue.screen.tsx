@@ -37,6 +37,7 @@ const DeliveryQueue = observer(() => {
           input: {
             filter: {
               clientCode: loginDetails.lab,
+              isReCall: false,
             },
           },
         })

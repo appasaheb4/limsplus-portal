@@ -11,15 +11,6 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 
 import { TableBootstrap } from './table-bootstrap.components';
-import { RefRanges } from '../result/ref-ranges.component';
-import { InputResult } from '../../../../../result-entry/general-result-entry/components/molecules/output/input-result.components';
-
-import {
-  getResultStatus,
-  getTestStatus,
-  getAbnFlag,
-  getCretical,
-} from '../../../../../result-entry/general-result-entry/utils';
 
 interface PanelApprovalListProps {
   data: any;
@@ -86,7 +77,6 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
   //   );
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [props.selectedId, props.data, props.filterRecord]);
-
   // useEffect(() => {
   //   setLocalData(JSON.parse(JSON.stringify(localData)));
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -185,7 +175,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               editable: false,
               formatter: (cellContent, row) => (
                 <div className='flex flex-row gap-1' key={row[1][0]?._id}>
-                  {props.isApproval && (
+                  {props?.isApproval && row[1][0]?.isResultUpdate ? (
                     <>
                       <Tooltip tooltipText='Approved'>
                         <Icons.IconContext
@@ -293,6 +283,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     </>
+                  ) : (
+                    <span className='text-white'>Still result not update</span>
                   )}
                   {selectId == row[1][0]._id ? (
                     <Tooltip tooltipText='Expand'>
