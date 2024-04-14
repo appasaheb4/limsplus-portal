@@ -110,7 +110,12 @@ const GeneralResultEntry = observer(() => {
           onFinishResult={async ids => {
             await patientResultStore.patientResultService
               .updateFinishResultStatus({
-                input: { filter: { ids, fields: { finishResult: 'D' } } },
+                input: {
+                  filter: {
+                    ids,
+                    fields: { finishResult: 'D', isResultUpdate: true },
+                  },
+                },
               })
               .then(res => {
                 if (res.updateFinishResultFieldsByIdsPatientResult?.success) {

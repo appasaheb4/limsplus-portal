@@ -117,6 +117,8 @@ export const Result = observer((props: ResultProps) => {
               text: 'Result',
               sort: true,
               headerClasses: 'textHeader1',
+              editable: (content, row, rowIndex, columnIndex) =>
+                row?.isResultUpdate,
               editorRenderer: (
                 editorProps,
                 value,
@@ -182,11 +184,11 @@ export const Result = observer((props: ResultProps) => {
               dataField: 'validationLevel',
               text: 'Validation Level',
               sort: true,
-              editable: true,
               formatter: (cell, row) => (
                 <>
                   <select
                     value={row.validationLevel}
+                    disabled={!row?.isResultUpdate}
                     className={
                       'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                     }
@@ -331,6 +333,8 @@ export const Result = observer((props: ResultProps) => {
               dataField: 'conclusion',
               text: 'Conclusion',
               style: { width: widthConculsionBox },
+              editable: (content, row, rowIndex, columnIndex) =>
+                row?.isResultUpdate,
               formatter: (cell, row) => {
                 return <span>{row?.conclusion?.toString()}</span>;
               },

@@ -238,6 +238,7 @@ const PanelApproval = observer(() => {
                   patientResultId,
                   mode: 'reCheck',
                   approvalStatus: 'ReCheck',
+                  isResultUpdate: false,
                 },
               },
             })
@@ -257,6 +258,7 @@ const PanelApproval = observer(() => {
                   patientResultId,
                   mode: 'reTest',
                   approvalStatus: 'ReTest',
+                  isResultUpdate: false,
                 },
               },
             })
@@ -326,14 +328,16 @@ const PanelApproval = observer(() => {
       <ModalRecall
         {...modalRecall}
         onRecall={async (item: any) => {
-          console.log({ item });
-
           await panelApprovalStore.panelApprovalService
             .reCallList({ input: { filter: { ...item, type: 'update' } } })
             .then(res => {
-              console.log({ res });
-
               if (res.reCallPanelApproval?.success) {
+                Toast.success({
+                  message: `😊 ${res.reCallPanelApproval.message}`,
+                });
+                panelApprovalStore.panelApprovalService.listPanelApproval({
+                  validationLevel: loginStore.login?.validationLevel,
+                });
                 setModalRecall({
                   ...modalRecall,
                   data: modalRecall.data?.filter(e => e._id != item?._id),
