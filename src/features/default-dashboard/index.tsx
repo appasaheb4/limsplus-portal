@@ -54,14 +54,7 @@ const Default = observer(() => {
       <Container fluid className='p-0'>
         <Header />
         <Statistics />
-        <Row>
-          <Col lg='8' className='d-flex'>
-            <LineChart />
-          </Col>
-          <Col lg='4' className='d-flex'>
-            <Feed />
-          </Col>
-        </Row>
+        <LineChart />
 
         <Row>
           <Col lg='6' xl='8' className='d-flex'>

@@ -1,119 +1,205 @@
 import React from 'react';
-import { Line } from 'react-chartjs-2';
-
-import { Badge, Card, CardBody, CardHeader, CardTitle } from 'reactstrap';
 
 const LineChart = () => {
-  const theme = {
-    primary: '#3B82EC',
-    secondary: '#495057',
-    tertiary: '#0069fc',
-    success: '#4BBF73',
-    info: '#1F9BCF',
-    warning: '#f0ad4e',
-    danger: '#d9534f',
-  };
-  const data = {
-    labels: [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ],
-    datasets: [
-      {
-        label: 'Sales ($)',
-        fill: true,
-        backgroundColor: 'transparent',
-        borderColor: theme.primary,
-        data: [
-          2015, 1465, 1487, 1796, 1387, 2123, 2866, 2548, 3902, 4938, 3917,
-          4927,
-        ],
-      },
-      {
-        label: 'Orders',
-        fill: true,
-        backgroundColor: 'transparent',
-        borderColor: theme.tertiary,
-        borderDash: [4, 4],
-        data: [
-          928, 734, 626, 893, 921, 1202, 1396, 1232, 1524, 2102, 1506, 1887,
-        ],
-      },
-    ],
-  };
-
-  const options = {
-    maintainAspectRatio: false,
-    legend: {
-      display: false,
-    },
-    tooltips: {
-      intersect: false,
-    },
-    hover: {
-      intersect: true,
-    },
-    labels: {
-      fontColor: ['#ffffff'],
-      show: false,
-    },
-
-    plugins: {
-      filler: {
-        propagate: false,
-      },
-    },
-    scales: {
-      xAxes: [
-        {
-          reverse: true,
-          gridLines: {
-            color: 'rgba(0,0,0,0.05)',
-          },
-        },
-      ],
-      yAxes: [
-        {
-          ticks: {
-            stepSize: 500,
-          },
-          display: true,
-          borderDash: [5, 5],
-          gridLines: {
-            color: 'rgba(0,0,0,0)',
-            fontColor: '#fff',
-          },
-        },
-      ],
-    },
-  };
-
   return (
-    <Card className='flex-fill w-100 dark:bg-boxdark dark:border-2 dark:border-white dark:text-white'>
-      <CardHeader className='dark:border-b-2 dark:border-white'>
-        <Badge color='primary' className='float-right'>
-          Monthly
-        </Badge>
-        <CardTitle tag='h5' className='mb-0'>
-          <span className='dark:text-white'>Total Revenue</span>
-        </CardTitle>
-      </CardHeader>
-      <CardBody>
-        <div className='chart chart-lg text-white'>
-          <Line data={data} options={options} />
+    <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 mb-4'>
+      <div className='relative mb-4 bg-gradient-to-br from-blue-200 to-blue-300 flex flex-col rounded-lg  text-gray-700 text-sm shadow-md transition-transform transform hover:scale-105'>
+        <div className='flex flex-wrap items-center gap-1 border-t-2 border-b border-gray-300 rounded-t-lg px-4 py-3 font-semibold'>
+          <div className='text-lg font-bold'>Registration</div>
         </div>
-      </CardBody>
-    </Card>
+        <div className='px-4'>
+          <ul className='list-none mt-2'>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>PATIENTS</p>
+                <p className='font-semibold text-sm'>$2,893</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>SAMPLES</p>
+                <p className='font-semibold text-sm'>$4,289</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>PANELS</p>
+                <p className='font-semibold text-sm'>$6,347</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>TESTS</p>
+                <p className='font-semibold text-sm'>$3,894</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>ANALYTES</p>
+                <p className='font-semibold text-sm'>$2,679</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className='relative mb-4 flex flex-col rounded-lg bg-green-200 text-gray-700 text-sm shadow-md transition-transform transform hover:scale-105'>
+        <div className='flex flex-wrap items-center gap-1 border-t-2 border-b border-gray-300 rounded-t-lg px-4 py-3 font-semibold'>
+          <div className='text-lg font-bold'>ACCESSIONING</div>
+        </div>
+        <div className='px-4'>
+          <ul className='list-none mt-2'>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>DUE</p>
+                <p className='font-semibold text-sm'>$2,893</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>RECEIVED</p>
+                <p className='font-semibold text-sm'>$4,289</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>NOT RECEIVED</p>
+                <p className='font-semibold text-sm'>$6,347</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>DONE</p>
+                <p className='font-semibold text-sm'>$3,894</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>PENDING</p>
+                <p className='font-semibold text-sm'>$2,679</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className='relative mb-4 flex flex-col rounded-lg bg-yellow-200 text-gray-700 text-sm shadow-md transition-transform transform hover:scale-105'>
+        <div className='flex flex-wrap items-center gap-1 border-t-2 border-b border-gray-300 rounded-t-lg px-4 py-3 font-semibold'>
+          <div className='text-lg font-bold'>DEPARTMENT</div>
+        </div>
+        <div className='px-4'>
+          <ul className='list-none mt-2'>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>DUE</p>
+                <p className='font-semibold text-sm'>$2,893</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>RECEIVED</p>
+                <p className='font-semibold text-sm'>$4,289</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>NOT RECEIVED</p>
+                <p className='font-semibold text-sm'>$6,347</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>DONE</p>
+                <p className='font-semibold text-sm'>$3,894</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>PENDING</p>
+                <p className='font-semibold text-sm'>$2,679</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className='relative mb-4 flex flex-col rounded-lg bg-pink-200 text-gray-700 text-sm shadow-md transition-transform transform hover:scale-105'>
+        <div className='flex flex-wrap items-center gap-1 border-t-2 border-b border-gray-300 rounded-t-lg px-4 py-3 font-semibold'>
+          <div className='text-lg font-bold'>PANEL APPROVAL</div>
+        </div>
+        <div className='px-4'>
+          <ul className='list-none mt-2'>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>DUE</p>
+                <p className='font-semibold text-sm'>$2,893</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>RECEIVED</p>
+                <p className='font-semibold text-sm'>$4,289</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>NOT RECEIVED</p>
+                <p className='font-semibold text-sm'>$6,347</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>DONE</p>
+                <p className='font-semibold text-sm'>$3,894</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>PENDING</p>
+                <p className='font-semibold text-sm'>$2,679</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className='relative mb-4 flex flex-col rounded-lg bg-purple-200 text-gray-700 text-sm shadow-md transition-transform transform hover:scale-105'>
+        <div className='flex flex-wrap items-center gap-1 border-t-2 border-b border-gray-300 rounded-t-lg px-4 py-3 font-semibold'>
+          <div className='text-lg font-bold'>DELIVERY QUEUE</div>
+        </div>
+        <div className='px-4'>
+          <ul className='list-none mt-2'>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>DUE</p>
+                <p className='font-semibold text-sm'>$2,893</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>RECEIVED</p>
+                <p className='font-semibold text-sm'>$4,289</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>NOT RECEIVED</p>
+                <p className='font-semibold text-sm'>$6,347</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>DONE</p>
+                <p className='font-semibold text-sm'>$3,894</p>
+              </div>
+            </li>
+            <li className='mb-4 border-b border-gray-300'>
+              <div className='flex items-center justify-between'>
+                <p className='font-semibold text-sm'>PENDING</p>
+                <p className='font-semibold text-sm'>$2,679</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 
