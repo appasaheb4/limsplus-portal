@@ -136,21 +136,21 @@ const GeneralResultEntry = observer(() => {
             if (finishResult === '') {
               patientResultStore.patientResultService.listPatientResultNotFinished(
                 {
-                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  ...generalResultEntryStore.filterGeneralResEntry,
                   isAll: true,
                 },
               );
             } else if (finishResult === 'D') {
               patientResultStore.patientResultService.listPatientResultNotFinished(
                 {
-                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  ...generalResultEntryStore.filterGeneralResEntry,
                   isAll: false,
                 },
               );
             } else if (finishResult == 'P') {
               patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
-                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  ...generalResultEntryStore.filterGeneralResEntry,
                   finishResult: 'P',
                   panelStatus: 'P',
                   testStatus: 'P',
