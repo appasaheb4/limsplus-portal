@@ -96,29 +96,35 @@ export const FilterInputTable = observer(() => {
                           ...generalResultEntryStore.filterGeneralResEntry,
                           pLab: item.pLab,
                         });
-                        const input = _.pickBy(
+                        // const input = _.pickBy(
+                        //   {
+                        //     ...generalResultEntryStore.filterGeneralResEntry,
+                        //     pLab: item.pLab,
+                        //   },
+                        //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        //   function (value, key) {
+                        //     return !(
+                        //       value === undefined ||
+                        //       value === null ||
+                        //       value === ''
+                        //     );
+                        //   },
+                        // );
+                        // patientResultStore.patientResultService.patientListForGeneralResultEntry(
+                        //   {
+                        //     input: {
+                        //       filter: {
+                        //         ...input,
+                        //       },
+                        //       page: 0,
+                        //       limit: 10,
+                        //     },
+                        //   },
+                        // );
+                        patientResultStore.patientResultService.listPatientResultNotFinished(
                           {
                             ...generalResultEntryStore.filterGeneralResEntry,
-                            pLab: item.pLab,
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
+                            isAll: true,
                           },
                         );
                         patientResultStore.filterDistinctPatientResult(
