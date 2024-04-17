@@ -97,13 +97,10 @@ export class PatientResultService {
 
   listPatientResultNotAutoUpdate = (filter, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const env =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: PATIENT_RESULT_RECORDS,
-          variables: { input: { filter, page, limit, env, role } },
+          variables: { input: { filter, page, limit } },
         })
         .then((response: any) => {
           stores.patientResultStore.updatePatientResultNotAutoUpdate(

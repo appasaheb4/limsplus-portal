@@ -1,11 +1,11 @@
 export class FilterGeneralResEntryList {
   pLab: string;
-  departement: string;
+  departement: string | undefined;
   testStatus: string;
   resultStatus: string;
-  testCode: string;
+  testCode: string | undefined;
   analyteCode: string;
-  labId: number | string;
+  labId: number | string | undefined;
   finishResult: string;
 
   constructor(rawData: { [key in string]: any }) {
