@@ -170,7 +170,7 @@ const Payment = PaymentHoc(
         <div className=' mx-auto flex-wrap'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'shown' : 'hidden')
+              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
             }
           >
             <Grid cols={3}>
