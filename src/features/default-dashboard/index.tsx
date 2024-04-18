@@ -6,9 +6,7 @@ import dayjs from 'dayjs';
 import { ModalChangePassword, Toast, ModalConfirm } from '@/library/components';
 
 import BarChart from './bar-chart.component';
-import Feed from './feed.component';
 import Header from './header.component';
-import LineChart from './line-chart.component';
 import Projects from './project.component';
 import Statistics from './statistic.component';
 import { useHistory } from 'react-router-dom';
@@ -16,6 +14,8 @@ import { useHistory } from 'react-router-dom';
 // registration
 
 import { stores, useStores } from '@/stores';
+import BoxCard from './box-card.component';
+import LineChart from './line-chart.component';
 
 const Default = observer(() => {
   const { userStore, loginStore } = useStores();
@@ -54,16 +54,8 @@ const Default = observer(() => {
       <Container fluid className='p-0'>
         <Header />
         <Statistics />
+        <BoxCard />
         <LineChart />
-
-        <Row>
-          <Col lg='6' xl='8' className='d-flex'>
-            <Projects />
-          </Col>
-          <Col lg='6' xl='4' className='d-flex'>
-            <BarChart />
-          </Col>
-        </Row>
 
         <ModalChangePassword
           {...modalChangePassword}
