@@ -181,43 +181,6 @@ export const Result = observer((props: ResultProps) => {
             },
 
             {
-              dataField: 'validationLevel',
-              text: 'Validation Level',
-              sort: true,
-              formatter: (cell, row) => (
-                <>
-                  <select
-                    value={row.validationLevel}
-                    disabled={!row?.isResultUpdate}
-                    className={
-                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-                    }
-                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
-                    onChange={e => {
-                      const validationLevel: any = e.target.value;
-                      props.onUpdateFields &&
-                        props.onUpdateFields(
-                          { validationLevel: Number.parseInt(validationLevel) },
-                          row._id,
-                        );
-                    }}
-                  >
-                    <option selected style={{ color: '#000000' }}>
-                      Select
-                    </option>
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                      .splice(row?.validationLevel, 8)
-                      .map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                  </select>
-                </>
-              ),
-            },
-
-            {
               dataField: 'refRangesList',
               text: 'Ref Ranges',
               sort: true,
