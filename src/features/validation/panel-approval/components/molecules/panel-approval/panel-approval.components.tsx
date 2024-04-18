@@ -122,6 +122,42 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               },
             },
             {
+              dataField: 'validationLevel',
+              text: 'Validation Level',
+              sort: true,
+              formatter: (cell, row) => (
+                <>
+                  <select
+                    value={row[1][0].validationLevel}
+                    disabled={!row[1][0]?.isResultUpdate}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
+                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                    onChange={e => {
+                      const validationLevel: any = e.target.value;
+                      props.onUpdateFields &&
+                        props.onUpdateFields(
+                          { validationLevel: Number.parseInt(validationLevel) },
+                          [row[1][0]._id],
+                        );
+                    }}
+                  >
+                    <option selected style={{ color: '#000000' }}>
+                      Select
+                    </option>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                      .splice(row[1][0]?.validationLevel, 10)
+                      .map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                  </select>
+                </>
+              ),
+            },
+            {
               dataField: 'dueDate',
               text: 'Due Date',
               sort: true,
