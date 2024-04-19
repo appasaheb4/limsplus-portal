@@ -185,7 +185,7 @@ export class TestAnalyteMappingService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.findByFiledsTestAnalyteMappings.success) return [];
+          // if (!response.data.findByFiledsTestAnalyteMappings.success) return []; // don't add this condition buz checkExistsRecords in facing issue
           stores.uploadLoadingFlag(false);
           resolve(response.data);
         })
