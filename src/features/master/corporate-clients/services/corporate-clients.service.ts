@@ -6,8 +6,8 @@
  */
 
 import * as Models from '../models';
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   REMOVE_RECORD,
@@ -32,7 +32,7 @@ export class CorporateClientsService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role}},
+          variables: { input: { page, limit, env, role } },
         })
         .then((response: any) => {
           stores.corporateClientsStore.updateCorporateClientsList(

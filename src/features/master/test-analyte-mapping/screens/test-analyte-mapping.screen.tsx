@@ -426,7 +426,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
       fields: any = testAnalyteMappingStore.testAnalyteMapping,
       isSingleCheck = false,
     ) => {
-      const requiredFields = ['lab', 'testName', 'analyteCode', 'status'];
+      const requiredFields = ['lab', 'testCode', 'analyteCode', 'status'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields }[item])) return item;
       });
