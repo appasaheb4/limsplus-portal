@@ -370,32 +370,6 @@ export const FilterInputTable = observer(() => {
           </tr>
         </tbody>
       </Table>
-      {/* <Buttons.Button
-        size='small'
-        type='solid'
-        onClick={() => {
-          generalResultEntryStore.updateFilterGeneralResEntry({
-            ...generalResultEntryStore.filterGeneralResEntry,
-            pLab: '',
-            departement: '',
-            testStatus: '',
-            resultStatus: '',
-            testCode: '',
-            analyteCode: '',
-            labId: '',
-            finishResult: '',
-          });
-          patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-            {
-              pLab: loginStore.login?.lab,
-              // testCode: generalResultEntryStore.filterGeneralResEntry?.testCode,
-              finishResult: 'P',
-            },
-          );
-        }}
-      >
-        {'Clear Filter'}
-      </Buttons.Button> */}
     </div>
   );
 });
