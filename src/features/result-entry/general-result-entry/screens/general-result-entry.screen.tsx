@@ -3,11 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import { Toast, ModalConfirm, MainPageHeading } from '@/library/components';
-import {
-  FilterInputTable,
-  GeneralResultEntryList,
-  ModalPatientDemographics,
-} from '../components';
+import { FilterInputTable, GeneralResultEntryList } from '../components';
 import { RouterFlow } from '@/flows';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
@@ -124,7 +120,7 @@ const GeneralResultEntry = observer(() => {
                   });
                   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                     {
-                      pLab: loginStore.login?.lab,
+                      ...generalResultEntryStore.filterGeneralResEntry,
                       finishResult: 'P',
                     },
                   );
@@ -236,21 +232,9 @@ const GeneralResultEntry = observer(() => {
             message: `😊 ${res.updatePatientResult.message}`,
             timer: 2000,
           });
-          // patientResultStore.patientResultService.patientListForGeneralResultEntry(
-          //   {
-          //     input: {
-          //       filter: {
-          //         pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
-          //         finishResult: 'P',
-          //       },
-          //       page: 0,
-          //       limit: 10,
-          //     },
-          //   },
-          // );
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
-              pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+              ...generalResultEntryStore.filterGeneralResEntry,
               finishResult: 'P',
               panelStatus: 'P',
               testStatus: 'P',

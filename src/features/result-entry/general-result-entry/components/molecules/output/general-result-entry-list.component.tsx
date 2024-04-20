@@ -68,8 +68,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.selectedId, props.data]);
 
-  console.log({ localData });
-
   const isFinishResultDisable = (data: Array<any>) => {
     let isDisable = true;
     if (data?.length == 0) return isDisable;
