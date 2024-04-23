@@ -5,17 +5,15 @@ import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import { ModalChangePassword, Toast, ModalConfirm } from '@/library/components';
 
-import BarChart from './bar-chart.component';
-import Header from './header.component';
-import Projects from './project.component';
-import Statistics from './statistic.component';
+import Statistics from './components/statistic.component';
 import { useHistory } from 'react-router-dom';
 
 // registration
 
 import { stores, useStores } from '@/stores';
-import BoxCard from './box-card.component';
-import LineChart from './line-chart.component';
+import BoxCard from './components/box-card.component';
+import LineChart from './components/line-chart.component';
+import HeaderComponent from './header.component';
 
 const Default = observer(() => {
   const { userStore, loginStore } = useStores();
@@ -52,7 +50,7 @@ const Default = observer(() => {
   return (
     <>
       <Container fluid className='p-0'>
-        <Header />
+        <HeaderComponent />
         <Statistics />
         <BoxCard />
         <LineChart />
