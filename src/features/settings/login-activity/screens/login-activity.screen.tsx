@@ -63,7 +63,7 @@ const LoginActivity = observer(() => {
                   },
                   sortCaret: (order, column) => sortCaret(order, column),
                   csvFormatter: (cell, row, rowIndex) =>
-                    `UserId: ${row.user.userId}, User Name: ${row.user.fullName},  Lab: ${row.user.lab}, Role: ${row.user.role}`,
+                    `UserId: ${row.user.userId}, User Name: ${row?.user?.fullName},  Lab: ${row?.user?.lab}, Role: ${row?.user?.role}`,
                   filter: textFilter({
                     placeholder: 'User details',
                     getFilter: filter => {
@@ -75,8 +75,8 @@ const LoginActivity = observer(() => {
                   formatter: (cell, row) => {
                     return (
                       <div>
-                        <h6>{`UserId: ${row.user?.userId}`} </h6>
-                        <h6>{`User Name: ${row.user?.fullName}`}</h6>
+                        <h6>{`UserId: ${row?.user?.userId}`} </h6>
+                        <h6>{`User Name: ${row?.user?.fullName}`}</h6>
                         <h6>{`Lab: ${row.user?.lab}`}</h6>
                         <h6>{`Role: ${row.user?.role}`}</h6>
                       </div>
@@ -98,8 +98,16 @@ const LoginActivity = observer(() => {
                     },
                   }),
                   csvFormatter: (cell, row, rowIndex) =>
-                    `Device:${row.systemInfo.device}, OS, name:${row.systemInfo?.workstation?.os?.name},  version:${row.systemInfo?.workstation?.os?.version}, Browser,name: ${row.systemInfo?.workstation?.browser?.name}
-                    version:${row.systemInfo?.workstation?.browser?.version}`,
+                    `Device:${row?.systemInfo?.device}, OS,  Name:${
+                      row?.systemInfo?.workstation?.os?.name
+                    }, Version:${
+                      row?.systemInfo?.workstation?.os?.version || ''
+                    }, Browser,Name: ${
+                      row?.systemInfo?.workstation?.browser?.name || ''
+                    }
+                    Version:${
+                      row?.systemInfo?.workstation?.browser?.version || ''
+                    }`,
                   headerClasses: 'textHeader5',
                   formatter: (cell, row) => {
                     return (
@@ -107,13 +115,23 @@ const LoginActivity = observer(() => {
                         <h6>{`Device: ${row.systemInfo?.device}`} </h6>
                         <h6> OS:</h6>
                         <h6 className='ml-4'>
-                          {`name: ${row.systemInfo?.workstation?.os?.name}
-                                      version:${row.systemInfo?.workstation?.os?.version}`}
+                          {`Name: ${
+                            row?.systemInfo?.workstation?.os?.name || ''
+                          }
+                                       / Version:${
+                                         row?.systemInfo?.workstation?.os
+                                           ?.version || ''
+                                       }`}
                         </h6>
                         <h6> Browser:</h6>
                         <h6 className='ml-4'>
-                          {`name: ${row.systemInfo?.workstation?.browser?.name}
-                                      version:${row.systemInfo?.workstation?.browser?.version}`}
+                          {`Name: ${
+                            row?.systemInfo?.workstation?.browser?.name || ''
+                          }
+                                       / Version:${
+                                         row?.systemInfo?.workstation?.browser
+                                           ?.version || ''
+                                       }`}
                         </h6>
                       </div>
                     );
@@ -135,20 +153,20 @@ const LoginActivity = observer(() => {
                   }),
                   headerClasses: 'textHeader4',
                   csvFormatter: (cell, row, rowIndex) =>
-                    `Ip:${row.systemInfo.ipInfo.ip}, Address:${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}, Location:${row.systemInfo.ipInfo.ll}`,
+                    `Ip:${row?.systemInfo?.ipInfo?.ip}, Address:${row?.systemInfo?.ipInfo?.city}, ${row?.systemInfo?.ipInfo?.region}, ${row?.systemInfo?.ipInfo?.country}, Location:${row?.systemInfo?.ipInfo?.ll}`,
                   formatter: (cell, row) => {
                     return (
                       <>
                         <div>
-                          <h6>Ip: {row.systemInfo?.ipInfo?.ip}</h6>
-                          {row.systemInfo.ipInfo.city && (
+                          <h6>Ip: {row?.systemInfo?.ipInfo?.ip}</h6>
+                          {row?.systemInfo?.ipInfo?.city && (
                             <>
                               <h6>
                                 Address:{' '}
-                                {`${row.systemInfo.ipInfo.city}, ${row.systemInfo.ipInfo.region}, ${row.systemInfo.ipInfo.country}`}
+                                {`${row?.systemInfo?.ipInfo?.city}, ${row?.systemInfo?.ipInfo?.region}, ${row?.systemInfo?.ipInfo?.country}`}
                               </h6>
                               <h6>
-                                Location: {`${row.systemInfo?.ipInfo?.ll}`}
+                                Location: {`${row?.systemInfo?.ipInfo?.ll}`}
                               </h6>
                             </>
                           )}
