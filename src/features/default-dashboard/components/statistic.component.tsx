@@ -1,9 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { ArrowUp, Users } from 'react-feather';
-import { useStores } from '@/stores';
-
 const Statistics = observer(() => {
   const data = [
     {
