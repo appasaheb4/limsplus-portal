@@ -130,7 +130,11 @@ export const FilterInputTable = observer(() => {
                       data={{
                         list: _.uniqBy(
                           patientResultStore.distinctPatientResult?.filter(
-                            item => item.departement !== undefined,
+                            item =>
+                              item.departement !== undefined &&
+                              item.pLab ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.pLab,
                           ),
                           'departement',
                         ),
