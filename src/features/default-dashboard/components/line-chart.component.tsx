@@ -15,6 +15,11 @@ import {
 } from 'reactstrap';
 import BoxCard from './box-card.component';
 import BarChart from '../bar-chart.component';
+import PieChart from './pie-chart.component';
+import PolorChart from './polor-area.component';
+import RadarChart from './radar-chart.omponenet';
+import ScatterChart from './scatter-chart.component';
+import { BubbleChart } from './bubble-chart.component';
 
 const LineChart = () => {
   const graphData = [
@@ -128,6 +133,25 @@ const LineChart = () => {
     setGraphDataState(updatedGraphData);
   };
 
+  const renderChart = item => {
+    switch (item) {
+      case 'Bar':
+        return <BarChart />;
+      case 'Pie':
+        return <PieChart />;
+      case 'Polor':
+        return <PolorChart />;
+      case 'Radar':
+        return <RadarChart />;
+      case 'Scatter':
+        return <ScatterChart />;
+      case 'Bubble':
+        return <BubbleChart />;
+      default:
+        return <Line data={data} options={options} />;
+    }
+  };
+
   return (
     <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-2 mb-4'>
       {graphDataState.map((item, index) => (
@@ -153,6 +177,31 @@ const LineChart = () => {
                     >
                       See Line Graph
                     </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleGraphChange(index, 'Pie')}
+                    >
+                      Pie Chart
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleGraphChange(index, 'Polor')}
+                    >
+                      Polor Chart
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleGraphChange(index, 'Radar')}
+                    >
+                      Radar Chart
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleGraphChange(index, 'Scatter')}
+                    >
+                      Scatter Chart
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleGraphChange(index, 'Bubble')}
+                    >
+                      Bubble Chart
+                    </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
                 <UncontrolledDropdown className='d-inline mr-2'>
@@ -170,13 +219,10 @@ const LineChart = () => {
               <span className='dark:text-white'>{item.name}</span>
             </CardTitle>
           </CardHeader>
+
           <CardBody>
             <div className='chart chart-lg text-white'>
-              {item.graphType === 'Bar' ? (
-                <BarChart />
-              ) : (
-                <Line data={data} options={options} />
-              )}
+              {renderChart(item.graphType)}
             </div>
           </CardBody>
         </Card>

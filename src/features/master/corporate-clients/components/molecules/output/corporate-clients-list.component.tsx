@@ -1532,7 +1532,8 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  {dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  {row.dateCreation &&
+                    dayjs(row.dateCreation || 0).format('DD-MM-YYYY HH:mm:ss')}
                 </>
               );
             },
@@ -1583,7 +1584,10 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             ),
             formatter: (cell, row) => {
               return (
-                <>{dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')}</>
+                <>
+                  {row.dateActive &&
+                    dayjs(row.dateActive || 0).format('DD-MM-YYYY HH:mm:ss')}
+                </>
               );
             },
             editorRenderer: (
@@ -1628,7 +1632,12 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               <DateRangeFilter onFilter={onFilter} column={column} />
             ),
             formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;
+              return (
+                <>
+                  {row.dateExpire &&
+                    dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}
+                </>
+              );
             },
             editorRenderer: (
               editorProps,
