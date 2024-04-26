@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Form } from '@/library/components';
 import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
-
+import { icons } from '@/library/assets';
 import { TableBootstrap } from './table-bootstrap.components';
 
 interface PatientDemographicsListProps {
@@ -76,8 +76,19 @@ export const PatientDemographicsList = observer(
               {
                 dataField: 'sex',
                 text: 'Sex',
-                sort: true,
                 editable: false,
+                style: { width: 50 },
+                formatter: (cell, row) => {
+                  return (
+                    <div className='flex'>
+                      <img
+                        src={row.sex == 'M' ? icons.male : icons.female}
+                        style={{ width: 80, height: 20 }}
+                        alt='male'
+                      />
+                    </div>
+                  );
+                },
               },
               {
                 dataField: 'dob',
