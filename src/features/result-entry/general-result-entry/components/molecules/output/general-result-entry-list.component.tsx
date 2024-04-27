@@ -182,7 +182,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Result',
               headerClasses: 'textHeader4',
               editable: (content, row, rowIndex, columnIndex) =>
-                row.approvalStatus == 'P' ? true : false,
+                row.approvalStatus == 'P' && !row?.calculationFlag
+                  ? true
+                  : false,
               formatter: (cellContent, row) => (
                 <>
                   {row.isResultEditor ? (

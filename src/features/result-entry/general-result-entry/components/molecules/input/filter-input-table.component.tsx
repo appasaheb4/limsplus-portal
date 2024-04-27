@@ -220,7 +220,17 @@ export const FilterInputTable = observer(() => {
                       data={{
                         list: _.uniqBy(
                           patientResultStore.distinctPatientResult?.filter(
-                            item => item.testCode !== undefined,
+                            item =>
+                              item.testCode !== undefined &&
+                              item.pLab ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.pLab &&
+                              item.departement ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.departement &&
+                              item.labId ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.labId,
                           ),
                           'testCode',
                         ),
@@ -303,7 +313,14 @@ export const FilterInputTable = observer(() => {
                       data={{
                         list: _.uniqBy(
                           patientResultStore.distinctPatientResult?.filter(
-                            item => item.labId !== undefined,
+                            item =>
+                              item.labId !== undefined &&
+                              item.pLab ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.pLab &&
+                              item.departement ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.departement,
                           ),
                           'labId',
                         ),
@@ -323,7 +340,7 @@ export const FilterInputTable = observer(() => {
                         onChange(item?.labId);
                         generalResultEntryStore.updateFilterGeneralResEntry({
                           ...generalResultEntryStore.filterGeneralResEntry,
-                          labId: item.labId,
+                          labId: Number.parseInt(item.labId),
                         });
                         patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
