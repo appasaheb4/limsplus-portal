@@ -97,12 +97,6 @@ const GeneralResultEntry = observer(() => {
               body: `Do you want to update this record?`,
             });
           }}
-          onPageSizeChange={(page, limit) => {
-            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-              page,
-              limit,
-            );
-          }}
           onFinishResult={async ids => {
             await patientResultStore.patientResultService
               .updateFinishResultStatus({
@@ -205,6 +199,12 @@ const GeneralResultEntry = observer(() => {
             setTableReload(!tableReload);
           }}
           selectedRowData={modalPatientDemographics?.data}
+          onPageSizeChange={(page, limit) => {
+            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+              page,
+              limit,
+            );
+          }}
         />
       </>
     ),
