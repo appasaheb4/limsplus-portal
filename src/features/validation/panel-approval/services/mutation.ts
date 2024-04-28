@@ -34,6 +34,7 @@ export const PANEL_APPROVAL_LIST = gql`
         department
         test
         analyte
+        picture
         result
         final
         abnFlag
@@ -128,6 +129,7 @@ export const FIND = gql`
         department
         test
         analyte
+        picture
         result
         final
         abnFlag
@@ -204,6 +206,7 @@ export const FILTER = gql`
         department
         test
         analyte
+        picture
         result
         final
         abnFlag
@@ -258,6 +261,7 @@ export const RECALL = gql`
         panel
         test
         analyte
+        picture
         result
         panelCode
         testCode

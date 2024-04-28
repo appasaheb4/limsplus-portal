@@ -424,7 +424,7 @@ const TestPanelMapping = TestPanelMappingHoc(
     ) => {
       const requiredFields = ['lab', 'panelCode', 'testCode', 'status'];
       const isEmpty = requiredFields.find(item => {
-        if (_.isEmpty({ ...fields, status }[item])) return item;
+        if (_.isEmpty({ ...fields }[item])) return item;
       });
       if (isEmpty && !isSingleCheck) {
         Toast.error({

@@ -402,23 +402,7 @@ export const Users = UsersHoc(
       fields: any = userStore.user,
       isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'defaultLab',
-        'defaultDepartment',
-        'userGroup',
-        'userModule',
-        'userId',
-        'fullName',
-        'empCode',
-        'deginisation',
-        'role',
-        'lab',
-        'department',
-        'mobileNo',
-        'email',
-        'exipreDate',
-        'status',
-      ];
+      const requiredFields = ['userId', 'status'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields }[item])) return item;
       });
@@ -428,7 +412,7 @@ export const Users = UsersHoc(
         });
         return true;
       }
-      return userStore.UsersService.findByFieldsAndUniqueUserId({
+      return userStore.UsersService.findByFields({
         input: {
           filter: isSingleCheck
             ? { ...fields }
