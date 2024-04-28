@@ -187,7 +187,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   : false,
               formatter: (cellContent, row) => (
                 <>
-                  {row.isResultEditor ? (
+                  {row?.isResultEditor ? (
                     <DisplayResult
                       row={row}
                       onSelect={async result => {
