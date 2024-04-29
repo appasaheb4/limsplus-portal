@@ -52,7 +52,6 @@ export const FilterInputTable = observer(() => {
             <th className='text-white' style={{ minWidth: 190 }}>
               Test Code / Name
             </th>
-
             <th className='text-white' style={{ minWidth: 190 }}>
               LabId
             </th>
@@ -97,29 +96,13 @@ export const FilterInputTable = observer(() => {
                           ...generalResultEntryStore.filterGeneralResEntry,
                           pLab: item.pLab,
                         });
-                        const input = _.pickBy(
+                        patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
                             ...generalResultEntryStore.filterGeneralResEntry,
                             pLab: item.pLab,
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
+                            finishResult: 'P',
+                            panelStatus: 'P',
+                            testStatus: 'P',
                           },
                         );
                         patientResultStore.filterDistinctPatientResult(
@@ -143,11 +126,15 @@ export const FilterInputTable = observer(() => {
                     <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                       loader={loading}
                       hasError={!!errors.analyte}
-                      placeholder='Search by departement'
+                      placeholder='Search by department'
                       data={{
                         list: _.uniqBy(
                           patientResultStore.distinctPatientResult?.filter(
-                            item => item.departement !== undefined,
+                            item =>
+                              item.departement !== undefined &&
+                              item.pLab ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.pLab,
                           ),
                           'departement',
                         ),
@@ -172,29 +159,13 @@ export const FilterInputTable = observer(() => {
                           ...generalResultEntryStore.filterGeneralResEntry,
                           departement: item.departement,
                         });
-                        const input = _.pickBy(
+                        patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
                             ...generalResultEntryStore.filterGeneralResEntry,
                             departement: item.departement,
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
+                            finishResult: 'P',
+                            panelStatus: 'P',
+                            testStatus: 'P',
                           },
                         );
                         patientResultStore.filterDistinctPatientResult(
@@ -207,7 +178,7 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
-                {/* <Icons.IconContext
+                <Icons.IconContext
                   color={
                     appStore.applicationSetting.theme != 'dark'
                       ? '#000000'
@@ -215,39 +186,23 @@ export const FilterInputTable = observer(() => {
                   }
                   size='30'
                   onClick={() => {
-                    const input = _.pickBy(
-                      {
-                        ...generalResultEntryStore.filterGeneralResEntry,
-                        departement: '',
-                      },
-                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                      function (value, key) {
-                        return !(
-                          value === undefined ||
-                          value === null ||
-                          value === ''
-                        );
-                      },
-                    );
-                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                      {
-                        input: {
-                          filter: {
-                            ...input,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      },
-                    );
                     generalResultEntryStore.updateFilterGeneralResEntry({
                       ...generalResultEntryStore.filterGeneralResEntry,
-                      departement: '',
+                      departement: undefined,
                     });
+                    patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+                      {
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        departement: undefined,
+                        finishResult: 'P',
+                        panelStatus: 'P',
+                        testStatus: 'P',
+                      },
+                    );
                   }}
                 >
                   <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext> */}
+                </Icons.IconContext>
               </div>
             </td>
             <td>
@@ -259,10 +214,23 @@ export const FilterInputTable = observer(() => {
                       loader={loading}
                       hasError={!!errors.testCode}
                       placeholder='Search by code '
+                      displayValue={
+                        generalResultEntryStore.filterGeneralResEntry?.testCode
+                      }
                       data={{
                         list: _.uniqBy(
                           patientResultStore.distinctPatientResult?.filter(
-                            item => item.testCode !== undefined,
+                            item =>
+                              item.testCode !== undefined &&
+                              item.pLab ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.pLab &&
+                              item.departement ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.departement &&
+                              item.labId ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.labId,
                           ),
                           'testCode',
                         ),
@@ -286,29 +254,13 @@ export const FilterInputTable = observer(() => {
                           ...generalResultEntryStore.filterGeneralResEntry,
                           testCode: item.testCode,
                         });
-                        const input = _.pickBy(
+                        patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
                             ...generalResultEntryStore.filterGeneralResEntry,
                             testCode: item.testCode,
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
+                            finishResult: 'P',
+                            panelStatus: 'P',
+                            testStatus: 'P',
                           },
                         );
                         patientResultStore.filterDistinctPatientResult(
@@ -321,6 +273,31 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={''}
                 />
+                <Icons.IconContext
+                  color={
+                    appStore.applicationSetting.theme != 'dark'
+                      ? '#000000'
+                      : '#ffffff'
+                  }
+                  size='30'
+                  onClick={() => {
+                    generalResultEntryStore.updateFilterGeneralResEntry({
+                      ...generalResultEntryStore.filterGeneralResEntry,
+                      testCode: undefined,
+                    });
+                    patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+                      {
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        testCode: undefined,
+                        finishResult: 'P',
+                        panelStatus: 'P',
+                        testStatus: 'P',
+                      },
+                    );
+                  }}
+                >
+                  <Icons.Iconai.AiFillCloseCircle />
+                </Icons.IconContext>
               </div>
             </td>
 
@@ -336,7 +313,14 @@ export const FilterInputTable = observer(() => {
                       data={{
                         list: _.uniqBy(
                           patientResultStore.distinctPatientResult?.filter(
-                            item => item.labId !== undefined,
+                            item =>
+                              item.labId !== undefined &&
+                              item.pLab ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.pLab &&
+                              item.departement ==
+                                generalResultEntryStore.filterGeneralResEntry
+                                  ?.departement,
                           ),
                           'labId',
                         ),
@@ -356,31 +340,15 @@ export const FilterInputTable = observer(() => {
                         onChange(item?.labId);
                         generalResultEntryStore.updateFilterGeneralResEntry({
                           ...generalResultEntryStore.filterGeneralResEntry,
-                          labId: item.labId,
+                          labId: Number.parseInt(item.labId),
                         });
-                        const input = _.pickBy(
+                        patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
                             ...generalResultEntryStore.filterGeneralResEntry,
-                            labId: Number.parseInt(item.labId),
-                          },
-                          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                          function (value, key) {
-                            return !(
-                              value === undefined ||
-                              value === null ||
-                              value === ''
-                            );
-                          },
-                        );
-                        patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                          {
-                            input: {
-                              filter: {
-                                ...input,
-                              },
-                              page: 0,
-                              limit: 10,
-                            },
+                            labId: item.labId,
+                            finishResult: 'P',
+                            panelStatus: 'P',
+                            testStatus: 'P',
                           },
                         );
                         patientResultStore.filterDistinctPatientResult(
@@ -393,7 +361,7 @@ export const FilterInputTable = observer(() => {
                   rules={{ required: true }}
                   defaultValue={patientResultStore.patientResultList}
                 />
-                {/* <Icons.IconContext
+                <Icons.IconContext
                   color={
                     appStore.applicationSetting.theme != 'dark'
                       ? '#000000'
@@ -401,70 +369,28 @@ export const FilterInputTable = observer(() => {
                   }
                   size='30'
                   onClick={() => {
-                    const input = _.pickBy(
-                      {
-                        ...generalResultEntryStore.filterGeneralResEntry,
-                        labId: '',
-                      },
-                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                      function (value, key) {
-                        return !(
-                          value === undefined ||
-                          value === null ||
-                          value === ''
-                        );
-                      },
-                    );
-                    patientResultStore.patientResultService.patientListForGeneralResultEntry(
-                      {
-                        input: {
-                          filter: {
-                            ...input,
-                          },
-                          page: 0,
-                          limit: 10,
-                        },
-                      },
-                    );
                     generalResultEntryStore.updateFilterGeneralResEntry({
                       ...generalResultEntryStore.filterGeneralResEntry,
-                      labId: '',
+                      labId: undefined,
                     });
+                    patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+                      {
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        labId: undefined,
+                        finishResult: 'P',
+                        panelStatus: 'P',
+                        testStatus: 'P',
+                      },
+                    );
                   }}
                 >
                   <Icons.Iconai.AiFillCloseCircle />
-                </Icons.IconContext> */}
+                </Icons.IconContext>
               </div>
             </td>
           </tr>
         </tbody>
       </Table>
-      {/* <Buttons.Button
-        size='small'
-        type='solid'
-        onClick={() => {
-          generalResultEntryStore.updateFilterGeneralResEntry({
-            ...generalResultEntryStore.filterGeneralResEntry,
-            pLab: '',
-            departement: '',
-            testStatus: '',
-            resultStatus: '',
-            testCode: '',
-            analyteCode: '',
-            labId: '',
-            finishResult: '',
-          });
-          patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-            {
-              pLab: loginStore.login?.lab,
-              // testCode: generalResultEntryStore.filterGeneralResEntry?.testCode,
-              finishResult: 'P',
-            },
-          );
-        }}
-      >
-        {'Clear Filter'}
-      </Buttons.Button> */}
     </div>
   );
 });

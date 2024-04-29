@@ -34,6 +34,7 @@ export const PANEL_APPROVAL_LIST = gql`
         department
         test
         analyte
+        picture
         result
         final
         abnFlag
@@ -59,6 +60,7 @@ export const PANEL_APPROVAL_LIST = gql`
         approvalDate
         approvalStatus
         autoRelease
+        isResultUpdate
         patientOrderId
         patientResultId
         reportPriority
@@ -127,6 +129,7 @@ export const FIND = gql`
         department
         test
         analyte
+        picture
         result
         final
         abnFlag
@@ -152,6 +155,7 @@ export const FIND = gql`
         approvalDate
         approvalStatus
         autoRelease
+        isResultUpdate
         patientOrderId
         patientResultId
         reportPriority
@@ -202,6 +206,7 @@ export const FILTER = gql`
         department
         test
         analyte
+        picture
         result
         final
         abnFlag
@@ -227,11 +232,46 @@ export const FILTER = gql`
         approvalDate
         approvalStatus
         autoRelease
+        isResultUpdate
         patientOrderId
         patientResultId
         reportPriority
         colorScheme
         validationLevel
+        companyCode
+        environment
+        enteredBy
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
+export const RECALL = gql`
+  mutation ($input: PanelApprovalInput!) {
+    reCallPanelApproval(input: $input) {
+      success
+      message
+      data {
+        _id
+        name
+        labId
+        panel
+        test
+        analyte
+        picture
+        result
+        panelCode
+        testCode
+        testName
+        analyteName
+        analyteCode
+        approvalDate
+        approvalStatus
+        patientOrderId
+        patientResultId
         companyCode
         environment
         enteredBy

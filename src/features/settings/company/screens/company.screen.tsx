@@ -14,7 +14,6 @@ import {
   StaticInputTable,
   ImportFile,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   MainPageHeading,
   ModalPostalCode,
 } from '@/library/components';
@@ -1249,7 +1248,6 @@ const Company = CompanyHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

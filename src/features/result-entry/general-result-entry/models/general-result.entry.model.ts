@@ -1,14 +1,14 @@
 export class FilterGeneralResEntryList {
   pLab: string;
-  departement: string;
+  departement: string | undefined;
   testStatus: string;
   resultStatus: string;
-  testCode: string;
+  testCode: string | undefined;
   analyteCode: string;
-  labId: number | string;
+  labId: number | string | undefined;
   finishResult: string;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.pLab = rawData.pLab;
     this.departement = rawData.departement;
     this.testStatus = rawData.testStatus;
@@ -22,7 +22,7 @@ export class FilterGeneralResEntryList {
 
 export class SelectedItems {
   library: any[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.library = rawData.library;
   }
 }

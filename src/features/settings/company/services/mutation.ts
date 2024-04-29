@@ -14,8 +14,10 @@ export const COMPANY_LIST = gql`
         name
         description
         module
-        lab
-        department
+        labCode
+        labName
+        departmentCode
+        departmentName
         allowedUser
         admin
         password
@@ -105,8 +107,10 @@ export const FILTER = gql`
         name
         description
         module
-        lab
-        department
+        labCode
+        labName
+        departmentCode
+        departmentName
         allowedUser
         admin
         password
@@ -160,8 +164,10 @@ export const FILTER_BY_FIELDS = gql`
         name
         description
         module
-        lab
-        department
+        labCode
+        labName
+        departmentCode
+        departmentName
         allowedUser
         admin
         password
@@ -212,8 +218,10 @@ export const FIND_BY_FIELDS = gql`
         name
         description
         module
-        lab
-        department
+        labCode
+        labName
+        departmentCode
+        departmentName
         allowedUser
         admin
         password
