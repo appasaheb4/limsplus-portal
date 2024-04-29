@@ -124,11 +124,23 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             },
             {
               dataField: 'testCode',
-              text: 'Test Code',
+              text: 'Test Code - Name',
               editable: false,
-              headerClasses: 'textHeaderm',
+              headerClasses: 'textHeader',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
               formatter: (cellContent, row) => {
-                return <span title={`${row.testName}`}>{cellContent}</span>;
+                return (
+                  <span title={`${row.testCode} - ${row.testName}`}>
+                    {cellContent} - {row.testName}
+                  </span>
+                );
               },
             },
             {
@@ -155,7 +167,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               editable: (content, row, rowIndex, columnIndex) =>
                 row.approvalStatus == 'P' ? true : false,
               formatter: (cellContent, row) => (
@@ -488,27 +500,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 );
               },
             },
-            {
-              dataField: 'testCode',
-              text: 'Test Code - Name',
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '250px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return (
-                  <span title={`${row.testCode} - ${row.testName}`}>
-                    {cellContent} - {row.testName}
-                  </span>
-                );
-              },
-            },
+            
             {
               dataField: 'testStatus',
               text: 'Test Status',

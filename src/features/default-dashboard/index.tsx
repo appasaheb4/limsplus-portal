@@ -12,7 +12,7 @@ import { useHistory } from 'react-router-dom';
 
 import { stores, useStores } from '@/stores';
 import BoxCard from './components/box-card.component';
-import LineChart from './components/line-chart.component';
+import GraphDashboard from './components/graph-dashboard.component';
 import HeaderComponent from './header.component';
 
 const Default = observer(() => {
@@ -53,7 +53,7 @@ const Default = observer(() => {
         <HeaderComponent />
         <Statistics />
         <BoxCard />
-        <LineChart />
+        <GraphDashboard />
 
         <ModalChangePassword
           {...modalChangePassword}
