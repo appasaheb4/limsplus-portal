@@ -3,11 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import { Toast, ModalConfirm, MainPageHeading } from '@/library/components';
-import {
-  FilterInputTable,
-  GeneralResultEntryList,
-  ModalPatientDemographics,
-} from '../components';
+import { FilterInputTable, GeneralResultEntryList } from '../components';
 import { RouterFlow } from '@/flows';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
@@ -101,16 +97,15 @@ const GeneralResultEntry = observer(() => {
               body: `Do you want to update this record?`,
             });
           }}
-          onPageSizeChange={(page, limit) => {
-            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-              page,
-              limit,
-            );
-          }}
           onFinishResult={async ids => {
             await patientResultStore.patientResultService
               .updateFinishResultStatus({
-                input: { filter: { ids, fields: { finishResult: 'D' } } },
+                input: {
+                  filter: {
+                    ids,
+                    fields: { finishResult: 'D', isResultUpdate: true },
+                  },
+                },
               })
               .then(res => {
                 if (res.updateFinishResultFieldsByIdsPatientResult?.success) {
@@ -119,7 +114,7 @@ const GeneralResultEntry = observer(() => {
                   });
                   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                     {
-                      pLab: loginStore.login?.lab,
+                      ...generalResultEntryStore.filterGeneralResEntry,
                       finishResult: 'P',
                     },
                   );
@@ -131,21 +126,21 @@ const GeneralResultEntry = observer(() => {
             if (finishResult === '') {
               patientResultStore.patientResultService.listPatientResultNotFinished(
                 {
-                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  ...generalResultEntryStore.filterGeneralResEntry,
                   isAll: true,
                 },
               );
             } else if (finishResult === 'D') {
               patientResultStore.patientResultService.listPatientResultNotFinished(
                 {
-                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  ...generalResultEntryStore.filterGeneralResEntry,
                   isAll: false,
                 },
               );
             } else if (finishResult == 'P') {
               patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
-                  pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+                  ...generalResultEntryStore.filterGeneralResEntry,
                   finishResult: 'P',
                   panelStatus: 'P',
                   testStatus: 'P',
@@ -204,6 +199,12 @@ const GeneralResultEntry = observer(() => {
             setTableReload(!tableReload);
           }}
           selectedRowData={modalPatientDemographics?.data}
+          onPageSizeChange={(page, limit) => {
+            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+              page,
+              limit,
+            );
+          }}
         />
       </>
     ),
@@ -231,21 +232,9 @@ const GeneralResultEntry = observer(() => {
             message: `😊 ${res.updatePatientResult.message}`,
             timer: 2000,
           });
-          // patientResultStore.patientResultService.patientListForGeneralResultEntry(
-          //   {
-          //     input: {
-          //       filter: {
-          //         pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
-          //         finishResult: 'P',
-          //       },
-          //       page: 0,
-          //       limit: 10,
-          //     },
-          //   },
-          // );
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
-              pLab: generalResultEntryStore.filterGeneralResEntry?.pLab,
+              ...generalResultEntryStore.filterGeneralResEntry,
               finishResult: 'P',
               panelStatus: 'P',
               testStatus: 'P',

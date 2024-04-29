@@ -89,7 +89,7 @@ export const DisplayResult = observer(
     }, [row]);
 
     return (
-      <div className='relative w-full'>
+      <div className='relative w-full '>
         {row?.resultType == 'V' ? (
           !row?.result ? (
             <Form.Input1

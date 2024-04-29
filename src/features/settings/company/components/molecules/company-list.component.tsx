@@ -229,6 +229,11 @@ export const CompanyList = (props: CompanyListProps) => {
                 lab = filter;
               },
             }),
+            formatter: (cellContent, row) => (
+              <span title={row.labCode}>
+                {row?.labCode + ' - ' + row?.labName}
+              </span>
+            ),
           },
           {
             dataField: 'department',
@@ -246,6 +251,11 @@ export const CompanyList = (props: CompanyListProps) => {
                 department = filter;
               },
             }),
+            formatter: (cellContent, row) => (
+              <span title={row.departmentCode}>
+                {row?.departmentCode + ' - ' + row?.departmentName}
+              </span>
+            ),
           },
           {
             dataField: 'allowedUser',

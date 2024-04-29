@@ -11,15 +11,6 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 
 import { TableBootstrap } from './table-bootstrap.components';
-import { RefRanges } from '../result/ref-ranges.component';
-import { InputResult } from '../../../../../result-entry/general-result-entry/components/molecules/output/input-result.components';
-
-import {
-  getResultStatus,
-  getTestStatus,
-  getAbnFlag,
-  getCretical,
-} from '../../../../../result-entry/general-result-entry/utils';
 
 interface PanelApprovalListProps {
   data: any;
@@ -32,6 +23,7 @@ interface PanelApprovalListProps {
   selectedId?: string;
   selectedItems?: any;
   filterRecord?: string;
+  enteredBy?: string;
   onSelectedRow?: (selectedItem: any, type: string) => void;
   onUpdateFields?: (fields: any, id: string[]) => void;
   onUpdateResult?: (fields: any, id: string, patientResultId: string) => void;
@@ -86,7 +78,6 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
   //   );
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [props.selectedId, props.data, props.filterRecord]);
-
   // useEffect(() => {
   //   setLocalData(JSON.parse(JSON.stringify(localData)));
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -130,6 +121,42 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               formatter: (cell, row) => {
                 return <span>{row[1][0]?.panel}</span>;
               },
+            },
+            {
+              dataField: 'validationLevel',
+              text: 'Validation Level',
+              sort: true,
+              formatter: (cell, row) => (
+                <>
+                  <select
+                    value={row[1][0].validationLevel}
+                    disabled={!row[1][0]?.isResultUpdate}
+                    className={
+                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                    }
+                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                    onChange={e => {
+                      const validationLevel: any = e.target.value;
+                      props.onUpdateFields &&
+                        props.onUpdateFields(
+                          { validationLevel: Number.parseInt(validationLevel) },
+                          [row[1][0]._id],
+                        );
+                    }}
+                  >
+                    <option selected style={{ color: '#000000' }}>
+                      Select
+                    </option>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                      .splice(row[1][0]?.validationLevel, 10)
+                      .map((item: any, index: number) => (
+                        <option key={index} value={item}>
+                          {item}
+                        </option>
+                      ))}
+                  </select>
+                </>
+              ),
             },
             {
               dataField: 'dueDate',
@@ -185,7 +212,9 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               editable: false,
               formatter: (cellContent, row) => (
                 <div className='flex flex-row gap-1' key={row[1][0]?._id}>
-                  {props.isApproval && (
+                  {props?.isApproval &&
+                  row[1][0]?.isResultUpdate &&
+                  props?.enteredBy == row[1][0]?.enteredBy ? (
                     <>
                       <Tooltip tooltipText='Approved'>
                         <Icons.IconContext
@@ -293,6 +322,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     </>
+                  ) : (
+                    <span className='text-white'>Still result not update</span>
                   )}
                   {selectId == row[1][0]._id ? (
                     <Tooltip tooltipText='Expand'>

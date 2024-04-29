@@ -88,6 +88,8 @@ const TransactionDetails = observer(() => {
                 },
               },
             );
+          } else {
+            transactionDetailsStore.updateTransactionListList([]);
           }
           // deliveryQueueStore.updateOrderDeliveredList([item]);
         }}

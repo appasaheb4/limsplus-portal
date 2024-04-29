@@ -405,13 +405,7 @@ const MasterPackage = MasterPackageHOC(
       fields: any = masterPackageStore.masterPackage,
       isSingleCheck = false,
     ) => {
-      const requiredFields = [
-        'lab',
-        'serviceType',
-        'packageCode',
-        'panelCode',
-        'status',
-      ];
+      const requiredFields = ['packageCode', 'panelCode', 'status'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields }[item])) return item;
       });

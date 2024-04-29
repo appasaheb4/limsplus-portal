@@ -49,6 +49,7 @@ export class PendingPanelApproval {
   approvalDate: Date;
   approvalStatus: string;
   autoRelease: boolean;
+  isResultUpdate: boolean;
   patientOrderId: string;
   reportPriority: string;
   validationLevel: number;
@@ -108,6 +109,7 @@ export class PendingPanelApproval {
     this.approvalDate = rawData.approvalDate;
     this.approvalStatus = rawData.approvalStatus;
     this.autoRelease = rawData.autoRelease;
+    this.isResultUpdate = rawData.isResultUpdate;
     this.patientOrderId = rawData.patientOrderId;
     this.reportPriority = rawData.reportPriority;
     this.validationLevel = rawData.validationLevel;

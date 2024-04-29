@@ -145,6 +145,7 @@ export const UPDATE_RECORD = gql`
     updatePatientResult(input: $input) {
       success
       message
+      patientResult
     }
   }
 `;

@@ -82,6 +82,7 @@ export class Company {
     this.gst = rawData.gst;
     this.sacCode = rawData.sacCode;
     this.cinNo = rawData.cinNo;
+    this.companyLogo = rawData.companyLogo;
     this.fyiLine = rawData.fyiLine;
     this.workLine = rawData.workLine;
     this.dateCreation = rawData.dateCreation;

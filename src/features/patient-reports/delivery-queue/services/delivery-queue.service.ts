@@ -44,7 +44,9 @@ export class DeliveryQueueService {
       client
         .mutate({
           mutation: DELIVERY_QUEUE_LIST,
-          variables: { input: { page, limit, environment, role } },
+          variables: {
+            input: { page, limit, environment, role, isReCall: false },
+          },
         })
         .then((response: any) => {
           stores.deliveryQueueStore.updateReportDeliveryList(response.data);
