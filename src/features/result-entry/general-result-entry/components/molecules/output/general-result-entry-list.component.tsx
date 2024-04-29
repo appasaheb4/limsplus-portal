@@ -120,7 +120,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'labId',
               text: 'Lab Id',
               editable: false,
-              headerClasses: 'textHeaderm',
+              headerClasses: 'textHeaderxxs',
             },
             {
               dataField: 'testCode',
@@ -147,13 +147,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'analyteCode',
               text: 'Analyte Code - Name',
               editable: false,
-              headerClasses: 'textHeader',
+              headerClasses: 'textHeaderm',
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 minWidth: 0,
-                maxWidth: '250px',
+                maxWidth: '125px',
                 position: 'relative',
               },
               formatter: (cellContent, row) => {
@@ -502,7 +502,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 );
               },
             },
-            
+
             {
               dataField: 'testStatus',
               text: 'Test Status',
