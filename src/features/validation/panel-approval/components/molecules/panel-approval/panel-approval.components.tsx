@@ -23,6 +23,7 @@ interface PanelApprovalListProps {
   selectedId?: string;
   selectedItems?: any;
   filterRecord?: string;
+  enteredBy?: string;
   onSelectedRow?: (selectedItem: any, type: string) => void;
   onUpdateFields?: (fields: any, id: string[]) => void;
   onUpdateResult?: (fields: any, id: string, patientResultId: string) => void;
@@ -211,7 +212,9 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               editable: false,
               formatter: (cellContent, row) => (
                 <div className='flex flex-row gap-1' key={row[1][0]?._id}>
-                  {props?.isApproval && row[1][0]?.isResultUpdate ? (
+                  {props?.isApproval &&
+                  row[1][0]?.isResultUpdate &&
+                  props?.enteredBy == row[1][0]?.enteredBy ? (
                     <>
                       <Tooltip tooltipText='Approved'>
                         <Icons.IconContext

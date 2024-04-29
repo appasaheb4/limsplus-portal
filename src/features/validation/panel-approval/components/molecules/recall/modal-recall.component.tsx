@@ -18,8 +18,8 @@ export const ModalRecall = observer(
       { title: 'Lab Id', dataField: 'labId' },
       { title: 'Name', dataField: 'name' },
       { title: 'Panel', dataField: 'panelCode' },
-      { title: 'Test', dataField: 'testCode' },
-      { title: 'Analyte', dataField: 'analyteCode' },
+      // { title: 'Test', dataField: 'testCode' },
+      // { title: 'Analyte', dataField: 'analyteCode' },
       { title: 'Entered By', dataField: 'enteredBy' },
       { title: 'Action', dataField: 'action' },
     ];

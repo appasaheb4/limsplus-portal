@@ -100,7 +100,6 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
               }
               hasError={!!errors.result}
               onBlur={result => {
-                console.log({ row });
                 if (result) {
                   onChange(
                     Number.parseFloat(result).toFixed(row?.picture || 0),

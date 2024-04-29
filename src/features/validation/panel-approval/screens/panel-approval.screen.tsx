@@ -110,51 +110,59 @@ const PanelApproval = observer(() => {
   };
 
   const updateResultRecords = (payload, id, patientResultId) => {
-    panelApprovalStore.panelApprovalService
-      .update({
+    patientResultStore.patientResultService
+      .updateSingleFiled({
         input: {
           result: payload?.result,
-          _id: id,
+          resultType: payload?.resultType,
+          file: payload?.file,
+          labId: payload?.labId,
+          analyteCode: payload?.analyteCode,
+          analyteName: payload?.analyteName,
+          testStatus: payload?.testStatus,
+          rangeType: payload?.rangeType,
+          critical: payload?.critical,
+          abnFlag: payload?.abnFlag,
+          refRangesList: payload?.refRangesList,
+          testCode: payload?.testCode,
+          testName: payload?.testName,
+          panelCode: payload?.panelCode,
+          resultDate: payload?.resultDate,
+          reportPriority: payload?.reportPriority,
+          deliveryMode: payload?.deliveryMode,
+          units: payload?.units,
+          conclusion: payload?.conclusion,
+          loNor: payload?.loNor,
+          hiNor: payload?.hiNor,
+          resultStatus: payload?.resultStatus,
+          panelStatus: payload?.panelStatus,
+          enteredBy: loginStore.login?.userId,
+          _id: patientResultId,
+          __v: undefined,
+          flagUpdate: undefined,
         },
       })
-      .then((res: any) => {
-        if (res.updatePanelApproval.success) {
-          patientResultStore.patientResultService
-            .updateSingleFiled({
+      .then(res => {
+        if (res.updatePatientResult.success) {
+          console.log({ res });
+          panelApprovalStore.panelApprovalService
+            .update({
               input: {
-                result: payload?.result,
-                resultType: payload?.resultType,
-                file: payload?.file,
-                labId: payload?.labId,
-                analyteCode: payload?.analyteCode,
-                analyteName: payload?.analyteName,
-                testStatus: payload?.testStatus,
-                rangeType: payload?.rangeType,
-                critical: payload?.critical,
-                abnFlag: payload?.abnFlag,
-                refRangesList: payload?.refRangesList,
-                testCode: payload?.testCode,
-                testName: payload?.testName,
-                panelCode: payload?.panelCode,
-                resultDate: payload?.resultDate,
-                reportPriority: payload?.reportPriority,
-                deliveryMode: payload?.deliveryMode,
-                units: payload?.units,
-                conclusion: payload?.conclusion,
-                loNor: payload?.loNor,
-                hiNor: payload?.hiNor,
-                resultStatus: payload?.resultStatus,
-                panelStatus: payload?.panelStatus,
-                enteredBy: loginStore.login?.userId,
-                _id: patientResultId,
-                __v: undefined,
-                flagUpdate: undefined,
+                result: res.updatePatientResult?.patientResult?.result,
+                critical: res.updatePatientResult?.patientResult?.critical,
+                abnFlag: res.updatePatientResult?.patientResult?.abnFlag,
+                resultStatus:
+                  res.updatePatientResult?.patientResult?.resultStatus,
+                testStatus: res.updatePatientResult?.patientResult?.testStatus,
+                colorScheme:
+                  res.updatePatientResult?.patientResult?.colorScheme,
+                _id: id,
               },
             })
-            .then(res => {
-              if (res.updatePatientResult.success) {
+            .then((res: any) => {
+              if (res.updatePanelApproval.success) {
                 Toast.success({
-                  message: `😊 ${res.updatePatientResult.message}`,
+                  message: `😊 ${res.updatePanelApproval.message}`,
                   timer: 2000,
                 });
                 panelApprovalStore.panelApprovalService.listPanelApproval({});
@@ -162,6 +170,7 @@ const PanelApproval = observer(() => {
             });
         }
       });
+
     setTableReload(!tableReload);
   };
 
@@ -171,6 +180,7 @@ const PanelApproval = observer(() => {
         data={data || []}
         totalSize={panelApprovalStore.panelApprovalListCount}
         selectedId={selectId}
+        enteredBy={loginStore.login.userId}
         filterRecord={filterRecord}
         isView={RouterFlow.checkPermission(routerStore.userPermission, 'View')}
         isDelete={RouterFlow.checkPermission(
