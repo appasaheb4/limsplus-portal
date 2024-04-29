@@ -82,6 +82,75 @@ const DeliveryQueue = observer(() => {
     });
   };
 
+  // old logic
+  // const getReportDeliveryList = arr => {
+  //   const list: any = [];
+  //   const grouped = _.groupBy(arr, 'reportPriority');
+  //   if (grouped?.Progressive) {
+  //     const allProgressive: any = grouped?.Progressive;
+  //     const result = _.map(
+  //       _.groupBy(allProgressive, function (item) {
+  //         return item.labId && item.panelCode;
+  //       }),
+  //       g => _.maxBy(g, 'deliveryId'),
+  //     );
+  //     list.push(...result);
+  //   }
+  //   if (grouped['All Together']) {
+  //     const arrAllTogather: any = grouped['All Together'];
+  //     const result = _.map(_.groupBy(arrAllTogather, 'labId'), g =>
+  //       _.maxBy(g, 'deliveryId'),
+  //     );
+  //     list.push(...result);
+  //   }
+  //   if (grouped['One Today']) {
+  //     const arrOneToday: any = grouped['One Today'];
+  //     const result: any = _.map(
+  //       _.groupBy(arrOneToday, function (item) {
+  //         return item.labId && item.approvalDate;
+  //       }),
+  //     );
+  //     result?.filter(item => {
+  //       if (item?.find(o => o?.reportType == 'Final')) {
+  //         list.push(item?.find(o => o?.reportType == 'Final'));
+  //       } else {
+  //         list.push(
+  //           ..._.map(
+  //             _.groupBy(item, function (o) {
+  //               return o.labId && o.approvalDate;
+  //             }),
+  //             g => _.maxBy(g, 'deliveryId'),
+  //           ),
+  //         );
+  //       }
+  //     });
+  //   }
+  //   if (grouped.Daily) {
+  //     const arrDaily: any = grouped.Daily;
+  //     const result: any = _.map(
+  //       _.groupBy(arrDaily, function (item) {
+  //         return item.labId && item.approvalDate;
+  //       }),
+  //     );
+  //     result?.filter(item => {
+  //       if (item?.find(o => o?.reportType == 'Final')) {
+  //         list.push(item?.find(o => o?.reportType == 'Final'));
+  //       } else {
+  //         list.push(
+  //           ..._.map(
+  //             _.groupBy(item, function (o) {
+  //               return o.labId && o.approvalDate;
+  //             }),
+  //             g => _.maxBy(g, 'deliveryId'),
+  //           ),
+  //         );
+  //       }
+  //     });
+  //   }
+  //   return _.orderBy(list, 'dateOfEntry', 'desc');
+  // };
+
+  // new logic first display C,A,N
   const getReportDeliveryList = arr => {
     const list: any = [];
     const grouped = _.groupBy(arr, 'reportPriority');
@@ -91,15 +160,25 @@ const DeliveryQueue = observer(() => {
         _.groupBy(allProgressive, function (item) {
           return item.labId && item.panelCode;
         }),
-        g => _.maxBy(g, 'deliveryId'),
+        g => {
+          const critical = g?.find(item => item?.critical);
+          if (!_.isEmpty(critical)) return critical;
+          const abnormal = g?.find(item => item?.abnFlag);
+          if (!_.isEmpty(abnormal)) return abnormal;
+          _.maxBy(g, 'deliveryId');
+        },
       );
       list.push(...result);
     }
     if (grouped['All Together']) {
       const arrAllTogather: any = grouped['All Together'];
-      const result = _.map(_.groupBy(arrAllTogather, 'labId'), g =>
-        _.maxBy(g, 'deliveryId'),
-      );
+      const result = _.map(_.groupBy(arrAllTogather, 'labId'), g => {
+        const critical = g?.find(item => item?.critical);
+        if (!_.isEmpty(critical)) return critical;
+        const abnormal = g?.find(item => item?.abnFlag);
+        if (!_.isEmpty(abnormal)) return abnormal;
+        _.maxBy(g, 'deliveryId');
+      });
       list.push(...result);
     }
     if (grouped['One Today']) {
@@ -118,7 +197,13 @@ const DeliveryQueue = observer(() => {
               _.groupBy(item, function (o) {
                 return o.labId && o.approvalDate;
               }),
-              g => _.maxBy(g, 'deliveryId'),
+              g => {
+                const critical = g?.find(item => item?.critical);
+                if (!_.isEmpty(critical)) return critical;
+                const abnormal = g?.find(item => item?.abnFlag);
+                if (!_.isEmpty(abnormal)) return abnormal;
+                _.maxBy(g, 'deliveryId');
+              },
             ),
           );
         }
@@ -140,7 +225,13 @@ const DeliveryQueue = observer(() => {
               _.groupBy(item, function (o) {
                 return o.labId && o.approvalDate;
               }),
-              g => _.maxBy(g, 'deliveryId'),
+              g => {
+                const critical = g?.find(item => item?.critical);
+                if (!_.isEmpty(critical)) return critical;
+                const abnormal = g?.find(item => item?.abnFlag);
+                if (!_.isEmpty(abnormal)) return abnormal;
+                _.maxBy(g, 'deliveryId');
+              },
             ),
           );
         }
@@ -456,7 +547,6 @@ const DeliveryQueue = observer(() => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [deliveryQueueStore.reportDeliveryList, selectId, reloadTable, holdRecord],
   );
-
   return (
     <>
       <MainPageHeading
@@ -467,7 +557,6 @@ const DeliveryQueue = observer(() => {
         <span className='font-bold text-lg underline'>Report Delivery</span>
         {reportDeliveryList}
       </div>
-
       {deliveryQueueStore.orderDeliveredList?.length > 0 && (
         <div className='p-3 rounded-lg shadow-xl overflow-auto'>
           <span className='font-bold text-lg underline'>Order Delivered</span>
@@ -477,7 +566,6 @@ const DeliveryQueue = observer(() => {
           />
         </div>
       )}
-
       <ModalGenerateReports
         {...modalGenerateReports}
         onClose={() => {
@@ -487,5 +575,4 @@ const DeliveryQueue = observer(() => {
     </>
   );
 });
-
 export default DeliveryQueue;

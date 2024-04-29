@@ -78,23 +78,23 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
 
-  useEffect(() => {
-    const filterDataByHoldRecord = (data, holdRecord) => {
-      switch (holdRecord) {
-        case 'Hold': {
-          return data.filter(item => item.deliveryStatus === 'Hold');
-        }
-        case 'Pending': {
-          return data.filter(item => item.deliveryStatus === 'Pending');
-        }
-        case 'Done': {
-          return data.filter(item => item.deliveryStatus === 'Done');
-        }
-        default: {
-          return data;
-        }
+  const filterDataByHoldRecord = (data, holdRecord) => {
+    switch (holdRecord) {
+      case 'Hold': {
+        return data.filter(item => item.deliveryStatus === 'Hold');
       }
-    };
+      case 'Pending': {
+        return data.filter(item => item.deliveryStatus === 'Pending');
+      }
+      case 'Done': {
+        return data.filter(item => item.deliveryStatus === 'Done');
+      }
+      default: {
+        return data;
+      }
+    }
+  };
+  useEffect(() => {
     setSelectId(props.selectedId || '');
     setLocalData(
       props.selectedId
@@ -104,6 +104,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
         : filterDataByHoldRecord(props.data, props.holdRecord),
     );
   }, [props.selectedId, props.data, props.holdRecord]);
+
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>

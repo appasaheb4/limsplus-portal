@@ -1,13 +1,13 @@
-version: '0.0.1'
+version: '3.8'
 
 services:
   app:
     container_name: limsplus-portal
-    image: limsplus-portal
+    # image: limsplus-portal
     build:
       context: .
-      target: development
+      dockerfile: Dockerfile
     volumes:
-      - ./src:/app/src
+      - ./src:/app/web
     ports:
       - 3000:3000

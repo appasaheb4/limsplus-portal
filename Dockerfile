@@ -1,13 +1,9 @@
-FROM node:alpine AS development
-ENV NODE_ENV development
-ENV NODE_OPTIONS=--max_old_space_size=20480
-# Add a work directory
-WORKDIR /app
-# Cache and Install dependencies
-COPY package*.json ./
+FROM node:latest
+RUN mkdir -p /usr/src/web
+WORKDIR /usr/src/web
+COPY package*.json /usr/src/web
 RUN yarn install
-# Copy app files
-COPY . .
+COPY . /usr/src/web
 # Expose port
 EXPOSE 3000
 # Start the app
