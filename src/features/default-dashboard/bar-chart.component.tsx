@@ -91,34 +91,7 @@ const BarChart = () => {
     },
   };
 
-  return (
-    <Card className='flex-fill w-100 dark:bg-boxdark dark:border-2 dark:border-white dark:text-white'>
-      <CardHeader className='dark:border-b-2 dark:border-white'>
-        <div className='card-actions float-right'>
-          <UncontrolledDropdown>
-            <DropdownToggle tag='a'>
-              <MoreHorizontal />
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem>Action</DropdownItem>
-              <DropdownItem>Another Action</DropdownItem>
-              <DropdownItem>Something else here</DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-        </div>
-        <CardTitle tag='h5' className='mb-0'>
-          <span className='dark:text-white'>Sales / Revenue</span>
-        </CardTitle>
-      </CardHeader>
-      <CardBody className='d-flex'>
-        <div className='align-self-center w-100'>
-          <div className='chart chart-lg'>
-            <Bar data={data} options={options} />
-          </div>
-        </div>
-      </CardBody>
-    </Card>
-  );
+  return <Bar data={data} options={options} />;
 };
 
 export default BarChart;

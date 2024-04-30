@@ -98,23 +98,7 @@ const LineChart = () => {
     },
   };
 
-  return (
-    <Card className='flex-fill w-100 dark:bg-boxdark dark:border-2 dark:border-white dark:text-white'>
-      <CardHeader className='dark:border-b-2 dark:border-white'>
-        <Badge color='primary' className='float-right'>
-          Monthly
-        </Badge>
-        <CardTitle tag='h5' className='mb-0'>
-          <span className='dark:text-white'>Total Revenue</span>
-        </CardTitle>
-      </CardHeader>
-      <CardBody>
-        <div className='chart chart-lg text-white'>
-          <Line data={data} options={options} />
-        </div>
-      </CardBody>
-    </Card>
-  );
+  return <Line data={data} options={options} />;
 };
 
 export default LineChart;

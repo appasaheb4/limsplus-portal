@@ -120,45 +120,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'labId',
               text: 'Lab Id',
               editable: false,
-              headerClasses: 'textHeaderm',
+              headerClasses: 'textHeaderxxs',
             },
             {
-              dataField: 'name',
-              text: 'Patient Name',
-              editable: false,
-              headerClasses: 'textHeaderm',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '130px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return <span title={row.name}>{cellContent}</span>;
-              },
-            },
-            {
-              dataField: 'sex',
-              text: 'Sex',
-              editable: false,
-              style: { width: 80 },
-              formatter: (cell, row) => {
-                return (
-                  <div className='flex'>
-                    <img
-                      src={row.sex == 'M' ? icons.male : icons.female}
-                      style={{ width: 80, height: 20 }}
-                      alt='male'
-                    />
-                  </div>
-                );
-              },
-            },
-            {
-              dataField: 'analyteCode',
-              text: 'Analyte Code - Name',
+              dataField: 'testCode',
+              text: 'Test Code - Name',
               editable: false,
               headerClasses: 'textHeader',
               style: {
@@ -167,6 +133,27 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 textOverflow: 'ellipsis',
                 minWidth: 0,
                 maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return (
+                  <span title={`${row.testCode} - ${row.testName}`}>
+                    {cellContent} - {row.testName}
+                  </span>
+                );
+              },
+            },
+            {
+              dataField: 'analyteCode',
+              text: 'Analyte Code - Name',
+              editable: false,
+              headerClasses: 'textHeaderm',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '125px',
                 position: 'relative',
               },
               formatter: (cellContent, row) => {
@@ -180,7 +167,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              headerClasses: 'textHeader4',
+              headerClasses: 'textHeader1',
               editable: (content, row, rowIndex, columnIndex) =>
                 row.approvalStatus == 'P' && !row?.calculationFlag
                   ? true
@@ -278,50 +265,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   />
                 </>
               ),
-            },
-            {
-              dataField: 'abnFlag',
-              text: 'Abn Flag',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={
-                        row.resultType === 'F' || row.resultType === 'M'
-                          ? false
-                          : true
-                      }
-                      value={row.critical ? true : row.abnFlag}
-                      onChange={abnFlag => {
-                        props.onUpdateValue({ abnFlag }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={
-                        row.resultType === 'F' || row.resultType === 'M'
-                          ? false
-                          : true
-                      }
-                      value={row.critical}
-                      onChange={critical => {
-                        props.onUpdateValue({ critical }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
             },
             {
               dataField: 'normalRange',
@@ -432,6 +375,51 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
             {
+              dataField: 'abnFlag',
+              text: 'Abn Flag',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={
+                        row.resultType === 'F' || row.resultType === 'M'
+                          ? false
+                          : true
+                      }
+                      value={row.critical ? true : row.abnFlag}
+                      onChange={abnFlag => {
+                        props.onUpdateValue({ abnFlag }, row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'critical',
+              text: 'Critical',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={
+                        row.resultType === 'F' || row.resultType === 'M'
+                          ? false
+                          : true
+                      }
+                      value={row.critical}
+                      onChange={critical => {
+                        props.onUpdateValue({ critical }, row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+
+            {
               dataField: 'units',
               text: 'Units',
               editable: false,
@@ -507,31 +495,14 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               headerClasses: 'textHeaderm',
               formatter: (cell, row) => {
                 return (
-                  <>{dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}</>
+                  <>
+                    {row.resultDate &&
+                      dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}
+                  </>
                 );
               },
             },
-            {
-              dataField: 'testCode',
-              text: 'Test Code - Name',
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '250px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return (
-                  <span title={`${row.testCode} - ${row.testName}`}>
-                    {cellContent} - {row.testName}
-                  </span>
-                );
-              },
-            },
+
             {
               dataField: 'testStatus',
               text: 'Test Status',
