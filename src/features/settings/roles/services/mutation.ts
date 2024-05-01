@@ -103,8 +103,8 @@ export const FILTER_BY_FIELDS = gql`
 `;
 
 export const FIND_BY_FIELDS = gql`
-  mutation ($input: RoleMappingInput!) {
-    findByFieldsRoleMapping(input: $input) {
+  mutation ($input: RoleInput!) {
+    findByFieldsRole(input: $input) {
       paginatorInfo {
         count
       }

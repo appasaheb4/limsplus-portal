@@ -23,11 +23,10 @@ export class RoleService {
     new Promise<any>((resolve, reject) => {
       const env =
         stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: LIST,
-          variables: { input: { page, limit, env, role } },
+          variables: { input: { page, limit, env } },
         })
         .then((response: any) => {
           stores.roleStore.updateRoleList(response.data);
@@ -38,7 +37,7 @@ export class RoleService {
         );
     });
 
-  addrole = (variables: any) =>
+  addRole = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
@@ -47,7 +46,6 @@ export class RoleService {
         })
         .then((response: any) => {
           resolve(response.data);
-          stores.roleStore.updateRole(new Model.Role({}));
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),

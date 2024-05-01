@@ -45,7 +45,7 @@ const Role = RolesHoc(
 
     const onSubmitRoles = () => {
       if (!isExistsRecord) {
-        roleStore.RoleService.addrole({
+        roleStore.RoleService.addRole({
           input: { ...roleStore.role },
         }).then(res => {
           if (res.createRole.success) {

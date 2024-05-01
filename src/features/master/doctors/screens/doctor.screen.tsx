@@ -100,7 +100,7 @@ const Doctors = DoctorsHoc(
     }, [hideAddSection]);
 
     const onSubmitDoctors = async () => {
-      if (isExistsRecord) {
+      if (!isExistsRecord) {
         if (
           !doctorsStore.doctors?.existsVersionId &&
           !doctorsStore.doctors?.existsRecordId
@@ -647,7 +647,6 @@ const Doctors = DoctorsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
