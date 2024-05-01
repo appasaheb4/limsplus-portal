@@ -19,6 +19,7 @@ const Default = observer(() => {
   const { userStore, loginStore } = useStores();
   const [modalChangePassword, setModalChangePassword] = useState<any>();
   const [modalConfirm, setModalConfirm] = useState<any>();
+  const [cardFilter, setCardFilter] = useState<string>('Today');
   const history = useHistory();
 
   useEffect(() => {
@@ -50,8 +51,11 @@ const Default = observer(() => {
   return (
     <>
       <Container fluid className='p-0'>
-        <HeaderComponent />
-        <Statistics />
+        <HeaderComponent
+          setCardFilter={setCardFilter}
+          cardFilter={cardFilter}
+        />
+        <Statistics cardFilter={cardFilter} />
         <BoxCard />
         <GraphDashboard />
 

@@ -22,18 +22,28 @@ import LineChart from './line-chart.component';
 
 const GraphDashboard = () => {
   const graphData = [
-    { name: 'DAYS WISE SALE', graphType: 'Line' },
-    { name: 'LABS WISE SALE', graphType: 'Line' },
-    { name: 'REGISTRATION LOCATION WISE SALE', graphType: 'Line' },
-    { name: 'CORPORATE CLIENT WISE SALE', graphType: 'Line' },
-    { name: 'DOCTOR WISE SALE', graphType: 'Line' },
-    { name: 'PANEL WISE SALE', graphType: 'Line' },
-    { name: 'DEPARTMENT WISE SALE', graphType: 'Line' },
+    { name: 'DAYS WISE SALE', graphType: 'Line', filter: 'Today' },
+    { name: 'LABS WISE SALE', graphType: 'Line', filter: 'Today' },
+    {
+      name: 'REGISTRATION LOCATION WISE SALE',
+      graphType: 'Line',
+      filter: 'Today',
+    },
+    { name: 'CORPORATE CLIENT WISE SALE', graphType: 'Line', filter: 'Today' },
+    { name: 'DOCTOR WISE SALE', graphType: 'Line', filter: 'Today' },
+    { name: 'PANEL WISE SALE', graphType: 'Line', filter: 'Today' },
+    { name: 'DEPARTMENT WISE SALE', graphType: 'Line', filter: 'Today' },
   ];
   const [graphDataState, setGraphDataState] = useState(graphData);
   const handleGraphChange = (index, graphType) => {
     const updatedGraphData = [...graphDataState];
     updatedGraphData[index].graphType = graphType;
+    setGraphDataState(updatedGraphData);
+  };
+
+  const handleFilterValue = (index, filterValue) => {
+    const updatedGraphData = [...graphDataState];
+    updatedGraphData[index].filter = filterValue;
     setGraphDataState(updatedGraphData);
   };
 
@@ -109,12 +119,28 @@ const GraphDashboard = () => {
                   </DropdownMenu>
                 </UncontrolledDropdown>
                 <UncontrolledDropdown className='d-inline mr-2'>
-                  <DropdownToggle tag='a'>Today</DropdownToggle>
+                  <DropdownToggle tag='a'>{item.filter}</DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem>Today</DropdownItem>
-                    <DropdownItem>Week</DropdownItem>
-                    <DropdownItem>Month</DropdownItem>
-                    <DropdownItem>Year</DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleFilterValue(index, 'Today')}
+                    >
+                      Today
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleFilterValue(index, 'Week')}
+                    >
+                      Week
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleFilterValue(index, 'Month')}
+                    >
+                      Month
+                    </DropdownItem>
+                    <DropdownItem
+                      onClick={() => handleFilterValue(index, 'Year')}
+                    >
+                      Year
+                    </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </div>
