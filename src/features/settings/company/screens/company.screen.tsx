@@ -774,7 +774,8 @@ const Company = CompanyHoc(
                           errors.admin ? 'Please Enter admin' : 'Admin'
                         }
                         hasError={!!errors.admin}
-                        value={value}
+                        value={companyStore.company.admin}
+                        disabled={true}
                         onChange={admin => {
                           onChange(admin?.toUpperCase());
                           companyStore.updateCompany({

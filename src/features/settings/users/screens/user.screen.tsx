@@ -174,7 +174,11 @@ export const Users = UsersHoc(
     const tableView = useMemo(
       () => (
         <UserList
-          data={(userStore && userStore.userList) || []}
+          data={
+            loginStore.login?.userId != 'ADMIN'
+              ? userStore.userList
+              : userStore.userList?.map(item => item.userId != 'ADMIN') || []
+          }
           totalSize={userStore && userStore.userListCount}
           extraData={{
             lookupItems: routerStore.lookupItems,
@@ -2149,7 +2153,6 @@ export const Users = UsersHoc(
                     _id: modalConfirm.data.id,
                     [modalConfirm.data.dataField]: modalConfirm.data.value,
                   });
-
                   break;
                 }
                 case 'updateFields': {
