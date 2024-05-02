@@ -101,4 +101,4 @@ const LineChart = () => {
   return <Line data={data} options={options} />;
 };
 
-export default LineChart;
+export default React.memo(LineChart);

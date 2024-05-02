@@ -91,4 +91,4 @@ const Statistics = observer(({ cardFilter }) => {
   );
 });
 
-export default Statistics;
+export default React.memo(Statistics);

@@ -21,9 +21,17 @@ const ScatterChart = () => {
         })),
         backgroundColor: 'rgba(255, 99, 132, 1)',
       },
+      {
+        label: 'B dataset',
+        data: Array.from({ length: 100 }, () => ({
+          x: getRandomInt(200, 100),
+          y: getRandomInt(500, 800),
+        })),
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+      },
     ],
   };
   return <Scatter options={options} data={data} />;
 };
 
-export default ScatterChart;
+export default React.memo(ScatterChart);

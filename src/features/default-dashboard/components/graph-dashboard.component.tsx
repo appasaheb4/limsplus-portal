@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import BoxCard from './box-card.component';
 import BarChart from '../bar-chart.component';
 import PieChart from './pie-chart.component';
 import PolorChart from './polor-area.component';
 import RadarChart from './radar-chart.omponenet';
 import ScatterChart from './scatter-chart.component';
-import { BubbleChart } from './bubble-chart.component';
+import BubbleChart from './bubble-chart.component';
 import { MoreHorizontal } from 'react-feather';
 import {
   Badge,
@@ -21,7 +21,7 @@ import {
 import LineChart from './line-chart.component';
 
 const GraphDashboard = () => {
-  const graphData = [
+  const [graphDataState, setGraphDataState] = useState([
     { name: 'DAYS WISE SALE', graphType: 'Line', filter: 'Today' },
     { name: 'LABS WISE SALE', graphType: 'Line', filter: 'Today' },
     {
@@ -33,38 +33,57 @@ const GraphDashboard = () => {
     { name: 'DOCTOR WISE SALE', graphType: 'Line', filter: 'Today' },
     { name: 'PANEL WISE SALE', graphType: 'Line', filter: 'Today' },
     { name: 'DEPARTMENT WISE SALE', graphType: 'Line', filter: 'Today' },
-  ];
-  const [graphDataState, setGraphDataState] = useState(graphData);
-  const handleGraphChange = (index, graphType) => {
-    const updatedGraphData = [...graphDataState];
-    updatedGraphData[index].graphType = graphType;
-    setGraphDataState(updatedGraphData);
-  };
+  ]);
 
-  const handleFilterValue = (index, filterValue) => {
-    const updatedGraphData = [...graphDataState];
-    updatedGraphData[index].filter = filterValue;
-    setGraphDataState(updatedGraphData);
-  };
+  const handleGraphChange = useMemo(
+    () => (index, graphType) => {
+      setGraphDataState(prevState => {
+        return prevState.map((item, i) => {
+          if (i === index) {
+            return { ...item, graphType: graphType };
+          }
+          return item;
+        });
+      });
+    },
+    [],
+  );
 
-  const renderChart = item => {
-    switch (item) {
-      case 'Bar':
-        return <BarChart />;
-      case 'Pie':
-        return <PieChart />;
-      case 'Polor':
-        return <PolorChart />;
-      case 'Radar':
-        return <RadarChart />;
-      case 'Scatter':
-        return <ScatterChart />;
-      case 'Bubble':
-        return <BubbleChart />;
-      default:
-        return <LineChart />;
-    }
-  };
+  const handleFilterValue = useMemo(
+    () => (index, filterValue) => {
+      setGraphDataState(prevState => {
+        return prevState.map((item, i) => {
+          if (i === index) {
+            return { ...item, filter: filterValue };
+          }
+          return item;
+        });
+      });
+    },
+    [],
+  );
+
+  const renderChart = useMemo(() => {
+    const chartRenderer = item => {
+      switch (item) {
+        case 'Bar':
+          return <BarChart />;
+        case 'Pie':
+          return <PieChart />;
+        case 'Polor':
+          return <PolorChart />;
+        case 'Radar':
+          return <RadarChart />;
+        case 'Scatter':
+          return <ScatterChart />;
+        case 'Bubble':
+          return <BubbleChart />;
+        default:
+          return <LineChart />;
+      }
+    };
+    return chartRenderer;
+  }, []);
 
   return (
     <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-2 mb-4'>
@@ -161,4 +180,4 @@ const GraphDashboard = () => {
   );
 };
 
-export default GraphDashboard;
+export default React.memo(GraphDashboard);
