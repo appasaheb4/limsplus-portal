@@ -386,7 +386,7 @@ export const TableBootstrapReport = ({
                     size='medium'
                     type='outline'
                     disabled={
-                      !data.some(item => item.deliveryStatus === 'Pending')
+                      !data.some(item => item?.deliveryStatus === 'Pending')
                     }
                     onClick={() => {
                       onUpdateDeliveryStatus && onUpdateDeliveryStatus();

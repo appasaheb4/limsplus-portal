@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
-import { Page, StyleSheet, Font } from '@react-pdf/renderer';
-import { PdfPageNumber, PdfView, PdfFooterView } from '@components';
+import { Page, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { PdfPageNumber } from '@components';
 import { Header } from '../../common/geneflow-lab/pdf-header.component';
 import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
@@ -18,11 +18,9 @@ const styles = StyleSheet.create({
   },
 });
 
-interface PdfTemp0009Props {
-  data?: any;
-  isWithHeader?: boolean;
+interface GeneflowLabProps {
   width?: string | number;
-  height?: number | string;
+  height?: number;
   documentTitle?: string;
   isToolbar?: boolean;
   isBackgroundImage?: boolean;
@@ -32,20 +30,17 @@ interface PdfTemp0009Props {
   children?: React.ReactNode;
 }
 
-export const PdfTemp0009 = ({
-  data,
-  isWithHeader = true,
+export const GeneflowLab = ({
   width = '100%',
-  height = '90%',
-  documentTitle = 'Aarvak Diagnostic Center Without',
+  height = 300,
+  documentTitle = 'Template Settings',
   isToolbar = false,
   isBackgroundImage = false,
   backgroundImage,
   mainBoxCSS,
   pageSize,
   children,
-}: PdfTemp0009Props) => {
-  const { patientReports } = data;
+}: GeneflowLabProps) => {
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -57,20 +52,22 @@ export const PdfTemp0009 = ({
 
   return (
     <>
-      <Page size={pageSize} style={boxCSS.current}>
-        <PdfView style={{ height: 100 }} fixed mh={0} p={0}>
-          {isWithHeader && <Header />}
-        </PdfView>
-        <PdfPatientDetails data={patientReports} />
-        <PdfResultList data={patientReports?.patientResultList} />
-        <PdfPageNumber
-          style={{ textAlign: 'center', right: '45%' }}
-          bottom={100}
-        />
-        <PdfFooterView fixed bg='transparent' style={{ height: 90 }} p={0}>
-          {isWithHeader && <Footer />}
-        </PdfFooterView>
-      </Page>
+      <Document title={documentTitle}>
+        <Page size={pageSize} style={boxCSS.current}>
+          <Header />
+          <PdfPatientDetails />
+          <PdfResultList />
+          <PdfPageNumber
+            style={{
+              textAlign: 'center',
+              right: '45%',
+              zIndex: 4,
+            }}
+            bottom={100}
+          />
+          <Footer />
+        </Page>
+      </Document>
     </>
   );
 };

@@ -20,6 +20,9 @@ export const images = {
 export const logos = {
   aarvakDiagnosticCenter: require('./images/pdf/aarvak-diagnostic-center/aarvak-diagnostic-center.png'),
   geneflowLab: require('./images/pdf/geneflow-lab/geneflowLabLogo.jpeg'),
+  geneflowRightTop: require('./images/pdf/geneflow-lab/geneflowTopRight.png'),
+  geneflowBottomLeft: require('./images/pdf/geneflow-lab/geneflowBottomLeft.png'),
+  genreflowBottom: require('./images/pdf/geneflow-lab/bottom.png'),
 };
 
 export const icons = {
