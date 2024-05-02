@@ -1,17 +1,12 @@
 import React from 'react';
-import {
-  PdfHeader,
-  PdfView,
-  PdfImage,
-  PdfMedium,
-} from '@components';
-import {logos} from '@/library/assets';
+import { PdfHeader, PdfView, PdfImage, PdfMedium } from '@components';
+import { logos } from '@/library/assets';
 
 interface HeaderProps {
   data?: any;
 }
 
-export const Header = ({data}: HeaderProps) => {
+export const Header = ({ data }: HeaderProps) => {
   return (
     <PdfHeader
       style={{
@@ -31,12 +26,12 @@ export const Header = ({data}: HeaderProps) => {
         }}
       />
       <PdfView mh={0} p={0}>
-        <PdfMedium fontSize={14} style={{color: 'green'}}>
+        <PdfMedium fontSize={14} style={{ color: 'green' }}>
           Committed to provide
         </PdfMedium>
-        <PdfMedium style={{marginTop: -4}}>
-          <PdfMedium style={{color: '#A52728'}}>Best Diagnostic </PdfMedium>
-          Services<PdfMedium style={{color: 'green'}}>+</PdfMedium>
+        <PdfMedium style={{ marginTop: -4 }}>
+          <PdfMedium style={{ color: '#A52728' }}>Best Diagnostic </PdfMedium>
+          Services<PdfMedium style={{ color: 'green' }}>+</PdfMedium>
         </PdfMedium>
       </PdfView>
     </PdfHeader>
