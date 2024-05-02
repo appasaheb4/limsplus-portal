@@ -1,10 +1,10 @@
-import React, {useRef} from 'react';
-import {Page, StyleSheet, Font} from '@react-pdf/renderer';
-import {PdfPageNumber, PdfView, PdfFooterView} from '@components';
-import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Footer} from '../../common/aarvak-diagnostic-center/pdf-footer.component';
-import {PdfPatientDetails} from './pdf-patient-details.component';
-import {PdfResultList} from './pdf-result-list.component';
+import React, { useRef } from 'react';
+import { Page, StyleSheet, Font } from '@react-pdf/renderer';
+import { PdfPageNumber, PdfView, PdfFooterView } from '@components';
+import { Header } from '../../common/geneflow-lab/pdf-header.component';
+import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
+import { PdfPatientDetails } from './pdf-patient-details.component';
+import { PdfResultList } from './pdf-result-list.component';
 
 Font.register({
   family: 'arimaRegular',
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface PdfTemp0004Props {
+interface PdfTemp0009Props {
   data?: any;
   isWithHeader?: boolean;
   width?: string | number;
@@ -32,7 +32,7 @@ interface PdfTemp0004Props {
   children?: React.ReactNode;
 }
 
-export const PdfTemp0004 = ({
+export const PdfTemp0009 = ({
   data,
   isWithHeader = true,
   width = '100%',
@@ -44,8 +44,8 @@ export const PdfTemp0004 = ({
   mainBoxCSS,
   pageSize,
   children,
-}: PdfTemp0004Props) => {
-  const {patientReports} = data;
+}: PdfTemp0009Props) => {
+  const { patientReports } = data;
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -58,16 +58,16 @@ export const PdfTemp0004 = ({
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
-        <PdfView style={{height: 100}} fixed mh={0} p={0}>
+        <PdfView style={{ height: 100 }} fixed mh={0} p={0}>
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
         <PdfResultList data={patientReports?.patientResultList} />
         <PdfPageNumber
-          style={{textAlign: 'center', right: '45%'}}
-          bottom={80}
+          style={{ textAlign: 'center', right: '45%' }}
+          bottom={100}
         />
-        <PdfFooterView fixed bg='transparent' style={{height: 90}} p={0}>
+        <PdfFooterView fixed bg='transparent' style={{ height: 90 }} p={0}>
           {isWithHeader && <Footer />}
         </PdfFooterView>
       </Page>

@@ -81,13 +81,13 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
   const filterDataByHoldRecord = (data, holdRecord) => {
     switch (holdRecord) {
       case 'Hold': {
-        return data.filter(item => item.deliveryStatus === 'Hold');
+        return data.filter(item => item?.deliveryStatus === 'Hold');
       }
       case 'Pending': {
-        return data.filter(item => item.deliveryStatus === 'Pending');
+        return data.filter(item => item?.deliveryStatus === 'Pending');
       }
       case 'Done': {
-        return data.filter(item => item.deliveryStatus === 'Done');
+        return data.filter(item => item?.deliveryStatus === 'Done');
       }
       default: {
         return data;

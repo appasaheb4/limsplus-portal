@@ -10,7 +10,7 @@ interface PdfPatientDetailsProps {
 export const PdfPatientDetails = observer(
   ({ data }: PdfPatientDetailsProps) => {
     return (
-      <PdfBorderView mv={10} fixed>
+      <PdfBorderView mv={0} mh={10} fixed>
         <PdfView mh={10} p={0} flexDirection='row'>
           <PdfGrid cols={3} bg='transparent'>
             <PdfSmall fontSize={11}>{'Name: MR. NITESH AHLAWAT'}</PdfSmall>

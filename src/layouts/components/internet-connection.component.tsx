@@ -5,6 +5,7 @@ import * as Assets from '@/library/assets';
 
 const NoInternetConnection = ({ children }) => {
   const [isOnline, setOnline] = useState(true);
+  // buz working local db
   useEffect(() => {
     setOnline(navigator.onLine);
   }, []);

@@ -6,7 +6,9 @@ export * from './molecules/pdf/template-patient-result/temp0005';
 export * from './molecules/pdf/template-patient-result/temp0006';
 export * from './molecules/pdf/template-patient-result/temp0007';
 export * from './molecules/pdf/template-patient-result/temp0008';
+export * from './molecules/pdf/template-patient-result/temp0009';
 
 export * from './molecules/pdf/static/aarvak-diagnostic-center/adc';
 export * from './molecules/pdf/static/aarvak-diagnostic-center/adc-without-header-footer';
 export * from './molecules/pdf/static/aarvak-diagnostic-center/adb-medical-report';
+export * from './molecules/pdf/static/geneflow-lab';

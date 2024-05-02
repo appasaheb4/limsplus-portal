@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { Page, Document, StyleSheet, Font } from '@react-pdf/renderer';
 import { PdfPageNumber } from '@components';
-import { Header } from '../../common/aarvak-diagnostic-center/pdf-header.component';
-import { Footer } from '../../common/aarvak-diagnostic-center/pdf-footer.component';
+import { Header } from '../../common/geneflow-lab/pdf-header.component';
+import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import { PdfResultList } from './pdf-result-list.component';
 
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface ADCPdfProps {
+interface GeneflowLabProps {
   width?: string | number;
   height?: number;
   documentTitle?: string;
@@ -30,7 +30,7 @@ interface ADCPdfProps {
   children?: React.ReactNode;
 }
 
-export const ADCPdf = ({
+export const GeneflowLab = ({
   width = '100%',
   height = 300,
   documentTitle = 'Template Settings',
@@ -40,7 +40,7 @@ export const ADCPdf = ({
   mainBoxCSS,
   pageSize,
   children,
-}: ADCPdfProps) => {
+}: GeneflowLabProps) => {
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -52,20 +52,22 @@ export const ADCPdf = ({
 
   return (
     <>
-      {/* <PDFViewer style={{width, height}} showToolbar={isToolbar}> */}
       <Document title={documentTitle}>
         <Page size={pageSize} style={boxCSS.current}>
           <Header />
           <PdfPatientDetails />
           <PdfResultList />
           <PdfPageNumber
-            style={{ textAlign: 'center', right: '45%' }}
-            bottom={77}
+            style={{
+              textAlign: 'center',
+              right: '45%',
+              zIndex: 4,
+            }}
+            bottom={100}
           />
           <Footer />
         </Page>
       </Document>
-      {/* </PDFViewer> */}
     </>
   );
 };

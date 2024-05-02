@@ -165,7 +165,7 @@ const DeliveryQueue = observer(() => {
           if (!_.isEmpty(critical)) return critical;
           const abnormal = g?.find(item => item?.abnFlag);
           if (!_.isEmpty(abnormal)) return abnormal;
-          _.maxBy(g, 'deliveryId');
+          return _.maxBy(g, 'deliveryId');
         },
       );
       list.push(...result);
@@ -177,7 +177,7 @@ const DeliveryQueue = observer(() => {
         if (!_.isEmpty(critical)) return critical;
         const abnormal = g?.find(item => item?.abnFlag);
         if (!_.isEmpty(abnormal)) return abnormal;
-        _.maxBy(g, 'deliveryId');
+        return _.maxBy(g, 'deliveryId');
       });
       list.push(...result);
     }
@@ -202,7 +202,7 @@ const DeliveryQueue = observer(() => {
                 if (!_.isEmpty(critical)) return critical;
                 const abnormal = g?.find(item => item?.abnFlag);
                 if (!_.isEmpty(abnormal)) return abnormal;
-                _.maxBy(g, 'deliveryId');
+                return _.maxBy(g, 'deliveryId');
               },
             ),
           );
@@ -230,7 +230,7 @@ const DeliveryQueue = observer(() => {
                 if (!_.isEmpty(critical)) return critical;
                 const abnormal = g?.find(item => item?.abnFlag);
                 if (!_.isEmpty(abnormal)) return abnormal;
-                _.maxBy(g, 'deliveryId');
+                return _.maxBy(g, 'deliveryId');
               },
             ),
           );
@@ -414,7 +414,7 @@ const DeliveryQueue = observer(() => {
           }
         }}
         onExpand={async item => {
-          setSelectId(item._id);
+          setSelectId(item?._id);
           if (typeof item == 'object') {
             getOrderDeliveredList(item).then(result => {
               deliveryQueueStore.updateOrderDeliveredList(result);
@@ -425,7 +425,7 @@ const DeliveryQueue = observer(() => {
         }}
         onUpdateDeliveryStatus={() => {
           const pendingItems = deliveryQueueStore.reportDeliveryList?.filter(
-            item => item.deliveryStatus === 'Pending',
+            item => item?.deliveryStatus === 'Pending',
           );
           const ids = pendingItems?.map(item => item?._id);
           const visitIds = pendingItems?.map(item => item?.visitId);

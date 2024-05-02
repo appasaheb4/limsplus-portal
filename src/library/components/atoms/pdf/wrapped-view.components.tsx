@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-  View,
-} from '@react-pdf/renderer';
-import {Style} from '@react-pdf/types';
+import { View } from '@react-pdf/renderer';
+import { Style } from '@react-pdf/types';
 interface PdfViewProps {
   mh?: number;
   mt?: number;
@@ -93,7 +91,6 @@ export const PdfHeader = ({
         backgroundColor: bg,
         alignItems: alignItems,
         padding: p,
-
         ...style,
       }}
       fixed={fixed}
@@ -137,8 +134,8 @@ export const PdfFooterView = ({
   return (
     <View
       style={[
-        {position: 'absolute', bottom: 0, left: 0, right: 0},
-        {backgroundColor: bg, padding: p, alignItems: alignItems, ...style},
+        { position: 'absolute', bottom: 0, left: 0, right: 0 },
+        { backgroundColor: bg, padding: p, alignItems: alignItems, ...style },
       ]}
       fixed={fixed}
     >
