@@ -1012,6 +1012,7 @@ export const LabList = (props: LabListProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvExport: false,
+              headerClasses: 'textHeader',
               formatter: (cell, row) => {
                 return (
                   <>
@@ -1019,7 +1020,7 @@ export const LabList = (props: LabListProps) => {
                       <img
                         src={row.image}
                         alt='lab logo'
-                        className='object-fill h-35 w-40 rounded-md'
+                        className='object-fill h-40 w-40 rounded-md'
                       />
                     )}
                   </>
@@ -1035,7 +1036,7 @@ export const LabList = (props: LabListProps) => {
               ) => (
                 <>
                   <Form.InputFile
-                    label='File'
+                    // label='File'
                     placeholder='File'
                     onChange={e => {
                       const image = e.target.files[0];

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   Button,
@@ -17,7 +17,7 @@ import { AutocompleteSearch, Tooltip } from '@/library/components';
 import { connect } from 'react-redux';
 import { RouterFlow } from '@/flows';
 
-const Header = observer(({ sidebar }) => {
+const Header = observer(({ sidebar, setCardFilter, cardFilter }) => {
   const { loginStore, routerStore } = useStores();
   const history = useHistory();
   return (
@@ -26,7 +26,7 @@ const Header = observer(({ sidebar }) => {
         <span>Welcome back, {loginStore.login?.fullName}</span>
       </Col>
 
-      <Col >
+      <Col>
         {!sidebar?.isOpen && (
           <div
             style={{
@@ -58,13 +58,21 @@ const Header = observer(({ sidebar }) => {
       <Col xs='auto'>
         <UncontrolledDropdown className='d-inline mr-2'>
           <DropdownToggle caret color='light' className='bg-white shadow-sm'>
-            <Calendar className='feather align-middle mt-n1' /> Today
+            <Calendar className='feather align-middle mt-n1' /> {cardFilter}
           </DropdownToggle>
           <DropdownMenu right>
-            <DropdownItem>Today</DropdownItem>
-            <DropdownItem>Week</DropdownItem>
-            <DropdownItem>Month</DropdownItem>
-            <DropdownItem>Year</DropdownItem>
+            <DropdownItem onClick={() => setCardFilter('Today')}>
+              Today
+            </DropdownItem>
+            <DropdownItem onClick={() => setCardFilter('Week')}>
+              Week
+            </DropdownItem>
+            <DropdownItem onClick={() => setCardFilter('Month')}>
+              Month
+            </DropdownItem>
+            <DropdownItem onClick={() => setCardFilter('Year')}>
+              Year
+            </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>
         <Button color='primary' className='shadow-sm mr-1'>

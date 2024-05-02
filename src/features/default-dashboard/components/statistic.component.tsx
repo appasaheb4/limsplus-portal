@@ -1,69 +1,70 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-const Statistics = observer(() => {
+const Statistics = observer(({ cardFilter }) => {
   const data = [
     {
       name: 'No of Patients',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'No of Sample',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'No of Panels',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'No of Tests',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'No of Analytes',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'Gross Sale',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'Net Sale',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'Discount',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'Discount %',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
     {
       name: 'Revenue Per/Patient',
       price: '1,02,890',
       percentage: '+40%',
-      filterValue: 'This month',
+      filterValue: cardFilter,
     },
   ];
+
   return (
     <div className='grid grid-cols-3 gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 mb-4'>
       {data.map((item, index) => (
