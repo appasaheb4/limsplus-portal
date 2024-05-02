@@ -31,4 +31,4 @@ const PieChart = () => {
   return <Pie data={data} />;
 };
 
-export default PieChart;
+export default React.memo(PieChart);

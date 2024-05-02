@@ -152,4 +152,4 @@ const Default = observer(() => {
   );
 });
 
-export default Default;
+export default React.memo(Default);
