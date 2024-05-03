@@ -22,8 +22,7 @@ export const Header = ({ data }: HeaderProps) => {
           src={logos.geneflowLab}
           style={{
             width: '40%',
-            height: 80,
-            marginHorizontal: 10,
+            height: 100,
           }}
         />
         <PdfImage

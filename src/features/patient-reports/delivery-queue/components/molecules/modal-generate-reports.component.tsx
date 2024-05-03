@@ -40,6 +40,8 @@ export const ModalGenerateReports = ({
   const [isWithHeader, setWithHeader] = useState(true);
   const [isPdfViewer, setPdfViewer] = useState(false);
 
+  console.log({ data, templateDetails });
+
   useEffect(() => {
     setShowModal(show);
   }, [show]);
