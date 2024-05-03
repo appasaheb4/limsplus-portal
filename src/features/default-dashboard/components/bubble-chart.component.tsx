@@ -1,7 +1,6 @@
 import React from 'react';
 import { Bubble } from 'react-chartjs-2';
-
-export const BubbleChart = () => {
+const BubbleChart = () => {
   const options = {
     scales: {
       y: {
@@ -36,3 +35,5 @@ export const BubbleChart = () => {
   };
   return <Bubble options={options} data={data} />;
 };
+
+export default React.memo(BubbleChart);

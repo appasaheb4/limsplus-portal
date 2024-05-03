@@ -17,4 +17,4 @@ const RadarChart = () => {
   return <Radar data={data} />;
 };
 
-export default RadarChart;
+export default React.memo(RadarChart);
