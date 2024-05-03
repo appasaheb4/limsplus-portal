@@ -58,7 +58,7 @@ export const PdfTemp0009 = ({
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
-        <PdfView style={{ height: 100 }} fixed mh={0} p={0}>
+        <PdfView fixed mh={0} p={0}>
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
