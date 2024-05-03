@@ -23,4 +23,4 @@ const PolorChart = () => {
   return <Polar data={data} />;
 };
 
-export default PolorChart;
+export default React.memo(PolorChart);
