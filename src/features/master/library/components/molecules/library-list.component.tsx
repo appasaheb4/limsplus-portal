@@ -13,10 +13,9 @@ import {
   ModalDateTime,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
-import ModalDetails from './modal-details.component';
 import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
-import { AutoCompleteCompanyList } from '@/core-components';
+import { ModalDocxContent } from '@/core-components';
 
 let code;
 let libraryCode;
@@ -72,7 +71,7 @@ export const LibraryList = (props: LibraryListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
-  const [modalDetails, setModalDetails] = useState<any>();
+  const [modalDocxContent, setModalDocxContent] = useState<any>();
 
   const todayDate = new Date();
   const nextDay = new Date();
@@ -441,7 +440,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         nameIcon='AiFillHtml5'
                         propsIcon={{ size: 30 }}
                         onClick={() => {
-                          setModalDetails({
+                          setModalDocxContent({
                             visible: true,
                             details: row?.details,
                             status: !editorCell(row),
@@ -808,15 +807,15 @@ export const LibraryList = (props: LibraryListProps) => {
             'environment',
           ]}
         />
-        <ModalDetails
-          {...modalDetails}
+        <ModalDocxContent
+          {...modalDocxContent}
           onUpdate={details => {
-            setModalDetails({ visible: false });
+            setModalDocxContent({ visible: false });
             props.onUpdateItem &&
-              props.onUpdateItem({ details }, modalDetails._id);
+              props.onUpdateItem({ details }, modalDocxContent._id);
           }}
           onClose={() => {
-            setModalDetails({ visible: false });
+            setModalDocxContent({ visible: false });
           }}
         />
       </div>

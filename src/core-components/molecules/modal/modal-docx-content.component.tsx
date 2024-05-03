@@ -27,21 +27,23 @@ const modules = {
   },
 };
 
-interface ModalDetailsProps {
+interface ModalDocxContentProps {
+  title?: string;
   visible: boolean;
-  details: string;
-  status: boolean;
+  details?: string;
+  status?: boolean;
   onUpdate: (details: string) => void;
   onClose: () => void;
 }
 
-const ModalDetails = ({
+export const ModalDocxContent = ({
+  title = 'Update details',
   visible,
   details,
-  status,
+  status = false,
   onUpdate,
   onClose,
-}: ModalDetailsProps) => {
+}: ModalDocxContentProps) => {
   const [value, setValue] = useState(details);
   const [showModal, setShowModal] = React.useState(visible);
   const [modalDetail, setModalDetail] = useState<any>();
@@ -82,7 +84,7 @@ const ModalDetails = ({
                 <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                   {/*header*/}
                   <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                    <h3 className='text-3xl font-semibold'>Update details</h3>
+                    <h3 className='text-3xl font-semibold'>{title}</h3>
                     {!status && (
                       <>
                         <Buttons.Button
@@ -154,7 +156,7 @@ const ModalDetails = ({
                         type='button'
                         style={{ transition: 'all .15s ease' }}
                         onClick={() => {
-                          onUpdate && onUpdate(value);
+                          onUpdate && onUpdate(value || '');
                         }}
                       >
                         Upload
@@ -183,5 +185,3 @@ const ModalDetails = ({
     </>
   );
 };
-
-export default ModalDetails;

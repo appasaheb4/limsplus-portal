@@ -119,6 +119,13 @@ export const Result = observer((props: ResultProps) => {
               headerClasses: 'textHeader1',
               editable: (content, row, rowIndex, columnIndex) =>
                 row?.isResultUpdate,
+              formatter: (cellContent, row) => (
+                <>
+                  {row?.resultType === 'W' && (
+                    <div dangerouslySetInnerHTML={{ __html: row?.result }} />
+                  )}
+                </>
+              ),
               editorRenderer: (
                 editorProps,
                 value,

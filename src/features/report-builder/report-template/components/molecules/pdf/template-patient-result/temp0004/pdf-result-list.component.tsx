@@ -8,6 +8,7 @@ import {
   PdfView,
   PdfImage,
 } from '@/library/components';
+import Html from 'react-pdf-html';
 
 Font.register({
   family: 'arimaBold',
@@ -456,10 +457,18 @@ export const PdfResultList = ({
                                                     : '#000000',
                                               }}
                                             >
-                                              {
+                                              {JSON.parse(_item?.result)
+                                                ?.resultType !== 'W' ? (
                                                 JSON.parse(_item?.result)
                                                   ?.result
-                                              }
+                                              ) : (
+                                                <Html>
+                                                  {
+                                                    JSON.parse(_item?.result)
+                                                      ?.result
+                                                  }
+                                                </Html>
+                                              )}
                                             </PdfSmall>
                                           </PdfBorderView>
 

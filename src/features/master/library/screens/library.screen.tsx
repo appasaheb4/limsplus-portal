@@ -3,9 +3,6 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
