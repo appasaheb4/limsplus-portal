@@ -49,7 +49,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [widthRefBox, setWidthRefBox] = useState('60px');
   const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
   const [localData, setLocalData] = useState(props.data);
-  const [selectedRowData, setSelectedRowData] = useState<any>([]);
 
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;

@@ -4,11 +4,15 @@ import {
   Form,
   Toast,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  Tooltip,
+  Icons,
 } from '@/library/components';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import { useForm, Controller } from 'react-hook-form';
 import { FormHelper } from '@/helper';
+import { ModalDocxContent } from '@/core-components';
+
 interface InputResultProps {
   row: any;
   onSelect: (item) => void;
@@ -31,6 +35,9 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
   } = useForm();
   const [conclusionResult, setConclusionResult] = useState<Array<any>>();
   const [libraryList, setLibraryList] = useState<Array<any>>();
+  const [modalDocxContent, setModalDocxContent] = useState<any>({
+    visible: false,
+  });
 
   useEffect(() => {
     switch (row?.resultType) {
@@ -273,6 +280,37 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
             }
           }}
         />
+      )}
+      {row?.resultType === 'W' && (
+        <>
+          <Tooltip tooltipText='Expand library detail'>
+            <Icons.RIcon
+              nameIcon='AiFillHtml5'
+              propsIcon={{ size: 30 }}
+              onClick={() => {
+                setModalDocxContent({
+                  visible: true,
+                  details: row?.result,
+                  status: false,
+                  _id: row?._id,
+                });
+              }}
+            />
+          </Tooltip>
+          <ModalDocxContent
+            {...modalDocxContent}
+            onUpdate={details => {
+              setModalDocxContent({ visible: false });
+              onSelect({
+                result: details,
+                alpha: `W - ${row._id}`,
+              });
+            }}
+            onClose={() => {
+              setModalDocxContent({ visible: false });
+            }}
+          />
+        </>
       )}
     </div>
   );

@@ -11,8 +11,7 @@ import { observer } from 'mobx-react';
 import { FormHelper } from '@/helper';
 import { useStores } from '@/stores';
 import { useForm } from 'react-hook-form';
-import { Table } from 'reactstrap';
-import { FiArrowRightCircle } from 'react-icons/fi';
+import { ModalDocxContent } from '@/core-components';
 interface DisplayResultProps {
   row: any;
   onSelect?: (item) => void;
@@ -32,6 +31,9 @@ export const DisplayResult = observer(
     const [libraryList, setLibraryList] = useState<Array<any>>();
     const [isOpen, setIsOpen] = useState(false);
     const resultRef = useRef<any>();
+    const [modalDocxContent, setModalDocxContent] = useState<any>({
+      visible: false,
+    });
 
     const handleSelect = item => {
       setIsOpen(false);
@@ -485,6 +487,45 @@ export const DisplayResult = observer(
               </Tooltip>
             </div>
           )}
+        {row?.resultType === 'W' && (
+          <>
+            <Tooltip tooltipText='Expand result'>
+              <Icons.RIcon
+                nameIcon='AiFillHtml5'
+                propsIcon={{ size: 30 }}
+                onClick={() => {
+                  setModalDocxContent({
+                    visible: true,
+                    details: row?.result,
+                    status: row?.finishResult == 'P' ? false : true,
+                    _id: row?._id,
+                  });
+                }}
+              />
+            </Tooltip>
+            <ModalDocxContent
+              {...modalDocxContent}
+              onUpdate={details => {
+                setModalDocxContent({ visible: false });
+                if (row?.finishResult == 'P') {
+                  onSelect &&
+                    onSelect({
+                      result: details,
+                      alpha: `W - ${row._id}`,
+                    });
+                } else {
+                  Toast.error({
+                    message: '😌 Sorry already updated and finished result.',
+                    timer: 2000,
+                  });
+                }
+              }}
+              onClose={() => {
+                setModalDocxContent({ visible: false });
+              }}
+            />
+          </>
+        )}
       </div>
     );
   },
