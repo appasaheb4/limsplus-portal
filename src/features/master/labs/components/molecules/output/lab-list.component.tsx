@@ -1008,7 +1008,7 @@ export const LabList = (props: LabListProps) => {
             },
             {
               dataField: 'image',
-              text: 'Lab Log',
+              text: 'Lab Logo',
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
               csvExport: false,

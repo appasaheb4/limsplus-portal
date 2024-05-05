@@ -8,7 +8,7 @@ import mammoth from 'mammoth';
 import quillTable from 'quill-table';
 import ReactQuill, { Quill } from 'react-quill';
 // import Mention from 'quill-mention';
-import 'quill-mention/dist/quill.mention.min.css';
+// import 'quill-mention/dist/quill.mention.min.css';
 import 'react-quill/dist/quill.snow.css';
 import 'react-quill/dist/quill.bubble.css';
 
