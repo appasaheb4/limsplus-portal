@@ -5,7 +5,7 @@ import { Header } from '../../common/geneflow-lab/pdf-header.component';
 import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import { PdfSmall } from '@/library/components';
-import Html from 'react-pdf-html';
+import MDEditor from '@uiw/react-md-editor';
 
 Font.register({
   family: 'arimaRegular',
@@ -71,7 +71,10 @@ export const PdfTemp0010 = ({
             color: '#000000',
           }}
         >
-          <Html>hi</Html>
+          <MDEditor.Markdown
+            source={'value'}
+            style={{ whiteSpace: 'pre-wrap' }}
+          />
         </PdfSmall>
         <PdfPageNumber
           style={{ textAlign: 'center', right: '45%' }}

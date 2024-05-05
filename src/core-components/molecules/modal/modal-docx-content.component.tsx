@@ -5,83 +5,11 @@ import { Buttons, Icons, ModalImportFile } from '@/library/components';
 import { Styles } from '@/config';
 import mammoth from 'mammoth';
 
-import quillTable from 'quill-table';
-import ReactQuill, { Quill } from 'react-quill';
-// import Mention from 'quill-mention';
-import 'quill-mention/dist/quill.mention.min.css';
-import 'react-quill/dist/quill.snow.css';
-import 'react-quill/dist/quill.bubble.css';
+import MDEditor from '@uiw/react-md-editor';
 
-const atValues = [
-  { id: 1, value: 'Fredrik Sundqvist' },
-  { id: 2, value: 'Patrik Sjölin' },
-];
-const hashValues = [
-  { id: 3, value: 'Fredrik Sundqvist 2' },
-  { id: 4, value: 'Patrik Sjölin 2' },
-];
-
-Quill.register(quillTable.TableCell);
-Quill.register(quillTable.TableRow);
-Quill.register(quillTable.Table);
-Quill.register(quillTable.Contain);
-Quill.register('modules/table', quillTable.TableModule);
-const maxRows = 8;
-const maxCols = 5;
-
-const tableOptions: any = [];
-for (let r = 1; r <= maxRows; r++) {
-  for (let c = 1; c <= maxCols; c++) {
-    tableOptions.push('newtable_' + r + '_' + c);
-  }
-}
-
-const editorModules = {
-  table: false, /// disable table module
-  tableUI: false,
-  toolbar: [
-    [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
-    [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link', 'video', 'image'],
-    ['clean'],
-    ['code-block'],
-    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-    [{ font: [] }],
-    [{ align: [] }],
-    [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
-    [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-    [{ direction: 'rtl' }, { table: tableOptions }],
-  ],
-  // mention: {
-  //   allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
-  //   mentionDenotationChars: ['@', '#'],
-  //   source: function (searchTerm, renderList, mentionChar) {
-  //     let values;
-
-  //     if (mentionChar === '@') {
-  //       values = atValues;
-  //     } else {
-  //       values = hashValues;
-  //     }
-
-  //     if (searchTerm.length === 0) {
-  //       renderList(values, searchTerm);
-  //     } else {
-  //       const matches: any = [];
-  //       for (let i = 0; i < values.length; i++)
-  //         if (~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase()))
-  //           matches.push(values[i]);
-  //       renderList(matches, searchTerm);
-  //     }
-  //   },
-  // },
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: true,
-  },
-};
+// import ReactQuill from 'react-quill';
+// import 'react-quill/dist/quill.snow.css';
+// import 'react-quill/dist/quill.bubble.css';
 
 // const modules = {
 //   toolbar: [
@@ -110,25 +38,25 @@ const editorModules = {
 //   },
 // };
 
-const formats = [
-  'header',
-  'mention',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'code-block',
-  'color',
-  'table',
-  'font',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-  'video',
-];
+// const formats = [
+//   'header',
+//   'mention',
+//   'bold',
+//   'italic',
+//   'underline',
+//   'strike',
+//   'blockquote',
+//   'code-block',
+//   'color',
+//   'table',
+//   'font',
+//   'list',
+//   'bullet',
+//   'indent',
+//   'link',
+//   'image',
+//   'video',
+// ];
 
 interface ModalDocxContentProps {
   title?: string;
@@ -173,19 +101,20 @@ export const ModalDocxContent = ({
       <Container>
         {showModal && (
           <>
-            <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+            <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 ml-60  outline-none focus:outline-none'>
               <div
-                className='relative  my-6 mx-auto'
+                className='relative  my-6  mx-auto '
                 style={{
-                  height: '842px',
-                  width: '595px',
-                  /* to centre page on screen*/
-                  marginLeft: 'auto',
-                  marginRight: 'auto',
+                  width: '95%',
                 }}
               >
                 {/*content*/}
-                <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
+                <div
+                  className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'
+                  style={{
+                    height: window.outerHeight / 2 + 200,
+                  }}
+                >
                   {/*header*/}
                   <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                     <h3 className='text-3xl font-semibold'>{title}</h3>
@@ -228,7 +157,7 @@ export const ModalDocxContent = ({
                   <div className='relative p-2 flex-auto'>
                     <div className='grid grid-cols-1'>
                       <div>
-                        <ReactQuill
+                        {/* <ReactQuill
                           ref={editor}
                           placeholder='Type here'
                           theme='snow'
@@ -240,7 +169,22 @@ export const ModalDocxContent = ({
                             console.log({ details });
                             setValue(details);
                           }}
+                        /> */}
+                        <MDEditor
+                          value={value}
+                          onChange={details => {
+                            console.log({ details });
+                            setValue(details);
+                          }}
+                          autoFocus
+                          tabSize={50}
+                          defaultTabEnable
+                          height={window.outerHeight / 2 + 60}
                         />
+                        {/* <MDEditor.Markdown
+                          source={value}
+                          style={{ whiteSpace: 'pre-wrap' }}
+                        /> */}
                       </div>
                     </div>
                   </div>
