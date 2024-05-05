@@ -41,6 +41,7 @@
     "@types/react": "18.0.5",
     "@types/react-dom": "18.0.1",
     "@types/styled-components": "5.1.7",
+    "@uiw/react-md-editor": "^4.0.4",
     "add": "2.0.6",
     "apollo-upload-client": "16.0.0",
     "assert": "2.0.0",

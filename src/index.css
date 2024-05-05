@@ -66,8 +66,12 @@ body {
   background: none !important;
 }
 
-.scrollbar-container  {
+.scrollbar-container {
   width: 97% !important;
+}
+
+.w-md-editor-show-live {
+  height: 800 !important;
 }
 
 /* .text-filter:-webkit-autofill {
