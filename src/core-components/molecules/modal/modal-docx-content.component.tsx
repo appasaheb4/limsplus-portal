@@ -1,31 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Buttons, Icons, ModalImportFile } from '@/library/components';
 import { Styles } from '@/config';
 import mammoth from 'mammoth';
+import QuillTable from 'quill-table';
+
+Quill.register(QuillTable.TableCell);
+Quill.register(QuillTable.TableRow);
+Quill.register(QuillTable.Table);
+Quill.register(QuillTable.Contain);
+Quill.register('modules/table', QuillTable.TableModule);
 
 const modules = {
   toolbar: [
-    [{ header: '1' }, { header: '2' }, { font: [] }],
-    [{ size: [] }],
+    [{ header: ['1', '2', '3', '4', '5', '6'] }, { font: [] }],
+    [{ size: ['12px', '16px', '24px', '36px'] }],
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+    [{ color: [] }, { background: [] }],
+    [{ align: [] }],
+    [{ indent: '-1' }, { indent: '+1' }],
     [
       { list: 'ordered' },
       { list: 'bullet' },
       { indent: '-1' },
       { indent: '+1' },
     ],
-    ['link'],
+    ['link', 'image', 'video'],
     ['clean'],
   ],
   clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
     matchVisual: false,
   },
+  history: {
+    delay: 500,
+    maxStack: 100,
+    userOnly: true,
+  },
 };
+
+export const formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic',
+  'underline',
+  'align',
+  'strike',
+  'script',
+  'blockquote',
+  'background',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image',
+  'color',
+  'code-block',
+];
 
 interface ModalDocxContentProps {
   title?: string;
@@ -129,6 +164,7 @@ export const ModalDocxContent = ({
                           theme='snow'
                           value={value}
                           modules={modules}
+                          formats={formats}
                           readOnly={status}
                           onChange={details => {
                             setValue(details);
