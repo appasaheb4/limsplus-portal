@@ -16,7 +16,12 @@ import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import { logos } from '@/library/assets';
 
-import { ADCPdf, ADCMedicalReportPdf, GeneflowLab } from '../components';
+import {
+  ADCPdf,
+  ADCMedicalReportPdf,
+  GeneflowLab,
+  GeneflowLabW,
+} from '../components';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 
@@ -63,6 +68,14 @@ const ReportTemplate = observer(() => {
       tempCode: 'TEMP0009',
       title: 'Geneflow Labs',
       component: GeneflowLab,
+      tooltipText: 'Print',
+      icon: Icons.IconBs.BsPrinter,
+      logo: logos.geneflowLab,
+    },
+    {
+      tempCode: 'TEMP0010',
+      title: 'Geneflow Labs (W)',
+      component: GeneflowLabW,
       tooltipText: 'Print',
       icon: Icons.IconBs.BsPrinter,
       logo: logos.geneflowLab,

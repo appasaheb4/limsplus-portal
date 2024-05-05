@@ -15,6 +15,7 @@ import {
   PdfTemp0007,
   PdfTemp0008,
   PdfTemp0009,
+  PdfTemp0010,
 } from '@/features/report-builder/report-template/components';
 import printjs from 'print-js';
 
@@ -269,6 +270,28 @@ export const ModalGenerateReports = ({
                       },
                       pageBranding: templateDetails?.find(
                         item => item?.templateCode == 'TEMP0009',
+                      ),
+                    }}
+                    isWithHeader={isWithHeader}
+                  />
+                ),
+              )}
+            {item.template == 'TEMP0010' &&
+              _.uniqBy(item?.patientReports, 'labId').map(
+                (patientReports: any) => (
+                  <PdfTemp0010
+                    data={{
+                      patientReports: {
+                        ...patientReports,
+                        patientResultList:
+                          patientReports?.patientResultList?.filter(
+                            item =>
+                              item?.reportTemplate?.split(' -')[0] ==
+                              'TEMP0010',
+                          ),
+                      },
+                      pageBranding: templateDetails?.find(
+                        item => item?.templateCode == 'TEMP0010',
                       ),
                     }}
                     isWithHeader={isWithHeader}
