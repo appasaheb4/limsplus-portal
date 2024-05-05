@@ -1,65 +1,133 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Container } from 'reactstrap';
 
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import { Buttons, Icons, ModalImportFile } from '@/library/components';
 import { Styles } from '@/config';
 import mammoth from 'mammoth';
-import QuillTable from 'quill-table';
 
-Quill.register(QuillTable.TableCell);
-Quill.register(QuillTable.TableRow);
-Quill.register(QuillTable.Table);
-Quill.register(QuillTable.Contain);
-Quill.register('modules/table', QuillTable.TableModule);
+import quillTable from 'quill-table';
+import ReactQuill, { Quill } from 'react-quill';
+// import Mention from 'quill-mention';
+import 'quill-mention/dist/quill.mention.min.css';
+import 'react-quill/dist/quill.snow.css';
+import 'react-quill/dist/quill.bubble.css';
 
-const modules = {
+const atValues = [
+  { id: 1, value: 'Fredrik Sundqvist' },
+  { id: 2, value: 'Patrik Sjölin' },
+];
+const hashValues = [
+  { id: 3, value: 'Fredrik Sundqvist 2' },
+  { id: 4, value: 'Patrik Sjölin 2' },
+];
+
+Quill.register(quillTable.TableCell);
+Quill.register(quillTable.TableRow);
+Quill.register(quillTable.Table);
+Quill.register(quillTable.Contain);
+Quill.register('modules/table', quillTable.TableModule);
+const maxRows = 8;
+const maxCols = 5;
+
+const tableOptions: any = [];
+for (let r = 1; r <= maxRows; r++) {
+  for (let c = 1; c <= maxCols; c++) {
+    tableOptions.push('newtable_' + r + '_' + c);
+  }
+}
+
+const editorModules = {
+  table: false, /// disable table module
+  tableUI: false,
   toolbar: [
-    [{ header: ['1', '2', '3', '4', '5', '6'] }, { font: [] }],
-    [{ size: ['12px', '16px', '24px', '36px'] }],
+    [{ header: '1' }, { header: '2' }, { header: [3, 4, 5, 6] }, { font: [] }],
+    [{ size: [] }],
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [{ color: [] }, { background: [] }],
-    [{ align: [] }],
-    [{ indent: '-1' }, { indent: '+1' }],
-    [
-      { list: 'ordered' },
-      { list: 'bullet' },
-      { indent: '-1' },
-      { indent: '+1' },
-    ],
-    ['link', 'image', 'video'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    ['link', 'video', 'image'],
     ['clean'],
+    ['code-block'],
+    [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+    [{ font: [] }],
+    [{ align: [] }],
+    [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+    [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+    [{ direction: 'rtl' }, { table: tableOptions }],
   ],
+  // mention: {
+  //   allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
+  //   mentionDenotationChars: ['@', '#'],
+  //   source: function (searchTerm, renderList, mentionChar) {
+  //     let values;
+
+  //     if (mentionChar === '@') {
+  //       values = atValues;
+  //     } else {
+  //       values = hashValues;
+  //     }
+
+  //     if (searchTerm.length === 0) {
+  //       renderList(values, searchTerm);
+  //     } else {
+  //       const matches: any = [];
+  //       for (let i = 0; i < values.length; i++)
+  //         if (~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase()))
+  //           matches.push(values[i]);
+  //       renderList(matches, searchTerm);
+  //     }
+  //   },
+  // },
   clipboard: {
-    matchVisual: false,
-  },
-  history: {
-    delay: 500,
-    maxStack: 100,
-    userOnly: true,
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: true,
   },
 };
 
-export const formats = [
+// const modules = {
+//   toolbar: [
+//     [{ header: ['1', '2', '3', '4', '5', '6'] }, { font: [] }],
+//     [{ size: ['12px', '16px', '24px', '36px'] }],
+//     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+//     [{ color: [] }, { background: [] }],
+//     [{ align: [] }],
+//     [{ indent: '-1' }, { indent: '+1' }],
+//     [
+//       { list: 'ordered' },
+//       { list: 'bullet' },
+//       { indent: '-1' },
+//       { indent: '+1' },
+//     ],
+//     ['table', 'link', 'image', 'video'],
+//     ['clean'],
+//   ],
+//   clipboard: {
+//     matchVisual: false,
+//   },
+//   history: {
+//     delay: 500,
+//     maxStack: 100,
+//     userOnly: true,
+//   },
+// };
+
+const formats = [
   'header',
-  'font',
-  'size',
+  'mention',
   'bold',
   'italic',
   'underline',
-  'align',
   'strike',
-  'script',
   'blockquote',
-  'background',
+  'code-block',
+  'color',
+  'table',
+  'font',
   'list',
   'bullet',
   'indent',
   'link',
   'image',
-  'color',
-  'code-block',
+  'video',
 ];
 
 interface ModalDocxContentProps {
@@ -79,6 +147,7 @@ export const ModalDocxContent = ({
   onUpdate,
   onClose,
 }: ModalDocxContentProps) => {
+  const editor = useRef<any>();
   const [value, setValue] = useState(details);
   const [showModal, setShowModal] = React.useState(visible);
   const [modalDetail, setModalDetail] = useState<any>();
@@ -160,13 +229,15 @@ export const ModalDocxContent = ({
                     <div className='grid grid-cols-1'>
                       <div>
                         <ReactQuill
+                          ref={editor}
                           placeholder='Type here'
                           theme='snow'
                           value={value}
-                          modules={modules}
+                          modules={editorModules}
                           formats={formats}
                           readOnly={status}
                           onChange={details => {
+                            console.log({ details });
                             setValue(details);
                           }}
                         />
