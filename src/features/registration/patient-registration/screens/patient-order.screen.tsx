@@ -68,6 +68,14 @@ export const PatientOrder = PatientOrderHoc(
     const [modalAddPanel, setModalAddPanel] = useState({});
 
     useEffect(() => {
+      if (patientRegistrationStore.defaultValues.isPatientFormOpen) {
+        setHideInputView(
+          !patientRegistrationStore.defaultValues.isPatientFormOpen,
+        );
+      }
+    }, [patientRegistrationStore.defaultValues.isPatientFormOpen]);
+
+    useEffect(() => {
       // Default value initialization
       setValue('orderId', patientOrderStore.patientOrder?.orderId);
       // setValue('environment', patientOrderStore.patientOrder?.environment);

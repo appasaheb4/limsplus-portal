@@ -62,6 +62,14 @@ export const PatientManager = PatientManagerHoc(
     const [hideInputView, setHideInputView] = useState<boolean>(true);
 
     useEffect(() => {
+      if (patientRegistrationStore.defaultValues.isPatientFormOpen) {
+        setHideInputView(
+          !patientRegistrationStore.defaultValues.isPatientFormOpen,
+        );
+      }
+    }, [patientRegistrationStore.defaultValues.isPatientFormOpen]);
+
+    useEffect(() => {
       // Default value initialization
       setValue('birthDate', patientManagerStore.patientManger.birthDate);
       setValue('species', patientManagerStore.patientManger.species);
@@ -115,6 +123,7 @@ export const PatientManager = PatientManagerHoc(
                 pId: result?.pId?.toString(),
                 accordionExpandItem: 'PATIENT VISIT',
                 isPVPIdLock: true,
+                isPatientFormOpen: true,
               });
               patientRegistrationStore.getPatientRegRecords(
                 'pId',
@@ -440,7 +449,10 @@ export const PatientManager = PatientManagerHoc(
                     </div>
                   )}
                   name='birthDate'
-                  rules={{ required: true }}
+                  rules={{
+                    required:
+                      patientManagerStore.patientManger?.isBirthdateAvailabe,
+                  }}
                   defaultValue=''
                 />
                 {!patientManagerStore.patientManger.isBirthdateAvailabe && (

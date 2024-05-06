@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import { Icons } from '@/library/components';
 import { useStores } from '@/stores';
+import _ from 'lodash';
 
 interface AutoCompleteProps {
   selected: any[];

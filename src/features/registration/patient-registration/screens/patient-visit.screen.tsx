@@ -75,6 +75,14 @@ export const PatientVisit = PatientVisitHoc(
     const [hideInputView, setHideInputView] = useState<boolean>(true);
 
     useEffect(() => {
+      if (patientRegistrationStore.defaultValues.isPatientFormOpen) {
+        setHideInputView(
+          !patientRegistrationStore.defaultValues.isPatientFormOpen,
+        );
+      }
+    }, [patientRegistrationStore.defaultValues.isPatientFormOpen]);
+
+    useEffect(() => {
       // Default value initialization
       setValue('rLab', patientVisitStore.patientVisit.rLab);
       setValue('visitDate', patientVisitStore.patientVisit.visitDate);
@@ -130,6 +138,7 @@ export const PatientVisit = PatientVisitHoc(
               labId: result?.labId?.toString(),
               accordionExpandItem: 'PATIENT ORDER',
               isPOLabIdLock: true,
+              isPatientFormOpen: true,
             });
           });
       } else {
