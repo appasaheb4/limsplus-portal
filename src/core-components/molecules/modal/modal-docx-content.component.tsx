@@ -1,20 +1,93 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Container } from 'reactstrap';
-
+import _ from 'lodash';
 import { Buttons, Icons, ModalImportFile } from '@/library/components';
 import { Styles } from '@/config';
 import mammoth from 'mammoth';
 
-import MDEditor from '@uiw/react-md-editor';
+// import MDEditor from '@uiw/react-md-editor';
 
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
-// import 'react-quill/dist/quill.bubble.css';
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
+import RichTextEditor from 'quill-react-commercial';
+import 'quill-react-commercial/lib/index.css';
+
+const modules1 = {
+  codeHighlight: true,
+  table: {
+    operationMenu: {
+      insertColumnRight: {
+        text: 'Insert Column Right',
+      },
+    }, // Generally not required
+    backgroundColors: {
+      colors: ['#4a90e2', '#999'], // backgroundcolor of table cell, default: ['#dbc8ff', '#6918b4', '#4a90e2', '#999', '#fff']
+      text: 'Background Colors', // default: 'Background Colors'
+    },
+    toolBarOptions: {
+      dialogRows: 3, // default: 9
+      dialogColumns: 4, // default: 9
+      i18: 'en',
+    }, // when click table in toorbar, the configs of the dialog
+  }, // default: false
+  imageResize: true, // default: true
+  imageDrop: true, // default: true
+  magicUrl: true, // Automatically recognize URLs, emails, etc., and add LinkBlot; default: true
+  markdown: true, // Automatically support markdown and convert to rich text; default: true
+  link: true, // default: true
+  // imageHandler: {
+  //   imgUploadApi?: (formData: FormData) => Promise<string>,
+  //   uploadSuccCB?: (data: unknown) => void,
+  //   uploadFailCB?: (error: unknown) => void,
+  //   imgRemarkPre?: 'Fig. ',
+  //   maxSize?: 2,
+  //   imageAccept?: string,
+  // },
+  toolbarOptions: [
+    ['undo', 'redo'],
+    [
+      { font: ['wsYaHei', 'songTi', 'serif', 'arial'] },
+      { size: ['12px', '14px', '18px', '36px'] },
+    ],
+    [{ color: [] }, { background: [] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [
+      { list: 'ordered' },
+      { list: 'bullet' },
+      { list: 'check' },
+      { indent: '-1' },
+      { indent: '+1' },
+      { align: [] },
+    ],
+    [
+      'blockquote',
+      'code-block',
+      'link',
+      'image',
+      { script: 'sub' },
+      { script: 'super' },
+      'table',
+      'clean',
+    ],
+  ],
+};
+
+// // let SizeStyle = Quill.import('attributors/style/size');
+// // SizeStyle.whitelist = ['10px', '15px', '18px', '20px', '32px', '54px'];
+// // Quill.register(SizeStyle, true);
+// const Font = ReactQuill.Quill.import('formats/font');
+// Font.whitelist = ['large', 'medium', 'small', 'regular', 'bold', 'pullquote'];
+// ReactQuill.Quill.register(Font, true);
 
 // const modules = {
 //   toolbar: [
 //     [{ header: ['1', '2', '3', '4', '5', '6'] }, { font: [] }],
-//     [{ size: ['12px', '16px', '24px', '36px'] }],
+//     [
+//       {
+//         size: ['small', false, 'large', 'huge'],
+//       },
+//     ],
 //     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
 //     [{ color: [] }, { background: [] }],
 //     [{ align: [] }],
@@ -61,7 +134,7 @@ import MDEditor from '@uiw/react-md-editor';
 interface ModalDocxContentProps {
   title?: string;
   visible: boolean;
-  details?: string;
+  details?: any;
   status?: boolean;
   onUpdate: (details: string) => void;
   onClose: () => void;
@@ -70,7 +143,7 @@ interface ModalDocxContentProps {
 export const ModalDocxContent = ({
   title = 'Update details',
   visible,
-  details,
+  details = '{"ops":[{"insert":"Hello quill-react-commercial!\\n"}]}',
   status = false,
   onUpdate,
   onClose,
@@ -79,6 +152,11 @@ export const ModalDocxContent = ({
   const [value, setValue] = useState(details);
   const [showModal, setShowModal] = React.useState(visible);
   const [modalDetail, setModalDetail] = useState<any>();
+
+  const quill = useRef<any>(null);
+  const getQuill = quillIns => {
+    quill.current = quillIns;
+  };
 
   useEffect(() => {
     setShowModal(visible);
@@ -95,6 +173,12 @@ export const ModalDocxContent = ({
     });
     reader.readAsArrayBuffer(file);
   };
+
+  function quillGetHTML(inputDelta) {
+    var tempQuill = new Quill(document.createElement('div'));
+    tempQuill.setContents(inputDelta);
+    return tempQuill.root.innerHTML;
+  }
 
   return (
     <>
@@ -162,7 +246,7 @@ export const ModalDocxContent = ({
                           placeholder='Type here'
                           theme='snow'
                           value={value}
-                          modules={editorModules}
+                          modules={modules}
                           formats={formats}
                           readOnly={status}
                           onChange={details => {
@@ -170,7 +254,7 @@ export const ModalDocxContent = ({
                             setValue(details);
                           }}
                         /> */}
-                        <MDEditor
+                        {/* <MDEditor
                           value={value}
                           onChange={details => {
                             console.log({ details });
@@ -180,11 +264,19 @@ export const ModalDocxContent = ({
                           tabSize={50}
                           defaultTabEnable
                           height={window.outerHeight / 2 + 60}
-                        />
+                        /> */}
                         {/* <MDEditor.Markdown
                           source={value}
                           style={{ whiteSpace: 'pre-wrap' }}
                         /> */}
+                        <RichTextEditor
+                          getQuill={getQuill}
+                          content={quill.current}
+                          modules={modules1 as any}
+                          onChange={details => {
+                            quill.current = details;
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -207,7 +299,7 @@ export const ModalDocxContent = ({
                         type='button'
                         style={{ transition: 'all .15s ease' }}
                         onClick={() => {
-                          onUpdate && onUpdate(value || '');
+                          onUpdate && onUpdate(JSON.stringify(quill.current));
                         }}
                       >
                         Upload

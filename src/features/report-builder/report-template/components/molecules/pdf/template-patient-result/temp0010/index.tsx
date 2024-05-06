@@ -5,7 +5,8 @@ import { Header } from '../../common/geneflow-lab/pdf-header.component';
 import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import { PdfSmall } from '@/library/components';
-import MDEditor from '@uiw/react-md-editor';
+import RichTextEditor from 'quill-react-commercial';
+import 'quill-react-commercial/lib/index.css';
 
 Font.register({
   family: 'arimaRegular',
@@ -56,6 +57,10 @@ export const PdfTemp0010 = ({
     }
   }
 
+  const quill = useRef(null);
+  const getQuill = quillIns => {
+    quill.current = quillIns;
+  }; // quill.current will has all quill's API：https://quilljs.com/docs/api/
   console.log({ result: patientReports?.patientResultList });
 
   return (
@@ -71,9 +76,10 @@ export const PdfTemp0010 = ({
             color: '#000000',
           }}
         >
-          <MDEditor.Markdown
-            source={'value'}
-            style={{ whiteSpace: 'pre-wrap' }}
+          <RichTextEditor
+            modules={{ table: {}, codeHighlight: true }}
+            getQuill={getQuill}
+            content={'<h1>Hello quill-react-commercial!</h1>'}
           />
         </PdfSmall>
         <PdfPageNumber
