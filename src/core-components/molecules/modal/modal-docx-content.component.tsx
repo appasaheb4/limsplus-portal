@@ -11,10 +11,11 @@ import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 import RichTextEditor from 'quill-react-commercial';
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 import 'quill-react-commercial/lib/index.css';
 
 const modules1 = {
-  codeHighlight: true,
+  codeHighlight: { key: 'xml', label: 'Html/xml' },
   table: {
     operationMenu: {
       insertColumnRight: {
@@ -149,36 +150,30 @@ export const ModalDocxContent = ({
   onClose,
 }: ModalDocxContentProps) => {
   const editor = useRef<any>();
-  const [value, setValue] = useState(details);
+  const [delta, setDelta] = React.useState<any>('');
   const [showModal, setShowModal] = React.useState(visible);
   const [modalDetail, setModalDetail] = useState<any>();
 
   const quill = useRef<any>(null);
+  const initContent = '';
   const getQuill = quillIns => {
     quill.current = quillIns;
   };
 
   useEffect(() => {
     setShowModal(visible);
-    setValue(details);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
-  const handleFileChange = async (file: any) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', async (e: any) => {
-      const arrayBuffer: any = e.target.result;
-      const result = await mammoth.extractRawText({ arrayBuffer });
-      setValue(result.value);
-    });
-    reader.readAsArrayBuffer(file);
-  };
-
-  function quillGetHTML(inputDelta) {
-    var tempQuill = new Quill(document.createElement('div'));
-    tempQuill.setContents(inputDelta);
-    return tempQuill.root.innerHTML;
-  }
+  // const handleFileChange = async (file: any) => {
+  //   const reader = new FileReader();
+  //   reader.addEventListener('load', async (e: any) => {
+  //     const arrayBuffer: any = e.target.result;
+  //     const result = await mammoth.extractRawText({ arrayBuffer });
+  //     setValue(result.value);
+  //   });
+  //   reader.readAsArrayBuffer(file);
+  // };
 
   return (
     <>
@@ -203,7 +198,7 @@ export const ModalDocxContent = ({
                   <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                     <h3 className='text-3xl font-semibold'>{title}</h3>
                     {!status && (
-                      <>
+                      <div className='hidden'>
                         <Buttons.Button
                           size='medium'
                           type='outline'
@@ -223,7 +218,7 @@ export const ModalDocxContent = ({
                             Import
                           </span>
                         </Buttons.Button>
-                      </>
+                      </div>
                     )}
                     <button
                       className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
@@ -270,12 +265,17 @@ export const ModalDocxContent = ({
                           style={{ whiteSpace: 'pre-wrap' }}
                         /> */}
                         <RichTextEditor
+                          readOnly={false}
                           getQuill={getQuill}
-                          content={quill.current}
+                          content={initContent}
                           modules={modules1 as any}
-                          onChange={details => {
-                            quill.current = details;
+                          onChange={(delta, old) => {
+                            setDelta(
+                              JSON.stringify(quill.current.getContents()),
+                            );
                           }}
+                          onFocus={arg => {}}
+                          style={{ height: window.outerHeight / 2 }}
                         />
                       </div>
                     </div>
@@ -299,7 +299,14 @@ export const ModalDocxContent = ({
                         type='button'
                         style={{ transition: 'all .15s ease' }}
                         onClick={() => {
-                          onUpdate && onUpdate(JSON.stringify(quill.current));
+                          const deltaOps = JSON.parse(delta)?.ops;
+                          const cfg = {};
+                          const converter = new QuillDeltaToHtmlConverter(
+                            deltaOps,
+                            cfg,
+                          );
+                          const html = converter.convert();
+                          onUpdate && onUpdate(html);
                         }}
                       >
                         Upload
@@ -319,7 +326,7 @@ export const ModalDocxContent = ({
         {...modalDetail}
         click={(file: any) => {
           setModalDetail({ show: false });
-          handleFileChange(file);
+          //handleFileChange(file);
         }}
         close={() => {
           setModalDetail({ show: false });
