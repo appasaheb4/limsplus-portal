@@ -5,8 +5,7 @@ import { Header } from '../../common/geneflow-lab/pdf-header.component';
 import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import { PdfSmall } from '@/library/components';
-import RichTextEditor from 'quill-react-commercial';
-import 'quill-react-commercial/lib/index.css';
+import Html from 'react-pdf-html';
 
 Font.register({
   family: 'arimaRegular',
@@ -56,12 +55,12 @@ export const PdfTemp0010 = ({
       boxCSS.current = styles.page;
     }
   }
-
-  const quill = useRef(null);
-  const getQuill = quillIns => {
-    quill.current = quillIns;
-  }; // quill.current will has all quill's API：https://quilljs.com/docs/api/
-  console.log({ result: patientReports?.patientResultList });
+  const html = content => `<html>
+  <body>
+    ${content}
+  </body>
+</html>
+`;
 
   return (
     <>
@@ -70,18 +69,19 @@ export const PdfTemp0010 = ({
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
-        <PdfSmall
-          style={{
-            padding: 10,
-            color: '#000000',
-          }}
-        >
-          <RichTextEditor
-            modules={{ table: {}, codeHighlight: true }}
-            getQuill={getQuill}
-            content={'<h1>Hello quill-react-commercial!</h1>'}
-          />
-        </PdfSmall>
+        {patientReports?.patientResultList?.map(item => (
+          <PdfSmall
+            style={{
+              padding: 10,
+              color: '#000000',
+            }}
+          >
+            {/* <Html>{JSON.parse(item.result).result}</Html> */}
+            {/* {JSON.parse(item.result).result} */}
+            <Html>{html(JSON.parse(item.result).result)}</Html>
+          </PdfSmall>
+        ))}
+
         <PdfPageNumber
           style={{ textAlign: 'center', right: '45%' }}
           bottom={100}

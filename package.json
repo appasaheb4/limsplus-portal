@@ -71,6 +71,7 @@
     "numeral": "2.0.6",
     "print-js": "1.6.0",
     "quill-better-table": "^1.2.10",
+    "quill-delta-to-html": "^0.12.1",
     "quill-react-commercial": "^1.5.9",
     "react": "18.2.0",
     "react-accessible-accordion": "4.0.0",
