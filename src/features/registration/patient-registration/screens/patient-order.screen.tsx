@@ -68,12 +68,55 @@ export const PatientOrder = PatientOrderHoc(
     const [modalAddPanel, setModalAddPanel] = useState({});
 
     useEffect(() => {
-      if (patientRegistrationStore.defaultValues.isPatientFormOpen) {
+      if (
+        patientRegistrationStore.defaultValues.isPatientFormOpen &&
+        patientVisitStore.listPatientVisit?.length == 1
+      ) {
         setHideInputView(
           !patientRegistrationStore.defaultValues.isPatientFormOpen,
         );
+        const item = patientVisitStore.listPatientVisit[0];
+        setIsPrintPrimaryBarcod(item?.isPrintPrimaryBarcod || false);
+        setValue('labId', item?.labId + ' - ' + item.patientName);
+        patientOrderStore.updatePatientOrder({
+          ...patientOrderStore.patientOrder,
+          pId: item?.pId,
+          visitId: item.visitId,
+          labId: item.labId as any,
+          rLab: item.rLab,
+          patientName: item.patientName,
+          age: item?.age,
+          ageUnits: item?.ageUnits,
+        });
+        patientVisitStore.updatePatientVisitList(
+          patientVisitStore.listPatientVisitCopy,
+        );
+        if (item.labId)
+          patientOrderStore.patientOrderService
+            .checkExistsRecords({
+              input: {
+                filter: {
+                  fildes: {
+                    labId: item.labId,
+                    documentType: 'patientOrder',
+                  },
+                },
+              },
+            })
+            .then(res => {
+              if (res.checkExistsRecordsPatientOrder.success) {
+                patientOrderStore.updateExistsRecords(true);
+                Toast.error({
+                  message: `😔 ${res.checkExistsRecordsPatientOrder.message}`,
+                });
+              } else patientOrderStore.updateExistsRecords(false);
+            });
       }
-    }, [patientRegistrationStore.defaultValues.isPatientFormOpen]);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+      patientRegistrationStore.defaultValues.isPatientFormOpen,
+      patientVisitStore.listPatientVisit,
+    ]);
 
     useEffect(() => {
       // Default value initialization
