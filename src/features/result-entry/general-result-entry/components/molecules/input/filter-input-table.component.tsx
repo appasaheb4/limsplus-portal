@@ -8,7 +8,7 @@ import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import _ from 'lodash';
 import { useForm, Controller } from 'react-hook-form';
-import { Icons } from '@/library/components';
+import { Icons, Form } from '@/library/components';
 
 export const FilterInputTable = observer(() => {
   const {
@@ -38,22 +38,25 @@ export const FilterInputTable = observer(() => {
   return (
     <div
       className='flex flex-row gap-2 items-center '
-      style={{ minWidth: '500px' }}
+      style={{ minWidth: '100px' }}
     >
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white ' style={{ minWidth: 190 }}>
+            <th className='text-white ' style={{ width: '50px' }}>
               PLab
             </th>
-            <th className='text-white' style={{ minWidth: 190 }}>
+            <th className='text-white' style={{ width: '100px' }}>
               Department
             </th>
-            <th className='text-white' style={{ minWidth: 190 }}>
+            <th className='text-white' style={{ width: '100px' }}>
               Test Code / Name
             </th>
-            <th className='text-white' style={{ minWidth: 190 }}>
+            <th className='text-white' style={{ width: '50px' }}>
               LabId
+            </th>
+            <th className='text-white' style={{ width: '100px' }}>
+              Patient Name
             </th>
           </tr>
         </thead>
@@ -387,6 +390,26 @@ export const FilterInputTable = observer(() => {
                   <Icons.Iconai.AiFillCloseCircle />
                 </Icons.IconContext>
               </div>
+            </td>
+
+            <td>
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <Form.Input
+                    // label='Age From'
+                    type='text'
+                    placeholder='Search Patient Name..'
+                    value={value?.toString()}
+                    onChange={patientName => {
+                      onChange(patientName);
+                    }}
+                  />
+                )}
+                name='patientName'
+                rules={{ required: false }}
+                defaultValue=''
+              />
             </td>
           </tr>
         </tbody>

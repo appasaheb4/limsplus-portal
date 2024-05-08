@@ -236,35 +236,35 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               dataField: 'deliveryStatus',
               text: 'Delivery Status',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader',
-              filter: textFilter({
-                placeholder: 'Delivery Status',
-                getFilter: filter => {
-                  deliveryStatus = filter;
-                },
-              }),
+              // headerClasses: 'textHeader',
+              // filter: textFilter({
+              //   placeholder: 'Delivery Status',
+              //   getFilter: filter => {
+              //     deliveryStatus = filter;
+              //   },
+              // }),
             },
             {
               dataField: 'reportType',
               text: 'Report Type',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader',
-              filter: textFilter({
-                placeholder: 'Report Type',
-                getFilter: filter => {
-                  reportType = filter;
-                },
-              }),
+              // headerClasses: 'textHeader',
+              // filter: textFilter({
+              //   placeholder: 'Report Type',
+              //   getFilter: filter => {
+              //     reportType = filter;
+              //   },
+              // }),
             },
             {
               dataField: 'reportPriority',
@@ -294,6 +294,110 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                   </div>
                 );
               },
+            },
+            {
+              dataField: 'clientCode',
+              text: 'Client Code - Name',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+              headerClasses: 'textHeader',
+              filter: textFilter({
+                placeholder: 'Client Code - Name',
+                getFilter: filter => {
+                  clientCode = filter;
+                },
+              }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return (
+                  <span title={`${row.clientCode} - ${row.clientName}`}>
+                    {cellContent} - {row.clientName}
+                  </span>
+                );
+              },
+            },
+            {
+              dataField: 'registrationLocationCode',
+              text: 'Registration Location Code - Name',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+              headerClasses: 'textHeader',
+              filter: textFilter({
+                placeholder: 'Registration Location Code - Name',
+                getFilter: filter => {
+                  registrationLocationCode = filter;
+                },
+              }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => {
+                return (
+                  <span
+                    title={`${row.registrationLocationCode} - ${row.registrationLocation}`}
+                  >
+                    {cellContent} - {row.registrationLocation}
+                  </span>
+                );
+              },
+            },
+            {
+              dataField: 'doctorCode',
+              text: 'Doctor Code',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+              headerClasses: 'textHeader',
+              filter: textFilter({
+                placeholder: 'Doctor Code',
+                getFilter: filter => {
+                  doctorCode = filter;
+                },
+              }),
+            },
+            {
+              dataField: 'doctorName',
+              text: 'Doctor Name',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+              headerClasses: 'textHeader',
+              filter: textFilter({
+                placeholder: 'Doctor Name',
+                getFilter: filter => {
+                  doctorName = filter;
+                },
+              }),
             },
             {
               dataField: 'destination',
@@ -401,110 +505,6 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 placeholder: 'Error Msg',
                 getFilter: filter => {
                   errorMsg = filter;
-                },
-              }),
-            },
-            {
-              dataField: 'clientCode',
-              text: 'Client Code - Name',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              headerClasses: 'textHeader',
-              filter: textFilter({
-                placeholder: 'Client Code - Name',
-                getFilter: filter => {
-                  clientCode = filter;
-                },
-              }),
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '250px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return (
-                  <span title={`${row.clientCode} - ${row.clientName}`}>
-                    {cellContent} - {row.clientName}
-                  </span>
-                );
-              },
-            },
-            {
-              dataField: 'registrationLocationCode',
-              text: 'Registration Location Code - Name',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              headerClasses: 'textHeader',
-              filter: textFilter({
-                placeholder: 'Registration Location Code - Name',
-                getFilter: filter => {
-                  registrationLocationCode = filter;
-                },
-              }),
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '250px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return (
-                  <span
-                    title={`${row.registrationLocationCode} - ${row.registrationLocation}`}
-                  >
-                    {cellContent} - {row.registrationLocation}
-                  </span>
-                );
-              },
-            },
-            {
-              dataField: 'doctorCode',
-              text: 'Doctor Code',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              headerClasses: 'textHeader',
-              filter: textFilter({
-                placeholder: 'Doctor Code',
-                getFilter: filter => {
-                  doctorCode = filter;
-                },
-              }),
-            },
-            {
-              dataField: 'doctorName',
-              text: 'Doctor Name',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              headerClasses: 'textHeader',
-              filter: textFilter({
-                placeholder: 'Doctor Name',
-                getFilter: filter => {
-                  doctorName = filter;
                 },
               }),
             },

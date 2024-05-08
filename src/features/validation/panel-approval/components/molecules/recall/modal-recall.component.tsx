@@ -32,19 +32,29 @@ export const ModalRecall = observer(
       <Container>
         {showModal && (
           <>
-            <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+            <div className='justify-center items-center   fixed inset-0 z-50 outline-none focus:outline-none'>
               <div className='relative w-auto my-6 mx-auto max-w-3xl'>
                 {/*content*/}
                 <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                   {/*header*/}
                   <div></div>
                   <div className='flex  flex-col  justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                    <div className='flex'>
+                    <div className='flex justify-between'>
                       <h4 className='font-semibold text-lg'>Recall</h4>
+                      <Form.Input
+                        // label='Age From'
+                        type='text'
+                        placeholder='Search Patient Name'
+                        value={''}
+                        onChange={ageFrom => {}}
+                      />
                     </div>
                   </div>
                   {/*body*/}
-                  <div className='relative p-2 flex-auto'>
+                  <div
+                    className='relative p-2 flex-auto'
+                    style={{ height: '50vh', overflowX: 'scroll' }}
+                  >
                     <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
                       <thead className='text-xs text-white uppercase '>
                         <tr>
