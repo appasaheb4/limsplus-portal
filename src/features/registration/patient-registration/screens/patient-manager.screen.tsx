@@ -108,6 +108,10 @@ export const PatientManager = PatientManagerHoc(
                 patientManagerStore.patientManger?.breed === null
                   ? undefined
                   : patientManagerStore.patientManger?.breed,
+              middleName:
+                patientManagerStore.patientManger?.middleName === ''
+                  ? undefined
+                  : patientManagerStore.patientManger?.middleName,
             },
           })
           .then(res => {
@@ -237,7 +241,7 @@ export const PatientManager = PatientManagerHoc(
           }
         });
     };
-
+    console.log({ input: patientManagerStore.patientManger });
     return (
       <>
         <div

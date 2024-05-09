@@ -415,7 +415,7 @@ export const GeneralResultEntryExpand = ({
           {props => (
             <div>
               <div className='flex flex-row items-center flex-wrap justify-between'>
-                <div className='w-2/3 flex align-middle items-center'>
+                <div className='w-3/4 flex align-middle items-center'>
                   <div className='mt-2'>
                     <SearchBar
                       // {...searchProps}
