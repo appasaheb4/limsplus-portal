@@ -2612,6 +2612,11 @@
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
 
+"@react-pdf-viewer/core@^3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@react-pdf-viewer/core/-/core-3.12.0.tgz#40dc9bee5bce5281cd9ea62d958e4169b500fa14"
+  integrity sha512-8MsdlQJ4jaw3GT+zpCHS33nwnvzpY0ED6DEahZg9WngG++A5RMhk8LSlxdHelwaFFHFiXBjmOaj2Kpxh50VQRg==
+
 "@react-pdf/fns@2.0.1":
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/@react-pdf/fns/-/fns-2.0.1.tgz#8948464044fc8a69975d9d07b1a12673377b72e2"
