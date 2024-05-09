@@ -199,12 +199,14 @@ export const Result = observer((props: ResultProps) => {
                   <>
                     <div className='flex flex-row gap-2'>
                       <span>
-                        {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
-                        (row.loNor === ' ' && row.hiNor === ' ')
+                        {Number.isNaN(Number.parseFloat(row.loNor)) &&
+                        Number.isNaN(Number.parseFloat(row.hiNor))
                           ? '-'
-                          : row.loNor === 'NaN' && row.hiNor === ' '
+                          : Number.isNaN(Number.parseFloat(row.loNor)) &&
+                            !Number.isNaN(Number.parseFloat(row.hiNor))
                           ? '<'
-                          : row.loNor === ' ' && row.hiNor === 'NaN'
+                          : !Number.isNaN(Number.parseFloat(row.loNor)) &&
+                            Number.isNaN(Number.parseFloat(row.hiNor))
                           ? '>'
                           : row.loNor + '-' + row.hiNor}
                       </span>
