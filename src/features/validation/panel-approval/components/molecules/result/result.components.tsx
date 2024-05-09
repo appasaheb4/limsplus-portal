@@ -202,13 +202,11 @@ export const Result = observer((props: ResultProps) => {
                         {Number.isNaN(Number.parseFloat(row.loNor)) &&
                         Number.isNaN(Number.parseFloat(row.hiNor))
                           ? '-'
-                          : Number.isNaN(Number.parseFloat(row.loNor)) &&
-                            !Number.isNaN(Number.parseFloat(row.hiNor))
-                          ? '<'
-                          : !Number.isNaN(Number.parseFloat(row.loNor)) &&
-                            Number.isNaN(Number.parseFloat(row.hiNor))
-                          ? '>'
-                          : row.loNor + '-' + row.hiNor}
+                          : Number.isNaN(Number.parseFloat(row.loNor))
+                          ? `${row.hiNor} - >`
+                          : Number.isNaN(Number.parseFloat(row.hiNor))
+                          ? `< - ${row.loNor}`
+                          : `${row.loNor} - ${row.hiNor}`}
                       </span>
                       <div>
                         {row.refRangesList?.length > 0 && (
