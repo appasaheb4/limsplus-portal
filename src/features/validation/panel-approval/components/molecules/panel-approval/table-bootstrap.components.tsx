@@ -102,7 +102,7 @@ export const TableBootstrap = ({
     { code: 'ReTest', value: 'Retest', color: 'orange' },
     { code: 'Hold', value: 'Hold', color: 'indigo' },
     { code: 'All', value: 'All', color: 'red' },
-    { code: 'ReCall', value: 'Recall', color: 'gray' },
+    // { code: 'ReCall', value: 'Recall', color: 'gray' },
   ];
 
   const sizePerPageRenderer = ({
@@ -452,6 +452,12 @@ export const TableBootstrap = ({
                       ))}
                     </div>
                   </div>
+                  <button
+                    className={`px-3.5 py-2 bg-gray-600 text-white rounded`}
+                    onClick={() => onFilterRecord?.('ReCall')}
+                  >
+                    Recall
+                  </button>
                   <Tooltip tooltipText={'Filter on Validation Level'}>
                     <UncontrolledDropdown>
                       <DropdownToggle tag='a'>
