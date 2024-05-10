@@ -4,7 +4,6 @@ import { PdfPageNumber, PdfView, PdfFooterView, PdfImage } from '@components';
 import { Header } from '../../common/geneflow-lab/pdf-header.component';
 import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
-import { PdfSmall } from '@/library/components';
 import Html from 'react-pdf-html';
 
 Font.register({
@@ -56,11 +55,35 @@ export const PdfTemp0010 = ({
     }
   }
   const html = content => `<html>
-  <body>
-  <iframe src="https://limsplussolutions.blob.core.windows.net/delivery-queue/Report.pdf" title="W3Schools Free Online Web Tutorials"></iframe>
-  </body>
-</html>
-`;
+    <body>
+        ${content}
+    </body>
+  </html>
+  `;
+
+  const stylesheet = {
+    body: {
+      fontSize: '12',
+    },
+    p: {
+      margin: 0,
+    },
+    table: {
+      border: '1px solid !important',
+      marginTop: 4,
+      marginBottom: 4,
+    },
+    td: {
+      padding: 2,
+    },
+    strong: {
+      fontWeight: 'bold !important',
+    },
+  };
+
+  console.log({
+    details: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+  });
 
   return (
     <>
@@ -69,12 +92,13 @@ export const PdfTemp0010 = ({
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
-
         {patientReports?.patientResultList?.map(item => (
-          <Html>{html(JSON.parse(item.result).result)}</Html>
+          <>
+            <Html stylesheet={stylesheet}>
+              {html(JSON.parse(item.result).result)}
+            </Html>
+          </>
         ))}
-        {/* <PdfImage src='' style={{ width: 150, height: 40 }} /> */}
-
         <PdfPageNumber
           style={{ textAlign: 'center', right: '45%' }}
           bottom={100}
