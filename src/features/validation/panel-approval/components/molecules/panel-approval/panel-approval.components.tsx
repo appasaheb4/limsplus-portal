@@ -6,12 +6,20 @@ import {
   NumberFilter,
   sortCaret,
   customFilter,
+  textFilter,
 } from '@/library/components';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 
 import { TableBootstrap } from './table-bootstrap.components';
 import { useStores } from '@/stores';
+import {
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+} from 'reactstrap';
+import { ArrowRight } from 'react-feather';
 
 interface PanelApprovalListProps {
   data: any;
@@ -44,6 +52,9 @@ interface PanelApprovalListProps {
 }
 
 let labId;
+let pLab;
+let patientName;
+let department;
 
 export const PanelApprovalList = (props: PanelApprovalListProps) => {
   const { loginStore } = useStores();
@@ -119,11 +130,48 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               text: 'Panel',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderl',
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.panel}</span>;
+              headerClasses: 'textHeader',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
               },
+              formatter: (cellContent, row) => (
+                <span title={row[1][0]?.panel}>{row[1][0]?.panel}</span>
+              ),
             },
+            {
+              dataField: 'patientName',
+              text: 'Patient Name',
+              sort: true,
+              editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
+              headerClasses: 'textHeader',
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Patient Name',
+                getFilter: filter => {
+                  patientName = filter;
+                },
+              }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row[1][0].name}>{row[1][0].name}</span>
+              ),
+            },
+
             {
               dataField: 'validationLevel',
               text: 'Validation Level',
@@ -161,6 +209,74 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                 </>
               ),
             },
+
+            {
+              dataField: 'approvalStatus',
+              text: 'Approval Status',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.approvalStatus}</span>;
+              },
+            },
+
+            {
+              dataField: 'pLab',
+              text: 'PLab',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeader',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Plab',
+                getFilter: filter => {
+                  pLab = filter;
+                },
+              }),
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.pLab}</span>;
+              },
+            },
+            {
+              dataField: 'department',
+              text: 'Department',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeader',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Department',
+                getFilter: filter => {
+                  department = filter;
+                },
+              }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cell, row) => {
+                return <span title={row[1][0]?.department}>{cell}</span>;
+              },
+            },
+            {
+              dataField: 'comments',
+              text: 'Comments',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.comments}</span>;
+              },
+            },
             {
               dataField: 'dueDate',
               text: 'Due Date',
@@ -174,45 +290,10 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
             },
             {
               dataField: 'approvalStatus',
-              text: 'Approval Status',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.approvalStatus}</span>;
-              },
-            },
-            {
-              dataField: 'comments',
-              text: 'Comments',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.comments}</span>;
-              },
-            },
-            {
-              dataField: 'pLab',
-              text: 'PLab',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.pLab}</span>;
-              },
-            },
-            {
-              dataField: 'department',
-              text: 'Department',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.department}</span>;
-              },
-            },
-            {
-              dataField: 'approvalStatus',
               text: 'Action',
               sort: true,
               editable: false,
+
               formatter: (cellContent, row) => (
                 <div className='flex flex-row gap-1' key={row[1][0]?._id}>
                   {props?.isApproval &&
@@ -354,7 +435,33 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                     </Tooltip>
                   )}
                   <Tooltip tooltipText='Upgrade'>
-                    <select
+                    <UncontrolledDropdown>
+                      <DropdownToggle tag='a'>
+                        <ArrowRight color='#fff' />
+                      </DropdownToggle>
+                      <DropdownMenu right>
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                          .filter(
+                            item => item > loginStore.login.validationLevel,
+                          )
+                          .map((item: any, index: number) => (
+                            <DropdownItem
+                              onClick={() => {
+                                props.onUpdateFields &&
+                                  props.onUpdateFields(
+                                    {
+                                      validationLevel: Number.parseInt(item),
+                                    },
+                                    [row[1][0]._id],
+                                  );
+                              }}
+                            >
+                              {item}
+                            </DropdownItem>
+                          ))}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                    {/* <select
                       value={row[1][0].validationLevel}
                       disabled={!row[1][0]?.isResultUpdate}
                       className={
@@ -376,15 +483,13 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                         Select
                       </option>
                       {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                        .filter(
-                          item => item >= loginStore.login.validationLevel,
-                        )
+                        .filter(item => item > loginStore.login.validationLevel)
                         .map((item: any, index: number) => (
                           <option key={index} value={item}>
                             {item}
                           </option>
                         ))}
-                    </select>
+                    </select> */}
                   </Tooltip>
                 </div>
               ),

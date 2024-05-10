@@ -306,60 +306,57 @@ export const Result = observer((props: ResultProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 row?.isResultUpdate,
               formatter: (cell, row) => {
-                return <span>{row?.conclusion?.toString()}</span>;
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <div className='flex flex-col'>
-                  <Tooltip
-                    tooltipText={
-                      row._id != conclusionId ? 'Expand' : 'Collapse'
-                    }
-                  >
-                    <Icons.IconContext
-                      color='#000000'
-                      size='20'
-                      onClick={() => {
-                        if (row._id === conclusionId) {
-                          setWidthConculsionId('');
-                          setWidthConculsionBox('30px');
-                        } else {
-                          setWidthConculsionId(row._id);
-                          setWidthConculsionBox('200px');
-                        }
-                      }}
-                    >
-                      {Icons.getIconTag(
-                        row._id != conclusionId
-                          ? Icons.IconBi.BiExpand
-                          : Icons.IconBi.BiCollapse,
-                      )}
-                    </Icons.IconContext>
-                  </Tooltip>
-                  {row._id === conclusionId && (
-                    <div style={{ width: widthConculsionBox }}>
-                      <Form.MultilineInput
-                        rows={3}
-                        placeholder='Conclusion'
-                        className='text-black'
-                        onBlur={conclusion => {
-                          props.onUpdateFields &&
-                            props.onUpdateFields({ conclusion }, row._id);
-                          setWidthConculsionId('');
-                          setWidthConculsionBox('30px');
-                        }}
-                        defaultValue={row?.conclusion}
-                      />
+                return (
+                  <>
+                    <div className='flex justify-between flex-row gap-2'>
+                      <span>{row?.conclusion?.toString()}</span>
+                      <div className='flex flex-col'>
+                        <Tooltip
+                          tooltipText={
+                            row._id != conclusionId ? 'Expand' : 'Collapse'
+                          }
+                        >
+                          <Icons.IconContext
+                            color='#000000'
+                            size='20'
+                            onClick={() => {
+                              if (row._id === conclusionId) {
+                                setWidthConculsionId('');
+                                setWidthConculsionBox('30px');
+                              } else {
+                                setWidthConculsionId(row._id);
+                                setWidthConculsionBox('200px');
+                              }
+                            }}
+                          >
+                            {Icons.getIconTag(
+                              row._id != conclusionId
+                                ? Icons.IconBi.BiExpand
+                                : Icons.IconBi.BiCollapse,
+                            )}
+                          </Icons.IconContext>
+                        </Tooltip>
+                        {row._id === conclusionId && (
+                          <div style={{ width: widthConculsionBox }}>
+                            <Form.MultilineInput
+                              rows={3}
+                              placeholder='Conclusion'
+                              className='text-black'
+                              onBlur={conclusion => {
+                                props.onUpdateFields &&
+                                  props.onUpdateFields({ conclusion }, row._id);
+                                setWidthConculsionId('');
+                                setWidthConculsionBox('30px');
+                              }}
+                              defaultValue={row?.conclusion}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
-              ),
+                  </>
+                );
+              },
             },
             {
               dataField: 'sampleType',

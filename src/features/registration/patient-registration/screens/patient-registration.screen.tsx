@@ -341,22 +341,21 @@ const PatientRegistration = observer(({ sidebar }) => {
                 />
               </div>
             </Tooltip>
-            {patientRegistrationStore.filterOptionList.labIds?.length === 0 && (
-              <Buttons.Button
-                size='medium'
-                type='solid'
-                onClick={() => {
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    accordionExpandItem: 'PATIENT MANAGER',
-                    isPatientFormOpen: true,
-                  });
-                }}
-              >
-                <Icons.EvaIcon icon='plus-circle-outline' />
-                Add
-              </Buttons.Button>
-            )}
+
+            <Buttons.Button
+              size='medium'
+              type='solid'
+              onClick={() => {
+                patientRegistrationStore.updateDefaultValue({
+                  ...patientRegistrationStore.defaultValues,
+                  accordionExpandItem: 'PATIENT MANAGER',
+                  isPatientFormOpen: true,
+                });
+              }}
+            >
+              <Icons.EvaIcon icon='plus-circle-outline' />
+              Add
+            </Buttons.Button>
           </div>
           <div className='grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4'>
             {patientManagerStore.listPatientManger?.map(item => (

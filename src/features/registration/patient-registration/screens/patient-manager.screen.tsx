@@ -66,6 +66,7 @@ export const PatientManager = PatientManagerHoc(
         setHideInputView(
           !patientRegistrationStore.defaultValues.isPatientFormOpen,
         );
+       
       }
     }, [patientRegistrationStore.defaultValues.isPatientFormOpen]);
 

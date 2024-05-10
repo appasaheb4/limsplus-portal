@@ -19,6 +19,13 @@ import { Buttons, Icons, Tooltip } from '@/library/components';
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 import { Result } from '../result/result.components';
+import {
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+} from 'reactstrap';
+import { useStores } from '@/stores';
 
 interface TableBootstrapProps {
   id: string;
@@ -80,6 +87,7 @@ export const TableBootstrap = ({
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = useState([0, 1]);
+  const { loginStore } = useStores();
 
   useEffect(() => {
     setTimeout(() => {
@@ -442,10 +450,36 @@ export const TableBootstrap = ({
                           {status.value}
                         </button>
                       ))}
+                      <Tooltip tooltipText={'Upgrade'}>
+                        <UncontrolledDropdown>
+                          <DropdownToggle tag='a'>
+                            <button
+                              className={`px-3.5 py-2 bg-blue-600 text-white rounded`}
+                              onClick={() => {}}
+                            >
+                              Upgrade
+                            </button>
+                          </DropdownToggle>
+                          <DropdownMenu right>
+                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                              .filter(
+                                item =>
+                                  item <= loginStore.login.validationLevel,
+                              )
+                              .map((item: any, index: number) => (
+                                <DropdownItem onClick={() => {}}>
+                                  {item}
+                                </DropdownItem>
+                              ))}
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </Tooltip>
                     </div>
                   </div>
                   <div className='flex bg-blue-700 w-10 h-10 rounded-full justify-center items-center text-xl'>
-                    <span className='text-white'>{totalSize}</span>
+                    <Tooltip tooltipText='Total Pending Count'>
+                      <span className='text-white'>{totalSize}</span>
+                    </Tooltip>
                   </div>
                 </div>
                 {isFilterOpen && (
