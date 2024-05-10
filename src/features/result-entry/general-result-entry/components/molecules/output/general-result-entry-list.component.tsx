@@ -13,7 +13,6 @@ import {
   getAbnFlag,
   getCretical,
 } from '../../../utils';
-import { icons } from '@/library/assets';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 
 interface GeneralResultEntryListProps {
@@ -201,7 +200,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       }}
                     />
                   ) : (
-                    <span>{row.result}</span>
+                    <span style={{ fontWeight: 'bold' }}>{row.result}</span>
                   )}
                 </>
               ),
