@@ -386,8 +386,8 @@ export const TableBootstrap = ({
             {props => (
               <div>
                 <div className='flex flex-row items-center flex-wrap justify-between'>
-                  <div className='flex flex-row items-center flex-wrap'>
-                    <div className='mt-2'>
+                  <div className='flex w-[900px] flex-row items-center flex-wrap'>
+                    <div className='mt-2 w-[150px]'>
                       <SearchBar
                         {...searchProps}
                         {...props.searchProps}
@@ -452,8 +452,7 @@ export const TableBootstrap = ({
                       ))}
                     </div>
                   </div>
-
-                  <div className='flex bg-blue-700 w-10 h-10 rounded-full justify-center items-center text-xl'>
+                  <div className='flex justify-between gap-1'>
                     <button
                       className={`px-3.5 py-2 bg-gray-600 text-white rounded`}
                       onClick={() => onFilterRecord?.('ReCall')}
@@ -470,7 +469,10 @@ export const TableBootstrap = ({
                             Upgrade
                           </button>
                         </DropdownToggle>
-                        <DropdownMenu right>
+                        <DropdownMenu
+                          right
+                          style={{ minWidth: '3rem !important' }}
+                        >
                           {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                             .filter(
                               item => item <= loginStore.login.validationLevel,
@@ -483,9 +485,11 @@ export const TableBootstrap = ({
                         </DropdownMenu>
                       </UncontrolledDropdown>
                     </Tooltip>
-                    <Tooltip tooltipText='Total Pending Validation'>
-                      <span className='text-white'>{totalSize}</span>
-                    </Tooltip>
+                    <div className=' bg-blue-700 w-10 flex justify-center items-center h-10 rounded-full  text-xl'>
+                      <Tooltip tooltipText='Total Pending Validation'>
+                        <span className='text-white'>{totalSize}</span>
+                      </Tooltip>
+                    </div>
                   </div>
                 </div>
                 {isFilterOpen && (

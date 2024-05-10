@@ -173,16 +173,6 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
             },
 
             {
-              dataField: 'approvalStatus',
-              text: 'Approval Status',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.approvalStatus}</span>;
-              },
-            },
-
-            {
               dataField: 'pLab',
               text: 'PLab',
               sort: true,
@@ -228,6 +218,15 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               },
               formatter: (cell, row) => {
                 return <span title={row[1][0]?.department}>{cell}</span>;
+              },
+            },
+            {
+              dataField: 'approvalStatus',
+              text: 'Approval Status',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.approvalStatus}</span>;
               },
             },
             {
