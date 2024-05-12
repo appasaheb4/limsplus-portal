@@ -510,7 +510,7 @@ export const GeneralResultEntryExpand = ({
                   </div>
                 </>
               )}
-              <div className='scrollTable'>
+              <div className='scrollTable h-[calc(100vh_-_30vh)] mt-1'>
                 <BootstrapTable
                   keyField='_id'
                   remote

@@ -103,7 +103,6 @@ export const ModalRecall = observer(
                                         onClick={() => {
                                           onRecall(item);
                                           setShowModal(false);
-                                          onClose();
                                         }}
                                         tooltip='ReCall'
                                       />
@@ -115,7 +114,7 @@ export const ModalRecall = observer(
                                         }
                                       >
                                         <Icons.IconContext
-                                          color='#fff'
+                                          color='#000'
                                           size='20'
                                           onClick={() => {
                                             setSelectedRowId(
@@ -135,7 +134,7 @@ export const ModalRecall = observer(
                                     </td>
                                   ) : thI?.dataField === 'approvalDate' ? (
                                     <td className='p-2' key={i}>
-                                      {dayjs(item.approvalDate).format(
+                                      {dayjs(item[thI?.dataField]).format(
                                         'DD-MM-YYYY HH:mm:ss',
                                       )}
                                     </td>
@@ -165,6 +164,19 @@ export const ModalRecall = observer(
                     </table>
                   </div>
                   {/*footer*/}
+                  <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>
+                    <button
+                      className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
+                      type='button'
+                      style={{ transition: 'all .15s ease' }}
+                      onClick={() => {
+                        setShowModal(false);
+                        onClose();
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

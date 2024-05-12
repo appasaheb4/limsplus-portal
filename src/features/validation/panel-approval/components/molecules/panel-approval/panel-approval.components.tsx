@@ -10,16 +10,16 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-
+import { GiUpgrade } from 'react-icons/gi';
 import { TableBootstrap } from './table-bootstrap.components';
 import { useStores } from '@/stores';
+import { CiNoWaitingSign } from 'react-icons/ci';
 import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   UncontrolledDropdown,
 } from 'reactstrap';
-import { ArrowUp } from 'react-feather';
 
 interface PanelApprovalListProps {
   data: any;
@@ -309,7 +309,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                         >
                           {row[1][0]?.approvalStatus == 'Hold'
                             ? Icons.getIconTag(Icons.Iconmd.MdOutlinePending)
-                            : Icons.getIconTag(Icons.Iconmd.MdBackHand)}
+                            : Icons.getIconTag(Icons.IconsCi.CiNoWaitingSign)}
                         </Icons.IconContext>
                       </Tooltip>
                       <Tooltip tooltipText='Recheck'>
@@ -398,7 +398,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                   <Tooltip tooltipText='Upgrade Validation Level'>
                     <UncontrolledDropdown>
                       <DropdownToggle tag='a'>
-                        <ArrowUp color='#fff' />
+                        <GiUpgrade />
                       </DropdownToggle>
                       <DropdownMenu right>
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]

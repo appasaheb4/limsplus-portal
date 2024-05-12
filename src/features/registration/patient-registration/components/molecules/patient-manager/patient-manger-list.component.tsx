@@ -20,6 +20,7 @@ import { FormHelper } from '@/helper';
 import { useForm, Controller } from 'react-hook-form';
 import { getDiffByDate, getAgeByAgeObject } from '../../../utils';
 import { dateAvailableUnits } from '@/core-utils';
+import { TiFlowChildren } from 'react-icons/ti';
 
 interface PatientMangerProps {
   data: any;
@@ -904,7 +905,10 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row'>
+                  <div className='flex flex-row gap-2'>
+                    <Tooltip tooltipText='Traceability'>
+                      <TiFlowChildren color='#fff' size='20' />
+                    </Tooltip>
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext

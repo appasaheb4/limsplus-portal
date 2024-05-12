@@ -10,6 +10,7 @@ import {
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { PatientOrderExpand } from './patient-order-expand.component';
+import { TiFlowChildren } from 'react-icons/ti';
 
 interface PatientOrderListProps {
   data: any;
@@ -272,19 +273,8 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                         {Icons.getIconTag(Icons.Iconai.AiOutlineBarcode)}
                       </Icons.IconContext>
                     </Tooltip>
-                    <Tooltip tooltipText='See History'>
-                      <Icons.IconContext
-                        color='#fff'
-                        size='20'
-                        onClick={() => {}}
-                      >
-                        <Icons.RIcon
-                          nameIcon='TbBrandSpeedtest'
-                          propsIcon={{
-                            color: '#ffffff',
-                          }}
-                        />
-                      </Icons.IconContext>
+                    <Tooltip tooltipText='Traceability'>
+                      <TiFlowChildren color='#fff' size='20' />
                     </Tooltip>
                   </div>
                 </>

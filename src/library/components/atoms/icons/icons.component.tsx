@@ -27,6 +27,7 @@ import * as Iconhi from 'react-icons/hi';
 import * as IconBi from 'react-icons/bi';
 import * as IconTb from 'react-icons/tb';
 import * as IconsFa from 'react-icons/fa';
+import * as IconsCi from 'react-icons/ci';
 
 export interface IconsProps {
   size?: string;
@@ -79,6 +80,7 @@ export {
   IconBi,
   IconTb,
   IconsFa,
+  IconsCi,
 };
 
 export const getIcons = (icon: string): any => {

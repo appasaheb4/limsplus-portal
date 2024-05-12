@@ -6,9 +6,11 @@ import {
   Form,
   customFilter,
   sortCaret,
+  Tooltip,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
+import { TiFlowChildren } from 'react-icons/ti';
 
 interface PatientSampleProps {
   data: any;
@@ -373,6 +375,31 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               // headerClasses: 'textHeader4',
               sort: true,
               editable: false,
+            },
+            {
+              dataField: 'operation',
+              text: 'Action',
+              editable: false,
+              csvExport: false,
+              // hidden: !props.isDelete,
+              formatter: (cellContent, row) => (
+                <>
+                  <div className='flex flex-row gap-2'>
+                    <Tooltip tooltipText='Traceability'>
+                      <TiFlowChildren color='#fff' size='20' />
+                    </Tooltip>
+                  </div>
+                </>
+              ),
+              headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
+              classes: (cell, row, rowIndex, colIndex) => {
+                return 'sticky right-0 bg-gray-500';
+              },
+              style: (cell, row, rowIndex, colIndex) => {
+                return {
+                  zIndex: props.data?.length - rowIndex,
+                };
+              },
             },
           ]}
           isDelete={props.isDelete}

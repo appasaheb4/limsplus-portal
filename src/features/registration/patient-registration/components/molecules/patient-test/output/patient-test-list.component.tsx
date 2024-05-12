@@ -5,10 +5,12 @@ import {
   customFilter,
   Form,
   sortCaret,
+  Tooltip,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { PatientTestExpandPanel } from './patient-test-expand-panel.component';
 import dayjs from 'dayjs';
+import { TiFlowChildren } from 'react-icons/ti';
 
 interface PatientTestListProps {
   data: any;
@@ -431,6 +433,31 @@ export const PatientTestList = observer((props: PatientTestListProps) => {
                     <span>{row.extraData?.environment}</span>
                   </>
                 );
+              },
+            },
+            {
+              dataField: 'operation',
+              text: 'Action',
+              editable: false,
+              csvExport: false,
+              // hidden: !props.isDelete,
+              formatter: (cellContent, row) => (
+                <>
+                  <div className='flex flex-row gap-2'>
+                    <Tooltip tooltipText='Traceability'>
+                      <TiFlowChildren color='#fff' size='20' />
+                    </Tooltip>
+                  </div>
+                </>
+              ),
+              headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
+              classes: (cell, row, rowIndex, colIndex) => {
+                return 'sticky right-0 bg-gray-500';
+              },
+              style: (cell, row, rowIndex, colIndex) => {
+                return {
+                  zIndex: props.data?.length - rowIndex,
+                };
               },
             },
           ]}
