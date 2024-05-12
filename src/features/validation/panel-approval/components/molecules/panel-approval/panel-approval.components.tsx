@@ -286,7 +286,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                       <Tooltip
                         tooltipText={`${
                           row[1][0]?.approvalStatus == 'Hold'
-                            ? 'Pending'
+                            ? 'Unhold'
                             : 'Hold'
                         } `}
                       >

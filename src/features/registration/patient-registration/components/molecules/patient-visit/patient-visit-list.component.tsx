@@ -1371,6 +1371,20 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     )}
+                    <Tooltip tooltipText='See History'>
+                      <Icons.IconContext
+                        color='#fff'
+                        size='20'
+                        onClick={() => {}}
+                      >
+                        <Icons.RIcon
+                          nameIcon='TbBrandSpeedtest'
+                          propsIcon={{
+                            color: '#ffffff',
+                          }}
+                        />
+                      </Icons.IconContext>
+                    </Tooltip>
                   </div>
                 </>
               ),

@@ -56,7 +56,7 @@ export const Result = observer((props: ResultProps) => {
   const [conclusionId, setWidthConculsionId] = useState('');
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', zIndex: 0 }}>
         <TableBootstrap
           id='_id'
           data={props?.data}
