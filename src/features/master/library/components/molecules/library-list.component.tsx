@@ -16,6 +16,7 @@ import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { ModalDocxContent } from '@/core-components';
+import { FaWordpressSimple } from 'react-icons/fa';
 
 let code;
 let libraryCode;
@@ -436,9 +437,8 @@ export const LibraryList = (props: LibraryListProps) => {
                 return (
                   <>
                     <Tooltip tooltipText='Expand library detail'>
-                      <Icons.RIcon
-                        nameIcon='AiFillHtml5'
-                        propsIcon={{ size: 30 }}
+                      <FaWordpressSimple
+                        size={'30'}
                         onClick={() => {
                           setModalDocxContent({
                             visible: true,

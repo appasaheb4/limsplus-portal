@@ -308,8 +308,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                           }}
                         >
                           {row[1][0]?.approvalStatus == 'Hold'
-                            ? Icons.getIconTag(Icons.Iconmd.MdOutlinePending)
-                            : Icons.getIconTag(Icons.IconsCi.CiNoWaitingSign)}
+                            ? Icons.getIconTag(Icons.IconsCi.CiNoWaitingSign)
+                            : Icons.getIconTag(Icons.Iconmd.MdBackHand)}
                         </Icons.IconContext>
                       </Tooltip>
                       <Tooltip tooltipText='Recheck'>
