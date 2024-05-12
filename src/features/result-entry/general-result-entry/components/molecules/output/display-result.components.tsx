@@ -498,7 +498,7 @@ export const DisplayResult = observer(
                   setModalDocxContent({
                     visible: true,
                     details: row?.result,
-                    status: row?.finishResult == 'P' ? false : true,
+                    isEditable: row?.panelStatus == 'P' ? true : false,
                     _id: row?._id,
                   });
                 }}

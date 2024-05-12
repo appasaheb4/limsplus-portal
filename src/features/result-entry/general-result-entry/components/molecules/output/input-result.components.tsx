@@ -291,7 +291,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
                 setModalDocxContent({
                   visible: true,
                   details: row?.result,
-                  status: false,
+                  isEditable: row?.panelStatus == 'P' ? true : false,
                   _id: row?._id,
                 });
               }}

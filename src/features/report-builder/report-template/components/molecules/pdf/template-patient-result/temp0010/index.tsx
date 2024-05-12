@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
-import { Page, StyleSheet, Font } from '@react-pdf/renderer';
-import { PdfPageNumber, PdfView, PdfFooterView } from '@components';
+import { Page, StyleSheet, Font, Document } from '@react-pdf/renderer';
+import { PdfPageNumber, PdfView, PdfFooterView, PdfImage } from '@components';
 import { Header } from '../../common/geneflow-lab/pdf-header.component';
 import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
-import { PdfSmall } from '@/library/components';
 import Html from 'react-pdf-html';
 
 Font.register({
@@ -55,8 +54,36 @@ export const PdfTemp0010 = ({
       boxCSS.current = styles.page;
     }
   }
+  const html = content => `<html>
+    <body>
+        ${content}
+    </body>
+  </html>
+  `;
 
-  console.log({ result: patientReports?.patientResultList });
+  const stylesheet = {
+    body: {
+      fontSize: '12',
+    },
+    p: {
+      margin: 0,
+    },
+    table: {
+      border: '1px solid !important',
+      marginTop: 4,
+      marginBottom: 4,
+    },
+    td: {
+      padding: 2,
+    },
+    strong: {
+      fontWeight: 'bold !important',
+    },
+  };
+
+  console.log({
+    details: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+  });
 
   return (
     <>
@@ -65,14 +92,13 @@ export const PdfTemp0010 = ({
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
-        <PdfSmall
-          style={{
-            padding: 10,
-            color: '#000000',
-          }}
-        >
-          <Html>hi</Html>
-        </PdfSmall>
+        {patientReports?.patientResultList?.map(item => (
+          <>
+            <Html stylesheet={stylesheet}>
+              {html(JSON.parse(item.result).result)}
+            </Html>
+          </>
+        ))}
         <PdfPageNumber
           style={{ textAlign: 'center', right: '45%' }}
           bottom={100}

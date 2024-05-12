@@ -66,11 +66,15 @@ body {
   background: none !important;
 }
 
-.scrollbar-container  {
+.scrollbar-container {
   width: 97% !important;
 }
 .dropdown-menu {
   min-width: 3rem;
+}
+
+.w-md-editor-show-live {
+  height: 800 !important;
 }
 
 /* .text-filter:-webkit-autofill {

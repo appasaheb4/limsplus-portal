@@ -122,7 +122,13 @@ export const Result = observer((props: ResultProps) => {
               formatter: (cellContent, row) => (
                 <>
                   {row?.resultType === 'W' && (
-                    <div dangerouslySetInnerHTML={{ __html: row?.result }} />
+                    <Tooltip tooltipText='Double click & expand result'>
+                      <Icons.RIcon
+                        nameIcon='AiFillHtml5'
+                        propsIcon={{ size: 30 }}
+                        onClick={() => {}}
+                      />
+                    </Tooltip>
                   )}
                 </>
               ),
@@ -136,9 +142,13 @@ export const Result = observer((props: ResultProps) => {
               ) => (
                 <>
                   <InputResult
-                    row={row}
+                    row={{ ...row, panelStatus: 'P' }}
                     onSelect={async result => {
-                      const rows = { ...row, ...result };
+                      const rows = {
+                        ...row,
+                        panelStatus: row?.panelStatus,
+                        ...result,
+                      };
                       props.onUpdateResult &&
                         props.onUpdateResult(
                           {
