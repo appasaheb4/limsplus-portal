@@ -130,7 +130,6 @@ export const PatientVisit = PatientVisitHoc(
               labId: result?.labId?.toString(),
               accordionExpandItem: 'PATIENT ORDER',
               isPOLabIdLock: true,
-              isPatientFormOpen: true,
             });
           });
       } else {
@@ -367,7 +366,7 @@ export const PatientVisit = PatientVisitHoc(
               }
               onClick={() => {
                 window.scroll({
-                  top: 520,
+                  top: 500,
                   behavior: 'smooth',
                 });
                 setHideInputView(!hideInputView);
