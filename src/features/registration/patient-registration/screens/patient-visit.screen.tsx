@@ -75,46 +75,6 @@ export const PatientVisit = PatientVisitHoc(
     const [hideInputView, setHideInputView] = useState<boolean>(true);
 
     useEffect(() => {
-      if (
-        patientRegistrationStore.defaultValues.isPatientFormOpen &&
-        patientManagerStore.listPatientManger?.length == 1
-      ) {
-        setHideInputView(
-          !patientRegistrationStore.defaultValues.isPatientFormOpen,
-        );
-        const item = patientManagerStore.listPatientManger[0];
-        const age = getAgeByAgeObject(getDiffByDate(item.birthDate)).age || 0;
-        const ageUnits = getAgeByAgeObject(
-          getDiffByDate(item.birthDate),
-        ).ageUnit;
-        setValue('age', age);
-        setValue('ageUnits', ageUnits);
-        setValue(
-          'pId',
-          item.pId +
-            ' - ' +
-            `${item.firstName} ${item.middleName ? item.middleName : ''} ${
-              item.lastName
-            }`,
-        );
-        patientVisitStore.updatePatientVisit({
-          ...patientVisitStore.patientVisit,
-          pId: item.pId,
-          patientName: `${item.firstName} ${
-            item.middleName ? item.middleName : ''
-          } ${item.lastName}`,
-          birthDate: item?.birthDate,
-          age,
-          ageUnits,
-          sex: item?.sex,
-        });
-      }
-    }, [
-      patientRegistrationStore.defaultValues.isPatientFormOpen,
-      patientManagerStore.listPatientManger,
-    ]);
-
-    useEffect(() => {
       // Default value initialization
       setValue('rLab', patientVisitStore.patientVisit.rLab);
       setValue('visitDate', patientVisitStore.patientVisit.visitDate);
@@ -406,6 +366,10 @@ export const PatientVisit = PatientVisitHoc(
                   : true
               }
               onClick={() => {
+                window.scroll({
+                  top: 520,
+                  behavior: 'smooth',
+                });
                 setHideInputView(!hideInputView);
                 if (
                   hideInputView &&

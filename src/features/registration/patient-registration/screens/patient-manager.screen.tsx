@@ -62,15 +62,6 @@ export const PatientManager = PatientManagerHoc(
     const [hideInputView, setHideInputView] = useState<boolean>(true);
 
     useEffect(() => {
-      if (patientRegistrationStore.defaultValues.isPatientFormOpen) {
-        setHideInputView(
-          !patientRegistrationStore.defaultValues.isPatientFormOpen,
-        );
-       
-      }
-    }, [patientRegistrationStore.defaultValues.isPatientFormOpen]);
-
-    useEffect(() => {
       // Default value initialization
       setValue('birthDate', patientManagerStore.patientManger.birthDate);
       setValue('species', patientManagerStore.patientManger.species);
@@ -242,7 +233,7 @@ export const PatientManager = PatientManagerHoc(
           }
         });
     };
-    console.log({ input: patientManagerStore.patientManger });
+
     return (
       <>
         <div
@@ -252,7 +243,13 @@ export const PatientManager = PatientManagerHoc(
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
               show={hideInputView}
-              onClick={() => setHideInputView(!hideInputView)}
+              onClick={() => {
+                window.scroll({
+                  top: 250,
+                  behavior: 'smooth',
+                });
+                setHideInputView(!hideInputView);
+              }}
             />
           )}
         </div>
