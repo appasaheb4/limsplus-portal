@@ -124,7 +124,11 @@ export const Result = observer((props: ResultProps) => {
                 <>
                   {row?.resultType === 'W' && (
                     <Tooltip tooltipText='Double click & expand result'>
-                      <FaWordpressSimple size={'30'} onClick={() => {}} />
+                      <Icons.RIcon
+                        nameIcon='AiFillHtml5'
+                        propsIcon={{ size: 30 }}
+                        onClick={() => {}}
+                      />
                     </Tooltip>
                   )}
                 </>
