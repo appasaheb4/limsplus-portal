@@ -175,9 +175,11 @@ export const Users = UsersHoc(
       () => (
         <UserList
           data={
-            loginStore.login?.userId != 'ADMIN'
+            loginStore.login?.userId != 'ADMINISTRATOR'
               ? userStore.userList
-              : userStore.userList?.map(item => item.userId != 'ADMIN') || []
+              : userStore.userList?.map(
+                  item => item.userId != 'ADMINISTRATOR',
+                ) || []
           }
           totalSize={userStore && userStore.userListCount}
           extraData={{

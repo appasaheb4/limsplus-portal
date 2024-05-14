@@ -26,7 +26,7 @@ export class CompanyStore {
 
   reset() {
     this.company = new Company({
-      admin: 'ADMIN',
+      admin: 'ADMINISTRATOR',
       module: [],
       allowedUser: 1,
       version: 1,

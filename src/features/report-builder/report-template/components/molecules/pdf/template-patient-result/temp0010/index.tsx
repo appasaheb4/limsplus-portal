@@ -6,9 +6,18 @@ import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import Html from 'react-pdf-html';
 
+// Font.register({
+//   family: 'arimaRegular',
+//   src: '../../../assets/fonts/arima/Arima-Regular.ttf',
+// });
 Font.register({
-  family: 'arimaRegular',
-  src: '../../../assets/fonts/arima/Arima-Regular.ttf',
+  family: 'IBMPlexSansBold',
+  src: '../../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf',
+});
+
+Font.register({
+  family: 'IBMPlexSansBoldItalic',
+  src: '../../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Italic.ttf',
 });
 
 const styles = StyleSheet.create({
@@ -54,7 +63,8 @@ export const PdfTemp0010 = ({
       boxCSS.current = styles.page;
     }
   }
-  const html = content => `<html>
+  const html = content => `
+  <html>
     <body>
         ${content}
     </body>
@@ -77,8 +87,11 @@ export const PdfTemp0010 = ({
       padding: 2,
     },
     strong: {
-      fontWeight: 'bold !important',
+      fontFamily: 'IBMPlexSansBold',
     },
+    // em: {
+    //   fontFamily: 'IBMPlexSansBoldItalic',
+    // },
   };
 
   console.log({
@@ -92,9 +105,9 @@ export const PdfTemp0010 = ({
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
-        {patientReports?.patientResultList?.map(item => (
+        {patientReports?.patientResultList?.map((item, index) => (
           <>
-            <Html stylesheet={stylesheet}>
+            <Html stylesheet={stylesheet} key={index}>
               {html(JSON.parse(item.result).result)}
             </Html>
           </>
