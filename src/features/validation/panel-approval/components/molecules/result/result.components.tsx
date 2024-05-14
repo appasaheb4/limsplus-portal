@@ -24,6 +24,7 @@ import {
   getCretical,
 } from '../../../../../result-entry/general-result-entry/utils';
 import { RefRanges } from './ref-ranges.component';
+import { FaWordpressSimple } from 'react-icons/fa';
 
 interface ResultProps {
   data: any;
@@ -123,11 +124,7 @@ export const Result = observer((props: ResultProps) => {
                 <>
                   {row?.resultType === 'W' && (
                     <Tooltip tooltipText='Double click & expand result'>
-                      <Icons.RIcon
-                        nameIcon='AiFillHtml5'
-                        propsIcon={{ size: 30 }}
-                        onClick={() => {}}
-                      />
+                      <FaWordpressSimple size={'30'} onClick={() => {}} />
                     </Tooltip>
                   )}
                 </>

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
@@ -31,6 +31,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Styles } from '@/config';
 import mammoth from 'mammoth';
+import JoditEditor from 'jodit-react';
 
 const modules = {
   toolbar: [
@@ -64,6 +65,7 @@ export const Library = LibraryHoc(
       routerStore,
       loading,
     } = useStores();
+    const editor = useRef<any>();
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideAddLab, setHideAddLab] = useState<boolean>(true);
     const [departmentList, setDepartmentList] = useState([]);
@@ -792,16 +794,17 @@ export const Library = LibraryHoc(
                           label='Details'
                           hasError={!!errors.details}
                         >
-                          <ReactQuill
-                            placeholder='Type here'
-                            theme='snow'
-                            value={value}
-                            modules={modules}
-                            onChange={details => {
-                              onChange(details);
+                          <JoditEditor
+                            ref={editor}
+                            config={{
+                              height: 540,
+                            }}
+                            value={value || ''}
+                            onBlur={newContent => {
+                              onChange(newContent);
                               libraryStore.updateLibrary({
                                 ...libraryStore.library,
-                                details,
+                                details: newContent,
                               });
                             }}
                           />
