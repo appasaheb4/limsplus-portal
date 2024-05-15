@@ -138,6 +138,7 @@ export class PatientResultStore {
           analyteCode: item._id?.analyteCode,
           analyteName: item._id?.analyteName,
           labId: item._id?.labId,
+          name: item._id?.name || '',
         };
         return JSON.parse(JSON.stringify(obj));
       },

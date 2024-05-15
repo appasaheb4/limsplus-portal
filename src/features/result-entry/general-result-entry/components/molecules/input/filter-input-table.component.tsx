@@ -8,7 +8,7 @@ import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import _ from 'lodash';
 import { useForm, Controller } from 'react-hook-form';
-import { Icons, Form } from '@/library/components';
+import { Icons } from '@/library/components';
 
 export const FilterInputTable = observer(() => {
   const {
@@ -230,10 +230,7 @@ export const FilterInputTable = observer(() => {
                                   ?.pLab &&
                               item.departement ==
                                 generalResultEntryStore.filterGeneralResEntry
-                                  ?.departement &&
-                              item.labId ==
-                                generalResultEntryStore.filterGeneralResEntry
-                                  ?.labId,
+                                  ?.departement,
                           ),
                           'testCode',
                         ),
@@ -320,10 +317,7 @@ export const FilterInputTable = observer(() => {
                               item.labId !== undefined &&
                               item.pLab ==
                                 generalResultEntryStore.filterGeneralResEntry
-                                  ?.pLab &&
-                              item.departement ==
-                                generalResultEntryStore.filterGeneralResEntry
-                                  ?.departement,
+                                  ?.pLab,
                           ),
                           'labId',
                         ),
@@ -391,24 +385,59 @@ export const FilterInputTable = observer(() => {
                 </Icons.IconContext>
               </div>
             </td>
-
             <td>
               <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (
-                  <Form.Input
-                    // label='Age From'
-                    type='text'
-                    placeholder='Search Patient Name..'
-                    value={value?.toString()}
-                    onChange={patientName => {
-                      onChange(patientName);
+                  <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                    loader={loading}
+                    hasError={!!errors.patientName}
+                    placeholder='Search by patient name'
+                    data={{
+                      list: _.uniqBy(
+                        patientResultStore.distinctPatientResult?.filter(
+                          item =>
+                            item.pLab ==
+                            generalResultEntryStore.filterGeneralResEntry?.pLab,
+                        ),
+                        'name',
+                      ),
+                      displayKey: ['name'],
+                    }}
+                    displayValue={generalResultEntryStore.filterGeneralResEntry?.name?.toString()}
+                    onFilter={(value: string) => {
+                      patientResultStore.filterDistinctPatientResult(
+                        getFilteredData(
+                          value,
+                          'name',
+                          patientResultStore.distinctPatientResultCopy,
+                        ),
+                      );
+                    }}
+                    onSelect={item => {
+                      onChange(item?.name);
+                      generalResultEntryStore.updateFilterGeneralResEntry({
+                        ...generalResultEntryStore.filterGeneralResEntry,
+                        name: item?.name,
+                      });
+                      patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+                        {
+                          ...generalResultEntryStore.filterGeneralResEntry,
+                          name: item.name,
+                          finishResult: 'P',
+                          panelStatus: 'P',
+                          testStatus: 'P',
+                        },
+                      );
+                      patientResultStore.filterDistinctPatientResult(
+                        patientResultStore.distinctPatientResultCopy,
+                      );
                     }}
                   />
                 )}
                 name='patientName'
                 rules={{ required: false }}
-                defaultValue=''
+                defaultValue={patientResultStore.distinctPatientResult}
               />
             </td>
           </tr>

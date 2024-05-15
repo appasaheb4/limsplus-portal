@@ -122,7 +122,7 @@ export const Result = observer((props: ResultProps) => {
                 row?.isResultUpdate,
               formatter: (cellContent, row) => (
                 <>
-                  {row?.resultType === 'W' && (
+                  {row?.resultType === 'W' ? (
                     <Tooltip tooltipText='Double click & expand result'>
                       <Icons.RIcon
                         nameIcon='AiFillHtml5'
@@ -130,6 +130,8 @@ export const Result = observer((props: ResultProps) => {
                         onClick={() => {}}
                       />
                     </Tooltip>
+                  ) : (
+                    <span>{row?.result}</span>
                   )}
                 </>
               ),

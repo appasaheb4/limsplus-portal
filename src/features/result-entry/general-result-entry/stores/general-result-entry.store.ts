@@ -1,5 +1,5 @@
-import {makeObservable, action, observable} from 'mobx';
-import {FilterGeneralResEntryList, SelectedItems} from '../models';
+import { makeObservable, action, observable } from 'mobx';
+import { FilterGeneralResEntryList, SelectedItems } from '../models';
 
 export class GeneralResultEntryStore {
   filterGeneralResEntry!: FilterGeneralResEntryList;
