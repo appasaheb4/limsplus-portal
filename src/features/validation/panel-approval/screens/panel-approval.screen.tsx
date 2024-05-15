@@ -236,7 +236,13 @@ const PanelApproval = observer(() => {
         }}
         onFilter={(type, filter, page, limit) => {
           panelApprovalStore.panelApprovalService.filter({
-            input: { type, filter, page, limit },
+            input: {
+              type,
+              filter,
+              validationLevel: loginStore.login?.validationLevel,
+              page,
+              limit,
+            },
           });
         }}
         onRecheck={async (id: string, patientResultId: string) => {

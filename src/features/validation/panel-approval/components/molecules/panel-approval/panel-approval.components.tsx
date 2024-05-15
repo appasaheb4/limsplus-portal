@@ -144,7 +144,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               ),
             },
             {
-              dataField: 'patientName',
+              dataField: 'name',
               text: 'Patient Name',
               sort: true,
               editable: false,
@@ -173,26 +173,6 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
             },
 
             {
-              dataField: 'pLab',
-              text: 'PLab',
-              sort: true,
-              editable: false,
-              headerClasses: 'textHeader',
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filter: textFilter({
-                placeholder: 'Plab',
-                getFilter: filter => {
-                  pLab = filter;
-                },
-              }),
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.pLab}</span>;
-              },
-            },
-            {
               dataField: 'department',
               text: 'Department',
               sort: true,
@@ -218,6 +198,26 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               },
               formatter: (cell, row) => {
                 return <span title={row[1][0]?.department}>{cell}</span>;
+              },
+            },
+            {
+              dataField: 'pLab',
+              text: 'PLab',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeader',
+              // headerStyle: {
+              //   fontSize: 0,
+              // },
+              sortCaret: (order, column) => sortCaret(order, column),
+              // filter: textFilter({
+              //   placeholder: 'Plab',
+              //   getFilter: filter => {
+              //     pLab = filter;
+              //   },
+              // }),
+              formatter: (cell, row) => {
+                return <span>{row[1][0]?.pLab}</span>;
               },
             },
             {
