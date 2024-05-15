@@ -310,7 +310,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                 Toast.success({
                   message: `😊 ${res.updateRROTestAnalyteMapping.message}`,
                 });
-                testAnalyteMappingStore.fetchTestAnalyteMapping();
+                // testAnalyteMappingStore.fetchTestAnalyteMapping();
               });
           }}
           onFilter={(type, filter, page, limit) => {

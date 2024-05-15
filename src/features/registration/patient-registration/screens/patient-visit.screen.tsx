@@ -365,6 +365,10 @@ export const PatientVisit = PatientVisitHoc(
                   : true
               }
               onClick={() => {
+                window.scroll({
+                  top: 500,
+                  behavior: 'smooth',
+                });
                 setHideInputView(!hideInputView);
                 if (
                   hideInputView &&

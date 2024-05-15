@@ -6,11 +6,20 @@ import {
   NumberFilter,
   sortCaret,
   customFilter,
+  textFilter,
 } from '@/library/components';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-
+import { GiUpgrade } from 'react-icons/gi';
 import { TableBootstrap } from './table-bootstrap.components';
+import { useStores } from '@/stores';
+import { CiNoWaitingSign } from 'react-icons/ci';
+import {
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+} from 'reactstrap';
 
 interface PanelApprovalListProps {
   data: any;
@@ -43,8 +52,12 @@ interface PanelApprovalListProps {
 }
 
 let labId;
+let pLab;
+let patientName;
+let department;
 
 export const PanelApprovalList = (props: PanelApprovalListProps) => {
+  const { loginStore } = useStores();
   const [selectId, setSelectId] = useState('');
   const [localData, setLocalData] = useState(props.data);
   const [selectedRowId, setSelectedRowId] = useState('');
@@ -117,56 +130,94 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               text: 'Panel',
               sort: true,
               editable: false,
-              headerClasses: 'textHeaderl',
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.panel}</span>;
+              headerClasses: 'textHeader',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
               },
-            },
-            {
-              dataField: 'validationLevel',
-              text: 'Validation Level',
-              sort: true,
-              formatter: (cell, row) => (
-                <>
-                  <select
-                    value={row[1][0].validationLevel}
-                    disabled={!row[1][0]?.isResultUpdate}
-                    className={
-                      'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-                    }
-                    style={{ color: '#000000', backgroundColor: '#ffffff' }}
-                    onChange={e => {
-                      const validationLevel: any = e.target.value;
-                      props.onUpdateFields &&
-                        props.onUpdateFields(
-                          { validationLevel: Number.parseInt(validationLevel) },
-                          [row[1][0]._id],
-                        );
-                    }}
-                  >
-                    <option selected style={{ color: '#000000' }}>
-                      Select
-                    </option>
-                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                      .splice(row[1][0]?.validationLevel, 10)
-                      .map((item: any, index: number) => (
-                        <option key={index} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                  </select>
-                </>
+              formatter: (cellContent, row) => (
+                <span title={row[1][0]?.panel}>{row[1][0]?.panel}</span>
               ),
             },
             {
-              dataField: 'dueDate',
-              text: 'Due Date',
+              dataField: 'patientName',
+              text: 'Patient Name',
               sort: true,
               editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
+              headerClasses: 'textHeader',
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Patient Name',
+                getFilter: filter => {
+                  patientName = filter;
+                },
+              }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row[1][0].name}>{row[1][0].name}</span>
+              ),
+            },
+
+            {
+              dataField: 'pLab',
+              text: 'PLab',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeader',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Plab',
+                getFilter: filter => {
+                  pLab = filter;
+                },
+              }),
               formatter: (cell, row) => {
-                return row[1][0]?.dueDate
-                  ? dayjs(row[1][0]?.dueDate).format('DD-MM-YYYY HH:mm:ss')
-                  : '';
+                return <span>{row[1][0]?.pLab}</span>;
+              },
+            },
+            {
+              dataField: 'department',
+              text: 'Department',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeader',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Department',
+                getFilter: filter => {
+                  department = filter;
+                },
+              }),
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cell, row) => {
+                return <span title={row[1][0]?.department}>{cell}</span>;
               },
             },
             {
@@ -188,21 +239,14 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               },
             },
             {
-              dataField: 'pLab',
-              text: 'PLab',
+              dataField: 'dueDate',
+              text: 'Due Date',
               sort: true,
               editable: false,
               formatter: (cell, row) => {
-                return <span>{row[1][0]?.pLab}</span>;
-              },
-            },
-            {
-              dataField: 'department',
-              text: 'Department',
-              sort: true,
-              editable: false,
-              formatter: (cell, row) => {
-                return <span>{row[1][0]?.department}</span>;
+                return row[1][0]?.dueDate
+                  ? dayjs(row[1][0]?.dueDate).format('DD-MM-YYYY HH:mm:ss')
+                  : '';
               },
             },
             {
@@ -210,6 +254,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               text: 'Action',
               sort: true,
               editable: false,
+
               formatter: (cellContent, row) => (
                 <div className='flex flex-row gap-1' key={row[1][0]?._id}>
                   {props?.isApproval &&
@@ -241,7 +286,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                       <Tooltip
                         tooltipText={`${
                           row[1][0]?.approvalStatus == 'Hold'
-                            ? 'Pending'
+                            ? 'Unhold'
                             : 'Hold'
                         } `}
                       >
@@ -263,7 +308,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                           }}
                         >
                           {row[1][0]?.approvalStatus == 'Hold'
-                            ? Icons.getIconTag(Icons.Iconmd.MdOutlinePending)
+                            ? Icons.getIconTag(Icons.IconsCi.CiNoWaitingSign)
                             : Icons.getIconTag(Icons.Iconmd.MdBackHand)}
                         </Icons.IconContext>
                       </Tooltip>
@@ -350,6 +395,63 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                       </Icons.IconContext>
                     </Tooltip>
                   )}
+                  <Tooltip tooltipText='Upgrade Validation Level'>
+                    <UncontrolledDropdown>
+                      <DropdownToggle tag='a'>
+                        <GiUpgrade />
+                      </DropdownToggle>
+                      <DropdownMenu right>
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                          .filter(
+                            item => item > loginStore.login.validationLevel,
+                          )
+                          .map((item: any, index: number) => (
+                            <DropdownItem
+                              onClick={() => {
+                                props.onUpdateFields &&
+                                  props.onUpdateFields(
+                                    {
+                                      validationLevel: Number.parseInt(item),
+                                    },
+                                    [row[1][0]._id],
+                                  );
+                              }}
+                            >
+                              {item}
+                            </DropdownItem>
+                          ))}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+                    {/* <select
+                      value={row[1][0].validationLevel}
+                      disabled={!row[1][0]?.isResultUpdate}
+                      className={
+                        'leading-4 p-2 focus:outline-none focus:ring block w-10 shadow-sm sm:text-base border-2  rounded-md'
+                      }
+                      style={{ color: '#000000', backgroundColor: '#ffffff' }}
+                      onChange={e => {
+                        const validationLevel: any = e.target.value;
+                        props.onUpdateFields &&
+                          props.onUpdateFields(
+                            {
+                              validationLevel: Number.parseInt(validationLevel),
+                            },
+                            [row[1][0]._id],
+                          );
+                      }}
+                    >
+                      <option selected style={{ color: '#000000' }}>
+                        Select
+                      </option>
+                      {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        .filter(item => item > loginStore.login.validationLevel)
+                        .map((item: any, index: number) => (
+                          <option key={index} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                    </select> */}
+                  </Tooltip>
                 </div>
               ),
               headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',

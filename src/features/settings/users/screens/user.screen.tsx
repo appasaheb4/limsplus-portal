@@ -520,7 +520,7 @@ export const Users = UsersHoc(
                             userStore.UsersService.findByFields({
                               input: {
                                 filter: {
-                                  userId,
+                                  userId: userId?.trim(),
                                   companyCode: loginStore.login.companyCode,
                                 },
                               },

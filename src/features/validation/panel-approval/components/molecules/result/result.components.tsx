@@ -24,6 +24,7 @@ import {
   getCretical,
 } from '../../../../../result-entry/general-result-entry/utils';
 import { RefRanges } from './ref-ranges.component';
+import { FaWordpressSimple } from 'react-icons/fa';
 
 interface ResultProps {
   data: any;
@@ -56,7 +57,7 @@ export const Result = observer((props: ResultProps) => {
   const [conclusionId, setWidthConculsionId] = useState('');
   return (
     <>
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative', zIndex: 0 }}>
         <TableBootstrap
           id='_id'
           data={props?.data}
@@ -209,14 +210,14 @@ export const Result = observer((props: ResultProps) => {
                   <>
                     <div className='flex flex-row gap-2'>
                       <span>
-                        {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
-                        (row.loNor === ' ' && row.hiNor === ' ')
+                        {Number.isNaN(Number.parseFloat(row.loNor)) &&
+                        Number.isNaN(Number.parseFloat(row.hiNor))
                           ? '-'
-                          : row.loNor === 'NaN' && row.hiNor === ' '
-                          ? '<'
-                          : row.loNor === ' ' && row.hiNor === 'NaN'
-                          ? '>'
-                          : row.loNor + '-' + row.hiNor}
+                          : Number.isNaN(Number.parseFloat(row.loNor))
+                          ? `${row.hiNor} - >`
+                          : Number.isNaN(Number.parseFloat(row.hiNor))
+                          ? `< - ${row.loNor}`
+                          : `${row.loNor} - ${row.hiNor}`}
                       </span>
                       <div>
                         {row.refRangesList?.length > 0 && (
@@ -316,60 +317,57 @@ export const Result = observer((props: ResultProps) => {
               editable: (content, row, rowIndex, columnIndex) =>
                 row?.isResultUpdate,
               formatter: (cell, row) => {
-                return <span>{row?.conclusion?.toString()}</span>;
-              },
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <div className='flex flex-col'>
-                  <Tooltip
-                    tooltipText={
-                      row._id != conclusionId ? 'Expand' : 'Collapse'
-                    }
-                  >
-                    <Icons.IconContext
-                      color='#000000'
-                      size='20'
-                      onClick={() => {
-                        if (row._id === conclusionId) {
-                          setWidthConculsionId('');
-                          setWidthConculsionBox('30px');
-                        } else {
-                          setWidthConculsionId(row._id);
-                          setWidthConculsionBox('200px');
-                        }
-                      }}
-                    >
-                      {Icons.getIconTag(
-                        row._id != conclusionId
-                          ? Icons.IconBi.BiExpand
-                          : Icons.IconBi.BiCollapse,
-                      )}
-                    </Icons.IconContext>
-                  </Tooltip>
-                  {row._id === conclusionId && (
-                    <div style={{ width: widthConculsionBox }}>
-                      <Form.MultilineInput
-                        rows={3}
-                        placeholder='Conclusion'
-                        className='text-black'
-                        onBlur={conclusion => {
-                          props.onUpdateFields &&
-                            props.onUpdateFields({ conclusion }, row._id);
-                          setWidthConculsionId('');
-                          setWidthConculsionBox('30px');
-                        }}
-                        defaultValue={row?.conclusion}
-                      />
+                return (
+                  <>
+                    <div className='flex justify-between flex-row gap-2'>
+                      <span>{row?.conclusion?.toString()}</span>
+                      <div className='flex flex-col'>
+                        <Tooltip
+                          tooltipText={
+                            row._id != conclusionId ? 'Expand' : 'Collapse'
+                          }
+                        >
+                          <Icons.IconContext
+                            color='#000000'
+                            size='20'
+                            onClick={() => {
+                              if (row._id === conclusionId) {
+                                setWidthConculsionId('');
+                                setWidthConculsionBox('30px');
+                              } else {
+                                setWidthConculsionId(row._id);
+                                setWidthConculsionBox('200px');
+                              }
+                            }}
+                          >
+                            {Icons.getIconTag(
+                              row._id != conclusionId
+                                ? Icons.IconBi.BiExpand
+                                : Icons.IconBi.BiCollapse,
+                            )}
+                          </Icons.IconContext>
+                        </Tooltip>
+                        {row._id === conclusionId && (
+                          <div style={{ width: widthConculsionBox }}>
+                            <Form.MultilineInput
+                              rows={3}
+                              placeholder='Conclusion'
+                              className='text-black'
+                              onBlur={conclusion => {
+                                props.onUpdateFields &&
+                                  props.onUpdateFields({ conclusion }, row._id);
+                                setWidthConculsionId('');
+                                setWidthConculsionBox('30px');
+                              }}
+                              defaultValue={row?.conclusion}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
-              ),
+                  </>
+                );
+              },
             },
             {
               dataField: 'sampleType',

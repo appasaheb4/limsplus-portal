@@ -22,6 +22,7 @@ import {
   AutoCompleteFilterSingleSelectCorporateCode,
   AutoCompleteFilterSingleSelectDoctorId,
 } from '../../index';
+import { TiFlowChildren } from 'react-icons/ti';
 
 interface DeleteExtraParams extends Confirm {
   labId?: Array<number>;
@@ -1349,7 +1350,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
               // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row'>
+                  <div className='flex flex-row gap-2'>
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext
@@ -1371,6 +1372,10 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     )}
+
+                    <Tooltip tooltipText='Traceability'>
+                      <TiFlowChildren color='#fff' size='20' />
+                    </Tooltip>
                   </div>
                 </>
               ),

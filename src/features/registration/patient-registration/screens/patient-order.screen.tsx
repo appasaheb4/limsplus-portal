@@ -267,6 +267,10 @@ export const PatientOrder = PatientOrderHoc(
               show={hideInputView}
               onClick={() => {
                 {
+                  window.scroll({
+                    top: 120,
+                    behavior: 'smooth',
+                  });
                   setHideInputView(!hideInputView);
                   if (
                     hideInputView &&

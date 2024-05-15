@@ -8,7 +8,7 @@ export class PatientManger {
   isBirthdateAvailabe: boolean;
   title: string;
   firstName: string;
-  middleName: string;
+  middleName: string | undefined | null;
   lastName: string;
   sex: string;
   species: string;
@@ -53,7 +53,7 @@ export class PatientManger {
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.pId = rawData.pId;
     this.isPatientMobileNo = rawData.isPatientMobileNo;
     this.mobileNo = rawData.mobileNo;

@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { observer } from 'mobx-react';
-import { Icons } from '@/library/components';
+import {
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  Icons,
+} from '@/library/components';
 import { useStores } from '@/stores';
+import _ from 'lodash';
 
 interface AutoCompleteProps {
   selected: any[];
@@ -144,60 +148,36 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
     return (
       <>
         <div ref={wrapperRef} className='w-full relative'>
-          <div
-            className={
-              'flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  rounded-md'
-            }
-          >
-            <input
-              placeholder='Search...'
-              value={
-                !isListOpen
-                  ? `${
-                      (userStore.selectedItems?.roles &&
-                        userStore.selectedItems?.roles.length) ||
-                      0
-                    } Items`
-                  : value
-              }
-              className={'w-full focus:outline-none bg-none'}
-              onKeyUp={onKeyUp}
-              onChange={onChange}
-              onClick={() => setIsListOpen(true)}
-            />
-            {loading && <span>loading</span>}
-            {isListOpen ? (
-              <Icons.IconFa.FaChevronUp />
-            ) : (
-              <Icons.IconFa.FaChevronDown />
-            )}
-          </div>
-          {options && isListOpen
-            ? options?.length > 0 && (
-                <div className='mt-1 bg-gray-100 p-2 rounded-sm'>
-                  <ul>
-                    {options?.map((item, index) => (
-                      <>
-                        <li
-                          key={index}
-                          className='text-gray-400 flex items-center'
-                        >
-                          <input
-                            type='checkbox'
-                            checked={item.selected}
-                            onChange={() => onSelect(item)}
-                          />{' '}
-                          <label className='ml-2 mt-1 text-black'>
-                            {' '}
-                            {item.description}
-                          </label>
-                        </li>
-                      </>
-                    ))}
-                  </ul>
-                </div>
-              )
-            : null}
+          <AutoCompleteFilterMultiSelectSelectedTopDisplay
+            loader={loading}
+            dynamicCheck={'code'}
+            placeholder='Search by code or name'
+            data={{
+              list: roleStore.listRole,
+              selected: userStore.selectedItems?.roles,
+              displayKey: ['code', 'description'],
+            }}
+            onFilter={(value: string) => {
+              roleStore.RoleService.filterByFields({
+                input: {
+                  filter: {
+                    fields: ['code', 'description'],
+                    srText: value,
+                  },
+                  page: 0,
+                  limit: 10,
+                },
+              });
+            }}
+            // hasError={!!errors.role}
+            onUpdate={item => {
+              roleStore.updateRoleList(roleStore.listRoleCopy);
+              onUpdate && onUpdate(userStore.selectedItems?.roles);
+            }}
+            onSelect={item => {
+              onSelect(item);
+            }}
+          />
         </div>
       </>
     );

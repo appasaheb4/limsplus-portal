@@ -9,6 +9,7 @@ import {
   Form,
   Tabs,
   AutocompleteSearch,
+  Buttons,
 } from '@/library/components';
 import { useHistory } from 'react-router-dom';
 import { Accordion, AccordionItem } from 'react-sanfona';
@@ -154,6 +155,13 @@ const PatientRegistration = observer(({ sidebar }) => {
       {!isImport ? (
         <div>
           <div className='flex mx-20 items-center justify-center gap-2'>
+            <Form.Input2
+              placeholder='Patient Name...'
+              className='w-40 arrow-hide'
+              type='text'
+              value={''}
+              onChange={pId => {}}
+            />
             {patientRegistrationStore.filterOptionList.pIds?.length > 1 ? (
               <select
                 className={

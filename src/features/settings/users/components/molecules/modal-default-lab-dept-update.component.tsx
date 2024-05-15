@@ -1,17 +1,18 @@
 /* eslint-disable @typescript-eslint/indent */
 /* eslint-disable react/jsx-indent-props */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
-import {observer} from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
   Toast,
   List,
   Form,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
 } from '@/library/components';
-import {useForm, Controller} from 'react-hook-form';
-import {useStores} from '@/stores';
+import { useForm, Controller } from 'react-hook-form';
+import { useStores } from '@/stores';
 
 export interface ModalDefaultLabDeptUpdateProps {
   type?: 'default' | 'assigned';
@@ -23,11 +24,11 @@ export interface ModalDefaultLabDeptUpdateProps {
 
 export const ModalDefaultLabDeptUpdate = observer(
   (props: ModalDefaultLabDeptUpdateProps) => {
-    const {loading, labStore, userStore, departmentStore} = useStores();
+    const { loading, labStore, userStore, departmentStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       resetField,
     } = useForm();
@@ -118,7 +119,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                         <>
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({ field: { onChange } }) => (
                               <Form.InputWrapper
                                 hasError={!!errors.defaultLab}
                                 label='Default Lab'
@@ -155,7 +156,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                                     departmentStore.DepartmentService.findByFields(
                                       {
                                         input: {
-                                          filter: {lab: _.map(labs, 'code')},
+                                          filter: { lab: _.map(labs, 'code') },
                                         },
                                       },
                                     ).then(res => {
@@ -176,12 +177,12 @@ export const ModalDefaultLabDeptUpdate = observer(
                               </Form.InputWrapper>
                             )}
                             name='defaultLab'
-                            rules={{required: true}}
+                            rules={{ required: true }}
                             defaultValue={userStore.user?.defaultLab || ''}
                           />
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({ field: { onChange } }) => (
                               <Form.InputWrapper
                                 hasError={!!errors.defaultDepartment}
                                 label='Default Department'
@@ -223,7 +224,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                               </Form.InputWrapper>
                             )}
                             name='defaultDepartment'
-                            rules={{required: true}}
+                            rules={{ required: true }}
                             defaultValue={
                               userStore.user?.defaultDepartment || ''
                             }
@@ -234,13 +235,14 @@ export const ModalDefaultLabDeptUpdate = observer(
                         <>
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({ field: { onChange } }) => (
                               <Form.InputWrapper
                                 label='Assigned Lab'
                                 hasError={!!errors.labs}
                               >
-                                <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                                <AutoCompleteFilterMultiSelectSelectedTopDisplay
                                   loader={loading}
+                                  dynamicCheck={'code'}
                                   placeholder='Search by code or name'
                                   data={{
                                     list: [
@@ -256,30 +258,31 @@ export const ModalDefaultLabDeptUpdate = observer(
                                   hasError={!!errors.labs}
                                   onUpdate={item => {
                                     const labs = userStore.selectedItems?.labs;
+                                    userStore.updateUser({
+                                      ...userStore.user,
+                                      lab: labs,
+                                      department: [],
+                                    });
                                     setAssignedLab(labs);
                                     setAssignedDepartment([]);
                                     resetField('department');
-                                    if (labs?.some(e => e.code !== '*')) {
+                                    if (labs.some(e => e.code !== '*')) {
                                       departmentStore.DepartmentService.findByFields(
                                         {
                                           input: {
-                                            filter: {lab: _.map(labs, 'code')},
+                                            filter: { lab: _.map(lab, 'code') },
                                           },
                                         },
                                       ).then(res => {
                                         if (
-                                          !res.findByFieldsDepartments?.success
+                                          !res.findByFieldsDepartments.success
                                         )
                                           return Toast.error({
                                             message:
                                               '😔 Technical issue, Please try again !',
                                           });
-                                        setValue(
-                                          'department',
-                                          res.findByFieldsDepartments.data,
-                                        );
                                         departmentStore.updateDepartmentList(
-                                          res.findByFieldsDepartments?.data,
+                                          res.findByFieldsDepartments.data,
                                         );
                                       });
                                     }
@@ -311,19 +314,19 @@ export const ModalDefaultLabDeptUpdate = observer(
                                         labs?.some(e => e.code === '*')
                                       ) {
                                         labs = [];
-                                        labs?.push(item);
+                                        labs.push(item);
                                       } else {
-                                        labs = labs?.filter(items => {
+                                        labs = labs.filter(items => {
                                           return items._id !== item._id;
                                         });
                                       }
                                     } else {
                                       if (!item.selected) {
-                                        if (labs && labs?.length > 0) {
-                                          labs?.push(item);
+                                        if (labs && labs.length > 0) {
+                                          labs.push(item);
                                         } else labs = [item];
                                       } else {
-                                        labs = labs?.filter(items => {
+                                        labs = labs.filter(items => {
                                           return items._id !== item._id;
                                         });
                                       }
@@ -337,19 +340,20 @@ export const ModalDefaultLabDeptUpdate = observer(
                               </Form.InputWrapper>
                             )}
                             name='labs'
-                            rules={{required: true}}
+                            rules={{ required: true }}
                             defaultValue={userStore.selectedItems?.labs}
                           />
 
                           <Controller
                             control={control}
-                            render={({field: {onChange}}) => (
+                            render={({ field: { onChange } }) => (
                               <Form.InputWrapper
                                 label='Assigned Department'
                                 hasError={!!errors.department}
                               >
-                                <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                                <AutoCompleteFilterMultiSelectSelectedTopDisplay
                                   loader={loading}
+                                  dynamicCheck={'code'}
                                   placeholder='Search by code or name'
                                   data={{
                                     list: [
@@ -359,15 +363,19 @@ export const ModalDefaultLabDeptUpdate = observer(
                                         name: '*',
                                       },
                                     ].concat(
-                                      assignedLab?.length > 0
-                                        ? assignedLab?.some(e => e.code !== '*')
+                                      userStore.user.lab?.length > 0
+                                        ? userStore.user.lab?.some(
+                                            e => e.code !== '*',
+                                          )
                                           ? departmentStore.listDepartment?.filter(
                                               o1 =>
-                                                assignedLab?.some(
+                                                userStore.user?.lab?.some(
                                                   o2 => o1.lab === o2.code,
-                                                ),
+                                                ) && o1.status == 'A',
                                             )
-                                          : departmentStore.listDepartment
+                                          : departmentStore.listDepartment?.filter(
+                                              item => item.status == 'A',
+                                            )
                                         : [],
                                     ),
                                     selected:
@@ -399,34 +407,35 @@ export const ModalDefaultLabDeptUpdate = observer(
                                   }}
                                   onSelect={item => {
                                     onChange(new Date());
-                                    let departments =
+                                    let department =
                                       userStore.selectedItems?.department;
                                     if (
-                                      item?.code === '*' ||
-                                      departments?.some(e => e.code === '*')
+                                      item.code === '*' ||
+                                      department?.some(e => e.code === '*')
                                     ) {
                                       if (
                                         !item.selected ||
-                                        departments?.some(e => e.code === '*')
+                                        department?.some(e => e.code === '*')
                                       ) {
-                                        departments = [item];
+                                        department = [];
+                                        department.push(item);
                                       } else {
-                                        departments = departments?.filter(
+                                        department = department.filter(
                                           items => {
                                             return items._id !== item._id;
                                           },
                                         );
                                       }
                                     } else {
-                                      if (!item?.selected) {
+                                      if (!item.selected) {
                                         if (
-                                          departments &&
-                                          departments?.length > 0
+                                          department &&
+                                          department.length > 0
                                         ) {
-                                          departments?.push(item);
-                                        } else departments = [item];
+                                          department.push(item);
+                                        } else department = [item];
                                       } else {
-                                        departments = departments?.filter(
+                                        department = department.filter(
                                           items => {
                                             return items._id !== item._id;
                                           },
@@ -435,14 +444,14 @@ export const ModalDefaultLabDeptUpdate = observer(
                                     }
                                     userStore.updateSelectedItems({
                                       ...userStore.selectedItems,
-                                      department: departments,
+                                      department,
                                     });
                                   }}
                                 />
                               </Form.InputWrapper>
                             )}
                             name='department'
-                            rules={{required: true}}
+                            rules={{ required: true }}
                             defaultValue={departmentStore.listDepartment}
                           />
                         </>
@@ -454,7 +463,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                     <button
                       className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => props.onClose && props.onClose()}
                     >
                       Later
@@ -462,7 +471,7 @@ export const ModalDefaultLabDeptUpdate = observer(
                     <button
                       className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={handleSubmit(onSubmit)}
                     >
                       Update

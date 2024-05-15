@@ -10,8 +10,10 @@ import {
 import { observer } from 'mobx-react';
 import { FormHelper } from '@/helper';
 import { useStores } from '@/stores';
+
 import { useForm } from 'react-hook-form';
 import { ModalDocxContent } from '@/core-components';
+import { FaWordpressSimple } from 'react-icons/fa';
 interface DisplayResultProps {
   row: any;
   onSelect?: (item) => void;
@@ -490,9 +492,8 @@ export const DisplayResult = observer(
         {row?.resultType === 'W' && (
           <>
             <Tooltip tooltipText='Expand result'>
-              <Icons.RIcon
-                nameIcon='AiFillHtml5'
-                propsIcon={{ size: 30 }}
+              <FaWordpressSimple
+                size={'30'}
                 onClick={() => {
                   setModalDocxContent({
                     visible: true,

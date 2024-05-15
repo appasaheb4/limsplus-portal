@@ -100,6 +100,10 @@ export const PatientManager = PatientManagerHoc(
                 patientManagerStore.patientManger?.breed === null
                   ? undefined
                   : patientManagerStore.patientManger?.breed,
+              middleName:
+                patientManagerStore.patientManger?.middleName === ''
+                  ? undefined
+                  : patientManagerStore.patientManger?.middleName,
             },
           })
           .then(res => {
@@ -115,6 +119,7 @@ export const PatientManager = PatientManagerHoc(
                 pId: result?.pId?.toString(),
                 accordionExpandItem: 'PATIENT VISIT',
                 isPVPIdLock: true,
+                isPatientFormOpen: true,
               });
               patientRegistrationStore.getPatientRegRecords(
                 'pId',
@@ -238,7 +243,13 @@ export const PatientManager = PatientManagerHoc(
           {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
             <Buttons.ButtonCircleAddRemoveBottom
               show={hideInputView}
-              onClick={() => setHideInputView(!hideInputView)}
+              onClick={() => {
+                window.scroll({
+                  top: 250,
+                  behavior: 'smooth',
+                });
+                setHideInputView(!hideInputView);
+              }}
             />
           )}
         </div>
@@ -440,7 +451,10 @@ export const PatientManager = PatientManagerHoc(
                     </div>
                   )}
                   name='birthDate'
-                  rules={{ required: true }}
+                  rules={{
+                    required:
+                      patientManagerStore.patientManger?.isBirthdateAvailabe,
+                  }}
                   defaultValue=''
                 />
                 {!patientManagerStore.patientManger.isBirthdateAvailabe && (

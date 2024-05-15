@@ -12,6 +12,7 @@ import { useStores } from '@/stores';
 import { useForm, Controller } from 'react-hook-form';
 import { FormHelper } from '@/helper';
 import { ModalDocxContent } from '@/core-components';
+import { FaWordpressSimple } from 'react-icons/fa';
 
 interface InputResultProps {
   row: any;
@@ -284,9 +285,8 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
       {row?.resultType === 'W' && (
         <>
           <Tooltip tooltipText='Expand library detail'>
-            <Icons.RIcon
-              nameIcon='AiFillHtml5'
-              propsIcon={{ size: 30 }}
+            <FaWordpressSimple
+              size={'30'}
               onClick={() => {
                 setModalDocxContent({
                   visible: true,

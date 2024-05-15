@@ -348,6 +348,43 @@ export const GeneralResultEntryExpand = ({
     // { code: '', value: 'All', color: 'red' },
   ];
 
+  const resultSubmitHandler = (rowStatus: string) => {
+    switch (rowStatus) {
+      case 'D':
+        return (
+          <button
+            disabled={
+              selectedRow.current?.length > 0
+                ? false && isFinishResultDisable
+                : true
+            }
+            className={
+              'py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+            }
+            onClick={() =>
+              onFinishResult && onFinishResult(selectedRow.current)
+            }
+          >
+            Submit
+          </button>
+        );
+      case 'P' || 'RC' || 'RT':
+        return (
+          <button
+            className={
+              'py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+            }
+            onClick={() => {}}
+          >
+            Save
+          </button>
+        );
+
+      default:
+        break;
+    }
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -378,11 +415,20 @@ export const GeneralResultEntryExpand = ({
           {props => (
             <div>
               <div className='flex flex-row items-center flex-wrap justify-between'>
-                <div className='w-2/3 flex align-middle items-center'>
+                <div className='w-3/4 flex align-middle items-center'>
+                  <div className='mt-2'>
+                    <SearchBar
+                      // {...searchProps}
+                      {...props.searchProps}
+                      onChange={value => {
+                        console.log({ value });
+                      }}
+                    />
+                  </div>
                   {isExport && (
                     <ExportCSVButton
                       className={
-                        'bg-gray-500 px-3.5 py-1 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                        'bg-gray-500 px-3.5 py-1 ml-2 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                       }
                       {...props.csvProps}
                     >
@@ -464,7 +510,7 @@ export const GeneralResultEntryExpand = ({
                   </div>
                 </>
               )}
-              <div className='scrollTable'>
+              <div className='scrollTable h-[calc(100vh_-_50vh)] mt-1'>
                 <BootstrapTable
                   keyField='_id'
                   remote
@@ -493,25 +539,7 @@ export const GeneralResultEntryExpand = ({
                   rowStyle={rowStyle}
                 />
               </div>
-              {filterStatus == 'D' && (
-                <div>
-                  <button
-                    disabled={
-                      selectedRow.current?.length > 0
-                        ? false && isFinishResultDisable
-                        : true
-                    }
-                    className={
-                      'py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
-                    }
-                    onClick={() =>
-                      onFinishResult && onFinishResult(selectedRow.current)
-                    }
-                  >
-                    Submit
-                  </button>
-                </div>
-              )}
+              {resultSubmitHandler(filterStatus)}
             </div>
           )}
         </ToolkitProvider>

@@ -276,14 +276,18 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   <>
                     <div className='flex flex-row gap-4'>
                       <span>
-                        {(row.loNor === 'NaN' && row.hiNor === 'NaN') ||
-                        (row.loNor === ' ' && row.hiNor === ' ')
-                          ? '-'
-                          : row.loNor === 'NaN' && row.hiNor === ' '
-                          ? '<'
-                          : row.loNor === ' ' && row.hiNor === 'NaN'
-                          ? '>'
-                          : row.loNor + '-' + row.hiNor}
+                        <span>
+                          <span>
+                            {isNaN(Number.parseFloat(row.loNor)) &&
+                            isNaN(Number.parseFloat(row.hiNor))
+                              ? '-'
+                              : isNaN(Number.parseFloat(row.loNor))
+                              ? `${row.hiNor} - >`
+                              : isNaN(Number.parseFloat(row.hiNor))
+                              ? `< - ${row.loNor}`
+                              : `${row.loNor} - ${row.hiNor}`}
+                          </span>
+                        </span>
                       </span>
                       <div>
                         {row.refRangesList?.length > 0 && (
