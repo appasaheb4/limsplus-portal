@@ -398,7 +398,10 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                   <Tooltip tooltipText='Upgrade Validation Level'>
                     <UncontrolledDropdown>
                       <DropdownToggle tag='a'>
-                        <GiUpgrade />
+                        <Icons.RIcon
+                          nameIcon='RxUpdate'
+                          propsIcon={{ size: 20, color: '#ffffff' }}
+                        />
                       </DropdownToggle>
                       <DropdownMenu right>
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -505,6 +508,9 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                 ? setFetchIndex(fetchIndex - 1)
                 : setFetchIndex(fetchIndex);
             }
+          }}
+          onFilterByFields={(condition: any) => {
+            console.log({ localData, condition });
           }}
         />
       </div>

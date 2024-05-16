@@ -51,6 +51,7 @@ interface TableBootstrapProps {
     page: number,
     totalSize: number,
   ) => void;
+  onFilterByFields?: (condition: any) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item: any, index: number) => void;
   onFilterRecord?: (item: any) => void;
@@ -77,6 +78,7 @@ export const TableBootstrap = ({
   onUpdateItem,
   onPageSizeChange,
   onFilter,
+  onFilterByFields,
   clearAllFilter,
   onClickRow,
   onFilterRecord,
@@ -452,7 +454,7 @@ export const TableBootstrap = ({
                       ))}
                     </div>
                   </div>
-                  <div className='flex justify-between gap-1'>
+                  <div className='flex justify-between gap-1 items-center'>
                     <button
                       className={`px-3.5 py-2 bg-gray-600 text-white rounded`}
                       onClick={() => onFilterRecord?.('ReCall')}
@@ -478,7 +480,12 @@ export const TableBootstrap = ({
                               item => item <= loginStore.login.validationLevel,
                             )
                             .map((item: any, index: number) => (
-                              <DropdownItem onClick={() => {}}>
+                              <DropdownItem
+                                onClick={() => {
+                                  onFilterByFields &&
+                                    onFilterByFields({ validationLevel: item });
+                                }}
+                              >
                                 {item}
                               </DropdownItem>
                             ))}
