@@ -22,7 +22,6 @@ const PanelApproval = observer(() => {
     formState: { errors },
     setValue,
   } = useForm();
-  const [data, setData] = useState<Array<any>>([]);
   const [receiptPath, setReceiptPath] = useState<string>();
   const [expandItem, setExpandItem] = useState<any>([]);
   const [tableReload, setTableReload] = useState<boolean>(false);
@@ -36,14 +35,14 @@ const PanelApproval = observer(() => {
     data: [],
   });
 
-  useEffect(() => {
-    const uniqueList = _.groupBy(
-      panelApprovalStore.panelApprovalList,
-      item => `${item.labId}-${item.panelCode}`,
-    );
-    if (uniqueList)
-      setData(Object.keys(uniqueList).map(key => [key, uniqueList[key]]));
-  }, [panelApprovalStore.panelApprovalList]);
+  // useEffect(() => {
+  //   const uniqueList = _.groupBy(
+  //     panelApprovalStore.panelApprovalList,
+  //     item => `${item.labId}-${item.panelCode}`,
+  //   );
+  //   if (uniqueList)
+  //     setData(Object.keys(uniqueList).map(key => [key, uniqueList[key]]));
+  // }, [panelApprovalStore.panelApprovalList]);
 
   const updateRecords = payload => {
     const { type, data } = payload;
@@ -177,7 +176,7 @@ const PanelApproval = observer(() => {
   const panelApprovalTable = useMemo(
     () => (
       <PanelApprovalList
-        data={data || []}
+        data={panelApprovalStore.panelApprovalList}
         totalSize={panelApprovalStore.panelApprovalListCount}
         selectedId={selectId}
         enteredBy={loginStore.login.userId}
@@ -313,7 +312,7 @@ const PanelApproval = observer(() => {
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, tableReload, selectId, filterRecord],
+    [panelApprovalStore.panelApprovalList, tableReload, selectId, filterRecord],
   );
 
   return (

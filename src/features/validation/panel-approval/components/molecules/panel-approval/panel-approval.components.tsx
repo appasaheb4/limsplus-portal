@@ -67,8 +67,22 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
   const [isAllRecordDisplay, setIsAllRecordDisplay] = useState(false);
   const [fetchIndex, setFetchIndex] = useState<number>(0);
 
+  const filterData = () => {
+    const uniqueList = _.groupBy(
+      props?.data,
+      item => `${item?.labId}-${item?.panelCode}`,
+    );
+    console.log({
+      list: Object.keys(uniqueList).map(key => [key, uniqueList[key]]),
+    });
+
+    if (uniqueList)
+      setLocalData(Object.keys(uniqueList).map(key => [key, uniqueList[key]]));
+  };
+
   useEffect(() => {
-    setLocalData(JSON.parse(JSON.stringify(props.data)) || []);
+    filterData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data, props.selectedId]);
 
   // useEffect(() => {
