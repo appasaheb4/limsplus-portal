@@ -461,37 +461,36 @@ export const TableBootstrap = ({
                     >
                       Recall
                     </button>
-                    <Tooltip tooltipText={'Filter on Validation Level'}>
-                      <UncontrolledDropdown>
-                        <DropdownToggle tag='a'>
-                          <button
-                            className={`px-3.5 py-2 bg-blue-600 text-white rounded`}
-                            onClick={() => {}}
-                          >
-                            Upgrade
-                          </button>
-                        </DropdownToggle>
-                        <DropdownMenu
-                          right
-                          style={{ minWidth: '3rem !important' }}
+                    <UncontrolledDropdown>
+                      <DropdownToggle tag='a'>
+                        <button
+                          className={`px-3.5 py-2 bg-blue-600 text-white rounded`}
+                          onClick={() => {}}
                         >
-                          {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-                            .filter(
-                              item => item <= loginStore.login.validationLevel,
-                            )
-                            .map((item: any, index: number) => (
-                              <DropdownItem
-                                onClick={() => {
-                                  onFilterByFields &&
-                                    onFilterByFields({ validationLevel: item });
-                                }}
-                              >
-                                {item}
-                              </DropdownItem>
-                            ))}
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </Tooltip>
+                          Upgrade
+                        </button>
+                      </DropdownToggle>
+                      <DropdownMenu
+                        right
+                        style={{ minWidth: '3rem !important' }}
+                      >
+                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                          .filter(
+                            item => item <= loginStore.login.validationLevel,
+                          )
+                          .map((item: any, index: number) => (
+                            <DropdownItem
+                              onClick={() => {
+                                onFilterByFields &&
+                                  onFilterByFields({ validationLevel: item });
+                              }}
+                            >
+                              {item}
+                            </DropdownItem>
+                          ))}
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
+
                     <div className=' bg-blue-700 w-10 flex justify-center items-center h-10 rounded-full  text-xl'>
                       <Tooltip tooltipText='Total Pending Validation'>
                         <span className='text-white'>{totalSize}</span>

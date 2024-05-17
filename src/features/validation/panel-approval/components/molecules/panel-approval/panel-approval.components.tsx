@@ -59,7 +59,7 @@ let department;
 export const PanelApprovalList = (props: PanelApprovalListProps) => {
   const { loginStore } = useStores();
   const [selectId, setSelectId] = useState('');
-  const [localData, setLocalData] = useState(props.data);
+  const [localData, setLocalData] = useState<any>([]);
   const [selectedRowId, setSelectedRowId] = useState('');
   const [widthRefBox, setWidthRefBox] = useState('20px');
   const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
@@ -67,21 +67,17 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
   const [isAllRecordDisplay, setIsAllRecordDisplay] = useState(false);
   const [fetchIndex, setFetchIndex] = useState<number>(0);
 
-  const filterData = () => {
+  const filterData = data => {
     const uniqueList = _.groupBy(
-      props?.data,
+      data,
       item => `${item?.labId}-${item?.panelCode}`,
     );
-    console.log({
-      list: Object.keys(uniqueList).map(key => [key, uniqueList[key]]),
-    });
-
     if (uniqueList)
       setLocalData(Object.keys(uniqueList).map(key => [key, uniqueList[key]]));
   };
 
   useEffect(() => {
-    filterData();
+    filterData(props.data);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data, props.selectedId]);
 
@@ -524,7 +520,13 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
             }
           }}
           onFilterByFields={(condition: any) => {
-            console.log({ localData, condition });
+            if (condition?.validationLevel?.toString()) {
+              filterData(
+                props.data?.filter(
+                  item => item?.validationLevel == condition?.validationLevel,
+                ),
+              );
+            }
           }}
         />
       </div>
