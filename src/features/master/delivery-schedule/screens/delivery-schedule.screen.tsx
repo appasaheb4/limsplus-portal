@@ -218,7 +218,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         hasError={!!errors.schCode}
                         value={value}
                         onChange={schCodeValue => {
-                          const schCode = schCodeValue.toUpperCase();
+                          const schCode = schCodeValue?.toUpperCase();
                           onChange(schCode);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,
@@ -257,7 +257,7 @@ const DeliverySchedule = DeliveryScheduleHoc(
                         hasError={!!errors.schName}
                         value={value}
                         onChange={schNameValue => {
-                          const schName = schNameValue.toUpperCase();
+                          const schName = schNameValue?.toUpperCase();
                           onChange(schName);
                           deliveryScheduleStore.updateDeliverySchedule({
                             ...deliveryScheduleStore.deliverySchedule,

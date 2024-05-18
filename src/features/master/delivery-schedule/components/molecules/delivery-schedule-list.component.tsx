@@ -118,7 +118,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
               editorStyle: { textTransform: 'uppercase' },
               formatter: (cellContent, row) => {
                 return (
-                  <span title={row.schName.toUpperCase()}>{cellContent}</span>
+                  <span title={row.schName?.toUpperCase()}>{cellContent}</span>
                 );
               },
             },
