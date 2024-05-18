@@ -175,7 +175,7 @@ export const Users = UsersHoc(
       () => (
         <UserList
           data={
-            loginStore.login?.userId != 'ADMINISTRATOR'
+            loginStore.login?.userId == 'ADMINISTRATOR'
               ? userStore.userList
               : userStore.userList?.map(
                   item => item.userId != 'ADMINISTRATOR',
