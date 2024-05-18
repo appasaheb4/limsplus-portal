@@ -1893,12 +1893,6 @@ export const Users = UsersHoc(
                       >
                         <select
                           value={value}
-                          disabled={
-                            loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
-                              ? true
-                              : false
-                          }
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                             errors.environment
                               ? 'border-red  '
