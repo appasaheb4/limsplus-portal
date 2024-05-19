@@ -177,11 +177,17 @@ export const Users = UsersHoc(
           data={
             loginStore.login?.userId == 'ADMINISTRATOR'
               ? userStore.userList
-              : userStore.userList?.map(
+              : userStore.userList?.filter(
                   item => item.userId != 'ADMINISTRATOR',
                 ) || []
           }
-          totalSize={userStore && userStore.userListCount}
+          totalSize={
+            loginStore.login?.userId == 'ADMINISTRATOR'
+              ? userStore.userList?.length
+              : userStore.userList?.filter(
+                  item => item.userId != 'ADMINISTRATOR',
+                )?.length
+          }
           extraData={{
             lookupItems: routerStore.lookupItems,
             listLabs: labStore.listLabs,

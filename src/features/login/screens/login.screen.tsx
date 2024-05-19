@@ -30,7 +30,6 @@ export const Login = observer(() => {
     loginStore,
     rootStore,
     bannerStore,
-    lookupStore,
     doctorsStore,
     corporateClientsStore,
   } = useStores();
