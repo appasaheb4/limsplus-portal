@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Container } from 'reactstrap';
 import _ from 'lodash';
-import { Buttons, Icons, ModalImportFile } from '@/library/components';
-import { Styles } from '@/config';
-
-import JoditEditor from 'jodit-react';
+import { ModalImportFile } from '@/library/components';
+import JoditEditor, { Jodit } from 'jodit-react';
 
 interface ModalDocxContentProps {
   title?: string;
@@ -79,10 +77,24 @@ export const ModalDocxContent = ({
                           config={{
                             height: 540,
                             disabled: !isEditable,
+                            events: {
+                              afterOpenPasteDialog: (
+                                dialog,
+                                msg,
+                                title,
+                                callback,
+                              ) => {
+                                dialog.close();
+                                callback();
+                              },
+                            },
                           }}
                           value={content || ''}
                           onBlur={newContent => {
-                            setContent(newContent);
+                            const regex = /(style=".+?")/gm;
+                            const subst = '';
+                            const result = newContent.replace(regex, subst);
+                            setContent(result);
                           }}
                           onChange={newContent => {}}
                         />
