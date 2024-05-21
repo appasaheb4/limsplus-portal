@@ -252,6 +252,7 @@ export const RoleList = (props: RoleListProps) => {
                   <Icons.IconContext
                     color='#fff'
                     size='20'
+                    isDisable={row?.code == 'ONBOARDING' ? true : false}
                     onClick={() =>
                       props.onDelete &&
                       props.onDelete({

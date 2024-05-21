@@ -608,6 +608,27 @@ export const TableBootstrap = ({
       };
   };
 
+  const products = [
+    { id: '1', name: 'name', price: 10 },
+    { id: '2', name: 'name', price: 20 },
+    { id: '3', name: 'name', price: 30 },
+  ];
+
+  const column = [
+    {
+      dataField: 'id',
+      text: 'Product ID',
+    },
+    {
+      dataField: 'name',
+      text: 'Product Name',
+    },
+    {
+      dataField: 'price',
+      text: 'Product Price',
+    },
+  ];
+
   return (
     // <div className='flex h-[calc(100vh_-_20vh)]'>
     <PaginationProvider
@@ -730,12 +751,16 @@ export const TableBootstrap = ({
                   hover
                   {...paginationTableProps}
                   filter={filterFactory()}
+                  keyField='_id'
                   selectRow={
                     isSelectRow
                       ? {
                           mode: 'checkbox',
                           onSelect: handleOnSelect,
                           onSelectAll: handleOnSelectAll,
+                          clickToSelect: true,
+                          nonSelectable: [0, 1, 2],
+                          nonSelectableStyle: { backgroundColor: 'gray' },
                         }
                       : undefined
                   }
@@ -779,6 +804,22 @@ export const TableBootstrap = ({
         </ToolkitProvider>
       )}
     </PaginationProvider>
+    // </div>
+
+    // <div>
+    //    <BootstrapTable
+    //               wrapperClasses='table-responsive'
+    //               keyField='id'
+    //               data={products}
+    //               columns={column}
+    //               selectRow={{
+    //                 mode: 'checkbox',
+    //                 clickToSelect: true,
+    //                 nonSelectable: [0, '1', 2],
+    //                 nonSelectableClasses: 'row-index-bigger-than-2101',
+    //                 nonSelectableStyle: { backgroundColor: 'gray' },
+    //               }}
+    //             />
     // </div>
   );
 };

@@ -258,7 +258,13 @@ const Role = RolesHoc(
           </div>
           <div className='p-2 rounded-lg shadow-xl'>
             <RoleList
-              data={roleStore.listRole || []}
+              data={
+                loginStore.login?.userId == 'ADMINISTRATOR'
+                  ? roleStore.listRole
+                  : roleStore.listRole?.filter(
+                      item => item.code != 'ONBOARDING',
+                    )
+              }
               totalSize={roleStore.listRoleCount}
               extraData={{
                 lookupItems: routerStore.lookupItems,

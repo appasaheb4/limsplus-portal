@@ -621,7 +621,9 @@ export const Users = UsersHoc(
                           dynamicCheck={'code'}
                           placeholder='Search by code or name'
                           data={{
-                            list: roleStore.listRole,
+                            list: roleStore.listRole?.filter(
+                              item => item.code != 'ONBOARDING',
+                            ),
                             selected: userStore.selectedItems?.roles,
                             displayKey: ['code', 'description'],
                           }}
