@@ -1648,6 +1648,11 @@ export const UserList = (props: UserListProps) => {
                         <Icons.IconContext
                           color='#fff'
                           size='20'
+                          isDisable={
+                            row?.userId == props.extraData?.userId
+                              ? true
+                              : false
+                          }
                           onClick={() =>
                             props.onDelete &&
                             props.onDelete({

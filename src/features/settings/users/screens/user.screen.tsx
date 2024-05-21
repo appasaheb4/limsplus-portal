@@ -197,6 +197,7 @@ export const Users = UsersHoc(
             userStore,
             userModule: loginStore.login.resCompany.module,
             environment: loginStore.login.resCompany.environment,
+            userId: loginStore.login?.userId,
           }}
           isView={RouterFlow.checkPermission(
             routerStore.userPermission,
@@ -414,6 +415,8 @@ export const Users = UsersHoc(
       fields: any = userStore.user,
       isSingleCheck = false,
     ) => {
+      console.log({ fields });
+
       const requiredFields = ['userId', 'status'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields }[item])) return item;
@@ -433,7 +436,7 @@ export const Users = UsersHoc(
               },
         },
       }).then(res => {
-        if (res.findByFieldsAndUniqueUserIdUser?.success) {
+        if (res.findByFieldsUser?.success) {
           setIsExistsRecord(true);
           Toast.error({
             message: '😔 Already some record exists.',
@@ -1051,8 +1054,11 @@ export const Users = UsersHoc(
                                 name: '*',
                               },
                             ].concat(
-                              labStore.listLabs?.filter(
-                                item => item.status == 'A',
+                              _.uniqBy(
+                                labStore.listLabs?.filter(
+                                  item => item.status == 'A',
+                                ),
+                                'code',
                               ),
                             ),
                             selected: userStore.selectedItems?.labs,
@@ -1067,7 +1073,7 @@ export const Users = UsersHoc(
                               department: [],
                             });
                             resetField('department');
-                            if (lab.some(e => e.code !== '*')) {
+                            if (lab?.some(e => e.code !== '*')) {
                               departmentStore.DepartmentService.findByFields({
                                 input: { filter: { lab: _.map(lab, 'code') } },
                               }).then(res => {
