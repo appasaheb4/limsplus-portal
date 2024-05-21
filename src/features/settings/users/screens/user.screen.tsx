@@ -66,6 +66,9 @@ export const Users = UsersHoc(
 
     useEffect(() => {
       // Default value initialization
+
+      console.log({ details: userStore.user });
+
       setValue('defaultLab', userStore.user?.defaultLab);
       setValue('defaultDepartment', userStore.user?.defaultDepartment);
       setValue('role', userStore.user?.role);

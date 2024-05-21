@@ -91,10 +91,7 @@ export const ModalDocxContent = ({
                           }}
                           value={content || ''}
                           onBlur={newContent => {
-                            const regex = /(style=".+?")/gm;
-                            const subst = '';
-                            const result = newContent.replace(regex, subst);
-                            setContent(result);
+                            setContent(newContent);
                           }}
                           onChange={newContent => {}}
                         />
@@ -120,7 +117,10 @@ export const ModalDocxContent = ({
                         type='button'
                         style={{ transition: 'all .15s ease' }}
                         onClick={() => {
-                          onUpdate && onUpdate(content);
+                          const regex = /(style=".+?")/gm;
+                          const subst = '';
+                          const result = content.replace(regex, subst);
+                          onUpdate && onUpdate(result);
                         }}
                       >
                         Upload

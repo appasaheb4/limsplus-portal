@@ -109,6 +109,23 @@ export const UserList = (props: UserListProps) => {
     if (props?.role === 'SYSADMIN' && row.status !== 'I') return true;
     return row.status !== 'I' ? true : false;
   };
+
+  const getNonSelectableRows = rows => {
+    const list = [''];
+    if (props.extraData?.userId == 'ADMINISTRATOR') {
+      rows?.filter(item => {
+        if (item?.userId == 'ADMINISTRATOR') {
+          list.push(item._id);
+        }
+      });
+    } else {
+      rows?.filter(item => {
+        list.push(item._id);
+      });
+    }
+    return list;
+  };
+
   const todayDate = new Date();
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
@@ -120,6 +137,7 @@ export const UserList = (props: UserListProps) => {
           id='_id'
           data={props.data}
           totalSize={props.totalSize}
+          getNonSelectableRows={getNonSelectableRows(props.data)}
           columns={[
             {
               dataField: '_id',
@@ -1649,7 +1667,7 @@ export const UserList = (props: UserListProps) => {
                           color='#fff'
                           size='20'
                           isDisable={
-                            row?.userId == props.extraData?.userId
+                            getNonSelectableRows(props.data).includes(row?._id)
                               ? true
                               : false
                           }

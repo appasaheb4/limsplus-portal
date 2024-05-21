@@ -40,11 +40,22 @@ export const RoleList = (props: RoleListProps) => {
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
   };
+  const getNonSelectableRows = rows => {
+    const list = [''];
+    rows?.filter(item => {
+      if (item?.code == 'ONBOARDING') {
+        list.push(item._id);
+      }
+    });
+    return list;
+  };
+
   return (
     <TableBootstrap
       id='_id'
       data={props.data}
       totalSize={props.totalSize}
+      getNonSelectableRows={getNonSelectableRows(props.data)}
       columns={[
         {
           dataField: '_id',
@@ -252,7 +263,11 @@ export const RoleList = (props: RoleListProps) => {
                   <Icons.IconContext
                     color='#fff'
                     size='20'
-                    isDisable={row?.code == 'ONBOARDING' ? true : false}
+                    isDisable={
+                      getNonSelectableRows(props.data).includes(row?._id)
+                        ? true
+                        : false
+                    }
                     onClick={() =>
                       props.onDelete &&
                       props.onDelete({

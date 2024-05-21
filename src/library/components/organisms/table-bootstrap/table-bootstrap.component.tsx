@@ -28,6 +28,7 @@ interface TableBootstrapProps {
   id: string;
   data: any;
   totalSize?: number;
+  getNonSelectableRows?: Array<string>;
   searchPlaceholder?: string;
   page?: number;
   sizePerPage?: number;
@@ -100,6 +101,7 @@ export const TableBootstrap = ({
   id,
   data,
   totalSize = 10,
+  getNonSelectableRows = [''],
   searchPlaceholder = 'Search...',
   page = 0,
   sizePerPage = 10,
@@ -609,28 +611,60 @@ export const TableBootstrap = ({
   };
 
   const products = [
-    { id: '1', name: 'name', price: 10 },
-    { id: '2', name: 'name', price: 20 },
-    { id: '3', name: 'name', price: 30 },
+    {
+      _id: '65c65ea4ceb22bea59457655',
+      code: 'TESTING',
+      description: 'TESTING ',
+      status: 'A',
+      companyCode: 'COMP0001',
+      environment: 'P',
+    },
+    {
+      _id: '65bdcc55cf92b41b45ef1293',
+      code: 'ADMIN',
+      description: 'MAIN USER',
+      status: 'A',
+      companyCode: 'COMP0001',
+      environment: 'P',
+    },
+    {
+      _id: '65bbe6bc52e83e7eb2c21be6',
+      code: 'SYSADMIN',
+      description: 'SYSTEM ADMIN',
+      status: 'A',
+      companyCode: 'COMP0001',
+      environment: 'P',
+    },
   ];
 
   const column = [
     {
-      dataField: 'id',
-      text: 'Product ID',
+      dataField: '_id',
+      text: 'Id',
     },
     {
-      dataField: 'name',
-      text: 'Product Name',
+      dataField: 'code',
+      text: 'Code',
     },
     {
-      dataField: 'price',
-      text: 'Product Price',
+      dataField: 'description',
+      text: 'Description',
+    },
+    {
+      dataField: 'status',
+      text: 'Status',
+    },
+    {
+      text: 'Company Code',
+      dataField: 'companyCode',
+    },
+    {
+      dataField: 'environment',
+      text: 'Environment',
     },
   ];
 
   return (
-    // <div className='flex h-[calc(100vh_-_20vh)]'>
     <PaginationProvider
       pagination={paginationFactory(
         totalSize !== 0 ? options : { page, sizePerPage, totalSize },
@@ -715,23 +749,6 @@ export const TableBootstrap = ({
                     </div>
                   )}
                 </div>
-
-                {/* <div>
-                  {isHideForm && (
-                    <>
-                      {RouterFlow.checkPermission(
-                        routerStore.userPermission,
-                        'Add',
-                      ) && (
-                        <Buttons.ButtonCircleAddRemoveBottom
-                          show={isHideForm}
-                          disabled={circleButtonDisable}
-                          onClick={() => setHideForm?.(!isHideForm)}
-                        />
-                      )}
-                    </>
-                  )}
-                </div> */}
               </div>
               {isFilterOpen && (
                 <div className={'flex overflow-y-hidden'}>
@@ -756,11 +773,11 @@ export const TableBootstrap = ({
                     isSelectRow
                       ? {
                           mode: 'checkbox',
+                          clickToSelect: true,
+                          nonSelectable: getNonSelectableRows,
+                          nonSelectableStyle: { backgroundColor: 'gray' },
                           onSelect: handleOnSelect,
                           onSelectAll: handleOnSelectAll,
-                          clickToSelect: true,
-                          nonSelectable: [0, 1, 2],
-                          nonSelectableStyle: { backgroundColor: 'gray' },
                         }
                       : undefined
                   }
@@ -804,22 +821,22 @@ export const TableBootstrap = ({
         </ToolkitProvider>
       )}
     </PaginationProvider>
-    // </div>
-
-    // <div>
-    //    <BootstrapTable
-    //               wrapperClasses='table-responsive'
-    //               keyField='id'
-    //               data={products}
-    //               columns={column}
-    //               selectRow={{
-    //                 mode: 'checkbox',
-    //                 clickToSelect: true,
-    //                 nonSelectable: [0, '1', 2],
-    //                 nonSelectableClasses: 'row-index-bigger-than-2101',
-    //                 nonSelectableStyle: { backgroundColor: 'gray' },
-    //               }}
-    //             />
-    // </div>
   );
 };
+
+{
+  /* {data?.length > 0 && (
+        <BootstrapTable
+          wrapperClasses='table-responsive'
+          keyField='_id'
+          columns={column}
+          data={products}
+          selectRow={{
+            mode: 'checkbox',
+            clickToSelect: true,
+            nonSelectable: getNonSelectableRows(products),
+            nonSelectableStyle: { backgroundColor: 'gray' },
+          }}
+        />
+      )} */
+}

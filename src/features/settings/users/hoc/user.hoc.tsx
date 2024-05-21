@@ -13,6 +13,10 @@ export const UsersHoc = (Component: React.FC<any>) => {
         ...userStore.user,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
         userGroup: getDefaultLookupItem(routerStore.lookupItems, 'USER_GROUP'),
+        environment:
+          loginStore.login.resCompany.environment?.length == 1
+            ? loginStore.login.resCompany.environment[0]
+            : undefined,
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
