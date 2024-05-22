@@ -3,6 +3,7 @@ import { Container } from 'reactstrap';
 import _ from 'lodash';
 import { ModalImportFile } from '@/library/components';
 import JoditEditor, { Jodit } from 'jodit-react';
+import 'jodit/esm/plugins/resizer/resizer';
 
 interface ModalDocxContentProps {
   title?: string;
@@ -12,7 +13,6 @@ interface ModalDocxContentProps {
   onUpdate: (details: string) => void;
   onClose: () => void;
 }
-
 export const ModalDocxContent = ({
   title = 'Update details',
   visible,
@@ -24,14 +24,20 @@ export const ModalDocxContent = ({
   const editor = useRef<any>();
   const [showModal, setShowModal] = React.useState(visible);
   const [modalDetail, setModalDetail] = useState<any>();
-
   const [content, setContent] = useState('');
-
   useEffect(() => {
     setShowModal(visible);
     setContent(details);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
+
+  // Jodit.make('#editor', {
+  //   controls: {
+  //     font: {
+  //       component: 'select',
+  //     },
+  //   },
+  // });
 
   return (
     <>
@@ -55,7 +61,6 @@ export const ModalDocxContent = ({
                   {/*header*/}
                   <div className='flex items-start justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                     <h3 className='text-3xl font-semibold'>{title}</h3>
-
                     <button
                       className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                       onClick={() => {
@@ -71,24 +76,77 @@ export const ModalDocxContent = ({
                   {/*body*/}
                   <div className='relative p-2 flex-auto'>
                     <div className='grid grid-cols-1'>
-                      <div>
+                      <div id='editor'>
                         <JoditEditor
                           ref={editor}
-                          config={{
-                            height: 540,
-                            disabled: !isEditable,
-                            events: {
-                              afterOpenPasteDialog: (
-                                dialog,
-                                msg,
-                                title,
-                                callback,
-                              ) => {
-                                dialog.close();
-                                callback();
+                          config={
+                            {
+                              height: 540,
+                              disabled: !isEditable,
+                              events: {
+                                afterOpenPasteDialog: (
+                                  dialog,
+                                  msg,
+                                  title,
+                                  callback,
+                                ) => {
+                                  dialog.close();
+                                  callback();
+                                },
                               },
-                            },
-                          }}
+                              uploader: {
+                                insertImageAsBase64URI: false,
+                                imagesExtensions: ['jpg', 'png', 'jpeg', 'gif'],
+                                withCredentials: false,
+                                format: 'json',
+                                method: 'POST',
+                                url: 'http://localhost:3000/files',
+                                headers: {
+                                  'Content-Type': 'multipart/form-data',
+                                },
+                                prepareData: function (data) {
+                                  console.log({ data });
+                                  // data.append('file', this.file);
+                                  return data;
+                                },
+                                isSuccess: function (resp) {
+                                  return !resp.error;
+                                },
+                                getMsg: function (resp) {
+                                  return resp.msg.join !== undefined
+                                    ? resp.msg.join(' ')
+                                    : resp.msg;
+                                },
+                                process: function (resp) {
+                                  return {
+                                    files: [resp.data],
+                                    path: '',
+                                    baseurl: '',
+                                    error: resp.error ? 1 : 0,
+                                    msg: resp.msg,
+                                  };
+                                },
+                                defaultHandlerSuccess: function (data, resp) {
+                                  const files = data.files || [];
+                                  if (files.length) {
+                                    console.log({ file: files[0] });
+                                    // this.selection.insertImage(
+                                    //   files[0],
+                                    //   null,
+                                    //   250,
+                                    // );
+                                  }
+                                },
+                                defaultHandlerError: function (resp) {
+                                  console.log({ resp });
+                                  // this.events.fire(
+                                  //   'errorPopap',
+                                  //   this.i18n(resp.msg),
+                                  // );
+                                },
+                              },
+                            } as any
+                          }
                           value={content || ''}
                           onBlur={newContent => {
                             setContent(newContent);
@@ -134,13 +192,11 @@ export const ModalDocxContent = ({
           </>
         )}
       </Container>
-
       <ModalImportFile
         accept='.docx'
         {...modalDetail}
         click={(file: any) => {
           setModalDetail({ show: false });
-          //handleFileChange(file);
         }}
         close={() => {
           setModalDetail({ show: false });

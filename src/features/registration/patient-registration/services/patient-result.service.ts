@@ -323,7 +323,6 @@ export class PatientResultService {
           },
         })
         .then((response: any) => {
-          console.log({ response });
           if (!response.data.findNotEqualToResultList.success) {
             return this.listPatientResultNotAutoUpdate({
               pLab: stores.loginStore.login?.lab,
@@ -369,7 +368,6 @@ export class PatientResultService {
           query: GET_PATIENT_RESULT_DISTINCT,
         })
         .then((response: any) => {
-          console.log({ response });
           stores.patientResultStore.updateDistinctPatientResult(response.data);
           resolve(response.data);
         })
