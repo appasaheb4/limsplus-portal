@@ -66,9 +66,6 @@ export const Users = UsersHoc(
 
     useEffect(() => {
       // Default value initialization
-
-      console.log({ details: userStore.user });
-
       setValue('defaultLab', userStore.user?.defaultLab);
       setValue('defaultDepartment', userStore.user?.defaultDepartment);
       setValue('role', userStore.user?.role);
@@ -1247,7 +1244,6 @@ export const Users = UsersHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

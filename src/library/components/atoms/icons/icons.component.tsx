@@ -256,6 +256,7 @@ interface RIconProps {
   nameIcon: string;
   propsIcon?: IconBaseProps;
   tooltip?: string;
+  isDisable?: boolean;
   onClick?: () => void;
 }
 
@@ -263,9 +264,14 @@ export const RIcon = ({
   nameIcon,
   propsIcon,
   tooltip = '',
+  isDisable = false,
   onClick,
 }: RIconProps): JSX.Element => {
   try {
+    const iconProps = {
+      ...propsIcon,
+      color: isDisable ? '#808080' : propsIcon?.color || '#fff',
+    };
     const lib = nameIcon
       .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
       .split(' ')[0]
@@ -278,13 +284,17 @@ export const RIcon = ({
       },
     );
     return (
-      <div onClick={() => onClick && onClick()}>
+      <div
+        onClick={() => {
+          if (!isDisable) onClick && onClick();
+        }}
+      >
         {!_.isEmpty(tooltip) ? (
           <Tooltip tooltipText={tooltip}>
-            <ElementIcon {...propsIcon} />
+            <ElementIcon {...iconProps} />
           </Tooltip>
         ) : (
-          <ElementIcon {...propsIcon} />
+          <ElementIcon {...iconProps} />
         )}
       </div>
     );

@@ -1697,6 +1697,13 @@ export const UserList = (props: UserListProps) => {
                             <Icons.IconContext
                               color='#fff'
                               size='20'
+                              isDisable={
+                                getNonSelectableRows(props.data).includes(
+                                  row?._id,
+                                )
+                                  ? true
+                                  : false
+                              }
                               onClick={() =>
                                 props.onVersionUpgrade &&
                                 props.onVersionUpgrade(row)
@@ -1711,6 +1718,13 @@ export const UserList = (props: UserListProps) => {
                             <Icons.IconContext
                               color='#fff'
                               size='20'
+                              isDisable={
+                                getNonSelectableRows(props.data).includes(
+                                  row?._id,
+                                )
+                                  ? true
+                                  : false
+                              }
                               onClick={() =>
                                 props.onDuplicate && props.onDuplicate(row)
                               }
@@ -1729,6 +1743,11 @@ export const UserList = (props: UserListProps) => {
                           nameIcon='AiOutlineCheckCircle'
                           propsIcon={{ size: 24, color: '#ffffff' }}
                           onClick={() => props.onApproval(row)}
+                          isDisable={
+                            getNonSelectableRows(props.data).includes(row?._id)
+                              ? true
+                              : false
+                          }
                         />
                       </Tooltip>
                     )}
