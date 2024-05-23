@@ -94,56 +94,61 @@ export const ModalDocxContent = ({
                                   callback();
                                 },
                               },
+                              // uploader: {
+                              //   insertImageAsBase64URI: false,
+                              //   imagesExtensions: ['jpg', 'png', 'jpeg', 'gif'],
+                              //   withCredentials: false,
+                              //   format: 'json',
+                              //   method: 'POST',
+                              //   url: 'http://localhost:3000/files',
+                              //   headers: {
+                              //     'Content-Type': 'multipart/form-data',
+                              //   },
+                              //   prepareData: function (data) {
+                              //     console.log({ data });
+                              //      data.append('file', this.file);
+                              //     return data;
+                              //   },
+                              //   isSuccess: function (resp) {
+                              //     return !resp.error;
+                              //   },
+                              //   getMsg: function (resp) {
+                              //     return resp.msg.join !== undefined
+                              //       ? resp.msg.join(' ')
+                              //       : resp.msg;
+                              //   },
+                              //   process: function (resp) {
+                              //     console.log({ resp });
+
+                              //     return {
+                              //       files: [resp.data],
+                              //       path: '',
+                              //       baseurl: '',
+                              //       error: resp.error ? 1 : 0,
+                              //       msg: resp.msg,
+                              //     };
+                              //   },
+                              //   defaultHandlerSuccess: function (data, resp) {
+                              //     const files = data.files || [];
+                              //     if (files.length) {
+                              //       console.log({ file: files[0] });
+                              //       // this.selection.insertImage(
+                              //       //   files[0],
+                              //       //   null,
+                              //       //   250,
+                              //       // );
+                              //     }
+                              //   },
+                              //   defaultHandlerError: function (resp) {
+                              //     console.log({ resp });
+                              //     // this.events.fire(
+                              //     //   'errorPopap',
+                              //     //   this.i18n(resp.msg),
+                              //     // );
+                              //   },
+                              // },
                               uploader: {
-                                insertImageAsBase64URI: false,
-                                imagesExtensions: ['jpg', 'png', 'jpeg', 'gif'],
-                                withCredentials: false,
-                                format: 'json',
-                                method: 'POST',
-                                url: 'http://localhost:3000/files',
-                                headers: {
-                                  'Content-Type': 'multipart/form-data',
-                                },
-                                prepareData: function (data) {
-                                  console.log({ data });
-                                  // data.append('file', this.file);
-                                  return data;
-                                },
-                                isSuccess: function (resp) {
-                                  return !resp.error;
-                                },
-                                getMsg: function (resp) {
-                                  return resp.msg.join !== undefined
-                                    ? resp.msg.join(' ')
-                                    : resp.msg;
-                                },
-                                process: function (resp) {
-                                  return {
-                                    files: [resp.data],
-                                    path: '',
-                                    baseurl: '',
-                                    error: resp.error ? 1 : 0,
-                                    msg: resp.msg,
-                                  };
-                                },
-                                defaultHandlerSuccess: function (data, resp) {
-                                  const files = data.files || [];
-                                  if (files.length) {
-                                    console.log({ file: files[0] });
-                                    // this.selection.insertImage(
-                                    //   files[0],
-                                    //   null,
-                                    //   250,
-                                    // );
-                                  }
-                                },
-                                defaultHandlerError: function (resp) {
-                                  console.log({ resp });
-                                  // this.events.fire(
-                                  //   'errorPopap',
-                                  //   this.i18n(resp.msg),
-                                  // );
-                                },
+                                insertImageAsBase64URI: true,
                               },
                             } as any
                           }
@@ -178,6 +183,7 @@ export const ModalDocxContent = ({
                           const regex = /(style=".+?")/gm;
                           const subst = '';
                           const result = content.replace(regex, subst);
+                          console.log({ result });
                           onUpdate && onUpdate(result);
                         }}
                       >
