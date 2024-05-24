@@ -106,7 +106,7 @@ export const ModalDocxContent = ({
                                 isSuccess: function (resp) {
                                   setContent(
                                     content.concat(
-                                      `<img src=${resp?.data?.data} />`,
+                                      `<img src=${resp?.data?.data} alt="logo" style="width:200;height:200"/>`,
                                     ),
                                   );
                                 },
