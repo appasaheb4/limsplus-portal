@@ -94,19 +94,40 @@ export const ModalDocxContent = ({
                                   callback();
                                 },
                               },
+                              uploader: {
+                                url: 'http://localhost:8082/api/assets/uploadFile',
+                                prepareData: function (data) {
+                                  data.append('folder', 'patient-reports');
+                                  data.delete('path');
+                                  data.delete('source');
+                                },
+                                isSuccess: function (resp) {
+                                  setContent(
+                                    content.concat(
+                                      `<img src=${resp?.data?.data} />`,
+                                    ),
+                                  );
+                                },
+                              },
                               // uploader: {
                               //   insertImageAsBase64URI: false,
                               //   imagesExtensions: ['jpg', 'png', 'jpeg', 'gif'],
                               //   withCredentials: false,
                               //   format: 'json',
                               //   method: 'POST',
-                              //   url: 'http://localhost:3000/files',
+                              //   url: 'http://localhost:8082/api/assets/uploadFile',
+                              //   body: {
+                              //     folder: 'patient-reports',
+                              //   },
                               //   headers: {
-                              //     'Content-Type': 'multipart/form-data',
+                              //     'Content-Type': [
+                              //       'application/json; charset=utf-8',
+                              //       'multipart/form-data',
+                              //     ],
                               //   },
                               //   prepareData: function (data) {
+                              //     data.append('folder', 'patient-reports');
                               //     console.log({ data });
-                              //      data.append('file', this.file);
                               //     return data;
                               //   },
                               //   isSuccess: function (resp) {
@@ -147,9 +168,6 @@ export const ModalDocxContent = ({
                               //     // );
                               //   },
                               // },
-                              uploader: {
-                                insertImageAsBase64URI: true,
-                              },
                             } as any
                           }
                           value={content || ''}
