@@ -97,7 +97,7 @@ export const ModalDocxContent = ({
                               uploader: {
                                 //url: 'http://localhost:8082/api/assets/uploadFile',
                                 //url: 'http://localhost:8080/assets/uploadFile',
-                                url: 'https://limsplus-service-dev.azurewebsites.net/assets/uploadFile',
+                                url: 'https://limsplus-service.azurewebsites.net/assets/uploadFile',
                                 prepareData: function (data) {
                                   data.append('folder', 'patient-reports');
                                   data.delete('path');
