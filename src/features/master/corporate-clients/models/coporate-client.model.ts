@@ -28,7 +28,7 @@ export class CorporateClients {
   zone: string;
   telephone: string;
   mobileNo: string;
-  email: string;
+  emails: Array<any>;
   reportPriority: string;
   deliveryMode: Array<any>;
   schedule: string;
@@ -85,7 +85,7 @@ export class CorporateClients {
     this.zone = rawData.zone;
     this.telephone = rawData.telephone;
     this.mobileNo = rawData.mobileNo;
-    this.email = rawData.email;
+    this.emails = rawData.emails;
     this.reportPriority = rawData.reportPriority;
     this.deliveryMode = rawData.deliveryMode;
     this.schedule = rawData.schedule;

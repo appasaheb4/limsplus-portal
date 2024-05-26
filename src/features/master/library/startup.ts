@@ -1,5 +1,5 @@
-import {eventEmitter} from '@/core-utils';
-import {stores} from '@/stores';
+import { eventEmitter } from '@/core-utils';
+import { stores } from '@/stores';
 
 const startup = async () => {
   setTimeout(() => {

@@ -677,7 +677,9 @@ const MasterAnalyte = MasterAnalyteHoc(
                             loader={loading}
                             placeholder='Search by code or name'
                             data={{
-                              list: methodsStore.listMethods,
+                              list: methodsStore.listMethods?.filter(
+                                item => item.status == 'A',
+                              ),
                               displayKey: ['methodsCode', 'methodsName'],
                             }}
                             disable={!masterAnalyteStore.masterAnalyte?.method}

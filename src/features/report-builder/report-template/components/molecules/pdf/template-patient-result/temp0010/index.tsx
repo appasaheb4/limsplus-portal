@@ -10,15 +10,34 @@ import Html from 'react-pdf-html';
 //   family: 'arimaRegular',
 //   src: '../../../assets/fonts/arima/Arima-Regular.ttf',
 // });
-Font.register({
-  family: 'IBMPlexSansBold',
-  src: '../../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf',
-});
 
 Font.register({
-  family: 'IBMPlexSansBoldItalic',
-  src: '../../../assets/fonts/IBM_Plex_Sans/IBMPlexSans-Italic.ttf',
+  family: 'IBMPlexSans',
+  fonts: [
+    {
+      src: '/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+    },
+    {
+      src: '/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Italic.ttf',
+      fontWeight: 'normal',
+      fontStyle: 'italic',
+    },
+  ],
 });
+
+// Font.register({
+//   family: 'IBMPlexSansBold',
+//   src: '/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf',
+//   fontWeight: 400,
+// });
+
+// Font.register({
+//   family: 'IBMPlexSansBoldItalic',
+//   src: '/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Italic.ttf',
+//   fontWeight: 400,
+// });
 
 const styles = StyleSheet.create({
   page: {
@@ -73,10 +92,11 @@ export const PdfTemp0010 = ({
 
   const stylesheet = {
     body: {
-      fontSize: '12',
+      fontSize: '8px',
     },
     p: {
       margin: 0,
+      fontSize: '12px',
     },
     table: {
       border: '1px solid !important',
@@ -87,7 +107,12 @@ export const PdfTemp0010 = ({
       padding: 2,
     },
     strong: {
-      fontFamily: 'IBMPlexSansBold',
+      fontFamily: 'IBMPlexSans',
+      fontWeight: 'bold',
+    },
+    em: {
+      fontFamily: 'IBMPlexSans',
+      fontStyle: 'italic',
     },
     img: {
       width: 200,

@@ -1,11 +1,11 @@
 /* eslint-disable  */
-import React, {useEffect} from 'react';
-import {Container} from 'reactstrap';
-import {Icons} from '@components';
-import {pdf} from '@react-pdf/renderer';
-import {PdfReceipt} from '../../../receipt/components';
-import {saveAs} from 'file-saver';
-import {SocialIcon} from 'react-social-icons';
+import React, { useEffect } from 'react';
+import { Container } from 'reactstrap';
+import { Icons } from '@components';
+import { pdf } from '@react-pdf/renderer';
+import { PdfReceipt } from '../../../receipt/components';
+import { saveAs } from 'file-saver';
+import { SocialIcon } from 'react-social-icons';
 import printjs from 'print-js';
 
 interface ModalReceiptShareProps {
@@ -112,7 +112,7 @@ export const ModalReceiptShare = ({
                         </Icons.IconContext>
                         <SocialIcon
                           network='email'
-                          style={{height: 32, width: 32}}
+                          style={{ height: 32, width: 32 }}
                           onClick={async () => {
                             sharePdfLink(
                               `mailto:${
@@ -123,7 +123,7 @@ export const ModalReceiptShare = ({
                         />
                         <SocialIcon
                           network='whatsapp'
-                          style={{height: 32, width: 32}}
+                          style={{ height: 32, width: 32 }}
                           onClick={() => {
                             sharePdfLink(
                               data.patientDetails?.whatsappNumber
@@ -134,7 +134,7 @@ export const ModalReceiptShare = ({
                         />
                         <SocialIcon
                           network='twitter'
-                          style={{height: 32, width: 32}}
+                          style={{ height: 32, width: 32 }}
                           onClick={() => {
                             sharePdfLink(
                               'https://twitter.com/intent/tweet?url=Your%20payment%20receipt%20link:',
@@ -143,7 +143,7 @@ export const ModalReceiptShare = ({
                         />
                         <SocialIcon
                           network='telegram'
-                          style={{height: 32, width: 32}}
+                          style={{ height: 32, width: 32 }}
                           onClick={() => {
                             sharePdfLink(
                               'https://t.me/share/url?url=Your%20payment%20receipt%20link:',
@@ -158,7 +158,7 @@ export const ModalReceiptShare = ({
                   <button
                     className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={() => {
                       setShowModal(false);
                       onClose && onClose();

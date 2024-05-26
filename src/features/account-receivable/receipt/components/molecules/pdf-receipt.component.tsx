@@ -9,16 +9,16 @@ import {
   PdfSmall,
   PdfImage,
 } from '@components';
-import {PdfReceiptViewer} from './pdf-receipt-viewer.component';
-import {PdfTransactionLineTable} from './pdf-table-transaction-line.component';
-import {getAgeAndAgeUnit} from '@features/registration/patient-registration/utils';
-import {calculateTimimg, numToWords} from '@/library/utils';
+import { PdfReceiptViewer } from './pdf-receipt-viewer.component';
+import { PdfTransactionLineTable } from './pdf-table-transaction-line.component';
+import { getAgeAndAgeUnit } from '@features/registration/patient-registration/utils';
+import { calculateTimimg, numToWords } from '@/library/utils';
 interface PdfReceiptProps {
   data: any;
 }
 
 const headerGridSpace = 120;
-export const PdfReceipt = ({data}: PdfReceiptProps) => {
+export const PdfReceipt = ({ data }: PdfReceiptProps) => {
   const {
     labId,
     headerDetails,
@@ -62,12 +62,11 @@ export const PdfReceipt = ({data}: PdfReceiptProps) => {
           <PdfView mt={20}>
             <PdfImage
               src={headerDetails?.labLogo}
-              style={{width: 150, height: 40}}
+              style={{ width: 150, height: 40 }}
             />
-
             <PdfView mh={0} p={0}>
               <PdfView mt={4} mh={0} p={0} flexDirection='row'>
-                <PdfSmall style={{width: headerGridSpace}}>
+                <PdfSmall style={{ width: headerGridSpace }}>
                   {'Regd. Office:'}
                 </PdfSmall>
                 <PdfSmall>
@@ -76,17 +75,19 @@ export const PdfReceipt = ({data}: PdfReceiptProps) => {
                 </PdfSmall>
               </PdfView>
               <PdfView mh={0} p={0} flexDirection='row'>
-                <PdfSmall style={{width: headerGridSpace}}>
+                <PdfSmall style={{ width: headerGridSpace }}>
                   {'Customer Care:'}
                 </PdfSmall>
                 <PdfSmall> {`${headerDetails?.customerCare || ''}`} </PdfSmall>
               </PdfView>
               <PdfView mh={0} p={0} flexDirection='row'>
-                <PdfSmall style={{width: headerGridSpace}}>{'Email:'}</PdfSmall>
+                <PdfSmall style={{ width: headerGridSpace }}>
+                  {'Email:'}
+                </PdfSmall>
                 <PdfSmall> {`${headerDetails?.email || ''}`} </PdfSmall>
               </PdfView>
               <PdfView mh={0} p={0} flexDirection='row'>
-                <PdfSmall style={{width: headerGridSpace}}>
+                <PdfSmall style={{ width: headerGridSpace }}>
                   {'Registration Location:'}
                 </PdfSmall>
                 <PdfSmall>{`${
@@ -94,11 +95,13 @@ export const PdfReceipt = ({data}: PdfReceiptProps) => {
                 }`}</PdfSmall>
               </PdfView>
               <PdfView mh={0} p={0} flexDirection='row'>
-                <PdfSmall style={{width: headerGridSpace}}>{'Phone:'}</PdfSmall>
+                <PdfSmall style={{ width: headerGridSpace }}>
+                  {'Phone:'}
+                </PdfSmall>
                 <PdfSmall> {`${headerDetails?.phone || ''}`} </PdfSmall>
               </PdfView>
               <PdfView mh={0} p={0} flexDirection='row'>
-                <PdfSmall style={{width: headerGridSpace}}>{'Web:'}</PdfSmall>
+                <PdfSmall style={{ width: headerGridSpace }}>{'Web:'}</PdfSmall>
                 <PdfSmall> {`${headerDetails?.web || ''}`} </PdfSmall>
               </PdfView>
             </PdfView>
@@ -117,7 +120,7 @@ export const PdfReceipt = ({data}: PdfReceiptProps) => {
               <PdfSmall
                 textAlign='center'
                 fontFamily='Times-Italic'
-                style={{textDecoration: 'underline'}}
+                style={{ textDecoration: 'underline' }}
               >
                 Please bring this receipt for report collections
               </PdfSmall>
@@ -240,7 +243,7 @@ export const PdfReceipt = ({data}: PdfReceiptProps) => {
               This is a computer generated receipt and does not require
               signature/stamp
             </PdfSmall>
-            <PdfSmall fontFamily='Times-Bold' style={{marginTop: 4}}>
+            <PdfSmall fontFamily='Times-Bold' style={{ marginTop: 4 }}>
               {`*Final Report Delivery Date: ${dayjs(new Date()).format(
                 'YYYY-MM-DD',
               )}. *Report Collection Time: 6:00 AM to 7:30 PM`}

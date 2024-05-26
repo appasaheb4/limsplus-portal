@@ -97,12 +97,12 @@ const TransactionDetails = observer(() => {
           receiptStore.receiptService
             .generatePaymentReceipt({ input: { headerId: item?.headerId } })
             .then(res => {
-              if (res.generatePaymentReceipt?.success)
+              if (res.generatePaymentReceipt?.success) {
                 setModalPaymentReceipt({
                   show: true,
                   data: res.generatePaymentReceipt?.receiptData,
                 });
-              else
+              } else
                 Toast.error({
                   message: `😔 ${res.generatePaymentReceipt.message}`,
                 });
@@ -177,61 +177,61 @@ const TransactionDetails = observer(() => {
                 // });
               }}
             />
-            <ModalConfirm
-              {...modalConfirm}
-              click={(type?: string) => {
-                // deliveryQueueStore.deliveryQueueService
-                //   .updateDeliveryQueue({
-                //     input: {
-                //       _id: modalConfirm.id,
-                //       deliveryStatus:
-                //         type == 'cancel'
-                //           ? 'Cancel'
-                //           : type == 'hold'
-                //           ? 'Hold'
-                //           : 'Done',
-                //     },
-                //   })
-                //   .then(res => {
-                //     if (res.updateDeliveryQueue.success) {
-                //       Toast.success({
-                //         message: `😊 ${res.updateDeliveryQueue.message}`,
-                //       });
-                //       setModalConfirm({show: false});
-                //       deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
-                //     }
-                //   });
-              }}
-              close={() => {
-                setModalConfirm({ show: false });
-              }}
-            />
-            <ModalReceiptShare
-              {...modalPaymentReceipt}
-              onClose={() => {
-                setModalPaymentReceipt({ show: false });
-              }}
-              onReceiptUpload={(file, type) => {
-                if (!receiptPath) {
-                  receiptStore.receiptService
-                    .paymentReceiptUpload({ input: { file } })
-                    .then(res => {
-                      if (res.paymentReceiptUpload.success) {
-                        setReceiptPath(res.paymentReceiptUpload?.receiptPath);
-                        window.open(
-                          `${type} ${res.paymentReceiptUpload?.receiptPath}`,
-                          '_blank',
-                        );
-                      }
-                    });
-                } else {
-                  window.open(type + receiptPath, '_blank');
-                }
-              }}
-            />
           </div>
         </>
       )}
+      <ModalConfirm
+        {...modalConfirm}
+        click={(type?: string) => {
+          // deliveryQueueStore.deliveryQueueService
+          //   .updateDeliveryQueue({
+          //     input: {
+          //       _id: modalConfirm.id,
+          //       deliveryStatus:
+          //         type == 'cancel'
+          //           ? 'Cancel'
+          //           : type == 'hold'
+          //           ? 'Hold'
+          //           : 'Done',
+          //     },
+          //   })
+          //   .then(res => {
+          //     if (res.updateDeliveryQueue.success) {
+          //       Toast.success({
+          //         message: `😊 ${res.updateDeliveryQueue.message}`,
+          //       });
+          //       setModalConfirm({show: false});
+          //       deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+          //     }
+          //   });
+        }}
+        close={() => {
+          setModalConfirm({ show: false });
+        }}
+      />
+      <ModalReceiptShare
+        {...modalPaymentReceipt}
+        onClose={() => {
+          setModalPaymentReceipt({ show: false });
+        }}
+        onReceiptUpload={(file, type) => {
+          if (!receiptPath) {
+            receiptStore.receiptService
+              .paymentReceiptUpload({ input: { file } })
+              .then(res => {
+                if (res.paymentReceiptUpload.success) {
+                  setReceiptPath(res.paymentReceiptUpload?.receiptPath);
+                  window.open(
+                    `${type} ${res.paymentReceiptUpload?.receiptPath}`,
+                    '_blank',
+                  );
+                }
+              });
+          } else {
+            window.open(type + receiptPath, '_blank');
+          }
+        }}
+      />
     </>
   );
 });

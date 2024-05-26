@@ -499,6 +499,7 @@ export const DisplayResult = observer(
                     visible: true,
                     details: row?.result,
                     isEditable: row?.panelStatus == 'P' ? true : false,
+                    isLibraryImport: row?.panelStatus == 'P' ? true : false,
                     _id: row?._id,
                   });
                 }}

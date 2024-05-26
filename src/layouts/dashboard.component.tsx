@@ -291,6 +291,7 @@ const Dashboard = ({ children }) => {
       // result entry
       if (pathname === '/result-entry/general') {
         await GeneralResultEntry.startup();
+        await Library.startup();
       }
       if (pathname === '/report-builder/report-settings') {
         await ReportSettings.startup();

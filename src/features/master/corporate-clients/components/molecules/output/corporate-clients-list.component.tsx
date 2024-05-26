@@ -955,7 +955,8 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               fontSize: 0,
             },
             sortCaret: (order, column) => sortCaret(order, column),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               placeholder: 'Email',
@@ -963,6 +964,15 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                 email = filter;
               },
             }),
+            formatter: (cell, row) => {
+              return (
+                <div className='flex flex-row flex-wrap gap-2'>
+                  {row.emails?.map((item, index) => (
+                    <span key={index}>{item?.name + '-' + item?.email}</span>
+                  ))}
+                </div>
+              );
+            },
             editorRenderer: (
               editorProps,
               value,

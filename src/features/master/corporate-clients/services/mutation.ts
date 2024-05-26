@@ -39,7 +39,7 @@ export const LIST = gql`
         confidential
         telephone
         mobileNo
-        email
+        emails
         reportPriority
         deliveryMode
         salesTerritoRy
@@ -161,7 +161,7 @@ export const FILTER = gql`
         category
         telephone
         mobileNo
-        email
+        emails
         reportPriority
         deliveryMode
         salesTerritoRy
@@ -230,7 +230,7 @@ export const FILTER_BY_FIELDS = gql`
         confidential
         telephone
         mobileNo
-        email
+        emails
         reportPriority
         deliveryMode
         salesTerritoRy
@@ -306,7 +306,7 @@ export const FIND_BY_ARR_ITEMS = gql`
         confidential
         telephone
         mobileNo
-        email
+        emails
         reportPriority
         deliveryMode
         salesTerritoRy
@@ -372,7 +372,7 @@ export const FIND_BY_FIELDS = gql`
         confidential
         telephone
         mobileNo
-        email
+        emails
         reportPriority
         deliveryMode
         salesTerritoRy

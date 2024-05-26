@@ -10,11 +10,18 @@ export class CorporateClientsStore {
   listCorporateClientsCopy!: CorporateClients[];
   checkExistsEnvCode: boolean;
   selectedItems!: SelectedItems;
+  emailFields!:
+    | {
+        name: string;
+        email: string;
+      }
+    | undefined;
 
   constructor() {
     this.listCoporateClientsCount = 0;
     this.listCorporateClients = [];
     this.checkExistsEnvCode = false;
+    this.emailFields = undefined;
     this.corporateClients = {
       ...this.corporateClients,
       dateCreation: new Date(),
@@ -109,5 +116,9 @@ export class CorporateClientsStore {
 
   updateSelectedItems(items: SelectedItems) {
     this.selectedItems = items;
+  }
+
+  updateEmailFields(fields?: any) {
+    this.emailFields = fields || undefined;
   }
 }

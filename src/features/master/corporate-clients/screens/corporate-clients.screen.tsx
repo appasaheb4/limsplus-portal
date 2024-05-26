@@ -16,6 +16,7 @@ import {
   MainPageHeading,
   AutoCompleteFilterMultiSelectSelectedTopDisplay,
   ModalPostalCode,
+  Icons,
 } from '@/library/components';
 import { CorporateClient, DeliveryMode } from '../components';
 import { dayjs, lookupItems, lookupValue } from '@/library/utils';
@@ -1272,41 +1273,129 @@ const CorporateClients = CorporateClientsHoc(
                     }}
                     defaultValue=''
                   />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Input
-                        label='Email'
-                        placeholder={
-                          errors.email ? 'Please Enter Email' : 'Email'
-                        }
-                        hasError={!!errors.email}
-                        value={value}
-                        onChange={email => {
-                          onChange(email);
-                          corporateClientsStore.updateCorporateClients({
-                            ...corporateClientsStore.corporateClients,
-                            email,
-                          });
-                        }}
-                        onBlur={email => {
-                          if (FormHelper.isEmailValid(email)) {
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              email,
-                            });
-                          } else if (email) {
-                            return Toast.error({
-                              message: 'Please enter a valid email address.',
-                            });
-                          }
-                        }}
+
+                  <Form.InputWrapper label='Name & Email'>
+                    <Grid cols={3}>
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Input
+                            placeholder='Name'
+                            value={corporateClientsStore.emailFields?.name}
+                            onChange={name => {
+                              onChange(name);
+                              corporateClientsStore.updateEmailFields({
+                                ...corporateClientsStore.emailFields,
+                                name,
+                              });
+                            }}
+                          />
+                        )}
+                        name='name'
+                        rules={{ required: false }}
+                        defaultValue=''
                       />
-                    )}
-                    name='email'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Input
+                            placeholder='Email'
+                            value={corporateClientsStore.emailFields?.email}
+                            onChange={email => {
+                              onChange(email);
+                              corporateClientsStore.updateEmailFields({
+                                ...corporateClientsStore.emailFields,
+                                email,
+                              });
+                            }}
+                          />
+                        )}
+                        name='email'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                      <div className='mt-2 flex flex-row justify-between'>
+                        <Buttons.Button
+                          size='medium'
+                          type='solid'
+                          onClick={() => {
+                            const name =
+                              corporateClientsStore.emailFields?.name;
+                            const email =
+                              corporateClientsStore.emailFields?.email;
+                            let emails =
+                              corporateClientsStore.corporateClients?.emails ||
+                              [];
+                            if (name === undefined || email === undefined)
+                              return alert('Please enter name and email.');
+                            if (email !== undefined) {
+                              emails !== undefined
+                                ? emails.push({
+                                    name,
+                                    email,
+                                  })
+                                : (emails = [
+                                    {
+                                      name,
+                                      email,
+                                    },
+                                  ]);
+                              corporateClientsStore.updateCorporateClients({
+                                ...corporateClientsStore.corporateClients,
+                                emails,
+                              });
+                              corporateClientsStore.updateEmailFields({
+                                name: '',
+                                email: '',
+                              });
+                            }
+                          }}
+                        >
+                          <Icons.EvaIcon icon='plus-circle-outline' />
+                          {'Add'}
+                        </Buttons.Button>
+                      </div>
+                      <div className='clearfix'></div>
+                    </Grid>
+
+                    <List space={2} direction='row' justify='center'>
+                      <div>
+                        {corporateClientsStore.corporateClients?.emails?.map(
+                          (item, index) => (
+                            <div className='mb-2' key={index}>
+                              <Buttons.Button
+                                size='medium'
+                                type='solid'
+                                icon={Svg.Remove}
+                                onClick={() => {
+                                  const firstArr =
+                                    corporateClientsStore.corporateClients?.emails?.slice(
+                                      0,
+                                      index,
+                                    ) || [];
+                                  const secondArr =
+                                    corporateClientsStore.corporateClients?.emails?.slice(
+                                      index + 1,
+                                    ) || [];
+                                  const finalArray = [
+                                    ...firstArr,
+                                    ...secondArr,
+                                  ];
+                                  corporateClientsStore.updateCorporateClients({
+                                    ...corporateClientsStore.corporateClients,
+                                    emails: finalArray,
+                                  });
+                                }}
+                              >
+                                {`${item.name} - ${item.email}`}
+                              </Buttons.Button>
+                            </div>
+                          ),
+                        )}
+                      </div>
+                    </List>
+                  </Form.InputWrapper>
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

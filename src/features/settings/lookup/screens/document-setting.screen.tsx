@@ -185,6 +185,7 @@ export const DocumentSettings = DocumentSettingHoc(
                 rules={{ required: true }}
                 defaultValue=''
               />
+
               <Form.InputWrapper label='Code & Value'>
                 <Grid cols={3}>
                   <Controller
@@ -209,7 +210,6 @@ export const DocumentSettings = DocumentSettingHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -315,6 +315,7 @@ export const DocumentSettings = DocumentSettingHoc(
                   </div>
                 </List>
               </Form.InputWrapper>
+
               <Controller
                 control={control}
                 render={({ field: { onChange, value } }) => (
