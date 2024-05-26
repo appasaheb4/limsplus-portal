@@ -406,7 +406,6 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'editable',
               text: 'Editable',
-
               sort: true,
               editable: false,
               csvFormatter: (col, row) =>
@@ -443,7 +442,8 @@ export const LibraryList = (props: LibraryListProps) => {
                           setModalDocxContent({
                             visible: true,
                             details: row?.details,
-                            status: !editorCell(row),
+                            isEditable: editorCell(row),
+                            folder: 'library',
                             _id: row?._id,
                           });
                         }}
@@ -453,7 +453,6 @@ export const LibraryList = (props: LibraryListProps) => {
                 );
               },
             },
-
             {
               dataField: 'status',
               text: 'Status',

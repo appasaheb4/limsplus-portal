@@ -27,31 +27,10 @@ import { RouterFlow } from '@/flows';
 import { toJS } from 'mobx';
 import { resetLibrary } from '../startup';
 import * as XLSX from 'xlsx';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Styles } from '@/config';
 import mammoth from 'mammoth';
 import JoditEditor from 'jodit-react';
-
-const modules = {
-  toolbar: [
-    [{ header: '1' }, { header: '2' }, { font: [] }],
-    [{ size: [] }],
-    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-    [
-      { list: 'ordered' },
-      { list: 'bullet' },
-      { indent: '-1' },
-      { indent: '+1' },
-    ],
-    ['link'],
-    ['clean'],
-  ],
-  clipboard: {
-    // toggle to add extra line breaks when pasting HTML:
-    matchVisual: false,
-  },
-};
 
 export const Library = LibraryHoc(
   observer(() => {
@@ -108,11 +87,14 @@ export const Library = LibraryHoc(
           const isExists = await checkExistsRecords();
           if (isExists) return;
         }
+        const regex = /(style=".+?")/gm;
+        const subst = '';
+        const result = libraryStore.library?.details?.replace(regex, subst);
         libraryStore.libraryService
           .addLibrary({
             input: isImport
               ? { isImport, arrImportRecords }
-              : { isImport, ...libraryStore.library },
+              : { isImport, ...libraryStore.library, details: result },
           })
           .then(res => {
             if (res.createLibrary.success) {
@@ -766,7 +748,7 @@ export const Library = LibraryHoc(
                   />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
-                  <Buttons.Button
+                  {/* <Buttons.Button
                     size='medium'
                     type='outline'
                     onClick={() => {
@@ -784,8 +766,7 @@ export const Library = LibraryHoc(
                       />
                       Import
                     </span>
-                  </Buttons.Button>
-
+                  </Buttons.Button> */}
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -796,12 +777,42 @@ export const Library = LibraryHoc(
                         >
                           <JoditEditor
                             ref={editor}
-                            config={{
-                              height: 540,
-                            }}
-                            value={value || ''}
+                            config={
+                              {
+                                height: 400,
+                                disabled: false,
+                                events: {
+                                  afterOpenPasteDialog: (
+                                    dialog,
+                                    msg,
+                                    title,
+                                    callback,
+                                  ) => {
+                                    dialog.close();
+                                    callback();
+                                  },
+                                },
+                                uploader: {
+                                  url: 'https://limsplus-service.azurewebsites.net/api/assets/uploadFile',
+                                  prepareData: function (data) {
+                                    data.append('folder', 'library');
+                                    data.delete('path');
+                                    data.delete('source');
+                                  },
+                                  isSuccess: function (resp) {
+                                    libraryStore.updateLibrary({
+                                      ...libraryStore.library,
+                                      details:
+                                        libraryStore.library.details?.concat(
+                                          `<img src=${resp?.data?.data} alt="logo"/>`,
+                                        ),
+                                    });
+                                  },
+                                },
+                              } as any
+                            }
+                            value={libraryStore.library.details || ''}
                             onBlur={newContent => {
-                              onChange(newContent);
                               libraryStore.updateLibrary({
                                 ...libraryStore.library,
                                 details: newContent,

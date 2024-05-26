@@ -89,9 +89,10 @@ export const PdfTemp0010 = ({
     strong: {
       fontFamily: 'IBMPlexSansBold',
     },
-    // em: {
-    //   fontFamily: 'IBMPlexSansBoldItalic',
-    // },
+    img: {
+      width: 200,
+      height: 200,
+    },
   };
 
   console.log({

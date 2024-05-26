@@ -9,6 +9,7 @@ interface ModalDocxContentProps {
   title?: string;
   visible: boolean;
   details?: any;
+  folder?: string;
   isEditable?: boolean;
   onUpdate: (details: string) => void;
   onClose: () => void;
@@ -17,6 +18,7 @@ export const ModalDocxContent = ({
   title = 'Update details',
   visible,
   details = '',
+  folder = 'patient-reports',
   isEditable = false,
   onUpdate,
   onClose,
@@ -95,81 +97,21 @@ export const ModalDocxContent = ({
                                 },
                               },
                               uploader: {
-                                //url: 'http://localhost:8082/api/assets/uploadFile',
-                                //url: 'http://localhost:8080/assets/uploadFile',
-                                url: 'https://limsplus-service.azurewebsites.net/assets/uploadFile',
+                                url: 'http://localhost:8080/api/assets/uploadFile',
+                                //url: 'https://limsplus-service.azurewebsites.net/api/assets/uploadFile',
                                 prepareData: function (data) {
-                                  data.append('folder', 'patient-reports');
+                                  data.append('folder', folder);
                                   data.delete('path');
                                   data.delete('source');
                                 },
                                 isSuccess: function (resp) {
                                   setContent(
                                     content.concat(
-                                      `<img src=${resp?.data?.data} alt="logo" style="width:200;height:200"/>`,
+                                      `<img src=${resp?.data?.data} alt="logo"/>`,
                                     ),
                                   );
                                 },
                               },
-                              // uploader: {
-                              //   insertImageAsBase64URI: false,
-                              //   imagesExtensions: ['jpg', 'png', 'jpeg', 'gif'],
-                              //   withCredentials: false,
-                              //   format: 'json',
-                              //   method: 'POST',
-                              //   url: 'http://localhost:8082/api/assets/uploadFile',
-                              //   body: {
-                              //     folder: 'patient-reports',
-                              //   },
-                              //   headers: {
-                              //     'Content-Type': [
-                              //       'application/json; charset=utf-8',
-                              //       'multipart/form-data',
-                              //     ],
-                              //   },
-                              //   prepareData: function (data) {
-                              //     data.append('folder', 'patient-reports');
-                              //     console.log({ data });
-                              //     return data;
-                              //   },
-                              //   isSuccess: function (resp) {
-                              //     return !resp.error;
-                              //   },
-                              //   getMsg: function (resp) {
-                              //     return resp.msg.join !== undefined
-                              //       ? resp.msg.join(' ')
-                              //       : resp.msg;
-                              //   },
-                              //   process: function (resp) {
-                              //     console.log({ resp });
-
-                              //     return {
-                              //       files: [resp.data],
-                              //       path: '',
-                              //       baseurl: '',
-                              //       error: resp.error ? 1 : 0,
-                              //       msg: resp.msg,
-                              //     };
-                              //   },
-                              //   defaultHandlerSuccess: function (data, resp) {
-                              //     const files = data.files || [];
-                              //     if (files.length) {
-                              //       console.log({ file: files[0] });
-                              //       // this.selection.insertImage(
-                              //       //   files[0],
-                              //       //   null,
-                              //       //   250,
-                              //       // );
-                              //     }
-                              //   },
-                              //   defaultHandlerError: function (resp) {
-                              //     console.log({ resp });
-                              //     // this.events.fire(
-                              //     //   'errorPopap',
-                              //     //   this.i18n(resp.msg),
-                              //     // );
-                              //   },
-                              // },
                             } as any
                           }
                           value={content || ''}
@@ -203,7 +145,6 @@ export const ModalDocxContent = ({
                           const regex = /(style=".+?")/gm;
                           const subst = '';
                           const result = content.replace(regex, subst);
-                          console.log({ result });
                           onUpdate && onUpdate(result);
                         }}
                       >
