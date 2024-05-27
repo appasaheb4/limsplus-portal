@@ -1,6 +1,6 @@
-import {stores} from '@/stores';
+import { stores } from '@/stores';
 // import {patientRegistrationHoc} from './hoc';
-import {eventEmitter} from '@/core-utils';
+import { eventEmitter } from '@/core-utils';
 
 export const startupPM = async () => {
   // patient manager
@@ -30,6 +30,7 @@ export const startupByLabId = async () => {
 
 const startup = async () => {
   await stores.patientRegistrationStore.reload();
+  stores.patientResultStore.patientResultService.getPatientResultDistinct();
 };
 
 export const resetPatientManager = () => {

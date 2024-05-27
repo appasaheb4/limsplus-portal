@@ -9,8 +9,9 @@ import {
   Form,
   Tabs,
   AutocompleteSearch,
-  Buttons,
+  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
 } from '@/library/components';
+import _ from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
@@ -44,7 +45,6 @@ const PatientRegistration = observer(({ sidebar }) => {
   const {
     loading,
     routerStore,
-    loginStore,
     patientManagerStore,
     patientRegistrationStore,
     patientVisitStore,
@@ -53,16 +53,28 @@ const PatientRegistration = observer(({ sidebar }) => {
     patientResultStore,
     patientSampleStore,
     importFromFileStore,
+    generalResultEntryStore,
   } = useStores();
   const [reload, setReload] = useState(false);
   const [isImport, setIsImport] = useState<boolean>(false);
-  const [arrImportRecords, setArrImportRecords] = useState<Array<any>>([]);
   const history = useHistory();
 
   useEffect(() => {
     setReload(!reload);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patientRegistrationStore.defaultValues?.accordionExpandItem]);
+
+  const getFilteredData = (searchInput, key, itemList) => {
+    if (!_.isEmpty(searchInput)) {
+      return itemList.filter(item => {
+        return item[key]
+          ?.toString()
+          .toLowerCase()
+          .includes(searchInput?.toLowerCase());
+      });
+    }
+    return itemList;
+  };
 
   const accordionList = useMemo(
     () => (
@@ -155,13 +167,39 @@ const PatientRegistration = observer(({ sidebar }) => {
       {!isImport ? (
         <div>
           <div className='flex mx-20 items-center justify-center gap-2'>
-            <Form.Input2
-              placeholder='Patient Name...'
-              className='w-40 arrow-hide'
-              type='text'
-              value={''}
-              onChange={pId => {}}
-            />
+            <div className='w-60'>
+              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                loader={loading}
+                placeholder='Search by Patient Name'
+                data={{
+                  list: _.uniqBy(
+                    patientResultStore.distinctPatientResult,
+                    'name',
+                  )?.filter(item => item != ''),
+                  displayKey: ['name'],
+                }}
+                displayValue={generalResultEntryStore.filterGeneralResEntry?.name?.toString()}
+                onFilter={(value: string) => {
+                  patientResultStore.filterDistinctPatientResult(
+                    getFilteredData(
+                      value,
+                      'name',
+                      patientResultStore.distinctPatientResultCopy,
+                    ),
+                  );
+                }}
+                onSelect={async item => {
+                  await patientRegistrationStore.getPatientRegRecords(
+                    'patientName',
+                    item.name,
+                  );
+                  patientResultStore.filterDistinctPatientResult(
+                    patientResultStore.distinctPatientResultCopy,
+                  );
+                }}
+              />
+            </div>
+
             {patientRegistrationStore.filterOptionList.pIds?.length > 1 ? (
               <select
                 className={
