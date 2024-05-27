@@ -80,9 +80,9 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                 propsIcon={{
                   color:
                     stores.appStore.applicationSetting.theme === 'dark'
-                      ? stores.appStore.applicationSetting.navbarIconColor ||
-                        '#ffffff'
-                      : stores.appStore.applicationSetting.navbarIconColor,
+                      ? '#ffffff'
+                      : stores.appStore.applicationSetting.navbarIconColor ||
+                        '#000',
                   size: 22,
                 }}
               />
@@ -104,8 +104,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                     <Icons.IconContext
                       color={
                         stores.appStore.applicationSetting.theme === 'dark'
-                          ? stores.appStore.applicationSetting
-                              .navbarIconColor || '#ffffff'
+                          ? '#ffffff'
                           : stores.appStore.applicationSetting
                               .navbarIconColor || '#000'
                       }
@@ -143,8 +142,11 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                                 nameIcon={item.icon || 'VscListSelection'}
                                 propsIcon={{
                                   color:
-                                    stores.appStore.applicationSetting
-                                      .navbarIconColor,
+                                    stores.appStore.applicationSetting.theme ===
+                                    'dark'
+                                      ? '#ffffff'
+                                      : stores.appStore.applicationSetting
+                                          .navbarIconColor || '#000',
                                   size: 18,
                                 }}
                               />

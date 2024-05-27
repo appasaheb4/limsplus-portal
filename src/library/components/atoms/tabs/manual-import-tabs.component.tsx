@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icons } from '@/library/components';
+import { stores } from '@/stores';
 
 interface ManualImportTabsProps {
   isImport: boolean;
@@ -26,7 +27,13 @@ export const ManualImportTabs = ({
           >
             <Icons.RIcon
               nameIcon='AiOutlineUnorderedList'
-              propsIcon={{ size: 24 }}
+              propsIcon={{
+                color:
+                  stores.appStore.applicationSetting.theme === 'dark'
+                    ? '#ffffff'
+                    : '#000000',
+                size: 24,
+              }}
             />
             Manual Entry
           </div>
@@ -44,7 +51,16 @@ export const ManualImportTabs = ({
                 onClick(true);
               }}
             >
-              <Icons.RIcon nameIcon='CiImport' propsIcon={{ size: 24 }} />
+              <Icons.RIcon
+                nameIcon='CiImport'
+                propsIcon={{
+                  color:
+                    stores.appStore.applicationSetting.theme === 'dark'
+                      ? '#ffffff'
+                      : '#000',
+                  size: 24,
+                }}
+              />
               Import from file
             </div>
           </li>

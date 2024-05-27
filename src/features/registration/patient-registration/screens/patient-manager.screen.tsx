@@ -771,6 +771,34 @@ export const PatientManager = PatientManagerHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
+                    <Form.Input
+                      label='Email'
+                      name='txtEmail'
+                      placeholder={
+                        errors.email ? 'Please Enter Email' : 'Email'
+                      }
+                      hasError={!!errors.email}
+                      type='mail'
+                      value={value}
+                      onChange={email => {
+                        onChange(email);
+                        patientManagerStore.updatePatientManager({
+                          ...patientManagerStore.patientManger,
+                          extraData: {
+                            ...patientManagerStore.patientManger?.extraData,
+                            email,
+                          },
+                        });
+                      }}
+                    />
+                  )}
+                  name='email'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper
                       label='Species'
                       hasError={!!errors.species}
@@ -1225,35 +1253,6 @@ export const PatientManager = PatientManagerHoc(
                   <>
                     <Grid cols={2}>
                       <List direction='col' space={4} justify='stretch' fill>
-                        <Controller
-                          control={control}
-                          render={({ field: { onChange, value } }) => (
-                            <Form.Input
-                              label='Email'
-                              name='txtEmail'
-                              placeholder={
-                                errors.email ? 'Please Enter Email' : 'Email'
-                              }
-                              hasError={!!errors.email}
-                              type='mail'
-                              value={value}
-                              onChange={email => {
-                                onChange(email);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  extraData: {
-                                    ...patientManagerStore.patientManger
-                                      ?.extraData,
-                                    email,
-                                  },
-                                });
-                              }}
-                            />
-                          )}
-                          name='email'
-                          rules={{ required: false }}
-                          defaultValue=''
-                        />
                         <Controller
                           control={control}
                           render={({ field: { onChange, value } }) => (
