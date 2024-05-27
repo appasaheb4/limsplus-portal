@@ -489,7 +489,7 @@ export const ModalPostalCode = (props: ModalPostalCodeProps) => {
                                 <div className='flex flex-row'>
                                   <Tooltip tooltipText='Edit'>
                                     <Icons.IconContext
-                                      color='#000'
+                                      color='#000000'
                                       size='20'
                                       onClick={() => {
                                         setEditRow(index);

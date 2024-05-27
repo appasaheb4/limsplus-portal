@@ -1,5 +1,5 @@
-import React, {useState, useRef} from 'react';
-import {Table} from 'reactstrap';
+import React, { useState, useRef } from 'react';
+import { Table } from 'reactstrap';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Icons,
@@ -7,11 +7,11 @@ import {
   Form,
   Toast,
 } from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {useForm, Controller} from 'react-hook-form';
-import {IconContext} from 'react-icons';
+import { useForm, Controller } from 'react-hook-form';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
@@ -24,12 +24,12 @@ interface PriceListTableForCopClientListProps {
 }
 
 export const PriceListTableForCopClientList = observer(
-  ({data, invoiceAc, onUpdate}: PriceListTableForCopClientListProps) => {
-    const {loading, corporateClientsStore, priceListStore} = useStores();
+  ({ data, invoiceAc, onUpdate }: PriceListTableForCopClientListProps) => {
+    const { loading, corporateClientsStore, priceListStore } = useStores();
     const {
       control,
       handleSubmit,
-      formState: {errors},
+      formState: { errors },
       setValue,
       clearErrors,
     } = useForm();
@@ -58,26 +58,26 @@ export const PriceListTableForCopClientList = observer(
         <Table striped bordered>
           <thead>
             <tr className='p-0 text-xs z-0'>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Price Group
               </th>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Price List
               </th>
-              <th className='text-white' style={{minWidth: 150}}>
+              <th className='text-white' style={{ minWidth: 150 }}>
                 Description
               </th>
-              <th className='text-white' style={{minWidth: 100}}>
+              <th className='text-white' style={{ minWidth: 100 }}>
                 Priority
               </th>
-              <th className='text-white' style={{minWidth: 100}}>
+              <th className='text-white' style={{ minWidth: 100 }}>
                 Max Dis%
               </th>
               <th className='text-white sticky right-0 flex flex-row gap-2'>
                 Action
                 <Buttons.ButtonIcon
                   icon={
-                    <IconContext.Provider value={{color: '#ffffff'}}>
+                    <IconContext.Provider value={{ color: '#ffffff' }}>
                       <BsFillArrowUpCircleFill />
                     </IconContext.Provider>
                   }
@@ -88,7 +88,7 @@ export const PriceListTableForCopClientList = observer(
                 />
                 <Buttons.ButtonIcon
                   icon={
-                    <IconContext.Provider value={{color: '#ffffff'}}>
+                    <IconContext.Provider value={{ color: '#ffffff' }}>
                       <BsFillArrowDownCircleFill />
                     </IconContext.Provider>
                   }
@@ -107,7 +107,7 @@ export const PriceListTableForCopClientList = observer(
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           posstion='sticky'
                           loader={loading}
@@ -169,14 +169,14 @@ export const PriceListTableForCopClientList = observer(
                         />
                       )}
                       name='priceGroup'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue={item.priceGroup}
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                           loader={loading}
                           posstion='relative'
@@ -221,14 +221,14 @@ export const PriceListTableForCopClientList = observer(
                         />
                       )}
                       name='priceList'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.MultilineInput
                           rows={2}
                           label=''
@@ -246,14 +246,14 @@ export const PriceListTableForCopClientList = observer(
                         />
                       )}
                       name='description'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue=''
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.Input
                           label=''
                           value={item?.priority}
@@ -273,14 +273,14 @@ export const PriceListTableForCopClientList = observer(
                         />
                       )}
                       name='priority'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue={item?.priority}
                     />
                   </td>
                   <td>
                     <Controller
                       control={control}
-                      render={({field: {onChange}}) => (
+                      render={({ field: { onChange } }) => (
                         <Form.Input
                           label=''
                           type='number'
@@ -299,7 +299,7 @@ export const PriceListTableForCopClientList = observer(
                         />
                       )}
                       name='maxDis'
-                      rules={{required: false}}
+                      rules={{ required: false }}
                       defaultValue={item?.maxDis}
                     />
                   </td>
@@ -314,7 +314,7 @@ export const PriceListTableForCopClientList = observer(
                       >
                         <Icons.EvaIcon
                           icon='minus-circle-outline'
-                          color='#fff'
+                          color='#ffffff'
                         />
                       </Buttons.Button>
                       <Buttons.Button
@@ -324,7 +324,7 @@ export const PriceListTableForCopClientList = observer(
                       >
                         <Icons.EvaIcon
                           icon='plus-circle-outline'
-                          color='#fff'
+                          color='#ffffff'
                         />
                       </Buttons.Button>
                     </div>
@@ -339,7 +339,7 @@ export const PriceListTableForCopClientList = observer(
               type='outline'
               onClick={handleSubmit(addItem)}
             >
-              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
+              <Icons.EvaIcon icon='plus-circle-outline' color='#000000' />
             </Buttons.Button>
           )}
         </Table>

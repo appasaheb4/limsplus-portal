@@ -362,7 +362,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() =>
                             props.onDelete &&

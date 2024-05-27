@@ -929,12 +929,12 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                 <>
                   <div className='flex flex-row gap-2'>
                     <Tooltip tooltipText='Traceability'>
-                      <TiFlowChildren color='#fff' size='20' />
+                      <TiFlowChildren color='#ffffff' size='20' />
                     </Tooltip>
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() =>
                             props.onDelete &&

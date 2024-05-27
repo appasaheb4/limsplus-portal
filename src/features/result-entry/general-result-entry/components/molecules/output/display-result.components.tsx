@@ -472,7 +472,7 @@ export const DisplayResult = observer(
               <Tooltip tooltipText='Report'>
                 <Icons.IconContext
                   size='20'
-                  color='#000'
+                  color='#000000'
                   onClick={() => {
                     window.open(row?.result, '_black');
                   }}

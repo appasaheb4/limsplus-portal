@@ -1159,7 +1159,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() =>
                             props.onDelete &&
@@ -1182,7 +1182,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         {props.isVersionUpgrade && (
                           <Tooltip tooltipText='Version Upgrade'>
                             <Icons.IconContext
-                              color='#fff'
+                              color='#ffffff'
                               size='20'
                               onClick={() =>
                                 props.onVersionUpgrade &&
@@ -1196,7 +1196,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         {props.isDuplicate && (
                           <Tooltip tooltipText='Duplicate'>
                             <Icons.IconContext
-                              color='#fff'
+                              color='#ffffff'
                               size='20'
                               onClick={() =>
                                 props.onDuplicate && props.onDuplicate(row)

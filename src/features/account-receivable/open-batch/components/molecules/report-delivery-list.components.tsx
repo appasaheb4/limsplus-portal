@@ -201,7 +201,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                   <div className='flex flex-row'>
                     <Tooltip tooltipText='Cancel'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onUpdate &&
@@ -219,7 +219,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                     </Tooltip>
                     <Tooltip tooltipText='Hold'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onUpdate &&
@@ -237,7 +237,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                     </Tooltip>
                     <Tooltip tooltipText='Generate PDF'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onUpdate &&

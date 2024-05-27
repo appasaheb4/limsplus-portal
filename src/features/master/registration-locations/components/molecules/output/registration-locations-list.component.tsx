@@ -1770,7 +1770,7 @@ export const RegistrationLocationsList = (
                   {props.isDelete && (
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onDelete &&
@@ -1793,7 +1793,7 @@ export const RegistrationLocationsList = (
                       {props.isVersionUpgrade && (
                         <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() =>
                               props.onVersionUpgrade &&
@@ -1807,7 +1807,7 @@ export const RegistrationLocationsList = (
                       {props.isDuplicate && (
                         <Tooltip className='ml-2' tooltipText='Duplicate'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)

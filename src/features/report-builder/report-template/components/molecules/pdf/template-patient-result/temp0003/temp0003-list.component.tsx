@@ -1,9 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from '@react-pdf/renderer';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import _ from 'lodash';
-import {Style} from '@react-pdf/types';
+import { Style } from '@react-pdf/types';
 import {} from '@storybook/addons';
-import {PdfSmall, PdfBorderView, PdfImage, PdfView} from '@/library/components';
+import {
+  PdfSmall,
+  PdfBorderView,
+  PdfImage,
+  PdfView,
+} from '@/library/components';
 
 const styles = StyleSheet.create({
   table: {
@@ -17,7 +22,7 @@ const styles = StyleSheet.create({
   headerBg: {
     backgroundColor: '#aaa',
     borderStyle: 'solid',
-    borderColor: '#000',
+    borderColor: '#000000',
     borderWidth: 1,
   },
   tableCellHeader: {
@@ -174,13 +179,13 @@ export const PdfTPRTemp0003List = ({
   }, [data]);
 
   return (
-    <View style={[styles.table, {...style}]}>
+    <View style={[styles.table, { ...style }]}>
       <View
-        style={[styles.tableRow, styles.headerBg, {...headerStyle}]}
+        style={[styles.tableRow, styles.headerBg, { ...headerStyle }]}
         fixed={headerFixed}
       >
         {fields.map((item, index) => (
-          <View key={index} style={[{width: item.width + '%'}]}>
+          <View key={index} style={[{ width: item.width + '%' }]}>
             <Text style={[styles.tableCellHeader]}>{item?.title}</Text>
           </View>
         ))}
@@ -201,7 +206,7 @@ export const PdfTPRTemp0003List = ({
                   bw={0}
                   borderColor='transparent'
                 >
-                  <PdfSmall style={{marginLeft: 10}}>
+                  <PdfSmall style={{ marginLeft: 10 }}>
                     {panelItem.panelHeader?.tpmPrintPanelName
                       ? panelItem?.panelHeader?.panelDescription
                       : ''}
@@ -232,7 +237,7 @@ export const PdfTPRTemp0003List = ({
                       borderColor='transparent'
                     >
                       {testItem.testHeader?.tpmPrintTestName ? (
-                        <PdfSmall style={{marginLeft: 10}}>
+                        <PdfSmall style={{ marginLeft: 10 }}>
                           {testItem?.testHeader?.testDescription}{' '}
                           {` ${testItem.testHeader?.testRightMarker}`}
                         </PdfSmall>
@@ -268,27 +273,27 @@ export const PdfTPRTemp0003List = ({
                           >
                             {typeof _item[1] == 'object' ? (
                               <>
-                                <PdfSmall style={{marginLeft: 10}}>
+                                <PdfSmall style={{ marginLeft: 10 }}>
                                   {_item[1]?.analyteDescription}
                                 </PdfSmall>
 
                                 {_item[1]?.analyteMethod ? (
                                   <PdfSmall
-                                    style={{marginLeft: 10, fontSize: 8}}
+                                    style={{ marginLeft: 10, fontSize: 8 }}
                                   >
                                     {_item[1]?.analyteMethodDescription}
                                   </PdfSmall>
                                 ) : null}
                                 {_item[1]?.analyteInterpretation ? (
                                   <PdfSmall
-                                    style={{marginLeft: 10, fontSize: 8}}
+                                    style={{ marginLeft: 10, fontSize: 8 }}
                                   >
                                     {_item[1]?.analyteMasterInterpretation}
                                   </PdfSmall>
                                 ) : null}
                               </>
                             ) : (
-                              <PdfSmall style={{textAlign: 'center'}}>
+                              <PdfSmall style={{ textAlign: 'center' }}>
                                 {_item[1] || ''}
                               </PdfSmall>
                             )}
@@ -309,7 +314,7 @@ export const PdfTPRTemp0003List = ({
                         bw={0}
                         borderColor='transparent'
                       >
-                        <PdfSmall style={{marginLeft: 10}}>
+                        <PdfSmall style={{ marginLeft: 10 }}>
                           {testItem?.testFooter?.testInterpretation || ''}
                         </PdfSmall>
                       </PdfBorderView>
@@ -329,7 +334,7 @@ export const PdfTPRTemp0003List = ({
                     bw={0}
                     borderColor='transparent'
                   >
-                    <PdfSmall style={{marginLeft: 10}}>
+                    <PdfSmall style={{ marginLeft: 10 }}>
                       {panelItem?.panelFooter?.panelInterpretation}
                     </PdfSmall>
                   </PdfBorderView>
@@ -364,10 +369,10 @@ export const PdfTPRTemp0003List = ({
                 }}
               />
               <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
-              <PdfSmall style={{marginTop: -4}}>
+              <PdfSmall style={{ marginTop: -4 }}>
                 {deptFooterItem?.userDegree}
               </PdfSmall>
-              <PdfSmall style={{marginTop: -4}}>
+              <PdfSmall style={{ marginTop: -4 }}>
                 {deptFooterItem?.deginisation}
               </PdfSmall>
             </PdfView>

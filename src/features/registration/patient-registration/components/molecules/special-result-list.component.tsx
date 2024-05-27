@@ -122,7 +122,7 @@ export const SpecialResultList = observer((props: SpecialResultProps) => {
                   <div className='flex flex-row'>
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#000'
+                        color='#000000'
                         size='20'
                         onClick={() =>
                           props.onDelete &&

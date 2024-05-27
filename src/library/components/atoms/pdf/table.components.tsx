@@ -1,12 +1,12 @@
-import React, {Fragment} from 'react';
-import {Text, View, StyleSheet} from '@react-pdf/renderer';
-import {PdfSmall} from './typography.components';
-import {PdfBorderView} from './wrapped-view.components';
-import {Style} from '@react-pdf/types';
+import React, { Fragment } from 'react';
+import { Text, View, StyleSheet } from '@react-pdf/renderer';
+import { PdfSmall } from './typography.components';
+import { PdfBorderView } from './wrapped-view.components';
+import { Style } from '@react-pdf/types';
 
 const styles = StyleSheet.create({
   table: {
-    borderColor: '#000',
+    borderColor: '#000000',
     borderWidth: 1,
     marginHorizontal: 20,
     flexFlow: 1,
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   headerBg: {
     backgroundColor: '#aaa',
     borderStyle: 'solid',
-    borderColor: '#000',
+    borderColor: '#000000',
     borderWidth: 1,
   },
   tableCellHeader: {
@@ -51,13 +51,13 @@ export const PdfTable = ({
   style,
   headerStyle,
 }: PdfTableProps) => (
-  <View style={[styles.table, {...style}]}>
+  <View style={[styles.table, { ...style }]}>
     <View
-      style={[styles.tableRow, styles.headerBg, {...headerStyle}]}
+      style={[styles.tableRow, styles.headerBg, { ...headerStyle }]}
       fixed={headerFixed}
     >
       {fields.map((item, index) => (
-        <View key={index} style={[{width: item.width + '%'}]}>
+        <View key={index} style={[{ width: item.width + '%' }]}>
           <Text style={[styles.tableCellHeader]}>{item?.title}</Text>
         </View>
       ))}
@@ -75,38 +75,38 @@ export const PdfTable = ({
             mv={0}
             p={0}
             bw={1}
-            borderColor='#000'
+            borderColor='#000000'
           >
             {typeof _item[1] == 'object' ? (
               <>
-                <PdfSmall style={{textAlign: 'center'}}>
+                <PdfSmall style={{ textAlign: 'center' }}>
                   {_item[1]?.panelDesc
                     ? `Panel Description : ${_item[1]?.panelDesc} \n`
                     : ''}
                 </PdfSmall>
-                <PdfSmall style={{textAlign: 'center'}}>
+                <PdfSmall style={{ textAlign: 'center' }}>
                   {_item[1]?.panelMethodName
                     ? `Panel Method Name: ${_item[1]?.panelMethodName} \n`
                     : ''}
                 </PdfSmall>
-                <PdfSmall style={{textAlign: 'center'}}>
+                <PdfSmall style={{ textAlign: 'center' }}>
                   {_item[1]?.testMethodName
                     ? `Test Method Name: ${_item[1]?.testMethodName} \n`
                     : ''}
                 </PdfSmall>
-                <PdfSmall style={{textAlign: 'center'}}>
+                <PdfSmall style={{ textAlign: 'center' }}>
                   {_item[1]?.analyteDesc
                     ? `Analyte Description: ${_item[1]?.analyteDesc} \n`
                     : ''}
                 </PdfSmall>
-                <PdfSmall style={{textAlign: 'center'}}>
+                <PdfSmall style={{ textAlign: 'center' }}>
                   {_item[1]?.analyteMethodName
                     ? `Analyte Method Name: ${_item[1]?.analyteMethodName}`
                     : ''}
                 </PdfSmall>
               </>
             ) : (
-              <PdfSmall style={{textAlign: 'center'}}>
+              <PdfSmall style={{ textAlign: 'center' }}>
                 {_item[1] || ''}
               </PdfSmall>
             )}

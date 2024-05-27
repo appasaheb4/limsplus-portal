@@ -1166,7 +1166,7 @@ export const CompanyList = (props: CompanyListProps) => {
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() =>
                             props.onDelete &&
@@ -1187,7 +1187,7 @@ export const CompanyList = (props: CompanyListProps) => {
                       <>
                         <Tooltip tooltipText='Version Upgrade'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() =>
                               props.onVersionUpgrade &&

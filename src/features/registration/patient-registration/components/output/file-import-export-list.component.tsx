@@ -1,21 +1,21 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
-import {observer} from 'mobx-react';
-import {Table} from 'react-bootstrap';
-import {Buttons, Icons, Form, Tooltip} from '@/library/components';
-import {IoMdCheckmarkCircle, IoIosCloseCircleOutline} from 'react-icons/io';
-import {debounce} from '@/core-utils';
-import {BsArrowDown, BsArrowUp} from 'react-icons/bs';
-import {AiOutlineCloseCircle} from 'react-icons/ai';
+import { observer } from 'mobx-react';
+import { Table } from 'react-bootstrap';
+import { Buttons, Icons, Form, Tooltip } from '@/library/components';
+import { IoMdCheckmarkCircle, IoIosCloseCircleOutline } from 'react-icons/io';
+import { debounce } from '@/core-utils';
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs';
+import { AiOutlineCloseCircle } from 'react-icons/ai';
 import './table.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import dayjs from 'dayjs';
 import {
   getAgeByAgeObject,
   getDiffByDate1,
   dateAvailableUnits,
 } from '@/core-utils';
-import {ModalModifyDetails} from '../molecules/modal-modify-details.component';
+import { ModalModifyDetails } from '../molecules/modal-modify-details.component';
 
 interface FileImportExportListProps {
   data: any;
@@ -43,7 +43,7 @@ export const FileImportExportList = observer(
       registrationLocationsStore,
       loginStore,
     } = useStores();
-    const [value, setValue] = useState({value: '', index: 0});
+    const [value, setValue] = useState({ value: '', index: 0 });
     const [isFilter, setIsFilter] = useState(false);
     const [finalOutput, setFinalOutput] = useState<any>([]);
     const [arrKeys, setArrKeys] = useState<Array<string>>([]);
@@ -55,7 +55,10 @@ export const FileImportExportList = observer(
       const localFinalOutput: any = [];
       const data = recordsList?.map(item => {
         return {
-          ...item?.records?.reduce((a, v) => ({...a, [v.field]: v.value}), {}),
+          ...item?.records?.reduce(
+            (a, v) => ({ ...a, [v.field]: v.value }),
+            {},
+          ),
           _id: item?._id,
         };
       });
@@ -157,7 +160,7 @@ export const FileImportExportList = observer(
                 value: dockerDetails?.mobileNo?.toString(),
               });
             } else {
-              list.push({field: key, value: item[key]?.toString()});
+              list.push({ field: key, value: item[key]?.toString() });
             }
           }
           if (item.Predefined_Panel == 'Y') {
@@ -182,7 +185,7 @@ export const FileImportExportList = observer(
               });
             }
           } else {
-            list.push({field: key, value: item[key]?.toString()});
+            list.push({ field: key, value: item[key]?.toString() });
           }
         });
         if (
@@ -251,9 +254,9 @@ export const FileImportExportList = observer(
 
         list = list.map(li => {
           if (li.field == 'isError' || li.field == 'select') {
-            return {field: li.field, value: item[li.field]};
+            return { field: li.field, value: item[li.field] };
           } else {
-            return {field: li.field, value: item[li.field]?.toString()};
+            return { field: li.field, value: item[li.field]?.toString() };
           }
         });
 
@@ -300,7 +303,7 @@ export const FileImportExportList = observer(
             localArrKeys.push(e?.field);
           }
         });
-        localFinalOutput.push({...item, select: false, records});
+        localFinalOutput.push({ ...item, select: false, records });
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
       loadAsync(localFinalOutput);
@@ -333,7 +336,7 @@ export const FileImportExportList = observer(
               <Form.Toggle
                 onChange={status => {
                   if (!status) {
-                    setValue({value: '', index: 0});
+                    setValue({ value: '', index: 0 });
                     onClearFilter && onClearFilter();
                   }
                   setIsFilter(status);
@@ -342,7 +345,7 @@ export const FileImportExportList = observer(
             </span>
             <span
               onClick={() => {
-                setValue({value: '', index: 0});
+                setValue({ value: '', index: 0 });
                 onClearFilter && onClearFilter();
                 const ele: any = document.getElementsByName('bordered-radio');
                 for (let i = 0; i < ele.length; i++) ele[i].checked = false;
@@ -362,7 +365,7 @@ export const FileImportExportList = observer(
                     onChange={e => {
                       const arr = [
                         ...finalOutput.map(o => {
-                          return {...o, select: e.target.checked};
+                          return { ...o, select: e.target.checked };
                         }),
                       ];
                       setAllSelected(e.target.checked);
@@ -382,7 +385,7 @@ export const FileImportExportList = observer(
                           onChange={() => {
                             debounce(() => {
                               onFilter &&
-                                onFilter({filed: 'isError', value: false});
+                                onFilter({ filed: 'isError', value: false });
                             });
                           }}
                         />
@@ -396,7 +399,7 @@ export const FileImportExportList = observer(
                           onChange={() => {
                             debounce(() => {
                               onFilter &&
-                                onFilter({filed: 'isError', value: true});
+                                onFilter({ filed: 'isError', value: true });
                             });
                           }}
                         />
@@ -409,7 +412,7 @@ export const FileImportExportList = observer(
                   <th className='text-white p-2'>
                     <div
                       className='flex items-center  justify-between'
-                      style={{minWidth: 120}}
+                      style={{ minWidth: 120 }}
                     >
                       <span className=' inline-flex'> {item}</span>
                       <div className='flex gap-1'>
@@ -435,9 +438,9 @@ export const FileImportExportList = observer(
                             color: '#000000',
                           }}
                           onChange={value => {
-                            setValue({value, index});
+                            setValue({ value, index });
                             debounce(() => {
-                              onFilter && onFilter({filed: item, value});
+                              onFilter && onFilter({ filed: item, value });
                             });
                           }}
                         />
@@ -462,9 +465,9 @@ export const FileImportExportList = observer(
                         const arr = [
                           ...finalOutput.map(o => {
                             if (o._id == item._id) {
-                              return {...o, select: e.target.checked};
+                              return { ...o, select: e.target.checked };
                             } else {
-                              return {...o};
+                              return { ...o };
                             }
                           }),
                         ];
@@ -583,7 +586,7 @@ export const FileImportExportList = observer(
             Results
           </span>
           <Icons.IconContext
-            color='#fff'
+            color='#ffffff'
             size='25'
             style={{
               backgroundColor:
@@ -604,7 +607,7 @@ export const FileImportExportList = observer(
             <Icons.IconBi.BiSkipNext />
           </Icons.IconContext>
           <Icons.IconContext
-            color='#fff'
+            color='#ffffff'
             size='25'
             style={{
               backgroundColor: totalSize?.page != 0 ? '#4F46E5' : '#A5A5A5',
@@ -674,9 +677,9 @@ export const FileImportExportList = observer(
                 list.filter(item => {
                   const records: any = [];
                   Object.entries(item).map((e: any) => {
-                    records.push({field: e[0], value: e[1]});
+                    records.push({ field: e[0], value: e[1] });
                   });
-                  finalList.push({records, _id: item?._id});
+                  finalList.push({ records, _id: item?._id });
                 });
                 loadAsync(finalList);
               } else {
@@ -701,9 +704,9 @@ export const FileImportExportList = observer(
                 list.filter(item => {
                   const records: any = [];
                   Object.entries(item).map((e: any) => {
-                    records.push({field: e[0], value: e[1]});
+                    records.push({ field: e[0], value: e[1] });
                   });
-                  finalList.push({records, _id: item?._id});
+                  finalList.push({ records, _id: item?._id });
                 });
                 loadAsync(finalList);
               }

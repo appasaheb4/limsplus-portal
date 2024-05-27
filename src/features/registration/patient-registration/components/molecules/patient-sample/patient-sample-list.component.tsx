@@ -386,7 +386,7 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                 <>
                   <div className='flex flex-row gap-2'>
                     <Tooltip tooltipText='Traceability'>
-                      <TiFlowChildren color='#fff' size='20' />
+                      <TiFlowChildren color='#ffffff' size='20' />
                     </Tooltip>
                   </div>
                 </>

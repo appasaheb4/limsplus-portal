@@ -219,7 +219,7 @@ export const PriceListTableForLabList = observer(
                         >
                           <Icons.EvaIcon
                             icon='minus-circle-outline'
-                            color='#fff'
+                            color='#ffffff'
                           />
                         </Buttons.Button>
                         <Buttons.Button
@@ -229,7 +229,7 @@ export const PriceListTableForLabList = observer(
                         >
                           <Icons.EvaIcon
                             icon='plus-circle-outline'
-                            color='#fff'
+                            color='#ffffff'
                           />
                         </Buttons.Button>
                       </div>

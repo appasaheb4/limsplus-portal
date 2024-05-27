@@ -1664,7 +1664,7 @@ export const UserList = (props: UserListProps) => {
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           isDisable={
                             getNonSelectableRows(props.data).includes(row?._id)
@@ -1695,7 +1695,7 @@ export const UserList = (props: UserListProps) => {
                             tooltipText='Version Upgrade'
                           >
                             <Icons.IconContext
-                              color='#fff'
+                              color='#ffffff'
                               size='20'
                               isDisable={
                                 getNonSelectableRows(props.data).includes(
@@ -1716,7 +1716,7 @@ export const UserList = (props: UserListProps) => {
                         {props.isDuplicate && (
                           <Tooltip className='ml-2' tooltipText='Duplicate'>
                             <Icons.IconContext
-                              color='#fff'
+                              color='#ffffff'
                               size='20'
                               isDisable={
                                 getNonSelectableRows(props.data).includes(

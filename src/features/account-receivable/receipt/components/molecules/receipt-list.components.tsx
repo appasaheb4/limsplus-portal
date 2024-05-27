@@ -121,7 +121,7 @@ export const ReceiptList = observer((props: ReceiptListProps) => {
                   <div className='flex flex-row'>
                     <Tooltip tooltipText='Generate PDF'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => props.onReport && props.onReport(row)}
                       >

@@ -261,7 +261,7 @@ export const RoleList = (props: RoleListProps) => {
               <div className='flex flex-row'>
                 <Tooltip tooltipText='Delete'>
                   <Icons.IconContext
-                    color='#fff'
+                    color='#ffffff'
                     size='20'
                     isDisable={
                       getNonSelectableRows(props.data).includes(row?._id)

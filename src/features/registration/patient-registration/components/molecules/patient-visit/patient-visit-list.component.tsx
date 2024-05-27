@@ -1354,7 +1354,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() =>
                             props.onDelete &&
@@ -1374,7 +1374,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                     )}
 
                     <Tooltip tooltipText='Traceability'>
-                      <TiFlowChildren color='#fff' size='20' />
+                      <TiFlowChildren color='#ffffff' size='20' />
                     </Tooltip>
                   </div>
                 </>

@@ -184,7 +184,7 @@ export const TablePackagesList = observer(
                 {isDelete && (
                   <td className='sticky left-0 bg-gray-500'>
                     <Icons.IconContext
-                      color='#fff'
+                      color='#ffffff'
                       size='20'
                       onClick={() => {
                         if (item._id) onDeletePackage(item._id, item.panelCode);
@@ -438,7 +438,7 @@ export const TablePackagesList = observer(
                   <td className='sticky left-0 bg-gray-500'>
                     {' '}
                     <Icons.IconContext
-                      color='#fff'
+                      color='#ffffff'
                       size='20'
                       onClick={() => {
                         if (item._id) onDeletePackage(item._id, item.panelCode);
@@ -690,7 +690,7 @@ export const TablePackagesList = observer(
                   <td className='sticky left-0 bg-gray-500'>
                     {' '}
                     <Icons.IconContext
-                      color='#fff'
+                      color='#ffffff'
                       size='20'
                       onClick={() => {
                         onDeletePackage(item._id, item.panelCode);
@@ -939,7 +939,7 @@ export const TablePackagesList = observer(
                   <td className='sticky left-0 bg-gray-500'>
                     {item.serviceType === 'K' && (
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => {
                           onDeletePackage(item._id, item.panelCode);

@@ -225,7 +225,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
                           ? stores.appStore.applicationSetting
                               .navbarIconColor || '#ffffff'
                           : stores.appStore.applicationSetting
-                              .navbarIconColor || '#000'
+                              .navbarIconColor || '#000000'
                       }`}
                       size='18'
                     >

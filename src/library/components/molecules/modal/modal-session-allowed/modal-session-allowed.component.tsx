@@ -1,7 +1,7 @@
 /* eslint-disable  */
-import React, {useEffect} from 'react';
-import {Container} from 'reactstrap';
-import {Icons, Buttons} from '../../..';
+import React, { useEffect } from 'react';
+import { Container } from 'reactstrap';
+import { Icons, Buttons } from '../../..';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
@@ -56,7 +56,11 @@ export const ModalSessionAllowed = (props: ModalProps) => {
                         className='flex-col flex p-2  items-center rounded-md bg-gray-400'
                         key={index}
                       >
-                        <Icons.IconContext color='#000' size='80' key={index}>
+                        <Icons.IconContext
+                          color='#000000'
+                          size='80'
+                          key={index}
+                        >
                           {Icons.getIconTag(Icons.IconRi.RiComputerFill)}
                         </Icons.IconContext>
                         <div className='flex flex-col p-2 items-center text-center'>
@@ -92,7 +96,7 @@ export const ModalSessionAllowed = (props: ModalProps) => {
                   <button
                     className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                     type='button'
-                    style={{transition: 'all .15s ease'}}
+                    style={{ transition: 'all .15s ease' }}
                     onClick={() => {
                       setShowModal(false);
                       props.onClose && props.onClose();
