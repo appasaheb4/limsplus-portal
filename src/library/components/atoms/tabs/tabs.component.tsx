@@ -31,8 +31,8 @@ export const Tabs = ({ tabs, onClick }: TabsProps) => {
                   size: 24,
                   color:
                     stores.appStore.applicationSetting.theme === 'dark'
-                      ? '#fff'
-                      : '#000',
+                      ? '#ffffff'
+                      : '#000000',
                 }}
               />
               <span>{item.title}</span>

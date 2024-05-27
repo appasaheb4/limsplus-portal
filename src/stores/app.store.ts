@@ -31,7 +31,7 @@ export class AppStore {
       ...this.applicationSetting,
       isExpandScreen: false,
       theme: 'light',
-      navbarIconColor: '#000',
+      navbarIconColor: '#000000',
     };
     this.footerView = {
       visible: true,

@@ -341,8 +341,8 @@ const PatientRegistration = observer(({ sidebar }) => {
                     size: 24,
                     color:
                       stores.appStore.applicationSetting.theme === 'dark'
-                        ? '#fff'
-                        : '#000',
+                        ? '#ffffff'
+                        : '#000000',
                   }}
                 />
               </div>

@@ -57,7 +57,7 @@ export const ManualImportTabs = ({
                   color:
                     stores.appStore.applicationSetting.theme === 'dark'
                       ? '#ffffff'
-                      : '#000',
+                      : '#000000',
                   size: 24,
                 }}
               />
