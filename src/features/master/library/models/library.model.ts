@@ -3,6 +3,7 @@ export class Library {
   existsVersionId: string;
   existsRecordId: string;
   code: number;
+  description: string;
   libraryCode: string;
   lab: string;
   department: string;
@@ -28,6 +29,7 @@ export class Library {
     this.existsVersionId = rawData.existsVersionId;
     this.existsRecordId = rawData.existsRecordId;
     this.code = rawData.code;
+    this.description = rawData.description;
     this.libraryCode = rawData.libraryCode;
     this.lab = rawData.lab;
     this.department = rawData.department;

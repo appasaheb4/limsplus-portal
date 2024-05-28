@@ -286,6 +286,7 @@ export const Library = LibraryHoc(
     ) => {
       const requiredFields = [
         'libraryCode',
+        'description',
         'lab',
         'department',
         'position',
@@ -436,6 +437,35 @@ export const Library = LibraryHoc(
                       />
                     )}
                     name='libraryCode'
+                    rules={{
+                      required: true,
+                      maxLength: 10,
+                    }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Input
+                        label='Description'
+                        placeholder={'Please Enter Description'}
+                        hasError={!!errors.description}
+                        value={value}
+                        onChange={description => {
+                          onChange(description);
+                          libraryStore.updateLibrary({
+                            ...libraryStore.library,
+                            description,
+                          });
+                        }}
+                        onBlur={description => {
+                          if (description) {
+                            checkExistsRecords({ description }, true);
+                          }
+                        }}
+                      />
+                    )}
+                    name='description'
                     rules={{
                       required: true,
                       maxLength: 10,

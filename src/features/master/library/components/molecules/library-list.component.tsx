@@ -19,6 +19,7 @@ import { ModalDocxContent } from '@/core-components';
 import { FaWordpressSimple } from 'react-icons/fa';
 
 let code;
+let description;
 let libraryCode;
 let lab;
 let department;
@@ -126,6 +127,24 @@ export const LibraryList = (props: LibraryListProps) => {
                 placeholder: 'Library Code',
                 getFilter: filter => {
                   libraryCode = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
+              dataField: 'description',
+              text: 'Description',
+              headerClasses: 'textHeader2',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                placeholder: 'Description',
+                getFilter: filter => {
+                  description = filter;
                 },
               }),
               editable: false,
@@ -784,6 +803,7 @@ export const LibraryList = (props: LibraryListProps) => {
           clearAllFilter={() => {
             code('');
             libraryCode('');
+            description('');
             lab('');
             department('');
             position('');

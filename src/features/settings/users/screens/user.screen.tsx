@@ -464,12 +464,14 @@ export const Users = UsersHoc(
             zIndex: 9999,
           }}
         >
-          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-            <Buttons.ButtonCircleAddRemoveBottom
-              show={hideAddUser}
-              onClick={() => setHideAddUser(!hideAddUser)}
-            />
-          )}
+          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') &&
+            (loginStore.login.userId == 'ADMIN' ||
+              loginStore.login?.userId == 'ADMINISTRATOR') && (
+              <Buttons.ButtonCircleAddRemoveBottom
+                show={hideAddUser}
+                onClick={() => setHideAddUser(!hideAddUser)}
+              />
+            )}
         </div>
         <div className=' mx-auto flex-wrap'>
           <div
@@ -526,18 +528,18 @@ export const Users = UsersHoc(
                         onBlur={userId => {
                           if (userId) {
                             checkExistsRecords({ userId }, true);
-                            userStore.UsersService.findByFields({
-                              input: {
-                                filter: {
-                                  userId: userId?.trim(),
-                                  companyCode: loginStore.login.companyCode,
-                                },
-                              },
-                            }).then(res => {
-                              if (res.findByFieldsUser.success)
-                                userStore.setExitsUserId(true);
-                              else userStore.setExitsUserId(false);
-                            });
+                            // userStore.UsersService.findByFields({
+                            //   input: {
+                            //     filter: {
+                            //       userId: userId?.trim(),
+                            //       companyCode: loginStore.login.companyCode,
+                            //     },
+                            //   },
+                            // }).then(res => {
+                            //   if (res.findByFieldsUser.success)
+                            //     userStore.setExitsUserId(true);
+                            //   else userStore.setExitsUserId(false);
+                            // });
                           }
                         }}
                       />

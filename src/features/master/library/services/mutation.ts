@@ -11,6 +11,7 @@ export const LIST = gql`
       data {
         _id
         code
+        description
         libraryCode
         lab
         department
@@ -82,6 +83,7 @@ export const FILTER = gql`
       data {
         _id
         code
+        description
         libraryCode
         lab
         department
@@ -114,6 +116,7 @@ export const LIBRARYS_BY_CODE = gql`
       data {
         _id
         code
+        description
         libraryCode
         lab
         department
@@ -149,6 +152,7 @@ export const FILTER_BY_FIELDS = gql`
       data {
         _id
         code
+        description
         libraryCode
         lab
         department
@@ -181,6 +185,7 @@ export const FIND_BY_FIELDS = gql`
       data {
         _id
         code
+        description
         libraryCode
         lab
         department

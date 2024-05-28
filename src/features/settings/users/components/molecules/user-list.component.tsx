@@ -118,6 +118,12 @@ export const UserList = (props: UserListProps) => {
           list.push(item._id);
         }
       });
+    } else if (props.extraData?.userId == 'ADMIN') {
+      rows?.filter(item => {
+        if (item?.userId == 'ADMIN' || item?.userId == 'ADMINISTRATOR') {
+          list.push(item._id);
+        }
+      });
     } else {
       rows?.filter(item => {
         list.push(item._id);

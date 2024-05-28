@@ -92,7 +92,7 @@ export const ModalDocxContent = observer(
                             list: libraryStore.listLibrary?.filter(
                               item => item.status == 'A',
                             ),
-                            displayKey: ['libraryCode'],
+                            displayKey: ['libraryCode', 'description'],
                           }}
                           disable={false}
                           hasError={false}
@@ -100,7 +100,7 @@ export const ModalDocxContent = observer(
                             libraryStore.libraryService.filterByFields({
                               input: {
                                 filter: {
-                                  fields: ['libraryCode'],
+                                  fields: ['libraryCode', 'description'],
                                   srText: value,
                                 },
                                 page: 0,
