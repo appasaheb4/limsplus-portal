@@ -118,6 +118,14 @@ export const PdfTemp0010 = ({
       width: 200,
       height: 200,
     },
+    sup: {
+      verticalAlign: 'super',
+      fontSize: '8px',
+    },
+    sub: {
+      verticalAlign: 'sub',
+      fontSize: '8px',
+    },
   };
 
   console.log({
