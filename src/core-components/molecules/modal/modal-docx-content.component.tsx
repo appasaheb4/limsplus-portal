@@ -5,6 +5,7 @@ import _ from 'lodash';
 import {
   ModalImportFile,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
 import JoditEditor from 'jodit-react';
 import 'jodit/esm/plugins/resizer/resizer';
@@ -35,6 +36,8 @@ export const ModalDocxContent = observer(
     const [showModal, setShowModal] = React.useState(visible);
     const [modalDetail, setModalDetail] = useState<any>();
     const [content, setContent] = useState('');
+    const [selectedItems, setSelectedItems] = useState<any>();
+    const selectedItemsRef = useRef<any>();
 
     const {
       loginStore,
@@ -85,17 +88,28 @@ export const ModalDocxContent = observer(
                           Import from library
                         </span>
 
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
+                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                          loader={false}
                           placeholder='Search by libraryCode'
                           data={{
                             list: libraryStore.listLibrary?.filter(
                               item => item.status == 'A',
                             ),
+                            selected: selectedItemsRef.current,
                             displayKey: ['libraryCode', 'description'],
                           }}
-                          disable={false}
                           hasError={false}
+                          onUpdate={item => {
+                            const items = selectedItemsRef.current;
+                            const details: any = [];
+                            items?.filter(item => {
+                              details.push(item?.details);
+                            });
+                            setContent(details?.join('<br/>'));
+                            libraryStore.updateLibraryList(
+                              libraryStore.listLibraryCopy,
+                            );
+                          }}
                           onFilter={(value: string) => {
                             libraryStore.libraryService.filterByFields({
                               input: {
@@ -109,10 +123,23 @@ export const ModalDocxContent = observer(
                             });
                           }}
                           onSelect={item => {
-                            setContent(item?.details);
-                            libraryStore.updateLibraryList(
-                              libraryStore.listLibraryCopy,
-                            );
+                            let library = selectedItemsRef.current;
+                            if (!item.selected) {
+                              if (library && library.length > 0) {
+                                library.push(item);
+                              } else library = [item];
+                            } else {
+                              library = library?.filter(items => {
+                                return items._id !== item._id;
+                              });
+                            }
+                            const details: any = [];
+                            library?.filter(item => {
+                              details.push(item?.details);
+                            });
+                            setContent(details?.join('<br/>'));
+                            selectedItemsRef.current = library;
+                            setSelectedItems(library);
                           }}
                         />
                       </div>
