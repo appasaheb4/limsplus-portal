@@ -15,6 +15,7 @@ interface ModalDocxContentProps {
   title?: string;
   visible: boolean;
   details?: any;
+  department?: string;
   folder?: string;
   isEditable?: boolean;
   isLibraryImport?: boolean;
@@ -26,6 +27,7 @@ export const ModalDocxContent = observer(
     title = 'Update details',
     visible,
     details = '',
+    department = '',
     folder = 'patient-reports',
     isEditable = false,
     isLibraryImport = false,
@@ -93,7 +95,9 @@ export const ModalDocxContent = observer(
                           placeholder='Search by libraryCode'
                           data={{
                             list: libraryStore.listLibrary?.filter(
-                              item => item.status == 'A',
+                              item =>
+                                item.status == 'A' &&
+                                item.department == department,
                             ),
                             selected: selectedItemsRef.current,
                             displayKey: ['libraryCode', 'description'],
