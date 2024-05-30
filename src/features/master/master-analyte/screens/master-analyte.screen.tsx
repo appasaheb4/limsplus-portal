@@ -494,7 +494,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                               isVersionUpgrade
                                 ? true
                                 : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
+                                  loginStore.login.role !== 'ADMINISTRATOR'
                                 ? true
                                 : false
                             }

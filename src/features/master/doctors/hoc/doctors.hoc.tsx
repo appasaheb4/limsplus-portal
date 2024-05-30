@@ -36,7 +36,7 @@ export const DoctorsHoc = (Component: React.FC<any>) => {
           'DOCTOR_TYPE',
         ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         doctorsStore.updateDoctors({
           ...doctorsStore.doctors,
           environment: loginStore.login.environment,

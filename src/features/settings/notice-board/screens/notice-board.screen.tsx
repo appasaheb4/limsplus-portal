@@ -256,7 +256,7 @@ const NoticeBoard = NoticeBoardHoc(
                         placeholder='Search by name'
                         disable={
                           loginStore.login &&
-                          loginStore.login.role !== 'SYSADMIN'
+                          loginStore.login.role !== 'ADMINISTRATOR'
                             ? true
                             : false
                         }

@@ -16,7 +16,7 @@ export const RolesHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         roleStore.updateRole({
           ...roleStore.role,
           environment: loginStore.login.environment,

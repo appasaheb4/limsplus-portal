@@ -16,7 +16,7 @@ export const DataConversationHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         dataConversationStore.updateDataConversation({
           ...dataConversationStore.dataConversation,
           environment: loginStore.login.environment,

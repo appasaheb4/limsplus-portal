@@ -48,7 +48,7 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
           'DELIVERY_METHOD',
         ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         corporateClientsStore.updateCorporateClients({
           ...corporateClientsStore.corporateClients,
           environment: loginStore.login.environment,

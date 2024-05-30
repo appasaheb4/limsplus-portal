@@ -9,7 +9,7 @@ export const NoticeBoardHoc = (Component: React.FC<any>) => {
     const { loginStore, noticeBoardStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         noticeBoardStore.updateNoticeBoard({
           ...noticeBoardStore.noticeBoard,
           lab: loginStore.login.lab,

@@ -41,7 +41,7 @@ export const MasterPanelHoc = (Component: React.FC<any>) => {
             'SEX_ACTION',
           ),
         });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
           environment: loginStore.login.environment,

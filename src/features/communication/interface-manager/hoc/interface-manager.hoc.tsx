@@ -21,7 +21,7 @@ export const InterfaceManagerHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         interfaceManagerStore.updateInterfaceManager({
           ...interfaceManagerStore.interfaceManager,
           environment: loginStore.login.environment,

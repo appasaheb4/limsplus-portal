@@ -17,7 +17,7 @@ export const SampleTypeHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         sampleTypeStore.updateSampleType({
           ...sampleTypeStore.sampleType,
           environment: loginStore.login.environment,

@@ -17,7 +17,7 @@ export const DeginisationHoc = (Component: React.FC<any>) => {
           //   'ENVIRONMENT',
           // ),
         });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         deginisationStore.updateDescription({
           ...deginisationStore.deginisation,
           environment: loginStore.login.environment,

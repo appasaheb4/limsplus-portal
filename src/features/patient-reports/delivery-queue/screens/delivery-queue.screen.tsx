@@ -347,7 +347,7 @@ const DeliveryQueue = observer(() => {
         totalSize={
           getReportDeliveryList(deliveryQueueStore.reportDeliveryList)?.length
         }
-        isPagination={loginStore.login?.role == 'SYSADMIN' ? true : false}
+        isPagination={loginStore.login?.role == 'ADMINISTRATOR' ? true : false}
         selectedId={selectId}
         holdRecord={holdRecord}
         isView={RouterFlow.checkPermission(routerStore.userPermission, 'View')}
@@ -385,7 +385,7 @@ const DeliveryQueue = observer(() => {
             page,
             limit,
           };
-          if (loginStore.login?.role == 'SYSADMIN') {
+          if (loginStore.login?.role == 'ADMINISTRATOR') {
             deliveryQueueStore.deliveryQueueService.filter({
               input: { type, filter, page, limit },
             });

@@ -26,7 +26,7 @@ export const MasterPackageHOC = (Component: React.FC<any>) => {
             'SERVICE_TYPE',
           ),
         });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         masterPackageStore.updateMasterPackage({
           ...masterPackageStore.masterPackage,
           environment: loginStore.login.environment,

@@ -610,60 +610,6 @@ export const TableBootstrap = ({
       };
   };
 
-  const products = [
-    {
-      _id: '65c65ea4ceb22bea59457655',
-      code: 'TESTING',
-      description: 'TESTING ',
-      status: 'A',
-      companyCode: 'COMP0001',
-      environment: 'P',
-    },
-    {
-      _id: '65bdcc55cf92b41b45ef1293',
-      code: 'ADMIN',
-      description: 'MAIN USER',
-      status: 'A',
-      companyCode: 'COMP0001',
-      environment: 'P',
-    },
-    {
-      _id: '65bbe6bc52e83e7eb2c21be6',
-      code: 'SYSADMIN',
-      description: 'SYSTEM ADMIN',
-      status: 'A',
-      companyCode: 'COMP0001',
-      environment: 'P',
-    },
-  ];
-
-  const column = [
-    {
-      dataField: '_id',
-      text: 'Id',
-    },
-    {
-      dataField: 'code',
-      text: 'Code',
-    },
-    {
-      dataField: 'description',
-      text: 'Description',
-    },
-    {
-      dataField: 'status',
-      text: 'Status',
-    },
-    {
-      text: 'Company Code',
-      dataField: 'companyCode',
-    },
-    {
-      dataField: 'environment',
-      text: 'Environment',
-    },
-  ];
-
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -774,6 +720,7 @@ export const TableBootstrap = ({
                       ? {
                           mode: 'checkbox',
                           clickToSelect: true,
+                          clickToEdit: true,
                           nonSelectable: getNonSelectableRows,
                           nonSelectableStyle: { backgroundColor: 'gray' },
                           onSelect: handleOnSelect,

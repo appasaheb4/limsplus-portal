@@ -1950,7 +1950,7 @@ const CorporateClients = CorporateClientsHoc(
                             isVersionUpgrade
                               ? true
                               : loginStore.login &&
-                                loginStore.login.role !== 'SYSADMIN'
+                                loginStore.login.role !== 'ADMINISTRATOR'
                               ? true
                               : false
                           }
@@ -1998,7 +1998,7 @@ const CorporateClients = CorporateClientsHoc(
                         >
                           <option selected>
                             {loginStore.login &&
-                            loginStore.login.role !== 'SYSADMIN'
+                            loginStore.login.role !== 'ADMINISTRATOR'
                               ? 'Select'
                               : corporateClientsStore.corporateClients
                                   ?.environment || 'Select'}

@@ -25,7 +25,7 @@ export const LibraryHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      // if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      // if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
       //   libraryStore.updateLibrary({
       //     ...libraryStore.library,
       //     environment: loginStore.login.environment,

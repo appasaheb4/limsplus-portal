@@ -19,7 +19,7 @@ export const AdministrativeDivisionsHoc = (Component: React.FC<any>) => {
         zone: getDefaultLookupItem(routerStore.lookupItems, 'ZONE'),
         sbu: getDefaultLookupItem(routerStore.lookupItems, 'SBU'),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         administrativeDivisions.updateAdministrativeDiv({
           ...administrativeDivisions.administrativeDiv,
           environment: loginStore.login.environment,

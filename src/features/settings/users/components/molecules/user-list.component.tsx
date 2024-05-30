@@ -106,8 +106,13 @@ export const UserList = (props: UserListProps) => {
   const [modalDetails, setModalDetails] = useState<any>();
 
   const editorCell = (row: any) => {
-    if (props?.role === 'SYSADMIN' && row.status !== 'I') return true;
-    return row.status !== 'I' ? true : false;
+    if (
+      (props.extraData?.userId == 'ADMIN' ||
+        props.extraData?.userId == 'ADMINISTRATOR') &&
+      row.status !== 'I'
+    )
+      return true;
+    return false;
   };
 
   const getNonSelectableRows = rows => {

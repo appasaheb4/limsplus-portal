@@ -34,7 +34,7 @@ export const PossibleResultHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         possibleResultsStore.updatePossibleResults({
           ...possibleResultsStore.possibleResults,
           environment: loginStore.login.environment,

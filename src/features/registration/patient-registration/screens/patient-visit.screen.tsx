@@ -2227,7 +2227,7 @@ export const PatientVisit = PatientVisitHoc(
                                 value={value}
                                 disabled={
                                   loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
+                                  loginStore.login.role !== 'ADMINISTRATOR'
                                     ? true
                                     : false
                                 }

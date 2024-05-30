@@ -1,11 +1,11 @@
 import React from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 
 export const SegmentMappingHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {loginStore, segmentMappingStore, routerStore} = useStores();
+    const { loginStore, segmentMappingStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     // useEffect(() => {
     //   segmentMappingStore.updateSegmentMapping({
@@ -15,7 +15,7 @@ export const SegmentMappingHoc = (Component: React.FC<any>) => {
     //       'ENVIRONMENT',
     //     ),
     //   });
-    //   if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+    //   if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
     //     segmentMappingStore.updateSegmentMapping({
     //       ...segmentMappingStore.segmentMapping,
     //       environment: loginStore.login.environment,

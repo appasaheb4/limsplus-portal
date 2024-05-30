@@ -61,7 +61,7 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
           });
         });
       }
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         patientManagerStore.updatePatientManager({
           ...patientManagerStore.patientManger,
           extraData: {

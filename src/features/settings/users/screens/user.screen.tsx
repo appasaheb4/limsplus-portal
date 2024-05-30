@@ -198,6 +198,7 @@ export const Users = UsersHoc(
             userModule: loginStore.login.resCompany.module,
             environment: loginStore.login.resCompany.environment,
             userId: loginStore.login?.userId,
+            role: loginStore.login?.role,
           }}
           isView={RouterFlow.checkPermission(
             routerStore.userPermission,

@@ -19,7 +19,7 @@ export const TestPanelMappingHoc = (Component: React.FC<any>) => {
           //   'ENVIRONMENT',
           // ),
         });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         testPanelMappingStore.updateTestPanelMapping({
           ...testPanelMappingStore.testPanelMapping,
           environment: loginStore.login.environment,

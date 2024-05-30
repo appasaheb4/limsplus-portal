@@ -1589,7 +1589,7 @@ export const PatientManager = PatientManagerHoc(
                                 value={value}
                                 disabled={
                                   loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
+                                  loginStore.login.role !== 'ADMINISTRATOR'
                                     ? true
                                     : false
                                 }
@@ -1613,7 +1613,7 @@ export const PatientManager = PatientManagerHoc(
                               >
                                 <option selected>
                                   {loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
+                                  loginStore.login.role !== 'ADMINISTRATOR'
                                     ? 'Select'
                                     : patientManagerStore.patientManger
                                         ?.extraData?.environment || 'Select'}

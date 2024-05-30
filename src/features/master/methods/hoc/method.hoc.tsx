@@ -17,7 +17,7 @@ export const MethodsHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         methodsStore.updateMethods({
           ...methodsStore.methods,
           environment: loginStore.login.environment,

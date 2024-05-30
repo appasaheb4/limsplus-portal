@@ -512,7 +512,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                               isVersionUpgrade
                                 ? true
                                 : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
+                                  loginStore.login.role !== 'ADMINISTRATOR'
                                 ? true
                                 : false
                             }

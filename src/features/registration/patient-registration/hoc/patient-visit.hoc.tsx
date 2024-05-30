@@ -95,7 +95,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
         deliveryMode,
       });
 
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         patientVisitStore.updatePatientVisit({
           ...patientVisitStore.patientVisit,
           extraData: {

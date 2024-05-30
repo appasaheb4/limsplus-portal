@@ -29,7 +29,7 @@ export const MasterAnalyteHoc = (Component: React.FC<any>) => {
             'RESULT_TYPE',
           ),
         });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         masterAnalyteStore.updateMasterAnalyte({
           ...masterAnalyteStore.masterAnalyte,
           environment: loginStore.login.environment,

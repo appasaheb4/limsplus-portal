@@ -519,7 +519,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                 isVersionUpgrade
                                   ? true
                                   : loginStore.login &&
-                                    loginStore.login.role !== 'SYSADMIN'
+                                    loginStore.login.role !== 'ADMINISTRATOR'
                                   ? true
                                   : false
                               }

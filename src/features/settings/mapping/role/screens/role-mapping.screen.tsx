@@ -204,7 +204,7 @@ const RoleMapping = observer(() => {
         )}
         onDelete={selectedUser => setModalConfirm(selectedUser)}
         onDuplicate={async (selectedItem: any) => {
-          if (selectedItem?.code !== 'SYSADMIN') {
+          if (selectedItem?.code !== 'ADMINISTRATOR') {
             const routers: any = selectedItem?.router?.filter((item: any) => {
               const children = item.children?.filter(childrenItem => {
                 if (
@@ -297,7 +297,7 @@ const RoleMapping = observer(() => {
                 className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                 onChange={e => {
                   const role = roleList[e.target.value];
-                  // if (role.code !== 'SYSADMIN') {
+                  // if (role.code !== 'ADMINISTRATOR') {
                   //   const routers: any = routerStore.router?.filter(
                   //     (item: any) => {
                   //       const children = item.children.filter(childrenItem => {

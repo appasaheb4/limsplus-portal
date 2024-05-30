@@ -20,6 +20,8 @@ export const AutoCompleteFilterMutiSelectRoles = observer(
     const [originalOptions, setOriginalOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
 
+    console.log({ selected });
+
     const useOutsideAlerter = ref => {
       useEffect(() => {
         function handleClickOutside(event) {

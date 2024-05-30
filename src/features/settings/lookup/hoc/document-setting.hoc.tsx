@@ -18,7 +18,7 @@ export const DocumentSettingHoc = (Component: React.FC<any>) => {
           //   'ENVIRONMENT',
           // ),
         });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         lookupStore.updateLookup({
           ...lookupStore.lookup,
           environment: loginStore.login.environment,

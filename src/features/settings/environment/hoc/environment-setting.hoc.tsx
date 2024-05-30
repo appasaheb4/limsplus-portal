@@ -32,7 +32,7 @@ export const EnvironmentSettingsHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT SETTING - ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         environmentStore.updateEnvironmentSettings({
           ...environmentStore.environmentSettings,
           environment: loginStore.login.environment,

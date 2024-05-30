@@ -16,7 +16,7 @@ export const SalesTeamHoc = (Component: React.FC<any>) => {
         // ),
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         salesTeamStore.updateSalesTeam({
           ...salesTeamStore.salesTeam,
           environment: loginStore.login.environment,

@@ -47,7 +47,7 @@ export const RegistrationLocationHoc = (Component: React.FC<any>) => {
           'DELIVERY_METHOD',
         ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         registrationLocationsStore.updateRegistrationLocations({
           ...registrationLocationsStore.registrationLocations,
           environment: loginStore.login.environment,

@@ -1,12 +1,12 @@
-import React, {useEffect} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {getDefaultLookupItem} from '@/library/utils';
+import React, { useEffect } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { getDefaultLookupItem } from '@/library/utils';
 
 export const TestAnalyteMappingHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {loginStore, testAnalyteMappingStore, routerStore} = useStores();
+    const { loginStore, testAnalyteMappingStore, routerStore } = useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useEffect(() => {
       testAnalyteMappingStore.updateTestAnalyteMapping({
@@ -18,7 +18,7 @@ export const TestAnalyteMappingHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         testAnalyteMappingStore.updateTestAnalyteMapping({
           ...testAnalyteMappingStore.testAnalyteMapping,
           environment: loginStore.login.environment,

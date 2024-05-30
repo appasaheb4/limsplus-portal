@@ -24,7 +24,7 @@ export const LabHoc = (Component: React.FC<any>) => {
           labType: getDefaultLookupItem(routerStore.lookupItems, 'LAB_TYPE'),
         });
 
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         labStore.updateLabs({
           ...labStore.labs,
           environment: loginStore.login.environment,

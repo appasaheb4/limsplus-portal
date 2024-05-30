@@ -22,7 +22,7 @@ export const DeliveryScheduleHoc = (Component: React.FC<any>) => {
         ),
         dynamicTU: getDefaultLookupItem(routerStore.lookupItems, 'DYNAMIC_TU'),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         deliveryScheduleStore.updateDeliverySchedule({
           ...deliveryScheduleStore.deliverySchedule,
           environment: loginStore.login.environment,

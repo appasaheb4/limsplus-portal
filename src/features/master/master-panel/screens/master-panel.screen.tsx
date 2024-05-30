@@ -514,7 +514,7 @@ const MasterPanel = MasterPanelHoc(
                               isVersionUpgrade
                                 ? true
                                 : loginStore.login &&
-                                  loginStore.login.role !== 'SYSADMIN'
+                                  loginStore.login.role !== 'ADMINISTRATOR'
                                 ? true
                                 : false
                             }
@@ -560,7 +560,7 @@ const MasterPanel = MasterPanelHoc(
                             disable={isVersionUpgrade}
                             data={{
                               list:
-                                loginStore.login.role !== 'SYSADMIN'
+                                loginStore.login.role !== 'ADMINISTRATOR'
                                   ? loginStore.login.labList
                                   : labStore.listLabs?.filter(
                                       item => item.status == 'A',

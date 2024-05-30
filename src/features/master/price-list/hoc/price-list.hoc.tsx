@@ -23,7 +23,7 @@ export const PriceListHoc = (Component: React.FC<any>) => {
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
       });
 
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         priceListStore.updatePriceList({
           ...priceListStore.priceList,
           environment: loginStore.login.environment,

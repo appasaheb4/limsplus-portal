@@ -29,7 +29,7 @@ export const TestSampleMappingHoc = (Component: React.FC<any>) => {
         //   'ENVIRONMENT',
         // ),
       });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         testSampleMappingStore.updateSampleType({
           ...testSampleMappingStore.testSampleMapping,
           environment: loginStore.login.environment,

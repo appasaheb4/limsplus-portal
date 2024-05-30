@@ -28,7 +28,7 @@ export const TestMasterHOC = (Component: React.FC<any>) => {
             'PROCESSING',
           ),
         });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         testMasterStore.updateTestMaster({
           ...testMasterStore.testMaster,
           environment: loginStore.login.environment,

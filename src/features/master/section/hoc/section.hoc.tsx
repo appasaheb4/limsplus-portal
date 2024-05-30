@@ -18,7 +18,7 @@ export const SectionHoc = (Component: React.FC<any>) => {
           //   'ENVIRONMENT',
           // ),
         });
-      if (loginStore.login && loginStore.login.role !== 'SYSADMIN') {
+      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         sectionStore.updateSection({
           ...sectionStore.section,
           environment: loginStore.login.environment,
