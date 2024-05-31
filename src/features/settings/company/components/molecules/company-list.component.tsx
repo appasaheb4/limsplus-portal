@@ -843,8 +843,7 @@ export const CompanyList = (props: CompanyListProps) => {
             text: 'Company Logo',
             csvExport: false,
             headerClasses: 'textHeader',
-            // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editable: false,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             formatter: (cell, row) => {
               return (
                 <>
@@ -856,6 +855,25 @@ export const CompanyList = (props: CompanyListProps) => {
                 </>
               );
             },
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.InputFile
+                  placeholder='File'
+                  onChange={e => {
+                    const image = e.target.files[0];
+                    props.onUpdateImage &&
+                      props.onUpdateImage(image, column.dataField, row._id);
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'fyiLine',

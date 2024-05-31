@@ -1766,14 +1766,14 @@ const Company = CompanyHoc(
                     .update({
                       input: {
                         _id: modalConfirm.data.id,
-                        file: modalConfirm.data.value,
+                        companyLogo: modalConfirm.data.value,
                       },
                     })
                     .then((res: any) => {
                       setModalConfirm({ show: false });
-                      if (res.updateBannerImage.success) {
+                      if (res.updateCompany.success) {
                         Toast.success({
-                          message: `😊 ${res.updateBannerImage.message}`,
+                          message: `😊 ${res.updateCompany.message}`,
                         });
                         setTimeout(() => {
                           companyStore.companyService.list();

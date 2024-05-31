@@ -147,7 +147,8 @@ export const LibraryList = (props: LibraryListProps) => {
                   description = filter;
                 },
               }),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
             },
             {
               dataField: 'lab',
@@ -792,7 +793,8 @@ export const LibraryList = (props: LibraryListProps) => {
               props.onSelectedRow(rows.map((item: any) => item._id));
           }}
           onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem({ dataField: value }, id);
+            props.onUpdateItem &&
+              props.onUpdateItem({ [dataField]: value }, id);
           }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size);

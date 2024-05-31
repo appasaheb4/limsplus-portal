@@ -1001,13 +1001,11 @@ export const Library = LibraryHoc(
                     });
                   break;
                 }
-
                 case 'Update': {
                   onUpdateSingleField({
                     ...modalConfirm.data.fields,
                     _id: modalConfirm.data.id,
                   });
-
                   break;
                 }
                 case 'versionUpgrade': {
