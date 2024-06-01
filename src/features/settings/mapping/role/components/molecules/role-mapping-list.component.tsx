@@ -105,12 +105,18 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                               id={item?.name}
                             >
                               {item.children.map((children, indexChildren) => (
-                                <li className='bg-blue-600 ml-4 p-4 rounded-md'>
+                                <li
+                                  className='bg-blue-600 ml-4 p-4 rounded-md'
+                                  key={indexChildren}
+                                >
                                   {children?.title}
                                   <ul className='ml-2'>
                                     {children?.permission.map(
                                       (permission, indexPermission) => (
-                                        <li className='flex items-center'>
+                                        <li
+                                          className='flex items-center'
+                                          key={indexPermission}
+                                        >
                                           <input
                                             type='checkbox'
                                             checked={permission?.checked}

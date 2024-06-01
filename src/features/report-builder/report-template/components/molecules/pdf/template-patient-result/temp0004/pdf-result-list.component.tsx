@@ -309,6 +309,7 @@ export const PdfResultList = ({
                         p={0}
                         bw={0}
                         borderColor='transparent'
+                        key={testIndex}
                       >
                         {testItem.testHeader?.isPrintTestName &&
                         panelItem.panelHeader?.analyteType !== 'H' ? (
@@ -588,8 +589,8 @@ export const PdfResultList = ({
             flexDirection='row'
             borderColor='transparent'
           >
-            {getUserInfo(getPatientResultList(data))?.map(item => (
-              <PdfView flexDirection='column' alignItems='center'>
+            {getUserInfo(getPatientResultList(data))?.map((item, i) => (
+              <PdfView flexDirection='column' alignItems='center' key={i}>
                 <PdfImage
                   src={item?.signature}
                   style={{

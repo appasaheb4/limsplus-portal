@@ -246,8 +246,8 @@ export const DepartmentList = (props: DepartmentListProps) => {
             formatter: (cell, row) => {
               return (
                 <>
-                  {row?.authorizedSignatory?.map(item => (
-                    <h4>{item}</h4>
+                  {row?.authorizedSignatory?.map((item, index) => (
+                    <h4 key={index}>{item}</h4>
                   ))}
                 </>
               );

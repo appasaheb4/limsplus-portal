@@ -1,11 +1,8 @@
 import React from 'react';
-import { View, StyleSheet} from '@react-pdf/renderer';
-import {Style} from '@react-pdf/types';
+import { View, StyleSheet } from '@react-pdf/renderer';
+import { Style } from '@react-pdf/types';
 import {} from '@storybook/addons';
-import {
-  PdfSmall,
-  PdfBorderView,
-} from '@/library/components';
+import { PdfSmall, PdfBorderView } from '@/library/components';
 
 const styles = StyleSheet.create({
   table: {
@@ -59,16 +56,16 @@ export const PdfTransactionLineTable = ({
   ];
 
   return (
-    <View style={[styles.table, {...style}]}>
+    <View style={[styles.table, { ...style }]}>
       <View
-        style={[styles.tableRow, styles.headerBg, {...headerStyle}]}
+        style={[styles.tableRow, styles.headerBg, { ...headerStyle }]}
         fixed={headerFixed}
       >
         {fields.map((item, index) => (
           <View
             key={index}
             style={[
-              {width: item.width + '%', borderWidth: 1, borderColor: 'gray'},
+              { width: item.width + '%', borderWidth: 1, borderColor: 'gray' },
             ]}
           >
             <PdfSmall
@@ -83,8 +80,8 @@ export const PdfTransactionLineTable = ({
         ))}
       </View>
 
-      {data?.map(tranItem => (
-        <View style={styles.tableRow}>
+      {data?.map((tranItem, index) => (
+        <View style={styles.tableRow} key={index}>
           {Object.entries(tranItem).map((item: any, _idx) => (
             <PdfBorderView
               key={_idx}
@@ -97,7 +94,7 @@ export const PdfTransactionLineTable = ({
               bw={1}
               borderColor='gray'
             >
-              <PdfSmall style={{textAlign: 'center', padding: 2}}>
+              <PdfSmall style={{ textAlign: 'center', padding: 2 }}>
                 {item[1]}
               </PdfSmall>
             </PdfBorderView>

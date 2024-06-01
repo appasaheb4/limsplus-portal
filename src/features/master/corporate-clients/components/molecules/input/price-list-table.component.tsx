@@ -1,5 +1,5 @@
 import React from 'react';
-import {Table} from 'reactstrap';
+import { Table } from 'reactstrap';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   Icons,
@@ -7,18 +7,18 @@ import {
   Form,
   Toast,
 } from '@/library/components';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {useForm, Controller} from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 export const PriceListTable = observer(() => {
-  const {loading, corporateClientsStore, priceListStore} = useStores();
+  const { loading, corporateClientsStore, priceListStore } = useStores();
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
     clearErrors,
   } = useForm();
@@ -52,19 +52,19 @@ export const PriceListTable = observer(() => {
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white' style={{minWidth: 150}}>
+            <th className='text-white' style={{ minWidth: 150 }}>
               Price Group
             </th>
-            <th className='text-white' style={{minWidth: 150}}>
+            <th className='text-white' style={{ minWidth: 150 }}>
               Price List
             </th>
-            <th className='text-white' style={{minWidth: 150}}>
+            <th className='text-white' style={{ minWidth: 150 }}>
               Description
             </th>
-            <th className='text-white' style={{minWidth: 100}}>
+            <th className='text-white' style={{ minWidth: 100 }}>
               Priority
             </th>
-            <th className='text-white' style={{minWidth: 100}}>
+            <th className='text-white' style={{ minWidth: 100 }}>
               Max Dis%
             </th>
             <th className='text-white sticky right-0 z-10'>Action</th>
@@ -73,11 +73,11 @@ export const PriceListTable = observer(() => {
         <tbody className='text-xs'>
           {corporateClientsStore.corporateClients?.priceList?.map(
             (item, index) => (
-              <tr>
+              <tr key={index}>
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by priceGroup or description'
@@ -102,7 +102,7 @@ export const PriceListTable = observer(() => {
                           });
                         }}
                         onSelect={item => {
-                          console.log({item});
+                          console.log({ item });
                           onChange(item.priceGroup);
                           const priceList =
                             corporateClientsStore.corporateClients?.priceList;
@@ -145,14 +145,14 @@ export const PriceListTable = observer(() => {
                       />
                     )}
                     name='priceGroup'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue={priceListStore.listPriceList}
                   />
                 </td>
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         placeholder='Search by invoiceAc or name'
@@ -198,14 +198,14 @@ export const PriceListTable = observer(() => {
                       />
                     )}
                     name='priceList'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </td>
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.MultilineInput
                         rows={2}
                         label=''
@@ -223,14 +223,14 @@ export const PriceListTable = observer(() => {
                       />
                     )}
                     name='description'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </td>
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input
                         label=''
                         value={item?.priority}
@@ -256,14 +256,14 @@ export const PriceListTable = observer(() => {
                       />
                     )}
                     name='priority'
-                    rules={{required: true}}
+                    rules={{ required: true }}
                     defaultValue=''
                   />
                 </td>
                 <td>
                   <Controller
                     control={control}
-                    render={({field: {onChange}}) => (
+                    render={({ field: { onChange } }) => (
                       <Form.Input
                         label=''
                         type='number'
@@ -288,7 +288,7 @@ export const PriceListTable = observer(() => {
                       />
                     )}
                     name='maxDis'
-                    rules={{required: false}}
+                    rules={{ required: false }}
                     defaultValue=''
                   />
                 </td>

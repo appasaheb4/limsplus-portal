@@ -1031,8 +1031,11 @@ export const RegistrationLocationsList = (
               return (
                 <div className='flex flex-row flex-wrap gap-2'>
                   {typeof row.deliveryMode != 'string' &&
-                    row.deliveryMode?.map(item => (
-                      <span className='bg-blue-800 rounded-md p-2 text-white'>
+                    row.deliveryMode?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='bg-blue-800 rounded-md p-2 text-white'
+                      >
                         {item.value}
                       </span>
                     ))}

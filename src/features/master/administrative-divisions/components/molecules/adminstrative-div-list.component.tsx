@@ -187,8 +187,8 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             formatter: (cellContent, row) => (
               <>
                 <List space={2} direction='row' justify='center'>
-                  {row.postalCode.map(item => (
-                    <div className='mb-2'>
+                  {row.postalCode.map((item, index) => (
+                    <div className='mb-2' key={index}>
                       <Buttons.Button
                         size='medium'
                         type='solid'

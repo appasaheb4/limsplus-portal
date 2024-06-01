@@ -816,8 +816,11 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               formatter: (cell, row) => {
                 return (
                   <div className='flex flex-row flex-wrap gap-2'>
-                    {row?.deliveryMode?.map(item => (
-                      <span className='bg-blue-800 rounded-md p-2 text-white'>
+                    {row?.deliveryMode?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='bg-blue-800 rounded-md p-2 text-white'
+                      >
                         {item.code}
                       </span>
                     ))}

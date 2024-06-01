@@ -91,8 +91,11 @@ const ReportTemplate = observer(() => {
 
       <div className='flex'>
         <div className={'flex flex-row p-2 rounded-lg gap-4 flex-wrap '}>
-          {templates?.map(item => (
-            <div className='flex relative flex-col xl:w-60 shadow-2xl p-2 rounded-md items-center justify-center gap-2 sm:w-100'>
+          {templates?.map((item, index) => (
+            <div
+              key={index}
+              className='flex relative flex-col xl:w-60 shadow-2xl p-2 rounded-md items-center justify-center gap-2 sm:w-100'
+            >
               <img src={item.logo} />
               <h4 className='text-center'>{`${item.tempCode}-${item.title}`}</h4>
               <div className='py-3'>

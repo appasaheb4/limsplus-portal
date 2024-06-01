@@ -77,8 +77,9 @@ export const ModalGenerateReports = ({
           <>
             {item.template == 'TEMP0001' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0001
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -100,8 +101,9 @@ export const ModalGenerateReports = ({
 
             {item.template == 'TEMP0002' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0002
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -122,8 +124,9 @@ export const ModalGenerateReports = ({
               )}
             {item.template == 'TEMP0003' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0003
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -144,8 +147,9 @@ export const ModalGenerateReports = ({
               )}
             {item.template == 'TEMP0004' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0004
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -166,8 +170,9 @@ export const ModalGenerateReports = ({
               )}
             {item.template == 'TEMP0005' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0005
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -188,8 +193,9 @@ export const ModalGenerateReports = ({
               )}
             {item.template == 'TEMP0006' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0006
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -210,8 +216,9 @@ export const ModalGenerateReports = ({
               )}
             {item.template == 'TEMP0007' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0007
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -232,8 +239,9 @@ export const ModalGenerateReports = ({
               )}
             {item.template == 'TEMP0008' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0008
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -254,8 +262,9 @@ export const ModalGenerateReports = ({
               )}
             {item.template == 'TEMP0009' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0009
+                    key={i}
                     data={{
                       patientReports: {
                         ...patientReports,
@@ -276,7 +285,7 @@ export const ModalGenerateReports = ({
               )}
             {item.template == 'TEMP0010' &&
               _.uniqBy(item?.patientReports, 'labId').map(
-                (patientReports: any) => (
+                (patientReports: any, i: number) => (
                   <PdfTemp0010
                     data={{
                       patientReports: {

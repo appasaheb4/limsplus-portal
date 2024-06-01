@@ -401,6 +401,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                   <div className='inline-flex rounded-md' role='group'>
                     {getMasterFlags(row).map((item, index) => (
                       <button
+                        key={index}
                         type='button'
                         disabled={!editorCell(row)}
                         className={

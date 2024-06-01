@@ -1064,8 +1064,11 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               return (
                 <div className='flex flex-row flex-wrap gap-2'>
                   {typeof row.deliveryMode != 'string' &&
-                    row.deliveryMode?.map(item => (
-                      <span className='bg-blue-800 rounded-md p-2 text-white'>
+                    row.deliveryMode?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='bg-blue-800 rounded-md p-2 text-white'
+                      >
                         {item.value}
                       </span>
                     ))}
@@ -1359,8 +1362,8 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                   </div>
                   {selectedRowId == row?._id && (
                     <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
-                      {row.panelList?.map(item => (
-                        <span className='shadow-xl p-2 '>
+                      {row.panelList?.map((item, index) => (
+                        <span key={index} className='shadow-xl p-2 '>
                           {item?.panelCode + ' - ' + item?.panelName}
                         </span>
                       ))}

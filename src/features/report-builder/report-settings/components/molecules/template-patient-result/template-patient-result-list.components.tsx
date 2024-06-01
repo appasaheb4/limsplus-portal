@@ -184,8 +184,8 @@ export const TemplatePatientResultList = observer(
                 formatter: (cell, row) => {
                   return (
                     <>
-                      {row?.endOfPage?.map(item => (
-                        <p>{` ${item?.details}`}</p>
+                      {row?.endOfPage?.map((item, index) => (
+                        <p key={index}>{` ${item?.details}`}</p>
                       ))}
                     </>
                   );
@@ -221,8 +221,8 @@ export const TemplatePatientResultList = observer(
                 formatter: (cell, row) => {
                   return (
                     <>
-                      {row?.endOfReport?.map(item => (
-                        <p>{` ${item?.details}`}</p>
+                      {row?.endOfReport?.map((item, index) => (
+                        <p key={index}>{` ${item?.details}`}</p>
                       ))}
                     </>
                   );

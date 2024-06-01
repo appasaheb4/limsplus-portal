@@ -186,8 +186,8 @@ export const PaymentList = (props: PaymentListProps) => {
               return (
                 <>
                   <div className='flex flex-row gap-2'>
-                    {row?.allMiscCharges?.map(item => (
-                      <span>
+                    {row?.allMiscCharges?.map((item, index) => (
+                      <span key={index}>
                         {item?.code + ' - ' + item?.amount?.toString()}
                       </span>
                     ))}

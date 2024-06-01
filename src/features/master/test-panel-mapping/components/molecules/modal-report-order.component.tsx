@@ -135,6 +135,7 @@ export const ModalReportOrder = observer(
                             onMouseLeave={() => {
                               setTxtDisable(true);
                             }}
+                            key={index}
                           >
                             <td>{`${index + 1}. ${
                               item.testName + ' - ' + item.testCode

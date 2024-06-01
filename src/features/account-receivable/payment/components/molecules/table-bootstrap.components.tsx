@@ -105,9 +105,9 @@ export const TableBootstrap = ({
         }}
         className='mr-2 ml-2 leading-4 p-2 w-14 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-md'
       />
-      {options.map(option => (
+      {options.map((option, index) => (
         <button
-          key={option.text}
+          key={index}
           type='button'
           onClick={() => onSizePerPageChange(option.page)}
           className={`btn  ${

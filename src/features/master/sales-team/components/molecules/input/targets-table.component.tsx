@@ -51,7 +51,7 @@ export const TargetsTable = observer(
           </thead>
           <tbody className='text-xs'>
             {salesTeamStore?.salesTeam?.targets?.map((item, index) => (
-              <tr>
+              <tr key={index}>
                 <td>
                   <Controller
                     control={control}

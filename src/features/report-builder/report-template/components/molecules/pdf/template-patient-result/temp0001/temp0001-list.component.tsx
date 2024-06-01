@@ -1,9 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, StyleSheet} from '@react-pdf/renderer';
+import React, { useState, useEffect } from 'react';
+import { Text, View, StyleSheet } from '@react-pdf/renderer';
 import _ from 'lodash';
-import {Style} from '@react-pdf/types';
+import { Style } from '@react-pdf/types';
 import {} from '@storybook/addons';
-import {PdfSmall, PdfBorderView, PdfImage, PdfView} from '@/library/components';
+import {
+  PdfSmall,
+  PdfBorderView,
+  PdfImage,
+  PdfView,
+} from '@/library/components';
 
 const styles = StyleSheet.create({
   table: {
@@ -167,13 +172,13 @@ export const PdfTPRTemp0001List = ({
   }, [data]);
 
   return (
-    <View style={[styles.table, {...style}]}>
+    <View style={[styles.table, { ...style }]}>
       <View
-        style={[styles.tableRow, styles.headerBg, {...headerStyle}]}
+        style={[styles.tableRow, styles.headerBg, { ...headerStyle }]}
         fixed={headerFixed}
       >
         {fields.map((item, index) => (
-          <View key={index} style={[{width: item.width + '%'}]}>
+          <View key={index} style={[{ width: item.width + '%' }]}>
             <Text style={[styles.tableCellHeader]}>{item?.title}</Text>
           </View>
         ))}
@@ -192,7 +197,7 @@ export const PdfTPRTemp0001List = ({
               bw={1}
               borderColor='#000'
             >
-              <PdfSmall style={{marginLeft: 10}}>
+              <PdfSmall style={{ marginLeft: 10 }}>
                 {deptItem?.departmentHeader?.departmentName}
               </PdfSmall>
             </PdfBorderView>
@@ -200,6 +205,7 @@ export const PdfTPRTemp0001List = ({
             {deptItem.panelHeader.map((panelItem, index) => (
               <>
                 <PdfBorderView
+                  key={index}
                   style={{
                     width: '100%',
                   }}
@@ -209,7 +215,7 @@ export const PdfTPRTemp0001List = ({
                   bw={1}
                   borderColor='#000'
                 >
-                  <PdfSmall style={{marginLeft: 10}}>
+                  <PdfSmall style={{ marginLeft: 10 }}>
                     {panelItem.panelHeader?.tpmPrintPanelName
                       ? panelItem?.panelHeader?.panelDescription
                       : ''}
@@ -239,9 +245,10 @@ export const PdfTPRTemp0001List = ({
                       p={0}
                       bw={1}
                       borderColor='#000'
+                      key={testIndex}
                     >
                       {testItem.testHeader?.tpmPrintTestName ? (
-                        <PdfSmall style={{marginLeft: 10}}>
+                        <PdfSmall style={{ marginLeft: 10 }}>
                           {testItem?.testHeader?.testDescription}{' '}
                           {` ${testItem.testHeader?.testRightMarker}`}
                         </PdfSmall>
@@ -278,23 +285,23 @@ export const PdfTPRTemp0001List = ({
                           >
                             {typeof _item[1] == 'object' ? (
                               <>
-                                <PdfSmall style={{marginLeft: 10}}>
+                                <PdfSmall style={{ marginLeft: 10 }}>
                                   {_item[1]?.analyteDescription}
                                 </PdfSmall>
 
                                 {_item[1]?.analyteMethod ? (
-                                  <PdfSmall style={{marginLeft: 10}}>
+                                  <PdfSmall style={{ marginLeft: 10 }}>
                                     {_item[1]?.analyteMethodDescription}
                                   </PdfSmall>
                                 ) : null}
                                 {_item[1]?.analyteInterpretation ? (
-                                  <PdfSmall style={{marginLeft: 10}}>
+                                  <PdfSmall style={{ marginLeft: 10 }}>
                                     {_item[1]?.analyteMasterInterpretation}
                                   </PdfSmall>
                                 ) : null}
                               </>
                             ) : (
-                              <PdfSmall style={{textAlign: 'center'}}>
+                              <PdfSmall style={{ textAlign: 'center' }}>
                                 {_item[1] || ''}
                               </PdfSmall>
                             )}
@@ -315,7 +322,7 @@ export const PdfTPRTemp0001List = ({
                         bw={1}
                         borderColor='#000'
                       >
-                        <PdfSmall style={{marginLeft: 10}}>
+                        <PdfSmall style={{ marginLeft: 10 }}>
                           {testItem?.testFooter?.testInterpretation || ''}
                         </PdfSmall>
                       </PdfBorderView>
@@ -335,7 +342,7 @@ export const PdfTPRTemp0001List = ({
                     bw={1}
                     borderColor='#000'
                   >
-                    <PdfSmall style={{marginLeft: 10}}>
+                    <PdfSmall style={{ marginLeft: 10 }}>
                       {panelItem?.panelFooter?.panelInterpretation}
                     </PdfSmall>
                   </PdfBorderView>
@@ -356,26 +363,28 @@ export const PdfTPRTemp0001List = ({
                 flexDirection='row'
                 borderColor='#000'
               >
-                {deptItem?.departmentFooter?.userInfo?.map(deptFooterItem => (
-                  <PdfView flexDirection='column' alignItems='center'>
-                    <PdfImage
-                      src={deptFooterItem?.signature}
-                      style={{
-                        width: 80,
-                        height: 60,
-                        marginLeft: 10,
-                        padding: 5,
-                      }}
-                    />
-                    <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
-                    <PdfSmall style={{marginTop: -4}}>
-                      {deptFooterItem?.userDegree}
-                    </PdfSmall>
-                    <PdfSmall style={{marginTop: -4}}>
-                      {deptFooterItem?.deginisation}
-                    </PdfSmall>
-                  </PdfView>
-                ))}
+                {deptItem?.departmentFooter?.userInfo?.map(
+                  (deptFooterItem, i) => (
+                    <PdfView flexDirection='column' alignItems='center' key={i}>
+                      <PdfImage
+                        src={deptFooterItem?.signature}
+                        style={{
+                          width: 80,
+                          height: 60,
+                          marginLeft: 10,
+                          padding: 5,
+                        }}
+                      />
+                      <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
+                      <PdfSmall style={{ marginTop: -4 }}>
+                        {deptFooterItem?.userDegree}
+                      </PdfSmall>
+                      <PdfSmall style={{ marginTop: -4 }}>
+                        {deptFooterItem?.deginisation}
+                      </PdfSmall>
+                    </PdfView>
+                  ),
+                )}
               </PdfBorderView>
             )}
           </PdfView>

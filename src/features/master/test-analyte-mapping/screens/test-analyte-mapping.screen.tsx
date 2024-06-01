@@ -1160,6 +1160,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   onMouseLeave={() => {
                                     setTxtDisable(true);
                                   }}
+                                  key={index}
                                 >
                                   <td>{`${index + 1}. ${
                                     item.analyteName + ' - ' + item.analyteCode
@@ -1372,6 +1373,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   onMouseLeave={() => {
                                     setTxtDisable(true);
                                   }}
+                                  key={index}
                                 >
                                   <td>{`${index + 1}. ${
                                     item.analyteName + ' - ' + item.analyteCode

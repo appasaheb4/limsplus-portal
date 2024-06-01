@@ -110,7 +110,7 @@ export const SalesHierarchyTableForSalesTeam = observer(
           {displaySalesHierarchy && (
             <tbody className='text-xs'>
               {salesHierarchy?.current?.map((item, index) => (
-                <tr>
+                <tr key={index}>
                   <td>
                     <Controller
                       control={control}
