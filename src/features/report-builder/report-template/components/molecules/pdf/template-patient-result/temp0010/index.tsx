@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { Page, StyleSheet, Font, Document } from '@react-pdf/renderer';
+import _ from 'lodash';
 import { PdfPageNumber, PdfView, PdfFooterView, PdfImage } from '@components';
+import { PdfBorderView, PdfSmall } from '@/library/components';
 import { Header } from '../../common/geneflow-lab/pdf-header.component';
 import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
@@ -74,6 +76,7 @@ export const PdfTemp0010 = ({
   children,
 }: PdfTemp0010Props) => {
   const { patientReports } = data;
+  const userInfo: Array<any> = [];
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -128,9 +131,165 @@ export const PdfTemp0010 = ({
     },
   };
 
-  console.log({
-    details: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
-  });
+  // console.log({
+  //   data,
+  //   details: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+  // });
+
+  const getPatientResultList = data => {
+    if (data?.length > 0) {
+      const patientResultList: Array<any> = [];
+      const departmentList = _.groupBy(
+        data,
+        (o: any) => o?.departmentHeader?.departmentName,
+      );
+      for (const [deptKey, deptItems] of Object.entries(departmentList)) {
+        const panelList = _.groupBy(
+          deptItems,
+          (o: any) => o?.panelHeader?.panelDescription,
+        );
+        let panelHeader: Array<any> = [];
+        for (const [panelKey, panelItems] of Object.entries(panelList)) {
+          const testList = _.groupBy(
+            panelItems,
+            (o: any) => o?.testHeader?.testDescription,
+          );
+          let testHeader: Array<any> = [];
+
+          for (const [testKey, testItems] of Object.entries(testList)) {
+            const analyteList = _.groupBy(
+              testItems,
+              (o: any) => o.analyte?.analyteDescription,
+            );
+            let patientResultList: any = [];
+            for (const [analyteKey, analyteItems] of Object.entries(
+              analyteList,
+            )) {
+              patientResultList.push({
+                analyteName: analyteKey,
+                value: {
+                  ...analyteItems[0],
+                  analyteType: analyteItems[0]?.panelHeader?.analyteType,
+                  ...analyteItems[0]?.analyte,
+                },
+                reportOrder: analyteItems[0]?.analyteReportOrder || 0,
+              });
+            }
+            patientResultList = _.orderBy(
+              patientResultList,
+              'reportOrder',
+              'asc',
+            );
+            testHeader.push({
+              testHeader: {
+                testDescription: testKey,
+                testMethodDescription: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.testMethodDescription,
+                testBottomMarker: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.testBottomMarker,
+                testRightMarker: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.testRightMarker,
+                isPrintTestName: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.isPrintTestName,
+                isTestMethod: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testHeader?.isTestMethod,
+              },
+              testFooter: {
+                testInterpretation: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testFooter?.testInterpretation,
+                tpmTestInterpretation: testItems?.find(
+                  testItem => testItem?.testHeader?.testDescription == testKey,
+                )?.testFooter?.tpmTestInterpretation,
+              },
+              reportOrder: testItems?.find(
+                testItem => testItem?.testHeader?.testDescription == testKey,
+              )?.testReportOrder,
+              patientResultList,
+            });
+          }
+
+          testHeader = _.orderBy(testHeader, 'reportOrder', 'asc');
+
+          panelHeader.push({
+            panelHeader: {
+              analyteType: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.analyteType,
+              analyteDescription: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.analyteDescription,
+              panelDescription: panelKey,
+              panelMethodDescription: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.panelMethodDescription,
+              isPrintPanelName: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.isPrintPanelName,
+              isPanelMethod: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.isPanelMethod,
+              critical: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.critical,
+              abnFlag: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelHeader?.abnFlag,
+            },
+            panelFooter: {
+              panelInterpretation: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelFooter?.panelInterpretation,
+              tpmPanelInterpretation: panelItems?.find(
+                pItem => pItem?.panelHeader?.panelDescription == panelKey,
+              )?.panelFooter?.tpmPanelInterpretation,
+            },
+            reportOrder: panelItems?.find(
+              pItem => pItem?.panelHeader?.panelDescription == panelKey,
+            )?.panelReportOrder,
+            isPMPageBreak: panelItems?.find(
+              pItem => pItem?.panelHeader?.panelDescription == panelKey,
+            )?.panelHeader?.isPMPageBreak,
+            testHeader,
+          });
+        }
+
+        panelHeader = _.orderBy(panelHeader, 'reportOrder', 'asc');
+
+        patientResultList.push({
+          departmentHeader: {
+            departmentName: deptKey,
+          },
+          panelHeader,
+          departmentFooter: {
+            userInfo: deptItems?.find(
+              item => item?.departmentHeader?.departmentName == deptKey,
+            )?.departmentFooter?.userInfo,
+          },
+        });
+      }
+      return patientResultList;
+    }
+    return [];
+  };
+
+  const getUserInfo = patientResultList => {
+    console.log({ patientResultList });
+
+    patientResultList.filter(item => {
+      if (item?.departmentFooter?.userInfo?.length > 0) {
+        item.departmentFooter?.userInfo?.filter(e => {
+          userInfo.push(e);
+        });
+      }
+    });
+    return _.uniqBy(userInfo, 'userId' as any);
+  };
 
   return (
     <>
@@ -146,6 +305,45 @@ export const PdfTemp0010 = ({
             </Html>
           </>
         ))}
+        {/*  user signature */}
+        {getUserInfo(
+          getPatientResultList(data?.patientReports?.patientResultList),
+        )?.length > 0 && (
+          <PdfBorderView
+            style={{
+              width: '100%',
+            }}
+            mh={0}
+            mv={0}
+            p={0}
+            bw={0}
+            flexDirection='row'
+            borderColor='transparent'
+          >
+            {getUserInfo(
+              getPatientResultList(data?.patientReports?.patientResultList),
+            )?.map(item => (
+              <PdfView flexDirection='column' alignItems='center'>
+                <PdfImage
+                  src={item?.signature}
+                  style={{
+                    width: 80,
+                    height: 60,
+                    marginLeft: 10,
+                    padding: 5,
+                  }}
+                />
+                <PdfSmall>{item?.fullName}</PdfSmall>
+                <PdfSmall style={{ marginTop: -4 }}>
+                  {item?.userDegree}
+                </PdfSmall>
+                <PdfSmall style={{ marginTop: -4 }}>
+                  {item?.deginisation}
+                </PdfSmall>
+              </PdfView>
+            ))}
+          </PdfBorderView>
+        )}
         <PdfPageNumber
           style={{ textAlign: 'center', right: '45%' }}
           bottom={100}
