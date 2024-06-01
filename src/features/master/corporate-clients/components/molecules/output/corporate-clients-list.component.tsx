@@ -1878,7 +1878,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                   {props.isDelete && (
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onDelete &&
@@ -1900,7 +1900,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       {props.isVersionUpgrade && (
                         <Tooltip className='ml-2' tooltipText='Version Upgrade'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() =>
                               props.onVersionUpgrade &&
@@ -1914,7 +1914,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       {props.isDuplicate && (
                         <Tooltip className='ml-2' tooltipText='Duplicate'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)

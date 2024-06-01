@@ -123,13 +123,32 @@ export const Result = observer((props: ResultProps) => {
               formatter: (cellContent, row) => (
                 <>
                   {row?.resultType === 'W' ? (
-                    <Tooltip tooltipText='Double click & expand result'>
-                      <Icons.RIcon
-                        nameIcon='AiFillHtml5'
-                        propsIcon={{ size: 30 }}
-                        onClick={() => {}}
-                      />
-                    </Tooltip>
+                    <InputResult
+                      row={{ ...row, panelStatus: 'P' }}
+                      onSelect={async result => {
+                        const rows = {
+                          ...row,
+                          panelStatus: row?.panelStatus,
+                          ...result,
+                        };
+                        props.onUpdateResult &&
+                          props.onUpdateResult(
+                            {
+                              ...rows,
+                              resultStatus: getResultStatus(
+                                rows.resultType,
+                                rows,
+                              ),
+                              testStatus: getTestStatus(rows.resultType, rows),
+                              abnFlag: getAbnFlag(rows.resultType, rows),
+                              critical: getCretical(rows.resultType, rows),
+                              ...result,
+                            },
+                            rows._id,
+                            rows.patientResultId,
+                          );
+                      }}
+                    />
                   ) : (
                     <span>{row?.result}</span>
                   )}

@@ -344,7 +344,7 @@ export const ModalGenerateReports = ({
                         <div className='flex flex-row content-center justify-center gap-2'>
                           <Tooltip tooltipText='View'>
                             <Icons.IconContext
-                              color='#fff'
+                              color='#ffffff'
                               size='25'
                               style={{
                                 backgroundColor: '#808080',
@@ -364,7 +364,7 @@ export const ModalGenerateReports = ({
                           </Tooltip>
                           <Tooltip tooltipText='Print'>
                             <Icons.IconContext
-                              color='#fff'
+                              color='#ffffff'
                               size='25'
                               style={{
                                 backgroundColor: '#808080',

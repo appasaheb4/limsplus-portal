@@ -91,7 +91,7 @@ const LineChart = () => {
           borderDash: [5, 5],
           gridLines: {
             color: 'rgba(0,0,0,0)',
-            fontColor: '#fff',
+            fontColor: '#ffffff',
           },
         },
       ],

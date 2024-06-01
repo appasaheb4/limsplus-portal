@@ -48,7 +48,7 @@ export const ModalDeliveryQueueReports = (
                   <div className='flex gap-4'>
                     <Tooltip tooltipText='Print'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='25'
                         style={{
                           backgroundColor: '#808080',
@@ -75,7 +75,7 @@ export const ModalDeliveryQueueReports = (
                     </Tooltip>
                     <Tooltip tooltipText='Download'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='25'
                         style={{
                           backgroundColor: '#808080',

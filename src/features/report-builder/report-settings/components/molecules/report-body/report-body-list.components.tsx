@@ -163,7 +163,7 @@ export const ReportBodyList = observer((props: ReportBodyListProps) => {
                   <div className='flex flex-row'>
                     <Tooltip tooltipText='Preview'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onPdfPreview && props.onPdfPreview(row)
@@ -174,7 +174,7 @@ export const ReportBodyList = observer((props: ReportBodyListProps) => {
                     </Tooltip>
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onDelete &&

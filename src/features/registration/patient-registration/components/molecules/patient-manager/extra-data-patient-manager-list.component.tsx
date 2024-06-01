@@ -223,27 +223,6 @@ export const ExtraDataPatientManagerList = observer(
               },
 
               {
-                dataField: 'email',
-                text: 'Email',
-                headerClasses: 'textHeader1',
-                sort: true,
-                headerStyle: {
-                  fontSize: 0,
-                },
-                sortCaret: (order, column) => sortCaret(order, column),
-                csvFormatter: (col, row) =>
-                  row.extraData.email ? row.extraData.email : '',
-                filter: textFilter({
-                  placeholder: 'Email',
-                  getFilter: filter => {
-                    email = filter;
-                  },
-                }),
-                formatter: (cell, row) => {
-                  return <span>{row.extraData.email}</span>;
-                },
-              },
-              {
                 dataField: 'isMobileAndWhatsApp',
                 text: 'IsMobileAndWhatsapp',
                 sort: true,
@@ -567,7 +546,7 @@ export const ExtraDataPatientManagerList = observer(
               //       <div className='flex flex-row'>
               //         <Tooltip tooltipText='Delete'>
               //           <Icons.IconContext
-              //             color='#fff'
+              //             color='#ffffff'
               //             size='20'
               //             onClick={() =>
               //               props.onDelete &&

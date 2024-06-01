@@ -117,7 +117,7 @@ export const TableBootstrap = ({
         <div className='flex flex-row gap-1 border-solid border-2 p-1'>
           <Tooltip tooltipText='Approved'>
             <Icons.IconContext
-              color='#fff'
+              color='#ffffff'
               size='30'
               onClick={() => {
                 onSelectedRow && onSelectedRow(selectedRow, 'Approved');
@@ -128,7 +128,7 @@ export const TableBootstrap = ({
           </Tooltip>
           <Tooltip tooltipText='Rejected'>
             <Icons.IconContext
-              color='#fff'
+              color='#ffffff'
               size='30'
               onClick={() => {
                 onSelectedRow && onSelectedRow(selectedRow, 'Rejected');
@@ -556,7 +556,7 @@ export const TableBootstrap = ({
                 </div>
                 <div className='flex items-center gap-2 mt-2'>
                   <Icons.IconContext
-                    color='#fff'
+                    color='#ffffff'
                     size='25'
                     style={{
                       backgroundColor: '#808080',
@@ -573,7 +573,7 @@ export const TableBootstrap = ({
                     <Icons.IconBi.BiSkipNext />
                   </Icons.IconContext>
                   <Icons.IconContext
-                    color='#fff'
+                    color='#ffffff'
                     size='25'
                     style={{
                       backgroundColor: '#808080',

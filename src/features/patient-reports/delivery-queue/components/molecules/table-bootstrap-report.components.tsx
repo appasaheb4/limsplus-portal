@@ -434,7 +434,7 @@ export const TableBootstrapReport = ({
 
               <div className='flex items-center gap-2 mt-2'>
                 <Icons.IconContext
-                  color='#fff'
+                  color='#ffffff'
                   size='25'
                   style={{
                     backgroundColor: '#808080',
@@ -451,7 +451,7 @@ export const TableBootstrapReport = ({
                   <Icons.IconBi.BiSkipNext />
                 </Icons.IconContext>
                 <Icons.IconContext
-                  color='#fff'
+                  color='#ffffff'
                   size='25'
                   style={{
                     backgroundColor: '#808080',

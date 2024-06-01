@@ -290,7 +290,10 @@ export const PriceListTable = observer(
                         removeItem(index);
                       }}
                     >
-                      <Icons.EvaIcon icon='minus-circle-outline' color='#fff' />
+                      <Icons.EvaIcon
+                        icon='minus-circle-outline'
+                        color='#ffffff'
+                      />
                     </Buttons.Button>
                     <Buttons.Button
                       key={index}
@@ -298,7 +301,10 @@ export const PriceListTable = observer(
                       type='outline'
                       onClick={handleSubmit(addItem)}
                     >
-                      <Icons.EvaIcon icon='plus-circle-outline' color='#fff' />
+                      <Icons.EvaIcon
+                        icon='plus-circle-outline'
+                        color='#ffffff'
+                      />
                     </Buttons.Button>
                   </div>
                 </td>
@@ -311,7 +317,7 @@ export const PriceListTable = observer(
               type='outline'
               onClick={handleSubmit(addItem)}
             >
-              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
+              <Icons.EvaIcon icon='plus-circle-outline' color='#000000' />
             </Buttons.Button>
           )}
         </Table>

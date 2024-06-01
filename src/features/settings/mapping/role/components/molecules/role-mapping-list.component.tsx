@@ -252,7 +252,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                           <Icons.EvaIcon
                             icon='edit-outline'
                             size='medium'
-                            color='#fff'
+                            color='#ffffff'
                           />
                         </Buttons.Button>
                       </Tooltip>
@@ -277,7 +277,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                               <Icons.EvaIcon
                                 icon='trash-2-outline'
                                 size='medium'
-                                color='#fff'
+                                color='#ffffff'
                               />
                             </Buttons.Button>
                           </Tooltip>

@@ -621,7 +621,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         >
                           <Tooltip tooltipText='Update'>
                             <Icons.IconContext
-                              color='#fff'
+                              color='#ffffff'
                               size='20'
                               onClick={() => {
                                 if (!row?.result)
@@ -661,7 +661,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   {selectId == row?._id ? (
                     <Tooltip tooltipText='Expand'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => {
                           props.onExpand && props.onExpand('');
@@ -673,7 +673,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   ) : (
                     <Tooltip tooltipText='Expand'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => {
                           props.onExpand && props.onExpand(row);

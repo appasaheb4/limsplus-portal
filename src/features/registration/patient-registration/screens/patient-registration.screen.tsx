@@ -375,7 +375,13 @@ const PatientRegistration = observer(({ sidebar }) => {
               >
                 <Icons.RIcon
                   nameIcon='AiFillCloseCircle'
-                  propsIcon={{ size: 24 }}
+                  propsIcon={{
+                    size: 24,
+                    color:
+                      stores.appStore.applicationSetting.theme === 'dark'
+                        ? '#ffffff'
+                        : '#000000',
+                  }}
                 />
               </div>
             </Tooltip>

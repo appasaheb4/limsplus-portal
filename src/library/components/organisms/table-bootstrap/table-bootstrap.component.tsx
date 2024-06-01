@@ -64,10 +64,10 @@ export const sortCaret = (order, column) => {
   if (!order)
     return (
       <div className='flex flex-row absolute right-4 bottom-1/3'>
-        <Icons.IconContext color='#fff' size='20'>
+        <Icons.IconContext color='#ffffff' size='20'>
           {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
         </Icons.IconContext>
-        <Icons.IconContext color='#fff' size='20'>
+        <Icons.IconContext color='#ffffff' size='20'>
           {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
         </Icons.IconContext>
       </div>
@@ -75,10 +75,10 @@ export const sortCaret = (order, column) => {
   else if (order === 'asc')
     return (
       <div className='flex flex-row absolute right-4 bottom-1/3'>
-        <Icons.IconContext color='#fff' size='20'>
+        <Icons.IconContext color='#ffffff' size='20'>
           {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
         </Icons.IconContext>
-        <Icons.IconContext color='#fff' size='10'>
+        <Icons.IconContext color='#ffffff' size='10'>
           {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
         </Icons.IconContext>
       </div>
@@ -86,10 +86,10 @@ export const sortCaret = (order, column) => {
   else if (order === 'desc')
     return (
       <div className='flex flex-row absolute right-4 bottom-1/3'>
-        <Icons.IconContext color='#fff' size='10'>
+        <Icons.IconContext color='#ffffff' size='10'>
           {Icons.getIconTag(Icons.IconBs.BsArrowUp)}
         </Icons.IconContext>
-        <Icons.IconContext color='#fff' size='20'>
+        <Icons.IconContext color='#ffffff' size='20'>
           {Icons.getIconTag(Icons.IconBs.BsArrowDown)}
         </Icons.IconContext>
       </div>

@@ -640,7 +640,7 @@ export const SegmentMappingInputTable = observer(
                   <div className='flex flex-row'>
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => onDelete && onDelete(row.index)}
                       >
@@ -649,7 +649,7 @@ export const SegmentMappingInputTable = observer(
                     </Tooltip>
                     <Tooltip tooltipText='Duplicate'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => onDuplicate && onDuplicate(row)}
                       >

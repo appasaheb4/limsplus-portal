@@ -1132,7 +1132,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                     {props.isDelete && (
                       <Tooltip tooltipText='Delete'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() =>
                             props.onDelete &&
@@ -1161,7 +1161,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                     {row.status !== 'I' && row.sharedSample && (
                       <Tooltip tooltipText='Edit'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() =>
                             props.onUpdateDepartment &&
