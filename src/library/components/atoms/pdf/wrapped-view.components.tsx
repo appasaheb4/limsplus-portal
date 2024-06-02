@@ -9,6 +9,7 @@ interface PdfViewProps {
   borderColor?: string;
   bg?: string;
   bw?: number;
+  height?: string | number;
   alignItems?: 'flex-end' | 'flex-start' | 'center';
   flexDirection?: 'row' | 'column';
   fixed?: boolean;
@@ -128,13 +129,14 @@ export const PdfFooterView = ({
   p = 10,
   alignItems = 'center',
   fixed = false,
+  height = '100%',
   style,
   children,
 }: PdfViewProps) => {
   return (
     <View
       style={[
-        { position: 'absolute', bottom: 0, left: 0, right: 0 },
+        { position: 'absolute', bottom: 0, left: 0, right: 0, height: height },
         { backgroundColor: bg, padding: p, alignItems: alignItems, ...style },
       ]}
       fixed={fixed}

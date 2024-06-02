@@ -298,57 +298,57 @@ export const PdfTemp0010 = ({
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
-        {patientReports?.patientResultList?.map((item, index) => (
-          <>
+        <PdfView mh={0} p={0}>
+          {patientReports?.patientResultList?.map((item, index) => (
             <Html stylesheet={stylesheet} key={index}>
               {html(JSON.parse(item.result).result)}
             </Html>
-          </>
-        ))}
-        {/*  user signature */}
-        {getUserInfo(
-          getPatientResultList(data?.patientReports?.patientResultList),
-        )?.length > 0 && (
-          <PdfBorderView
-            style={{
-              width: '100%',
-            }}
-            mh={0}
-            mv={0}
-            p={0}
-            bw={0}
-            flexDirection='row'
-            borderColor='transparent'
-          >
-            {getUserInfo(
-              getPatientResultList(data?.patientReports?.patientResultList),
-            )?.map(item => (
-              <PdfView flexDirection='column' alignItems='center'>
-                <PdfImage
-                  src={item?.signature}
-                  style={{
-                    width: 80,
-                    height: 60,
-                    marginLeft: 10,
-                    padding: 5,
-                  }}
-                />
-                <PdfSmall>{item?.fullName}</PdfSmall>
-                <PdfSmall style={{ marginTop: -4 }}>
-                  {item?.userDegree}
-                </PdfSmall>
-                <PdfSmall style={{ marginTop: -4 }}>
-                  {item?.deginisation}
-                </PdfSmall>
-              </PdfView>
-            ))}
-          </PdfBorderView>
-        )}
-        <PdfPageNumber
+          ))}
+          {/*  user signature */}
+          {getUserInfo(
+            getPatientResultList(data?.patientReports?.patientResultList),
+          )?.length > 0 && (
+            <PdfBorderView
+              style={{
+                width: '100%',
+              }}
+              mh={0}
+              mv={0}
+              p={0}
+              bw={0}
+              flexDirection='row'
+              borderColor='transparent'
+            >
+              {getUserInfo(
+                getPatientResultList(data?.patientReports?.patientResultList),
+              )?.map(item => (
+                <PdfView flexDirection='column' alignItems='center'>
+                  <PdfImage
+                    src={item?.signature}
+                    style={{
+                      width: 80,
+                      height: 60,
+                      marginLeft: 10,
+                      padding: 5,
+                    }}
+                  />
+                  <PdfSmall>{item?.fullName}</PdfSmall>
+                  <PdfSmall style={{ marginTop: -4 }}>
+                    {item?.userDegree}
+                  </PdfSmall>
+                  <PdfSmall style={{ marginTop: -4 }}>
+                    {item?.deginisation}
+                  </PdfSmall>
+                </PdfView>
+              ))}
+            </PdfBorderView>
+          )}
+        </PdfView>
+        {/* <PdfPageNumber
           style={{ textAlign: 'center', right: '45%' }}
           bottom={100}
-        />
-        <PdfFooterView fixed bg='transparent' style={{ height: 90 }} p={0}>
+        /> */}
+        <PdfFooterView fixed bg='transparent' height={100} p={0}>
           {isWithHeader && <Footer />}
         </PdfFooterView>
       </Page>
