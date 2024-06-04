@@ -15,6 +15,7 @@ import {
   MainPageHeading,
   Icons,
   ModalImportFile,
+  Tooltip,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { Library as LibraryModel } from '../models';
@@ -398,18 +399,54 @@ export const Library = LibraryHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
-            <ManualImportTabs
-              isImportDisable={
-                !RouterFlow.checkPermission(
-                  toJS(routerStore.userPermission),
-                  'Import',
-                )
-              }
-              isImport={isImport}
-              onClick={flag => {
-                setIsImport(flag);
-              }}
-            />
+            <div className='flex flex-row justify-start items-center gap-8'>
+              <ManualImportTabs
+                isImportDisable={
+                  !RouterFlow.checkPermission(
+                    toJS(routerStore.userPermission),
+                    'Import',
+                  )
+                }
+                isImport={isImport}
+                onClick={flag => {
+                  setIsImport(flag);
+                }}
+              />
+              <div className='flex flex-row gap-4'>
+                <Tooltip key={'top'} tooltipText={'Details'}>
+                  <FaWordpressSimple
+                    size={'40'}
+                    onClick={() => {
+                      setModalDocxContent({
+                        visible: true,
+                      });
+                    }}
+                  />
+                </Tooltip>
+                <Tooltip key={'top'} tooltipText={'Editable'}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label=''
+                        hasError={!!errors.editable}
+                        value={value}
+                        onChange={editable => {
+                          onChange(editable);
+                          libraryStore.updateLibrary({
+                            ...libraryStore.library,
+                            editable,
+                          });
+                        }}
+                      />
+                    )}
+                    name='editable'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                </Tooltip>
+              </div>
+            </div>
 
             {!isImport ? (
               <Grid cols={2}>
@@ -681,27 +718,6 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='Editable'
-                        hasError={!!errors.editable}
-                        value={value}
-                        onChange={editable => {
-                          onChange(editable);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            editable,
-                          });
-                        }}
-                      />
-                    )}
-                    name='editable'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   {/* <Buttons.Button
@@ -723,29 +739,7 @@ export const Library = LibraryHoc(
                       Import
                     </span>
                   </Buttons.Button> */}
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <>
-                        <Form.InputWrapper
-                          label='Details'
-                          hasError={!!errors.details}
-                        >
-                          <FaWordpressSimple
-                            size={'40'}
-                            onClick={() => {
-                              setModalDocxContent({
-                                visible: true,
-                              });
-                            }}
-                          />
-                        </Form.InputWrapper>
-                      </>
-                    )}
-                    name='details'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (

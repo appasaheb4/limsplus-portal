@@ -331,6 +331,7 @@ export const MultilineInput = (props: InputProps) => (
 export const MultilineInput1 = (props: InputProps) => (
   <InputWrapper label={props.label} id={props.id} className={props.className}>
     <textarea
+      spellCheck='false'
       id={props.id}
       autoComplete='given-name'
       value={props.value}
