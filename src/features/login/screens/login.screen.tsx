@@ -317,7 +317,7 @@ export const Login = observer(() => {
                                 errors.userId ? 'Please enter userId' : 'UserId'
                               }
                               hasError={!!errors.userId}
-                              value={loginStore.inputLogin?.userId}
+                              value={loginStore.inputLogin?.userId || ''}
                               onChange={userId => {
                                 onChange(userId);
                                 loginStore.updateInputUser({
@@ -333,7 +333,7 @@ export const Login = observer(() => {
                                       webPortal:
                                         process.env.REACT_APP_ENV === 'Local'
                                           ? 'https://www.limsplussolutions.com'
-                                          : window.location.origin,
+                                          : 'https://www.limsplussolutions.com',
                                       // webPortal:
                                       //   'https://geneflow.limsplussolutions.com',
                                     },
@@ -421,7 +421,7 @@ export const Login = observer(() => {
                                   : 'Password'
                               }
                               hasError={!!errors.password}
-                              value={loginStore.inputLogin?.password}
+                              value={loginStore.inputLogin?.password || ''}
                               onChange={password => {
                                 onChange(password);
                                 loginStore.updateInputUser({
@@ -451,10 +451,10 @@ export const Login = observer(() => {
                               style={{ color: 'black' }}
                             >
                               <select
-                                value={value}
+                                defaultValue={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.lab ? 'border-red' : 'border-gray-300'
-                                } rounded-md cursor-pointer `}
+                                } rounded-md cursor-pointer`}
                                 onChange={e => {
                                   const lab = e.target.value;
                                   onChange(lab);
@@ -464,7 +464,7 @@ export const Login = observer(() => {
                                   });
                                 }}
                               >
-                                <option>
+                                <option value=''>
                                   {labRoleList?.labList ? 'Select' : value}
                                 </option>
                                 {labRoleList?.labList?.map((item: any) => (
@@ -489,7 +489,7 @@ export const Login = observer(() => {
                               style={{ color: 'black' }}
                             >
                               <select
-                                value={loginStore.inputLogin?.role}
+                                defaultValue={loginStore.inputLogin?.role}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.role ? 'border-red' : 'border-gray-300'
                                 } rounded-md cursor-pointer`}
@@ -502,7 +502,7 @@ export const Login = observer(() => {
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option value=''>Select</option>
                                 {labRoleList.roleList.map((item: any) => (
                                   <option key={item.code} value={item.code}>
                                     {item.description}
