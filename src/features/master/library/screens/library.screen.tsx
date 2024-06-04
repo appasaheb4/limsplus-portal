@@ -31,6 +31,8 @@ import 'react-quill/dist/quill.snow.css';
 import { Styles } from '@/config';
 import mammoth from 'mammoth';
 import JoditEditor from 'jodit-react';
+import { FaWordpressSimple } from 'react-icons/fa';
+import { ModalDocxContentInput } from '@/core-components/molecules/modal/modal-docx-content.input.component';
 
 export const Library = LibraryHoc(
   observer(() => {
@@ -53,6 +55,7 @@ export const Library = LibraryHoc(
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [modalDetail, setModalDetail] = useState<any>();
     const [isExistsRecord, setIsExistsRecord] = useState(false);
+    const [modalDocxContent, setModalDocxContent] = useState<any>();
     const {
       control,
       handleSubmit,
@@ -446,7 +449,8 @@ export const Library = LibraryHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.Input
+                      <Form.MultilineInput
+                        rows={3}
                         label='Description'
                         placeholder={'Please Enter Description'}
                         hasError={!!errors.description}
@@ -468,7 +472,7 @@ export const Library = LibraryHoc(
                     name='description'
                     rules={{
                       required: true,
-                      maxLength: 10,
+                      maxLength: 150,
                     }}
                     defaultValue=''
                   />
@@ -681,6 +685,70 @@ export const Library = LibraryHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='Editable'
+                        hasError={!!errors.editable}
+                        value={value}
+                        onChange={editable => {
+                          onChange(editable);
+                          libraryStore.updateLibrary({
+                            ...libraryStore.library,
+                            editable,
+                          });
+                        }}
+                      />
+                    )}
+                    name='editable'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
+                  {/* <Buttons.Button
+                    size='medium'
+                    type='outline'
+                    onClick={() => {
+                      setModalDetail({
+                        show: true,
+                        title: 'Import Doc File',
+                      });
+                    }}
+                  >
+                    <span className='flex flex-row'>
+                      <Icons.EvaIcon
+                        icon='arrowhead-down-outline'
+                        size='medium'
+                        color={Styles.COLORS.BLACK}
+                      />
+                      Import
+                    </span>
+                  </Buttons.Button> */}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <>
+                        <Form.InputWrapper
+                          label='Details'
+                          hasError={!!errors.details}
+                        >
+                          <FaWordpressSimple
+                            size={'40'}
+                            onClick={() => {
+                              setModalDocxContent({
+                                visible: true,
+                              });
+                            }}
+                          />
+                        </Form.InputWrapper>
+                      </>
+                    )}
+                    name='details'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
                         label='Parameter'
                         hasError={!!errors.parameter}
@@ -753,107 +821,6 @@ export const Library = LibraryHoc(
                     )}
                     name='status'
                     rules={{ required: true }}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='Editable'
-                        hasError={!!errors.editable}
-                        value={value}
-                        onChange={editable => {
-                          onChange(editable);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            editable,
-                          });
-                        }}
-                      />
-                    )}
-                    name='editable'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
-                  {/* <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setModalDetail({
-                        show: true,
-                        title: 'Import Doc File',
-                      });
-                    }}
-                  >
-                    <span className='flex flex-row'>
-                      <Icons.EvaIcon
-                        icon='arrowhead-down-outline'
-                        size='medium'
-                        color={Styles.COLORS.BLACK}
-                      />
-                      Import
-                    </span>
-                  </Buttons.Button> */}
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <>
-                        <Form.InputWrapper
-                          label='Details'
-                          hasError={!!errors.details}
-                        >
-                          <JoditEditor
-                            ref={editor}
-                            config={
-                              {
-                                height: 400,
-                                disabled: false,
-                                events: {
-                                  afterOpenPasteDialog: (
-                                    dialog,
-                                    msg,
-                                    title,
-                                    callback,
-                                  ) => {
-                                    dialog.close();
-                                    callback();
-                                  },
-                                },
-                                uploader: {
-                                  url: 'https://limsplus-service.azurewebsites.net/api/assets/uploadFile',
-                                  prepareData: function (data) {
-                                    data.append('folder', 'library');
-                                    data.delete('path');
-                                    data.delete('source');
-                                  },
-                                  isSuccess: function (resp) {
-                                    libraryStore.updateLibrary({
-                                      ...libraryStore.library,
-                                      details:
-                                        libraryStore.library.details?.concat(
-                                          `<img src=${resp?.data?.data} alt="logo"/>`,
-                                        ),
-                                    });
-                                  },
-                                },
-                              } as any
-                            }
-                            value={libraryStore.library.details || ''}
-                            onBlur={newContent => {
-                              libraryStore.updateLibrary({
-                                ...libraryStore.library,
-                                details: newContent,
-                              });
-                            }}
-                          />
-                        </Form.InputWrapper>
-                      </>
-                    )}
-                    name='details'
-                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
@@ -967,6 +934,12 @@ export const Library = LibraryHoc(
             }}
             close={() => {
               setModalDetail({ show: false });
+            }}
+          />
+          <ModalDocxContentInput
+            visible={modalDocxContent?.visible}
+            onClose={() => {
+              setModalDocxContent({ visible: false });
             }}
           />
           <ModalConfirm
