@@ -279,8 +279,6 @@ export const PdfTemp0010 = ({
   };
 
   const getUserInfo = patientResultList => {
-    console.log({ patientResultList });
-
     patientResultList.filter(item => {
       if (item?.departmentFooter?.userInfo?.length > 0) {
         item.departmentFooter?.userInfo?.filter(e => {

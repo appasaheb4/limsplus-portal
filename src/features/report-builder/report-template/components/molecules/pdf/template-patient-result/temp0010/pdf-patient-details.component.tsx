@@ -10,6 +10,8 @@ interface PdfPatientDetailsProps {
 
 export const PdfPatientDetails = observer(
   ({ data: patientReports }: PdfPatientDetailsProps) => {
+    console.log({ patientReports });
+
     return (
       <PdfBorderView mv={0} mh={10} fixed style={{ marginBottom: 6 }}>
         <PdfView mh={10} p={0} flexDirection='row'>
@@ -23,7 +25,7 @@ export const PdfPatientDetails = observer(
             <PdfSmall>{`Ref Lab: ${patientReports?.refLab}`}</PdfSmall>
           </PdfGrid>
           <PdfGrid cols={3} bg='transparent'>
-            <PdfSmall>{`Sr No: ${patientReports?.labId?.toString()}`}</PdfSmall>
+            <PdfSmall>{`Lab Id: ${patientReports?.labId?.toString()}`}</PdfSmall>
             <PdfSmall>{`Age: ${patientReports?.age || ''} ${
               getAgeUnits(patientReports?.ageUnits) || ''
             }`}</PdfSmall>
