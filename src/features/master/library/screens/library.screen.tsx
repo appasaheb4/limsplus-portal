@@ -13,7 +13,6 @@ import {
   StaticInputTable,
   ImportFile,
   MainPageHeading,
-  Icons,
   ModalImportFile,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -28,7 +27,6 @@ import { toJS } from 'mobx';
 import { resetLibrary } from '../startup';
 import * as XLSX from 'xlsx';
 import 'react-quill/dist/quill.snow.css';
-import { Styles } from '@/config';
 import mammoth from 'mammoth';
 import JoditEditor from 'jodit-react';
 
@@ -42,7 +40,6 @@ export const Library = LibraryHoc(
       masterPanelStore,
       lookupStore,
       routerStore,
-      loading,
     } = useStores();
     const editor = useRef<any>();
     const [modalConfirm, setModalConfirm] = useState<any>();
@@ -87,7 +84,7 @@ export const Library = LibraryHoc(
           const isExists = await checkExistsRecords();
           if (isExists) return;
         }
-        const regex = /(style=".+?")/gm;
+        const regex = /(^|;)\s*font-[^;]+/g;
         const subst = '';
         const result = libraryStore.library?.details?.replace(regex, subst);
         libraryStore.libraryService
@@ -342,6 +339,7 @@ export const Library = LibraryHoc(
           return {
             code: item?.Code,
             libraryCode: item['Library Code'],
+            description: item.Description,
             lab: item.Lab,
             department: item.Department,
             position: item.Position,

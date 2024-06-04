@@ -3,9 +3,6 @@ import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
@@ -34,7 +31,6 @@ import { toJS } from 'mobx';
 import { resetMasterPanel } from '../startup';
 import * as XLSX from 'xlsx';
 import _ from 'lodash';
-import { AutoCompleteCompanyList } from '@/core-components';
 
 const MasterPanel = MasterPanelHoc(
   observer(() => {
@@ -345,6 +341,10 @@ const MasterPanel = MasterPanelHoc(
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_json(ws, { raw: true });
         const list = data.map((item: any) => {
+          if (!item['Report Template']?.includes(' - '))
+            return Toast.error({
+              message: '😊 Please enter correct report template',
+            });
           return {
             rLab: item?.RLab,
             pLab: item.PLab,
