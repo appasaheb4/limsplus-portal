@@ -397,7 +397,7 @@ export const Library = LibraryHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
-            <div className='flex flex-row justify-start items-center gap-8'>
+            <div className='flex flex-row justify-between items-center gap-8'>
               <ManualImportTabs
                 isImportDisable={
                   !RouterFlow.checkPermission(
@@ -410,7 +410,8 @@ export const Library = LibraryHoc(
                   setIsImport(flag);
                 }}
               />
-              <div className='flex flex-row gap-4'>
+
+              <div className='flex flex-row gap-4 w-[483px]'>
                 <Tooltip key={'top'} tooltipText={'Details'}>
                   <FaWordpressSimple
                     size={'40'}
@@ -447,7 +448,7 @@ export const Library = LibraryHoc(
             </div>
 
             {!isImport ? (
-              <Grid cols={2}>
+              <Grid cols={3}>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
@@ -484,8 +485,7 @@ export const Library = LibraryHoc(
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
-                      <Form.MultilineInput
-                        rows={3}
+                      <Form.Input
                         label='Description'
                         placeholder={'Please Enter Description'}
                         hasError={!!errors.description}
@@ -636,7 +636,8 @@ export const Library = LibraryHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -716,28 +717,6 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
-                  {/* <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setModalDetail({
-                        show: true,
-                        title: 'Import Doc File',
-                      });
-                    }}
-                  >
-                    <span className='flex flex-row'>
-                      <Icons.EvaIcon
-                        icon='arrowhead-down-outline'
-                        size='medium'
-                        color={Styles.COLORS.BLACK}
-                      />
-                      Import
-                    </span>
-                  </Buttons.Button> */}
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -829,6 +808,8 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { value } }) => (

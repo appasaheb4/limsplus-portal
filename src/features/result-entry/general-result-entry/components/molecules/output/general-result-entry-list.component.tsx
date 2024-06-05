@@ -120,6 +120,25 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               editable: false,
               headerClasses: 'textHeaderxxs',
             },
+
+            {
+              dataField: 'name',
+              text: 'Name',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeaderm',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '130px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.name}>{cellContent}</span>
+              ),
+            },
             {
               dataField: 'testCode',
               text: 'Test Code - Name',
