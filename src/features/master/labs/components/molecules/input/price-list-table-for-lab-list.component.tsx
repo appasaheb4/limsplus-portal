@@ -117,7 +117,7 @@ export const PriceListTableForLabList = observer(
           {displayPriceList && (
             <tbody className='text-xs'>
               {priceList?.map((item, index) => (
-                <tr>
+                <tr key={index}>
                   <td>
                     <Form.Input value={item.priceGroup} disabled={true} />
                   </td>

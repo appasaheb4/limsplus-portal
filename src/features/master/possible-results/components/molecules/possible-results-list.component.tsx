@@ -230,7 +230,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                           {row?.conclusionResult?.map((item, index) => {
                             return (
                               <>
-                                <tr>
+                                <tr key={index}>
                                   <td>{item.result}</td>
                                   <td>{item.possibleValue}</td>
                                   <td>

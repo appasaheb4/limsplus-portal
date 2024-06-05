@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
 import {
@@ -8,9 +8,9 @@ import {
   PdfGrid,
   PdfSmall,
 } from '@components';
-import {observer} from 'mobx-react';
-import {PdfPBTemp0001} from '../../page-branding/temp0001/temp0001.component';
-import {PdfTPRTemp0001List} from './temp0001-list.component';
+import { observer } from 'mobx-react';
+import { PdfPBTemp0001 } from '../../page-branding/temp0001/temp0001.component';
+import { PdfTPRTemp0001List } from './temp0001-list.component';
 
 interface PdfTemp0001Props {
   data: any;
@@ -18,8 +18,8 @@ interface PdfTemp0001Props {
 }
 
 export const PdfTemp0001 = observer(
-  ({data, isWithHeader = true}: PdfTemp0001Props) => {
-    const {pageBranding, patientReports} = data;
+  ({ data, isWithHeader = true }: PdfTemp0001Props) => {
+    const { pageBranding, patientReports } = data;
     const [testBottomMarker, setTestBottomMarker] = useState<Array<any>>();
     useEffect(() => {
       const arrDetails: any = [];
@@ -89,7 +89,7 @@ export const PdfTemp0001 = observer(
 
             {/* Table */}
             <PdfTPRTemp0001List
-              headerStyle={{backgroundColor: 'transparent'}}
+              headerStyle={{ backgroundColor: 'transparent' }}
               headerFixed
               data={patientReports?.patientResultList}
             />
@@ -104,23 +104,23 @@ export const PdfTemp0001 = observer(
               }}
               fixed
             >
-              {testBottomMarker?.map(item => (
-                <PdfSmall>{` ${item}`}</PdfSmall>
+              {testBottomMarker?.map((item, index) => (
+                <PdfSmall key={index}>{` ${item}`}</PdfSmall>
               ))}
               {patientReports?.templatePatientResultLabWise?.endOfPage?.map(
-                item => (
-                  <PdfSmall>{` ${item?.details}`}</PdfSmall>
+                (item, index) => (
+                  <PdfSmall key={index}> {` ${item?.details}`}</PdfSmall>
                 ),
               )}
             </PdfView>
 
             {/* End of Report */}
-            <PdfView alignItems='center' style={{marginTop: 15}}>
+            <PdfView alignItems='center' style={{ marginTop: 15 }}>
               <PdfRegular fontSize={13}>
                 ---------------------- End of report ----------------------
               </PdfRegular>
               <PdfBorderView
-                style={{width: '100%', minHeight: 15, marginTop: 20}}
+                style={{ width: '100%', minHeight: 15, marginTop: 20 }}
                 mh={0}
                 p={0}
               >
@@ -134,10 +134,10 @@ export const PdfTemp0001 = observer(
                   IMPORTANT INSTRUCTIONS
                 </PdfRegular>
 
-                <PdfView flexDirection='row' style={{marginTop: 10}}>
+                <PdfView flexDirection='row' style={{ marginTop: 10 }}>
                   {patientReports?.templatePatientResultLabWise?.endOfReport?.map(
-                    item => (
-                      <PdfSmall>{` * ${item?.details}`}</PdfSmall>
+                    (item, index) => (
+                      <PdfSmall key={index}>{` * ${item?.details}`}</PdfSmall>
                     ),
                   )}
                 </PdfView>

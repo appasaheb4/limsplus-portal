@@ -233,9 +233,9 @@ export const TransmittedMessageList = observer(
                     )}
                     {selectedRowId == row._id && (
                       <Accordion>
-                        {row.segmentArray?.map(item => {
+                        {row.segmentArray?.map((item, index) => {
                           return (
-                            <AccordionItem title={`${item.filed}`}>
+                            <AccordionItem title={`${item.filed}`} key={index}>
                               <h6>Field No: {item?.field_no}</h6>
                               <span style={{ fontSize: 12 }}>
                                 Value: {item?.value}

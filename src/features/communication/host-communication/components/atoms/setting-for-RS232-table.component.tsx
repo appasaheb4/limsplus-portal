@@ -1,60 +1,60 @@
 import React from 'react';
-import {Table} from 'reactstrap';
-import {observer} from 'mobx-react';
+import { Table } from 'reactstrap';
+import { observer } from 'mobx-react';
 
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 
 const comPort = [
-  {title: 'COM1'},
-  {title: 'COM2'},
-  {title: 'COM3'},
-  {title: 'COM4'},
-  {title: 'COM5'},
+  { title: 'COM1' },
+  { title: 'COM2' },
+  { title: 'COM3' },
+  { title: 'COM4' },
+  { title: 'COM5' },
 ];
 const baudRate = [
-  {title: '110'},
-  {title: '300'},
-  {title: '600'},
-  {title: '1200'},
-  {title: '2400'},
-  {title: '4800'},
-  {title: '9600'},
-  {title: '14400'},
-  {title: '19200'},
-  {title: '38400'},
-  {title: '57600'},
-  {title: '115200'},
-  {title: '128000'},
-  {title: '256000'},
+  { title: '110' },
+  { title: '300' },
+  { title: '600' },
+  { title: '1200' },
+  { title: '2400' },
+  { title: '4800' },
+  { title: '9600' },
+  { title: '14400' },
+  { title: '19200' },
+  { title: '38400' },
+  { title: '57600' },
+  { title: '115200' },
+  { title: '128000' },
+  { title: '256000' },
 ];
 
-const stopBits = [{title: '1'}, {title: '1.5'}, {title: '2'}];
+const stopBits = [{ title: '1' }, { title: '1.5' }, { title: '2' }];
 
-const dataBits = [{title: '7'}, {title: '8'}];
+const dataBits = [{ title: '7' }, { title: '8' }];
 const parity = [
-  {title: 'None (N)'},
-  {title: 'Odd (O)'},
-  {title: 'Even €'},
-  {title: 'Mark (M)'},
-  {title: 'Space (S)'},
+  { title: 'None (N)' },
+  { title: 'Odd (O)' },
+  { title: 'Even €' },
+  { title: 'Mark (M)' },
+  { title: 'Space (S)' },
 ];
 const flowControl = [
-  {title: 'On'},
-  {title: 'Off'},
-  {title: 'None'},
-  {title: 'Hardware'},
+  { title: 'On' },
+  { title: 'Off' },
+  { title: 'None' },
+  { title: 'Hardware' },
 ];
-const protocol = [{title: '1381'}, {title: '1394'}];
+const protocol = [{ title: '1381' }, { title: '1394' }];
 
 export const SettingForRS232Table = observer(() => {
-  const {hostCommunicationStore} = useStores();
+  const { hostCommunicationStore } = useStores();
   return (
     <>
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th style={{color: 'white'}}>Communication Settings</th>
-            <th style={{color: 'white'}}>Value</th>
+            <th style={{ color: 'white' }}>Communication Settings</th>
+            <th style={{ color: 'white' }}>Value</th>
           </tr>
         </thead>
         <tbody>

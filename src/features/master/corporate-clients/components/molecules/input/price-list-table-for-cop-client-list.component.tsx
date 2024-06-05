@@ -103,7 +103,7 @@ export const PriceListTableForCopClientList = observer(
           {displayPriceList && (
             <tbody className='text-xs'>
               {priceList.current?.map((item, index) => (
-                <tr>
+                <tr key={index}>
                   <td>
                     <Controller
                       control={control}

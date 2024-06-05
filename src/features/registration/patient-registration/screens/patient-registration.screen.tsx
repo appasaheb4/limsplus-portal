@@ -80,9 +80,10 @@ const PatientRegistration = observer(({ sidebar }) => {
     () => (
       <>
         <Accordion>
-          {patientRegistrationOptions.map(item => {
+          {patientRegistrationOptions.map((item, index) => {
             return (
               <AccordionItem
+                key={index}
                 title={`${item.title}`}
                 expanded={
                   item.title ===

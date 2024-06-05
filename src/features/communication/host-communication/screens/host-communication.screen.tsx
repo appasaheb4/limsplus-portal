@@ -434,8 +434,8 @@ const HostCommunication = HostCommunicationHoc(
             <Table striped bordered hover>
               <tbody>
                 {hostCommunicationStore.arrTcpIpMessage?.length > 0 &&
-                  hostCommunicationStore.arrTcpIpMessage.map(item => (
-                    <tr>
+                  hostCommunicationStore.arrTcpIpMessage.map((item, index) => (
+                    <tr key={index}>
                       <td>{item}</td>
                     </tr>
                   ))}
@@ -449,12 +449,18 @@ const HostCommunication = HostCommunicationHoc(
                 { title: 'Send data to Intrument' },
                 { title: 'Convert to' },
                 { title: 'Output in' },
-              ].map(item => {
+              ].map((item, index) => {
                 return (
                   <AccordionItem title={`${item.title}`}>
                     {item.title === 'Hex to ASCII' && (
                       <>
-                        <List direction='col' space={4} justify='stretch' fill>
+                        <List
+                          direction='col'
+                          space={4}
+                          justify='stretch'
+                          fill
+                          key={index}
+                        >
                           <div className={'grid grid-cols-3 gap-4'}>
                             <div className='col-span-2'>
                               <Form.MultilineInput

@@ -326,11 +326,12 @@ export const PageBranding = observer(() => {
               </Grid>
               <Accordion>
                 {getAccordionItem(reportSettingStore?.pageBranding).map(
-                  item => {
+                  (item, index) => {
                     return (
                       <AccordionItem
                         title={`${item.title}`}
                         expanded={item.title === 'Header'}
+                        key={index}
                       >
                         {item.title === 'Header' && (
                           <PageBrandingHeader isClearReset={isClearReset} />

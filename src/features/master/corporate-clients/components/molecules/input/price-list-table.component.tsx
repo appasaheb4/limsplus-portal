@@ -73,7 +73,7 @@ export const PriceListTable = observer(() => {
         <tbody className='text-xs'>
           {corporateClientsStore.corporateClients?.priceList?.map(
             (item, index) => (
-              <tr>
+              <tr key={index}>
                 <td>
                   <Controller
                     control={control}

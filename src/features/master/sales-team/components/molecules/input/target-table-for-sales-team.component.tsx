@@ -81,7 +81,7 @@ export const TargetTableForSalesTeam = observer(
           {displayTargetTable && (
             <tbody className='text-xs'>
               {targetSaleTable.current?.map((item, index) => (
-                <tr>
+                <tr key={index}>
                   <td>
                     <Controller
                       control={control}

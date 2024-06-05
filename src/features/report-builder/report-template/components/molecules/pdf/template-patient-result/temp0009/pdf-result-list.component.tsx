@@ -256,7 +256,7 @@ export const PdfResultList = ({
           <>
             <PdfView key={index} mh={0} p={0}>
               {/* Panel Header */}
-              {deptItem.panelHeader.map((panelItem, index) => (
+              {deptItem.panelHeader.map((panelItem, i) => (
                 <>
                   <PdfBorderView
                     isBreak={panelItem?.isPMPageBreak}
@@ -268,6 +268,7 @@ export const PdfResultList = ({
                     p={0}
                     bw={0}
                     borderColor='transparent'
+                    key={i}
                   >
                     <PdfSmall
                       style={{
@@ -309,6 +310,7 @@ export const PdfResultList = ({
                         p={0}
                         bw={0}
                         borderColor='transparent'
+                        key={testIndex}
                       >
                         {testItem.testHeader?.isPrintTestName &&
                         panelItem.panelHeader?.analyteType !== 'H' ? (
@@ -588,8 +590,8 @@ export const PdfResultList = ({
             flexDirection='row'
             borderColor='transparent'
           >
-            {getUserInfo(getPatientResultList(data))?.map(item => (
-              <PdfView flexDirection='column' alignItems='center'>
+            {getUserInfo(getPatientResultList(data))?.map((item, index) => (
+              <PdfView flexDirection='column' alignItems='center' key={index}>
                 <PdfImage
                   src={item?.signature}
                   style={{

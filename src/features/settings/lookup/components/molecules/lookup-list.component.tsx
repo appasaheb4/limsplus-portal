@@ -211,7 +211,7 @@ export const LookupList = (props: LookupListProps) => {
                       {row?.arrValue?.map((item, index) => {
                         return (
                           <>
-                            <tr>
+                            <tr key={index}>
                               <td>{lookupCodeValue(item)}</td>
                               <td>{lookupValue(item)}</td>
                             </tr>

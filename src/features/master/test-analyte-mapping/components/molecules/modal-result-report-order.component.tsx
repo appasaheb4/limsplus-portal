@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {Container} from 'reactstrap';
+import React, { useEffect, useState } from 'react';
+import { Container } from 'reactstrap';
 import _ from 'lodash';
-import {Table} from 'reactstrap';
-import {observer} from 'mobx-react';
-import {Form, Toast, Buttons} from '@/library/components';
-import {useStores} from '@/stores';
+import { Table } from 'reactstrap';
+import { observer } from 'mobx-react';
+import { Form, Toast, Buttons } from '@/library/components';
+import { useStores } from '@/stores';
 
-import {IconContext} from 'react-icons';
+import { IconContext } from 'react-icons';
 import {
   BsFillArrowDownCircleFill,
   BsFillArrowUpCircleFill,
@@ -34,13 +34,13 @@ export const ModalResultReportOrder = observer(
     onClick,
     onClose,
   }: ModalResultReportOrderProps) => {
-    const {testAnalyteMappingStore} = useStores();
+    const { testAnalyteMappingStore } = useStores();
     const [order, setOrder] = useState<any>([]);
     const [txtDisable, setTxtDisable] = useState(true);
     useEffect(() => {
       testAnalyteMappingStore.testAnalyteMappingService
         .findByFileds({
-          input: {filter: {testCode}},
+          input: { filter: { testCode } },
         })
         .then(res => {
           if (!res.findByFiledsTestAnalyteMappings.success)
@@ -107,7 +107,7 @@ export const ModalResultReportOrder = observer(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
@@ -122,7 +122,7 @@ export const ModalResultReportOrder = observer(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
@@ -142,7 +142,7 @@ export const ModalResultReportOrder = observer(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowUpCircleFill />
                                   </IconContext.Provider>
@@ -157,7 +157,7 @@ export const ModalResultReportOrder = observer(
                               <Buttons.ButtonIcon
                                 icon={
                                   <IconContext.Provider
-                                    value={{color: '#ffffff'}}
+                                    value={{ color: '#ffffff' }}
                                   >
                                     <BsFillArrowDownCircleFill />
                                   </IconContext.Provider>
@@ -179,6 +179,7 @@ export const ModalResultReportOrder = observer(
                       <tbody className='text-xs'>
                         {order.map((item, index) => (
                           <tr
+                            key={index}
                             onMouseEnter={() => {
                               setTxtDisable(false);
                             }}
@@ -189,7 +190,7 @@ export const ModalResultReportOrder = observer(
                             <td>{`${index + 1}. ${
                               item.analyteName + ' - ' + item.analyteCode
                             }`}</td>
-                            <td style={{width: 25}}>
+                            <td style={{ width: 25 }}>
                               {txtDisable ? (
                                 <span
                                   className={
@@ -210,7 +211,7 @@ export const ModalResultReportOrder = observer(
                                 />
                               )}
                             </td>
-                            <td style={{width: 25}}>
+                            <td style={{ width: 25 }}>
                               {txtDisable ? (
                                 <span
                                   className={
@@ -302,7 +303,7 @@ export const ModalResultReportOrder = observer(
                     <button
                       className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         onClose && onClose();
                         // setShowModal(false)
@@ -313,7 +314,7 @@ export const ModalResultReportOrder = observer(
                     <button
                       className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         //setShowModal(false)
                         onClick && onClick(order);
