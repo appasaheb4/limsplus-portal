@@ -236,35 +236,13 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               dataField: 'deliveryStatus',
               text: 'Delivery Status',
               sort: true,
-              // headerStyle: {
-              //   fontSize: 0,
-              // },
-              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              // headerClasses: 'textHeader',
-              // filter: textFilter({
-              //   placeholder: 'Delivery Status',
-              //   getFilter: filter => {
-              //     deliveryStatus = filter;
-              //   },
-              // }),
             },
             {
               dataField: 'reportType',
               text: 'Report Type',
               sort: true,
-              // headerStyle: {
-              //   fontSize: 0,
-              // },
-              // sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              // headerClasses: 'textHeader',
-              // filter: textFilter({
-              //   placeholder: 'Report Type',
-              //   getFilter: filter => {
-              //     reportType = filter;
-              //   },
-              // }),
             },
             {
               dataField: 'reportPriority',
@@ -278,14 +256,14 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
             {
               dataField: 'deliveryMode',
               text: 'Delivery Mode',
-              // headerClasses: 'textHeader4',
+              headerClasses: 'textHeader2',
               sort: true,
               csvFormatter: (col, row) =>
                 row?.deliveryMode ? row.deliveryMode : '',
               editable: false,
               formatter: (cell, row) => {
                 return (
-                  <div className='flex flex-row flex-wrap gap-2'>
+                  <div className='flex flex-row flex-wrap gap-1'>
                     {row?.deliveryMode?.map((item, index) => (
                       <span
                         key={index}
