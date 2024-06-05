@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   headerBg: {
     backgroundColor: '#aaa',
     borderStyle: 'solid',
-    borderColor: '#000',
+    borderColor: '#000000',
     borderWidth: 1,
   },
   tableCellHeader: {

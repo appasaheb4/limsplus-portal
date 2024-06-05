@@ -12,7 +12,7 @@ import {
 
 const styles = StyleSheet.create({
   table: {
-    borderColor: '#000',
+    borderColor: '#000000',
     borderWidth: 1,
     marginHorizontal: 20,
     flexFlow: 1,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   headerBg: {
     backgroundColor: '#aaa',
     borderStyle: 'solid',
-    borderColor: '#000',
+    borderColor: '#000000',
     borderWidth: 1,
   },
   tableCellHeader: {
@@ -195,7 +195,7 @@ export const PdfTPRTemp0001List = ({
               mv={0}
               p={0}
               bw={1}
-              borderColor='#000'
+              borderColor='#000000'
             >
               <PdfSmall style={{ marginLeft: 10 }}>
                 {deptItem?.departmentHeader?.departmentName}
@@ -213,7 +213,7 @@ export const PdfTPRTemp0001List = ({
                   mv={0}
                   p={0}
                   bw={1}
-                  borderColor='#000'
+                  borderColor='#000000'
                 >
                   <PdfSmall style={{ marginLeft: 10 }}>
                     {panelItem.panelHeader?.tpmPrintPanelName
@@ -244,8 +244,8 @@ export const PdfTPRTemp0001List = ({
                       mv={0}
                       p={0}
                       bw={1}
-                      borderColor='#000'
                       key={testIndex}
+                      borderColor='#000000'
                     >
                       {testItem.testHeader?.tpmPrintTestName ? (
                         <PdfSmall style={{ marginLeft: 10 }}>
@@ -281,7 +281,7 @@ export const PdfTPRTemp0001List = ({
                             mv={0}
                             p={0}
                             bw={1}
-                            borderColor='#000'
+                            borderColor='#000000'
                           >
                             {typeof _item[1] == 'object' ? (
                               <>
@@ -320,7 +320,7 @@ export const PdfTPRTemp0001List = ({
                         mv={0}
                         p={0}
                         bw={1}
-                        borderColor='#000'
+                        borderColor='#000000'
                       >
                         <PdfSmall style={{ marginLeft: 10 }}>
                           {testItem?.testFooter?.testInterpretation || ''}
@@ -340,7 +340,7 @@ export const PdfTPRTemp0001List = ({
                     mv={0}
                     p={0}
                     bw={1}
-                    borderColor='#000'
+                    borderColor='#000000'
                   >
                     <PdfSmall style={{ marginLeft: 10 }}>
                       {panelItem?.panelFooter?.panelInterpretation}
@@ -361,7 +361,7 @@ export const PdfTPRTemp0001List = ({
                 p={0}
                 bw={1}
                 flexDirection='row'
-                borderColor='#000'
+                borderColor='#000000'
               >
                 {deptItem?.departmentFooter?.userInfo?.map(
                   (deptFooterItem, i) => (

@@ -43,7 +43,7 @@ export const IconContext: React.FunctionComponent<IconsProps> = props => {
   return (
     <Context.Provider
       value={{
-        color: props.isDisable ? '#808080' : props.color || '#fff',
+        color: props.isDisable ? '#808080' : props.color || '#ffffff',
         size: props.size || '20',
       }}
     >
@@ -270,7 +270,7 @@ export const RIcon = ({
   try {
     const iconProps = {
       ...propsIcon,
-      color: isDisable ? '#808080' : propsIcon?.color || '#fff',
+      color: isDisable ? '#808080' : propsIcon?.color || '#ffffff',
     };
     const lib = nameIcon
       .replace(/([a-z0-9])([A-Z])/g, '$1 $2')

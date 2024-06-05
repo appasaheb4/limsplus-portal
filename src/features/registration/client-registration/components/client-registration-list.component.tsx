@@ -540,7 +540,7 @@ export const ClientRegistrationList = observer(
                       <div className='flex flex-row gap-2'>
                         <Tooltip tooltipText='View'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='25'
                             style={{
                               backgroundColor: '#00FF00',
@@ -709,7 +709,7 @@ export const ClientRegistrationList = observer(
                   <div className='flex flex-row'>
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => {
                           props.onDelete &&

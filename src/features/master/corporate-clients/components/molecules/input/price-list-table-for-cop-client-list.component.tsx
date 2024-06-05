@@ -314,7 +314,7 @@ export const PriceListTableForCopClientList = observer(
                       >
                         <Icons.EvaIcon
                           icon='minus-circle-outline'
-                          color='#fff'
+                          color='#ffffff'
                         />
                       </Buttons.Button>
                       <Buttons.Button
@@ -324,7 +324,7 @@ export const PriceListTableForCopClientList = observer(
                       >
                         <Icons.EvaIcon
                           icon='plus-circle-outline'
-                          color='#fff'
+                          color='#ffffff'
                         />
                       </Buttons.Button>
                     </div>
@@ -339,7 +339,7 @@ export const PriceListTableForCopClientList = observer(
               type='outline'
               onClick={handleSubmit(addItem)}
             >
-              <Icons.EvaIcon icon='plus-circle-outline' color='#000' />
+              <Icons.EvaIcon icon='plus-circle-outline' color='#000000' />
             </Buttons.Button>
           )}
         </Table>

@@ -739,7 +739,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                   {props.isDelete && (
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onDelete &&
@@ -762,7 +762,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       {props.isVersionUpgrade && (
                         <Tooltip tooltipText='Version Upgrade'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() =>
                               props.onVersionUpgrade &&
@@ -776,7 +776,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                       {props.isDuplicate && (
                         <Tooltip tooltipText='Duplicate'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() =>
                               props.onDuplicate && props.onDuplicate(row)
@@ -800,7 +800,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
                   {row.status !== 'I' && (
                     <Tooltip tooltipText='Edit'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onUpdatePossibleResult &&

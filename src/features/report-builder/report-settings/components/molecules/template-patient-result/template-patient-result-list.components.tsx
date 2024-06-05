@@ -275,7 +275,7 @@ export const TemplatePatientResultList = observer(
                     <div className='flex flex-row'>
                       <Tooltip tooltipText='Delete' position='bottom'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() =>
                             props.onDelete &&

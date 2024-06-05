@@ -274,7 +274,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                       </Icons.IconContext>
                     </Tooltip>
                     <Tooltip tooltipText='Traceability'>
-                      <TiFlowChildren color='#fff' size='20' />
+                      <TiFlowChildren color='#ffffff' size='20' />
                     </Tooltip>
                   </div>
                 </>

@@ -102,7 +102,7 @@ const ReportTemplate = observer(() => {
                 <div className='flex  absolute bottom-2'>
                   <Tooltip tooltipText='Print'>
                     <Icons.IconContext
-                      color='#000'
+                      color='#000000'
                       size='20'
                       onClick={async () => {
                         const Comp = item.component;

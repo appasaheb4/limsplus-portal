@@ -312,7 +312,7 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
                   <div className='flex flex-row'>
                     <Tooltip tooltipText='Preview' position='bottom'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onPdfPreview && props.onPdfPreview(row)
@@ -323,7 +323,7 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
                     </Tooltip>
                     <Tooltip tooltipText='Delete' position='bottom'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onDelete &&

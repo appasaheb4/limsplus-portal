@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icons } from '@/library/components';
+import { stores } from '@/stores';
 
 interface TabsProps {
   tabs: Array<any>;
@@ -24,7 +25,16 @@ export const Tabs = ({ tabs, onClick }: TabsProps) => {
                 onClick(item.title);
               }}
             >
-              <Icons.RIcon nameIcon={item.icon} propsIcon={{ size: 24 }} />
+              <Icons.RIcon
+                nameIcon={item.icon}
+                propsIcon={{
+                  size: 24,
+                  color:
+                    stores.appStore.applicationSetting.theme === 'dark'
+                      ? '#ffffff'
+                      : '#000000',
+                }}
+              />
               <span>{item.title}</span>
             </div>
           </li>

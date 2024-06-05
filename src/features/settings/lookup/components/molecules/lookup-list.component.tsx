@@ -489,7 +489,7 @@ export const LookupList = (props: LookupListProps) => {
                   {props.isDelete && (
                     <Tooltip tooltipText='Delete'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onDelete &&
@@ -510,7 +510,7 @@ export const LookupList = (props: LookupListProps) => {
                   {row.status !== 'I' && (
                     <Tooltip tooltipText='Edit'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() =>
                           props.onUpdateValues &&

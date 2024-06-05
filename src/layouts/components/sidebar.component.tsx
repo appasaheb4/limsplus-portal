@@ -63,7 +63,7 @@ const SidebarCategory = withRouter(
           onClick={onClick}
           style={{
             color:
-              stores.appStore.applicationSetting.sidebarFontColor ?? '#fff',
+              stores.appStore.applicationSetting.sidebarFontColor ?? '#ffffff',
           }}
           aria-expanded={isOpen ? 'true' : 'false'}
         >
@@ -78,7 +78,8 @@ const SidebarCategory = withRouter(
             className='align-middle'
             style={{
               color:
-                stores.appStore.applicationSetting.sidebarFontColor ?? '#fff',
+                stores.appStore.applicationSetting.sidebarFontColor ??
+                '#ffffff',
             }}
           >
             {title}
@@ -139,7 +140,8 @@ const SidebarItem = withRouter((props: SidebarItemProps) => {
             className='flex items-center'
             style={{
               color:
-                stores.appStore.applicationSetting.sidebarFontColor ?? '#fff',
+                stores.appStore.applicationSetting.sidebarFontColor ??
+                '#ffffff',
             }}
           >
             {props.title}

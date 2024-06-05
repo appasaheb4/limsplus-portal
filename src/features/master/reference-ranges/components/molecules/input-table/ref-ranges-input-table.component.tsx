@@ -1111,7 +1111,7 @@ export const RefRangesInputTable = observer(
                 <>
                   <div className='flex flex-row'>
                     <Icons.IconContext
-                      color='#fff'
+                      color='#ffffff'
                       size='20'
                       onClick={() => onDelete && onDelete(row.rangeId)}
                     >

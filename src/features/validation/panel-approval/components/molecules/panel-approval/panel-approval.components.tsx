@@ -273,7 +273,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                     <>
                       <Tooltip tooltipText='Approved'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           isDisable={
                             row[1][0]?.approvalStatus == 'Hold' ? true : false
@@ -301,7 +301,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                         } `}
                       >
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() => {
                             props.onUpdateFields &&
@@ -324,7 +324,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                       </Tooltip>
                       <Tooltip tooltipText='Recheck'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           isDisable={
                             row[1][0]?.approvalStatus == 'Hold' ? true : false
@@ -351,7 +351,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                       </Tooltip>
                       <Tooltip tooltipText='Retest'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           isDisable={
                             row[1][0]?.approvalStatus == 'Hold' ? true : false
@@ -383,7 +383,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                   {selectId == row[1][0]._id ? (
                     <Tooltip tooltipText='Expand'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => {
                           props.onExpand && props.onExpand('');
@@ -395,7 +395,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                   ) : (
                     <Tooltip tooltipText='Expand'>
                       <Icons.IconContext
-                        color='#fff'
+                        color='#ffffff'
                         size='20'
                         onClick={() => {
                           props.onExpand && props.onExpand(row[1][0]);

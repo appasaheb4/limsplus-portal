@@ -307,7 +307,7 @@ export const TransactionHeaderList = observer(
                     <div className='flex flex-row'>
                       <Tooltip tooltipText='Generate PDF'>
                         <Icons.IconContext
-                          color='#fff'
+                          color='#ffffff'
                           size='20'
                           onClick={() => props.onReport && props.onReport(row)}
                         >
@@ -318,7 +318,7 @@ export const TransactionHeaderList = observer(
                       {selectId === row._id ? (
                         <Tooltip tooltipText='close'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() => {
                               props.onExpand && props.onExpand('');
@@ -330,7 +330,7 @@ export const TransactionHeaderList = observer(
                       ) : (
                         <Tooltip tooltipText='Expand'>
                           <Icons.IconContext
-                            color='#fff'
+                            color='#ffffff'
                             size='20'
                             onClick={() => {
                               props.onExpand && props.onExpand(row);
