@@ -62,7 +62,7 @@ export const AutoCompleteFilterMutiSelectMultiFieldsDisplay = ({
   let count = 0;
   const getSelectedItem = (selectedItem: any[], list: any[]) => {
     if (count === 0) {
-      const finalList = list.filter((item, index) => {
+      const finalList = list?.filter((item, index) => {
         item.selected = false;
         selectedItem && selectedItem.length > 0
           ? selectedItem.find((sItem, index) => {
