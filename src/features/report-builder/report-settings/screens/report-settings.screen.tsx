@@ -53,9 +53,10 @@ const ReportSettings = observer(() => {
             { title: 'PAGE BRANDING' },
             { title: 'REPORT BODY' },
             { title: 'TEMPLATE PATIENT RESULT' },
-          ].map(item => {
+          ].map((item, index) => {
             return (
               <AccordionItem
+                key={index}
                 title={`${item.title}`}
                 // expanded={item.title === 'PAGE BRANDING'}
               >

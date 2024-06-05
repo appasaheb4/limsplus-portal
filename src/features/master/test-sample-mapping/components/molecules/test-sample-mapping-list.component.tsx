@@ -659,7 +659,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                             {row?.departments?.map((item, index) => {
                               return (
                                 <>
-                                  <tr>
+                                  <tr key={index}>
                                     <td>{item.code}</td>
                                     <td>{item.name}</td>
                                     <td>{item.prefrence}</td>

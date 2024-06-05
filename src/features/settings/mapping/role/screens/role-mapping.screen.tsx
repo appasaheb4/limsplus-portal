@@ -338,8 +338,8 @@ const RoleMapping = observer(() => {
             <Form.InputWrapper label='Common Action'>
               <div className='flex flex-col bg-blue-600 p-2 text-white w-36 rounded-md'>
                 <ul className='ml-2'>
-                  {commonAction?.map(item => (
-                    <li className='flex items-center'>
+                  {commonAction?.map((item, index) => (
+                    <li className='flex items-center' key={index}>
                       <input
                         type='checkbox'
                         checked={item.checked}

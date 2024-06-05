@@ -194,7 +194,7 @@ export const PdfTPRTemp0003List = ({
         <>
           <PdfView key={index} mh={0} p={0}>
             {/* Panel Header */}
-            {deptItem.panelHeader.map((panelItem, index) => (
+            {deptItem.panelHeader.map((panelItem, i) => (
               <>
                 <PdfBorderView
                   style={{
@@ -205,6 +205,7 @@ export const PdfTPRTemp0003List = ({
                   p={0}
                   bw={0}
                   borderColor='transparent'
+                  key={i}
                 >
                   <PdfSmall style={{ marginLeft: 10 }}>
                     {panelItem.panelHeader?.tpmPrintPanelName
@@ -357,8 +358,8 @@ export const PdfTPRTemp0003List = ({
           flexDirection='row'
           borderColor='transparent'
         >
-          {departmentFooter?.map(deptFooterItem => (
-            <PdfView flexDirection='column' alignItems='center'>
+          {departmentFooter?.map((deptFooterItem, i) => (
+            <PdfView flexDirection='column' alignItems='center' key={i}>
               <PdfImage
                 src={deptFooterItem?.signature}
                 style={{

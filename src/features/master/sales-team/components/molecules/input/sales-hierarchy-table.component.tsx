@@ -74,7 +74,7 @@ export const SalesHierarchyTable = observer(
           </thead>
           <tbody className='text-xs max-w-fit'>
             {list?.map((item, index) => (
-              <tr>
+              <tr key={index}>
                 <td>
                   <Controller
                     control={control}

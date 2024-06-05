@@ -879,6 +879,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                       <div className='inline-flex rounded-md' role='group'>
                         {masterFlag.map((item, index) => (
                           <button
+                            key={index}
                             type='button'
                             className={
                               'inline-flex items-center py-2 px-4 text-sm font-medium text-white ' +
@@ -1095,6 +1096,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                                   onMouseLeave={() => {
                                     setTxtDisable(true);
                                   }}
+                                  key={index}
                                 >
                                   <td>{`${index + 1}. ${
                                     item.testName + ' - ' + item.testCode

@@ -211,6 +211,7 @@ export const PdfTPRTemp0002List = ({
                   p={0}
                   bw={0}
                   borderColor='transparent'
+                  key={index}
                 >
                   <PdfSmall style={{ marginLeft: 10 }}>
                     {panelItem.panelHeader?.tpmPrintPanelName
@@ -241,6 +242,7 @@ export const PdfTPRTemp0002List = ({
                       p={0}
                       bw={0}
                       borderColor='transparent'
+                      key={testIndex}
                     >
                       {testItem.testHeader?.tpmPrintTestName ? (
                         <PdfSmall style={{ marginLeft: 10 }}>
@@ -361,26 +363,28 @@ export const PdfTPRTemp0002List = ({
                 flexDirection='row'
                 borderColor='transparent'
               >
-                {deptItem?.departmentFooter?.userInfo?.map(deptFooterItem => (
-                  <PdfView flexDirection='column' alignItems='center'>
-                    <PdfImage
-                      src={deptFooterItem?.signature}
-                      style={{
-                        width: 80,
-                        height: 60,
-                        marginLeft: 10,
-                        padding: 5,
-                      }}
-                    />
-                    <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
-                    <PdfSmall style={{ marginTop: -4 }}>
-                      {deptFooterItem?.userDegree}
-                    </PdfSmall>
-                    <PdfSmall style={{ marginTop: -4 }}>
-                      {deptFooterItem?.deginisation}
-                    </PdfSmall>
-                  </PdfView>
-                ))}
+                {deptItem?.departmentFooter?.userInfo?.map(
+                  (deptFooterItem, i) => (
+                    <PdfView flexDirection='column' alignItems='center' key={i}>
+                      <PdfImage
+                        src={deptFooterItem?.signature}
+                        style={{
+                          width: 80,
+                          height: 60,
+                          marginLeft: 10,
+                          padding: 5,
+                        }}
+                      />
+                      <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
+                      <PdfSmall style={{ marginTop: -4 }}>
+                        {deptFooterItem?.userDegree}
+                      </PdfSmall>
+                      <PdfSmall style={{ marginTop: -4 }}>
+                        {deptFooterItem?.deginisation}
+                      </PdfSmall>
+                    </PdfView>
+                  ),
+                )}
               </PdfBorderView>
             )}
           </PdfView>
