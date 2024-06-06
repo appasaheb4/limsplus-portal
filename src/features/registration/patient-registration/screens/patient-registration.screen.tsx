@@ -347,6 +347,10 @@ const PatientRegistration = observer(({ sidebar }) => {
                   patientManagerStore.updatePatientManager({
                     ...patientManagerStore.patientManger,
                     mobileNo,
+                    extraData: {
+                      ...patientManagerStore.patientManger?.extraData,
+                      whatsappNumber: mobileNo,
+                    },
                   });
                 }
               }}
