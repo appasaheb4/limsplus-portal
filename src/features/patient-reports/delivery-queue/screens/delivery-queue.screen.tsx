@@ -443,6 +443,8 @@ const DeliveryQueue = observer(() => {
           deliveryQueueStore.deliveryQueueService
             .listPatientReports(result[0]?.labId)
             .then(res => {
+              console.log(res);
+
               if (res.getPatientReports.success) {
                 let patientResultList: any[] = [];
                 result?.filter(item => {

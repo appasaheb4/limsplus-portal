@@ -404,18 +404,29 @@ export const ModalGenerateReports = ({
                       </div>
                     )}
                   </div>
-                  <div>
+                  <div className='flex flex-col'>
                     <span>Share Report</span>
                     <div className='flex flex-row flex-wrap gap-1'>
                       {extraDetails?.deliveryMode?.map((item, index) => (
                         <span
                           key={index}
-                          className='bg-blue-800 rounded-md p-2 text-white'
+                          className='bg-gray-600 rounded-md p-2 text-white'
                         >
                           {item.code}
                         </span>
                       ))}
                     </div>
+                    <button
+                      className='bg-blue-800 font-bold p-2 text-white rounded-md w-fit self-center'
+                      type='button'
+                      style={{ transition: 'all .15s ease' }}
+                      onClick={() => {
+                        setShowModal(false);
+                        onClose && onClose();
+                      }}
+                    >
+                      Share Link
+                    </button>
                   </div>
                 </div>
                 <div className='flex items-center  p-3 border-t border-solid border-gray-300 rounded-b justify-between'>
