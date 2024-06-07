@@ -228,7 +228,8 @@ export const ModalDocxContent = observer(
                           style={{ transition: 'all .15s ease' }}
                           onClick={() => {
                             // const regex = /(style=".+?")/gm;
-                            const regex = /(^|;)\s*font-[^;]+/g;
+                            // const regex = /(^|;)\s*font-[^;]+/g;
+                            const regex = /style=(.*)font-family[^;]+;/g;
                             const subst = '';
                             const result = content.replace(regex, subst);
                             onUpdate && onUpdate(result);
