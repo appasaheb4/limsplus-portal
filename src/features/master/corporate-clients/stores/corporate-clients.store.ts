@@ -10,10 +10,16 @@ export class CorporateClientsStore {
   listCorporateClientsCopy!: CorporateClients[];
   checkExistsEnvCode: boolean;
   selectedItems!: SelectedItems;
-  emailFields!:
+  reportToEmails!:
     | {
         name: string;
         email: string;
+      }
+    | undefined;
+  reportToMobiles!:
+    | {
+        name: string;
+        mobileNo: string;
       }
     | undefined;
 
@@ -21,7 +27,8 @@ export class CorporateClientsStore {
     this.listCoporateClientsCount = 0;
     this.listCorporateClients = [];
     this.checkExistsEnvCode = false;
-    this.emailFields = undefined;
+    this.reportToEmails = undefined;
+    this.reportToMobiles = undefined;
     this.corporateClients = {
       ...this.corporateClients,
       dateCreation: new Date(),
@@ -55,6 +62,8 @@ export class CorporateClientsStore {
       updateCorporateClients: action,
       updateExistsEnvCode: action,
       updateSelectedItems: action,
+      updateReportToEmailFields: action,
+      updateReportToMobileFields: action,
     });
   }
 
@@ -118,7 +127,10 @@ export class CorporateClientsStore {
     this.selectedItems = items;
   }
 
-  updateEmailFields(fields?: any) {
-    this.emailFields = fields || undefined;
+  updateReportToEmailFields(fields?: any) {
+    this.reportToEmails = fields || undefined;
+  }
+  updateReportToMobileFields(fields?: any) {
+    this.reportToMobiles = fields || undefined;
   }
 }
