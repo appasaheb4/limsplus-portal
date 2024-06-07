@@ -286,7 +286,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         props.onUpdateItem(species, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'SPECIES').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -333,7 +333,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         props.onUpdateItem(sex, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'SEX').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -386,7 +386,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'RANGE_SET_ON',
@@ -441,7 +441,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           props.onUpdateItem(eqType, column.dataField, row._id);
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {props.extraData.listInterfaceManager &&
                         props.extraData.listInterfaceManager.map(
                           (item: any, index: number) => (
@@ -534,7 +534,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         props.onUpdateItem(rangType, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'RANGE_TYPE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -586,7 +586,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'VALIDATION_LEVEL',
@@ -704,7 +704,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'AGE_UNIT').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -820,7 +820,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                           );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'AGE_UNIT').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1024,7 +1024,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'INTERVAL_UNIT',
@@ -1091,7 +1091,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -1367,7 +1367,7 @@ export const ReferenceRangesList = (props: ReferenceRangesProps) => {
               //           );
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(
               //         props.extraData.lookupItems,
               //         'ENVIRONMENT',

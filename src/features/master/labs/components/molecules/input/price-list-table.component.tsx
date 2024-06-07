@@ -99,7 +99,7 @@ export const PriceListTable = observer(
           </thead>
           <tbody className='text-xs'>
             {labStore?.labs?.priceList?.map((item, index) => (
-              <tr key={index}>
+              <tr key={item.id || index}>
                 <td>
                   <Controller
                     control={control}
@@ -108,7 +108,7 @@ export const PriceListTable = observer(
                         value={item.priceGroup}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors[`priceGroup_${index}`]
-                            ? 'border-red  '
+                            ? 'border-red'
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -127,9 +127,9 @@ export const PriceListTable = observer(
                           });
                         }}
                       >
-                        <option selected>{item.priceGroup || 'Select'}</option>
-                        {priceGroupItems?.map((e: any, i: number) => (
-                          <option key={i} value={e.code}>
+                        <option>{item.priceGroup || 'Select'}</option>
+                        {priceGroupItems?.map((e: any) => (
+                          <option key={e.code} value={e.code}>
                             {lookupValue(e)}
                           </option>
                         ))}
@@ -148,7 +148,7 @@ export const PriceListTable = observer(
                         value={item?.priceList || ''}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors[`priceList_${index}`]
-                            ? 'border-red  '
+                            ? 'border-red'
                             : 'border-gray-300'
                         } rounded-md`}
                         onChange={e => {
@@ -177,11 +177,14 @@ export const PriceListTable = observer(
                           });
                         }}
                       >
-                        <option selected>{item.priceList || 'Select'}</option>
+                        <option>{item.priceList || 'Select'}</option>
                         {getPriceList(priceListItems, item?.priceGroup)?.map(
-                          (item: any, index: number) => (
-                            <option key={index} value={JSON.stringify(item)}>
-                              {lookupValue(item)}
+                          (priceItem: any) => (
+                            <option
+                              key={priceItem.code}
+                              value={JSON.stringify(priceItem)}
+                            >
+                              {lookupValue(priceItem)}
                             </option>
                           ),
                         )}
@@ -227,7 +230,7 @@ export const PriceListTable = observer(
                         type='number'
                         placeholder='Priority'
                         className={
-                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
                         }
                         hasError={!!errors[`priority_${index}`]}
                         onChange={priority => {
@@ -258,7 +261,7 @@ export const PriceListTable = observer(
                         type='number'
                         placeholder={item?.maxDis?.toString()}
                         className={
-                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
+                          'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
                         }
                         hasError={!!errors[`maxDis_${index}`]}
                         onChange={maxDis => {
@@ -281,9 +284,8 @@ export const PriceListTable = observer(
                   />
                 </td>
                 <td className='sticky right-0 z-10 bg-gray-500'>
-                  <div className='flex flex-col gap-1' key={index}>
+                  <div className='flex flex-col gap-1'>
                     <Buttons.Button
-                      key={index}
                       size='small'
                       type='outline'
                       onClick={() => {
@@ -296,7 +298,6 @@ export const PriceListTable = observer(
                       />
                     </Buttons.Button>
                     <Buttons.Button
-                      key={index}
                       size='small'
                       type='outline'
                       onClick={handleSubmit(addItem)}

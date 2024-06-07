@@ -522,7 +522,7 @@ export const ExtraDataPatientManagerList = observer(
                           props.onUpdateItem(status, column.dataField, row._id);
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT MANAGER - STATUS',

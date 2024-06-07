@@ -134,7 +134,7 @@ export const CommonInputTable = observer(
               <th className='text-white' style={{ minWidth: '190px' }}>
                 Inst Type
               </th>
-            </tr>{' '}
+            </tr>
           </thead>
           <tbody className='text-xs'>
             <tr>
@@ -274,7 +274,7 @@ export const CommonInputTable = observer(
                         });
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(routerStore.lookupItems, 'SPECIES').map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
@@ -307,7 +307,7 @@ export const CommonInputTable = observer(
                         });
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(routerStore.lookupItems, 'SEX').map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
@@ -348,7 +348,7 @@ export const CommonInputTable = observer(
                         });
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(routerStore.lookupItems, 'RANGE_SET_ON').map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
@@ -454,6 +454,7 @@ export const CommonInputTable = observer(
             </tr>
           </tbody>
         </Table>
+        ;
         {/* <Buttons.Button
           size='medium'
           type='solid'

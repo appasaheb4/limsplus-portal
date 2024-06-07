@@ -623,7 +623,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         props.onUpdateItem(ageUnits, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'PATIENT VISIT - AGE_UNITS',
@@ -762,7 +762,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         props.onUpdateItem(acClass, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'PATIENT VISIT - AC_CLASS',
@@ -1001,7 +1001,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'PATIENT VISIT - REPORT_PRIORITY',
@@ -1279,7 +1279,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'PATIENT VISIT - STATUS',

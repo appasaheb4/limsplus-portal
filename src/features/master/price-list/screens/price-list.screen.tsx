@@ -479,7 +479,7 @@ export const PriceList = PriceListHoc(
                             setError('priceList', { type: 'onBlur' });
                           }}
                         >
-                          <option selected>{value || 'Select'}</option>
+                          <option>{value || 'Select'}</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'PRICE_GROUP',
@@ -574,7 +574,7 @@ export const PriceList = PriceListHoc(
                               });
                             }}
                           >
-                            <option selected>{value || 'Select'}</option>
+                            <option>{value || 'Select'}</option>
                             {getPriceList(
                               lookupItems(
                                 routerStore.lookupItems,
@@ -821,7 +821,7 @@ export const PriceList = PriceListHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>

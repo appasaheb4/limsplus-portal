@@ -378,7 +378,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[
                       { title: 'year', value: 'Y' },
                       { title: 'month', value: 'M' },
@@ -469,7 +469,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         props.onUpdateFileds({ title, sex }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'PATIENT MANAGER - TITLE',
@@ -644,7 +644,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         props.onUpdateItem(sex, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'PATIENT MANAGER - SEX',
@@ -692,7 +692,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         props.onUpdateItem(species, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'PATIENT MANAGER - SPECIES',
@@ -763,7 +763,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {props.extraData.listDoctors.map(
                       (item: any, index: number) => (
                         <option key={index} value={item.doctorCode}>

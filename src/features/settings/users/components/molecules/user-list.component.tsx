@@ -234,7 +234,7 @@ export const UserList = (props: UserListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {props.extraData.userModule?.map(
                       (item: any, index: number) => (
                         <option key={index} value={item}>
@@ -335,7 +335,7 @@ export const UserList = (props: UserListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'USER_GROUP').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1014,7 +1014,7 @@ export const UserList = (props: UserListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((item: any) => (
                       <option key={item.description} value={item}>
                         {item}
@@ -1489,7 +1489,7 @@ export const UserList = (props: UserListProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -1563,7 +1563,7 @@ export const UserList = (props: UserListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {props.extraData.environment?.map(
                       (item: any, index: number) => (
                         <option key={index} value={item}>

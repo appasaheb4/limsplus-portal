@@ -99,7 +99,7 @@ const GraphDashboard = () => {
                   <DropdownToggle tag='a'>
                     <MoreHorizontal />
                   </DropdownToggle>
-                  <DropdownMenu right>
+                  <DropdownMenu end>
                     <DropdownItem
                       onClick={() => handleGraphChange(index, 'Bar')}
                     >
@@ -139,7 +139,7 @@ const GraphDashboard = () => {
                 </UncontrolledDropdown>
                 <UncontrolledDropdown className='d-inline mr-2'>
                   <DropdownToggle tag='a'>{item.filter}</DropdownToggle>
-                  <DropdownMenu right>
+                  <DropdownMenu end>
                     <DropdownItem
                       onClick={() => handleFilterValue(index, 'Today')}
                     >

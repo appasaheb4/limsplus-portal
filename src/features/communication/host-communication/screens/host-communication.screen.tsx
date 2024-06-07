@@ -173,7 +173,7 @@ const HostCommunication = HostCommunicationHoc(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {interfaceManagerStore.listInterfaceManager?.map(
                       (item: any) => (
                         <option
@@ -237,7 +237,7 @@ const HostCommunication = HostCommunicationHoc(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[
                       { title: 'Broadcasting' },
                       { title: 'Host Query' },
@@ -262,7 +262,7 @@ const HostCommunication = HostCommunicationHoc(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[
                       { title: 'Unidirectional' },
                       { title: 'Bidirectional' },
@@ -295,7 +295,7 @@ const HostCommunication = HostCommunicationHoc(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[
                       { title: 'Serial Port Communication' },
                       { title: 'TCP/IP Communication' },
@@ -404,7 +404,7 @@ const HostCommunication = HostCommunicationHoc(
                     });
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {[
                     { title: 'Patient Data / QC Data' },
                     { title: 'Output Filter' },
@@ -435,8 +435,8 @@ const HostCommunication = HostCommunicationHoc(
               <tbody>
                 {hostCommunicationStore.arrTcpIpMessage?.length > 0 &&
                   hostCommunicationStore.arrTcpIpMessage.map((item, index) => (
-                    <tr key={index}>
-                      <td>{item}</td>
+                    <tr key={item.id || index}>
+                      <td>{item.message || item}</td>
                     </tr>
                   ))}
               </tbody>
@@ -451,7 +451,7 @@ const HostCommunication = HostCommunicationHoc(
                 { title: 'Output in' },
               ].map((item, index) => {
                 return (
-                  <AccordionItem title={`${item.title}`}>
+                  <AccordionItem title={`${item.title}`} key={index}>
                     {item.title === 'Hex to ASCII' && (
                       <>
                         <List
@@ -518,7 +518,7 @@ const HostCommunication = HostCommunicationHoc(
                                 });
                               }}
                             >
-                              <option selected>Select</option>
+                              <option>Select</option>
                               {[
                                 { title: 'Hex decimal' },
                                 { title: 'HL7' },
@@ -579,7 +579,7 @@ const HostCommunication = HostCommunicationHoc(
                                 }
                               }}
                             >
-                              <option selected>Select</option>
+                              <option>Select</option>
                               {[
                                 { title: 'Phiysical file Location' },
                                 { title: 'Collection of a database' },
@@ -710,7 +710,7 @@ const HostCommunication = HostCommunicationHoc(
                                 );
                               }}
                             >
-                              <option selected>Select</option>
+                              <option>Select</option>
                               {[
                                 { title: 'Hex decimal' },
                                 { title: 'HL7' },
@@ -742,7 +742,7 @@ const HostCommunication = HostCommunicationHoc(
                                 });
                               }}
                             >
-                              <option selected>Select</option>
+                              <option>Select</option>
                               {[
                                 { title: 'Phiysical file Location' },
                                 { title: 'Collection of a database' },
@@ -831,7 +831,7 @@ const HostCommunication = HostCommunicationHoc(
                                 });
                               }}
                             >
-                              <option selected>Select</option>
+                              <option>Select</option>
                               {[
                                 { title: 'PDF' },
                                 { title: 'CSV' },
@@ -904,7 +904,7 @@ const HostCommunication = HostCommunicationHoc(
                                 });
                               }}
                             >
-                              <option selected>Select</option>
+                              <option>Select</option>
                               {[
                                 { title: 'Serial to Serial' },
                                 { title: 'HL7' },
@@ -951,7 +951,7 @@ const HostCommunication = HostCommunicationHoc(
                                 });
                               }}
                             >
-                              <option selected>Select</option>
+                              <option>Select</option>
                               {[
                                 { title: 'Phiysical file Location' },
                                 { title: 'Collection of a database' },

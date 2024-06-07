@@ -286,7 +286,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       props.onUpdateItem(acType, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'AC_TYPE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -333,7 +333,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       props.onUpdateItem(acClass, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'AC_CLASS').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -382,7 +382,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       props.onUpdateItem(billingOn, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'BILLING_ON').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -435,7 +435,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
                     'BILLING_FREQUENCY',
@@ -486,7 +486,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
                     'CUSTOMER_GROUP',
@@ -534,7 +534,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       props.onUpdateItem(category, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'CATEGORY').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -1040,7 +1040,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
                     'REPORT_PRIORITY',
@@ -1425,7 +1425,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {interfaceManagerListImportRef.current?.map(
                     (item: any, index: number) => (
                       <option key={index} value={item.instrumentType}>
@@ -1470,7 +1470,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {interfaceManagerListExportRef.current?.map(
                     (item: any, index: number) => (
                       <option key={index} value={item.instrumentType}>
@@ -1762,7 +1762,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       props.onUpdateItem(status, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'STATUS')
                     .filter(item => item.code != 'D')
                     .map((item: any, index: number) => (
@@ -1856,7 +1856,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             //           );
             //       }}
             //     >
-            //       <option selected>Select</option>
+            //      <option>Select</option>
             //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
             //         (item: any, index: number) => (
             //           <option key={index} value={item.code}>

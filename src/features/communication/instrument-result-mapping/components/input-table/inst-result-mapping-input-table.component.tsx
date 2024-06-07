@@ -90,7 +90,7 @@ export const InstResultMappingInputTable = ({
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {extraData?.pLabs?.map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
@@ -190,7 +190,7 @@ export const InstResultMappingInputTable = ({
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {extraData.instTypes?.map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
@@ -364,7 +364,7 @@ export const InstResultMappingInputTable = ({
             //             );
             //         }}
             //       >
-            //         <option selected>Select</option>
+            //        <option>Select</option>
             //         {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
             //           (item: any, index: number) => (
             //             <option key={index} value={item.code}>

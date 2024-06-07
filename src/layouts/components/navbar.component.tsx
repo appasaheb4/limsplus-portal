@@ -90,7 +90,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
           </Tooltip>
         </div>
         <div className='flex flex-3  scrollbar-hide overflow-x-scroll '>
-          <Form inline>
+          <Form inline='true'>
             <div className='flex flex-row'>
               <div>
                 <Buttons.Button
@@ -313,7 +313,7 @@ const NavbarComponent = observer(({ dispatch, sidebar }) => {
             </DropdownToggle>
           </span>
           <div className='test'>
-            <DropdownMenu right>
+            <DropdownMenu end>
               <DropdownItem onClick={() => setModalAccount({ show: true })}>
                 Account
               </DropdownItem>

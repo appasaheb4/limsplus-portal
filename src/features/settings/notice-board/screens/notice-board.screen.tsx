@@ -343,7 +343,7 @@ const NoticeBoard = NoticeBoardHoc(
                         });
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {['login', 'logout'].map((item: any, index: number) => (
                         <option key={index} value={item}>
                           {item}
@@ -374,7 +374,7 @@ const NoticeBoard = NoticeBoardHoc(
                         });
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(routerStore.lookupItems, 'STATUS').map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>

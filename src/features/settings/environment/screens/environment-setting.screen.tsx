@@ -658,7 +658,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'ENVIRONEMENT SETTING - STATUS',

@@ -195,7 +195,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(rLab, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {props.extraData.labList &&
                       props.extraData.labList.map(
                         (item: any, index: number) => (
@@ -332,7 +332,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(section, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {props.extraData.sectionListByDeptCode &&
                       props.extraData.sectionListByDeptCode.map(
                         (item: any, index: number) => (
@@ -547,7 +547,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
                       (item: any, index: number) => (
                         <option key={index} value={item}>
@@ -601,7 +601,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {['MANUAL', 'AEMI', 'AUTOMATIC'].map(
                       (item: any, index: number) => (
                         <option key={index} value={item}>
@@ -654,7 +654,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {['LABID', 'SAMPLEID'].map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
@@ -699,7 +699,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(workflow, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'WORKFLOW').map(
                       (item: any, index: number) => (
                         <option key={index} value={item?.code}>
@@ -747,7 +747,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(disease, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'DISEASE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item?.code}>
@@ -794,7 +794,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(category, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'CATEGORY').map(
                       (item: any, index: number) => (
                         <option key={index} value={item?.code}>
@@ -841,7 +841,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(testType, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'TEST_TYPE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item?.code}>
@@ -892,7 +892,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {['Workflow Code 1'].map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
@@ -1358,7 +1358,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(prefix, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'PREFIX').map(
                       (item: any, index: number) => (
                         <option key={index} value={item?.code}>
@@ -1406,7 +1406,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(sufix, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'SUFIX').map(
                       (item: any, index: number) => (
                         <option key={index} value={item?.code}>
@@ -1586,7 +1586,7 @@ export const TestMasterList = (props: TestMasterProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -1948,7 +1948,7 @@ export const TestMasterList = (props: TestMasterProps) => {
               //           );
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(
               //         props.extraData.lookupItems,
               //         'ENVIRONMENT',

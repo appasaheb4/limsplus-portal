@@ -1,26 +1,31 @@
-import React, {useState} from 'react';
-import {Table} from 'reactstrap';
-import {Icons, Buttons} from '@/library/components';
-import {lookupItems, getDefaultLookupItem, lookupValue} from '@/library/utils';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import React, { useState } from 'react';
+import { Table } from 'reactstrap';
+import { Icons, Buttons } from '@/library/components';
+import {
+  lookupItems,
+  getDefaultLookupItem,
+  lookupValue,
+} from '@/library/utils';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {useForm, Controller} from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 
 interface CommonInputTableProps {
   data?: any;
 }
 
-export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
-  const {routerStore, segmentMappingStore, interfaceManagerStore} = useStores();
+export const CommonInputTable = observer(({ data }: CommonInputTableProps) => {
+  const { routerStore, segmentMappingStore, interfaceManagerStore } =
+    useStores();
   const [arrInstType, setArrInstType] = useState([]);
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     reset,
-  } = useForm({mode: 'all'});
+  } = useForm({ mode: 'all' });
   const [input, setInput] = useState<any>({
     instType: '',
     dataFlow: '',
@@ -67,16 +72,16 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white' style={{minWidth: 200}}>
+            <th className='text-white' style={{ minWidth: 200 }}>
               Data Flow
             </th>
             <th
               className='text-white sticky left-0 z-10'
-              style={{minWidth: 200}}
+              style={{ minWidth: 200 }}
             >
               Inst Type
             </th>
-            <th className='text-white' style={{minWidth: 200}}>
+            <th className='text-white' style={{ minWidth: 200 }}>
               Protocol
             </th>
           </tr>
@@ -86,14 +91,14 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <select
-                    value={value}
+                    value={value || ''}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.dataFlow ? 'border-red  ' : 'border-gray-300'
+                      errors.dataFlow ? 'border-red' : 'border-gray-300'
                     } rounded-md`}
                     onChange={e => {
-                      const dataFlow = e.target.value as string;
+                      const dataFlow = e.target.value;
                       onChange(dataFlow);
                       setInput({
                         ...input,
@@ -102,10 +107,10 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       getInstTypeList(dataFlow);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option value=''>Select</option>
                     {lookupItems(routerStore.lookupItems, 'DATA__FLOW').map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.code}>
+                        <option key={item.code} value={item.code}>
                           {lookupValue(item)}
                         </option>
                       ),
@@ -113,21 +118,21 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                   </select>
                 )}
                 name='dataFlow'
-                rules={{required: true}}
-                defaultValue={routerStore.lookupItems}
+                rules={{ required: true }}
+                defaultValue=''
               />
             </td>
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <select
-                    value={value}
+                    value={value || ''}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.instType ? 'border-red  ' : 'border-gray-300'
+                      errors.instType ? 'border-red' : 'border-gray-300'
                     } rounded-md`}
                     onChange={e => {
-                      const instType = e.target.value as string;
+                      const instType = e.target.value;
                       onChange(instType);
                       setInput({
                         ...input,
@@ -135,30 +140,33 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option value=''>Select</option>
                     {arrInstType?.map((item: any, index: number) => (
-                      <option key={index} value={item?.instrumentType}>
+                      <option
+                        key={item?.instrumentType}
+                        value={item?.instrumentType}
+                      >
                         {item?.instrumentType}
                       </option>
                     ))}
                   </select>
                 )}
                 name='instType'
-                rules={{required: true}}
-                defaultValue={arrInstType}
+                rules={{ required: true }}
+                defaultValue=''
               />
             </td>
             <td>
               <Controller
                 control={control}
-                render={({field: {onChange, value}}) => (
+                render={({ field: { onChange, value } }) => (
                   <select
-                    value={value || 'Selected'}
+                    value={value || ''}
                     className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                      errors.protocol ? 'border-red  ' : 'border-gray-300'
+                      errors.protocol ? 'border-red' : 'border-gray-300'
                     } rounded-md`}
                     onChange={e => {
-                      const protocol = e.target.value as string;
+                      const protocol = e.target.value;
                       onChange(protocol);
                       setInput({
                         ...input,
@@ -166,10 +174,10 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option value=''>Select</option>
                     {_.uniqBy(arrInstType, 'protocol')?.map(
                       (item: any, index: number) => (
-                        <option key={index} value={item.protocol}>
+                        <option key={item.protocol} value={item.protocol}>
                           {item?.protocol}
                         </option>
                       ),
@@ -177,13 +185,14 @@ export const CommonInputTable = observer(({data}: CommonInputTableProps) => {
                   </select>
                 )}
                 name='protocol'
-                rules={{required: true}}
+                rules={{ required: true }}
                 defaultValue=''
               />
             </td>
           </tr>
         </tbody>
       </Table>
+
       <Buttons.Button
         size='medium'
         type='solid'

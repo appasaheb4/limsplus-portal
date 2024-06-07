@@ -186,7 +186,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         props.onUpdateItem({ lab }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[{ code: 'Default' }]
                       .concat(props.extraData?.loginDetails?.labList)
                       ?.map((item: any, index: number) => (
@@ -270,7 +270,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         props.onUpdateItem({ position }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData?.lookupItems, 'POSITION').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -317,7 +317,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         props.onUpdateItem({ groups }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData?.lookupItems, 'GROUPS').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -364,7 +364,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         props.onUpdateItem({ libraryType }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData?.lookupItems, 'LIBRARY_TYPE')
                       ?.filter(item => item.code?.match(row?.groups))
                       .map((item: any, index: number) => (
@@ -411,7 +411,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         props.onUpdateItem({ parameter }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData?.lookupItems, 'PARAMETER').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -508,7 +508,7 @@ export const LibraryList = (props: LibraryListProps) => {
                         props.onUpdateItem({ status }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (

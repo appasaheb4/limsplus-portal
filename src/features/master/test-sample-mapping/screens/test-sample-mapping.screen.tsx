@@ -652,7 +652,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'MIN_DRAW_VOL_UNIT',
@@ -1024,7 +1024,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'MIN_TEST_VOL_UNIT',
@@ -1109,7 +1109,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'RETENTION_UNITS',
@@ -1194,7 +1194,7 @@ const TestSampleMapping = TestSampleMappingHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>

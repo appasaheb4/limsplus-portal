@@ -578,7 +578,7 @@ export const PatientVisit = PatientVisitHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {loginStore.login?.labList &&
                           loginStore.login?.labList.map(
                             (item: any, index: number) => (
@@ -1146,7 +1146,7 @@ export const PatientVisit = PatientVisitHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'PATIENT VISIT - REPORT_PRIORITY',
@@ -1344,7 +1344,7 @@ export const PatientVisit = PatientVisitHoc(
                               setError('discountCharges', { type: 'onBlur' });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'PATIENT VISIT - DISCOUNT_CHARGES',
@@ -1412,7 +1412,7 @@ export const PatientVisit = PatientVisitHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'PATIENT VISIT - STATUS',
@@ -1548,7 +1548,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - BILLING_METHOD',
@@ -1617,7 +1617,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - METHOD_COLLECTION',
@@ -1827,7 +1827,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - APPROVAL_STATUS',
@@ -1867,7 +1867,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - REPORT_STATUS',
@@ -2016,7 +2016,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - ARCHIVED',
@@ -2059,7 +2059,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - LOGIN_INTERFACE',
@@ -2101,7 +2101,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - REGISTRATION_INTERFACE',
@@ -2202,7 +2202,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - ACCOUNT_TYPE',
@@ -2249,7 +2249,7 @@ export const PatientVisit = PatientVisitHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                               <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - ENVIRONMENT',

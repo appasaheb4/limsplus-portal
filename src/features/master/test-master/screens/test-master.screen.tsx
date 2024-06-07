@@ -514,7 +514,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {loginStore.login?.labList &&
                               loginStore.login?.labList.map(
                                 (item: any, index: number) => (
@@ -649,7 +649,7 @@ const TestMater = TestMasterHOC(
                                 });
                               }}
                             >
-                              <option selected>Select</option>
+                              <option>Select</option>
                               {testMasterStore.sectionListByDeptCode &&
                                 testMasterStore.sectionListByDeptCode.map(
                                   (item: any, index: number) => (
@@ -909,7 +909,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
                               (item: any, index: number) => (
                                 <option key={index} value={item}>
@@ -947,7 +947,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'PROCESSING',
@@ -1143,7 +1143,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {['LABID', 'SAMPLEID'].map(
                               (item: any, index: number) => (
                                 <option key={index} value={item}>
@@ -1181,7 +1181,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'WORKFLOW',
@@ -1243,7 +1243,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'DISEASE',
@@ -1278,7 +1278,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'CATEGORY',
@@ -1317,7 +1317,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'TEST_TYPE',
@@ -1357,7 +1357,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {['Workflow Code 1'].map(
                               (item: any, index: number) => (
                                 <option key={index} value={item}>
@@ -1417,7 +1417,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'PREFIX').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>
@@ -1465,7 +1465,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'SUFIX').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>
@@ -1731,7 +1731,7 @@ const TestMater = TestMasterHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'STATUS').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>

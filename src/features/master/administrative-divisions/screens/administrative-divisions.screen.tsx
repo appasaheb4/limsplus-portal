@@ -460,7 +460,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'SBU').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -494,7 +494,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'ZONE').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -531,7 +531,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>

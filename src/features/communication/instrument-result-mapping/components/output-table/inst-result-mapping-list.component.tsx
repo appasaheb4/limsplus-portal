@@ -150,7 +150,7 @@ export const InstResultMappingList = observer(
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {extraData?.pLabs?.map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
@@ -274,7 +274,7 @@ export const InstResultMappingList = observer(
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {extraData.instTypes?.map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}

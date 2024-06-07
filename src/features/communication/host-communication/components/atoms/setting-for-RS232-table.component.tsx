@@ -80,7 +80,7 @@ export const SettingForRS232Table = observer(() => {
                   });
                 }}
               >
-                <option selected>Select</option>
+                <option>Select</option>
                 {comPort.map((item: any) => (
                   <option key={item.title} value={item.title}>
                     {item.title}
@@ -113,7 +113,7 @@ export const SettingForRS232Table = observer(() => {
                   });
                 }}
               >
-                <option selected>Select</option>
+                <option>Select</option>
                 {baudRate.map((item: any) => (
                   <option key={item.title} value={item.title}>
                     {item.title}
@@ -144,7 +144,7 @@ export const SettingForRS232Table = observer(() => {
                   });
                 }}
               >
-                <option selected>Select</option>
+                <option>Select</option>
                 {dataBits.map((item: any) => (
                   <option key={item.title} value={item.title}>
                     {item.title}
@@ -175,7 +175,7 @@ export const SettingForRS232Table = observer(() => {
                   });
                 }}
               >
-                <option selected>Select</option>
+                <option>Select</option>
                 {stopBits.map((item: any) => (
                   <option key={item.title} value={item.title}>
                     {item.title}
@@ -207,7 +207,7 @@ export const SettingForRS232Table = observer(() => {
                   });
                 }}
               >
-                <option selected>Select</option>
+                <option>Select</option>
                 {parity.map((item: any) => (
                   <option key={item.title} value={item.title}>
                     {item.title}
@@ -239,7 +239,7 @@ export const SettingForRS232Table = observer(() => {
                   });
                 }}
               >
-                <option selected>Select</option>
+                <option>Select</option>
                 {flowControl.map((item: any) => (
                   <option key={item.title} value={item.title}>
                     {item.title}
@@ -271,7 +271,7 @@ export const SettingForRS232Table = observer(() => {
                   });
                 }}
               >
-                <option selected>Select</option>
+                <option>Select</option>
                 {protocol.map((item: any) => (
                   <option key={item.title} value={item.title}>
                     {item.title}

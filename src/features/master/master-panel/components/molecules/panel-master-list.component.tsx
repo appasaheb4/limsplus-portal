@@ -199,7 +199,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         props.onUpdateItem(rLab, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {props.extraData.labList &&
                       props.extraData.labList.map(
                         (item: any, index: number) => (
@@ -335,7 +335,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'SERVICE_TYPE',
@@ -652,7 +652,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(
                       (item: any, index: number) => (
                         <option key={index} value={item}>
@@ -762,7 +762,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'PROCESSING').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -828,7 +828,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         props.onUpdateItem(category, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'CATEGORY').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -879,7 +879,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'PANEL_TYPE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1120,7 +1120,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'SEX_ACTION').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1170,7 +1170,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         props.onUpdateItem(sex, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'SEX').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1223,7 +1223,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'AGE_ACTION').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1686,7 +1686,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -1984,7 +1984,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
               //           );
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(
               //         props.extraData.lookupItems,
               //         'ENVIRONMENT',

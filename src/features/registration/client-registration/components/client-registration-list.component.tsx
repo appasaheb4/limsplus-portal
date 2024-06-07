@@ -515,7 +515,7 @@ export const ClientRegistrationList = observer(
                         props.onUpdateFields({ status }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -687,7 +687,7 @@ export const ClientRegistrationList = observer(
               //           props.onUpdateItem(environment, column.dataField, row._id);
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
               //         (item: any, index: number) => (
               //           <option key={index} value={item.code}>

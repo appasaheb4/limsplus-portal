@@ -530,7 +530,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {loginStore.login?.labList &&
                               loginStore.login?.labList.map(
                                 (item: any, index: number) => (
@@ -711,7 +711,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'SERVICE_TYPE',
@@ -1026,7 +1026,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'VALIDATION_LEVEL',
@@ -1206,7 +1206,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'PROCESSING',
@@ -1270,7 +1270,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'CATEGORY',
@@ -1309,7 +1309,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'PANEL_TYPE',
@@ -1352,7 +1352,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'SEX_ACTION',
@@ -1389,7 +1389,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'SEX').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>
@@ -1431,7 +1431,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'AGE_ACTION',
@@ -1722,7 +1722,7 @@ const MasterPanel = MasterPanelHoc(
                     })
                   }}
                 >
-                  <option selected>Select</option>
+                 <option>Select</option>
                   {["Sample Type 1"].map((item: any, index: number) => (
                     <option key={index} value={item}>
                       {item}
@@ -1922,7 +1922,7 @@ const MasterPanel = MasterPanelHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'STATUS').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>

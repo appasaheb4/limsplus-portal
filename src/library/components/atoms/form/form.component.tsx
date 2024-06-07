@@ -87,6 +87,13 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
       e.preventDefault();
     }
   };
+
+  const handleChange = value => {
+    if (props.onChange) {
+      props.onChange(value);
+    }
+  };
+
   return (
     <InputWrapper
       label={props.label}
@@ -110,15 +117,15 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         autoComplete='given-name'
         maxLength={props.maxLength}
         value={props.value}
-        onChange={e => props.onChange && props.onChange(e.target.value)}
-        onKeyPress={e => handleKeyPress(e)}
+        onChange={e => handleChange(e.target.value)}
+        onKeyPress={handleKeyPress}
         className={`${
           props.className
-        } leading-4 p-2  dark:bg-boxdark  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
-          props.hasError ? 'border-red ' : 'border-gray-300'
-        } rounded-md `}
+        } leading-4 p-2 dark:bg-boxdark focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+          props.hasError ? 'border-red' : 'border-gray-300'
+        } rounded-md`}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}
-        onKeyDown={props.onKeyDown && props.onKeyDown}
+        onKeyDown={props.onKeyDown}
       />
     </InputWrapper>
   );
@@ -607,7 +614,7 @@ export const SelectOption = (props: SelectOptionProps) => (
       data-testid='SELECT'
       value={props.value}
     >
-      <option selected>Select</option>
+      <option>Select</option>
       {props.values?.map((item: any) => (
         <option key={item[props.key]} value={item[props.key]}>
           {item[props.key]}
@@ -794,6 +801,20 @@ interface ClockProps extends InputWrapperProps {
 export const Clock = (props: ClockProps) => {
   const [time, setTime] = useState(props.value || dayjs().format('hh:mm a'));
   const [showTime, setShowTime] = useState(false);
+
+  useEffect(() => {
+    if (props.value !== undefined) {
+      setTime(props.value);
+    }
+  }, [props.value]);
+
+  const handleChange = (newTime: string) => {
+    if (props.onChange) {
+      props.onChange(newTime);
+    }
+    setTime(newTime);
+  };
+
   return (
     <InputWrapper label={props.label} id={props.id}>
       <div>
@@ -802,9 +823,9 @@ export const Clock = (props: ClockProps) => {
             <ModalClock
               show={true}
               time={time}
-              onClick={time => {
-                props.onChange && props.onChange(time);
-                setTime(time);
+              onClick={newTime => {
+                handleChange(newTime);
+                setShowTime(false);
               }}
               onClose={() => {
                 setShowTime(false);
@@ -817,6 +838,7 @@ export const Clock = (props: ClockProps) => {
           value={time}
           className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
           onClick={() => setShowTime(true)}
+          readOnly
         />
       </div>
     </InputWrapper>

@@ -123,7 +123,7 @@ export const RefRangesInputTable = observer(
                       }, 1000);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(extraData.lookupItems, 'RANGE_TYPE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -167,7 +167,7 @@ export const RefRangesInputTable = observer(
                       }, 1000);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(extraData.lookupItems, 'VALIDATION_LEVEL').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -253,7 +253,7 @@ export const RefRangesInputTable = observer(
                         }
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(extraData.lookupItems, 'AGE_UNIT').map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
@@ -340,7 +340,7 @@ export const RefRangesInputTable = observer(
                         }
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(extraData.lookupItems, 'AGE_UNIT').map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>
@@ -589,7 +589,7 @@ export const RefRangesInputTable = observer(
                       }, 1000);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(extraData.lookupItems, 'SPECIES').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -625,7 +625,7 @@ export const RefRangesInputTable = observer(
                       }, 1000);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(extraData.lookupItems, 'SEX').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -675,7 +675,7 @@ export const RefRangesInputTable = observer(
                       }, 1000);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(extraData.lookupItems, 'RANGE_SET_ON').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -844,7 +844,7 @@ export const RefRangesInputTable = observer(
                         onUpdateItems({ intervalUnit }, row.rangeId);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(extraData.lookupItems, 'INTERVAL_UNIT').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -890,7 +890,7 @@ export const RefRangesInputTable = observer(
                       onUpdateItems && onUpdateItems({ colorLo }, row.rangeId);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       extraData.lookupItems,
                       `${row.rangeType}_LW_COLOR`,
@@ -937,7 +937,7 @@ export const RefRangesInputTable = observer(
                       onUpdateItems && onUpdateItems({ colorHi }, row.rangeId);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       extraData.lookupItems,
                       `${row.rangeType}_HI_COLOR`,
@@ -985,7 +985,7 @@ export const RefRangesInputTable = observer(
                         onUpdateItems({ colorNormal }, row.rangeId);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       extraData.lookupItems,
                       `${row.rangeType}_NO_COLOR`,
@@ -1036,7 +1036,7 @@ export const RefRangesInputTable = observer(
             //   //         }, 1000);
             //   //       }}
             //   //     >
-            //   //       <option selected>Select</option>
+            //   //      <option>Select</option>
             //   //       {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
             //   //         (item: any, index: number) => (
             //   //           <option key={index} value={item.code}>

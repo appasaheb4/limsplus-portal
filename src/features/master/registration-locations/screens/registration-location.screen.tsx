@@ -668,7 +668,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               }
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {loginStore.login?.labList?.map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>
@@ -860,7 +860,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               );
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'AC_CLASS',
@@ -901,7 +901,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               );
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'AC_TYPE',
@@ -942,7 +942,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               );
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'CUSTOMER_GROUP',
@@ -983,7 +983,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               );
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'METHOD_COLN',
@@ -1024,7 +1024,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               );
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'CATEGORY',
@@ -1482,7 +1482,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               );
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'REPORT_PRIORITY',
@@ -1888,7 +1888,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                               );
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'STATUS').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>

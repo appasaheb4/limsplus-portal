@@ -510,7 +510,7 @@ export const PatientManager = PatientManagerHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {[
                               { title: 'year', value: 'Y' },
                               { title: 'month', value: 'M' },
@@ -558,7 +558,7 @@ export const PatientManager = PatientManagerHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'PATIENT MANAGER - TITLE',
@@ -752,7 +752,7 @@ export const PatientManager = PatientManagerHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'PATIENT MANAGER - SEX',
@@ -818,7 +818,7 @@ export const PatientManager = PatientManagerHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'PATIENT MANAGER - SPECIES',
@@ -883,7 +883,7 @@ export const PatientManager = PatientManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {doctorsStore.listDoctors.map(
                             (item: any, index: number) => (
                               <option key={index} value={item.doctorCode}>
@@ -944,7 +944,7 @@ export const PatientManager = PatientManagerHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'PATIENT MANAGER - DISEASE',
@@ -1563,7 +1563,7 @@ export const PatientManager = PatientManagerHoc(
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT MANAGER - STATUS',

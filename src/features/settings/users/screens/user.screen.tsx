@@ -603,7 +603,7 @@ export const Users = UsersHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {loginStore.login.resCompany.module?.map(
                             (item: any, index: number) => (
                               <option key={index} value={item}>
@@ -701,7 +701,7 @@ export const Users = UsersHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'USER_GROUP',
@@ -1691,7 +1691,7 @@ export const Users = UsersHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'VALIDATION_LEVEL',
@@ -1868,7 +1868,7 @@ export const Users = UsersHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>

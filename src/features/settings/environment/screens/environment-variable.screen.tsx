@@ -206,7 +206,7 @@ export const EnvironmentVariable = observer(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'ENVIRONMENT_VARIABLES_CATEGORY',
@@ -289,7 +289,7 @@ export const EnvironmentVariable = observer(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'ENVIRONMENT VARIABLE - STATUS',

@@ -160,7 +160,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       props.onUpdateItem(title, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'TITLE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -264,7 +264,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       props.onUpdateItem(sex, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {['Male', 'Female'].map((item: any, index: number) => (
                     <option key={index} value={item}>
                       {`${item}`}
@@ -312,7 +312,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       props.onUpdateItem(doctorType, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'DOCTOR_TYPE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -359,7 +359,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       props.onUpdateItem(speciality, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'SPECIALITY').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -408,7 +408,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       props.onUpdateItem(category, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'CATEGORY').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -847,7 +847,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
                     'REPORT_PRIORITY',
@@ -985,7 +985,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       props.onUpdateItem(lab, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {props.extraData?.labList?.map((item: any, index: number) => (
                     <option key={index} value={item.code}>
                       {`${item.code} - ${item.name}`}
@@ -1418,7 +1418,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
                       props.onUpdateItem(status, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'STATUS')
                     .filter(item => item.code != 'D')
                     .map((item: any, index: number) => (
@@ -1512,7 +1512,7 @@ export const DoctorsList = (props: DoctorsListProps) => {
             //           );
             //       }}
             //     >
-            //       <option selected>Select</option>
+            //      <option>Select</option>
             //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
             //         (item: any, index: number) => (
             //           <option key={index} value={item.code}>

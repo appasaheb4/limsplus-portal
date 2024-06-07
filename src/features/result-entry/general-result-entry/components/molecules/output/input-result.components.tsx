@@ -145,7 +145,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
               });
           }}
         >
-          <option selected>Select</option>
+          <option>Select</option>
           {conclusionResult?.map((item: any, index: number) => (
             <option key={index} value={JSON.stringify(item)}>
               {`Result: ${item.result} ,
@@ -176,7 +176,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
               });
           }}
         >
-          <option selected>Select</option>
+          <option>Select</option>
           {libraryList?.map((item: any, index: number) => (
             <option key={index} value={JSON.stringify(item)}>
               {`${item.code} - ${item.description}`}

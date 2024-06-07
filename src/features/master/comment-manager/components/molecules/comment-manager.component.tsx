@@ -168,7 +168,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ lab }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {[{ code: 'Default' }]
                       .concat(props.extraData?.loginDetails?.labList)
                       ?.map((item: any, index: number) => (
@@ -252,7 +252,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ investigationType }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'INVESTIGATION_TYPE',
@@ -362,7 +362,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ species }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'SPECIES').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -409,7 +409,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ sex }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'SEX').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -493,7 +493,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ commentsType }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'COMMENTS_TYPE',
@@ -541,7 +541,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ commentsFor }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'COMMENTS_FOR',
@@ -633,7 +633,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ ageFromUnit }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'AGE_FROM_UNIT',
@@ -725,7 +725,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ ageToUnit }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'AGE_TO_UNIT',
@@ -914,7 +914,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
                         props.onUpdateItem({ status }, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -1134,7 +1134,7 @@ export const CommentManagerList = (props: CommentManagerListProps) => {
               //           props.onUpdateItem({ environment }, row._id);
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(
               //         props.extraData.lookupItems,
               //         'ENVIRONMENT',

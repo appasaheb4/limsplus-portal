@@ -182,7 +182,7 @@ export const ModalDateTime: React.FC<Props> = ({
                               }));
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'PATIENT VISIT - SEX',
@@ -300,7 +300,7 @@ export const ModalDateTime: React.FC<Props> = ({
                               }));
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {[
                               { title: 'year', value: 'Y' },
                               { title: 'month', value: 'M' },

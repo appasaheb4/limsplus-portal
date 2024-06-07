@@ -722,7 +722,7 @@ export const TableBootstrap = ({
                           clickToSelect: true,
                           clickToEdit: true,
                           nonSelectable: getNonSelectableRows,
-                          nonSelectableStyle: { backgroundColor: 'gray' },
+                          nonSelectableStyle: 'non-selectable-row',
                           onSelect: handleOnSelect,
                           onSelectAll: handleOnSelectAll,
                         }

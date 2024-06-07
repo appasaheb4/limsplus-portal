@@ -98,7 +98,7 @@ export const InterfaceManagerList = observer(
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'INTERFACE_TYPE',
@@ -243,7 +243,7 @@ export const InterfaceManagerList = observer(
                         props.onUpdateItem(protocol, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'PROTOCOL').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -396,7 +396,7 @@ export const InterfaceManagerList = observer(
                 <>
                   <div className='flex flex-row w-80 gap-2 items-center overflow-auto'>
                     {row.fileds?.map((item, index) => (
-                      <div className='mb-2'>
+                      <div className='mb-2' key={index}>
                         <Buttons.Button
                           key={index}
                           size='medium'
@@ -636,7 +636,7 @@ export const InterfaceManagerList = observer(
               //           );
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
               //         (item: any, index: number) => (
               //           <option key={index} value={item.code}>

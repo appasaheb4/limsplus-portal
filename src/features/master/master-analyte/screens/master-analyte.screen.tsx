@@ -790,7 +790,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'RANGE_SET_ON',
@@ -881,7 +881,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'RESULT_TYPE',
@@ -928,7 +928,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {['0', '1', '2', '3', '4'].map(
                               (item: any, index: number) => (
                                 <option key={index} value={item}>
@@ -1081,7 +1081,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'ANALYTE_TYPE',
@@ -1118,7 +1118,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'UNITS').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>
@@ -1154,7 +1154,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'USAGE').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>
@@ -1718,7 +1718,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'STATUS').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>

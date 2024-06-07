@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
-import {stores} from '@/stores';
+import React, { useState } from 'react';
+import { stores } from '@/stores';
 interface DepartmentListProps {
   row: any;
   onUpdate: (value: string) => void;
 }
 
-export const DepartmentList = ({row, onUpdate}: DepartmentListProps) => {
+export const DepartmentList = ({ row, onUpdate }: DepartmentListProps) => {
   const [departmentList, setDepartmentList] = useState([]);
   return (
     <div>
@@ -13,7 +13,7 @@ export const DepartmentList = ({row, onUpdate}: DepartmentListProps) => {
         value={row.department}
         onClick={() => {
           stores.departmentStore.DepartmentService.findByFields({
-            input: {filter: {lab: row?.lab}},
+            input: { filter: { lab: row?.lab } },
           }).then(res => {
             if (res.findByFieldsDepartments.success) {
               setDepartmentList(res.findByFieldsDepartments?.data);
@@ -26,8 +26,8 @@ export const DepartmentList = ({row, onUpdate}: DepartmentListProps) => {
           onUpdate(department);
         }}
       >
-        <option selected>Select</option>
-        {[{name: '', code: 'Default'}]
+        <option>Select</option>
+        {[{ name: '', code: 'Default' }]
           .concat(departmentList)
           ?.map((item: any, index: number) => (
             <option key={index} value={item.code}>

@@ -390,7 +390,7 @@ export const TablePackagesList = observer(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       routerStore.lookupItems,
                       'PATIENT ORDER - ORDER_STATUS',
@@ -419,7 +419,7 @@ export const TablePackagesList = observer(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       routerStore.lookupItems,
                       'PATIENT ORDER - STATUS',
@@ -642,7 +642,7 @@ export const TablePackagesList = observer(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       routerStore.lookupItems,
                       'PATIENT ORDER - ORDER_STATUS',
@@ -671,7 +671,7 @@ export const TablePackagesList = observer(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       routerStore.lookupItems,
                       'PATIENT ORDER - STATUS',
@@ -891,7 +891,7 @@ export const TablePackagesList = observer(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       routerStore.lookupItems,
                       'PATIENT ORDER - ORDER_STATUS',
@@ -920,7 +920,7 @@ export const TablePackagesList = observer(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       routerStore?.lookupItems,
                       'PATIENT ORDER - STATUS',
@@ -1136,7 +1136,7 @@ export const TablePackagesList = observer(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       routerStore.lookupItems,
                       'PATIENT ORDER - ORDER_STATUS',

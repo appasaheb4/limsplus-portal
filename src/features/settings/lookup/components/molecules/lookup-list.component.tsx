@@ -346,7 +346,7 @@ export const LookupList = (props: LookupListProps) => {
                       props.onUpdateItem(defaultItem, 'defaultItem', row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   <option value='removeItem'>Remove Item</option>
                   {row.arrValue.map((item: any, index: number) => (
                     <option key={item.name} value={JSON.stringify(item)}>
@@ -397,7 +397,7 @@ export const LookupList = (props: LookupListProps) => {
                       props.onUpdateItem(status, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'STATUS')
                     .filter(item => item.code != 'D')
                     .map((item: any, index: number) => (
@@ -465,7 +465,7 @@ export const LookupList = (props: LookupListProps) => {
             //           );
             //       }}
             //     >
-            //       <option selected>Select</option>
+            //      <option>Select</option>
             //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
             //         (item: any, index: number) => (
             //           <option key={index} value={item.code}>

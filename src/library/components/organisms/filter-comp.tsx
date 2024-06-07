@@ -77,7 +77,7 @@ export const NumberFilter = props => {
               filter(number, comp);
             }}
           >
-            <option selected>Select</option>
+            <option>Select</option>
             {comparatorList.map((item: any) => (
               <option key={item.value} value={item.value}>
                 {item.value}
@@ -185,7 +185,7 @@ export const DateFilter = props => {
                 props.onStatus && props.onStatus(status);
               }}
             >
-              <option selected>{'Select'}</option>
+              <option>{'Select'}</option>
               {['Active'].map((item, index) => (
                 <option key={index} value={item}>
                   {item}
@@ -205,7 +205,7 @@ export const DateFilter = props => {
               filter(startDate, endDate, comp, diffFlag);
             }}
           >
-            <option selected>Select</option>
+            <option>Select</option>
             {comparatorList.map((item: any) => (
               <option key={item.value} value={item.value}>
                 {item.value}

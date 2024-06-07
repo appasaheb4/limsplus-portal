@@ -451,7 +451,7 @@ export const Login = observer(() => {
                               style={{ color: 'black' }}
                             >
                               <select
-                                defaultValue={value}
+                                value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.lab ? 'border-red' : 'border-gray-300'
                                 } rounded-md cursor-pointer`}
@@ -464,7 +464,7 @@ export const Login = observer(() => {
                                   });
                                 }}
                               >
-                                <option value=''>
+                                <option>
                                   {labRoleList?.labList ? 'Select' : value}
                                 </option>
                                 {labRoleList?.labList?.map((item: any) => (
@@ -489,7 +489,7 @@ export const Login = observer(() => {
                               style={{ color: 'black' }}
                             >
                               <select
-                                defaultValue={loginStore.inputLogin?.role}
+                                value={loginStore.inputLogin?.role}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.role ? 'border-red' : 'border-gray-300'
                                 } rounded-md cursor-pointer`}
@@ -502,7 +502,7 @@ export const Login = observer(() => {
                                   });
                                 }}
                               >
-                                <option value=''>Select</option>
+                                <option>Select</option>
                                 {labRoleList.roleList.map((item: any) => (
                                   <option key={item.code} value={item.code}>
                                     {item.description}

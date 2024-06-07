@@ -619,7 +619,7 @@ const CommentManager = CommentManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {[{ code: 'Default' }]
                             .concat(loginStore?.login?.labList)
                             ?.map((item: any, index: number) => (
@@ -691,7 +691,7 @@ const CommentManager = CommentManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {[{ name: '', code: 'Default' }]
                             .concat(departmentList)
                             ?.map((item: any, index: number) => (
@@ -765,7 +765,7 @@ const CommentManager = CommentManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'INVESTIGATION_TYPE',
@@ -922,7 +922,7 @@ const CommentManager = CommentManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'SPECIES').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -989,7 +989,7 @@ const CommentManager = CommentManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'SEX').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -1116,7 +1116,7 @@ const CommentManager = CommentManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'COMMENTS_TYPE',
@@ -1187,7 +1187,7 @@ const CommentManager = CommentManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {commentForValueRender()}
                         </select>
                       </Form.InputWrapper>
@@ -1250,7 +1250,7 @@ const CommentManager = CommentManagerHoc(
                                         );
                                       }}
                                     >
-                                      <option selected>Select</option>
+                                      <option>Select</option>
                                       {lookupItems(
                                         routerStore.lookupItems,
                                         'AGE_FROM_UNIT',
@@ -1310,7 +1310,7 @@ const CommentManager = CommentManagerHoc(
                                         );
                                       }}
                                     >
-                                      <option selected>Select</option>
+                                      <option>Select</option>
                                       {lookupItems(
                                         routerStore.lookupItems,
                                         'AGE_TO_UNIT',
@@ -1511,7 +1511,7 @@ const CommentManager = CommentManagerHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>

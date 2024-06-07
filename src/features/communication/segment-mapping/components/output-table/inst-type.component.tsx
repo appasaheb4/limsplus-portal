@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 
 interface InstTypeListProps {
   type: string;
@@ -9,8 +9,8 @@ interface InstTypeListProps {
 }
 
 export const InstTypeList = observer(
-  ({type, dataFlow, onSelect}: InstTypeListProps) => {
-    const {interfaceManagerStore} = useStores();
+  ({ type, dataFlow, onSelect }: InstTypeListProps) => {
+    const { interfaceManagerStore } = useStores();
     const [arrInstType, setArrInstType] = useState([]);
 
     useEffect(() => {
@@ -24,7 +24,7 @@ export const InstTypeList = observer(
         })
         .then(res => {
           if (res.findByFieldsInterfaceManager.success) {
-            console.log({data: res.findByFieldsInterfaceManager.data});
+            console.log({ data: res.findByFieldsInterfaceManager.data });
 
             setArrInstType(res.findByFieldsInterfaceManager.data);
           }
@@ -43,7 +43,7 @@ export const InstTypeList = observer(
               onSelect(instType);
             }}
           >
-            <option selected>Select</option>
+            <option>Select</option>
             {arrInstType?.map((item: any, index: number) => (
               <option key={item.instrumentType} value={item.instrumentType}>
                 {item.instrumentType}
@@ -59,7 +59,7 @@ export const InstTypeList = observer(
               onSelect(protocol);
             }}
           >
-            <option selected>Select</option>
+            <option>Select</option>
             {arrInstType.map((item: any, index: number) => (
               <option key={item.protocol} value={item.protocol}>
                 {item.protocol}

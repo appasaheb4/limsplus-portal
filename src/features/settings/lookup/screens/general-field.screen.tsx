@@ -284,7 +284,7 @@ export const GeneralField = GeneralFieldHoc(
                       });
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupStore.globalSettings &&
                       lookupStore.globalSettings.arrValue &&
                       lookupStore.globalSettings.arrValue.map(

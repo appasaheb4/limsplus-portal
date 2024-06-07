@@ -149,9 +149,7 @@ export const PriceListTable = observer(
                             );
                           }}
                         >
-                          <option selected>
-                            {item.priceGroup || 'Select'}
-                          </option>
+                          <option>{item.priceGroup || 'Select'}</option>
                           {priceGroupItems?.map((item: any, index: number) => (
                             <option key={index} value={item.code}>
                               {lookupValue(item)}
@@ -206,7 +204,7 @@ export const PriceListTable = observer(
                             );
                           }}
                         >
-                          <option selected>{item.priceList || 'Select'}</option>
+                          <option>{item.priceList || 'Select'}</option>
                           {getPriceList(priceListItems, item?.priceGroup)?.map(
                             (item: any, index: number) => (
                               <option key={index} value={JSON.stringify(item)}>

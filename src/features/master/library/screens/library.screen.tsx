@@ -412,7 +412,7 @@ export const Library = LibraryHoc(
               />
 
               <div className='flex flex-row gap-4 w-[483px]'>
-                <Tooltip key={'top'} tooltipText={'Details'}>
+                <Tooltip tooltipText={'Details'}>
                   <FaWordpressSimple
                     size={'40'}
                     onClick={() => {
@@ -422,7 +422,7 @@ export const Library = LibraryHoc(
                     }}
                   />
                 </Tooltip>
-                <Tooltip key={'top'} tooltipText={'Editable'}>
+                <Tooltip tooltipText={'Editable'}>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -541,7 +541,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {[{ code: 'Default' }]
                             .concat(loginStore?.login?.labList)
                             ?.map((item: any, index: number) => (
@@ -581,7 +581,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {[{ name: '', code: 'Default' }]
                             .concat(departmentList)
                             ?.map((item: any, index: number) => (
@@ -621,7 +621,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'POSITION').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -660,7 +660,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'GROUPS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -700,7 +700,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'LIBRARY_TYPE')
                             ?.filter(item =>
                               item.code?.match(libraryStore.library.groups),
@@ -741,7 +741,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'PARAMETER',
@@ -779,7 +779,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
