@@ -59,11 +59,11 @@ let worklistCode;
 let cptCode;
 let prefix;
 let sufix;
-let collectionContainer;
-let holdingDays;
 let internalComments;
 let externalComments;
 let testRightMarker;
+let collectionContainer;
+let holdingDays;
 let status;
 let environment;
 let interpretation;
@@ -109,7 +109,6 @@ export const TestMasterList = (props: TestMasterProps) => {
   const todayDate = new Date();
   const nextDay = new Date();
   nextDay.setDate(todayDate.getDate() + 1);
-
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
@@ -264,7 +263,8 @@ export const TestMasterList = (props: TestMasterProps) => {
                   department = filter;
                 },
               }),
-              editable: false,
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
               editorRenderer: (
                 editorProps,
                 value,
@@ -278,10 +278,14 @@ export const TestMasterList = (props: TestMasterProps) => {
                     lab={row.pLab}
                     posstion='relative'
                     onSelect={item => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          item?.code,
-                          column.dataField,
+                      props.onUpdateFileds &&
+                        props.onUpdateFileds(
+                          {
+                            department: item?.code,
+                            departmentName: item?.name,
+                            departmentReportOrder: item?.reportOrder,
+                            departmentHOD: item?.authorizedSignatory,
+                          },
                           row._id,
                         );
                     }}

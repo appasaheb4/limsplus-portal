@@ -69,6 +69,8 @@ export class PatientVisit {
     employeeCode: string;
     environment: string;
   };
+  mobileNo: string;
+  email: string;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -114,6 +116,8 @@ export class PatientVisit {
     this.specificFormat = rawData.specificFormat;
     this.status = rawData.status;
     this.extraData = rawData.extraData;
+    this.mobileNo = rawData.mobileNo;
+    this.email = rawData.email;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

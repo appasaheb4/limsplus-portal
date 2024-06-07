@@ -302,6 +302,10 @@ export const PatientManager = PatientManagerHoc(
                           patientManagerStore.updatePatientManager({
                             ...patientManagerStore.patientManger,
                             mobileNo,
+                            extraData: {
+                              ...patientManagerStore.patientManger?.extraData,
+                              whatsappNumber: mobileNo,
+                            },
                           });
                         }}
                         onBlur={mobileNo => {

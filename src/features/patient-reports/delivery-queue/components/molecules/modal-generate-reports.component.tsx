@@ -23,6 +23,7 @@ interface ModalGenerateReportsProps {
   show?: boolean;
   title?: string;
   data?: any;
+  extraDetails?: any;
   templateDetails?: any;
   onClick: (data: any, item: any, index: number) => void;
   onClose: () => void;
@@ -32,6 +33,7 @@ interface ModalGenerateReportsProps {
 export const ModalGenerateReports = ({
   show = false,
   data,
+  extraDetails,
   templateDetails,
   onClose,
   onReceiptUpload,
@@ -334,7 +336,7 @@ export const ModalGenerateReports = ({
                     </span>
                   </button>
                 </div>
-                <div className='relative p-2 flex-auto'>
+                <div className='relative p-2 grid grid-cols-2 flex-auto'>
                   <div className='flex flex-row items-center justify-center gap-2'>
                     {data && (
                       <div className='flex flex-col gap-3'>
@@ -401,6 +403,30 @@ export const ModalGenerateReports = ({
                         </div>
                       </div>
                     )}
+                  </div>
+                  <div className='flex flex-col'>
+                    <span>Share Report</span>
+                    <div className='flex flex-row flex-wrap gap-1'>
+                      {extraDetails?.deliveryMode?.map((item, index) => (
+                        <span
+                          key={index}
+                          className='bg-gray-600 rounded-md p-2 text-white'
+                        >
+                          {item.code}
+                        </span>
+                      ))}
+                    </div>
+                    <button
+                      className='bg-blue-800 font-bold p-2 text-white rounded-md w-fit self-center'
+                      type='button'
+                      style={{ transition: 'all .15s ease' }}
+                      onClick={() => {
+                        setShowModal(false);
+                        onClose && onClose();
+                      }}
+                    >
+                      Share Link
+                    </button>
                   </div>
                 </div>
                 <div className='flex items-center  p-3 border-t border-solid border-gray-300 rounded-b justify-between'>

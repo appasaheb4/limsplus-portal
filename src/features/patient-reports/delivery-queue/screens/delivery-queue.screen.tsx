@@ -493,6 +493,9 @@ const DeliveryQueue = observer(() => {
                           data: grouped,
                           templateDetails:
                             res.getTempPatientResultListByTempCodes.list,
+                          extraDetails: {
+                            deliveryMode: item?.deliveryMode,
+                          },
                         });
                       }
                     });

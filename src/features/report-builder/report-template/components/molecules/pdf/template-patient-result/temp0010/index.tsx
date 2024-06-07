@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Page, StyleSheet, Font, Document } from '@react-pdf/renderer';
 import _ from 'lodash';
 import { PdfPageNumber, PdfView, PdfFooterView, PdfImage } from '@components';
@@ -76,6 +76,8 @@ export const PdfTemp0010 = ({
   children,
 }: PdfTemp0010Props) => {
   const { patientReports } = data;
+  const regex = /style=(.*)font-family[^;]+;/g;
+  const subst = '';
   const userInfo: Array<any> = [];
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
@@ -85,6 +87,7 @@ export const PdfTemp0010 = ({
       boxCSS.current = styles.page;
     }
   }
+
   const html = content => `
   <html>
     <body>
@@ -130,11 +133,6 @@ export const PdfTemp0010 = ({
       fontSize: '8px',
     },
   };
-
-  // console.log({
-  //   data,
-  //   details: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
-  // });
 
   const getPatientResultList = data => {
     if (data?.length > 0) {
@@ -289,6 +287,11 @@ export const PdfTemp0010 = ({
     return _.uniqBy(userInfo, 'userId' as any);
   };
 
+  // console.log({
+  //   data,
+  //   details: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+  // });
+
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
@@ -296,10 +299,10 @@ export const PdfTemp0010 = ({
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
-        <PdfView mh={0} p={0}>
+        <PdfView mh={10} p={0}>
           {patientReports?.patientResultList?.map((item, index) => (
             <Html stylesheet={stylesheet} key={index}>
-              {html(JSON.parse(item.result).result)}
+              {html(JSON.parse(item.result).result.replace(regex, subst))}
             </Html>
           ))}
           {/*  user signature */}
@@ -346,7 +349,7 @@ export const PdfTemp0010 = ({
           style={{ textAlign: 'center', right: '45%' }}
           bottom={100}
         /> */}
-        <PdfFooterView fixed bg='transparent' height={100} p={0}>
+        <PdfFooterView fixed bg='transparent' height={88} p={0}>
           {isWithHeader && <Footer />}
         </PdfFooterView>
       </Page>

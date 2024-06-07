@@ -375,6 +375,7 @@ export const PatientVisit = PatientVisitHoc(
                   patientManagerStore.listPatientManger?.length == 1
                 ) {
                   const item = patientManagerStore.listPatientManger[0];
+                  console.log({ item });
                   const age =
                     getAgeByAgeObject(getDiffByDate(item.birthDate)).age || 0;
                   const ageUnits = getAgeByAgeObject(
@@ -400,6 +401,8 @@ export const PatientVisit = PatientVisitHoc(
                     age,
                     ageUnits,
                     sex: item?.sex,
+                    mobileNo: item?.extraData?.whatsappNumber,
+                    email: item?.extraData?.email,
                   });
                 }
               }}
@@ -501,6 +504,8 @@ export const PatientVisit = PatientVisitHoc(
                           patientRegistrationStore.defaultValues.isPVPIdLock
                         }
                         onSelect={item => {
+                          console.log({ item });
+
                           onChange(item.pId);
                           const age =
                             getAgeByAgeObject(getDiffByDate(item.birthDate))
@@ -523,6 +528,8 @@ export const PatientVisit = PatientVisitHoc(
                             ageUnits,
                             sex: item?.sex,
                             labId: item.labId,
+                            mobileNo: item?.extraData?.whatsappNumber,
+                            email: item?.extraData?.email,
                           });
                         }}
                       />
