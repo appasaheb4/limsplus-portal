@@ -118,6 +118,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
                                           key={indexPermission}
                                         >
                                           <input
+                                            onChange={() => {}}
                                             type='checkbox'
                                             checked={permission?.checked}
                                             className='m-2'

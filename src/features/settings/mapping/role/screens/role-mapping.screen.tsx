@@ -401,7 +401,7 @@ const RoleMapping = observer(() => {
                                 <>
                                   <input
                                     type='text'
-                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block shadow-sm sm:text-base border border-gray-300 rounded-sm'
                                     value={item.title}
                                     onChange={e => {
                                       const title = e.target.value;
@@ -417,7 +417,7 @@ const RoleMapping = observer(() => {
                                   />
                                   <input
                                     type='text'
-                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block shadow-sm sm:text-base border border-gray-300 rounded-sm'
                                     value={item.icon}
                                     onChange={e => {
                                       const icon = e.target.value;
@@ -445,17 +445,19 @@ const RoleMapping = observer(() => {
                                   <input
                                     type='checkbox'
                                     checked={item?.checked}
+                                    onChange={() => {}} // Add an empty onChange handler
                                     className='m-2 w-4 h-4'
                                     onClick={() => {
                                       if (
                                         commonAction?.filter(
                                           comA => comA?.checked === false,
-                                        )?.length == 4
-                                      )
+                                        )?.length === 4
+                                      ) {
                                         return Toast.error({
                                           message:
                                             '😌 Please select first common action.',
                                         });
+                                      }
                                       const router = [...routerStore.router];
                                       const flag = !item?.checked;
                                       router[index].checked = flag;
@@ -469,7 +471,7 @@ const RoleMapping = observer(() => {
                                               const perFlag = flag
                                                 ? commonAction.find(
                                                     coma =>
-                                                      coma.title == chp?.title,
+                                                      coma.title === chp?.title,
                                                   )?.checked
                                                 : flag;
                                               return {
@@ -626,6 +628,7 @@ const RoleMapping = observer(() => {
                                                         checked={
                                                           children?.checked
                                                         }
+                                                        onChange={() => {}} // Add an empty onChange handler
                                                         className='m-2 w-4 h-4'
                                                         onClick={() => {
                                                           if (
@@ -803,6 +806,7 @@ const RoleMapping = observer(() => {
                                                             checked={
                                                               permission.checked
                                                             }
+                                                            onChange={() => {}} // Add an empty onChange handler
                                                             className='m-2 w-4 h-4'
                                                             onClick={() => {
                                                               const flag =

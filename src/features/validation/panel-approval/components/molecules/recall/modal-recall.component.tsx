@@ -77,8 +77,12 @@ export const ModalRecall = observer(
                     <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
                       <thead className='text-xs text-white uppercase '>
                         <tr>
-                          {arrRows.map((item: any) => (
-                            <th scope='col' className='p-2'>
+                          {arrRows.map((item: any, index: number) => (
+                            <th
+                              scope='col'
+                              className='p-2'
+                              key={`header-${index}`}
+                            >
                               {item?.title}
                             </th>
                           ))}
@@ -86,18 +90,15 @@ export const ModalRecall = observer(
                       </thead>
                       <tbody>
                         {data?.map(item => (
-                          <>
+                          <React.Fragment key={item.id}>
                             <tr
                               className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-                              key={item.id}
+                              key={`row-${item.id}`}
                             >
                               {arrRows.map((thI, i) => (
-                                <>
+                                <React.Fragment key={`cell-${item.id}-${i}`}>
                                   {thI?.dataField === 'action' ? (
-                                    <td
-                                      className='flex p-2  items-center justify-center'
-                                      key={i}
-                                    >
+                                    <td className='flex p-2 items-center justify-center'>
                                       <Icons.RIcon
                                         nameIcon='FaRecycle'
                                         onClick={() => {
@@ -108,7 +109,7 @@ export const ModalRecall = observer(
                                       />
                                       <Tooltip
                                         tooltipText={
-                                          selectedRowId == item._id
+                                          selectedRowId === item._id
                                             ? 'Collapse'
                                             : 'Expand'
                                         }
@@ -118,7 +119,7 @@ export const ModalRecall = observer(
                                           size='20'
                                           onClick={() => {
                                             setSelectedRowId(
-                                              selectedRowId == item._id
+                                              selectedRowId === item._id
                                                 ? ''
                                                 : item._id,
                                             );
@@ -133,21 +134,20 @@ export const ModalRecall = observer(
                                       </Tooltip>
                                     </td>
                                   ) : thI?.dataField === 'approvalDate' ? (
-                                    <td className='p-2' key={i}>
+                                    <td className='p-2'>
                                       {dayjs(item[thI?.dataField]).format(
                                         'DD-MM-YYYY HH:mm:ss',
                                       )}
                                     </td>
                                   ) : (
-                                    <td className='p-2' key={i}>
-                                      {/* Render other fields */}
+                                    <td className='p-2'>
                                       {item[thI?.dataField]}
                                     </td>
                                   )}
-                                </>
+                                </React.Fragment>
                               ))}
                             </tr>
-                            {selectedRowId == item._id && (
+                            {selectedRowId === item._id && (
                               <tr key={`${item._id}-details`}>
                                 <td colSpan={arrRows.length}>
                                   <div>
@@ -158,7 +158,7 @@ export const ModalRecall = observer(
                                 </td>
                               </tr>
                             )}
-                          </>
+                          </React.Fragment>
                         ))}
                       </tbody>
                     </table>

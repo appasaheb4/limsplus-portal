@@ -210,12 +210,10 @@ export const LookupList = (props: LookupListProps) => {
                     <tbody className='text-xs'>
                       {row?.arrValue?.map((item, index) => {
                         return (
-                          <>
-                            <tr key={index}>
-                              <td>{lookupCodeValue(item)}</td>
-                              <td>{lookupValue(item)}</td>
-                            </tr>
-                          </>
+                          <tr key={index}>
+                            <td>{lookupCodeValue(item)}</td>
+                            <td>{lookupValue(item)}</td>
+                          </tr>
                         );
                       })}
                     </tbody>
@@ -298,8 +296,8 @@ export const LookupList = (props: LookupListProps) => {
               <>
                 <List space={2} direction='row' justify='center'>
                   {row.defaultItem &&
-                    row.defaultItem.map(item => (
-                      <div className='mb-2'>
+                    row.defaultItem.map((item, index) => (
+                      <div className='mb-2' key={index}>
                         <Buttons.Button
                           size='medium'
                           type='solid'

@@ -173,24 +173,25 @@ const ShortcutMenu = observer(() => {
         <ul className='grid sm:grid-cols-1 md:grid-cols-6 xl:grid-cols-6 p-2'>
           {shortcutMenuStore.shortcutMenuList &&
             shortcutMenuStore.shortcutMenuList?.map((item, index) => (
-              <>
-                <div className='flex items-center bg-gray-500  p-2 m-2 rounded-md '>
-                  <input
-                    type='checkbox'
-                    className='mr-2'
-                    name={item.name}
-                    value={item.name}
-                    checked={item.selected}
-                    onChange={() => onItemSelect(item, index)}
-                  />
+              <div
+                className='flex items-center bg-gray-500  p-2 m-2 rounded-md '
+                key={index}
+              >
+                <input
+                  type='checkbox'
+                  className='mr-2'
+                  name={item.name}
+                  value={item.name}
+                  checked={item.selected}
+                  onChange={() => onItemSelect(item, index)}
+                />
 
-                  <Icons.RIcon
-                    nameIcon={item.icon || 'VscListSelection'}
-                    propsIcon={{ color: '#ffffff', size: 18 }}
-                  />
-                  <li className='m-2 text-white'>{item.title}</li>
-                </div>
-              </>
+                <Icons.RIcon
+                  nameIcon={item.icon || 'VscListSelection'}
+                  propsIcon={{ color: '#ffffff', size: 18 }}
+                />
+                <li className='m-2 text-white'>{item.title}</li>
+              </div>
             ))}
         </ul>
         <br />

@@ -1425,7 +1425,7 @@ const Company = CompanyHoc(
                             });
                           }}
                         >
-                          <option selected>{value || 'Select'}</option>
+                          <option>{value || 'Select'}</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'SUPPORT_PLAN',

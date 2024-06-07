@@ -413,13 +413,14 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                           propsIcon={{ size: 20, color: '#ffffff' }}
                         />
                       </DropdownToggle>
-                      <DropdownMenu right>
+                      <DropdownMenu end>
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                           .filter(
                             item => item > loginStore.login.validationLevel,
                           )
                           .map((item: any, index: number) => (
                             <DropdownItem
+                              key={index}
                               onClick={() => {
                                 props.onUpdateFields &&
                                   props.onUpdateFields(
