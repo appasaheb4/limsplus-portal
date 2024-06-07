@@ -610,6 +610,10 @@ export const TableBootstrap = ({
       };
   };
 
+  const nonSelectableStyle = (row, rowIndex) => {
+    return { backgroundColor: 'gray' };
+  };
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
@@ -722,7 +726,7 @@ export const TableBootstrap = ({
                           clickToSelect: true,
                           clickToEdit: true,
                           nonSelectable: getNonSelectableRows,
-                          nonSelectableStyle: 'non-selectable-row',
+                          nonSelectableStyle: nonSelectableStyle,
                           onSelect: handleOnSelect,
                           onSelectAll: handleOnSelectAll,
                         }

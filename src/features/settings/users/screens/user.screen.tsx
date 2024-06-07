@@ -1923,7 +1923,7 @@ export const Users = UsersHoc(
                             });
                           }}
                         >
-                          <option selected> Select</option>
+                          <option> Select</option>
                           {loginStore.login.resCompany.environment?.map(
                             (item: any, index: number) => (
                               <option key={index} value={item}>
