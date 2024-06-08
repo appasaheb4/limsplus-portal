@@ -3,21 +3,23 @@ import _ from 'lodash';
 import { Container } from 'reactstrap';
 import { observer } from 'mobx-react';
 import { Form, Buttons, Icons, Svg } from '@/library/components';
-import { toJS } from 'mobx';
-interface ModalLookupValuesModifyProps {
+
+interface ModalReportToMobilesModifyProps {
   show?: boolean;
   arrValues?: any;
-  defaultItems?: any;
   id?: string;
   onClick: (arrValues: any, id: string) => void;
   onClose: () => void;
 }
 
-export const ModalLookupValuesModify = observer(
-  (props: ModalLookupValuesModifyProps) => {
+export const ModalReportToMobilesModify = observer(
+  (props: ModalReportToMobilesModifyProps) => {
     const [showModal, setShowModal] = React.useState(props.show);
     const [values, setValues] = useState<any>({});
-    const [localInput, setLocalInput] = useState<any>({ flagUpperCase: true });
+    const [localInput, setLocalInput] = useState<any>({
+      name: '',
+      mobileNo: '',
+    });
 
     useEffect(() => {
       setShowModal(props.show);
@@ -25,32 +27,23 @@ export const ModalLookupValuesModify = observer(
         arrValues: props.arrValues?.map(item => {
           return { ...item, __typename: undefined };
         }),
-        defaultItems: props.defaultItems?.map(item => {
-          return { ...item, flagUpperCase: undefined, __typename: undefined };
-        }),
       });
     }, [props]);
 
     const handleAddLookup = () => {
-      const { code, value, flagUpperCase } = localInput;
+      const { name, mobileNo } = localInput;
       // Check if any of the input fields are empty
-      if (!code || !value) {
-        alert('Please fill in both value and code.');
+      if (!name || !mobileNo) {
+        alert('Please fill in both value.');
         return;
       }
 
       // Add the new department to the array
-      let updatedArrValues = [
-        ...(values.arrValues || []),
-        { code, value, flagUpperCase },
-      ];
-      updatedArrValues = updatedArrValues.map(
-        ({ code, value, flagUpperCase }) => ({
-          code,
-          value,
-          flagUpperCase,
-        }),
-      );
+      let updatedArrValues = [...(values.arrValues || []), { name, mobileNo }];
+      updatedArrValues = updatedArrValues.map(({ name, mobileNo }) => ({
+        name,
+        mobileNo,
+      }));
 
       setValues({
         ...values,
@@ -59,9 +52,8 @@ export const ModalLookupValuesModify = observer(
 
       // Clear the input fields
       setLocalInput({
-        value: '',
-        code: '',
-        flagUpperCase: false,
+        name: '',
+        mobileNo: '',
       });
     };
 
@@ -78,7 +70,7 @@ export const ModalLookupValuesModify = observer(
                   <div className='flex  flex-col  justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                     <div className='flex'>
                       <h4 className='font-semibold text-lg'>
-                        Update Lookup Values
+                        Update Report To Mobiles
                       </h4>
                     </div>
                   </div>
@@ -87,34 +79,22 @@ export const ModalLookupValuesModify = observer(
                   <div className='relative ml-24 mr-24 p-2 flex-auto'>
                     <div className='flex flex-row gap-4'>
                       <Form.Input
-                        placeholder='Code'
-                        value={localInput?.code}
-                        onChange={code => {
+                        placeholder='Name'
+                        value={localInput?.name}
+                        onChange={name => {
                           setLocalInput({
                             ...localInput,
-                            code: localInput?.flagUpperCase
-                              ? code?.toUpperCase()
-                              : code,
+                            name,
                           });
                         }}
                       />
                       <Form.Input
-                        placeholder='Value'
-                        value={localInput?.value}
-                        onChange={value => {
+                        placeholder='Mobile Number'
+                        value={localInput?.mobileNo}
+                        onChange={mobileNo => {
                           setLocalInput({
                             ...localInput,
-                            value,
-                          });
-                        }}
-                      />
-                      <Form.Toggle
-                        label='Enable Upper Case'
-                        value={localInput?.flagUpperCase}
-                        onChange={flagUpperCase => {
-                          setLocalInput({
-                            ...localInput,
-                            flagUpperCase,
+                            mobileNo,
                           });
                         }}
                       />
@@ -130,7 +110,7 @@ export const ModalLookupValuesModify = observer(
                       </div>
                       <div className='clearfix'></div>
                     </div>
-                    <div className='flex flex-row gap-2 flex-wrap'>
+                    <div className='flex flex-row gap-2 mt-2 flex-wrap'>
                       {values?.arrValues?.map((item, index) => (
                         <div className='mb-2' key={index}>
                           <Buttons.Button
@@ -152,54 +132,10 @@ export const ModalLookupValuesModify = observer(
                               });
                             }}
                           >
-                            {`${item.value} - ${item.code}  `}
-                            <Form.Toggle
-                              value={item.flagUpperCase}
-                              disabled={true}
-                            />
+                            {`${item.name} - ${item.mobileNo}  `}
                           </Buttons.Button>
                         </div>
                       ))}
-                    </div>
-                    <div>
-                      <Form.InputWrapper label='Default Item'>
-                        <select
-                          className={
-                            'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
-                          }
-                          onChange={e => {
-                            if (e.target.value === 'removeItem') {
-                              setValues({
-                                ...values,
-                                defaultItems: [],
-                              });
-                            }
-                            let defaultItems = JSON.parse(e.target.value);
-                            defaultItems = [
-                              {
-                                code: defaultItems.code,
-                                value: defaultItems.value,
-                              },
-                            ];
-                            setValues({
-                              ...values,
-                              defaultItems,
-                            });
-                          }}
-                        >
-                          <option selected>Select</option>
-                          {values?.arrValues?.map(
-                            (item: any, index: number) => (
-                              <option
-                                key={item.name}
-                                value={JSON.stringify(item)}
-                              >
-                                {`${item.value} - ${item.code}`}
-                              </option>
-                            ),
-                          )}
-                        </select>
-                      </Form.InputWrapper>
                     </div>
                   </div>
                   {/*footer*/}

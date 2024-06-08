@@ -52,6 +52,7 @@ const Lookup = observer(() => {
       input: {
         ...variable.fields,
         _id: variable.id,
+        __typename: undefined,
       },
     }).then((res: any) => {
       if (res.updateLookup.success) {
@@ -321,7 +322,7 @@ const Lookup = observer(() => {
               updateMultipleFields({
                 fields: {
                   arrValue: row.arrValues,
-                  defaultItem: row.defaultItem,
+                  defaultItem: row.defaultItems,
                 },
                 id,
               });

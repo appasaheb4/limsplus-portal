@@ -126,6 +126,7 @@ const CorporateClients = CorporateClientsHoc(
         'reportPriority',
         corporateClientsStore.corporateClients?.reportPriority,
       );
+      setValue('reportTo', corporateClientsStore.corporateClients?.reportTo);
       setValue(
         'deliveryMode',
         corporateClientsStore.corporateClients?.deliveryMode,
@@ -1015,8 +1016,6 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1069,7 +1068,8 @@ const CorporateClients = CorporateClientsHoc(
                     }}
                     defaultValue=''
                   />
-
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1307,6 +1307,7 @@ const CorporateClients = CorporateClientsHoc(
                         hasError={!!errors.reportTo}
                       >
                         <MultiSelect
+                          hasError={!!errors.reportTo}
                           options={lookupItems(
                             routerStore.lookupItems,
                             'REPORT_TO',
@@ -1315,8 +1316,6 @@ const CorporateClients = CorporateClientsHoc(
                             corporateClientsStore.corporateClients.reportTo
                           }
                           onSelect={reportTo => {
-                            console.log({ reportTo });
-
                             onChange(reportTo[0]);
                             corporateClientsStore.updateCorporateClients({
                               ...corporateClientsStore.corporateClients,
@@ -1448,7 +1447,7 @@ const CorporateClients = CorporateClientsHoc(
                                   });
                                 }}
                               >
-                                {`${item.name} - ${item.email}`}
+                                {`${item.name} - ${item.mobileNo}`}
                               </Buttons.Button>
                             </div>
                           ),

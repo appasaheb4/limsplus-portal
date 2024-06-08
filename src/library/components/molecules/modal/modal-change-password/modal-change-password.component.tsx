@@ -62,7 +62,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                   </button>
                 </div>
                 <div className='flex  flex-col  items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                  <div className='items-center justify-center flex mb-2'>
+                  <div className='items-center justify-center flex mb-1'>
                     <img
                       src={
                         props.isDarkMode
@@ -72,16 +72,14 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                       className='img-fluid'
                       style={{
                         width: '200px',
-                        height: '122px',
+                        height: '160px',
                         marginRight: 10,
                       }}
                       alt='lims plus'
                     />
                   </div>
-                  <div>
-                    <div className='items-center justify-center flex'>
-                      <span className='text-4xl'>Change Password</span>
-                    </div>
+                  <div className='items-center justify-center flex'>
+                    <span className='text-4xl'>Change Password</span>
                   </div>
                 </div>
 
@@ -173,7 +171,7 @@ export const ModalChangePassword = observer((props: ModalProps) => {
                         required: true,
                         pattern: FormHelper.patterns.password,
                         validate: value =>
-                          value === userStore.changePassword?.newPassword,
+                          value == userStore.changePassword?.newPassword,
                       }}
                       defaultValue=''
                     />
