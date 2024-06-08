@@ -1643,7 +1643,7 @@ export const UserList = (props: UserListProps) => {
               ),
             },
             {
-              dataField: 'opration1',
+              dataField: 'opration',
               text: 'Change Password',
               csvExport: false,
               editable: false,
