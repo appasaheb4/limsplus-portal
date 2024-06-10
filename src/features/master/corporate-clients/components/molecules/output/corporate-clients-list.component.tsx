@@ -24,6 +24,9 @@ import { FormHelper } from '@/helper';
 import { useForm } from 'react-hook-form';
 import { AutoCompleteSalesTerritory } from '@/features/master/registration-locations/components';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
+import { MultiSelect } from '@/core-components';
+import { ModalReportToMobilesModify } from './modal-report-to-mobiles-modify';
+import { ModalReportToEmailsModify } from './modal-report-to-emails-modify';
 
 let dateCreation;
 let dateActive;
@@ -112,6 +115,11 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
   const [modalPostalCodeUpdate, setModalPostalCodeUpdate] = useState<any>({
     show: false,
   });
+  const [modalReportToMobilesModify, setModalReportToMobilesModify] =
+    useState<any>({});
+  const [modalReportToEmailsModify, setModalReportToEmailsModify] =
+    useState<any>({});
+
   const [widthRefBox, setWidthRefBox] = useState('20px');
   const editorCell = (row: any) => {
     return row.status !== 'I' ? true : false;
@@ -926,7 +934,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                   defaultValue={row.mobileNo}
                   type='number'
                   onBlur={mobileNo => {
-                    if (mobileNo === '') {
+                    if (mobileNo == '') {
                       // Handle the case when the input is empty
                       props.onUpdateItem &&
                         props.onUpdateItem(mobileNo, column.dataField, row._id);
@@ -955,8 +963,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               fontSize: 0,
             },
             sortCaret: (order, column) => sortCaret(order, column),
-            // editable: (content, row, rowIndex, columnIndex) => editorCell(row),
-            editable: false,
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
               placeholder: 'Email',
@@ -964,11 +971,25 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                 email = filter;
               },
             }),
+          },
+          {
+            dataField: 'reportTo',
+            text: 'Report To',
+            headerClasses: 'textHeader2',
+            sort: true,
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
             formatter: (cell, row) => {
               return (
                 <div className='flex flex-row flex-wrap gap-2'>
-                  {row.emails?.map((item, index) => (
-                    <span key={index}>{item?.name + '-' + item?.email}</span>
+                  {row.reportTo?.map((item, index) => (
+                    <span
+                      key={index}
+                      className='flex p-2 rounded-sm bg-blue-800 text-white'
+                    >
+                      {item}
+                    </span>
                   ))}
                 </div>
               );
@@ -982,25 +1003,109 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
               columnIndex,
             ) => (
               <>
-                <Form.Input
-                  defaultValue={row.email}
-                  onBlur={email => {
-                    if (email === '') {
-                      // Handle the case when the input is empty
-                      props.onUpdateItem &&
-                        props.onUpdateItem(email, column.dataField, row._id);
-                    } else if (FormHelper.isEmailValid(email)) {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(email, column.dataField, row._id);
-                    } else {
-                      Toast.error({
-                        message: 'Please enter a valid email address.',
-                      });
-                    }
+                <MultiSelect
+                  options={lookupItems(
+                    props.extraData.lookupItems,
+                    'REPORT_TO',
+                  ).map(item => item.code)}
+                  selectedItems={row?.reportTo}
+                  onSelect={reportTo => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(reportTo, column.dataField, row?._id);
                   }}
                 />
               </>
             ),
+          },
+          {
+            dataField: 'reportToMobiles',
+            text: 'Report To Mobiles',
+            headerClasses: 'textHeader2',
+            sort: true,
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
+            // headerFormatter: (column, row, colIndex) => {
+            //   return (
+            //     <h5>
+            //       <strong>$$ {row._id} $$</strong>
+            //     </h5>
+            //   );
+            // },
+            formatter: (cell, row) => {
+              return (
+                <div
+                  className='flex items-center flex-row flex-wrap gap-2'
+                  key={row?._id}
+                >
+                  {row.status !== 'I' && (
+                    <Tooltip tooltipText='Edit'>
+                      <Icons.IconContext
+                        color='#000000'
+                        size='20'
+                        onClick={() => {
+                          setModalReportToMobilesModify({
+                            show: true,
+                            arrValues: row?.reportToMobiles,
+                            _id: row?._id,
+                          });
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
+                  {row.reportToMobiles?.map((item, index) => (
+                    <span
+                      key={index}
+                      className='flex p-2 rounded-sm bg-blue-800 text-white'
+                    >
+                      {item?.name + ' - ' + item?.mobileNo}
+                    </span>
+                  ))}
+                </div>
+              );
+            },
+          },
+          {
+            dataField: 'reportToEmails',
+            text: 'Report To Emails',
+            headerClasses: 'textHeader2',
+            sort: true,
+            sortCaret: (order, column) => sortCaret(order, column),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            csvFormatter: col => (col ? col : ''),
+            formatter: (cell, row) => {
+              return (
+                <div className='flex flex-row flex-wrap gap-2'>
+                  {row.status !== 'I' && (
+                    <Tooltip tooltipText='Edit'>
+                      <Icons.IconContext
+                        color='#000000'
+                        size='20'
+                        onClick={() => {
+                          setModalReportToEmailsModify({
+                            show: true,
+                            arrValues: row?.reportToEmails,
+                            _id: row?._id,
+                          });
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                      </Icons.IconContext>
+                    </Tooltip>
+                  )}
+                  {row.reportToEmails?.map((item, index) => (
+                    <span
+                      key={index}
+                      className='flex p-2 rounded-sm bg-blue-800 text-white'
+                    >
+                      {item?.name + ' - ' + item?.email}
+                    </span>
+                  ))}
+                </div>
+              );
+            },
           },
           {
             dataField: 'reportPriority',
@@ -2041,6 +2146,44 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
         }}
         close={() => {
           setModalPostalCodeUpdate({
+            show: false,
+          });
+        }}
+      />
+      <ModalReportToMobilesModify
+        {...modalReportToMobilesModify}
+        onClick={items => {
+          setModalReportToMobilesModify({
+            show: false,
+          });
+          props.onUpdateItem &&
+            props.onUpdateItem(
+              items?.arrValues,
+              'reportToMobiles',
+              modalReportToMobilesModify?._id,
+            );
+        }}
+        onClose={() => {
+          setModalReportToMobilesModify({
+            show: false,
+          });
+        }}
+      />
+      <ModalReportToEmailsModify
+        {...modalReportToEmailsModify}
+        onClick={items => {
+          setModalReportToEmailsModify({
+            show: false,
+          });
+          props.onUpdateItem &&
+            props.onUpdateItem(
+              items?.arrValues,
+              'reportToEmails',
+              modalReportToEmailsModify?._id,
+            );
+        }}
+        onClose={() => {
+          setModalReportToEmailsModify({
             show: false,
           });
         }}

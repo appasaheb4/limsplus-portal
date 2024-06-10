@@ -12,10 +12,6 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
       corporateClientsStore.updateCorporateClients({
         ...corporateClientsStore.corporateClients,
         status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
-        // environment: getDefaultLookupItem(
-        //   routerStore.lookupItems,
-        //   'ENVIRONMENT',
-        // ),
         salesTerritoRy: getDefaultLookupItem(
           routerStore.lookupItems,
           'SPECIALITY',
@@ -40,6 +36,7 @@ export const CorporateClientsHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'DELIVERY_METHOD',
         ),
+        reportTo: [getDefaultLookupItem(routerStore.lookupItems, 'REPORT_TO')],
       });
       corporateClientsStore.updateSelectedItems({
         ...corporateClientsStore.selectedItems,

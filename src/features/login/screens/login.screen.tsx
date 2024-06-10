@@ -350,32 +350,7 @@ export const Login = observer(() => {
                                         clearErrors('lab');
                                         if (user.role.length == 1)
                                           setValue('role', user.role[0].code);
-                                        // await lookupStore.LookupService.lookupItemsByPathNField(
-                                        //   {
-                                        //     input: {
-                                        //       path: '/settings/users',
-                                        //       field: 'USER_MODULE',
-                                        //     },
-                                        //   },
-                                        // ).then(res => {
-                                        //   if (
-                                        //     res.lookupItemsByPathNField
-                                        //       .success &&
-                                        //     res.lookupItemsByPathNField?.data
-                                        //       ?.length > 0
-                                        //   ) {
-                                        //     userModuleCategory =
-                                        //       res.lookupItemsByPathNField.data[0]?.arrValue.find(
-                                        //         item =>
-                                        //           item.code?.toUpperCase() ==
-                                        //           user?.userModule?.toUpperCase(),
-                                        //       )?.value;
-                                        //   } else {
-                                        //     alert(
-                                        //       'User module not found in lookup',
-                                        //     );
-                                        //   }
-                                        // });
+
                                         loginStore.updateInputUser({
                                           ...loginStore.inputLogin,
                                           lab: user.defaultLab,
@@ -632,7 +607,6 @@ export const Login = observer(() => {
               ...body,
               exipreDate,
             };
-
             userStore.UsersService.changePassword({ input: { ...body } }).then(
               res => {
                 if (res.userChnagePassword.success) {

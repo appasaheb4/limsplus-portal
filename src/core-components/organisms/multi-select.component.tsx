@@ -14,7 +14,6 @@ export const MultiSelect = ({
   onSelect,
 }: MultiSelectProps) => {
   const [selectedOptions, setSelectedOptions] = useState<Array<string>>([]);
-  // const refSelectedOptions = useRef<Array<string>>([]);
   const [isListOpen, setIsListOpen] = useState(false);
   const useOutsideAlerter = ref => {
     useEffect(() => {
