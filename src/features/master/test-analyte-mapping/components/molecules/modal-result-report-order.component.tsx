@@ -241,7 +241,7 @@ export const ModalResultReportOrder = observer(
                                   order[index].instType = instType;
                                 }}
                               >
-                                <option selected>{'Select'}</option>
+                                <option>{'Select'}</option>
                                 {_.uniqBy(
                                   instResultMappingRecords,
                                   'instType',
@@ -261,7 +261,7 @@ export const ModalResultReportOrder = observer(
                                   order[index].instId = instId;
                                 }}
                               >
-                                <option selected>{'Select'}</option>
+                                <option>{'Select'}</option>
                                 {_.uniqBy(
                                   instResultMappingRecords,
                                   'instId',
@@ -281,7 +281,7 @@ export const ModalResultReportOrder = observer(
                                   order[index].assayCode = assayCode;
                                 }}
                               >
-                                <option selected>{'Select'}</option>
+                                <option>{'Select'}</option>
                                 {_.uniqBy(
                                   instResultMappingRecords,
                                   'assayCode',

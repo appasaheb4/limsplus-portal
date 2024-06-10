@@ -191,7 +191,7 @@ export const ScheduleFrequency = ({
                     setWeekly(weekly);
                   }}
                 >
-                  <option selected>Units</option>
+                  <option>Units</option>
                   {['MINUTES', 'HOURS', 'DAY'].map(
                     (items: any, index: number) => (
                       <option key={index} value={items}>
@@ -276,7 +276,7 @@ export const ScheduleFrequency = ({
                               setMonthly(monthly);
                             }}
                           >
-                            <option selected>Units</option>
+                            <option>Units</option>
                             {['MINUTES', 'HOURS', 'DAY'].map(
                               (items: any, index: number) => (
                                 <option key={index} value={items}>
@@ -335,7 +335,7 @@ export const ScheduleFrequency = ({
                       });
                   }}
                 >
-                  <option selected>Units</option>
+                  <option>Units</option>
                   {['MINUTES', 'HOURS', 'DAY'].map(
                     (items: any, index: number) => (
                       <option key={index} value={items}>
@@ -388,7 +388,7 @@ export const ScheduleFrequency = ({
                     setResult(result);
                   }}
                 >
-                  <option selected>Units</option>
+                  <option>Units</option>
                   {['MINUTES', 'HOURS', 'DAY'].map(
                     (items: any, index: number) => (
                       <option key={index} value={items}>

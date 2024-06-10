@@ -1211,7 +1211,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         );
                                       }}
                                     >
-                                      <option selected>{'Select'}</option>
+                                      <option>{'Select'}</option>
                                       {_.uniqBy(
                                         instResultMappingRecords,
                                         'instType',
@@ -1242,7 +1242,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         );
                                       }}
                                     >
-                                      <option selected>{'Select'}</option>
+                                      <option>{'Select'}</option>
                                       {_.uniqBy(
                                         instResultMappingRecords,
                                         'instId',
@@ -1271,7 +1271,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                         );
                                       }}
                                     >
-                                      <option selected>{'Select'}</option>
+                                      <option>{'Select'}</option>
                                       {_.uniqBy(
                                         instResultMappingRecords,
                                         'assayCode',

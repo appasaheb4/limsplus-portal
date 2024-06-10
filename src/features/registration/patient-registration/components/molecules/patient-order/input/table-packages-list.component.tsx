@@ -1165,7 +1165,7 @@ export const TablePackagesList = observer(
                       });
                     }}
                   >
-                    <option selected>{item?.status || 'Select'}</option>
+                    <option>{item?.status || 'Select'}</option>
                     {lookupItems(
                       routerStore.lookupItems,
                       'PATIENT ORDER - STATUS',

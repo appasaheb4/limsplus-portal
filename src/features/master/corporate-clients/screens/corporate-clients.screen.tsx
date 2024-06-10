@@ -1996,7 +1996,7 @@ const CorporateClients = CorporateClientsHoc(
                             }
                           }}
                         >
-                          <option selected>
+                          <option>
                             {loginStore.login &&
                             loginStore.login.role !== 'ADMINISTRATOR'
                               ? 'Select'

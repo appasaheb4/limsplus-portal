@@ -1109,7 +1109,7 @@ export const PatientVisit = PatientVisitHoc(
                           });
                         }}
                       >
-                        <option selected>
+                        <option>
                           {patientVisitStore.patientVisit?.acClass
                             ? `Selected: ${patientVisitStore.patientVisit?.acClass}`
                             : 'Select'}

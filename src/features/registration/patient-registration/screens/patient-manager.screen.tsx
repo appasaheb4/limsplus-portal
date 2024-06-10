@@ -1364,7 +1364,7 @@ export const PatientManager = PatientManagerHoc(
                                   });
                                 }}
                               >
-                                <option selected>{'Select'}</option>
+                                <option>{'Select'}</option>
                                 {lookupItems(
                                   routerStore.lookupItems,
                                   'PATIENT VISIT - BLOOD_GROUP',
@@ -1614,7 +1614,7 @@ export const PatientManager = PatientManagerHoc(
                                   });
                                 }}
                               >
-                                <option selected>
+                                <option>
                                   {loginStore.login &&
                                   loginStore.login.role !== 'ADMINISTRATOR'
                                     ? 'Select'

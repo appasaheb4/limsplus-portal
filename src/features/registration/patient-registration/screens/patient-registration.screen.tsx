@@ -221,7 +221,7 @@ const PatientRegistration = observer(({ sidebar }) => {
                   );
                 }}
               >
-                <option selected>{'Select PId'}</option>
+                <option>{'Select PId'}</option>
                 {patientRegistrationStore.filterOptionList.pIds?.map(
                   (item: any, index: number) => (
                     <option key={index} value={item}>
@@ -280,7 +280,7 @@ const PatientRegistration = observer(({ sidebar }) => {
                   );
                 }}
               >
-                <option selected>{'Select LabId'}</option>
+                <option>{'Select LabId'}</option>
                 {patientRegistrationStore.filterOptionList.labIds?.map(
                   (item: any, index: number) => (
                     <option key={index} value={item}>
