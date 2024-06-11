@@ -444,6 +444,8 @@ const DeliveryQueue = observer(() => {
             .listPatientReports(result[0]?.labId)
             .then(res => {
               if (res.getPatientReports.success) {
+                const { patientVisit, corporateClients, doctor } = res
+                  ?.getPatientReports?.data as any;
                 let patientResultList: any[] = [];
                 result?.filter(item => {
                   if (item?.reportTemplate) {
@@ -469,10 +471,10 @@ const DeliveryQueue = observer(() => {
                         },
                       },
                     })
-                    .then(async res => {
+                    .then(async res1 => {
                       patientResultList = patientResultList.filter(item => {
                         const reportSettings =
-                          res.getTempPatientResultListByTempCodes.list.find(
+                          res1.getTempPatientResultListByTempCodes.list.find(
                             e =>
                               e.templateCode ==
                               item.patientResult.reportTemplate.split(' -')[0],
@@ -492,9 +494,12 @@ const DeliveryQueue = observer(() => {
                           show: true,
                           data: grouped,
                           templateDetails:
-                            res.getTempPatientResultListByTempCodes.list,
-                          extraDetails: {
-                            deliveryMode: item?.deliveryMode,
+                            res1.getTempPatientResultListByTempCodes.list,
+                          reportTo: {
+                            options: corporateClients?.reportTo,
+                            patientVisit,
+                            corporateClients,
+                            doctor,
                           },
                         });
                       }

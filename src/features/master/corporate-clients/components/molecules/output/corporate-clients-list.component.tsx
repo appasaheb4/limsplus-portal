@@ -1010,6 +1010,8 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                   ).map(item => item.code)}
                   selectedItems={row?.reportTo}
                   onSelect={reportTo => {
+                    console.log({ reportTo });
+
                     props.onUpdateItem &&
                       props.onUpdateItem(reportTo, column.dataField, row?._id);
                   }}

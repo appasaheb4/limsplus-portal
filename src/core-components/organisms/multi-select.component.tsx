@@ -61,16 +61,20 @@ export const MultiSelect = ({
                         <input
                           className='bg-black'
                           type='checkbox'
-                          checked={selectedOptions.includes(item)}
+                          checked={selectedOptions?.includes(item)}
                           onChange={() => {
-                            if (selectedOptions.includes(item)) {
+                            if (selectedOptions?.includes(item)) {
                               setSelectedOptions(
-                                selectedOptions.filter(e => e != item),
+                                selectedOptions?.filter(e => e != item),
                               );
                             } else {
-                              setSelectedOptions(
-                                selectedOptions.concat([item]),
-                              );
+                              if (selectedOptions?.length > 0) {
+                                setSelectedOptions(
+                                  selectedOptions?.concat([item]),
+                                );
+                              } else {
+                                setSelectedOptions([item]);
+                              }
                             }
                           }}
                           onBlur={() => {
