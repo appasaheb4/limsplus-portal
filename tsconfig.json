@@ -15,7 +15,10 @@
     "noEmit": true,
     "jsx": "react",
     "isolatedModules": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "paths": {
+      "react": ["./node_modules/@types/react"]
+    }
   },
   "include": ["src"]
 }
