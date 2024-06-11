@@ -18,12 +18,13 @@ import {
   PdfTemp0010,
 } from '@/features/report-builder/report-template/components';
 import printjs from 'print-js';
+import { Tabs } from 'react-restyle-components';
 
 interface ModalGenerateReportsProps {
   show?: boolean;
   title?: string;
   data?: any;
-  extraDetails?: any;
+  reportTo?: any;
   templateDetails?: any;
   onClick: (data: any, item: any, index: number) => void;
   onClose: () => void;
@@ -33,7 +34,7 @@ interface ModalGenerateReportsProps {
 export const ModalGenerateReports = ({
   show = false,
   data,
-  extraDetails,
+  reportTo,
   templateDetails,
   onClose,
   onReceiptUpload,
@@ -313,6 +314,8 @@ export const ModalGenerateReports = ({
     );
   };
 
+  console.log({ reportTo });
+
   return (
     <Container>
       {showModal && (
@@ -405,28 +408,100 @@ export const ModalGenerateReports = ({
                     )}
                   </div>
                   <div className='flex flex-col'>
-                    <span>Share Report</span>
-                    <div className='flex flex-row flex-wrap gap-1'>
-                      {extraDetails?.deliveryMode?.map((item, index) => (
-                        <span
-                          key={index}
-                          className='bg-gray-600 rounded-md p-2 text-white'
-                        >
-                          {item.code}
-                        </span>
-                      ))}
+                    <span className='flex'>Report To:</span>
+                    <div className='flex flex-col items-center'>
+                      <div className='flex flex-row flex-wrap gap-1 mb-2'>
+                        <Tabs
+                          options={[
+                            { title: 'Work History', icon: 'FaHistory' },
+                            { title: 'Book Order', icon: 'FaBook' },
+                            { title: 'Make Frame', icon: 'MdFilterFrames' },
+                          ]}
+                          onSelect={item => {
+                            console.log({ item });
+                          }}
+                        />
+
+                        {reportTo?.options?.map((item, index) => (
+                          <span
+                            key={index}
+                            className='bg-gray-600 rounded-md p-2 text-white'
+                          >
+                            {item}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div about='patient' className='flex flex-col gap-2'>
+                        {reportTo?.patientVisit?.mobileNo && (
+                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                            {reportTo?.patientVisit?.mobileNo}
+                          </span>
+                        )}
+                        {reportTo?.patientVisit?.email && (
+                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                            {reportTo?.patientVisit?.email}
+                          </span>
+                        )}
+                      </div>
+                      <div about='doctors' className='flex flex-col gap-2'>
+                        {reportTo?.doctor?.mobileNo && (
+                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                            {reportTo?.doctor?.mobileNo}
+                          </span>
+                        )}
+                        {reportTo?.doctor?.email && (
+                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                            {reportTo?.doctor?.email}
+                          </span>
+                        )}
+                      </div>
+                      <div
+                        about='corporateClients'
+                        className='flex flex-col gap-2'
+                      >
+                        {reportTo?.corporateClients?.reportToMobiles?.length >
+                          0 && (
+                          <>
+                            {reportTo?.corporateClients?.reportToMobiles?.map(
+                              (item, index) => (
+                                <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                  {item?.name + ' - ' + item?.mobileNo}
+                                </span>
+                              ),
+                            )}
+                          </>
+                        )}
+                        {reportTo?.corporateClients?.reportToEmails && (
+                          <>
+                            {reportTo?.corporateClients?.reportToEmails?.map(
+                              (item, index) => (
+                                <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                  {item?.name + ' - ' + item?.email}
+                                </span>
+                              ),
+                            )}
+                          </>
+                        )}
+                      </div>
                     </div>
-                    <button
+
+                    {/* <button
                       className='bg-blue-800 font-bold p-2 text-white rounded-md w-fit self-center'
                       type='button'
                       style={{ transition: 'all .15s ease' }}
                       onClick={() => {
-                        setShowModal(false);
-                        onClose && onClose();
+                        // setShowModal(false);
+                        // onClose && onClose();
+                        console.log({
+                          data,
+                          reportTo,
+                          templateDetails,
+                        });
                       }}
                     >
                       Share Link
-                    </button>
+                    </button> */}
                   </div>
                 </div>
                 <div className='flex items-center  p-3 border-t border-solid border-gray-300 rounded-b justify-between'>

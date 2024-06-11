@@ -15,7 +15,19 @@
     "noEmit": true,
     "jsx": "react",
     "isolatedModules": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "paths": {
+      "react": ["./node_modules/@types/react"],
+      "@/*": ["src/*"],
+      "@components": ["./src/library/components/index"],
+      "@features/*": ["./src/features/*"],
+      "@services": ["./src/library/services/index"],
+      "@stores": ["src/stores/index"],
+      "@utils": ["./src/library/utils/index"],
+      "@routers": ["./src/routers"],
+      "@assets/*": ["./src/library/assets/*"],
+      "@localization": ["./src/localization/index"]
+    }
   },
   "include": ["src"]
 }
