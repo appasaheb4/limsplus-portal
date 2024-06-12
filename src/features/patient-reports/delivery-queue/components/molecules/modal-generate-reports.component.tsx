@@ -411,6 +411,8 @@ export const ModalGenerateReports = ({
                     <span className='flex'>Report To:</span>
                     <div className='flex flex-col items-center'>
                       <div className='flex flex-row flex-wrap gap-1 mb-2'>
+                        <span className='text-3md'>Make Frame</span>
+                        {/* <span className='bg-orange1'>BG Color</span> */}
                         <Tabs
                           options={[
                             { title: 'Work History', icon: 'FaHistory' },
@@ -421,7 +423,6 @@ export const ModalGenerateReports = ({
                             console.log({ item });
                           }}
                         />
-
                         {reportTo?.options?.map((item, index) => (
                           <span
                             key={index}
