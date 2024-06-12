@@ -18,7 +18,10 @@ import {
   PdfTemp0010,
 } from '@/features/report-builder/report-template/components';
 import printjs from 'print-js';
-import { Tabs } from 'react-restyle-components';
+
+import { Accordion, AccordionItem } from 'react-sanfona';
+import '@/library/assets/css/accordion.css';
+import { PdfViewer } from '@/core-components';
 
 interface ModalGenerateReportsProps {
   show?: boolean;
@@ -314,8 +317,21 @@ export const ModalGenerateReports = ({
     );
   };
 
-  console.log({ reportTo });
+  const FullPdf = (data: any) => {
+    return (
+      <PdfViewer pageSize='A4' height={window.outerHeight} children={<></>} />
+    );
+  };
 
+  const sharePdfLink = async (type: string = '') => {
+    const doc = <FullPdf data={data} />;
+    const asPdf = pdf(doc);
+    asPdf.updateContainer(doc);
+    const blob: any = await asPdf.toBlob();
+    blob.name = 'Receipt.pdf';
+    onReceiptUpload(blob, type);
+  };
+  console.log({ reportTo });
   return (
     <Container>
       {showModal && (
@@ -409,100 +425,96 @@ export const ModalGenerateReports = ({
                   </div>
                   <div className='flex flex-col'>
                     <span className='flex'>Report To:</span>
-                    <div className='flex flex-col items-center'>
-                      <div className='flex flex-row flex-wrap gap-1 mb-2'>
-                        <span className='text-3md'>Make Frame</span>
-                        {/* <span className='bg-orange1'>BG Color</span> */}
-                        <Tabs
-                          options={[
-                            { title: 'Work History', icon: 'FaHistory' },
-                            { title: 'Book Order', icon: 'FaBook' },
-                            { title: 'Make Frame', icon: 'MdFilterFrames' },
-                          ]}
-                          onSelect={item => {
-                            console.log({ item });
-                          }}
-                        />
-                        {reportTo?.options?.map((item, index) => (
-                          <span
-                            key={index}
-                            className='bg-gray-600 rounded-md p-2 text-white'
-                          >
-                            {item}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div about='patient' className='flex flex-col gap-2'>
-                        {reportTo?.patientVisit?.mobileNo && (
-                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
-                            {reportTo?.patientVisit?.mobileNo}
-                          </span>
-                        )}
-                        {reportTo?.patientVisit?.email && (
-                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
-                            {reportTo?.patientVisit?.email}
-                          </span>
-                        )}
-                      </div>
-                      <div about='doctors' className='flex flex-col gap-2'>
-                        {reportTo?.doctor?.mobileNo && (
-                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
-                            {reportTo?.doctor?.mobileNo}
-                          </span>
-                        )}
-                        {reportTo?.doctor?.email && (
-                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
-                            {reportTo?.doctor?.email}
-                          </span>
-                        )}
-                      </div>
-                      <div
-                        about='corporateClients'
-                        className='flex flex-col gap-2'
-                      >
-                        {reportTo?.corporateClients?.reportToMobiles?.length >
-                          0 && (
-                          <>
-                            {reportTo?.corporateClients?.reportToMobiles?.map(
-                              (item, index) => (
-                                <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
-                                  {item?.name + ' - ' + item?.mobileNo}
-                                </span>
-                              ),
-                            )}
-                          </>
-                        )}
-                        {reportTo?.corporateClients?.reportToEmails && (
-                          <>
-                            {reportTo?.corporateClients?.reportToEmails?.map(
-                              (item, index) => (
-                                <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
-                                  {item?.name + ' - ' + item?.email}
-                                </span>
-                              ),
-                            )}
-                          </>
-                        )}
-                      </div>
+                    <div className='flex flex-col mb-2'>
+                      <Accordion style={{ margin: 0, padding: 0 }}>
+                        {reportTo?.options?.map(item => {
+                          return (
+                            <AccordionItem
+                              title={`${item}`}
+                              style={{ margin: 0, padding: 0 }}
+                            >
+                              {item?.toLowerCase() == 'patients' && (
+                                <div
+                                  about='patient'
+                                  className='flex flex-col gap-2'
+                                >
+                                  {reportTo?.patientVisit?.mobileNo && (
+                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                      {reportTo?.patientVisit?.mobileNo}
+                                    </span>
+                                  )}
+                                  {reportTo?.patientVisit?.email && (
+                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                      {reportTo?.patientVisit?.email}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                              {item?.toLowerCase() == 'doctors' && (
+                                <div
+                                  about='doctors'
+                                  className='flex flex-col gap-2'
+                                >
+                                  {reportTo?.doctor?.mobileNo && (
+                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                      {reportTo?.doctor?.mobileNo}
+                                    </span>
+                                  )}
+                                  {reportTo?.doctor?.email && (
+                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                      {reportTo?.doctor?.email}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+                              {item?.toLowerCase() == 'client' && (
+                                <div
+                                  about='corporateClients'
+                                  className='flex flex-col gap-2'
+                                >
+                                  {reportTo?.corporateClients?.reportToMobiles
+                                    ?.length > 0 && (
+                                    <>
+                                      {reportTo?.corporateClients?.reportToMobiles?.map(
+                                        (item, index) => (
+                                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                            {item?.name +
+                                              ' - ' +
+                                              item?.mobileNo}
+                                          </span>
+                                        ),
+                                      )}
+                                    </>
+                                  )}
+                                  {reportTo?.corporateClients
+                                    ?.reportToEmails && (
+                                    <>
+                                      {reportTo?.corporateClients?.reportToEmails?.map(
+                                        (item, index) => (
+                                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                            {item?.name + ' - ' + item?.email}
+                                          </span>
+                                        ),
+                                      )}
+                                    </>
+                                  )}
+                                </div>
+                              )}
+                            </AccordionItem>
+                          );
+                        })}
+                      </Accordion>
                     </div>
-
-                    {/* <button
+                    <button
                       className='bg-blue-800 font-bold p-2 text-white rounded-md w-fit self-center'
                       type='button'
                       style={{ transition: 'all .15s ease' }}
                       onClick={() => {
-                        // setShowModal(false);
-                        // onClose && onClose();
-                        console.log({
-                          data,
-                          reportTo,
-                          templateDetails,
-                        });
+                        sharePdfLink();
                       }}
                     >
                       Share Link
-                    </button> */}
+                    </button>
                   </div>
                 </div>
                 <div className='flex items-center  p-3 border-t border-solid border-gray-300 rounded-b justify-between'>

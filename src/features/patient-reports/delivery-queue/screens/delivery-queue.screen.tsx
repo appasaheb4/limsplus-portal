@@ -576,6 +576,20 @@ const DeliveryQueue = observer(() => {
       )}
       <ModalGenerateReports
         {...modalGenerateReports}
+        onReceiptUpload={(file, type) => {
+          console.log({ file });
+          receiptStore.receiptService
+            .paymentReceiptUpload({ input: { file } })
+            .then(res => {
+              if (res.paymentReceiptUpload.success) {
+                setReceiptPath(res.paymentReceiptUpload?.receiptPath);
+                window.open(
+                  `${type} ${res.paymentReceiptUpload?.receiptPath}`,
+                  '_blank',
+                );
+              }
+            });
+        }}
         onClose={() => {
           setModalGenerateReports({ show: false });
         }}

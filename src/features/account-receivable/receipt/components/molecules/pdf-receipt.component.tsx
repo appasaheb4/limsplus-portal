@@ -9,7 +9,8 @@ import {
   PdfSmall,
   PdfImage,
 } from '@components';
-import { PdfReceiptViewer } from './pdf-receipt-viewer.component';
+import { PdfViewer } from '@/core-components';
+// import { PdfReceiptViewer } from './pdf-receipt-viewer.component';
 import { PdfTransactionLineTable } from './pdf-table-transaction-line.component';
 import { getAgeAndAgeUnit } from '@features/registration/patient-registration/utils';
 import { calculateTimimg, numToWords } from '@/library/utils';
@@ -54,7 +55,7 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
   };
 
   return (
-    <PdfReceiptViewer
+    <PdfViewer
       pageSize='A4'
       height={window.outerHeight}
       children={
