@@ -96,7 +96,7 @@ export const ModalResultReportOrder = observer(
                   </div>
                   {/*body*/}
 
-                  <div className='relative p-2 flex-auto'>
+                  <div className='relative p-2 flex-auto max-h-[60vh] overflow-y-scroll'>
                     <Table striped bordered className='max-h-5' size='sm'>
                       <thead>
                         <tr className='text-xs'>
