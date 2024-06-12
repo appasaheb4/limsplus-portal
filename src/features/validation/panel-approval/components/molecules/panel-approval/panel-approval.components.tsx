@@ -136,24 +136,6 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               },
             },
             {
-              dataField: 'panel',
-              text: 'Panel',
-              sort: true,
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '250px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => (
-                <span title={row[1][0]?.panel}>{row[1][0]?.panel}</span>
-              ),
-            },
-            {
               dataField: 'name',
               text: 'Patient Name',
               sort: true,
@@ -179,6 +161,24 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               },
               formatter: (cellContent, row) => (
                 <span title={row[1][0].name}>{row[1][0].name}</span>
+              ),
+            },
+            {
+              dataField: 'panel',
+              text: 'Panel',
+              sort: true,
+              editable: false,
+              headerClasses: 'textHeader',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '250px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row[1][0]?.panel}>{row[1][0]?.panel}</span>
               ),
             },
 
