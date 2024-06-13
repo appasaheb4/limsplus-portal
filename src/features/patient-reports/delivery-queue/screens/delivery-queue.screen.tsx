@@ -578,15 +578,17 @@ const DeliveryQueue = observer(() => {
         {...modalGenerateReports}
         onReceiptUpload={(file, type) => {
           console.log({ file });
-          receiptStore.receiptService
-            .paymentReceiptUpload({ input: { file } })
+          deliveryQueueStore.deliveryQueueService
+            .reportUpload({ input: { file } })
             .then(res => {
-              if (res.paymentReceiptUpload.success) {
-                setReceiptPath(res.paymentReceiptUpload?.receiptPath);
-                window.open(
-                  `${type} ${res.paymentReceiptUpload?.receiptPath}`,
-                  '_blank',
-                );
+              if (res.reportUploadDeliveryQueue.success) {
+                console.log({ res });
+
+                // setReceiptPath(res.paymentReceiptUpload?.receiptPath);
+                // window.open(
+                //   `${type} ${res.paymentReceiptUpload?.receiptPath}`,
+                //   '_blank',
+                // );
               }
             });
         }}

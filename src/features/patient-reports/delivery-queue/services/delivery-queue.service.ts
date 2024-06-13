@@ -15,6 +15,7 @@ import {
   MEDICAL_REPORT,
   FIND_BY_FIELDS,
   PATIENT_REPORT_LIST,
+  REPORT_UPLOAD,
 } from './mutation-delivery-queue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -128,6 +129,23 @@ export class DeliveryQueueService {
       client
         .mutate({
           mutation: FIND_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  reportUpload = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: REPORT_UPLOAD,
           variables,
         })
         .then((response: any) => {

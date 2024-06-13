@@ -250,3 +250,13 @@ export const MEDICAL_REPORT = gql`
     }
   }
 `;
+
+export const REPORT_UPLOAD = gql`
+  mutation ($input: DeliveryQueueInput!) {
+    reportUploadDeliveryQueue(input: $input) {
+      success
+      message
+      result
+    }
+  }
+`;
