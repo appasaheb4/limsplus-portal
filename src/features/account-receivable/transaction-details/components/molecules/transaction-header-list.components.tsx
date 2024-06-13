@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { Tooltip, Icons } from '@/library/components';
+import { Tooltip, Icons, textFilter, sortCaret } from '@/library/components';
 import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 
@@ -27,6 +27,8 @@ interface TransactionHeaderProps {
   onExpand?: (item: any) => void;
   onReport?: (item: any) => void;
 }
+
+let labId;
 const selectedItem = {};
 export const TransactionHeaderList = observer(
   (props: TransactionHeaderProps) => {
@@ -83,12 +85,33 @@ export const TransactionHeaderList = observer(
                 text: 'Lab Id',
                 sort: true,
                 editable: false,
-                headerClasses: 'textHeaderm',
+                headerStyle: {
+                  fontSize: 0,
+                },
+                filter: textFilter({
+                  placeholder: 'Lab Id',
+                  getFilter: filter => {
+                    labId = filter;
+                  },
+                }),
+                sortCaret: (order, column) => sortCaret(order, column),
+                headerClasses: 'textHeader',
               },
               {
                 dataField: 'invoiceAc',
                 text: 'Invoice Ac',
                 sort: true,
+                headerClasses: 'textHeader',
+                headerStyle: {
+                  fontSize: 0,
+                },
+                sortCaret: (order, column) => sortCaret(order, column),
+                filter: textFilter({
+                  placeholder: 'Invoice Ac',
+                  getFilter: filter => {
+                    labId = filter;
+                  },
+                }),
                 editable: false,
               },
               {

@@ -878,6 +878,10 @@ const MasterAnalyte = MasterAnalyteHoc(
                                   resultType !== 'V'
                                     ? undefined
                                     : masterAnalyteStore.masterAnalyte?.picture,
+                                units:
+                                  resultType === 'V'
+                                    ? ''
+                                    : masterAnalyteStore.masterAnalyte?.units,
                               });
                             }}
                           >
@@ -1097,42 +1101,48 @@ const MasterAnalyte = MasterAnalyteHoc(
                       rules={{ required: false }}
                       defaultValue=''
                     />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.InputWrapper
-                          label='Units'
-                          hasError={!!errors.units}
-                        >
-                          <select
-                            value={value}
-                            className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                              errors.units ? 'border-red  ' : 'border-gray-300'
-                            } rounded-md`}
-                            onChange={e => {
-                              const units = e.target.value as string;
-                              onChange(units);
-                              masterAnalyteStore.updateMasterAnalyte({
-                                ...masterAnalyteStore.masterAnalyte,
-                                units,
-                              });
-                            }}
+                    {masterAnalyteStore.masterAnalyte.resultType === 'V' && (
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.InputWrapper
+                            label='Units'
+                            hasError={!!errors.units}
                           >
-                            <option>Select</option>
-                            {lookupItems(routerStore.lookupItems, 'UNITS').map(
-                              (item: any, index: number) => (
+                            <select
+                              value={value}
+                              className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                                errors.units
+                                  ? 'border-red  '
+                                  : 'border-gray-300'
+                              } rounded-md`}
+                              onChange={e => {
+                                const units = e.target.value as string;
+                                onChange(units);
+                                masterAnalyteStore.updateMasterAnalyte({
+                                  ...masterAnalyteStore.masterAnalyte,
+                                  units,
+                                });
+                              }}
+                            >
+                              <option>Select</option>
+                              {lookupItems(
+                                routerStore.lookupItems,
+                                'UNITS',
+                              ).map((item: any, index: number) => (
                                 <option key={index} value={item.code}>
                                   {lookupValue(item)}
                                 </option>
-                              ),
-                            )}
-                          </select>
-                        </Form.InputWrapper>
-                      )}
-                      name='units'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
+                              ))}
+                            </select>
+                          </Form.InputWrapper>
+                        )}
+                        name='units'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                    )}
+
                     <Controller
                       control={control}
                       render={({ field: { onChange, value } }) => (

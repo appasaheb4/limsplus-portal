@@ -20,7 +20,8 @@ import {
   getCretical,
 } from '../../../utils';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
-import { stores } from '@/stores';
+import { stores, useStores } from '@/stores';
+import { useStore } from 'react-redux';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -51,6 +52,7 @@ interface GeneralResultEntryListProps {
 let patientName;
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
+  const { appStore } = useStores();
   const [selectId, setSelectId] = useState('');
   const [selectedRowId, setSelectedRowId] = useState('');
   const [refRangeRowId, setRefRangleRowId] = useState('');
@@ -191,7 +193,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'analyteCode',
               text: 'Analyte Code - Name',
               editable: false,
-              headerClasses: 'textHeaderxxm',
+              headerClasses: 'textHeader',
               headerStyle: {
                 fontSize: 0,
               },
@@ -323,13 +325,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'normalRange',
               text: 'Normal Range',
               sort: true,
-              headerClasses: 'textHeaderxxm',
+              headerClasses: 'textHeaderm',
               editable: false,
               style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (
                   <>
-                    <div className='flex flex-row gap-4'>
+                    <div className='flex flex-row gap-1'>
                       <span>
                         <span>
                           <span>
@@ -355,10 +357,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           >
                             <Icons.IconContext
                               color={
-                                stores.appStore.applicationSetting.theme ===
-                                'dark'
-                                  ? '#ffffff'
-                                  : '#000000'
+                                appStore.applicationSetting.theme != 'dark'
+                                  ? '#000000'
+                                  : '#ffffff'
                               }
                               size='20'
                               onClick={() => {
