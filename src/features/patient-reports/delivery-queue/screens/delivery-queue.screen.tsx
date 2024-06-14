@@ -496,6 +496,7 @@ const DeliveryQueue = observer(() => {
                           templateDetails:
                             res1.getTempPatientResultListByTempCodes.list,
                           reportTo: {
+                            _id: item?._id,
                             options: corporateClients?.reportTo,
                             patientVisit,
                             corporateClients,
@@ -576,14 +577,12 @@ const DeliveryQueue = observer(() => {
       )}
       <ModalGenerateReports
         {...modalGenerateReports}
-        onReceiptUpload={(file, type) => {
-          console.log({ file });
+        onReceiptUpload={(file, details) => {
           deliveryQueueStore.deliveryQueueService
-            .reportUpload({ input: { file } })
+            .reportUpload({ input: { file, details } })
             .then(res => {
               if (res.reportUploadDeliveryQueue.success) {
                 console.log({ res });
-
                 // setReceiptPath(res.paymentReceiptUpload?.receiptPath);
                 // window.open(
                 //   `${type} ${res.paymentReceiptUpload?.receiptPath}`,

@@ -323,15 +323,14 @@ export const ModalGenerateReports = ({
     );
   };
 
-  const sharePdfLink = async (type: string = '') => {
+  const sharePdfLink = async () => {
     const doc = <FullPdf data={data} />;
     const asPdf = pdf(doc);
     asPdf.updateContainer(doc);
     const blob: any = await asPdf.toBlob();
     blob.name = 'Receipt.pdf';
-    onReceiptUpload(blob, type);
+    onReceiptUpload(blob, reportTo);
   };
-  console.log({ reportTo });
   return (
     <Container>
       {showModal && (
@@ -467,7 +466,7 @@ export const ModalGenerateReports = ({
                                   )}
                                 </div>
                               )}
-                              {item?.toLowerCase() == 'client' && (
+                              {item?.toLowerCase() == 'clients' && (
                                 <div
                                   about='corporateClients'
                                   className='flex flex-col gap-2'
