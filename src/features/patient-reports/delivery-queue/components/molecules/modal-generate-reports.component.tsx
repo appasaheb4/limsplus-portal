@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 import _ from 'lodash';
 import { Icons, Tooltip, Form } from '@components';
-import { pdf, PDFViewer, Document } from '@react-pdf/renderer';
+import { pdf as pdfGen, PDFViewer, Document, Page } from '@react-pdf/renderer';
 import { ModalDeliveryQueueReports } from './modal-delivery-queue-reports.component';
 import {
   PdfTemp0001,
@@ -22,6 +22,8 @@ import printjs from 'print-js';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 import { PdfViewer } from '@/core-components';
+import { saveAs } from 'file-saver';
+import { SocialIcon } from 'react-social-icons';
 
 interface ModalGenerateReportsProps {
   show?: boolean;
@@ -46,10 +48,12 @@ export const ModalGenerateReports = ({
   const [showModal, setShowModal] = React.useState(show);
   const [isWithHeader, setWithHeader] = useState(true);
   const [isPdfViewer, setPdfViewer] = useState(false);
+  const [pdf, setPdf] = useState('');
 
   useEffect(() => {
     setShowModal(show);
-  }, [show]);
+    if (reportTo?.pdf) setPdf(reportTo?.pdf);
+  }, [show, reportTo]);
 
   useEffect(() => {
     if (data) {
@@ -318,19 +322,18 @@ export const ModalGenerateReports = ({
   };
 
   const FullPdf = (data: any) => {
-    return (
-      <PdfViewer pageSize='A4' height={window.outerHeight} children={<></>} />
-    );
+    return getReports(reportList);
   };
 
   const sharePdfLink = async () => {
-    const doc = <FullPdf data={data} />;
-    const asPdf = pdf(doc);
+    const doc = getReports(reportList);
+    const asPdf = pdfGen(doc);
     asPdf.updateContainer(doc);
     const blob: any = await asPdf.toBlob();
     blob.name = 'Receipt.pdf';
     onReceiptUpload(blob, reportTo);
   };
+
   return (
     <Container>
       {showModal && (
@@ -405,7 +408,7 @@ export const ModalGenerateReports = ({
                               }}
                               onClick={async () => {
                                 const doc = await getReports(reportList);
-                                const blob = await pdf(doc).toBlob();
+                                const blob = await pdfGen(doc).toBlob();
                                 const blobURL = URL.createObjectURL(blob);
                                 printjs({
                                   printable: blobURL,
@@ -438,8 +441,22 @@ export const ModalGenerateReports = ({
                                   className='flex flex-col gap-2'
                                 >
                                   {reportTo?.patientVisit?.mobileNo && (
-                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                       {reportTo?.patientVisit?.mobileNo}
+                                      {pdf && (
+                                        <SocialIcon
+                                          network='whatsapp'
+                                          style={{ height: 32, width: 32 }}
+                                          onClick={() => {
+                                            window.open(
+                                              `https://api.whatsapp.com/send?phone=+91${reportTo?.patientVisit?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
+                                                reportTo?.labId
+                                              }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
+                                              '_blank',
+                                            );
+                                          }}
+                                        />
+                                      )}
                                     </span>
                                   )}
                                   {reportTo?.patientVisit?.email && (
@@ -455,8 +472,22 @@ export const ModalGenerateReports = ({
                                   className='flex flex-col gap-2'
                                 >
                                   {reportTo?.doctor?.mobileNo && (
-                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                       {reportTo?.doctor?.mobileNo}
+                                      {pdf && (
+                                        <SocialIcon
+                                          network='whatsapp'
+                                          style={{ height: 32, width: 32 }}
+                                          onClick={() => {
+                                            window.open(
+                                              `https://api.whatsapp.com/send?phone=+91${reportTo?.doctor?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
+                                                reportTo?.labId
+                                              }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
+                                              '_blank',
+                                            );
+                                          }}
+                                        />
+                                      )}
                                     </span>
                                   )}
                                   {reportTo?.doctor?.email && (
@@ -476,10 +507,27 @@ export const ModalGenerateReports = ({
                                     <>
                                       {reportTo?.corporateClients?.reportToMobiles?.map(
                                         (item, index) => (
-                                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                             {item?.name +
                                               ' - ' +
                                               item?.mobileNo}
+                                            {pdf && (
+                                              <SocialIcon
+                                                network='whatsapp'
+                                                style={{
+                                                  height: 32,
+                                                  width: 32,
+                                                }}
+                                                onClick={() => {
+                                                  window.open(
+                                                    `https://api.whatsapp.com/send?phone=+91${item?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
+                                                      reportTo?.labId
+                                                    }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
+                                                    '_blank',
+                                                  );
+                                                }}
+                                              />
+                                            )}
                                           </span>
                                         ),
                                       )}

@@ -497,6 +497,8 @@ const DeliveryQueue = observer(() => {
                             res1.getTempPatientResultListByTempCodes.list,
                           reportTo: {
                             _id: item?._id,
+                            labId: item?.labId,
+                            pdf: item?.pdf,
                             options: corporateClients?.reportTo,
                             patientVisit,
                             corporateClients,
@@ -589,11 +591,17 @@ const DeliveryQueue = observer(() => {
             .then(res => {
               if (res.reportUploadDeliveryQueue.success) {
                 console.log({ res });
-                // setReceiptPath(res.paymentReceiptUpload?.receiptPath);
-                // window.open(
-                //   `${type} ${res.paymentReceiptUpload?.receiptPath}`,
-                //   '_blank',
-                // );
+                setModalGenerateReports({
+                  ...modalGenerateReports,
+                  reportTo: {
+                    ...modalGenerateReports.reportTo,
+                    pdf: res?.reportUploadDeliveryQueue?.result,
+                  },
+                });
+                Toast.success({
+                  message:
+                    '😔 Report send on mail successfully. Please send one by one on whatsapp',
+                });
               }
             });
         }}
