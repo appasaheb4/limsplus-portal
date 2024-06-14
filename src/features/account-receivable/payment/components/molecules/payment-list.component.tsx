@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 
 let pId;
 let labId;
+let patientName;
 
 interface PaymentListProps {
   data: any;
@@ -73,6 +74,23 @@ export const PaymentList = (props: PaymentListProps) => {
             },
             sortCaret: (order, column) => sortCaret(order, column),
             editable: false,
+            headerClasses: 'textHeader',
+          },
+          {
+            dataField: 'name',
+            text: 'Patient Name',
+            sort: true,
+            editable: false,
+            headerStyle: {
+              fontSize: 0,
+            },
+            filter: textFilter({
+              placeholder: 'Patient Name',
+              getFilter: filter => {
+                patientName = filter;
+              },
+            }),
+            sortCaret: (order, column) => sortCaret(order, column),
             headerClasses: 'textHeader',
           },
           {

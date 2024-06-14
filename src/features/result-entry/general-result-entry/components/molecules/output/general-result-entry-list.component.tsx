@@ -357,7 +357,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           >
                             <Icons.IconContext
                               color={
-                                appStore.applicationSetting.theme != 'dark'
+                                appStore.applicationSetting.theme === 'dark'
                                   ? '#000000'
                                   : '#ffffff'
                               }

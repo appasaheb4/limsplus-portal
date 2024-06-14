@@ -1303,6 +1303,29 @@ const CorporateClients = CorporateClientsHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
+                        label='Delivery Mode'
+                        hasError={!!errors.deliveryMode}
+                      >
+                        <DeliveryMode
+                          lookupField='DELIVERY_METHOD'
+                          onSelect={deliveryMode => {
+                            onChange(deliveryMode);
+                            corporateClientsStore.updateCorporateClients({
+                              ...corporateClientsStore.corporateClients,
+                              deliveryMode,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='deliveryMode'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
                         label='Report To'
                         hasError={!!errors.reportTo}
                       >
@@ -1614,29 +1637,6 @@ const CorporateClients = CorporateClientsHoc(
                       </Form.InputWrapper>
                     )}
                     name='reportPriority'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Delivery Mode'
-                        hasError={!!errors.deliveryMode}
-                      >
-                        <DeliveryMode
-                          lookupField='DELIVERY_METHOD'
-                          onSelect={deliveryMode => {
-                            onChange(deliveryMode);
-                            corporateClientsStore.updateCorporateClients({
-                              ...corporateClientsStore.corporateClients,
-                              deliveryMode,
-                            });
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='deliveryMode'
                     rules={{ required: false }}
                     defaultValue=''
                   />

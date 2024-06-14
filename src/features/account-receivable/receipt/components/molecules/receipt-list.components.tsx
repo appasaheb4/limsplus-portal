@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Tooltip, Icons } from '@/library/components';
+import { Tooltip, Icons, textFilter, sortCaret } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { TableBootstrap } from './table-bootstrap.components';
 
@@ -23,6 +23,9 @@ interface ReceiptListProps {
     totalSize: number,
   ) => void;
 }
+
+let patientName;
+let labId;
 
 export const ReceiptList = observer((props: ReceiptListProps) => {
   return (
@@ -49,8 +52,35 @@ export const ReceiptList = observer((props: ReceiptListProps) => {
               dataField: 'labId',
               text: 'Lab Id',
               sort: true,
+              filter: textFilter({
+                placeholder: 'LabId',
+                getFilter: filter => {
+                  labId = filter;
+                },
+              }),
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeaderm',
+              headerClasses: 'textHeader',
+            },
+            {
+              dataField: 'name',
+              text: 'Patient Name',
+              sort: true,
+              editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
+              filter: textFilter({
+                placeholder: 'Patient Name',
+                getFilter: filter => {
+                  patientName = filter;
+                },
+              }),
+              sortCaret: (order, column) => sortCaret(order, column),
+              headerClasses: 'textHeader',
             },
             {
               dataField: 'grossAmount',

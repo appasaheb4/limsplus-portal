@@ -29,6 +29,9 @@ interface TransactionHeaderProps {
 }
 
 let labId;
+let patientName;
+let invoiceAc;
+
 const selectedItem = {};
 export const TransactionHeaderList = observer(
   (props: TransactionHeaderProps) => {
@@ -97,6 +100,24 @@ export const TransactionHeaderList = observer(
                 sortCaret: (order, column) => sortCaret(order, column),
                 headerClasses: 'textHeader',
               },
+
+              {
+                dataField: 'name',
+                text: 'Patient Name',
+                sort: true,
+                editable: false,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                filter: textFilter({
+                  placeholder: 'Patient Name',
+                  getFilter: filter => {
+                    patientName = filter;
+                  },
+                }),
+                sortCaret: (order, column) => sortCaret(order, column),
+                headerClasses: 'textHeader',
+              },
               {
                 dataField: 'invoiceAc',
                 text: 'Invoice Ac',
@@ -109,7 +130,7 @@ export const TransactionHeaderList = observer(
                 filter: textFilter({
                   placeholder: 'Invoice Ac',
                   getFilter: filter => {
-                    labId = filter;
+                    invoiceAc = filter;
                   },
                 }),
                 editable: false,
