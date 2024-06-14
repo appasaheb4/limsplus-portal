@@ -73,7 +73,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
   const [modalResultOrder, setModalResultOrder] = useState<any>();
   const [modalDetails, setModalDetails] = useState<any>();
   const editorCell = (row: any) => {
-    return row.status !== 'I' ? true : false;
+    return row.status !== 'I';
   };
   const todayDate = new Date();
   const nextDay = new Date();
@@ -109,7 +109,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                 lab = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: editorCell,
             editorRenderer: (
               editorProps,
               value,
@@ -118,16 +118,12 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               rowIndex,
               columnIndex,
             ) => (
-              <>
-                <AutoCompleteFilterSingleSelectLabs
-                  onSelect={item => {
-                    console.log({ item });
-
-                    props.onUpdateItem &&
-                      props.onUpdateItem(item.code, column.dataField, row._id);
-                  }}
-                />
-              </>
+              <AutoCompleteFilterSingleSelectLabs
+                onSelect={item => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(item.code, column.dataField, row._id);
+                }}
+              />
             ),
           },
           {
@@ -138,7 +134,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: editorCell,
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -156,7 +152,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: editorCell,
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -165,7 +161,6 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                 packageName = filter;
               },
             }),
-            editor: false,
           },
           {
             dataField: 'serviceType',
@@ -175,7 +170,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: editorCell,
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -192,27 +187,24 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               rowIndex,
               columnIndex,
             ) => (
-              <>
-                <ServiceType
-                  value={row?.serviceType}
-                  isError={false}
-                  onUpdate={serviceItem => {
-                    props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {
-                          serviceType: serviceItem.code,
-                          packageName: undefined,
-                          panelCode: [],
-                          panelName: [],
-                        },
-                        row._id,
-                      );
-                  }}
-                />
-              </>
+              <ServiceType
+                value={row?.serviceType}
+                isError={false}
+                onUpdate={serviceItem => {
+                  props.onUpdateFileds &&
+                    props.onUpdateFileds(
+                      {
+                        serviceType: serviceItem.code,
+                        packageName: undefined,
+                        panelCode: [],
+                        panelName: [],
+                      },
+                      row._id,
+                    );
+                }}
+              />
             ),
           },
-
           {
             dataField: 'panelCode',
             text: 'Panel Code',
@@ -221,7 +213,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: editorCell,
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -238,22 +230,20 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               rowIndex,
               columnIndex,
             ) => (
-              <>
-                <AutoCompleteFilterSingleSelectPanelCode
-                  lab={row.lab}
-                  serviceType={row.serviceType}
-                  onSelect={item => {
-                    props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {
-                          panelCode: [item.panelCode],
-                          panelName: [item.panelName],
-                        },
-                        row._id,
-                      );
-                  }}
-                />
-              </>
+              <AutoCompleteFilterSingleSelectPanelCode
+                lab={row.lab}
+                serviceType={row.serviceType}
+                onSelect={item => {
+                  props.onUpdateFileds &&
+                    props.onUpdateFileds(
+                      {
+                        panelCode: [item.panelCode],
+                        panelName: [item.panelName],
+                      },
+                      row._id,
+                    );
+                }}
+              />
             ),
           },
           {
@@ -264,7 +254,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: editorCell,
             sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: col => (col ? col : ''),
             filter: textFilter({
@@ -281,25 +271,22 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               rowIndex,
               columnIndex,
             ) => (
-              <>
-                <AutoCompleteFilterSingleSelectPanelCode
-                  lab={row.lab}
-                  serviceType={row.serviceType}
-                  onSelect={item => {
-                    props.onUpdateFileds &&
-                      props.onUpdateFileds(
-                        {
-                          panelCode: [item.panelCode],
-                          panelName: [item.panelName],
-                        },
-                        row._id,
-                      );
-                  }}
-                />
-              </>
+              <AutoCompleteFilterSingleSelectPanelCode
+                lab={row.lab}
+                serviceType={row.serviceType}
+                onSelect={item => {
+                  props.onUpdateFileds &&
+                    props.onUpdateFileds(
+                      {
+                        panelCode: [item.panelCode],
+                        panelName: [item.panelName],
+                      },
+                      row._id,
+                    );
+                }}
+              />
             ),
           },
-
           {
             dataField: 'reportOrder',
             text: 'Report Order',
@@ -336,16 +323,14 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             editable: false,
             formatter: (cell, row) => {
               return (
-                <>
-                  <Form.Toggle
-                    disabled={!editorCell(row)}
-                    value={row.bill}
-                    onChange={bill => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(bill, 'bill', row._id);
-                    }}
-                  />
-                </>
+                <Form.Toggle
+                  disabled={!editorCell(row)}
+                  value={row.bill}
+                  onChange={bill => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(bill, 'bill', row._id);
+                  }}
+                />
               );
             },
           },
@@ -354,30 +339,22 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Print Package Name',
             sort: true,
             csvFormatter: (row, col) =>
-              `${
-                row.printPackageName
-                  ? row.printPackageName
-                    ? 'Yes'
-                    : 'No'
-                  : 'No'
-              }`,
+              `${row.printPackageName ? 'Yes' : 'No'}`,
             editable: false,
             formatter: (cell, row) => {
               return (
-                <>
-                  <Form.Toggle
-                    disabled={!editorCell(row)}
-                    value={row.printPackageName}
-                    onChange={printPackageName => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          printPackageName,
-                          'printPackageName',
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
+                <Form.Toggle
+                  disabled={!editorCell(row)}
+                  value={row.printPackageName}
+                  onChange={printPackageName => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        printPackageName,
+                        'printPackageName',
+                        row._id,
+                      );
+                  }}
+                />
               );
             },
           },
@@ -385,27 +362,22 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             dataField: 'printPanelName',
             text: 'Print Panel Name',
             sort: true,
-            csvFormatter: (row, col) =>
-              `${
-                row.printPanelName ? (row.printPanelName ? 'Yes' : 'No') : 'No'
-              }`,
+            csvFormatter: (row, col) => `${row.printPanelName ? 'Yes' : 'No'}`,
             editable: false,
             formatter: (cell, row) => {
               return (
-                <>
-                  <Form.Toggle
-                    disabled={!editorCell(row)}
-                    value={row.printPanelName}
-                    onChange={printPanelName => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          printPanelName,
-                          'printPanelName',
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
+                <Form.Toggle
+                  disabled={!editorCell(row)}
+                  value={row.printPanelName}
+                  onChange={printPanelName => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        printPanelName,
+                        'printPanelName',
+                        row._id,
+                      );
+                  }}
+                />
               );
             },
           },
@@ -414,30 +386,22 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Package Interpretation',
             sort: true,
             csvFormatter: (row, col) =>
-              `${
-                row.packageInterpretation
-                  ? row.packageInterpretation
-                    ? 'Yes'
-                    : 'No'
-                  : 'No'
-              }`,
+              `${row.packageInterpretation ? 'Yes' : 'No'}`,
             editable: false,
             formatter: (cell, row) => {
               return (
-                <>
-                  <Form.Toggle
-                    disabled={!editorCell(row)}
-                    value={row.packageInterpretation}
-                    onChange={packageInterpretation => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          packageInterpretation,
-                          'packageInterpretation',
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
+                <Form.Toggle
+                  disabled={!editorCell(row)}
+                  value={row.packageInterpretation}
+                  onChange={packageInterpretation => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        packageInterpretation,
+                        'packageInterpretation',
+                        row._id,
+                      );
+                  }}
+                />
               );
             },
           },
@@ -446,34 +410,25 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             text: 'Panel Interpretation',
             sort: true,
             csvFormatter: (row, col) =>
-              `${
-                row.panelInterpretation
-                  ? row.panelInterpretation
-                    ? 'Yes'
-                    : 'No'
-                  : 'No'
-              }`,
+              `${row.panelInterpretation ? 'Yes' : 'No'}`,
             editable: false,
             formatter: (cell, row) => {
               return (
-                <>
-                  <Form.Toggle
-                    disabled={!editorCell(row)}
-                    value={row.panelInterpretation}
-                    onChange={panelInterpretation => {
-                      props.onUpdateItem &&
-                        props.onUpdateItem(
-                          panelInterpretation,
-                          'panelInterpretation',
-                          row._id,
-                        );
-                    }}
-                  />
-                </>
+                <Form.Toggle
+                  disabled={!editorCell(row)}
+                  value={row.panelInterpretation}
+                  onChange={panelInterpretation => {
+                    props.onUpdateItem &&
+                      props.onUpdateItem(
+                        panelInterpretation,
+                        'panelInterpretation',
+                        row._id,
+                      );
+                  }}
+                />
               );
             },
           },
-
           {
             dataField: 'status',
             text: 'Status',
@@ -490,8 +445,8 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                 status = filter;
               },
             }),
-            editable: (content, row, rowIndex, columnIndex) =>
-              row.status == 'D' || row.status == 'I' ? false : true,
+            editable: (content, row) =>
+              row.status !== 'D' && row.status !== 'I',
             editorRenderer: (
               editorProps,
               value,
@@ -500,25 +455,24 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               rowIndex,
               columnIndex,
             ) => (
-              <>
-                <select
-                  className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-                  onChange={e => {
-                    const status = e.target.value;
-                    props.onUpdateItem &&
-                      props.onUpdateItem(status, column.dataField, row._id);
-                  }}
-                >
-                  <option selected>Select</option>
-                  {lookupItems(props.extraData.lookupItems, 'STATUS')
-                    .filter(item => item.code != 'D')
-                    .map((item: any, index: number) => (
-                      <option key={index} value={item.code}>
-                        {lookupValue(item)}
-                      </option>
-                    ))}
-                </select>
-              </>
+              <select
+                className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
+                value={value}
+                onChange={e => {
+                  const status = e.target.value;
+                  props.onUpdateItem &&
+                    props.onUpdateItem(status, column.dataField, row._id);
+                }}
+              >
+                <option value=''>Select</option>
+                {lookupItems(props.extraData.lookupItems, 'STATUS')
+                  .filter(item => item.code !== 'D')
+                  .map((item, index) => (
+                    <option key={index} value={item.code}>
+                      {lookupValue(item)}
+                    </option>
+                  ))}
+              </select>
             ),
           },
           {
@@ -544,11 +498,9 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             editable: false,
             text: 'Date Creation',
             headerClasses: 'textHeader',
-            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateCreation
                 ? dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')
@@ -561,11 +513,9 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             filterRenderer: (onFilter, column) => (
               <DateRangeFilter onFilter={onFilter} column={column} />
             ),
-            formatter: (cell, row) => {
-              return (
-                <>{dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
-              );
-            },
+            formatter: (cell, row) => (
+              <>{dayjs(row.dateCreation).format('DD-MM-YYYY HH:mm:ss')}</>
+            ),
             editorRenderer: (
               editorProps,
               value,
@@ -574,30 +524,22 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               rowIndex,
               columnIndex,
             ) => (
-              <>
-                <Form.InputDateTime
-                  value={new Date(row.dateCreation)}
-                  onFocusRemove={dateCreation => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(
-                        dateCreation,
-                        column.dataField,
-                        row._id,
-                      );
-                  }}
-                />
-              </>
+              <Form.InputDateTime
+                value={new Date(row.dateCreation)}
+                onFocusRemove={dateCreation => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(dateCreation, column.dataField, row._id);
+                }}
+              />
             ),
           },
           {
             dataField: 'dateActive',
             text: 'Date Active',
             headerClasses: 'textHeader',
-            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateActive
                 ? dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')
@@ -611,9 +553,9 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             filterRenderer: (onFilter, column) => (
               <DateRangeFilter onFilter={onFilter} column={column} />
             ),
-            formatter: (cell, row) => {
-              return <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>;
-            },
+            formatter: (cell, row) => (
+              <>{dayjs(row.dateActive).format('DD-MM-YYYY HH:mm:ss')}</>
+            ),
             editorRenderer: (
               editorProps,
               value,
@@ -622,27 +564,23 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               rowIndex,
               columnIndex,
             ) => (
-              <>
-                <Form.InputDateTime
-                  value={new Date(row.dateActive)}
-                  onFocusRemove={dateActive => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(dateActive, column.dataField, row._id);
-                  }}
-                />
-              </>
+              <Form.InputDateTime
+                value={new Date(row.dateActive)}
+                onFocusRemove={dateActive => {
+                  props.onUpdateItem &&
+                    props.onUpdateItem(dateActive, column.dataField, row._id);
+                }}
+              />
             ),
           },
           {
             dataField: 'dateExpire',
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: editorCell,
             text: 'Date Expiry',
             headerClasses: 'textHeader',
-            // sort: true,
             headerStyle: {
               fontSize: 0,
             },
-            // sortCaret: (order, column) => sortCaret(order, column),
             csvFormatter: (col, row) =>
               row.dateExpire
                 ? dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')
@@ -655,9 +593,9 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
             filterRenderer: (onFilter, column) => (
               <DateRangeFilter onFilter={onFilter} column={column} />
             ),
-            formatter: (cell, row) => {
-              return <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>;
-            },
+            formatter: (cell, row) => (
+              <>{dayjs(row.dateExpire).format('DD-MM-YYYY HH:mm:ss')}</>
+            ),
             editorRenderer: (
               editorProps,
               value,
@@ -666,32 +604,26 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               rowIndex,
               columnIndex,
             ) => (
-              <>
-                <ModalDateTime
-                  {...{
-                    visible: true,
-                    use12Hours: false,
-                    data: row.dateExpire,
-                    isSingleDatePicker: true,
-                    isDateTimePicker: false,
-                  }}
-                  minDate={nextDay}
-                  onUpdate={dateExpire => {
-                    setModalDetails({ visible: false });
-                    props.onSingleDirectUpdateField &&
-                      props.onSingleDirectUpdateField(
-                        dateExpire,
-                        column.dataField,
-                        row._id,
-                      );
-                  }}
-                  onClose={() => {
-                    setModalDetails({
-                      visible: false,
-                    });
-                  }}
-                />
-              </>
+              <ModalDateTime
+                visible={true}
+                use12Hours={false}
+                data={row.dateExpire}
+                isSingleDatePicker={true}
+                isDateTimePicker={false}
+                minDate={nextDay}
+                onUpdate={dateExpire => {
+                  setModalDetails({ visible: false });
+                  props.onSingleDirectUpdateField &&
+                    props.onSingleDirectUpdateField(
+                      dateExpire,
+                      column.dataField,
+                      row._id,
+                    );
+                }}
+                onClose={() => {
+                  setModalDetails({ visible: false });
+                }}
+              />
             ),
           },
           {
@@ -731,29 +663,6 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               },
             }),
             headerClasses: 'textHeader2',
-            // editorRenderer: (
-            //   editorProps,
-            //   value,
-            //   row,
-            //   column,
-            //   rowIndex,
-            //   columnIndex,
-            // ) => (
-            //   <>
-            //     <AutoCompleteCompanyList
-            //       isLabel={false}
-            //       hasError={false}
-            //       onSelect={companyCode => {
-            //         props.onUpdateItem &&
-            //           props.onUpdateItem(
-            //             companyCode,
-            //             column.dataField,
-            //             row._id,
-            //           );
-            //       }}
-            //     />
-            //   </>
-            // ),
           },
           {
             dataField: 'environment',
@@ -772,122 +681,81 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
                 environment = filter;
               },
             }),
-            // editorRenderer: (
-            //   editorProps,
-            //   value,
-            //   row,
-            //   column,
-            //   rowIndex,
-            //   columnIndex,
-            // ) => (
-            //   <>
-            //     <select
-            //       value={row.environment}
-            //       className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
-            //       onChange={e => {
-            //         const environment = e.target.value;
-            //         props.onUpdateItem &&
-            //           props.onUpdateItem(
-            //             environment,
-            //             column.dataField,
-            //             row._id,
-            //           );
-            //       }}
-            //     >
-            //       <option selected>Select</option>
-            //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
-            //         (item: any, index: number) => (
-            //           <option key={index} value={item.code}>
-            //             {lookupValue(item)}
-            //           </option>
-            //         ),
-            //       )}
-            //     </select>
-            //   </>
-            // ),
           },
           {
             dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,
-            // hidden: !props.isDelete,
             formatter: (cellContent, row) => (
-              <>
-                <div className='flex flex-row'>
-                  {props.isDelete && (
-                    <Tooltip tooltipText='Delete'>
-                      <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() =>
-                          props.onDelete &&
-                          props.onDelete({
-                            type: 'Delete',
-                            show: true,
-                            id: [row._id],
-                            title: 'Are you sure?',
-                            body: 'Do you want to delete this record?',
-                          })
-                        }
-                      >
-                        {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  )}
-
-                  {row.status === 'A' && (
-                    <>
-                      {props.isVersionUpgrade && (
-                        <Tooltip className='ml-2' tooltipText='Version Upgrade'>
-                          <Icons.IconContext
-                            color='#ffffff'
-                            size='20'
-                            onClick={() =>
-                              props.onVersionUpgrade &&
-                              props.onVersionUpgrade(row)
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
-                          </Icons.IconContext>
-                        </Tooltip>
-                      )}
-                      {props.isDuplicate && (
-                        <Tooltip className='ml-2' tooltipText='Duplicate'>
-                          <Icons.IconContext
-                            color='#ffffff'
-                            size='20'
-                            onClick={() =>
-                              props.onDuplicate && props.onDuplicate(row)
-                            }
-                          >
-                            {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
-                          </Icons.IconContext>
-                        </Tooltip>
-                      )}
-                    </>
-                  )}
-                  {row.status == 'D' && (
-                    <Tooltip tooltipText='Approval'>
-                      <Icons.RIcon
-                        nameIcon='AiOutlineCheckCircle'
-                        propsIcon={{ size: 24, color: '#ffffff' }}
-                        onClick={() => props.onApproval(row)}
-                      />
-                    </Tooltip>
-                  )}
-                </div>
-              </>
+              <div className='flex flex-row'>
+                {props.isDelete && (
+                  <Tooltip tooltipText='Delete'>
+                    <Icons.IconContext
+                      color='#ffffff'
+                      size='20'
+                      onClick={() =>
+                        props.onDelete &&
+                        props.onDelete({
+                          type: 'Delete',
+                          show: true,
+                          id: [row._id],
+                          title: 'Are you sure?',
+                          body: 'Do you want to delete this record?',
+                        })
+                      }
+                    >
+                      {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                    </Icons.IconContext>
+                  </Tooltip>
+                )}
+                {row.status === 'A' && (
+                  <>
+                    {props.isVersionUpgrade && (
+                      <Tooltip className='ml-2' tooltipText='Version Upgrade'>
+                        <Icons.IconContext
+                          color='#ffffff'
+                          size='20'
+                          onClick={() =>
+                            props.onVersionUpgrade &&
+                            props.onVersionUpgrade(row)
+                          }
+                        >
+                          {Icons.getIconTag(Icons.Iconvsc.VscVersions)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+                    {props.isDuplicate && (
+                      <Tooltip className='ml-2' tooltipText='Duplicate'>
+                        <Icons.IconContext
+                          color='#ffffff'
+                          size='20'
+                          onClick={() =>
+                            props.onDuplicate && props.onDuplicate(row)
+                          }
+                        >
+                          {Icons.getIconTag(Icons.Iconio5.IoDuplicateOutline)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+                  </>
+                )}
+                {row.status === 'D' && (
+                  <Tooltip tooltipText='Approval'>
+                    <Icons.RIcon
+                      nameIcon='AiOutlineCheckCircle'
+                      propsIcon={{ size: 24, color: '#ffffff' }}
+                      onClick={() => props.onApproval(row)}
+                    />
+                  </Tooltip>
+                )}
+              </div>
             ),
-            headerClasses: 'sticky right-0  bg-gray-500 text-white z-50',
-            classes: (cell, row, rowIndex, colIndex) => {
-              return 'sticky right-0 bg-gray-500';
-            },
-            style: (cell, row, rowIndex, colIndex) => {
-              return {
-                zIndex: props.data?.length - rowIndex,
-              };
-            },
+            headerClasses: 'sticky right-0 bg-gray-500 text-white z-50',
+            classes: 'sticky right-0 bg-gray-500',
+            style: (cell, row, rowIndex) => ({
+              zIndex: props.data?.length - rowIndex,
+            }),
           },
         ]}
         isDelete={props.isDelete}
@@ -897,9 +765,9 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
         fileName='Package Master'
         onSelectedRow={rows => {
           props.onSelectedRow &&
-            props.onSelectedRow(rows.map((item: any) => item._id));
+            props.onSelectedRow(rows.map(item => item._id));
         }}
-        onUpdateItem={(value: any, dataField: string, id: string) => {
+        onUpdateItem={(value, dataField, id) => {
           props.onUpdateItem && props.onUpdateItem(value, dataField, id);
         }}
         onPageSizeChange={(page, size) => {
@@ -932,7 +800,7 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
           'status',
           'environment',
         ]}
-        hideExcelSheet={['_id', 'opration']}
+        hideExcelSheet={['_id', 'operation']}
       />
       <ModalReportOrder
         {...modalResultOrder}

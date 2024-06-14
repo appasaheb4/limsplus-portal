@@ -331,7 +331,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                       props.onUpdateItem(sbu, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'SBU').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -379,7 +379,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                       props.onUpdateItem(zone, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'ZONE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -428,7 +428,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
                       props.onUpdateItem(status, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'STATUS')
                     .filter(item => item.code != 'D')
                     .map((item: any, index: number) => (
@@ -522,7 +522,7 @@ export const AdminstrativeDivList = (props: AdminstrativeDivListProps) => {
             //           );
             //       }}
             //     >
-            //       <option selected>Select</option>
+            //      <option>Select</option>
             //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
             //         (item: any, index: number) => (
             //           <option key={index} value={item.code}>

@@ -117,3 +117,8 @@ th {
   background-color: gray;
   color: white;
 }
+
+
+.non-selectable-row {
+  background-color: gray;
+}

@@ -282,7 +282,7 @@ export const PageLayout = observer(() => {
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {[
                             '4A0',
                             '2A0',

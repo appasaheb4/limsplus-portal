@@ -473,7 +473,7 @@ export const LabList = (props: LabListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {salesTeamStore.listSalesTeam &&
                       salesTeamStore.listSalesTeam.map(
                         (item: any, index: number) => (
@@ -527,7 +527,7 @@ export const LabList = (props: LabListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {salesTeamStore.listSalesTeam &&
                       salesTeamStore.listSalesTeam.map(
                         (item: any, index: number) => (
@@ -782,7 +782,7 @@ export const LabList = (props: LabListProps) => {
                         props.onUpdateItem(labType, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'LAB_TYPE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -1314,7 +1314,7 @@ export const LabList = (props: LabListProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (

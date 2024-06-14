@@ -187,7 +187,7 @@ export const ModalLookupValuesModify = observer(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {values?.arrValues?.map(
                             (item: any, index: number) => (
                               <option

@@ -554,7 +554,13 @@ const DeliveryQueue = observer(() => {
       />
     ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [deliveryQueueStore.reportDeliveryList, selectId, reloadTable, holdRecord],
+    [
+      deliveryQueueStore.reportDeliveryList,
+      RouterFlow,
+      selectId,
+      // reloadTable,
+      holdRecord,
+    ],
   );
   return (
     <>

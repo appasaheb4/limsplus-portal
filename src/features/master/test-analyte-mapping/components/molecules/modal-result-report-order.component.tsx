@@ -96,7 +96,7 @@ export const ModalResultReportOrder = observer(
                   </div>
                   {/*body*/}
 
-                  <div className='relative p-2 flex-auto'>
+                  <div className='relative p-2 flex-auto max-h-[60vh] overflow-y-scroll'>
                     <Table striped bordered className='max-h-5' size='sm'>
                       <thead>
                         <tr className='text-xs'>
@@ -241,7 +241,7 @@ export const ModalResultReportOrder = observer(
                                   order[index].instType = instType;
                                 }}
                               >
-                                <option selected>{'Select'}</option>
+                                <option>{'Select'}</option>
                                 {_.uniqBy(
                                   instResultMappingRecords,
                                   'instType',
@@ -261,7 +261,7 @@ export const ModalResultReportOrder = observer(
                                   order[index].instId = instId;
                                 }}
                               >
-                                <option selected>{'Select'}</option>
+                                <option>{'Select'}</option>
                                 {_.uniqBy(
                                   instResultMappingRecords,
                                   'instId',
@@ -281,7 +281,7 @@ export const ModalResultReportOrder = observer(
                                   order[index].assayCode = assayCode;
                                 }}
                               >
-                                <option selected>{'Select'}</option>
+                                <option>{'Select'}</option>
                                 {_.uniqBy(
                                   instResultMappingRecords,
                                   'assayCode',

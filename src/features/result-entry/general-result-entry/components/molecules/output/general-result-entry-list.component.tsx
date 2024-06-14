@@ -2,7 +2,13 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import _, { isNaN } from 'lodash';
-import { Form, Buttons, Tooltip, Icons } from '@/library/components';
+import {
+  Form,
+  Buttons,
+  Tooltip,
+  Icons,
+  textFilter,
+} from '@/library/components';
 import { DisplayResult } from './display-result.components';
 
 import { GeneralResultEntryExpand } from './general-result-entry-expand.component';
@@ -14,6 +20,8 @@ import {
   getCretical,
 } from '../../../utils';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
+import { stores, useStores } from '@/stores';
+import { useStore } from 'react-redux';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -41,7 +49,10 @@ interface GeneralResultEntryListProps {
   selectedRowData?: any;
 }
 
+let patientName;
+
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
+  const { appStore } = useStores();
   const [selectId, setSelectId] = useState('');
   const [selectedRowId, setSelectedRowId] = useState('');
   const [refRangeRowId, setRefRangleRowId] = useState('');
@@ -120,11 +131,48 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               editable: false,
               headerClasses: 'textHeaderxxs',
             },
+
+            {
+              dataField: 'name',
+              text: 'Name',
+              sort: true,
+              editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
+              filter: textFilter({
+                placeholder: 'Patient Name',
+                getFilter: filter => {
+                  patientName = filter;
+                },
+              }),
+              headerClasses: 'textHeader',
+              style: {
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                minWidth: 0,
+                maxWidth: '130px',
+                position: 'relative',
+              },
+              formatter: (cellContent, row) => (
+                <span title={row.name}>{cellContent}</span>
+              ),
+            },
             {
               dataField: 'testCode',
               text: 'Test Code - Name',
               editable: false,
               headerClasses: 'textHeader',
+              headerStyle: {
+                fontSize: 0,
+              },
+              filter: textFilter({
+                placeholder: 'Test Code - Name',
+                getFilter: filter => {
+                  patientName = filter;
+                },
+              }),
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -145,7 +193,16 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'analyteCode',
               text: 'Analyte Code - Name',
               editable: false,
-              headerClasses: 'textHeaderm',
+              headerClasses: 'textHeader',
+              headerStyle: {
+                fontSize: 0,
+              },
+              filter: textFilter({
+                placeholder: 'Analyte Code - Name',
+                getFilter: filter => {
+                  patientName = filter;
+                },
+              }),
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -165,7 +222,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             {
               dataField: 'result',
               text: 'Result',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeaderxxm',
               editable: (content, row, rowIndex, columnIndex) =>
                 row.approvalStatus == 'P' && !row?.calculationFlag
                   ? true
@@ -268,13 +325,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               dataField: 'normalRange',
               text: 'Normal Range',
               sort: true,
-              headerClasses: 'textHeaderxxm',
+              headerClasses: 'textHeaderm',
               editable: false,
               style: { width: widthRefBox },
               formatter: (cell, row) => {
                 return (
                   <>
-                    <div className='flex flex-row gap-4'>
+                    <div className='flex flex-row gap-1'>
                       <span>
                         <span>
                           <span>
@@ -299,7 +356,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             }
                           >
                             <Icons.IconContext
-                              color='#000000'
+                              color={
+                                appStore.applicationSetting.theme != 'dark'
+                                  ? '#000000'
+                                  : '#ffffff'
+                              }
                               size='20'
                               onClick={() => {
                                 if (row._id === refRangeRowId) {

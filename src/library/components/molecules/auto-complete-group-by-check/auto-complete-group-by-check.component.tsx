@@ -1,6 +1,6 @@
 /* eslint-disable  */
-import React, {useState, useEffect, useRef} from 'react';
-import {Icons} from '../..';
+import React, { useState, useEffect, useRef } from 'react';
+import { Icons } from '../..';
 import _ from 'lodash';
 
 interface AutoCompleteGroupByCheckProps {
@@ -106,7 +106,7 @@ export const AutoCompleteGroupByCheck = (
               }
             });
             if (isSameArray.length < 1) {
-              filterArray.push({...item, children: [children]});
+              filterArray.push({ ...item, children: [children] });
             }
             const uniqueChars = uniqByKeepFirst(filterArray, it => it.name);
             filterArray = uniqueChars;
@@ -145,7 +145,7 @@ export const AutoCompleteGroupByCheck = (
           if (record.selected) {
             valueItem.push(record.title);
             childrenItem.push(record);
-            selectedOptions.push({...item, children: childrenItem});
+            selectedOptions.push({ ...item, children: childrenItem });
           }
         });
       });
@@ -170,7 +170,7 @@ export const AutoCompleteGroupByCheck = (
             value={valueRef.current}
             className='w-full focus:outline-none'
             //onKeyUp={onKeyUp}
-            //onChange={onChange}
+            onChange={() => {}}
             onClick={() => setIsListOpen(true)}
           />
           {isListOpen ? (
@@ -185,7 +185,7 @@ export const AutoCompleteGroupByCheck = (
                 <ul className='p-2 rounded-sm '>
                   <div
                     className='overflow-y-auto'
-                    style={{height: 'auto', maxHeight: '350px'}}
+                    style={{ height: 'auto', maxHeight: '350px' }}
                   >
                     {options?.map((item, index) => (
                       <>

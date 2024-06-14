@@ -197,7 +197,7 @@ export const PageLayoutList = observer((props: PageLayoutProps) => {
                           props.onUpdateItem({ pageSize }, row._id);
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {[
                         '4A0',
                         '2A0',

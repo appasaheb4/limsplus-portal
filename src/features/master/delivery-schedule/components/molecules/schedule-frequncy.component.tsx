@@ -1,78 +1,81 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import classnames from 'classnames';
-import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 
 import dayjs from 'dayjs';
-import {Form} from '@/library/components';
+import { Form } from '@/library/components';
 
 interface ScheduleFrequencyProps {
   type: string;
   onChnage?: (value: any) => void;
 }
 
-export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
+export const ScheduleFrequency = ({
+  type,
+  onChnage,
+}: ScheduleFrequencyProps) => {
   const [activeTab, setActiveTab] = useState('1');
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
   };
   const [weekly, setWeekly] = useState<any[]>([
-    {day: 'Sun', units: '', value: '', selected: false},
-    {day: 'Mon', units: '', value: '', selected: false},
-    {day: 'Tue', units: '', value: '', selected: false},
-    {day: 'Wed', units: '', value: '', selected: false},
-    {day: 'Thu', units: '', value: '', selected: false},
-    {day: 'Fry', units: '', value: '', selected: false},
-    {day: 'Sat', units: '', value: '', selected: false},
+    { day: 'Sun', units: '', value: '', selected: false },
+    { day: 'Mon', units: '', value: '', selected: false },
+    { day: 'Tue', units: '', value: '', selected: false },
+    { day: 'Wed', units: '', value: '', selected: false },
+    { day: 'Thu', units: '', value: '', selected: false },
+    { day: 'Fry', units: '', value: '', selected: false },
+    { day: 'Sat', units: '', value: '', selected: false },
   ]);
   const [monthly, setMonthly] = useState<any[]>([
     {
       weekly: '1st Weekly',
       days: [
-        {day: 'Sun', units: '', value: '', selected: false},
-        {day: 'Mon', units: '', value: '', selected: false},
-        {day: 'Tue', units: '', value: '', selected: false},
-        {day: 'Wed', units: '', value: '', selected: false},
-        {day: 'Thu', units: '', value: '', selected: false},
-        {day: 'Fry', units: '', value: '', selected: false},
-        {day: 'Sat', units: '', value: '', selected: false},
+        { day: 'Sun', units: '', value: '', selected: false },
+        { day: 'Mon', units: '', value: '', selected: false },
+        { day: 'Tue', units: '', value: '', selected: false },
+        { day: 'Wed', units: '', value: '', selected: false },
+        { day: 'Thu', units: '', value: '', selected: false },
+        { day: 'Fry', units: '', value: '', selected: false },
+        { day: 'Sat', units: '', value: '', selected: false },
       ],
     },
     {
       weekly: '2nd Weekly',
       days: [
-        {day: 'Sun', units: '', value: '', selected: false},
-        {day: 'Mon', units: '', value: '', selected: false},
-        {day: 'Tue', units: '', value: '', selected: false},
-        {day: 'Wed', units: '', value: '', selected: false},
-        {day: 'Thu', units: '', value: '', selected: false},
-        {day: 'Fry', units: '', value: '', selected: false},
-        {day: 'Sat', units: '', value: '', selected: false},
+        { day: 'Sun', units: '', value: '', selected: false },
+        { day: 'Mon', units: '', value: '', selected: false },
+        { day: 'Tue', units: '', value: '', selected: false },
+        { day: 'Wed', units: '', value: '', selected: false },
+        { day: 'Thu', units: '', value: '', selected: false },
+        { day: 'Fry', units: '', value: '', selected: false },
+        { day: 'Sat', units: '', value: '', selected: false },
       ],
     },
     {
       weekly: '3rd Weekly',
       days: [
-        {day: 'Sun', units: '', value: '', selected: false},
-        {day: 'Mon', units: '', value: '', selected: false},
-        {day: 'Tue', units: '', value: '', selected: false},
-        {day: 'Wed', units: '', value: '', selected: false},
-        {day: 'Thu', units: '', value: '', selected: false},
-        {day: 'Fry', units: '', value: '', selected: false},
-        {day: 'Sat', units: '', value: '', selected: false},
+        { day: 'Sun', units: '', value: '', selected: false },
+        { day: 'Mon', units: '', value: '', selected: false },
+        { day: 'Tue', units: '', value: '', selected: false },
+        { day: 'Wed', units: '', value: '', selected: false },
+        { day: 'Thu', units: '', value: '', selected: false },
+        { day: 'Fry', units: '', value: '', selected: false },
+        { day: 'Sat', units: '', value: '', selected: false },
       ],
     },
     {
       weekly: '4th Weekly',
       days: [
-        {day: 'Sun', units: '', value: '', selected: false},
-        {day: 'Mon', units: '', value: '', selected: false},
-        {day: 'Tue', units: '', value: '', selected: false},
-        {day: 'Wed', units: '', value: '', selected: false},
-        {day: 'Thu', units: '', value: '', selected: false},
-        {day: 'Fry', units: '', value: '', selected: false},
-        {day: 'Sat', units: '', value: '', selected: false},
+        { day: 'Sun', units: '', value: '', selected: false },
+        { day: 'Mon', units: '', value: '', selected: false },
+        { day: 'Tue', units: '', value: '', selected: false },
+        { day: 'Wed', units: '', value: '', selected: false },
+        { day: 'Thu', units: '', value: '', selected: false },
+        { day: 'Fry', units: '', value: '', selected: false },
+        { day: 'Sat', units: '', value: '', selected: false },
       ],
     },
   ]);
@@ -81,12 +84,12 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
   const [monthlyUnits, setMonthlyUnits] = useState<string>();
 
   const [result, setResult] = useState<any[]>([
-    {title: 'First Intrim', units: '', value: '', selected: false},
-    {title: 'Second Intrim', units: '', value: '', selected: false},
-    {title: 'Third Intrim', units: '', value: '', selected: false},
-    {title: 'Final', units: '', value: '', selected: false},
-    {title: 'Negative', units: '', value: '', selected: false},
-    {title: 'Positive', units: '', value: '', selected: false},
+    { title: 'First Intrim', units: '', value: '', selected: false },
+    { title: 'Second Intrim', units: '', value: '', selected: false },
+    { title: 'Third Intrim', units: '', value: '', selected: false },
+    { title: 'Final', units: '', value: '', selected: false },
+    { title: 'Negative', units: '', value: '', selected: false },
+    { title: 'Positive', units: '', value: '', selected: false },
   ]);
   const [batch1StartTime, setBatch1StartTime] = useState<string>();
   const [batch1EndTime, setBatch1EndTime] = useState<string>();
@@ -118,7 +121,7 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
       item.days.filter(days => {
         if (days.selected === true) {
           daysItems.push(days);
-          item = {...item, days: daysItems};
+          item = { ...item, days: daysItems };
           monthlyItems.push(item);
         }
       });
@@ -188,7 +191,7 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
                     setWeekly(weekly);
                   }}
                 >
-                  <option selected>Units</option>
+                  <option>Units</option>
                   {['MINUTES', 'HOURS', 'DAY'].map(
                     (items: any, index: number) => (
                       <option key={index} value={items}>
@@ -207,7 +210,7 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
           <Nav tabs>
             <NavItem>
               <NavLink
-                className={classnames({active: activeTab === '1'})}
+                className={classnames({ active: activeTab === '1' })}
                 onClick={() => {
                   toggle('1');
                 }}
@@ -217,7 +220,7 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({active: activeTab === '2'})}
+                className={classnames({ active: activeTab === '2' })}
                 onClick={() => {
                   toggle('2');
                 }}
@@ -273,7 +276,7 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
                               setMonthly(monthly);
                             }}
                           >
-                            <option selected>Units</option>
+                            <option>Units</option>
                             {['MINUTES', 'HOURS', 'DAY'].map(
                               (items: any, index: number) => (
                                 <option key={index} value={items}>
@@ -332,7 +335,7 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
                       });
                   }}
                 >
-                  <option selected>Units</option>
+                  <option>Units</option>
                   {['MINUTES', 'HOURS', 'DAY'].map(
                     (items: any, index: number) => (
                       <option key={index} value={items}>
@@ -385,7 +388,7 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
                     setResult(result);
                   }}
                 >
-                  <option selected>Units</option>
+                  <option>Units</option>
                   {['MINUTES', 'HOURS', 'DAY'].map(
                     (items: any, index: number) => (
                       <option key={index} value={items}>
@@ -471,7 +474,7 @@ export const ScheduleFrequency = ({type, onChnage}: ScheduleFrequencyProps) => {
                   });
               }}
             >
-              <option selected>Select</option>
+              <option>Select</option>
               {['MINUTES', 'HOURS', 'DAY'].map((item: any, index: number) => (
                 <option key={index} value={item}>
                   {item}

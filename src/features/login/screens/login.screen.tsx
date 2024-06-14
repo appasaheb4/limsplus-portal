@@ -317,7 +317,7 @@ export const Login = observer(() => {
                                 errors.userId ? 'Please enter userId' : 'UserId'
                               }
                               hasError={!!errors.userId}
-                              value={loginStore.inputLogin?.userId}
+                              value={loginStore.inputLogin?.userId || ''}
                               onChange={userId => {
                                 onChange(userId);
                                 loginStore.updateInputUser({
@@ -396,7 +396,7 @@ export const Login = observer(() => {
                                   : 'Password'
                               }
                               hasError={!!errors.password}
-                              value={loginStore.inputLogin?.password}
+                              value={loginStore.inputLogin?.password || ''}
                               onChange={password => {
                                 onChange(password);
                                 loginStore.updateInputUser({
@@ -429,7 +429,7 @@ export const Login = observer(() => {
                                 value={value}
                                 className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                                   errors.lab ? 'border-red' : 'border-gray-300'
-                                } rounded-md cursor-pointer `}
+                                } rounded-md cursor-pointer`}
                                 onChange={e => {
                                   const lab = e.target.value;
                                   onChange(lab);
@@ -477,7 +477,7 @@ export const Login = observer(() => {
                                   });
                                 }}
                               >
-                                <option selected>Select</option>
+                                <option>Select</option>
                                 {labRoleList.roleList.map((item: any) => (
                                   <option key={item.code} value={item.code}>
                                     {item.description}

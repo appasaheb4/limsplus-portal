@@ -658,14 +658,12 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                           <tbody className='text-xs'>
                             {row?.departments?.map((item, index) => {
                               return (
-                                <>
-                                  <tr key={index}>
-                                    <td>{item.code}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.prefrence}</td>
-                                    <td>{item.tatInMin}</td>
-                                  </tr>
-                                </>
+                                <tr key={index}>
+                                  <td>{item.code}</td>
+                                  <td>{item.name}</td>
+                                  <td>{item.prefrence}</td>
+                                  <td>{item.tatInMin}</td>
+                                </tr>
                               );
                             })}
                           </tbody>
@@ -735,7 +733,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'MIN_DRAW_VOL_UNIT',
@@ -806,7 +804,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'MIN_TEST_VOL_UNIT',
@@ -897,7 +895,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'RETENTION_UNITS',
@@ -1013,7 +1011,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -1107,7 +1105,7 @@ export const TestSampleMappingList = (props: TestSampleMappingListProps) => {
               //           );
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(
               //         props.extraData.lookupItems,
               //         'ENVIRONMENT',

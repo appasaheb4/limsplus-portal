@@ -324,7 +324,7 @@ const RoleMapping = observer(() => {
                   roleMappingStore.updateSelectedRole(toJS(role));
                 }}
               >
-                <option selected>
+                <option>
                   {roleMappingStore.selectedRole?.code || 'Select'}
                 </option>
                 {roleList.map((item: any, index: number) => (
@@ -344,7 +344,7 @@ const RoleMapping = observer(() => {
                         type='checkbox'
                         checked={item.checked}
                         className='m-2 w-4 h-4'
-                        onClick={() => {
+                        onChange={() => {
                           const itemSelected = commonAction?.map(e => {
                             if (e?.title == item?.title) {
                               return {
@@ -401,7 +401,7 @@ const RoleMapping = observer(() => {
                                 <>
                                   <input
                                     type='text'
-                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block shadow-sm sm:text-base border border-gray-300 rounded-sm'
                                     value={item.title}
                                     onChange={e => {
                                       const title = e.target.value;
@@ -417,7 +417,7 @@ const RoleMapping = observer(() => {
                                   />
                                   <input
                                     type='text'
-                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                    className='leading-4 p-2 m-2 focus:outline-none focus:ring block shadow-sm sm:text-base border border-gray-300 rounded-sm'
                                     value={item.icon}
                                     onChange={e => {
                                       const icon = e.target.value;
@@ -445,17 +445,19 @@ const RoleMapping = observer(() => {
                                   <input
                                     type='checkbox'
                                     checked={item?.checked}
+                                    onChange={() => {}} // Add an empty onChange handler
                                     className='m-2 w-4 h-4'
                                     onClick={() => {
                                       if (
                                         commonAction?.filter(
                                           comA => comA?.checked === false,
-                                        )?.length == 4
-                                      )
+                                        )?.length === 4
+                                      ) {
                                         return Toast.error({
                                           message:
                                             '😌 Please select first common action.',
                                         });
+                                      }
                                       const router = [...routerStore.router];
                                       const flag = !item?.checked;
                                       router[index].checked = flag;
@@ -469,7 +471,7 @@ const RoleMapping = observer(() => {
                                               const perFlag = flag
                                                 ? commonAction.find(
                                                     coma =>
-                                                      coma.title == chp?.title,
+                                                      coma.title === chp?.title,
                                                   )?.checked
                                                 : flag;
                                               return {
@@ -523,8 +525,8 @@ const RoleMapping = observer(() => {
                                         {item.children.map(
                                           (children, indexChildren) => (
                                             <Draggable
-                                              key={children.name}
-                                              draggableId={children.name}
+                                              key={`${children.name}-${indexChildren}`} // Ensure the key is unique
+                                              draggableId={`${children.name}-${indexChildren}`} // Ensure the id is unique
                                               index={indexChildren}
                                             >
                                               {(provided, snapshot) => (
@@ -538,7 +540,7 @@ const RoleMapping = observer(() => {
                                                     <>
                                                       <input
                                                         type='text'
-                                                        className='leading-4 p-1 m-1 focus:outline-none focus:ring block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                                        className='leading-4 p-1 m-1 focus:outline-none focus:ring block text-black shadow-sm sm:text-base border border-gray-300 rounded-sm'
                                                         value={children.title}
                                                         placeholder='Title'
                                                         onChange={e => {
@@ -572,7 +574,7 @@ const RoleMapping = observer(() => {
                                                       />
                                                       <input
                                                         type='text'
-                                                        className='leading-4 p-1 m-1 focus:outline-none focus:ring block text-black  shadow-sm sm:text-base border border-gray-300 rounded-sm'
+                                                        className='leading-4 p-1 m-1 focus:outline-none focus:ring block text-black shadow-sm sm:text-base border border-gray-300 rounded-sm'
                                                         value={children.icon}
                                                         placeholder='Icon'
                                                         onChange={e => {
@@ -626,6 +628,7 @@ const RoleMapping = observer(() => {
                                                         checked={
                                                           children?.checked
                                                         }
+                                                        onChange={() => {}} // Add an empty onChange handler
                                                         className='m-2 w-4 h-4'
                                                         onClick={() => {
                                                           if (
@@ -633,12 +636,13 @@ const RoleMapping = observer(() => {
                                                               comA =>
                                                                 comA?.checked ===
                                                                 false,
-                                                            )?.length == 4
-                                                          )
+                                                            )?.length === 4
+                                                          ) {
                                                             return Toast.error({
                                                               message:
                                                                 '😌 Please select first common action.',
                                                             });
+                                                          }
 
                                                           const routers = toJS(
                                                             routerStore.router,
@@ -668,7 +672,7 @@ const RoleMapping = observer(() => {
                                                                   const perFlag =
                                                                     commonAction?.find(
                                                                       comA =>
-                                                                        comA.title ==
+                                                                        comA.title ===
                                                                         perC.title,
                                                                     )?.checked;
                                                                   return {
@@ -689,13 +693,11 @@ const RoleMapping = observer(() => {
                                                               ].children[
                                                                 indexChildren
                                                               ].permission?.map(
-                                                                perC => {
-                                                                  return {
-                                                                    ...perC,
-                                                                    checked:
-                                                                      false,
-                                                                  };
-                                                                },
+                                                                perC => ({
+                                                                  ...perC,
+                                                                  checked:
+                                                                    false,
+                                                                }),
                                                               );
                                                           }
                                                           routerStore.updateRouter(
@@ -714,13 +716,9 @@ const RoleMapping = observer(() => {
                                                               );
                                                             // title all uncheck
                                                             if (
-                                                              allUnCheckTitle?.length ==
+                                                              allUnCheckTitle?.length ===
                                                               allUnCheckTitle?.filter(
-                                                                unCT =>
-                                                                  unCT ==
-                                                                    false ||
-                                                                  unCT ==
-                                                                    undefined,
+                                                                unCT => !unCT,
                                                               )?.length
                                                             ) {
                                                               routers1[
@@ -743,6 +741,7 @@ const RoleMapping = observer(() => {
                                                         indexPermission,
                                                       ) => (
                                                         <li
+                                                          key={`${permission.title}-${indexPermission}`} // Ensure the key is unique
                                                           className='flex items-center'
                                                           onClick={async () => {
                                                             const routers =
@@ -756,9 +755,7 @@ const RoleMapping = observer(() => {
                                                                 indexPermission
                                                               ];
                                                             modifyPermission.checked =
-                                                              modifyPermission.checked
-                                                                ? false
-                                                                : true;
+                                                              !modifyPermission.checked;
                                                             if (
                                                               modifyPermission.title ===
                                                               'Import'
@@ -771,18 +768,16 @@ const RoleMapping = observer(() => {
                                                                 true;
                                                             }
                                                             if (
-                                                              modifyPermission.title ===
-                                                                'Version Upgrade' ||
-                                                              modifyPermission.title ===
-                                                                'Duplicate' ||
-                                                              modifyPermission.title ===
-                                                                'Update' ||
-                                                              modifyPermission.title ===
-                                                                'Delete' ||
-                                                              modifyPermission.title ===
-                                                                'Export' ||
-                                                              modifyPermission.title ===
-                                                                'Cancel'
+                                                              [
+                                                                'Version Upgrade',
+                                                                'Duplicate',
+                                                                'Update',
+                                                                'Delete',
+                                                                'Export',
+                                                                'Cancel',
+                                                              ].includes(
+                                                                modifyPermission.title,
+                                                              )
                                                             ) {
                                                               routers[
                                                                 index
@@ -811,6 +806,7 @@ const RoleMapping = observer(() => {
                                                             checked={
                                                               permission.checked
                                                             }
+                                                            onChange={() => {}} // Add an empty onChange handler
                                                             className='m-2 w-4 h-4'
                                                             onClick={() => {
                                                               const flag =
@@ -850,10 +846,9 @@ const RoleMapping = observer(() => {
                                                                   );
                                                                 if (
                                                                   allUnCheckPer?.filter(
-                                                                    unC =>
-                                                                      unC ==
-                                                                      false,
-                                                                  )?.length == 3
+                                                                    unC => !unC,
+                                                                  )?.length ===
+                                                                  3
                                                                 ) {
                                                                   routers1[
                                                                     index
@@ -870,13 +865,10 @@ const RoleMapping = observer(() => {
                                                                     );
                                                                   // title all uncheck
                                                                   if (
-                                                                    allUnCheckTitle?.length ==
+                                                                    allUnCheckTitle?.length ===
                                                                     allUnCheckTitle?.filter(
                                                                       unCT =>
-                                                                        unCT ==
-                                                                          false ||
-                                                                        unCT ==
-                                                                          undefined,
+                                                                        !unCT,
                                                                     )?.length
                                                                   ) {
                                                                     routers1[

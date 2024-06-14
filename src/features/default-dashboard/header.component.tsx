@@ -60,7 +60,7 @@ const Header = observer(({ sidebar, setCardFilter, cardFilter }) => {
           <DropdownToggle caret color='light' className='bg-white shadow-sm'>
             <Calendar className='feather align-middle mt-n1' /> {cardFilter}
           </DropdownToggle>
-          <DropdownMenu right>
+          <DropdownMenu end>
             <DropdownItem onClick={() => setCardFilter('Today')}>
               Today
             </DropdownItem>

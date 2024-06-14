@@ -666,7 +666,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'AC_TYPE').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -702,7 +702,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'AC_CLASS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -741,7 +741,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'BILLING_ON',
@@ -781,7 +781,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'BILLING_FREQUENCY',
@@ -820,7 +820,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'CUSTOMER_GROUP',
@@ -858,7 +858,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'CATEGORY').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -1601,7 +1601,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'REPORT_PRIORITY',
@@ -1667,7 +1667,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {interfaceManagerList.map(
                             (item: any, index: number) => (
                               <option key={index} value={item.instrumentType}>
@@ -1711,7 +1711,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {interfaceManagerList.map(
                             (item: any, index: number) => (
                               <option key={index} value={item.instrumentType}>
@@ -2107,7 +2107,7 @@ const CorporateClients = CorporateClientsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -2178,7 +2178,7 @@ const CorporateClients = CorporateClientsHoc(
                             }
                           }}
                         >
-                          <option selected>
+                          <option>
                             {loginStore.login &&
                             loginStore.login.role !== 'ADMINISTRATOR'
                               ? 'Select'

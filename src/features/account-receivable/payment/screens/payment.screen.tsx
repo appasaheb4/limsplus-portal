@@ -279,7 +279,7 @@ const Payment = PaymentHoc(
                       placeholder={'RLab'}
                       hasError={!!errors.rLab}
                       disabled={true}
-                      value={value}
+                      value={value || ''}
                     />
                   )}
                   name='rLab'
@@ -295,7 +295,7 @@ const Payment = PaymentHoc(
                       placeholder={'Invoice AC'}
                       hasError={!!errors.invoiceAC}
                       disabled={true}
-                      value={value}
+                      value={value || ''}
                     />
                   )}
                   name='invoiceAC'
@@ -311,7 +311,7 @@ const Payment = PaymentHoc(
                       placeholder={'Customer Name'}
                       hasError={!!errors.customerName}
                       disabled={true}
-                      value={value}
+                      value={value || ''}
                     />
                   )}
                   name='customerName'
@@ -326,7 +326,7 @@ const Payment = PaymentHoc(
                       placeholder={'Customer Group'}
                       hasError={!!errors.customerGroup}
                       disabled={true}
-                      value={value}
+                      value={value || ''}
                     />
                   )}
                   name='customerGroup'
@@ -341,7 +341,7 @@ const Payment = PaymentHoc(
                       placeholder={'AC Class'}
                       hasError={!!errors.acClass}
                       disabled={true}
-                      value={value}
+                      value={value || ''}
                     />
                   )}
                   name='acClass'
@@ -357,7 +357,7 @@ const Payment = PaymentHoc(
                       placeholder={'Ac Type'}
                       hasError={!!errors.acType}
                       disabled={true}
-                      value={value}
+                      value={value || ''}
                     />
                   )}
                   name='acType'
@@ -375,7 +375,7 @@ const Payment = PaymentHoc(
                       placeholder={'Other Charges'}
                       hasError={!!errors.discountCharges}
                       disabled={true}
-                      value={value}
+                      value={value || ''}
                     />
                   )}
                   name='discountCharges'
@@ -390,7 +390,7 @@ const Payment = PaymentHoc(
                       placeholder={'Invoice Date'}
                       hasError={!!errors.invoiceDate}
                       disabled={true}
-                      value={value}
+                      value={value || ''}
                     />
                   )}
                   name='invoiceDate'
@@ -405,7 +405,7 @@ const Payment = PaymentHoc(
                       placeholder={'Gross Amount'}
                       hasError={!!errors.grossAmount}
                       disabled={true}
-                      value={value?.toString()}
+                      value={value?.toString() || ''}
                     />
                   )}
                   name='grossAmount'
@@ -421,7 +421,7 @@ const Payment = PaymentHoc(
                       placeholder={'Net Amount'}
                       hasError={!!errors.netAmount}
                       disabled={true}
-                      value={value?.toString()}
+                      value={value?.toString() || ''}
                     />
                   )}
                   name='netAmount'
@@ -437,7 +437,7 @@ const Payment = PaymentHoc(
                       placeholder={'Discount Amount'}
                       hasError={!!errors.discountAmount}
                       disabled={true}
-                      value={value?.toString()}
+                      value={value?.toString() || ''}
                     />
                   )}
                   name='discountAmount'
@@ -453,7 +453,7 @@ const Payment = PaymentHoc(
                       placeholder={'Discount Per'}
                       hasError={!!errors.discountPer}
                       disabled={true}
-                      value={value?.toString()}
+                      value={value?.toString() || ''}
                     />
                   )}
                   name='discountPer'
@@ -469,7 +469,7 @@ const Payment = PaymentHoc(
                       placeholder={'Miscellaneous Charges'}
                       hasError={!!errors.miscellaneousCharges}
                       disabled={true}
-                      value={value?.toString()}
+                      value={value?.toString() || ''}
                     />
                   )}
                   name='miscellaneousCharges'
@@ -514,7 +514,7 @@ const Payment = PaymentHoc(
                   render={({ field: { onChange, value } }) => (
                     <Form.InputWrapper label='Mode of payment'>
                       <select
-                        value={value}
+                        value={value || ''}
                         className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
                           errors.modeOfPayment
                             ? 'border-red  '
@@ -529,7 +529,7 @@ const Payment = PaymentHoc(
                           });
                         }}
                       >
-                        <option selected>{'Select'}</option>
+                        <option>{'Select'}</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'MODE_OF_PAYMENT',
@@ -553,7 +553,7 @@ const Payment = PaymentHoc(
                       label='Payment Remark'
                       placeholder='Payment Remark'
                       hasError={!!errors.paymentRemark}
-                      value={value}
+                      value={value || ''}
                       onChange={paymentRemark => {
                         onChange(paymentRemark);
                         paymentStore.updatePayment({
@@ -576,7 +576,7 @@ const Payment = PaymentHoc(
                       placeholder={'Amount Payable'}
                       hasError={!!errors.amountPayable}
                       disabled={true}
-                      value={value?.toString()}
+                      value={value?.toString() || ''}
                     />
                   )}
                   name='amountPayable'
@@ -592,7 +592,7 @@ const Payment = PaymentHoc(
                       placeholder={'Received Amount'}
                       type='number'
                       hasError={!!errors.receivedAmount}
-                      // value={value}
+                      value={''}
                       onChange={receivedAmount => {
                         if (
                           paymentStore.payment?.amountPayable -
@@ -642,7 +642,7 @@ const Payment = PaymentHoc(
                       placeholder={'Balance'}
                       type='number'
                       hasError={!!errors.balance}
-                      value={value?.toString()}
+                      value={value?.toString() || ''}
                     />
                   )}
                   name='balance'
@@ -656,7 +656,7 @@ const Payment = PaymentHoc(
                       label='Status'
                       placeholder={'Status'}
                       hasError={!!errors.status}
-                      value={value}
+                      value={value || ''}
                       disabled={true}
                     />
                   )}
@@ -671,7 +671,7 @@ const Payment = PaymentHoc(
                       label='Entered By'
                       placeholder={'Entered By'}
                       hasError={!!errors.status}
-                      value={paymentStore.payment?.enteredBy}
+                      value={paymentStore.payment?.enteredBy || ''}
                       disabled={true}
                     />
                   )}

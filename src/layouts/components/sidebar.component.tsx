@@ -36,6 +36,7 @@ const initOpenRoutes = location => {
 
 const SidebarCategory = withRouter(
   ({
+    key,
     title,
     badgeColor,
     badgeText,
@@ -54,7 +55,7 @@ const SidebarCategory = withRouter(
     };
 
     return (
-      <li className={'sidebar-item ' + getSidebarItemClass(to)}>
+      <li className={'sidebar-item ' + getSidebarItemClass(to)} key={key}>
         <span
           data-toggle='collapse'
           className={
@@ -230,24 +231,25 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
             </div>
             {stores.routerStore.userRouter && (
               <ul className='sidebar-nav'>
-                {stores.routerStore.userRouter?.map((category: any, index) => {
-                  return (
-                    <React.Fragment key={index}>
-                      {category.children ? (
-                        <SidebarCategory
-                          name={category.name}
-                          title={category.title}
-                          badgeColor={category.badgeColor}
-                          badgeText={category.badgeText}
-                          icon={category.icon}
-                          to={category.path}
-                          isOpen={openRoutes[index]}
-                          onClick={() => toggle(index)}
-                        >
-                          {category?.children?.map((route, index) => (
-                            <>
+                {stores.routerStore.userRouter.map(
+                  (category: any, index: number) => {
+                    return (
+                      <div key={`category-${index}`}>
+                        {category.children ? (
+                          <SidebarCategory
+                            key={`sidebar-category-${category.id || index}`}
+                            name={category.name}
+                            title={category.title}
+                            badgeColor={category.badgeColor}
+                            badgeText={category.badgeText}
+                            icon={category.icon}
+                            to={category.path}
+                            isOpen={openRoutes[index]}
+                            onClick={() => toggle(index)}
+                          >
+                            {category.children.map((route, routeIndex) => (
                               <SidebarItem
-                                key={index}
+                                key={`route-${route.id || routeIndex}`}
                                 category={category.name}
                                 name={route.name}
                                 title={route.title}
@@ -272,40 +274,42 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                                   }
                                 }}
                               />
-                            </>
-                          ))}
-                        </SidebarCategory>
-                      ) : (
-                        <>
-                          <h1>Second</h1>
-                          <SidebarItem
-                            name={category.name}
-                            title={category.title}
-                            to={category.path}
-                            icon={category.icon}
-                            badgeColor={category.badgeColor}
-                            badgeText={category.badgeText}
-                            onChangeItem={async (category, item) => {
-                              const { permission, selectedComp } =
-                                await RouterFlow.updateSelectedCategory(
-                                  category,
-                                  item,
+                            ))}
+                          </SidebarCategory>
+                        ) : (
+                          <>
+                            <h1>Second</h1>
+                            <SidebarItem
+                              key={`category-${category.id || index}`}
+                              name={category.name}
+                              title={category.title}
+                              to={category.path}
+                              icon={category.icon}
+                              badgeColor={category.badgeColor}
+                              badgeText={category.badgeText}
+                              onChangeItem={async (category, item) => {
+                                const { permission, selectedComp } =
+                                  await RouterFlow.updateSelectedCategory(
+                                    category,
+                                    item,
+                                  );
+                                stores.routerStore.updateSelectedComponents(
+                                  selectedComp,
                                 );
-                              stores.routerStore.updateSelectedComponents(
-                                selectedComp,
-                              );
-                              stores.routerStore.updateUserPermission(
-                                permission,
-                              );
-                            }}
-                          />
-                        </>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
+                                stores.routerStore.updateUserPermission(
+                                  permission,
+                                );
+                              }}
+                            />
+                          </>
+                        )}
+                      </div>
+                    );
+                  },
+                )}
               </ul>
             )}
+
             {!layout.isBoxed && !sidebar.isSticky ? (
               <div className='sidebar-bottom d-none d-lg-block'>
                 <div className='media'>

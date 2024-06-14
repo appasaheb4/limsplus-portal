@@ -137,7 +137,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(
                           routerStore.lookupItems,
                           'INTERFACE_TYPE',
@@ -230,7 +230,7 @@ const InterfaceManager = InterfaceManagerHoc(
                           });
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {lookupItems(routerStore.lookupItems, 'PROTOCOL').map(
                           (item: any, index: number) => (
                             <option key={index} value={item.code}>

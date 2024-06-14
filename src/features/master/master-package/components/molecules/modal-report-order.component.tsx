@@ -150,7 +150,7 @@ export const ModalReportOrder = observer(
                                 <Form.Input
                                   type='number'
                                   disabled={txtDisable}
-                                  placeholder={item.reportOrder}
+                                  value={item.reportOrder}
                                   onChange={seq => {
                                     order[index].reportOrder =
                                       Number.parseInt(seq);

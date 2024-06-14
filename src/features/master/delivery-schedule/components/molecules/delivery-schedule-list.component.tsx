@@ -437,7 +437,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'PROCESSING_TYPE',
@@ -544,7 +544,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'DYNAMIC_TU').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -673,7 +673,7 @@ export const DeliverySchduleList = (props: DeliverySchduleListProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (

@@ -159,7 +159,7 @@ export const TemplatePatientResult = observer(() => {
                           });
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {['Lab Wise', 'Client Wise', 'Doctor Wise'].map(
                         (item: any, index: number) => (
                           <option key={index} value={item}>

@@ -341,7 +341,7 @@ export const RegistrationLocationsList = (
                       props.onUpdateItem(acClass, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'AC_CLASS').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -391,7 +391,7 @@ export const RegistrationLocationsList = (
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'AC_TYPE').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -441,7 +441,7 @@ export const RegistrationLocationsList = (
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
                     'CUSTOMER_GROUP',
@@ -488,7 +488,7 @@ export const RegistrationLocationsList = (
                       props.onUpdateItem(methodColn, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'METHOD_COLN').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -534,7 +534,7 @@ export const RegistrationLocationsList = (
                       props.onUpdateItem(category, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'CATEGORY').map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -1007,7 +1007,7 @@ export const RegistrationLocationsList = (
                       );
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(
                     props.extraData.lookupItems,
                     'REPORT_PRIORITY',
@@ -1122,7 +1122,7 @@ export const RegistrationLocationsList = (
                       props.onUpdateItem(lab, 'lab', row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {props?.extraData?.labList?.map(
                     (item: any, index: number) => (
                       <option key={index} value={item.code}>
@@ -1655,7 +1655,7 @@ export const RegistrationLocationsList = (
                       props.onUpdateItem(status, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'STATUS')
                     .filter(item => item.code != 'D')
                     .map((item: any, index: number) => (
@@ -1749,7 +1749,7 @@ export const RegistrationLocationsList = (
             //           );
             //       }}
             //     >
-            //       <option selected>Select</option>
+            //      <option>Select</option>
             //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
             //         (item: any, index: number) => (
             //           <option key={index} value={item.code}>

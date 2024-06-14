@@ -586,7 +586,7 @@ const MasterPackage = MasterPackageHOC(
                               }
                             }}
                           >
-                            <option selected>{value || 'Select'}</option>
+                            <option>{value || 'Select'}</option>
                             {masterPanelStore.listMasterPanel
                               .filter(item => {
                                 return (
@@ -747,8 +747,9 @@ const MasterPackage = MasterPackageHOC(
                                 ? 'border-red  '
                                 : 'border-gray-300'
                             } rounded-md`}
+                            onChange={e => {}}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                           </select>
                         </Form.InputWrapper>
                       )}
@@ -978,13 +979,15 @@ const MasterPackage = MasterPackageHOC(
                                     ) : (
                                       <Form.Input
                                         type='number'
-                                        placeholder={item.order}
-                                        onChange={order => {
-                                          const reportOrder =
-                                            masterPackageStore.masterPackage
-                                              ?.reportOrder;
+                                        value={item.order} // Ensure this is controlled
+                                        onChange={e => {
+                                          const newOrder = e.target.value;
+                                          const reportOrder = [
+                                            ...masterPackageStore.masterPackage
+                                              ?.reportOrder,
+                                          ];
                                           reportOrder[index].order =
-                                            Number.parseInt(order);
+                                            Number.parseInt(newOrder);
                                           masterPackageStore.updateMasterPackage(
                                             {
                                               ...masterPackageStore.masterPackage,
@@ -1023,7 +1026,7 @@ const MasterPackage = MasterPackageHOC(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(
                               routerStore.lookupItems,
                               'STATUS',

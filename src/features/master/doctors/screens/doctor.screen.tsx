@@ -501,7 +501,7 @@ const Doctors = DoctorsHoc(
                             toTitleCase(title);
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'TITLE').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -632,7 +632,7 @@ const Doctors = DoctorsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {['Male', 'Female', 'Other'].map(
                             (item: any, index: number) => (
                               <option key={index} value={item}>
@@ -670,7 +670,7 @@ const Doctors = DoctorsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'DOCTOR_TYPE',
@@ -709,7 +709,7 @@ const Doctors = DoctorsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'SPECIALITY',
@@ -746,7 +746,7 @@ const Doctors = DoctorsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'CATEGORY').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -1148,7 +1148,7 @@ const Doctors = DoctorsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'REPORT_PRIORITY',
@@ -1359,7 +1359,7 @@ const Doctors = DoctorsHoc(
                             }
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {loginStore.login?.labList?.map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -1589,7 +1589,7 @@ const Doctors = DoctorsHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>

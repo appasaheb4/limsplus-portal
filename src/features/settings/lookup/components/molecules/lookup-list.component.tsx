@@ -210,12 +210,10 @@ export const LookupList = (props: LookupListProps) => {
                     <tbody className='text-xs'>
                       {row?.arrValue?.map((item, index) => {
                         return (
-                          <>
-                            <tr key={index}>
-                              <td>{lookupCodeValue(item)}</td>
-                              <td>{lookupValue(item)}</td>
-                            </tr>
-                          </>
+                          <tr key={index}>
+                            <td>{lookupCodeValue(item)}</td>
+                            <td>{lookupValue(item)}</td>
+                          </tr>
                         );
                       })}
                     </tbody>
@@ -298,8 +296,8 @@ export const LookupList = (props: LookupListProps) => {
               <>
                 <List space={2} direction='row' justify='center'>
                   {row.defaultItem &&
-                    row.defaultItem.map(item => (
-                      <div className='mb-2'>
+                    row.defaultItem.map((item, index) => (
+                      <div className='mb-2' key={index}>
                         <Buttons.Button
                           size='medium'
                           type='solid'
@@ -346,7 +344,7 @@ export const LookupList = (props: LookupListProps) => {
                       props.onUpdateItem(defaultItem, 'defaultItem', row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   <option value='removeItem'>Remove Item</option>
                   {row.arrValue.map((item: any, index: number) => (
                     <option key={item.name} value={JSON.stringify(item)}>
@@ -397,7 +395,7 @@ export const LookupList = (props: LookupListProps) => {
                       props.onUpdateItem(status, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'STATUS')
                     .filter(item => item.code != 'D')
                     .map((item: any, index: number) => (
@@ -465,7 +463,7 @@ export const LookupList = (props: LookupListProps) => {
             //           );
             //       }}
             //     >
-            //       <option selected>Select</option>
+            //      <option>Select</option>
             //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
             //         (item: any, index: number) => (
             //           <option key={index} value={item.code}>

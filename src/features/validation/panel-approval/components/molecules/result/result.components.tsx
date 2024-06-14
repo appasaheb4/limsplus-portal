@@ -136,6 +136,8 @@ export const Result = observer((props: ResultProps) => {
                             {
                               ...rows,
                               resultStatus: getResultStatus(
+
+                                
                                 rows.resultType,
                                 rows,
                               ),

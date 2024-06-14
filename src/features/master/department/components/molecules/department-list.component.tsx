@@ -655,7 +655,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
                       props.onUpdateItem(status, column.dataField, row._id);
                   }}
                 >
-                  <option selected>Select</option>
+                  <option>Select</option>
                   {lookupItems(props.extraData.lookupItems, 'STATUS')
                     .filter(item => item.code != 'D')
                     .map((item: any, index: number) => (
@@ -749,7 +749,7 @@ export const DepartmentList = (props: DepartmentListProps) => {
             //           );
             //       }}
             //     >
-            //       <option selected>Select</option>
+            //      <option>Select</option>
             //       {lookupItems(props.extraData.lookupItems, 'ENVIRONMENT').map(
             //         (item: any, index: number) => (
             //           <option key={index} value={item.code}>

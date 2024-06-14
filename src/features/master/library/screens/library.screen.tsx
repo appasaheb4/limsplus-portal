@@ -14,6 +14,7 @@ import {
   ImportFile,
   MainPageHeading,
   ModalImportFile,
+  Tooltip,
 } from '@/library/components';
 import { lookupItems, lookupValue } from '@/library/utils';
 import { Library as LibraryModel } from '../models';
@@ -29,6 +30,8 @@ import * as XLSX from 'xlsx';
 import 'react-quill/dist/quill.snow.css';
 import mammoth from 'mammoth';
 import JoditEditor from 'jodit-react';
+import { FaWordpressSimple } from 'react-icons/fa';
+import { ModalDocxContentInput } from '@/core-components/molecules/modal/modal-docx-content.input.component';
 
 export const Library = LibraryHoc(
   observer(() => {
@@ -50,6 +53,7 @@ export const Library = LibraryHoc(
     const [isVersionUpgrade, setIsVersionUpgrade] = useState<boolean>(false);
     const [modalDetail, setModalDetail] = useState<any>();
     const [isExistsRecord, setIsExistsRecord] = useState(false);
+    const [modalDocxContent, setModalDocxContent] = useState<any>();
     const {
       control,
       handleSubmit,
@@ -393,21 +397,58 @@ export const Library = LibraryHoc(
               'p-2 rounded-lg shadow-xl ' + (hideAddLab ? 'hidden' : 'shown')
             }
           >
-            <ManualImportTabs
-              isImportDisable={
-                !RouterFlow.checkPermission(
-                  toJS(routerStore.userPermission),
-                  'Import',
-                )
-              }
-              isImport={isImport}
-              onClick={flag => {
-                setIsImport(flag);
-              }}
-            />
+            <div className='flex flex-row justify-between items-center gap-8'>
+              <ManualImportTabs
+                isImportDisable={
+                  !RouterFlow.checkPermission(
+                    toJS(routerStore.userPermission),
+                    'Import',
+                  )
+                }
+                isImport={isImport}
+                onClick={flag => {
+                  setIsImport(flag);
+                }}
+              />
+
+              <div className='flex flex-row gap-4 w-[483px]'>
+                <Tooltip tooltipText={'Details'}>
+                  <FaWordpressSimple
+                    size={'40'}
+                    onClick={() => {
+                      setModalDocxContent({
+                        visible: true,
+                      });
+                    }}
+                  />
+                </Tooltip>
+                <Tooltip tooltipText={'Editable'}>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label=''
+                        hasError={!!errors.editable}
+                        value={value}
+                        onChange={editable => {
+                          onChange(editable);
+                          libraryStore.updateLibrary({
+                            ...libraryStore.library,
+                            editable,
+                          });
+                        }}
+                      />
+                    )}
+                    name='editable'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                </Tooltip>
+              </div>
+            </div>
 
             {!isImport ? (
-              <Grid cols={2}>
+              <Grid cols={3}>
                 <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
@@ -466,7 +507,7 @@ export const Library = LibraryHoc(
                     name='description'
                     rules={{
                       required: true,
-                      maxLength: 10,
+                      maxLength: 150,
                     }}
                     defaultValue=''
                   />
@@ -500,7 +541,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {[{ code: 'Default' }]
                             .concat(loginStore?.login?.labList)
                             ?.map((item: any, index: number) => (
@@ -540,7 +581,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {[{ name: '', code: 'Default' }]
                             .concat(departmentList)
                             ?.map((item: any, index: number) => (
@@ -580,7 +621,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'POSITION').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -595,7 +636,8 @@ export const Library = LibraryHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -618,7 +660,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'GROUPS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -658,7 +700,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'LIBRARY_TYPE')
                             ?.filter(item =>
                               item.code?.match(libraryStore.library.groups),
@@ -675,7 +717,6 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -700,7 +741,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(
                             routerStore.lookupItems,
                             'PARAMETER',
@@ -738,7 +779,7 @@ export const Library = LibraryHoc(
                             });
                           }}
                         >
-                          <option selected>Select</option>
+                          <option>Select</option>
                           {lookupItems(routerStore.lookupItems, 'STATUS').map(
                             (item: any, index: number) => (
                               <option key={index} value={item.code}>
@@ -751,107 +792,6 @@ export const Library = LibraryHoc(
                     )}
                     name='status'
                     rules={{ required: true }}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.Toggle
-                        label='Editable'
-                        hasError={!!errors.editable}
-                        value={value}
-                        onChange={editable => {
-                          onChange(editable);
-                          libraryStore.updateLibrary({
-                            ...libraryStore.library,
-                            editable,
-                          });
-                        }}
-                      />
-                    )}
-                    name='editable'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
-                  {/* <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setModalDetail({
-                        show: true,
-                        title: 'Import Doc File',
-                      });
-                    }}
-                  >
-                    <span className='flex flex-row'>
-                      <Icons.EvaIcon
-                        icon='arrowhead-down-outline'
-                        size='medium'
-                        color={Styles.COLORS.BLACK}
-                      />
-                      Import
-                    </span>
-                  </Buttons.Button> */}
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <>
-                        <Form.InputWrapper
-                          label='Details'
-                          hasError={!!errors.details}
-                        >
-                          <JoditEditor
-                            ref={editor}
-                            config={
-                              {
-                                height: 400,
-                                disabled: false,
-                                events: {
-                                  afterOpenPasteDialog: (
-                                    dialog,
-                                    msg,
-                                    title,
-                                    callback,
-                                  ) => {
-                                    dialog.close();
-                                    callback();
-                                  },
-                                },
-                                uploader: {
-                                  url: 'https://limsplus-service.azurewebsites.net/api/assets/uploadFile',
-                                  prepareData: function (data) {
-                                    data.append('folder', 'library');
-                                    data.delete('path');
-                                    data.delete('source');
-                                  },
-                                  isSuccess: function (resp) {
-                                    libraryStore.updateLibrary({
-                                      ...libraryStore.library,
-                                      details:
-                                        libraryStore.library.details?.concat(
-                                          `<img src=${resp?.data?.data} alt="logo"/>`,
-                                        ),
-                                    });
-                                  },
-                                },
-                              } as any
-                            }
-                            value={libraryStore.library.details || ''}
-                            onBlur={newContent => {
-                              libraryStore.updateLibrary({
-                                ...libraryStore.library,
-                                details: newContent,
-                              });
-                            }}
-                          />
-                        </Form.InputWrapper>
-                      </>
-                    )}
-                    name='details'
-                    rules={{ required: false }}
                     defaultValue=''
                   />
                   <Controller
@@ -868,6 +808,8 @@ export const Library = LibraryHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { value } }) => (
@@ -965,6 +907,12 @@ export const Library = LibraryHoc(
             }}
             close={() => {
               setModalDetail({ show: false });
+            }}
+          />
+          <ModalDocxContentInput
+            visible={modalDocxContent?.visible}
+            onClose={() => {
+              setModalDocxContent({ visible: false });
             }}
           />
           <ModalConfirm

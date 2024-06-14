@@ -56,37 +56,35 @@ export const MultiSelect = ({
             ? options?.length > 0 && (
                 <ul>
                   {options?.map((item: string, index) => (
-                    <>
-                      <li key={index} className='flex items-center text-center'>
-                        <input
-                          className='bg-black'
-                          type='checkbox'
-                          checked={selectedOptions?.includes(item)}
-                          onChange={() => {
-                            if (selectedOptions?.includes(item)) {
+                    <li key={index} className='flex items-center text-center'>
+                      <input
+                        className='bg-black'
+                        type='checkbox'
+                        checked={selectedOptions?.includes(item)}
+                        onChange={() => {
+                          if (selectedOptions?.includes(item)) {
+                            setSelectedOptions(
+                              selectedOptions?.filter(e => e != item),
+                            );
+                          } else {
+                            if (selectedOptions?.length > 0) {
                               setSelectedOptions(
-                                selectedOptions?.filter(e => e != item),
+                                selectedOptions?.concat([item]),
                               );
                             } else {
-                              if (selectedOptions?.length > 0) {
-                                setSelectedOptions(
-                                  selectedOptions?.concat([item]),
-                                );
-                              } else {
-                                setSelectedOptions([item]);
-                              }
+                              setSelectedOptions([item]);
                             }
-                          }}
-                          onBlur={() => {
-                            if (!isListOpen) onSelect(selectedOptions);
-                          }}
-                        />{' '}
-                        <label className='ml-3 mt-2 pt-1 dark:text-white'>
-                          {' '}
-                          {item}
-                        </label>
-                      </li>
-                    </>
+                          }
+                        }}
+                        onBlur={() => {
+                          if (!isListOpen) onSelect(selectedOptions);
+                        }}
+                      />{' '}
+                      <label className='ml-3 mt-2 pt-1 dark:text-white'>
+                        {' '}
+                        {item}
+                      </label>
+                    </li>
                   ))}
                 </ul>
               )

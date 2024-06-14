@@ -340,7 +340,7 @@ export const DocumentSettings = DocumentSettingHoc(
                         });
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupStore.lookup &&
                         lookupStore.lookup.arrValue &&
                         lookupStore.lookup.arrValue.map(
@@ -421,7 +421,7 @@ export const DocumentSettings = DocumentSettingHoc(
                         });
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(routerStore.lookupItems, 'STATUS').map(
                         (item: any, index: number) => (
                           <option key={index} value={item.code}>

@@ -83,7 +83,7 @@ export const SegmentMappingInputTable = observer(
                         );
                     }}
                   >
-                    <option selected>{segment || 'Select'}</option>
+                    <option>{segment || 'Select'}</option>
                     {lookupItems(extraData.lookupItems, 'SEGMENT').map(
                       (item: any, index: number) => (
                         <option key={index} value={JSON.stringify(item)}>
@@ -218,7 +218,7 @@ export const SegmentMappingInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={row.limsTables}
+                    value={row.limsTables || ''}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const limsTables = e.target.value;
@@ -231,7 +231,7 @@ export const SegmentMappingInputTable = observer(
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {collection.map((item: any, index: number) => (
                       <option key={index} value={item.name}>
                         {item.name}
@@ -255,7 +255,7 @@ export const SegmentMappingInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={row.limsDocumentType}
+                    value={row.limsDocumentType || ''}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const limsDocumentType = e.target.value;
@@ -268,7 +268,7 @@ export const SegmentMappingInputTable = observer(
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {collection
                       .find((item: any) => item.name == row?.limsTables)
                       ?.documentType?.map((item: any, index: number) => (
@@ -295,7 +295,7 @@ export const SegmentMappingInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={row.limsFields}
+                    value={row.limsFields || ''}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const limsFields = e.target.value;
@@ -308,7 +308,7 @@ export const SegmentMappingInputTable = observer(
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {_.has(
                       collection.find(
                         (item: any) => item.name == row?.limsTables,
@@ -509,7 +509,7 @@ export const SegmentMappingInputTable = observer(
               ) => (
                 <>
                   <select
-                    value={row.fieldType}
+                    value={row.fieldType || ''}
                     className='leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border border-gray-300 rounded-md'
                     onChange={e => {
                       const fieldType = e.target.value;
@@ -522,7 +522,7 @@ export const SegmentMappingInputTable = observer(
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(extraData.lookupItems, 'FIELD_TYPE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -617,7 +617,7 @@ export const SegmentMappingInputTable = observer(
             //             );
             //         }}
             //       >
-            //         <option selected>Select</option>
+            //        <option>Select</option>
             //         {lookupItems(extraData.lookupItems, 'ENVIRONMENT').map(
             //           (item: any, index: number) => (
             //             <option key={index} value={item.code}>

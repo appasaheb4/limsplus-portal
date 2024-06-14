@@ -611,7 +611,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -907,7 +907,7 @@ export const TestPanelMappingList = (props: TestPanelMappingListProps) => {
               //           );
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(
               //         props.extraData.lookupItems,
               //         'ENVIRONMENT',

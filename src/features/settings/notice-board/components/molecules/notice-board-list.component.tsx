@@ -200,7 +200,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -247,7 +247,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
                         props.onUpdateItem(action, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {['login', 'logout'].map((item: any, index: number) => (
                       <option key={index} value={item}>
                         {item}
@@ -337,7 +337,7 @@ export const NoticeBoardsList = observer((props: NoticeBoardsListProps) => {
               //           );
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(
               //         props.extraData.lookupItems,
               //         'ENVIRONMENT',

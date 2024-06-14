@@ -29,9 +29,10 @@ const Environment = observer(() => {
         {[
           { title: 'Environment Variable' },
           { title: 'Environment Setting' },
-        ].map(item => {
+        ].map((item, index) => {
           return (
             <AccordionItem
+              key={index}
               title={`${item.title}`}
               expanded={item.title === 'Environment Setting'}
             >

@@ -77,7 +77,7 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'INFORMATION GROUP - INFO_RELATED_TO',
@@ -131,7 +131,7 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'INFORMATION GROUP - INFO_TYPE',
@@ -258,7 +258,7 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'INFORMATION GROUP - ENVIRONMENT',
@@ -317,7 +317,7 @@ export const InformationGroupList = observer((props: InformationGroupProps) => {
                           props.onUpdateItem(status, column.dataField, row._id);
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'INFORMATION GROUP - STATUS',

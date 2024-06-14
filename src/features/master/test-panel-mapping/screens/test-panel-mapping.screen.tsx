@@ -773,7 +773,7 @@ const TestPanelMapping = TestPanelMappingHoc(
                               });
                             }}
                           >
-                            <option selected>Select</option>
+                            <option>Select</option>
                             {lookupItems(routerStore.lookupItems, 'STATUS').map(
                               (item: any, index: number) => (
                                 <option key={index} value={item.code}>

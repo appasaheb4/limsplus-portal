@@ -544,7 +544,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (
@@ -836,7 +836,7 @@ export const TestAnalyteMappingList = (props: TestAnalyteMappingListProps) => {
               //           );
               //       }}
               //     >
-              //       <option selected>Select</option>
+              //      <option>Select</option>
               //       {lookupItems(
               //         props.extraData.lookupItems,
               //         'ENVIRONMENT',

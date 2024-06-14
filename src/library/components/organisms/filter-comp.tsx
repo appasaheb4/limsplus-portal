@@ -77,7 +77,7 @@ export const NumberFilter = props => {
               filter(number, comp);
             }}
           >
-            <option selected>Select</option>
+            <option>Select</option>
             {comparatorList.map((item: any) => (
               <option key={item.value} value={item.value}>
                 {item.value}
@@ -107,17 +107,17 @@ export const NumberFilter = props => {
 };
 
 export const DateFilter = props => {
-  const [startDate, setStartDate] = useState<any>(null);
-  const [endDate, setEndDate] = useState<any>(null);
-  const [diffFlag, setDiffFlag] = useState<boolean>(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [diffFlag, setDiffFlag] = useState(false);
   const [comparator, setComparator] = useState('=');
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
     if (props.column.filter.props.getFilter) {
       props.column.filter.props.getFilter(filterVal => {
-        setStartDate(null);
-        setEndDate(null);
+        setStartDate('');
+        setEndDate('');
         setDiffFlag(false);
         setComparator('=');
         setToggle(false);
@@ -134,6 +134,7 @@ export const DateFilter = props => {
       diffFlag,
     });
   };
+
   const comparatorList = [{ value: '=' }, { value: '>=' }, { value: '<' }];
 
   const triggerToggle = () => {
@@ -185,7 +186,7 @@ export const DateFilter = props => {
                 props.onStatus && props.onStatus(status);
               }}
             >
-              <option selected>{'Select'}</option>
+              <option>{'Select'}</option>
               {['Active'].map((item, index) => (
                 <option key={index} value={item}>
                   {item}
@@ -205,8 +206,8 @@ export const DateFilter = props => {
               filter(startDate, endDate, comp, diffFlag);
             }}
           >
-            <option selected>Select</option>
-            {comparatorList.map((item: any) => (
+            <option>Select</option>
+            {comparatorList.map(item => (
               <option key={item.value} value={item.value}>
                 {item.value}
               </option>
@@ -215,7 +216,7 @@ export const DateFilter = props => {
         )}
         <input
           type='date'
-          value={startDate || null}
+          value={startDate || ''}
           onChange={e => {
             const date = e.target.value;
             setStartDate(date);
@@ -226,7 +227,7 @@ export const DateFilter = props => {
         {diffFlag && (
           <input
             type='date'
-            value={endDate || null}
+            value={endDate || ''}
             onChange={e => {
               const date = e.target.value;
               setEndDate(date);

@@ -475,7 +475,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'RANGE_SET_ON',
@@ -587,7 +587,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'RESULT_TYPE',
@@ -727,7 +727,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(
                       props.extraData.lookupItems,
                       'ANALYTE_TYPE',
@@ -775,7 +775,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         props.onUpdateItem(units, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'UNITS').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -822,7 +822,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         props.onUpdateItem(usage, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'USAGE').map(
                       (item: any, index: number) => (
                         <option key={index} value={item.code}>
@@ -876,7 +876,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         );
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {['0', '1', '2', '3', '4'].map(
                       (item: any, index: number) => (
                         <option key={index} value={item}>
@@ -966,7 +966,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //               props.onUpdateItem(workflow, column.dataField, row._id)
             //           }}
             //         >
-            //           <option selected>Select</option>
+            //          <option>Select</option>
             //           {lookupItems(lookupItems, "WORKFLOW").map(
             //             (item: any, index: number) => (
             //               <option key={index} value={item.code}>
@@ -1008,7 +1008,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
             //               props.onUpdateItem(sampleType, column.dataField, row._id)
             //           }}
             //         >
-            //           <option selected>Select</option>
+            //          <option>Select</option>
             //           {["sampleType1"].map((item: any, index: number) => (
             //             <option key={index} value={item}>
             //               {item}
@@ -1255,7 +1255,7 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                         props.onUpdateItem(status, column.dataField, row._id);
                     }}
                   >
-                    <option selected>Select</option>
+                    <option>Select</option>
                     {lookupItems(props.extraData.lookupItems, 'STATUS')
                       .filter(item => item.code != 'D')
                       .map((item: any, index: number) => (

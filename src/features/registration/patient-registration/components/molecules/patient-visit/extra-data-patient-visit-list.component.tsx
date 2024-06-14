@@ -147,7 +147,7 @@ export const ExtraDataPatientVisitList = observer(
                             );
                         }}
                       >
-                        <option selected>Select</option>
+                        <option>Select</option>
                         {props.extraData.listCorporateClients &&
                           props.extraData.listCorporateClients.map(
                             (item: any, index: number) => (
@@ -207,7 +207,7 @@ export const ExtraDataPatientVisitList = observer(
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT VISIT - BILLING_METHOD',
@@ -287,7 +287,7 @@ export const ExtraDataPatientVisitList = observer(
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT VISIT - METHOD_COLLECTION',
@@ -644,7 +644,7 @@ export const ExtraDataPatientVisitList = observer(
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT VISIT - APPROVAL_STATUS',
@@ -701,7 +701,7 @@ export const ExtraDataPatientVisitList = observer(
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT VISIT - REPORT_STATUS',
@@ -887,7 +887,7 @@ export const ExtraDataPatientVisitList = observer(
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT VISIT - ARCHIVED',
@@ -947,7 +947,7 @@ export const ExtraDataPatientVisitList = observer(
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT VISIT - LOGIN_INTERFACE',
@@ -1006,7 +1006,7 @@ export const ExtraDataPatientVisitList = observer(
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT VISIT - REGISTRATION_INTERFACE',
@@ -1107,7 +1107,7 @@ export const ExtraDataPatientVisitList = observer(
                           );
                       }}
                     >
-                      <option selected>Select</option>
+                      <option>Select</option>
                       {lookupItems(
                         props.extraData.lookupItems,
                         'PATIENT VISIT - ACCOUNT_TYPE',

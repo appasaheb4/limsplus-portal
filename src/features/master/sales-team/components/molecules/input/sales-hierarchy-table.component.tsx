@@ -180,7 +180,7 @@ export const SalesHierarchyTable = observer(
                       //     });
                       //   }}
                       // >
-                      //   <option selected>Select</option>
+                      //  <option>Select</option>
                       //   {lookupItems(routerStore.lookupItems, 'LEVEL').map(
                       //     (item: any, index: number) => (
                       //       <option key={index} value={item.code}>

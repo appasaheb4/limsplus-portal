@@ -259,7 +259,7 @@
 //                       }
 //                     }}
 //                   >
-//                     <option selected>{row.equipmentType}</option>
+//                     <option>{row.equipmentType}</option>
 //                     {EquipmentModel.equipmentType.map(
 //                       (item: any, index: number) => (
 //                         <option key={item.title} value={item.title}>
@@ -321,7 +321,7 @@
 //                       }
 //                     }}
 //                   >
-//                     <option selected>
+//                     <option>
 //                       {row.dataFlowFrom !== undefined
 //                         ? row.dataFlowFrom.split('&gt;').join('>')
 //                         : ''}
@@ -372,7 +372,7 @@
 //                       }
 //                     }}
 //                   >
-//                     <option selected>{row.data_type}</option>
+//                     <option>{row.data_type}</option>
 //                     {EquipmentModel.data_type.map(
 //                       (item: any, index: number) => (
 //                         <option key={item.title} value={item.title}>
@@ -420,7 +420,7 @@
 //                       }
 //                     }}
 //                   >
-//                     <option selected>{row.segments}</option>
+//                     <option>{row.segments}</option>
 //                     {EquipmentModel.segments.map((item: any, index: number) => (
 //                       <option key={item.title} value={item.title}>
 //                         {item.title}
@@ -462,7 +462,7 @@
 //                       }
 //                     }}
 //                   >
-//                     <option selected>{row.segment_usage}</option>
+//                     <option>{row.segment_usage}</option>
 //                     {EquipmentModel.segment_usage.map(
 //                       (item: any, index: number) => (
 //                         <option key={item.title} value={item.title}>
@@ -1172,7 +1172,7 @@
 //                         props.onUpdateItem && props.onUpdateItem(environment,column.dataField,row._id)
 //                       }}
 //                     >
-//                       <option selected>Select</option>
+//                      <option>Select</option>
 //                       {LibraryUtils.lookupItems(props.extraData.lookupItems, "ENVIRONMENT").map(
 //                         (item: any, index: number) => (
 //                           <option key={index} value={item.code}>

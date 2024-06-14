@@ -86,6 +86,17 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Invoice AC',
             sort: true,
             editable: false,
+            headerStyle: {
+              fontSize: 0,
+            },
+            headerClasses: 'textHeader',
+            sortCaret: (order, column) => sortCaret(order, column),
+            filter: textFilter({
+              placeholder: 'Invoice Ac',
+              getFilter: filter => {
+                labId = filter;
+              },
+            }),
           },
           {
             dataField: 'customerName',
