@@ -24,6 +24,7 @@ const { ExportCSVButton } = CSVExport;
 import ExcelJS from 'exceljs';
 import { RouterFlow } from '@/flows';
 import { useStores } from '@/stores';
+import CustomToggleList from './custom-toggle-list.component';
 interface TableBootstrapProps {
   id: string;
   data: any;
@@ -574,34 +575,6 @@ export const TableBootstrap = ({
     }
   };
 
-  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className='flex btn-group btn-group-toggle' data-toggle='buttons'>
-      {columns
-        .map(column => ({
-          ...column,
-          toggle: toggles[column.dataField],
-        }))
-        .map((column, index) => {
-          if (index > 0) {
-            return (
-              <button
-                type='button'
-                key={column.dataField}
-                className={` btn btn-primary border-white  btn-sm whitespace-nowrap ${
-                  column.toggle ? 'active' : 'inactive'
-                }`}
-                style={{ height: '31px' }}
-                data-toggle='button'
-                aria-pressed={column.toggle ? 'true' : 'false'}
-                onClick={() => onColumnToggle(column.dataField)}
-              >
-                {column.text}
-              </button>
-            );
-          }
-        })}
-    </div>
-  );
   const rowStyle = (row, rowIndex) => {
     if (row.status === 'I')
       return {
@@ -702,12 +675,7 @@ export const TableBootstrap = ({
               </div>
               {isFilterOpen && (
                 <div className={'flex overflow-y-hidden'}>
-                  <CustomToggleList
-                    contextual='primary'
-                    className='list-custom-class'
-                    btnClassName='list-btn-custom-class'
-                    {...props.columnToggleProps}
-                  />
+                  <CustomToggleList {...props.columnToggleProps} />
                 </div>
               )}
               <div className='scrollTable h-[calc(100vh_-_30vh)] mt-1'>
