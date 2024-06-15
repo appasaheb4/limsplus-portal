@@ -26,9 +26,8 @@ const CustomToggleList: React.FC<CustomToggleListProps> = ({
     () => {
       const initialCheckedItems: { [key: string]: boolean } = {};
       columns.forEach(column => {
-        if (column.dataField !== 'id') {
-          initialCheckedItems[column.dataField] =
-            toggles[column.dataField] ?? false; // Ensure none are selected initially
+        if (column.dataField !== '_id') {
+          initialCheckedItems[column.dataField] = false; // Ensure none are selected initially
         }
       });
       return initialCheckedItems;
@@ -40,14 +39,14 @@ const CustomToggleList: React.FC<CustomToggleListProps> = ({
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newCheckedItems: { [key: string]: boolean } = {};
     orderedColumns.forEach(column => {
-      if (column.dataField !== 'id') {
+      if (column.dataField !== '_id') {
         newCheckedItems[column.dataField] = event.target.checked;
       }
     });
 
     setCheckedItems(newCheckedItems);
     orderedColumns.forEach(column => {
-      if (column.dataField !== 'id') {
+      if (column.dataField !== '_id') {
         onColumnToggle(column.dataField);
       }
     });
@@ -98,7 +97,7 @@ const CustomToggleList: React.FC<CustomToggleListProps> = ({
               className='ml-4'
             >
               {orderedColumns
-                .filter(column => column.dataField !== 'id')
+                .filter(column => column.dataField !== '_id')
                 .map((column, index) => (
                   <Draggable
                     key={column.dataField}
