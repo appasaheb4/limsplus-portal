@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Container } from 'reactstrap';
 import _ from 'lodash';
 import { Icons, Tooltip, Form } from '@components';
-import { pdf as pdfGen, PDFViewer, Document, Page } from '@react-pdf/renderer';
+import { pdf as pdfGen, PDFViewer, Document } from '@react-pdf/renderer';
 import { ModalDeliveryQueueReports } from './modal-delivery-queue-reports.component';
 import {
   PdfTemp0001,
@@ -21,8 +21,6 @@ import printjs from 'print-js';
 
 import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
-import { PdfViewer } from '@/core-components';
-import { saveAs } from 'file-saver';
 import { SocialIcon } from 'react-social-icons';
 
 interface ModalGenerateReportsProps {
@@ -330,7 +328,7 @@ export const ModalGenerateReports = ({
     const asPdf = pdfGen(doc);
     asPdf.updateContainer(doc);
     const blob: any = await asPdf.toBlob();
-    blob.name = 'Receipt.pdf';
+    blob.name = `Report_${reportTo?.labId}.pdf`;
     onReceiptUpload(blob, reportTo);
   };
 
@@ -444,24 +442,37 @@ export const ModalGenerateReports = ({
                                     <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                       {reportTo?.patientVisit?.mobileNo}
                                       {pdf && (
-                                        <SocialIcon
-                                          network='whatsapp'
-                                          style={{ height: 32, width: 32 }}
-                                          onClick={() => {
-                                            window.open(
-                                              `https://api.whatsapp.com/send?phone=+91${reportTo?.patientVisit?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
-                                                reportTo?.labId
-                                              }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
-                                              '_blank',
-                                            );
-                                          }}
-                                        />
+                                        <Tooltip tooltipText='Share on whatsapp'>
+                                          <SocialIcon
+                                            network='whatsapp'
+                                            style={{ height: 32, width: 32 }}
+                                            onClick={() => {
+                                              window.open(
+                                                `https://api.whatsapp.com/send?phone=+91${reportTo?.patientVisit?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
+                                                  reportTo?.labId
+                                                }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
+                                                '_blank',
+                                              );
+                                            }}
+                                          />
+                                        </Tooltip>
                                       )}
                                     </span>
                                   )}
                                   {reportTo?.patientVisit?.email && (
-                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                       {reportTo?.patientVisit?.email}
+                                      {pdf && (
+                                        <Tooltip tooltipText='Email on shared'>
+                                          <Icons.RIcon
+                                            nameIcon='SlCheck'
+                                            propsIcon={{
+                                              size: 24,
+                                              color: '#2563EB',
+                                            }}
+                                          />
+                                        </Tooltip>
+                                      )}
                                     </span>
                                   )}
                                 </div>
@@ -475,24 +486,37 @@ export const ModalGenerateReports = ({
                                     <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                       {reportTo?.doctor?.mobileNo}
                                       {pdf && (
-                                        <SocialIcon
-                                          network='whatsapp'
-                                          style={{ height: 32, width: 32 }}
-                                          onClick={() => {
-                                            window.open(
-                                              `https://api.whatsapp.com/send?phone=+91${reportTo?.doctor?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
-                                                reportTo?.labId
-                                              }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
-                                              '_blank',
-                                            );
-                                          }}
-                                        />
+                                        <Tooltip tooltipText='Share on whatsapp'>
+                                          <SocialIcon
+                                            network='whatsapp'
+                                            style={{ height: 32, width: 32 }}
+                                            onClick={() => {
+                                              window.open(
+                                                `https://api.whatsapp.com/send?phone=+91${reportTo?.doctor?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
+                                                  reportTo?.labId
+                                                }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
+                                                '_blank',
+                                              );
+                                            }}
+                                          />
+                                        </Tooltip>
                                       )}
                                     </span>
                                   )}
                                   {reportTo?.doctor?.email && (
-                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                       {reportTo?.doctor?.email}
+                                      {pdf && (
+                                        <Tooltip tooltipText='Email on shared'>
+                                          <Icons.RIcon
+                                            nameIcon='SlCheck'
+                                            propsIcon={{
+                                              size: 24,
+                                              color: '#2563EB',
+                                            }}
+                                          />
+                                        </Tooltip>
+                                      )}
                                     </span>
                                   )}
                                 </div>
@@ -512,21 +536,23 @@ export const ModalGenerateReports = ({
                                               ' - ' +
                                               item?.mobileNo}
                                             {pdf && (
-                                              <SocialIcon
-                                                network='whatsapp'
-                                                style={{
-                                                  height: 32,
-                                                  width: 32,
-                                                }}
-                                                onClick={() => {
-                                                  window.open(
-                                                    `https://api.whatsapp.com/send?phone=+91${item?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
-                                                      reportTo?.labId
-                                                    }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
-                                                    '_blank',
-                                                  );
-                                                }}
-                                              />
+                                              <Tooltip tooltipText='Share on whatsapp'>
+                                                <SocialIcon
+                                                  network='whatsapp'
+                                                  style={{
+                                                    height: 32,
+                                                    width: 32,
+                                                  }}
+                                                  onClick={() => {
+                                                    window.open(
+                                                      `https://api.whatsapp.com/send?phone=+91${item?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
+                                                        reportTo?.labId
+                                                      }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
+                                                      '_blank',
+                                                    );
+                                                  }}
+                                                />
+                                              </Tooltip>
                                             )}
                                           </span>
                                         ),
@@ -538,8 +564,19 @@ export const ModalGenerateReports = ({
                                     <>
                                       {reportTo?.corporateClients?.reportToEmails?.map(
                                         (item, index) => (
-                                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit'>
+                                          <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                             {item?.name + ' - ' + item?.email}
+                                            {pdf && (
+                                              <Tooltip tooltipText='Email on shared'>
+                                                <Icons.RIcon
+                                                  nameIcon='SlCheck'
+                                                  propsIcon={{
+                                                    size: 24,
+                                                    color: '#2563EB',
+                                                  }}
+                                                />
+                                              </Tooltip>
+                                            )}
                                           </span>
                                         ),
                                       )}

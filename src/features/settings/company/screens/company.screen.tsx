@@ -16,6 +16,8 @@ import {
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   MainPageHeading,
   ModalPostalCode,
+  Tooltip,
+  Icons,
 } from '@/library/components';
 import { CompanyList } from '../components';
 import { lookupItems, lookupValue } from '@/library/utils';
@@ -25,7 +27,8 @@ import { RouterFlow } from '@/flows';
 import { resetCompany } from '../startup';
 import { MultiSelect } from '@/core-components';
 import dayjs from 'dayjs';
-
+import { Accordion, AccordionItem } from 'react-sanfona';
+import '@/library/assets/css/accordion.css';
 import { CompanyHoc } from '../hoc';
 import { useStores } from '@/stores';
 
@@ -1502,6 +1505,208 @@ const Company = CompanyHoc(
                       </Form.InputWrapper>
                     )}
                     name='environment'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Accordion>
+                        {[{ title: 'Configuration' }].map(item => {
+                          return (
+                            <AccordionItem title={`${item.title}`}>
+                              {item.title === 'Configuration' && (
+                                <div className='flex flex-col gap-1'>
+                                  <Form.InputWrapper label='Email:'>
+                                    <div className='px-4'>
+                                      <Form.Input
+                                        label='Host'
+                                        placeholder='Host'
+                                        value={
+                                          companyStore.company.configuration
+                                            ?.host
+                                        }
+                                        onChange={host => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              host,
+                                            },
+                                          });
+                                        }}
+                                      />
+                                      <Form.Input
+                                        label='Port'
+                                        type='number'
+                                        placeholder='Port'
+                                        value={
+                                          companyStore.company.configuration
+                                            ?.port
+                                        }
+                                        onChange={port => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              port: Number.parseInt(port),
+                                            },
+                                          });
+                                        }}
+                                      />
+                                      <Form.Input
+                                        label='Email'
+                                        placeholder='Email'
+                                        onChange={email => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              email,
+                                            },
+                                          });
+                                        }}
+                                      />
+                                      <div className='flex  items-center w-full gap-2 '>
+                                        <Form.Input
+                                          label='Password'
+                                          placeholder='Password'
+                                          className='flex w-full'
+                                          onChange={password => {
+                                            onChange(password);
+                                            companyStore.updateCompany({
+                                              ...companyStore.company,
+                                              configuration: {
+                                                ...companyStore.company
+                                                  .configuration,
+                                                password,
+                                              },
+                                            });
+                                          }}
+                                        />
+                                        <div className='w-20 pt-4'>
+                                          <Tooltip tooltipText='How to generate password'>
+                                            <Icons.RIcon
+                                              nameIcon='FaInfoCircle'
+                                              propsIcon={{
+                                                size: 24,
+                                                color: '#2563EB',
+                                              }}
+                                              onClick={() => {
+                                                window.open(
+                                                  '/assets/documents/CreatAppPassword.pdf',
+                                                  '_blank',
+                                                );
+                                              }}
+                                            />
+                                          </Tooltip>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Form.InputWrapper>
+                                  <hr className='mt-2' />
+                                  <Form.InputWrapper
+                                    label='WhatsApp:'
+                                    labelClassName='font-bold'
+                                  >
+                                    <div className='px-4'>
+                                      <Form.Input
+                                        label='App Id'
+                                        placeholder='App Id'
+                                        onChange={appId => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              appId,
+                                            },
+                                          });
+                                        }}
+                                      />
+                                      <Form.Input
+                                        label='App Secret'
+                                        placeholder='App Secret'
+                                        onChange={appSecret => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              appSecret,
+                                            },
+                                          });
+                                        }}
+                                      />
+                                      <Form.Input
+                                        label='Recipient Waid'
+                                        placeholder='Recipient Waid'
+                                        onChange={recipientWaid => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              recipientWaid,
+                                            },
+                                          });
+                                        }}
+                                      />
+                                      <Form.Input
+                                        label='Version'
+                                        placeholder='Version'
+                                        onChange={version => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              version,
+                                            },
+                                          });
+                                        }}
+                                      />
+                                      <Form.Input
+                                        label='Phone Number Id'
+                                        placeholder='Phone Number Id'
+                                        onChange={phoneNumberId => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              phoneNumberId,
+                                            },
+                                          });
+                                        }}
+                                      />
+                                      <Form.Input
+                                        label='Access Token'
+                                        placeholder='Access Token'
+                                        onChange={accessToken => {
+                                          companyStore.updateCompany({
+                                            ...companyStore.company,
+                                            configuration: {
+                                              ...companyStore.company
+                                                .configuration,
+                                              accessToken,
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    </div>
+                                  </Form.InputWrapper>
+                                </div>
+                              )}
+                            </AccordionItem>
+                          );
+                        })}
+                      </Accordion>
+                    )}
+                    name='configuration'
                     rules={{ required: true }}
                     defaultValue=''
                   />

@@ -4,17 +4,12 @@ import { observer } from 'mobx-react';
 import { Table } from 'reactstrap';
 import {
   Toast,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Buttons,
   Grid,
   List,
   Form,
   Svg,
   ModalConfirm,
-  AutoCompleteFilterSingleSelect,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   ManualImportTabs,
   StaticInputTable,
