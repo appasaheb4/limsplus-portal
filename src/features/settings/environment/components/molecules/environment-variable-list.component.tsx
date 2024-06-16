@@ -13,7 +13,7 @@ import { lookupItems, lookupValue } from '@/library/utils';
 
 let environmentVariable;
 let category;
-let description;
+let descriptions;
 let enteredBy;
 let status;
 let companyCode;
@@ -134,14 +134,14 @@ export const EnvironmentVariableList = observer(
                 ),
               },
               {
-                dataField: 'description',
+                dataField: 'descriptions',
                 text: 'Description',
                 headerClasses: 'textHeader',
                 editable: (content, row, rowIndex, columnIndex) => row.isModify,
                 filter: textFilter({
-                  placeholder: 'Description',
+                  placeholder: 'Descriptions',
                   getFilter: filter => {
-                    description = filter;
+                    descriptions = filter;
                   },
                 }),
                 style: {
@@ -456,7 +456,7 @@ export const EnvironmentVariableList = observer(
             clearAllFilter={() => {
               environmentVariable('');
               category('');
-              description('');
+              descriptions('');
               enteredBy('');
               status('');
               companyCode('');

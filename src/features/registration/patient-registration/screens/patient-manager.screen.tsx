@@ -48,6 +48,7 @@ export const PatientManager = PatientManagerHoc(
       doctorsStore,
       labStore,
       patientRegistrationStore,
+      environmentStore,
     } = useStores();
 
     const {
@@ -56,10 +57,14 @@ export const PatientManager = PatientManagerHoc(
       formState: { errors },
       setValue,
       reset,
+      clearErrors,
+      setError,
     } = useForm();
 
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [hideInputView, setHideInputView] = useState<boolean>(true);
+    const [isPMMobileNoRequired, setIsPMMobileNoRequired] =
+      useState<boolean>(true);
 
     useEffect(() => {
       // Default value initialization
@@ -234,6 +239,24 @@ export const PatientManager = PatientManagerHoc(
         });
     };
 
+    // fetch environment variable
+    useEffect(() => {
+      environmentStore.EnvironmentService.findByFields({
+        input: {
+          filter: { variable: 'IS_PM_MOBILE_NO_REQUIRED' },
+        },
+      }).then(res => {
+        if (res.findByFieldsEnviroment?.success) {
+          setIsPMMobileNoRequired(
+            res.findByFieldsEnviroment?.data[0]?.value?.toLowerCase() == 'yes'
+              ? true
+              : false,
+          );
+        }
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
       <>
         <div
@@ -340,7 +363,7 @@ export const PatientManager = PatientManagerHoc(
                     )}
                     name='txtMobileNo'
                     rules={{
-                      required: true,
+                      required: isPMMobileNoRequired,
                       pattern: FormHelper.patterns.mobileNo,
                     }}
                     defaultValue=''
@@ -598,6 +621,14 @@ export const PatientManager = PatientManagerHoc(
                           ...patientManagerStore.patientManger,
                           firstName,
                         });
+                        if (!_.isEmpty(firstName)) clearErrors('lastName');
+                        if (
+                          _.isEmpty(firstName) &&
+                          _.isEmpty(patientManagerStore.patientManger.lastName)
+                        ) {
+                          setError('firstName', { type: 'onBlur' });
+                          setError('lastName', { type: 'onBlur' });
+                        }
                       }}
                       onBlur={inFirstName => {
                         const names = inFirstName.split(' ');
@@ -702,6 +733,16 @@ export const PatientManager = PatientManagerHoc(
                           ...patientManagerStore.patientManger,
                           lastName,
                         });
+                        if (!_.isEmpty(lastName)) clearErrors('firstName');
+                        if (
+                          _.isEmpty(
+                            patientManagerStore.patientManger?.firstName,
+                          ) &&
+                          _.isEmpty(lastName)
+                        ) {
+                          setError('firstName', { type: 'onBlur' });
+                          setError('lastName', { type: 'onBlur' });
+                        }
                       }}
                       onBlur={lastName => {
                         if (lastName)
