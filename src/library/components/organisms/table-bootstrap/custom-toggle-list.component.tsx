@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   DragDropContext,
   Droppable,
@@ -25,45 +25,108 @@ const CustomToggleList: React.FC<CustomToggleListProps> = ({
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>(
     () => {
       const initialCheckedItems: { [key: string]: boolean } = {};
-      columns.forEach(column => {
+      columns.slice(1, -1).forEach(column => {
         if (column.dataField !== '_id') {
-          initialCheckedItems[column.dataField] = false; // Ensure none are selected initially
+          initialCheckedItems[column.dataField] = toggles[column.dataField];
         }
       });
       return initialCheckedItems;
     },
   );
 
-  const [orderedColumns, setOrderedColumns] = useState<Column[]>(columns);
+  const [orderedColumns, setOrderedColumns] = useState<Column[]>(
+    columns.slice(1, -1),
+  );
+  const dynamicActionColumn = columns[columns.length - 1]?.dataField;
+
+  useEffect(() => {
+    const anyChecked = Object.values(checkedItems).some(checked => checked);
+    if (dynamicActionColumn) {
+      if (anyChecked) {
+        if (!checkedItems[dynamicActionColumn]) {
+          setCheckedItems(prev => ({ ...prev, [dynamicActionColumn]: true }));
+          onColumnToggle(dynamicActionColumn);
+        }
+      } else {
+        if (checkedItems[dynamicActionColumn]) {
+          setCheckedItems(prev => {
+            const { [dynamicActionColumn]: _, ...rest } = prev;
+            return rest;
+          });
+          onColumnToggle(dynamicActionColumn);
+        }
+      }
+    }
+  }, [checkedItems, dynamicActionColumn, onColumnToggle]);
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = event.target.checked;
+
     const newCheckedItems: { [key: string]: boolean } = {};
     orderedColumns.forEach(column => {
       if (column.dataField !== '_id') {
-        newCheckedItems[column.dataField] = event.target.checked;
+        newCheckedItems[column.dataField] = checked;
       }
     });
 
     setCheckedItems(newCheckedItems);
+
     orderedColumns.forEach(column => {
       if (column.dataField !== '_id') {
         onColumnToggle(column.dataField);
       }
     });
+
+    if (dynamicActionColumn) {
+      if (checked) {
+        setCheckedItems(prev => ({ ...prev, [dynamicActionColumn]: true }));
+        onColumnToggle(dynamicActionColumn);
+      } else {
+        setCheckedItems(prev => {
+          const { [dynamicActionColumn]: _, ...rest } = prev;
+          return rest;
+        });
+        onColumnToggle(dynamicActionColumn);
+      }
+    }
   };
 
   const handleItemChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setCheckedItems(prevState => ({
-      ...prevState,
-      [name]: checked,
-    }));
-    onColumnToggle(name);
+    setCheckedItems(prevState => {
+      const newState = {
+        ...prevState,
+        [name]: checked,
+      };
+
+      const anyChecked = Object.keys(newState).some(
+        key => key !== dynamicActionColumn && newState[key],
+      );
+
+      if (dynamicActionColumn) {
+        if (anyChecked) {
+          if (!newState[dynamicActionColumn]) {
+            newState[dynamicActionColumn] = true;
+            onColumnToggle(dynamicActionColumn);
+          }
+        } else {
+          if (newState[dynamicActionColumn]) {
+            delete newState[dynamicActionColumn];
+            onColumnToggle(dynamicActionColumn);
+          }
+        }
+      }
+
+      onColumnToggle(name);
+      return newState;
+    });
   };
 
   const allChecked =
-    Object.values(checkedItems).length > 0 &&
-    Object.values(checkedItems).every(Boolean);
+    Object.keys(checkedItems).length > 0 &&
+    Object.keys(checkedItems)
+      .filter(key => key !== dynamicActionColumn)
+      .every(key => checkedItems[key]);
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -96,33 +159,31 @@ const CustomToggleList: React.FC<CustomToggleListProps> = ({
               ref={provided.innerRef}
               className='ml-4'
             >
-              {orderedColumns
-                .filter(column => column.dataField !== '_id')
-                .map((column, index) => (
-                  <Draggable
-                    key={column.dataField}
-                    draggableId={column.dataField}
-                    index={index}
-                  >
-                    {provided => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className='mt-2 flex items-center'
-                      >
-                        <input
-                          type='checkbox'
-                          name={column.dataField}
-                          checked={!!checkedItems[column.dataField]}
-                          onChange={handleItemChange}
-                          className='form-checkbox'
-                        />
-                        <span className='ml-2'>{column.text}</span>
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
+              {orderedColumns.map((column, index) => (
+                <Draggable
+                  key={column.dataField}
+                  draggableId={column.dataField}
+                  index={index}
+                >
+                  {provided => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      className='mt-2 flex items-center'
+                    >
+                      <input
+                        type='checkbox'
+                        name={column.dataField}
+                        checked={!!checkedItems[column.dataField]}
+                        onChange={handleItemChange}
+                        className='form-checkbox'
+                      />
+                      <span className='ml-2'>{column.text}</span>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
               {provided.placeholder}
             </div>
           )}

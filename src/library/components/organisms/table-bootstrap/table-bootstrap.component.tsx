@@ -673,11 +673,11 @@ export const TableBootstrap = ({
                   )}
                 </div>
               </div>
-              {isFilterOpen && (
-                <div className={'flex overflow-y-hidden'}>
-                  <CustomToggleList {...props.columnToggleProps} />
-                </div>
-              )}
+
+              <div className={'flex overflow-y-hidden'}>
+                <CustomToggleList {...props.columnToggleProps} />
+              </div>
+
               <div className='scrollTable h-[calc(100vh_-_30vh)] mt-1'>
                 <BootstrapTable
                   remote
