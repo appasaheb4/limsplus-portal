@@ -440,7 +440,7 @@ export const ModalGenerateReports = ({
                                 >
                                   {reportTo?.patientVisit?.mobileNo && (
                                     <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
-                                      {reportTo?.patientVisit?.mobileNo}
+                                      {reportTo?.patientVisit?.mobileNo || ''}
                                       {pdf && (
                                         <Tooltip tooltipText='Share on whatsapp'>
                                           <SocialIcon
@@ -534,7 +534,7 @@ export const ModalGenerateReports = ({
                                           <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
                                             {item?.name +
                                               ' - ' +
-                                              item?.mobileNo}
+                                              item?.mobileNo || ''}
                                             {pdf && (
                                               <Tooltip tooltipText='Share on whatsapp'>
                                                 <SocialIcon

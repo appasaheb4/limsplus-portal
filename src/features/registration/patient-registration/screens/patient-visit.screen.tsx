@@ -387,16 +387,16 @@ export const PatientVisit = PatientVisitHoc(
                     'pId',
                     item.pId +
                       ' - ' +
-                      `${item.firstName} ${
-                        item.middleName ? item.middleName : ''
-                      } ${item.lastName}`,
+                      `${item?.firstName || ''} ${
+                        item?.middleName ? item?.middleName : ''
+                      } ${item?.lastName || ''}`,
                   );
                   patientVisitStore.updatePatientVisit({
                     ...patientVisitStore.patientVisit,
                     pId: item.pId,
-                    patientName: `${item.firstName} ${
-                      item.middleName ? item.middleName : ''
-                    } ${item.lastName}`,
+                    patientName: `${item?.firstName || ''} ${
+                      item?.middleName ? item?.middleName : ''
+                    } ${item?.lastName || ''}`,
                     birthDate: item?.birthDate,
                     age,
                     ageUnits,
@@ -520,9 +520,9 @@ export const PatientVisit = PatientVisitHoc(
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             pId: item.pId,
-                            patientName: `${item.firstName} ${
-                              item.middleName ? item.middleName : ''
-                            } ${item.lastName}`,
+                            patientName: `${item?.firstName} ${
+                              item?.middleName ? item?.middleName : ''
+                            } ${item?.lastName}`,
                             birthDate: item?.birthDate,
                             age,
                             ageUnits,
