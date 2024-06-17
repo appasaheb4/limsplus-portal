@@ -951,7 +951,7 @@ const Company = CompanyHoc(
                         hasError={!!errors.area}
                         value={value}
                         onChange={areaValue => {
-                          const area = areaValue.toUpperCase();
+                          const area = areaValue?.toUpperCase();
                           onChange(area);
                           companyStore.updateCompany({
                             ...companyStore.company,

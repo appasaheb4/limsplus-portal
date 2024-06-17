@@ -76,6 +76,7 @@ export const PatientManager = PatientManagerHoc(
         'isPatientMobileNo',
         patientManagerStore.patientManger?.isPatientMobileNo,
       );
+      setValue('sex', patientManagerStore.patientManger?.sex);
       setValue(
         'postalCode',
         patientManagerStore.patientManger?.extraData?.postcode,
@@ -257,6 +258,46 @@ export const PatientManager = PatientManagerHoc(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const checkExistsRecords = async (
+      fields: any = patientManagerStore.patientManger,
+      isSingleCheck = false,
+    ) => {
+      const requiredFields = isPMMobileNoRequired
+        ? ['firstName', 'lastName', 'mobileNo', 'birthDate']
+        : ['firstName', 'lastName', 'birthDate'];
+      const isEmpty = requiredFields.find(item => {
+        if (_.isEmpty({ ...fields }[item])) return item;
+      });
+      if (isEmpty && !isSingleCheck) {
+        Toast.error({
+          message: `😔 Required ${isEmpty} value missing. Please enter correct value`,
+        });
+        return true;
+      }
+      return patientManagerStore.patientManagerService
+        .findByFields({
+          input: {
+            filter: isSingleCheck
+              ? { ...fields }
+              : {
+                  ..._.pick({ ...fields }, requiredFields),
+                },
+          },
+        })
+        .then(res => {
+          if (res.findByFieldsLabs?.success) {
+            patientManagerStore.updateExistsPatient(true);
+            Toast.error({
+              message: '😔 Already some record exists.',
+            });
+            return true;
+          } else {
+            patientManagerStore.updateExistsPatient(false);
+            return false;
+          }
+        });
+    };
+
     return (
       <>
         <div
@@ -332,32 +373,20 @@ export const PatientManager = PatientManagerHoc(
                           });
                         }}
                         onBlur={mobileNo => {
-                          if (mobileNo)
-                            patientManagerStore.patientManagerService
-                              .checkExistsPatient({
-                                input: {
-                                  firstName:
-                                    patientManagerStore.patientManger
-                                      ?.firstName,
-                                  lastName:
-                                    patientManagerStore.patientManger?.lastName,
-                                  mobileNo,
-                                  birthDate:
-                                    patientManagerStore.patientManger
-                                      ?.birthDate,
-                                },
-                              })
-                              .then(res => {
-                                if (res.checkExistsPatientManager.success) {
-                                  patientManagerStore.updateExistsPatient(true);
-                                  Toast.error({
-                                    message: `😔 ${res.checkExistsPatientManager.message}`,
-                                  });
-                                } else
-                                  patientManagerStore.updateExistsPatient(
-                                    false,
-                                  );
-                              });
+                          if (mobileNo) {
+                            checkExistsRecords(
+                              {
+                                firstName:
+                                  patientManagerStore.patientManger?.firstName,
+                                lastName:
+                                  patientManagerStore.patientManger?.lastName,
+                                mobileNo,
+                                birthDate:
+                                  patientManagerStore.patientManger?.birthDate,
+                              },
+                              true,
+                            );
+                          }
                         }}
                       />
                     )}
@@ -434,36 +463,21 @@ export const PatientManager = PatientManagerHoc(
                                       getDiffByDate(birthDate),
                                     ).ageUnit,
                                   });
-                                  patientManagerStore.patientManagerService
-                                    .checkExistsPatient({
-                                      input: {
-                                        firstName:
-                                          patientManagerStore.patientManger
-                                            ?.firstName,
-                                        lastName:
-                                          patientManagerStore.patientManger
-                                            ?.lastName,
-                                        mobileNo:
-                                          patientManagerStore.patientManger
-                                            ?.mobileNo,
-                                        birthDate,
-                                      },
-                                    })
-                                    .then(res => {
-                                      if (
-                                        res.checkExistsPatientManager.success
-                                      ) {
-                                        patientManagerStore.updateExistsPatient(
-                                          true,
-                                        );
-                                        Toast.error({
-                                          message: `😔 ${res.checkExistsPatientManager.message}`,
-                                        });
-                                      } else
-                                        patientManagerStore.updateExistsPatient(
-                                          false,
-                                        );
-                                    });
+                                  checkExistsRecords(
+                                    {
+                                      firstName:
+                                        patientManagerStore.patientManger
+                                          ?.firstName,
+                                      lastName:
+                                        patientManagerStore.patientManger
+                                          ?.lastName,
+                                      mobileNo:
+                                        patientManagerStore.patientManger
+                                          ?.mobileNo,
+                                      birthDate,
+                                    },
+                                    true,
+                                  );
                                 }
                               }
                             } else {
@@ -577,7 +591,10 @@ export const PatientManager = PatientManagerHoc(
                             .find(item => item.code === title)
                             ?.value?.split('-')[0];
                           onChange(title);
-                          if (sex) setValue('sex', sex);
+                          if (sex) {
+                            setValue('sex', sex);
+                            clearErrors('sex');
+                          }
                           patientManagerStore.updatePatientManager({
                             ...patientManagerStore.patientManger,
                             title,
@@ -615,7 +632,7 @@ export const PatientManager = PatientManagerHoc(
                       hasError={!!errors.firstName}
                       value={value}
                       onChange={firstNameValue => {
-                        const firstName = firstNameValue.toUpperCase();
+                        const firstName = firstNameValue?.toUpperCase();
                         onChange(firstName);
                         patientManagerStore.updatePatientManager({
                           ...patientManagerStore.patientManger,
@@ -659,32 +676,35 @@ export const PatientManager = PatientManagerHoc(
                           setValue('lastName', lastName);
                           setValue('middleName', names[1]?.toUpperCase());
                         }
-                        if (inFirstName)
-                          patientManagerStore.patientManagerService
-                            .checkExistsPatient({
-                              input: {
-                                firstName,
-                                lastName,
-                                mobileNo:
-                                  patientManagerStore.patientManger?.mobileNo,
-                                birthDate:
-                                  patientManagerStore.patientManger?.birthDate,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkExistsPatientManager.success) {
-                                patientManagerStore.updateExistsPatient(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkExistsPatientManager.message}`,
-                                });
-                              } else
-                                patientManagerStore.updateExistsPatient(false);
-                            });
+                        if (inFirstName) {
+                          checkExistsRecords(
+                            {
+                              firstName,
+                              lastName,
+                              mobileNo:
+                                patientManagerStore.patientManger?.mobileNo,
+                              birthDate:
+                                patientManagerStore.patientManger?.birthDate,
+                            },
+                            true,
+                          );
+                        }
                       }}
                     />
                   )}
                   name='firstName'
-                  rules={{ required: true }}
+                  rules={{
+                    required:
+                      _.isEmpty(patientManagerStore.patientManger?.firstName) &&
+                      _.isEmpty(patientManagerStore.patientManger.lastName)
+                        ? true
+                        : !_.isEmpty(
+                            patientManagerStore.patientManger?.firstName,
+                          ) ||
+                          !_.isEmpty(patientManagerStore.patientManger.lastName)
+                        ? false
+                        : true,
+                  }}
                   defaultValue=''
                 />
                 <Controller
@@ -700,7 +720,7 @@ export const PatientManager = PatientManagerHoc(
                       hasError={!!errors.middleName}
                       value={value}
                       onChange={middleNameValue => {
-                        const middleName = middleNameValue.toUpperCase();
+                        const middleName = middleNameValue?.toUpperCase();
                         onChange(middleName);
                         patientManagerStore.updatePatientManager({
                           ...patientManagerStore.patientManger,
@@ -727,7 +747,7 @@ export const PatientManager = PatientManagerHoc(
                       hasError={!!errors.lastName}
                       value={value}
                       onChange={lastNameValue => {
-                        const lastName = lastNameValue.toUpperCase();
+                        const lastName = lastNameValue?.toUpperCase();
                         onChange(lastName);
                         patientManagerStore.updatePatientManager({
                           ...patientManagerStore.patientManger,
@@ -745,33 +765,36 @@ export const PatientManager = PatientManagerHoc(
                         }
                       }}
                       onBlur={lastName => {
-                        if (lastName)
-                          patientManagerStore.patientManagerService
-                            .checkExistsPatient({
-                              input: {
-                                firstName:
-                                  patientManagerStore.patientManger?.firstName,
-                                lastName,
-                                mobileNo:
-                                  patientManagerStore.patientManger?.mobileNo,
-                                birthDate:
-                                  patientManagerStore.patientManger?.birthDate,
-                              },
-                            })
-                            .then(res => {
-                              if (res.checkExistsPatientManager.success) {
-                                patientManagerStore.updateExistsPatient(true);
-                                Toast.error({
-                                  message: `😔 ${res.checkExistsPatientManager.message}`,
-                                });
-                              } else
-                                patientManagerStore.updateExistsPatient(false);
-                            });
+                        if (lastName) {
+                          checkExistsRecords(
+                            {
+                              firstName:
+                                patientManagerStore.patientManger?.firstName,
+                              lastName,
+                              mobileNo:
+                                patientManagerStore.patientManger?.mobileNo,
+                              birthDate:
+                                patientManagerStore.patientManger?.birthDate,
+                            },
+                            true,
+                          );
+                        }
                       }}
                     />
                   )}
                   name='lastName'
-                  rules={{ required: true }}
+                  rules={{
+                    required:
+                      _.isEmpty(patientManagerStore.patientManger?.firstName) &&
+                      _.isEmpty(patientManagerStore.patientManger.lastName)
+                        ? true
+                        : !_.isEmpty(
+                            patientManagerStore.patientManger?.firstName,
+                          ) ||
+                          !_.isEmpty(patientManagerStore.patientManger.lastName)
+                        ? false
+                        : true,
+                  }}
                   defaultValue=''
                 />
                 {patientManagerStore.checkExistsPatient && (
@@ -1625,58 +1648,6 @@ export const PatientManager = PatientManagerHoc(
                           defaultValue=''
                         />
 
-                        {/* <Controller
-                          control={control}
-                          render={({ field: { onChange, value } }) => (
-                            <Form.InputWrapper label='Environment'>
-                              <select
-                                value={value}
-                                disabled={
-                                  loginStore.login &&
-                                  loginStore.login.role !== 'ADMINISTRATOR'
-                                    ? true
-                                    : false
-                                }
-                                className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                                  errors.environment
-                                    ? 'border-red  '
-                                    : 'border-gray-300'
-                                } rounded-md`}
-                                onChange={e => {
-                                  const environment = e.target.value;
-                                  onChange(environment);
-                                  patientManagerStore.updatePatientManager({
-                                    ...patientManagerStore.patientManger,
-                                    extraData: {
-                                      ...patientManagerStore.patientManger
-                                        ?.extraData,
-                                      environment,
-                                    },
-                                  });
-                                }}
-                              >
-                                <option>
-                                  {loginStore.login &&
-                                  loginStore.login.role !== 'ADMINISTRATOR'
-                                    ? 'Select'
-                                    : patientManagerStore.patientManger
-                                        ?.extraData?.environment || 'Select'}
-                                </option>
-                                {lookupItems(
-                                  routerStore.lookupItems,
-                                  'PATIENT MANAGER - ENVIRONMENT',
-                                ).map((item: any, index: number) => (
-                                  <option key={index} value={item.code}>
-                                    {lookupValue(item)}
-                                  </option>
-                                ))}
-                              </select>
-                            </Form.InputWrapper>
-                          )}
-                          name='environment'
-                          rules={{ required: false }}
-                          defaultValue=''
-                        /> */}
                         <Grid cols={4}>
                           <Controller
                             control={control}

@@ -420,7 +420,7 @@ export const SalesTeam = SalesTeamHoc(
                           onChange(salesTerritory);
                           salesTeamStore.updateSalesTeam({
                             ...salesTeamStore.salesTeam,
-                            salesTerritory: salesTerritory.toUpperCase(),
+                            salesTerritory: salesTerritory?.toUpperCase(),
                           });
                         }}
                         onBlur={salesTerritory => {
@@ -443,7 +443,7 @@ export const SalesTeam = SalesTeamHoc(
                         disabled={isVersionUpgrade}
                         value={value}
                         onChange={descriptionValue => {
-                          const description = descriptionValue.toUpperCase();
+                          const description = descriptionValue?.toUpperCase();
                           onChange(description);
                           salesTeamStore.updateSalesTeam({
                             ...salesTeamStore.salesTeam,

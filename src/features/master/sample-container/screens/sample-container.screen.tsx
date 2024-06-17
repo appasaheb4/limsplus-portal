@@ -202,7 +202,7 @@ const SampleContainer = SampleContainerHoc(
                         value={value}
                         onChange={containerCodeValue => {
                           const containerCode =
-                            containerCodeValue.toUpperCase();
+                            containerCodeValue?.toUpperCase();
                           onChange(containerCode);
                           sampleContainerStore.updateSampleContainer({
                             ...sampleContainerStore.sampleContainer,
@@ -239,7 +239,7 @@ const SampleContainer = SampleContainerHoc(
                         value={value}
                         onChange={containerNameValue => {
                           const containerName =
-                            containerNameValue.toUpperCase();
+                            containerNameValue?.toUpperCase();
                           onChange(containerName);
                           sampleContainerStore.updateSampleContainer({
                             ...sampleContainerStore.sampleContainer,

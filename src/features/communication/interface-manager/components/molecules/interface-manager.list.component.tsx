@@ -144,7 +144,7 @@ export const InterfaceManagerList = observer(
                     style={{ textTransform: 'uppercase' }}
                     // value={row.instrumentType}
                     onBlur={instrumentTypeValue => {
-                      const instrumentType = instrumentTypeValue.toUpperCase();
+                      const instrumentType = instrumentTypeValue?.toUpperCase();
                       if (
                         row.instrumentType !== instrumentType &&
                         instrumentType

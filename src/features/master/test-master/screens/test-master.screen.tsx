@@ -686,14 +686,14 @@ const TestMater = TestMasterHOC(
                             onChange(testCode);
                             testMasterStore.updateTestMaster({
                               ...testMasterStore.testMaster,
-                              testCode: testCode.toUpperCase(),
+                              testCode: testCode?.toUpperCase(),
                             });
                           }}
                           onBlur={testCode => {
                             if (!testMasterStore.testMaster?.existsVersionId) {
                               checkExistsRecords(
                                 {
-                                  testCode: testCode.toUpperCase(),
+                                  testCode: testCode?.toUpperCase(),
                                 },
                                 true,
                               );
@@ -752,7 +752,7 @@ const TestMater = TestMasterHOC(
                             onChange(testName);
                             testMasterStore.updateTestMaster({
                               ...testMasterStore.testMaster,
-                              testName: testName.toUpperCase(),
+                              testName: testName?.toUpperCase(),
                             });
                           }}
                         />
@@ -1214,7 +1214,7 @@ const TestMater = TestMasterHOC(
                             testMasterStore.updateTestMaster({
                               ...testMasterStore.testMaster,
                               speicalInstructions:
-                                speicalInstructions.toUpperCase(),
+                                speicalInstructions?.toUpperCase(),
                             });
                           }}
                         />
@@ -1387,7 +1387,7 @@ const TestMater = TestMasterHOC(
                             onChange(cptCode);
                             testMasterStore.updateTestMaster({
                               ...testMasterStore.testMaster,
-                              cptCode: cptCode.toUpperCase(),
+                              cptCode: cptCode?.toUpperCase(),
                             });
                           }}
                         />

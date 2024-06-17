@@ -34,10 +34,6 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             'PATIENT MANAGER - STATUS',
           ),
-          // environment: getDefaultLookupItem(
-          //   routerStore.lookupItems,
-          //   'PATIENT MANAGER - ENVIRONMENT',
-          // ),
         },
       });
       if (!patientManagerStore.patientManger.extraData?.country) {

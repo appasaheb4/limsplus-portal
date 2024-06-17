@@ -745,7 +745,7 @@ const MasterPanel = MasterPanelHoc(
                             onChange(panelCode);
                             masterPanelStore.updateMasterPanel({
                               ...masterPanelStore.masterPanel,
-                              panelCode: panelCode.toUpperCase(),
+                              panelCode: panelCode?.toUpperCase(),
                             });
                           }}
                           onBlur={panelCode => {
@@ -816,7 +816,7 @@ const MasterPanel = MasterPanelHoc(
                             onChange(panelName);
                             masterPanelStore.updateMasterPanel({
                               ...masterPanelStore.masterPanel,
-                              panelName: panelName.toUpperCase(),
+                              panelName: panelName?.toUpperCase(),
                             });
                           }}
                         />
@@ -1059,7 +1059,7 @@ const MasterPanel = MasterPanelHoc(
                             onChange(reportGroup);
                             masterPanelStore.updateMasterPanel({
                               ...masterPanelStore.masterPanel,
-                              reportGroup: reportGroup.toUpperCase(),
+                              reportGroup: reportGroup?.toUpperCase(),
                             });
                           }}
                         />
@@ -1464,7 +1464,7 @@ const MasterPanel = MasterPanelHoc(
                               onChange(loAge);
                               masterPanelStore.updateMasterPanel({
                                 ...masterPanelStore.masterPanel,
-                                loAge: loAge.toUpperCase(),
+                                loAge: loAge?.toUpperCase(),
                               });
                             } else {
                               Toast.warning({
@@ -1505,7 +1505,7 @@ const MasterPanel = MasterPanelHoc(
                               onChange(hiAge);
                               masterPanelStore.updateMasterPanel({
                                 ...masterPanelStore.masterPanel,
-                                hiAge: hiAge.toUpperCase(),
+                                hiAge: hiAge?.toUpperCase(),
                               });
                             } else {
                               Toast.warning({
@@ -1844,7 +1844,7 @@ const MasterPanel = MasterPanelHoc(
                           onChange={labelInstruction => {
                             masterPanelStore.updateMasterPanel({
                               ...masterPanelStore.masterPanel,
-                              labelInstruction: labelInstruction.toUpperCase(),
+                              labelInstruction: labelInstruction?.toUpperCase(),
                             });
                           }}
                         />
@@ -1870,7 +1870,7 @@ const MasterPanel = MasterPanelHoc(
                             masterPanelStore.updateMasterPanel({
                               ...masterPanelStore.masterPanel,
                               specalInstructions:
-                                specalInstructions.toUpperCase(),
+                                specalInstructions?.toUpperCase(),
                             });
                           }}
                         />

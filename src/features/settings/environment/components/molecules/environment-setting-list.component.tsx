@@ -310,7 +310,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                       if (row.value !== value) {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            value.toUpperCase(),
+                            value?.toUpperCase(),
                             column.dataField,
                             row._id,
                           );
