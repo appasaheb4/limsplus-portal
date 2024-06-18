@@ -158,7 +158,6 @@ export const TableBootstrap = ({
   const filterableColumns = columns.filter(
     column => column.dataField !== 'operation' && column.dataField !== '_id',
   );
-
   const customTotal = (from, to, size) => {
     return (
       <>

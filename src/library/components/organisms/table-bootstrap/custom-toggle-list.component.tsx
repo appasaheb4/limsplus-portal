@@ -56,15 +56,23 @@ const ColumnFilter: React.FC<ColumnFilterProps> = ({
     setColumnOrder(reorderedColumns);
   };
 
+  const lastField = columns[columns.length - 1].dataField;
   const filteredColumns = columnOrder.filter(
     column =>
       column.dataField !== '_id' &&
       column.text.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
+  const selectedFilteredColumns = filteredColumns.filter(column =>
+    selectedColumns.includes(column.dataField),
+  );
+  const unselectedFilteredColumns = filteredColumns.filter(
+    column => !selectedColumns.includes(column.dataField),
+  );
+
   const allSelected =
-    filteredColumns.length > 0 &&
-    filteredColumns.every(column => selectedColumns.includes(column.dataField));
+    selectedFilteredColumns.length > 0 &&
+    selectedFilteredColumns.length === filteredColumns.length;
 
   return (
     <div
@@ -93,7 +101,7 @@ const ColumnFilter: React.FC<ColumnFilterProps> = ({
         <Droppable droppableId='columns'>
           {provided => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              {filteredColumns.map((column, index) => (
+              {selectedFilteredColumns.map((column, index) => (
                 <Draggable
                   key={column.dataField}
                   draggableId={column.dataField}
@@ -124,6 +132,20 @@ const ColumnFilter: React.FC<ColumnFilterProps> = ({
           )}
         </Droppable>
       </DragDropContext>
+      {unselectedFilteredColumns.length > 0 && <hr className='my-2' />}
+      {unselectedFilteredColumns.map((column, index) => (
+        <div key={column.dataField} className='mb-2'>
+          <label className='flex items-center'>
+            <input
+              type='checkbox'
+              checked={selectedColumns.includes(column.dataField)}
+              onChange={() => handleToggle(column.dataField)}
+              className='form-checkbox'
+            />
+            <span className='ml-2'>{column.text}</span>
+          </label>
+        </div>
+      ))}
       <button
         onClick={onClose}
         className='mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700'
