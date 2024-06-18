@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -25,6 +25,7 @@ import ExcelJS from 'exceljs';
 import { RouterFlow } from '@/flows';
 import { useStores } from '@/stores';
 import CustomToggleList from './custom-toggle-list.component';
+import ColumnFilter from './custom-toggle-list.component';
 interface TableBootstrapProps {
   id: string;
   data: any;
@@ -121,14 +122,43 @@ export const TableBootstrap = ({
   dynamicStylingFields,
   hideExcelSheet,
   registrationExtraData = false,
-  setHideForm,
-  isHideForm = false,
-  isShowCircleButton = true,
-  circleButtonDisable = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
-  const { routerStore } = useStores();
+  const [isColumnFilterVisible, setIsColumnFilterVisible] =
+    useState<boolean>(false);
+  const [currentColumns, setCurrentColumns] = useState(columns);
+  const [columnOrder, setColumnOrder] = useState(columns);
+
+  useEffect(() => {
+    const selectedColumns = columnOrder.filter(col =>
+      currentColumns.some(c => c.dataField === col.dataField),
+    );
+    setCurrentColumns(
+      selectedColumns.length > 0
+        ? [...selectedColumns, columns[columns.length - 1]]
+        : [],
+    );
+  }, [columnOrder]);
+
+  const handleColumnReorder = newColumns => {
+    setColumnOrder(newColumns);
+  };
+
+  const handleColumnToggle = selectedColumns => {
+    const newColumns = columnOrder.filter(column =>
+      selectedColumns.includes(column.dataField),
+    );
+    setCurrentColumns(
+      newColumns.length > 0 ? [...newColumns, columns[columns.length - 1]] : [],
+    );
+  };
+
+  // Filter out the "Action" and "Id" columns for the ColumnFilter component
+  const filterableColumns = columns.filter(
+    column => column.dataField !== 'operation' && column.dataField !== '_id',
+  );
+
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -587,13 +617,15 @@ export const TableBootstrap = ({
     return { backgroundColor: 'gray' };
   };
 
+  console.log({ currentColumns });
+
   return (
     <PaginationProvider
       pagination={paginationFactory(
         totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
-      columns={columns}
+      columns={currentColumns}
       data={data}
     >
       {({ paginationProps, paginationTableProps }) => (
@@ -601,7 +633,7 @@ export const TableBootstrap = ({
           keyField={id}
           bootstrap4
           data={data}
-          columns={columns}
+          columns={currentColumns}
           search
           exportCSV={{
             fileName: `${fileName}_${dayjs(new Date()).format(
@@ -645,73 +677,64 @@ export const TableBootstrap = ({
                       Export CSV!!
                     </button>
                   )}
-
-                  {isFilterOpen ? (
-                    <div className='ml-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='outline'
-                        onClick={() => {
-                          setIsFilterOpen(!isFilterOpen);
-                        }}
-                      >
-                        <Icons.IconFa.FaChevronUp />
-                      </Buttons.Button>
-                    </div>
-                  ) : (
-                    <div className='ml-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='outline'
-                        onClick={() => {
-                          setIsFilterOpen(!isFilterOpen);
-                        }}
-                      >
-                        <Icons.IconFa.FaChevronDown />
-                      </Buttons.Button>
-                    </div>
-                  )}
+                  <div className='ml-2 relative'>
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsColumnFilterVisible(!isColumnFilterVisible);
+                      }}
+                    >
+                      <Icons.IconFa.FaFilter />
+                    </Buttons.Button>
+                    {isColumnFilterVisible && (
+                      <ColumnFilter
+                        columns={filterableColumns}
+                        onClose={() => setIsColumnFilterVisible(false)}
+                        onColumnReorder={handleColumnReorder}
+                        onColumnToggle={handleColumnToggle}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className={'flex overflow-y-hidden'}>
-                <CustomToggleList {...props.columnToggleProps} />
-              </div>
-
               <div className='scrollTable h-[calc(100vh_-_30vh)] mt-1'>
-                <BootstrapTable
-                  remote
-                  {...props.baseProps}
-                  noDataIndication='Table is Empty'
-                  hover
-                  {...paginationTableProps}
-                  filter={filterFactory()}
-                  keyField='_id'
-                  selectRow={
-                    isSelectRow
-                      ? {
-                          mode: 'checkbox',
-                          clickToSelect: true,
-                          clickToEdit: true,
-                          nonSelectable: getNonSelectableRows,
-                          nonSelectableStyle: nonSelectableStyle,
-                          onSelect: handleOnSelect,
-                          onSelectAll: handleOnSelectAll,
-                        }
-                      : undefined
-                  }
-                  cellEdit={
-                    isEditModify
-                      ? cellEditFactory({
-                          mode: 'dbclick',
-                          blurToSave: true,
-                        })
-                      : undefined
-                  }
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap align-middle mt-2'
-                  onTableChange={handleTableChange}
-                  rowStyle={rowStyle}
-                />
+                {currentColumns.length > 1 ? (
+                  <div className='mt-4'>
+                    <BootstrapTable
+                      remote
+                      {...props.baseProps}
+                      noDataIndication='Table is Empty'
+                      hover
+                      {...paginationTableProps}
+                      filter={filterFactory()}
+                      keyField='_id'
+                      selectRow={{
+                        mode: 'checkbox',
+                        clickToSelect: true,
+                        clickToEdit: true,
+                        nonSelectable: getNonSelectableRows,
+                        nonSelectableStyle: nonSelectableStyle,
+                        onSelect: handleOnSelect,
+                        onSelectAll: handleOnSelectAll,
+                      }}
+                      cellEdit={
+                        isEditModify
+                          ? cellEditFactory({
+                              mode: 'dbclick',
+                              blurToSave: true,
+                            })
+                          : undefined
+                      }
+                      headerClasses='bg-gray-500 text-white whitespace-nowrap align-middle mt-2'
+                      onTableChange={handleTableChange}
+                      rowStyle={rowStyle}
+                    />
+                  </div>
+                ) : (
+                  <div className='mt-4 text-center'>No columns selected</div>
+                )}
               </div>
               {totalSize && (
                 <div className='flex  items-center   p-2 justify-start gap-2 bg-[#6A727F] rounded-md   text-white w-full'>
