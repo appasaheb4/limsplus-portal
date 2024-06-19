@@ -14,23 +14,29 @@ export const PdfPatientDetails = observer(
       <PdfBorderView mv={0} mh={10} fixed style={{ marginBottom: 6 }}>
         <PdfView mh={10} p={0} flexDirection='row'>
           <PdfGrid cols={3} bg='transparent'>
-            <PdfSmall>{`Name: ${patientReports?.title || ''} ${
+            <PdfSmall>{`Patient Name: ${patientReports?.title || ''} ${
               patientReports?.firstName || ''
             } ${patientReports?.middleName || ''} ${
               patientReports?.lastName || ''
             }`}</PdfSmall>
-            <PdfSmall>{`Ref. By: ${patientReports?.refBy}`}</PdfSmall>
-            <PdfSmall>{`Ref Lab: ${patientReports?.refLab}`}</PdfSmall>
-          </PdfGrid>
-          <PdfGrid cols={3} bg='transparent'>
-            <PdfSmall>{`Sr No: ${patientReports?.labId?.toString()}`}</PdfSmall>
             <PdfSmall>{`Age: ${patientReports?.age || ''} ${
               getAgeUnits(patientReports?.ageUnits) || ''
             }`}</PdfSmall>
             <PdfSmall>{`Sex: ${getSex(patientReports?.sex) || ''}`}</PdfSmall>
           </PdfGrid>
           <PdfGrid cols={3} bg='transparent'>
-            <PdfSmall>{`Patient Id: ${patientReports?.pId?.toString()}`}</PdfSmall>
+            <PdfSmall>{`Lab Id: ${
+              patientReports?.labId?.toString() || ''
+            }`}</PdfSmall>
+            <PdfSmall>{`Ref. By: ${patientReports?.refBy}`}</PdfSmall>
+            <PdfSmall>{`Client Name: ${
+              patientReports?.patientResult?.clientName || ''
+            }`}</PdfSmall>
+          </PdfGrid>
+          <PdfGrid cols={3} bg='transparent'>
+            <PdfSmall>{`External Lab Id: ${
+              patientReports?.patientResult?.externalLabId?.toString() || ''
+            }`}</PdfSmall>
             <PdfSmall fontSize={9}>{`Samp. Collected: ${dayjs(
               patientReports?.collectionDate,
             ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>

@@ -6,6 +6,7 @@ export class RegistrationLocations {
   locationCode: string;
   locationName: string;
   corporateCode: string;
+  corporateName: string;
   invoiceAc: number;
   priceList: Array<PriceList>;
   acClass: string;
@@ -80,6 +81,7 @@ export class RegistrationLocations {
     this.deliveryMode = rawData.deliveryMode;
     this.urgent = rawData.urgent;
     this.corporateCode = rawData.corporateCode;
+    this.corporateName = rawData.corporateName;
     this.invoiceAc = rawData.invoiceAc;
     this.priceList = rawData.priceList;
     this.printLabel = rawData.printLabel;

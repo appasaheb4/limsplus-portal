@@ -490,8 +490,6 @@ const DeliveryQueue = observer(() => {
                           message: '😌 Report template not found.',
                         });
                       } else {
-                        console.log({ item });
-
                         setModalGenerateReports({
                           show: true,
                           data: grouped,

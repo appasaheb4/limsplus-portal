@@ -25,6 +25,8 @@ export const ModalReceiptShare = ({
 }: ModalReceiptShareProps) => {
   const [showModal, setShowModal] = React.useState(show);
 
+  console.log({ data });
+
   useEffect(() => {
     setShowModal(show);
   }, [show]);

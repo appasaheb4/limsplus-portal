@@ -14,6 +14,7 @@ import { PdfViewer } from '@/core-components';
 import { PdfTransactionLineTable } from './pdf-table-transaction-line.component';
 import { getAgeAndAgeUnit } from '@features/registration/patient-registration/utils';
 import { calculateTimimg, numToWords } from '@/library/utils';
+import { getAgeUnits, getSex } from '@/core-utils';
 interface PdfReceiptProps {
   data: any;
 }
@@ -26,6 +27,7 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
     patientDetails,
     transactionLine,
     transactionHeader,
+    patientReports,
   } = data || {};
 
   const getAgeAndSex = value => {
@@ -60,12 +62,12 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
       height={window.outerHeight}
       children={
         <>
-          <PdfView mt={20}>
+          <PdfView>
             <PdfImage
               src={headerDetails?.labLogo}
-              style={{ width: 150, height: 40 }}
+              style={{ width: 150, height: 50 }}
             />
-            <PdfView mh={0} p={0}>
+            {/* <PdfView mh={0} p={0}>
               <PdfView mt={4} mh={0} p={0} flexDirection='row'>
                 <PdfSmall style={{ width: headerGridSpace }}>
                   {'Regd. Office:'}
@@ -105,7 +107,40 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
                 <PdfSmall style={{ width: headerGridSpace }}>{'Web:'}</PdfSmall>
                 <PdfSmall> {`${headerDetails?.web || ''}`} </PdfSmall>
               </PdfView>
-            </PdfView>
+            </PdfView> */}
+            <PdfBorderView mv={0} mh={0} fixed bw={1}>
+              <PdfView mh={10} p={0} flexDirection='row'>
+                <PdfGrid cols={3} bg='transparent'>
+                  <PdfSmall>{`Patient Name: ${patientDetails?.patientName}`}</PdfSmall>
+                  <PdfSmall>{`Age: ${patientDetails?.age || ''} ${
+                    getAgeUnits(patientDetails?.ageUnits) || ''
+                  }`}</PdfSmall>
+                  <PdfSmall>{`Sex: ${
+                    getSex(patientDetails?.sex) || ''
+                  }`}</PdfSmall>
+                </PdfGrid>
+                <PdfGrid cols={3} bg='transparent'>
+                  <PdfSmall>{`Lab Id: ${
+                    patientDetails?.labId?.toString() || ''
+                  }`}</PdfSmall>
+                  <PdfSmall>{`Ref. By: ${patientDetails?.refBy}`}</PdfSmall>
+                  <PdfSmall>{`Client Name: ${
+                    patientDetails?.corporateName || ''
+                  }`}</PdfSmall>
+                </PdfGrid>
+                <PdfGrid cols={3} bg='transparent'>
+                  <PdfSmall>{`External Lab Id: ${
+                    patientDetails?.externalLabId?.toString() || ''
+                  }`}</PdfSmall>
+                  <PdfSmall fontSize={9}>{`Samp. Collected: ${dayjs(
+                    patientDetails?.collectionDate,
+                  ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>
+                  <PdfSmall fontSize={9}>{`Reporting Date: ${dayjs(
+                    patientDetails?.reportedDate,
+                  ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>
+                </PdfGrid>
+              </PdfView>
+            </PdfBorderView>
 
             <PdfView>
               <PdfRegular textAlign='right' fontFamily='Times-Bold'>
