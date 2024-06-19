@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import { FaSearch } from 'react-icons/fa';
 
 interface ColumnFilterProps {
   columns: Array<{ dataField: string; text: string }>;
@@ -56,7 +59,6 @@ const ColumnFilter: React.FC<ColumnFilterProps> = ({
     setColumnOrder(reorderedColumns);
   };
 
-  const lastField = columns[columns.length - 1].dataField;
   const filteredColumns = columnOrder.filter(
     column =>
       column.dataField !== '_id' &&
@@ -77,15 +79,21 @@ const ColumnFilter: React.FC<ColumnFilterProps> = ({
   return (
     <div
       className='bg-white border rounded p-4 shadow-md absolute z-50'
-      style={{ width: '300px', maxHeight: '400px', overflowY: 'auto' }}
+      style={{ width: '300px' }}
     >
-      <input
-        type='text'
-        placeholder='Search columns...'
-        value={searchQuery}
-        onChange={e => setSearchQuery(e.target.value)}
-        className='mb-4 p-2 border rounded w-full'
-      />
+      <div className='relative mb-4'>
+        <FaSearch className='absolute top-3 right-2 text-gray-400' />
+        <input
+          type='text'
+          placeholder='Type to Search'
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          className='p-2 border rounded w-full pl-10'
+        />
+      </div>
+      <div className='mb-4 text-center'>
+        <span className='text-gray-500'>—----- Make a Selection ----—</span>
+      </div>
       <div className='mb-4'>
         <label className='flex items-center'>
           <input
@@ -97,55 +105,61 @@ const ColumnFilter: React.FC<ColumnFilterProps> = ({
           <span className='ml-2'>Select All</span>
         </label>
       </div>
-      <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId='columns'>
-          {provided => (
-            <div ref={provided.innerRef} {...provided.droppableProps}>
-              {selectedFilteredColumns.map((column, index) => (
-                <Draggable
-                  key={column.dataField}
-                  draggableId={column.dataField}
-                  index={index}
-                >
-                  {provided => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className='mb-2'
+      <PerfectScrollbar>
+        <div style={{ maxHeight: '300px' }}>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <Droppable droppableId='columns'>
+              {provided => (
+                <div ref={provided.innerRef} {...provided.droppableProps}>
+                  {selectedFilteredColumns.map((column, index) => (
+                    <Draggable
+                      key={column.dataField}
+                      draggableId={column.dataField}
+                      index={index}
                     >
-                      <label className='flex items-center'>
-                        <input
-                          type='checkbox'
-                          checked={selectedColumns.includes(column.dataField)}
-                          onChange={() => handleToggle(column.dataField)}
-                          className='form-checkbox'
-                        />
-                        <span className='ml-2'>{column.text}</span>
-                      </label>
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
+                      {provided => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className='mb-2 flex items-center justify-between'
+                        >
+                          <label className='flex items-center'>
+                            <input
+                              type='checkbox'
+                              checked={selectedColumns.includes(
+                                column.dataField,
+                              )}
+                              onChange={() => handleToggle(column.dataField)}
+                              className='form-checkbox'
+                            />
+                            <span className='ml-2'>{column.text}</span>
+                          </label>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
+          </DragDropContext>
+          {unselectedFilteredColumns.length > 0 && <hr className='my-2' />}
+          {unselectedFilteredColumns.map((column, index) => (
+            <div key={column.dataField} className='mb-2'>
+              <label className='flex items-center'>
+                <input
+                  type='checkbox'
+                  checked={selectedColumns.includes(column.dataField)}
+                  onChange={() => handleToggle(column.dataField)}
+                  className='form-checkbox'
+                />
+                <span className='ml-2'>{column.text}</span>
+              </label>
             </div>
-          )}
-        </Droppable>
-      </DragDropContext>
-      {unselectedFilteredColumns.length > 0 && <hr className='my-2' />}
-      {unselectedFilteredColumns.map((column, index) => (
-        <div key={column.dataField} className='mb-2'>
-          <label className='flex items-center'>
-            <input
-              type='checkbox'
-              checked={selectedColumns.includes(column.dataField)}
-              onChange={() => handleToggle(column.dataField)}
-              className='form-checkbox'
-            />
-            <span className='ml-2'>{column.text}</span>
-          </label>
+          ))}
         </div>
-      ))}
+      </PerfectScrollbar>
       <button
         onClick={onClose}
         className='mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700'
