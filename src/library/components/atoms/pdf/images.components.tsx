@@ -1,9 +1,9 @@
 import React from 'react';
-import {Image} from '@react-pdf/renderer';
-import {Style} from '@react-pdf/types';
+import { Image } from '@react-pdf/renderer';
+import { Style } from '@react-pdf/types';
 
 interface PdfImageProps {
-  src?: string;
+  src?: string | any;
   style?: Style | Style[];
   fixed?: boolean;
 }

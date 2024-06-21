@@ -41,6 +41,7 @@ import { getAgeByAgeObject, getDiffByDate } from '../utils';
 import { FormHelper } from '@/helper';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { getFilterField } from '../utils';
+import { resetPatientVisit } from '../startup';
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void;
@@ -113,6 +114,7 @@ export const PatientVisit = PatientVisitHoc(
               });
               setHideInputView(true);
               reset();
+              resetPatientVisit();
               await patientRegistrationStore.getPatientRegRecords(
                 'labId',
                 result?.labId?.toString(),

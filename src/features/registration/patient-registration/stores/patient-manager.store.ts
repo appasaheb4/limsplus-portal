@@ -34,9 +34,6 @@ export class PatientManagerStore {
       ...this.patientManger,
       ageUnit: 'Y',
       isBirthdateAvailabe: true,
-      // birthDate: new Date(
-      //   dayjs(new Date()).add(-365, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      // ),
       isPatientMobileNo: true,
       isVIP: false,
       isAddress: false,

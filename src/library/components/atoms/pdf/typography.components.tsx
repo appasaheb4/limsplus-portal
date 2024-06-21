@@ -1,25 +1,34 @@
 import React from 'react';
-import {Text, Font} from '@react-pdf/renderer';
-import {Style} from '@react-pdf/types';
+import { Text, Font } from '@react-pdf/renderer';
+import { Style } from '@react-pdf/types';
 
-// export const registerFont = () => {
-//   Font.register({
-//     family: 'arimaBold',
-//     fonts: [
-//       {
-//         src: 'https://fonts.googleapis.com/css2?family=Arima:wght@500&display=swap',
-//         fontWeight: 400,
-//       },
-//     ],
-//   });
-// };
+Font.register({
+  family: 'IBMPlexSans',
+  fonts: [
+    {
+      src: '/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+    },
+    {
+      src: '/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Italic.ttf',
+      fontWeight: 'normal',
+      fontStyle: 'italic',
+    },
+  ],
+});
 
 Font.register({
   family: 'Arima-Bold',
   fonts: [
     {
-      src: 'https://limsplussolutions.blob.core.windows.net/assets/fonts/arima-bold.ttf',
-      fontWeight: 600,
+      src: '/assets/fonts/arima/Arima-Bold.ttf',
+      fontStyle: 'normal',
+      fontWeight: 'bold',
+    },
+    {
+      src: '/assets/fonts/arima/Arima-Regular.ttf',
+      fontStyle: 'normal',
     },
   ],
 });
@@ -130,9 +139,9 @@ export const PdfRegular = ({
 };
 
 export const PdfSmall = ({
-  fontWeight = 'normal',
   fontSize = 10,
   fontFamily = 'arimaRegular',
+  fontWeight = 'normal',
   textAlign = 'left',
   lineHeight = 0,
   fixed = false,
@@ -142,9 +151,9 @@ export const PdfSmall = ({
   return (
     <Text
       style={{
-        fontWeight: fontWeight,
         fontSize: fontSize,
         fontFamily: fontFamily,
+        fontWeight: fontWeight,
         lineHeight: lineHeight,
         textAlign: textAlign,
         ...style,
@@ -156,7 +165,7 @@ export const PdfSmall = ({
   );
 };
 
-export const PdfPageNumber = ({style, bottom = 55}: PdfTextProps) => {
+export const PdfPageNumber = ({ style, bottom = 55 }: PdfTextProps) => {
   return (
     <Text
       style={{
@@ -167,7 +176,7 @@ export const PdfPageNumber = ({style, bottom = 55}: PdfTextProps) => {
         color: 'grey',
         ...style,
       }}
-      render={({pageNumber, totalPages}) =>
+      render={({ pageNumber, totalPages }) =>
         `Page ${pageNumber} of ${totalPages}`
       }
       fixed

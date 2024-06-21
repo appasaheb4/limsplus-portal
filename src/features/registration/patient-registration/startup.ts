@@ -4,7 +4,6 @@ import { eventEmitter } from '@/core-utils';
 
 export const startupPM = async () => {
   // patient manager
-  // stores.patientManagerStore.patientManagerService.sequencingPid();
   await stores.patientManagerStore.patientManagerService.listPatientManager({
     documentType: 'patientManager',
   });
@@ -13,13 +12,11 @@ export const startupPM = async () => {
 export const startupPV = async () => {
   // patient manager
   await startupPM();
-  // stores.patientVisitStore.patientVisitService.sequencingVisitId();
   await stores.patientVisitStore.patientVisitService.sequencingLabId();
   await startupByLabId();
 };
 
 export const startupPO = async () => {
-  //stores.patientOrderStore.patientOrderService.sequencingOrderId();
   await startupByLabId();
 };
 
@@ -36,18 +33,21 @@ const startup = async () => {
 export const resetPatientManager = () => {
   stores.patientManagerStore.reset();
   eventEmitter.emit('reload', {});
+  eventEmitter.emit('pmReload', {});
   startupPM();
 };
 
 export const resetPatientVisit = () => {
   stores.patientVisitStore.reset();
   eventEmitter.emit('reload', {});
+  eventEmitter.emit('pvReload', {});
   startupPV();
 };
 
 export const resetPatientOrder = () => {
   stores.patientOrderStore.reset();
   eventEmitter.emit('reload', {});
+  eventEmitter.emit('poReload', {});
   startupPO();
 };
 

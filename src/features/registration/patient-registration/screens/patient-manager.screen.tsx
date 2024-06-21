@@ -36,6 +36,7 @@ import {
   dateAvailableUnits,
 } from '@/core-utils';
 import { getFilterField } from '../utils';
+import { resetPatientManager } from '../startup';
 
 export const PatientManager = PatientManagerHoc(
   observer(() => {
@@ -120,6 +121,7 @@ export const PatientManager = PatientManagerHoc(
               });
               setHideInputView(true);
               reset();
+              resetPatientManager();
               patientRegistrationStore.updateDefaultValue({
                 ...patientRegistrationStore.defaultValues,
                 pId: result?.pId?.toString(),
@@ -139,7 +141,7 @@ export const PatientManager = PatientManagerHoc(
           });
       } else {
         Toast.warning({
-          message: '😔 Please enter diff patient',
+          message: '😔 Please enter unique details',
         });
       }
     };
