@@ -55,7 +55,7 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
     return amountPayable;
   };
 
-  let canvas;
+  let canvas: any = '';
   // For QR Code
   // import QRCode from 'qrcode';
   // canvas = document.createElement('canvas');
@@ -64,10 +64,9 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
   // For Barcode
   canvas = document.createElement('canvas');
   JsBarcode(canvas, labId, {
-    format: 'pharmacode',
     lineColor: '#000',
-    height: 40,
     displayValue: true,
+    height: 30,
   });
   const barcode = canvas.toDataURL();
 
@@ -83,7 +82,15 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
                 src={headerDetails?.labLogo}
                 style={{ width: 150, height: 50 }}
               />
-              <PdfImage src={barcode} />
+              <PdfImage
+                src={barcode}
+                style={{
+                  position: 'absolute',
+                  right: 0,
+                  bottom: 0,
+                  height: 40,
+                }}
+              />
               <PdfRegular
                 textAlign='center'
                 fontSize={10}
