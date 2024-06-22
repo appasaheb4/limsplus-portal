@@ -188,16 +188,6 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               sort: true,
               editable: false,
               headerClasses: 'textHeader',
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filter: textFilter({
-                placeholder: 'Department',
-                getFilter: filter => {
-                  department = filter;
-                },
-              }),
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',

@@ -137,15 +137,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Name',
               sort: true,
               editable: false,
-              headerStyle: {
-                fontSize: 0,
-              },
-              filter: textFilter({
-                placeholder: 'Patient Name',
-                getFilter: filter => {
-                  patientName = filter;
-                },
-              }),
               headerClasses: 'textHeader',
               style: {
                 whiteSpace: 'nowrap',
@@ -164,15 +155,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Test Code - Name',
               editable: false,
               headerClasses: 'textHeader',
-              headerStyle: {
-                fontSize: 0,
-              },
-              filter: textFilter({
-                placeholder: 'Test Code - Name',
-                getFilter: filter => {
-                  patientName = filter;
-                },
-              }),
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -194,15 +176,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               text: 'Analyte Code - Name',
               editable: false,
               headerClasses: 'textHeader',
-              headerStyle: {
-                fontSize: 0,
-              },
-              filter: textFilter({
-                placeholder: 'Analyte Code - Name',
-                getFilter: filter => {
-                  patientName = filter;
-                },
-              }),
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',

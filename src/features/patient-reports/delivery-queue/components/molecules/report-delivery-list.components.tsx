@@ -11,6 +11,7 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 import { TableBootstrapReport } from './table-bootstrap-report.components';
+import { VscIssueReopened } from 'react-icons/vsc';
 
 let labId;
 let name;
@@ -732,6 +733,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     )}
+                    <Tooltip tooltipText='Reopen'>
+                      <VscIssueReopened size='20' color='#ffffff' />
+                    </Tooltip>
                     {selectId === row._id ? (
                       <Tooltip tooltipText='Expand'>
                         <Icons.IconContext

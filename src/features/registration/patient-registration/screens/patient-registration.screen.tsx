@@ -23,6 +23,7 @@ import {
   PatientSample,
   PatientResult,
   PatientTest,
+  PatientBilling,
 } from './index';
 import { useStores } from '@/stores';
 import { stores } from '@/stores';
@@ -39,6 +40,7 @@ export const patientRegistrationOptions = [
   { title: 'PATIENT TEST' },
   { title: 'PATIENT RESULT' },
   { title: 'PATIENT SAMPLE' },
+  { title: 'PATIENT BILLING' },
 ];
 
 const PatientRegistration = observer(({ sidebar }) => {
@@ -96,6 +98,7 @@ const PatientRegistration = observer(({ sidebar }) => {
                 {item.title === 'PATIENT TEST' && <PatientTest />}
                 {item.title === 'PATIENT RESULT' && <PatientResult />}
                 {item.title === 'PATIENT SAMPLE' && <PatientSample />}
+                {item.title === 'PATIENT BILLING' && <PatientBilling />}
               </AccordionItem>
             );
           })}
