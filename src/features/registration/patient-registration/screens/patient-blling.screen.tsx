@@ -1,4 +1,4 @@
-import { PaymentList } from '@/features/account-receivable/payment/components';
+import Payment from '@/features/account-receivable/payment/screens/payment.screen';
 import { ReceiptList } from '@/features/account-receivable/receipt/components';
 import { RouterFlow } from '@/flows';
 import { useStores } from '@/stores';
@@ -20,62 +20,6 @@ export const PatientBilling = observer(() => {
     receiptStore.receiptService.listReceipt();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const paymentTable = useMemo(
-    () => (
-      <PaymentList
-        data={paymentStore.paymentList || []}
-        totalSize={paymentStore.paymentListCount}
-        extraData={
-          {
-            //   lookupItems: routerStore.lookupItems,
-          }
-        }
-        isView={RouterFlow.checkPermission(routerStore.userPermission, 'View')}
-        isDelete={RouterFlow.checkPermission(
-          routerStore.userPermission,
-          'Delete',
-        )}
-        isUpdate={RouterFlow.checkPermission(
-          routerStore.userPermission,
-          'Update',
-        )}
-        isExport={RouterFlow.checkPermission(
-          routerStore.userPermission,
-          'Export',
-        )}
-        onDelete={selectedItem => {}}
-        onSelectedRow={rows => {
-          //   setModalConfirm({
-          //     show: true,
-          //     type: 'Delete',
-          //     id: rows,
-          //     title: 'Are you sure?',
-          //     body: 'Do you want to delete selected record?',
-          //   });
-        }}
-        onUpdateItem={(value: any, dataField: string, id: string) => {
-          //   setModalConfirm({
-          //     show: true,
-          //     type: 'Update',
-          //     data: { value, dataField, id },
-          //     title: 'Are you sure?',
-          //     body: 'Update deginisation!',
-          //   });
-        }}
-        onPageSizeChange={(page, limit) => {
-          // deginisationStore.fetchListDeginisation(page, limit);
-        }}
-        onFilter={(type, filter, page, limit) => {
-          // deginisationStore.DeginisationService.filter({
-          //   input: {type, filter, page, limit},
-          // });
-        }}
-      />
-    ),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [paymentStore.paymentList],
-  );
 
   const receiptTable = useMemo(
     () => (
@@ -139,7 +83,7 @@ export const PatientBilling = observer(() => {
             <AccordionItemPanel>
               <>
                 <div className='p-2 rounded-lg shadow-xl overflow-scroll'>
-                  {paymentTable}
+                  <Payment />
                 </div>
               </>
             </AccordionItemPanel>

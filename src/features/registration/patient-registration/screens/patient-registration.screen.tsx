@@ -32,6 +32,8 @@ import FileSaver from 'file-saver';
 import { RouterFlow } from '@/flows';
 import { connect } from 'react-redux';
 import { toJS } from 'mobx';
+import { FaPhone } from 'react-icons/fa6';
+import dayjs from 'dayjs';
 
 export const patientRegistrationOptions = [
   { title: 'PATIENT MANAGER' },
@@ -60,6 +62,13 @@ const PatientRegistration = observer(({ sidebar }) => {
   const [reload, setReload] = useState(false);
   const [isImport, setIsImport] = useState<boolean>(false);
   const history = useHistory();
+  const ageUnitsMap = {
+    Y: 'Years',
+    M: 'Months',
+    D: 'Days',
+    W: 'Weeks',
+    H: 'Hours',
+  };
 
   useEffect(() => {
     setReload(!reload);
@@ -420,22 +429,31 @@ const PatientRegistration = observer(({ sidebar }) => {
                   />
                 </div>
                 <div className='flex flex-col'>
+                  <span>PId:{item?.pId?.toString()}</span>
                   <span className='text-sm font-bold'>
-                    {item?.firstName?.toUpperCase() ||
-                      '' +
-                        ' ' +
-                        (item?.middleName != undefined
-                          ? item?.middleName?.toUpperCase()
-                          : '') +
-                        ' ' +
-                        item?.lastName?.toUpperCase() ||
-                      ''}
+                    {(item?.title?.toUpperCase() || '') +
+                      (item?.firstName
+                        ? ' ' + item.firstName.toUpperCase()
+                        : '') +
+                      (item?.middleName
+                        ? ' ' + item.middleName.toUpperCase()
+                        : '') +
+                      (item?.lastName ? ' ' + item.lastName.toUpperCase() : '')}
                   </span>
-                  <span>{item?.pId?.toString()}</span>
                   <span>
-                    {item.sex} | <span>{item?.age + ' ' + item?.ageUnit}</span>
+                    {item.birthDate &&
+                      dayjs(item.birthDate).format('DD-MM-YYYY')}
                   </span>
-                  <span>{item?.mobileNo || ''}</span>
+                  <span>
+                    {item.sex === 'M' ? 'Male' : 'Female' || 'Other'} |{' '}
+                    <span>
+                      {item?.age + ' ' + (ageUnitsMap[item?.ageUnit] || '')}
+                    </span>
+                  </span>
+                  <span className='flex gap-2'>
+                    <FaPhone />
+                    {item?.mobileNo || ''}
+                  </span>
                 </div>
               </div>
             ))}

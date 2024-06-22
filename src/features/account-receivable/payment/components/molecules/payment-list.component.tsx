@@ -100,12 +100,7 @@ export const PaymentList = (props: PaymentListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             headerClasses: 'textHeader',
           },
-          {
-            dataField: 'rLab',
-            text: 'RLab',
-            sort: true,
-            editable: false,
-          },
+
           {
             dataField: 'invoiceAC',
             text: 'Invoice AC',
@@ -140,6 +135,12 @@ export const PaymentList = (props: PaymentListProps) => {
             formatter: (cellContent, row) => (
               <span title={row.customerName}>{cellContent}</span>
             ),
+          },
+          {
+            dataField: 'rLab',
+            text: 'RLab',
+            sort: true,
+            editable: false,
           },
           {
             dataField: 'customerGroup',

@@ -42,6 +42,7 @@ import { FormHelper } from '@/helper';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { getFilterField } from '../utils';
 import { resetPatientVisit } from '../startup';
+import { useHistory } from 'react-router-dom';
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void;
@@ -49,6 +50,7 @@ interface PatientVisitProps {
 
 export const PatientVisit = PatientVisitHoc(
   observer((props: PatientVisitProps) => {
+    const history = useHistory();
     const {
       loading,
       appStore,
@@ -631,26 +633,41 @@ export const PatientVisit = PatientVisitHoc(
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.Toggle
-                      label='New Doctor / Ref by'
-                      hasError={!!errors.isNewDoctor}
-                      value={value}
-                      onChange={isNewDoctor => {
-                        onChange(isNewDoctor);
-                        patientVisitStore.updatePatientVisit({
-                          ...patientVisitStore.patientVisit,
-                          isNewDoctor,
-                        });
+                <div className='flex justify-between flex-wrap flex-row'>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.Toggle
+                        label='New Doctor / Ref by'
+                        hasError={!!errors.isNewDoctor}
+                        value={value}
+                        onChange={isNewDoctor => {
+                          onChange(isNewDoctor);
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            isNewDoctor,
+                          });
+                        }}
+                      />
+                    )}
+                    name='isNewDoctor'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
+                  {patientVisitStore.patientVisit?.isNewDoctor && (
+                    <Buttons.Button
+                      size='medium'
+                      type='solid'
+                      // icon={Svg.Remove}
+                      onClick={() => {
+                        history.push('/collection/doctors');
                       }}
-                    />
+                    >
+                      Create Doctor
+                    </Buttons.Button>
                   )}
-                  name='isNewDoctor'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
+                </div>
+
                 {patientVisitStore.patientVisit.isNewDoctor ? (
                   <>
                     <Controller
