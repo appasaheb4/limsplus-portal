@@ -496,6 +496,11 @@ const DeliveryQueue = observer(() => {
                           templateDetails:
                             res1.getTempPatientResultListByTempCodes.list,
                           reportTo: {
+                            _id: item?._id,
+                            labId: item?.labId,
+                            reportType: item?.reportType,
+                            companyCode: item?.companyCode,
+                            pdf: item?.pdf,
                             options: corporateClients?.reportTo,
                             patientVisit,
                             corporateClients,
@@ -582,6 +587,26 @@ const DeliveryQueue = observer(() => {
       )}
       <ModalGenerateReports
         {...modalGenerateReports}
+        onReceiptUpload={(file, details) => {
+          deliveryQueueStore.deliveryQueueService
+            .reportUpload({ input: { file, details } })
+            .then(res => {
+              if (res.reportUploadDeliveryQueue.success) {
+                deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
+                setModalGenerateReports({
+                  ...modalGenerateReports,
+                  reportTo: {
+                    ...modalGenerateReports.reportTo,
+                    pdf: res?.reportUploadDeliveryQueue?.result,
+                  },
+                });
+                Toast.success({
+                  message:
+                    '😔 Report send on mail successfully. Please send one by one on whatsapp',
+                });
+              }
+            });
+        }}
         onClose={() => {
           setModalGenerateReports({ show: false });
         }}

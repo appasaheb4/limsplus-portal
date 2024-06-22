@@ -34,6 +34,7 @@ export const LIST = gql`
         reportPriority
         deliveryMode
         corporateCode
+        corporateName
         invoiceAc
         priceList
         printLabel
@@ -155,6 +156,7 @@ export const FILTER = gql`
         reportPriority
         deliveryMode
         corporateCode
+        corporateName
         invoiceAc
         priceList
         printLabel
@@ -222,6 +224,7 @@ export const FILTER_BY_FIELDS = gql`
         reportPriority
         deliveryMode
         corporateCode
+        corporateName
         invoiceAc
         priceList
         printLabel
@@ -289,6 +292,7 @@ export const FIND_BY_ARRAY_ITEMS = gql`
         reportPriority
         deliveryMode
         corporateCode
+        corporateName
         invoiceAc
         priceList
         printLabel
@@ -356,6 +360,7 @@ export const FIND_BY_FIELDS = gql`
         reportPriority
         deliveryMode
         corporateCode
+        corporateName
         invoiceAc
         priceList
         printLabel

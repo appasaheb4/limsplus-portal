@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-interface PdfReceiptViewerProps {
+interface PdfViewerProps {
   width?: string | number;
   height?: number;
   documentTitle?: string;
@@ -33,7 +33,7 @@ interface PdfReceiptViewerProps {
   children: React.ReactNode;
 }
 
-export const PdfReceiptViewer = ({
+export const PdfViewer = ({
   width = '100%',
   height = 300,
   documentTitle = 'Template Settings',
@@ -43,7 +43,7 @@ export const PdfReceiptViewer = ({
   mainBoxCSS,
   pageSize,
   children,
-}: PdfReceiptViewerProps) => {
+}: PdfViewerProps) => {
   //const [boxCSS, setBoxCSS] = useState<any>(mainBoxCSS);
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {

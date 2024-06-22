@@ -164,7 +164,7 @@ export const LookupList = (props: LookupListProps) => {
                   onBlur={fieldName => {
                     props.onUpdateItem &&
                       props.onUpdateItem(
-                        fieldName.toUpperCase(),
+                        fieldName?.toUpperCase(),
                         column.dataField,
                         row._id,
                       );

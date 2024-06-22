@@ -16,6 +16,7 @@ import {
 import { lookupItems, lookupValue } from '@/library/utils';
 import { MultiSelect } from '@/core-components';
 import { useStores } from '@/stores';
+import { ModalConfigurationUpdate } from './modal-configuration-update.component';
 
 let code;
 let name;
@@ -92,6 +93,10 @@ export const CompanyList = (props: CompanyListProps) => {
   const [modalPostalCodeUpdate, setModalPostalCodeUpdate] = useState<any>({
     show: false,
   });
+  const [modalConfigurationUpdate, setModalConfigurationUpdate] = useState<any>(
+    {},
+  );
+
   const editorCell = (row: any) => {
     return row?.status !== 'I' ? true : false;
   };
@@ -837,7 +842,6 @@ export const CompanyList = (props: CompanyListProps) => {
               </>
             ),
           },
-
           {
             dataField: 'companyLogo',
             text: 'Company Logo',
@@ -874,6 +878,33 @@ export const CompanyList = (props: CompanyListProps) => {
                 />
               </>
             ),
+          },
+          {
+            dataField: 'configuration',
+            editable: false,
+            text: 'Configuration',
+            formatter: (cell, row) => {
+              return (
+                <div className='flex items-center'>
+                  <Tooltip tooltipText='Expand'>
+                    <Icons.RIcon
+                      nameIcon='FaExpandArrowsAlt'
+                      propsIcon={{
+                        size: 24,
+                        color: '#2563EB',
+                      }}
+                      onClick={() => {
+                        setModalConfigurationUpdate({
+                          show: true,
+                          _id: row?._id,
+                          details: row,
+                        });
+                      }}
+                    />
+                  </Tooltip>
+                </div>
+              );
+            },
           },
           {
             dataField: 'fyiLine',
@@ -1313,6 +1344,21 @@ export const CompanyList = (props: CompanyListProps) => {
           setModalPostalCodeUpdate({
             show: false,
           });
+        }}
+      />
+
+      <ModalConfigurationUpdate
+        {...modalConfigurationUpdate}
+        onClick={configuration => {
+          setModalConfigurationUpdate({ show: false });
+          props.onUpdateFields &&
+            props.onUpdateFields(
+              { configuration },
+              modalConfigurationUpdate._id,
+            );
+        }}
+        onClose={() => {
+          setModalConfigurationUpdate({ show: false });
         }}
       />
     </div>

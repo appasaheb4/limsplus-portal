@@ -19,6 +19,7 @@ import {
   CREATE_BY_FILE_IMPORT_EXPORT,
   FILTER_OPTION_LIST,
   GET_PATIENT_REG_RECORDS,
+  FIND_BY_FIELDS_PATIENT_MANAGER,
 } from './mutation-pm';
 import { Toast } from '@/library/components';
 
@@ -294,6 +295,21 @@ export class PatientManagerService {
             });
           }
           resolve(res.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS_PATIENT_MANAGER,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),

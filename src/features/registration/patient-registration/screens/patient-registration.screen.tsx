@@ -193,6 +193,8 @@ const PatientRegistration = observer(({ sidebar }) => {
                   await patientRegistrationStore.getPatientRegRecords(
                     'patientName',
                     item.name,
+                    'fetch',
+                    item?.pId,
                   );
                   patientResultStore.filterDistinctPatientResult(
                     patientResultStore.distinctPatientResultCopy,
@@ -323,7 +325,7 @@ const PatientRegistration = observer(({ sidebar }) => {
               placeholder='Mobile No'
               className='w-40 arrow-hide'
               type='number'
-              value={patientRegistrationStore.defaultValues?.mobileNo}
+              value={patientRegistrationStore.defaultValues?.mobileNo || ''}
               onChange={mobileNo => {
                 patientRegistrationStore.updateDefaultValue({
                   ...patientRegistrationStore.defaultValues,
@@ -416,19 +418,21 @@ const PatientRegistration = observer(({ sidebar }) => {
                 </div>
                 <div className='flex flex-col'>
                   <span className='text-sm font-bold'>
-                    {item?.firstName.toUpperCase() +
-                      ' ' +
-                      (item?.middleName != undefined
-                        ? item?.middleName.toUpperCase()
-                        : '') +
-                      ' ' +
-                      item?.lastName.toUpperCase()}
+                    {item?.firstName?.toUpperCase() ||
+                      '' +
+                        ' ' +
+                        (item?.middleName != undefined
+                          ? item?.middleName?.toUpperCase()
+                          : '') +
+                        ' ' +
+                        item?.lastName?.toUpperCase() ||
+                      ''}
                   </span>
                   <span>{item?.pId?.toString()}</span>
                   <span>
                     {item.sex} | <span>{item?.age + ' ' + item?.ageUnit}</span>
                   </span>
-                  <span>{item?.mobileNo}</span>
+                  <span>{item?.mobileNo || ''}</span>
                 </div>
               </div>
             ))}

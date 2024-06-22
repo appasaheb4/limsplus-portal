@@ -41,6 +41,7 @@ import { getAgeByAgeObject, getDiffByDate } from '../utils';
 import { FormHelper } from '@/helper';
 import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { getFilterField } from '../utils';
+import { resetPatientVisit } from '../startup';
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void;
@@ -113,6 +114,7 @@ export const PatientVisit = PatientVisitHoc(
               });
               setHideInputView(true);
               reset();
+              resetPatientVisit();
               await patientRegistrationStore.getPatientRegRecords(
                 'labId',
                 result?.labId?.toString(),
@@ -387,16 +389,16 @@ export const PatientVisit = PatientVisitHoc(
                     'pId',
                     item.pId +
                       ' - ' +
-                      `${item.firstName} ${
-                        item.middleName ? item.middleName : ''
-                      } ${item.lastName}`,
+                      `${item?.firstName || ''} ${
+                        item?.middleName ? item?.middleName : ''
+                      } ${item?.lastName || ''}`,
                   );
                   patientVisitStore.updatePatientVisit({
                     ...patientVisitStore.patientVisit,
                     pId: item.pId,
-                    patientName: `${item.firstName} ${
-                      item.middleName ? item.middleName : ''
-                    } ${item.lastName}`,
+                    patientName: `${item?.firstName || ''} ${
+                      item?.middleName ? item?.middleName : ''
+                    } ${item?.lastName || ''}`,
                     birthDate: item?.birthDate,
                     age,
                     ageUnits,
@@ -520,9 +522,9 @@ export const PatientVisit = PatientVisitHoc(
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             pId: item.pId,
-                            patientName: `${item.firstName} ${
-                              item.middleName ? item.middleName : ''
-                            } ${item.lastName}`,
+                            patientName: `${item?.firstName} ${
+                              item?.middleName ? item?.middleName : ''
+                            } ${item?.lastName}`,
                             birthDate: item?.birthDate,
                             age,
                             ageUnits,
@@ -782,6 +784,7 @@ export const PatientVisit = PatientVisitHoc(
                             );
                           }}
                           onSelect={item => {
+                            console.log({ item });
                             onChange(item.locationCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,
@@ -789,6 +792,7 @@ export const PatientVisit = PatientVisitHoc(
                               collectionCenterName: item?.locationName,
                               acClass: item?.acClass,
                               corporateCode: item?.corporateCode,
+                              corporateName: item?.corporateName || '',
                               isPrintPrimaryBarcod:
                                 item?.isPrintPrimaryBarcod || false,
                               extraData: {

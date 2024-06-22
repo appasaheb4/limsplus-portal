@@ -198,7 +198,7 @@ const Methods = MethodsHoc(
                         hasError={!!errors.methodsCode}
                         value={value}
                         onChange={methodsCodeValue => {
-                          const methodsCode = methodsCodeValue.toUpperCase();
+                          const methodsCode = methodsCodeValue?.toUpperCase();
                           onChange(methodsCode);
                           methodsStore.updateMethods({
                             ...methodsStore.methods,
@@ -235,7 +235,7 @@ const Methods = MethodsHoc(
                         hasError={!!errors.methodName}
                         value={value}
                         onChange={methodsNameValue => {
-                          const methodsName = methodsNameValue.toUpperCase();
+                          const methodsName = methodsNameValue?.toUpperCase();
                           onChange(methodsName);
                           methodsStore.updateMethods({
                             ...methodsStore.methods,

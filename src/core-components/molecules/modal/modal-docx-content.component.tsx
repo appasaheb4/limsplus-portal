@@ -55,6 +55,18 @@ export const ModalDocxContent = observer(
     useEffect(() => {
       setShowModal(visible);
       setContent(details);
+      if (department) {
+        libraryStore.libraryService.filterByFields({
+          input: {
+            filter: {
+              fields: ['department'],
+              srText: department,
+            },
+            page: 0,
+            limit: 10,
+          },
+        });
+      }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible]);
 

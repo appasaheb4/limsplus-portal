@@ -39,7 +39,7 @@ export const calculateTimimg = d => {
 export const toTitleCase = str => {
   return str
     ? str?.replace(/\w\S*/g, function (txt) {
-        return txt?.charAt(0).toUpperCase() + txt?.slice(1).toLowerCase();
+        return txt?.charAt(0)?.toUpperCase() + txt?.slice(1).toLowerCase();
       })
     : '';
 };
@@ -179,7 +179,7 @@ export const getDiffByDate = date => {
   const weeks = date1.diff(date2, 'week');
   const days = date1.diff(date2, 'day');
   const hours = date1.diff(date2, 'hour');
-  return {years, months, weeks, days, hours};
+  return { years, months, weeks, days, hours };
 };
 
 export const getDiffByDate1 = date => {
@@ -190,15 +190,15 @@ export const getDiffByDate1 = date => {
   const weeks = date1.diff(date2, 'week');
   const days = date1.diff(date2, 'day');
   const hours = date1.diff(date2, 'hour');
-  return {years, months, weeks, days, hours};
+  return { years, months, weeks, days, hours };
 };
 
 export const getAgeByAgeObject = ageObject => {
-  if (ageObject.years >= 1) return {age: ageObject.years, ageUnit: 'Y'};
-  if (ageObject.months >= 1) return {age: ageObject.months, ageUnit: 'M'};
-  if (ageObject.weeks >= 1) return {age: ageObject.weeks, ageUnit: 'W'};
-  if (ageObject.days >= 1) return {age: ageObject.days, ageUnit: 'D'};
-  else return {age: ageObject.hours, ageUnit: 'H'};
+  if (ageObject.years >= 1) return { age: ageObject.years, ageUnit: 'Y' };
+  if (ageObject.months >= 1) return { age: ageObject.months, ageUnit: 'M' };
+  if (ageObject.weeks >= 1) return { age: ageObject.weeks, ageUnit: 'W' };
+  if (ageObject.days >= 1) return { age: ageObject.days, ageUnit: 'D' };
+  else return { age: ageObject.hours, ageUnit: 'H' };
 };
 
 export const dateAvailableUnits = (unit: string) => {

@@ -53,6 +53,7 @@ let email;
 let reportPriority;
 let deliveryMode;
 let corporateCode;
+let corporateName;
 let invoiceAc;
 let openingTime;
 let closingTime;
@@ -208,6 +209,50 @@ export const RegistrationLocationsList = (
                       props.onUpdateFileds(
                         {
                           corporateCode: item.corporateCode,
+                          corporateName: item?.corporateName,
+                          invoiceAc: Number.parseInt(item?.invoiceAc),
+                        },
+                        row._id,
+                      );
+                  }}
+                />
+              </>
+            ),
+          },
+          {
+            dataField: 'corporateName',
+            text: 'Client Name',
+            headerClasses: 'textHeader5',
+            sort: true,
+            headerStyle: {
+              fontSize: 0,
+            },
+            sortCaret: (order, column) => sortCaret(order, column),
+            csvFormatter: col => (col ? col : ''),
+            filter: textFilter({
+              placeholder: 'Client Name',
+              getFilter: filter => {
+                corporateName = filter;
+              },
+            }),
+            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <AutoCompleteFilterSingleSelectCorparateCode
+                  onSelect={item => {
+                    console.log({ item });
+                    props.onUpdateFileds &&
+                      props.onUpdateFileds(
+                        {
+                          corporateCode: item.corporateCode,
+                          corporateName: item?.corporateName,
                           invoiceAc: Number.parseInt(item?.invoiceAc),
                         },
                         row._id,
@@ -1886,6 +1931,7 @@ export const RegistrationLocationsList = (
           email('');
           reportPriority('');
           corporateCode('');
+          corporateName('');
           invoiceAc('');
           priceList('');
           methodColn('');

@@ -523,7 +523,7 @@ export const Users = UsersHoc(
                           onChange(userId);
                           userStore.updateUser({
                             ...userStore.user,
-                            userId: userId.toUpperCase(),
+                            userId: userId?.toUpperCase(),
                           });
                         }}
                         onBlur={userId => {
@@ -570,7 +570,7 @@ export const Users = UsersHoc(
                           onChange(fullName);
                           userStore.updateUser({
                             ...userStore.user,
-                            fullName: fullName.toUpperCase(),
+                            fullName: fullName?.toUpperCase(),
                           });
                         }}
                       />
@@ -732,7 +732,7 @@ export const Users = UsersHoc(
                           onChange(empCode);
                           userStore.updateUser({
                             ...userStore.user,
-                            empCode: empCode.toUpperCase(),
+                            empCode: empCode?.toUpperCase(),
                           });
                         }}
                         onBlur={empCode => {
@@ -868,7 +868,7 @@ export const Users = UsersHoc(
                           onChange(userDegree);
                           userStore.updateUser({
                             ...userStore.user,
-                            userDegree: userDegree.toUpperCase(),
+                            userDegree: userDegree?.toUpperCase(),
                           });
                         }}
                       />

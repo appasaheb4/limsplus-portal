@@ -322,7 +322,7 @@ export const Login = observer(() => {
                                 onChange(userId);
                                 loginStore.updateInputUser({
                                   ...loginStore.inputLogin,
-                                  userId: userId.toUpperCase(),
+                                  userId: userId?.toUpperCase(),
                                 });
                               }}
                               onBlur={async userId => {

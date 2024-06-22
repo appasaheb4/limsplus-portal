@@ -163,7 +163,7 @@ export const EnvironmentVariable = observer(
                       }
                       onChange={environmentVariableValue => {
                         const environmentVariable =
-                          environmentVariableValue.toUpperCase();
+                          environmentVariableValue?.toUpperCase();
                         onChange(environmentVariable);
                         environmentStore.updatEnvironmentVariable({
                           ...environmentStore.environmentVariable,

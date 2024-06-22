@@ -77,6 +77,10 @@ body {
   height: 800 !important;
 }
 
+.bg-orange1 {
+  background-color: '#EF4444';
+}
+
 /* .text-filter:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px white inset !important;
 } */

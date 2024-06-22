@@ -219,7 +219,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                         hasError={!!errors.country}
                         value={value}
                         onChange={countryValue => {
-                          const country = countryValue.toUpperCase();
+                          const country = countryValue?.toUpperCase();
                           onChange(country);
                           administrativeDivisions.updateAdministrativeDiv({
                             ...administrativeDivisions.administrativeDiv,
@@ -244,7 +244,7 @@ export const AdministrativeDivisions = AdministrativeDivisionsHoc(
                           hasError={!!errors.state}
                           value={value}
                           onChange={stateValue => {
-                            const state = stateValue.toUpperCase();
+                            const state = stateValue?.toUpperCase();
                             onChange(state);
                             administrativeDivisions.updateAdministrativeDiv({
                               ...administrativeDivisions.administrativeDiv,

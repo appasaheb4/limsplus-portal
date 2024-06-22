@@ -17,7 +17,6 @@
     "isolatedModules": true,
     "noImplicitAny": false,
     "paths": {
-      "react": ["./node_modules/@types/react"],
       "@/*": ["src/*"],
       "@components": ["./src/library/components/index"],
       "@features/*": ["./src/features/*"],
@@ -26,7 +25,8 @@
       "@utils": ["./src/library/utils/index"],
       "@routers": ["./src/routers"],
       "@assets/*": ["./src/library/assets/*"],
-      "@localization": ["./src/localization/index"]
+      "@localization": ["./src/localization/index"],
+      "react": ["./node_modules/@types/react"]
     }
   },
   "include": ["src"]

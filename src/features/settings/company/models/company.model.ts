@@ -44,6 +44,18 @@ export class Company {
   version: number;
   status: string;
   environment: Array<string>;
+  configuration: {
+    host: string;
+    port: number;
+    email: string;
+    password: string;
+    appId: string;
+    appSecret: string;
+    recipientWaid: string;
+    version: string;
+    phoneNumberId: string;
+    accessToken: string;
+  };
   dateOfEntry: Date;
   lastUpdated: Date;
 
@@ -93,6 +105,7 @@ export class Company {
     this.version = rawData.version;
     this.status = rawData.status;
     this.environment = rawData.environment;
+    this.configuration = rawData.configuration;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
   }

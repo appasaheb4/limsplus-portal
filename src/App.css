@@ -40,3 +40,6 @@
 .react-bootstrap-table table {
   table-layout: auto;
 }
+.bg-orange1 {
+  background-color: '#EF4444';
+}

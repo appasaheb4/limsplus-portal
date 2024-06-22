@@ -508,6 +508,7 @@ const RegistrationLocation = RegistrationLocationHoc(
             locationCode: item['Location Code'],
             locationName: item['Location Name'],
             corporateCode: item['Client Code'],
+            corporateName: item['Client Name'],
             invoiceAc: item['Invoice Ac'],
             priceList: undefined,
             speciality: item.Speciality,
@@ -701,7 +702,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations(
                               {
                                 ...registrationLocationsStore.registrationLocations,
-                                locationCode: locationCode.toUpperCase(),
+                                locationCode: locationCode?.toUpperCase(),
                               },
                             );
                           }}
@@ -743,7 +744,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations(
                               {
                                 ...registrationLocationsStore.registrationLocations,
-                                locationName: locationName.toUpperCase(),
+                                locationName: locationName?.toUpperCase(),
                               },
                             );
                           }}
@@ -768,6 +769,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                                 {
                                   ...registrationLocationsStore.registrationLocations,
                                   corporateCode: item.corporateCode,
+                                  corporateName: item?.corporateName,
                                   invoiceAc: Number.parseInt(item?.invoiceAc),
                                   acClass: item.acClass,
                                   accountType: item.acType,
