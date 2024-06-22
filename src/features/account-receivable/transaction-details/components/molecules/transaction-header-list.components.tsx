@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { Tooltip, Icons, textFilter, sortCaret } from '@/library/components';
+import {
+  Tooltip,
+  Icons,
+  textFilter,
+  sortCaret,
+  DateRangeFilter,
+  customFilter,
+} from '@/library/components';
 import { Confirm } from '@/library/models';
 import dayjs from 'dayjs';
 
 import { TableBootstrapTranHeader } from './table-bootstrap-tran-header.components';
 
+let registrationDate;
+let invoiceDate;
+let labId;
+let patientName;
+let invoiceAc;
 interface TransactionHeaderProps {
   data: any;
   totalSize: number;
@@ -28,7 +40,6 @@ interface TransactionHeaderProps {
   onReport?: (item: any) => void;
 }
 
-let labId;
 const selectedItem = {};
 export const TransactionHeaderList = observer(
   (props: TransactionHeaderProps) => {
@@ -97,6 +108,24 @@ export const TransactionHeaderList = observer(
                 sortCaret: (order, column) => sortCaret(order, column),
                 headerClasses: 'textHeader',
               },
+
+              {
+                dataField: 'name',
+                text: 'Patient Name',
+                sort: true,
+                editable: false,
+                headerStyle: {
+                  fontSize: 0,
+                },
+                filter: textFilter({
+                  placeholder: 'Patient Name',
+                  getFilter: filter => {
+                    patientName = filter;
+                  },
+                }),
+                sortCaret: (order, column) => sortCaret(order, column),
+                headerClasses: 'textHeader',
+              },
               {
                 dataField: 'invoiceAc',
                 text: 'Invoice Ac',
@@ -109,7 +138,7 @@ export const TransactionHeaderList = observer(
                 filter: textFilter({
                   placeholder: 'Invoice Ac',
                   getFilter: filter => {
-                    labId = filter;
+                    invoiceAc = filter;
                   },
                 }),
                 editable: false,
@@ -119,7 +148,18 @@ export const TransactionHeaderList = observer(
                 text: 'Invoice Date',
                 sort: true,
                 editable: false,
+                headerStyle: {
+                  fontSize: 0,
+                },
                 headerClasses: 'textHeaderm',
+                filter: customFilter({
+                  getFilter: filter => {
+                    invoiceDate = filter;
+                  },
+                }),
+                filterRenderer: (onFilter, column) => (
+                  <DateRangeFilter onFilter={onFilter} column={column} />
+                ),
                 formatter: (cell, row) => {
                   return (
                     row.invoiceDate &&
@@ -145,6 +185,17 @@ export const TransactionHeaderList = observer(
                 text: 'Registration Date',
                 sort: true,
                 headerClasses: 'textHeaderm',
+                headerStyle: {
+                  fontSize: 0,
+                },
+                filter: customFilter({
+                  getFilter: filter => {
+                    registrationDate = filter;
+                  },
+                }),
+                filterRenderer: (onFilter, column) => (
+                  <DateRangeFilter onFilter={onFilter} column={column} />
+                ),
                 editable: false,
                 formatter: (cell, row) => {
                   return (
@@ -395,7 +446,10 @@ export const TransactionHeaderList = observer(
             onFilter={(type, filter, page, size) => {
               props.onFilter && props.onFilter(type, filter, page, size);
             }}
-            clearAllFilter={() => {}}
+            clearAllFilter={() => {
+              registrationDate();
+              invoiceDate();
+            }}
             onClickRow={item => {
               // setSelectedItem(item);
               // props.onClickRow && props.onClickRow(item);

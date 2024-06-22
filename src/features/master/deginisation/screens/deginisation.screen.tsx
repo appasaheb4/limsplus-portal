@@ -241,8 +241,7 @@ const Deginisation = DeginisationHoc(
                           }
                           hasError={!!errors.description}
                           value={value}
-                          onChange={descriptionValue => {
-                            const description = descriptionValue?.toUpperCase();
+                          onChange={description => {
                             onChange(description);
                             deginisationStore.updateDescription({
                               ...deginisationStore.deginisation,

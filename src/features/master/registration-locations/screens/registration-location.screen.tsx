@@ -96,6 +96,14 @@ const RegistrationLocation = RegistrationLocationHoc(
         registrationLocationsStore.registrationLocations?.locationCode,
       );
       setValue(
+        'openingTime',
+        registrationLocationsStore.registrationLocations?.openingTime,
+      );
+      setValue(
+        'closingTime',
+        registrationLocationsStore.registrationLocations?.closingTime,
+      );
+      setValue(
         'locationName',
         registrationLocationsStore.registrationLocations?.locationName,
       );

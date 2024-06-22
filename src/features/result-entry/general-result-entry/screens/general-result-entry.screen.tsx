@@ -15,6 +15,7 @@ const GeneralResultEntry = observer(() => {
     routerStore,
     patientResultStore,
     generalResultEntryStore,
+    appStore,
   } = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);

@@ -11,6 +11,7 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 import { TableBootstrapReport } from './table-bootstrap-report.components';
+import { GrDocumentLocked } from "react-icons/gr";
 
 let labId;
 let name;
@@ -131,20 +132,8 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               dataField: 'labId',
               text: 'Lab Id',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader2',
-              filter: customFilter({
-                getFilter: filter => {
-                  labId = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              headerClasses: 'textHeaderm',
             },
             {
               dataField: 'name',
@@ -744,6 +733,9 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     )}
+                    <Tooltip tooltipText='Reopen'>
+                      <GrDocumentLocked size='20' color='#ffffff' />
+                    </Tooltip>
                     {selectId === row._id ? (
                       <Tooltip tooltipText='Expand'>
                         <Icons.IconContext

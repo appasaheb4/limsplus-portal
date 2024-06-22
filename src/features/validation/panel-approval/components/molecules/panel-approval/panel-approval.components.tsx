@@ -52,6 +52,7 @@ interface PanelApprovalListProps {
 }
 
 let labId;
+let panel;
 let pLab;
 let patientName;
 let department;
@@ -168,7 +169,16 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               text: 'Panel',
               sort: true,
               editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
               headerClasses: 'textHeader',
+              filter: textFilter({
+                placeholder: 'Panel',
+                getFilter: filter => {
+                  panel = filter;
+                },
+              }),
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -188,16 +198,6 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               sort: true,
               editable: false,
               headerClasses: 'textHeader',
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              filter: textFilter({
-                placeholder: 'Department',
-                getFilter: filter => {
-                  department = filter;
-                },
-              }),
               style: {
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -495,6 +495,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
           }}
           clearAllFilter={() => {
             labId('');
+            panel('');
           }}
           onFilterRecord={item => {
             // if (item == 'Pending') setIsAllRecordDisplay(false);

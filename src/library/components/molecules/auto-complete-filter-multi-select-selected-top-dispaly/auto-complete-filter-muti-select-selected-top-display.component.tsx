@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Spinner } from 'react-bootstrap';
 import _ from 'lodash';
 import { Icons } from '../..';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 interface AutoCompleteFilterMultiSelectSelectedTopDisplayProps {
   uniqueField?: string;
@@ -140,7 +141,6 @@ export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
                 className='mt-1  absolute bg-gray-100 p-2 rounded-sm z-500'
                 style={{ zIndex: 80 }}
               >
-                {/* <span>Selected</span> */}
                 <ul>
                   {data.selected?.map((item, index) => (
                     <>
@@ -169,36 +169,39 @@ export const AutoCompleteFilterMultiSelectSelectedTopDisplay = ({
                   ))}
                 </ul>
 
-                {/* <span>Un-Selected</span> */}
                 <hr />
-                <ul>
-                  {options?.map((item, index) => (
-                    <>
-                      {_.some(data.selected, {
-                        [dynamicCheck!]: item[dynamicCheck!],
-                      }) == false && (
-                        <li
-                          key={index}
-                          className='text-gray-400 flex items-center'
-                        >
-                          <input
-                            type='checkbox'
-                            checked={item.selected}
-                            onChange={() => onSelect(item)}
-                          />{' '}
-                          <label className='ml-2 mt-1 text-black'>
-                            {data.displayKey
-                              .map(
-                                key =>
-                                  `${item[key]}
+                <ul className='p-2 rounded-sm'>
+                  <PerfectScrollbar>
+                    <div style={{ height: 'auto', maxHeight: '300px' }}>
+                      {options?.map((item, index) => (
+                        <>
+                          {_.some(data.selected, {
+                            [dynamicCheck!]: item[dynamicCheck!],
+                          }) == false && (
+                            <li
+                              key={index}
+                              className='text-gray-400 flex items-center'
+                            >
+                              <input
+                                type='checkbox'
+                                checked={item.selected}
+                                onChange={() => onSelect(item)}
+                              />{' '}
+                              <label className='ml-2 mt-1 text-black'>
+                                {data.displayKey
+                                  .map(
+                                    key =>
+                                      `${item[key]}
                                           `,
-                              )
-                              .join(' - ')}
-                          </label>
-                        </li>
-                      )}
-                    </>
-                  ))}
+                                  )
+                                  .join(' - ')}
+                              </label>
+                            </li>
+                          )}
+                        </>
+                      ))}
+                    </div>
+                  </PerfectScrollbar>
                 </ul>
               </div>
             )
