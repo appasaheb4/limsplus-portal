@@ -56,9 +56,9 @@ const Default = observer(() => {
           setCardFilter={setCardFilter}
           cardFilter={cardFilter}
         />
-        <Statistics cardFilter={cardFilter} />
-        <BoxCard />
-        <GraphDashboard />
+        {/* <Statistics cardFilter={cardFilter} /> */}
+        {/* <BoxCard /> */}
+        {/* <GraphDashboard /> */}
 
         <ModalChangePassword
           {...modalChangePassword}

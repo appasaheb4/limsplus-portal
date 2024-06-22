@@ -635,7 +635,7 @@ export const PatientVisit = PatientVisitHoc(
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Form.Toggle
-                      label='New Doctor'
+                      label='New Doctor / Ref by'
                       hasError={!!errors.isNewDoctor}
                       value={value}
                       onChange={isNewDoctor => {
@@ -707,7 +707,7 @@ export const PatientVisit = PatientVisitHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
-                        label='Doctor Id'
+                        label='Doctor/Ref By'
                         hasError={!!errors.doctorId}
                       >
                         <AutoCompleteFilterSingleSelectMultiFieldsDisplay

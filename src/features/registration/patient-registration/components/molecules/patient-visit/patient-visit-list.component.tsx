@@ -805,7 +805,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             },
             {
               dataField: 'isNewDoctor',
-              text: 'New Doctor',
+              text: 'New Doctor / Ref by',
               sort: true,
               csvFormatter: (col, row) =>
                 `${row.isNewDoctor ? (row.isNewDoctor ? 'Yes' : 'No') : 'No'}`,
@@ -835,7 +835,7 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
             },
             {
               dataField: 'doctorId',
-              text: 'Doctor Id',
+              text: 'Doctor / Ref By',
               // headerClasses: 'textHeader',
               sort: true,
               // headerStyle: {

@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {RegistrationLocations, SelectedItems} from '../models';
-import {RegistrationLocationsService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { RegistrationLocations, SelectedItems } from '../models';
+import { RegistrationLocationsService } from '../services';
 import dayjs from 'dayjs';
 
 export class RegistrationLocationsStore {
@@ -45,6 +45,8 @@ export class RegistrationLocationsStore {
     this.selectedItems = new SelectedItems({});
     this.registrationLocations = {
       ...this.registrationLocations,
+      openingTime: dayjs().format('hh:mm a'),
+      closingTime: dayjs().format('hh:mm a'),
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
@@ -55,7 +57,7 @@ export class RegistrationLocationsStore {
       printLabel: false,
       neverBill: false,
       urgent: false,
-      priceList: [{id: 0, maxDis: 0}],
+      priceList: [{ id: 0, maxDis: 0 }],
       isPrintPrimaryBarcod: false,
       isPrintSecondaryBarcode: false,
     };
