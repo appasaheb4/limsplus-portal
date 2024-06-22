@@ -11,7 +11,7 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 import { TableBootstrapReport } from './table-bootstrap-report.components';
-import { GrDocumentLocked } from "react-icons/gr";
+import { GrDocumentLocked } from 'react-icons/gr';
 
 let labId;
 let name;
