@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {PatientVisitService} from '../services';
-import {PatientVisit, SelectedPatientVisitItems} from '../models';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { PatientVisitService } from '../services';
+import { PatientVisit, SelectedPatientVisitItems } from '../models';
 
 export class PatientVisitStore {
   patientVisit!: PatientVisit;
@@ -38,15 +38,14 @@ export class PatientVisitStore {
     this.listPatientVisitCount = 0;
     this.checkExistsVisitId = false;
     this.checkExistsLabId = false;
-    this.patientVisit = {
-      ...this.patientVisit,
+    this.patientVisit = new PatientVisit({
       visitDate: new Date(),
       registrationDate: new Date(),
       collectionDate: new Date(),
       holdReport: false,
       isNewDoctor: false,
       specificFormat: false,
-    };
+    });
   }
 
   get patientVisitService() {

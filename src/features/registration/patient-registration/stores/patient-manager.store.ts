@@ -30,14 +30,13 @@ export class PatientManagerStore {
     this.listPatientMangerCopy = [];
     this.listPatientMangerCount = 0;
     this.checkExistsPatient = false;
-    this.patientManger = {
-      ...this.patientManger,
+    this.patientManger = new PatientManger({
       ageUnit: 'Y',
       isBirthdateAvailabe: true,
       isPatientMobileNo: true,
       isVIP: false,
       isAddress: false,
-    };
+    });
   }
 
   get patientManagerService() {

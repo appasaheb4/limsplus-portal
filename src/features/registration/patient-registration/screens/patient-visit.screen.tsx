@@ -115,10 +115,6 @@ export const PatientVisit = PatientVisitHoc(
               setHideInputView(true);
               reset();
               resetPatientVisit();
-              await patientRegistrationStore.getPatientRegRecords(
-                'labId',
-                result?.labId?.toString(),
-              );
               return Promise.resolve(result);
             } else {
               Toast.error({
@@ -126,13 +122,19 @@ export const PatientVisit = PatientVisitHoc(
               });
             }
           })
-          .then((result: any) => {
-            patientRegistrationStore.updateDefaultValue({
-              ...patientRegistrationStore.defaultValues,
-              labId: result?.labId?.toString(),
-              accordionExpandItem: 'PATIENT ORDER',
-              isPOLabIdLock: true,
-            });
+          .then(async (result: any) => {
+            setTimeout(async () => {
+              patientRegistrationStore.updateDefaultValue({
+                ...patientRegistrationStore.defaultValues,
+                labId: result?.labId?.toString(),
+                accordionExpandItem: 'PATIENT ORDER',
+                isPOLabIdLock: true,
+              });
+              await patientRegistrationStore.getPatientRegRecords(
+                'labId',
+                result?.labId?.toString(),
+              );
+            }, 1000);
           });
       } else {
         Toast.warning({
@@ -377,7 +379,6 @@ export const PatientVisit = PatientVisitHoc(
                   patientManagerStore.listPatientManger?.length == 1
                 ) {
                   const item = patientManagerStore.listPatientManger[0];
-                  console.log({ item });
                   const age =
                     getAgeByAgeObject(getDiffByDate(item.birthDate)).age || 0;
                   const ageUnits = getAgeByAgeObject(
@@ -784,7 +785,6 @@ export const PatientVisit = PatientVisitHoc(
                             );
                           }}
                           onSelect={item => {
-                            console.log({ item });
                             onChange(item.locationCode);
                             patientVisitStore.updatePatientVisit({
                               ...patientVisitStore.patientVisit,

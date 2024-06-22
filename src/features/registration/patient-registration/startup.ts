@@ -11,7 +11,7 @@ export const startupPM = async () => {
 
 export const startupPV = async () => {
   // patient manager
-  await startupPM();
+  // await startupPM();
   await stores.patientVisitStore.patientVisitService.sequencingLabId();
   await startupByLabId();
 };
@@ -34,7 +34,7 @@ export const resetPatientManager = () => {
   stores.patientManagerStore.reset();
   eventEmitter.emit('reload', {});
   eventEmitter.emit('pmReload', {});
-  startupPM();
+  // startupPM();
 };
 
 export const resetPatientVisit = () => {
@@ -48,7 +48,7 @@ export const resetPatientOrder = () => {
   stores.patientOrderStore.reset();
   eventEmitter.emit('reload', {});
   eventEmitter.emit('poReload', {});
-  startupPO();
+  // startupPO();
 };
 
 export default startup;

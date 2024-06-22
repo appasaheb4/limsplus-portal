@@ -97,52 +97,58 @@ export const PatientManager = PatientManagerHoc(
     }, [patientManagerStore.patientManger]);
 
     const onSubmitPatientManager = () => {
-      if (!patientManagerStore.checkExistsPatient) {
-        patientManagerStore.patientManagerService
-          .addPatientManager({
-            input: {
-              ...patientManagerStore.patientManger,
-              documentType: 'patientManager',
-              breed:
-                patientManagerStore.patientManger?.breed === null
-                  ? undefined
-                  : patientManagerStore.patientManger?.breed,
-              middleName:
-                patientManagerStore.patientManger?.middleName === ''
-                  ? undefined
-                  : patientManagerStore.patientManger?.middleName,
-            },
-          })
-          .then(res => {
-            if (res.createPatientManager.success) {
-              const { result } = res.createPatientManager;
-              Toast.success({
-                message: `😊 ${res.createPatientManager.message}`,
-              });
-              setHideInputView(true);
-              reset();
-              resetPatientManager();
-              patientRegistrationStore.updateDefaultValue({
-                ...patientRegistrationStore.defaultValues,
-                pId: result?.pId?.toString(),
-                accordionExpandItem: 'PATIENT VISIT',
-                isPVPIdLock: true,
-                isPatientFormOpen: true,
-              });
-              patientRegistrationStore.getPatientRegRecords(
-                'pId',
-                result?.pId?.toString(),
-              );
-            } else {
-              Toast.error({
-                message: `😔 ${res.createPatientManager.message}`,
-              });
-            }
+      try {
+        if (!patientManagerStore.checkExistsPatient) {
+          patientManagerStore.patientManagerService
+            .addPatientManager({
+              input: {
+                ...patientManagerStore.patientManger,
+                documentType: 'patientManager',
+                breed:
+                  patientManagerStore.patientManger?.breed === null
+                    ? undefined
+                    : patientManagerStore.patientManger?.breed,
+                middleName:
+                  patientManagerStore.patientManger?.middleName === ''
+                    ? undefined
+                    : patientManagerStore.patientManger?.middleName,
+              },
+            })
+            .then(res => {
+              if (res.createPatientManager?.success) {
+                const { result } = res.createPatientManager;
+                Toast.success({
+                  message: `😊 ${res.createPatientManager.message}`,
+                });
+                setHideInputView(true);
+                reset();
+                resetPatientManager();
+                setTimeout(async () => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    pId: result?.pId?.toString(),
+                    accordionExpandItem: 'PATIENT VISIT',
+                    isPVPIdLock: true,
+                    isPatientFormOpen: true,
+                  });
+                  await patientRegistrationStore.getPatientRegRecords(
+                    'pId',
+                    result?.pId?.toString(),
+                  );
+                }, 1000);
+              } else {
+                Toast.error({
+                  message: `😔 ${res.createPatientManager.message}`,
+                });
+              }
+            });
+        } else {
+          Toast.warning({
+            message: '😔 Please enter unique details',
           });
-      } else {
-        Toast.warning({
-          message: '😔 Please enter unique details',
-        });
+        }
+      } catch (error) {
+        console.log({ error });
       }
     };
 
@@ -265,8 +271,8 @@ export const PatientManager = PatientManagerHoc(
       isSingleCheck = false,
     ) => {
       const requiredFields = isPMMobileNoRequired
-        ? ['firstName', 'lastName', 'mobileNo', 'birthDate']
-        : ['firstName', 'lastName', 'birthDate'];
+        ? ['mobileNo', 'birthDate']
+        : ['birthDate'];
       const isEmpty = requiredFields.find(item => {
         if (_.isEmpty({ ...fields }[item])) return item;
       });

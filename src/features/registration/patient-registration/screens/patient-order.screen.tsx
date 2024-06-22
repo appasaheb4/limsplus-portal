@@ -140,6 +140,13 @@ export const PatientOrder = PatientOrderHoc(
                 break;
               }
             }
+            setTimeout(() => {
+              patientRegistrationStore.updateDefaultValue({
+                ...patientRegistrationStore.defaultValues,
+                accordionExpandItem: 'PATIENT ORDER',
+                isPOLabIdLock: true,
+              });
+            }, 1000);
           });
       } else {
         Toast.warning({
