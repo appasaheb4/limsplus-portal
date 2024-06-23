@@ -410,8 +410,7 @@ export const Library = LibraryHoc(
                   setIsImport(flag);
                 }}
               />
-
-              <div className='flex flex-row gap-4 w-[483px]'>
+              <div className='flex flex-row gap-4 w-[483px] items-center justify-center'>
                 <Tooltip tooltipText={'Details'}>
                   <FaWordpressSimple
                     size={'40'}

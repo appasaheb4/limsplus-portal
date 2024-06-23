@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Container } from 'reactstrap';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import { ModalImportFile } from '@/library/components';
 import JoditEditor from 'jodit-react';
 import 'jodit/esm/plugins/resizer/resizer';
 import { useStores } from '@/stores';
@@ -15,9 +14,7 @@ interface ModalDocxContentProps {
 export const ModalDocxContentInput = observer(
   ({ visible, onClose }: ModalDocxContentProps) => {
     const editor = useRef<any>();
-    const [showModal, setShowModal] = React.useState(visible);
-    const [modalDetail, setModalDetail] = useState<any>();
-
+    const [showModal, setShowModal] = useState(visible);
     const { libraryStore } = useStores();
 
     useEffect(() => {
@@ -64,6 +61,7 @@ export const ModalDocxContentInput = observer(
                         <div id='editor'>
                           <JoditEditor
                             ref={editor}
+                            value={libraryStore.library.details || ''}
                             config={
                               {
                                 height: 400,
@@ -98,7 +96,6 @@ export const ModalDocxContentInput = observer(
                                 },
                               } as any
                             }
-                            value={libraryStore.library.details || ''}
                             onBlur={newContent => {
                               libraryStore.updateLibrary({
                                 ...libraryStore.library,
@@ -122,7 +119,17 @@ export const ModalDocxContentInput = observer(
                       >
                         Close
                       </button>
-
+                      <button
+                        className='bg-slate-500 text-white font-bold uppercase p-2 text-sm outline-none focus:outline-none mr-1 mb-1 rounded'
+                        type='button'
+                        style={{ transition: 'all .15s ease' }}
+                        onClick={() => {
+                          setShowModal(false);
+                          onClose && onClose();
+                        }}
+                      >
+                        Preview
+                      </button>
                       <button
                         className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                         type='button'
