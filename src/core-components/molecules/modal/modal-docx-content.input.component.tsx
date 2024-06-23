@@ -5,6 +5,7 @@ import _ from 'lodash';
 import JoditEditor from 'jodit-react';
 import 'jodit/esm/plugins/resizer/resizer';
 import { useStores } from '@/stores';
+import { ModalReportHtmlView } from './modal-report-html-view.component';
 
 interface ModalDocxContentProps {
   visible: boolean;
@@ -15,6 +16,7 @@ export const ModalDocxContentInput = observer(
   ({ visible, onClose }: ModalDocxContentProps) => {
     const editor = useRef<any>();
     const [showModal, setShowModal] = useState(visible);
+    const [modalReportHtmlView, setModalReportHtmlView] = useState<any>({});
     const { libraryStore } = useStores();
 
     useEffect(() => {
@@ -124,8 +126,10 @@ export const ModalDocxContentInput = observer(
                         type='button'
                         style={{ transition: 'all .15s ease' }}
                         onClick={() => {
-                          setShowModal(false);
-                          onClose && onClose();
+                          setModalReportHtmlView({
+                            visible: true,
+                            details: libraryStore.library.details,
+                          });
                         }}
                       >
                         Preview
@@ -139,7 +143,7 @@ export const ModalDocxContentInput = observer(
                           onClose && onClose();
                         }}
                       >
-                        save
+                        Save
                       </button>
                     </div>
                   </div>
@@ -149,6 +153,12 @@ export const ModalDocxContentInput = observer(
             </>
           )}
         </Container>
+        <ModalReportHtmlView
+          {...modalReportHtmlView}
+          onClose={() => {
+            setModalReportHtmlView({ visible: false });
+          }}
+        />
       </>
     );
   },
