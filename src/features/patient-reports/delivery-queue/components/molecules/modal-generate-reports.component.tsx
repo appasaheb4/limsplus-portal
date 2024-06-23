@@ -319,10 +319,6 @@ export const ModalGenerateReports = ({
     );
   };
 
-  const FullPdf = (data: any) => {
-    return getReports(reportList);
-  };
-
   const sharePdfLink = async () => {
     const doc = getReports(reportList);
     const asPdf = pdfGen(doc);

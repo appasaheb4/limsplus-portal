@@ -1,5 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Document, Page, StyleSheet, Font, View } from '@react-pdf/renderer';
+import {
+  Document,
+  PDFViewer,
+  Page,
+  StyleSheet,
+  Font,
+  View,
+} from '@react-pdf/renderer';
+import { PdfSmall } from '@/library/components';
 import _ from 'lodash';
 import Html from 'react-pdf-html';
 import { Container } from 'reactstrap';
@@ -35,12 +43,15 @@ interface ModalReportHtmlViewProps {
 
 export const ModalReportHtmlView = ({
   visible = false,
-  details = 'Testing',
+  details = '<h1>Testing</h1>',
   onClose,
 }: ModalReportHtmlViewProps) => {
   const [showModal, setShowModal] = useState(visible);
   const regex = /style=(.*)font-family[^;]+;/g;
   const subst = '';
+  const boxCSS = useRef<any>(styles.page);
+
+  console.log({ details });
 
   useEffect(() => {
     setShowModal(visible);
@@ -98,22 +109,12 @@ export const ModalReportHtmlView = ({
       <Container>
         {showModal && (
           <>
-            <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 ml-60  outline-none focus:outline-none'>
-              <div
-                className='relative  my-6  mx-auto '
-                style={{
-                  width: '100vh',
-                }}
-              >
+            <div className='justify-center items-center m-10  overflow-x-hidden overflow-y-auto fixed inset-0 z-50  outline-none focus:outline-none'>
+              <div className='relative mx-auto '>
                 {/*content*/}
-                <div
-                  className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'
-                  style={{
-                    height: window.outerHeight / 2 + 50,
-                  }}
-                >
+                <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                   <div className='flex items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
-                    <h3 className='text-3xl font-semibold'>Details</h3>
+                    <h3 className='text-3xl font-semibold'>Preview</h3>
                     <button
                       className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                       onClick={() => {
@@ -129,19 +130,27 @@ export const ModalReportHtmlView = ({
                   {/*body*/}
                   <div className='relative p-2 flex-auto'>
                     <div className='grid grid-cols-1'>
-                      <Document title='Preview'>
-                        <Page size='A4'>
-                          <View
-                            style={{
-                              padding: 10,
-                            }}
-                          >
-                            <Html stylesheet={stylesheet}>
-                              {html(details.replace(regex, subst))}
-                            </Html>
-                          </View>
-                        </Page>
-                      </Document>
+                      <PDFViewer
+                        style={{
+                          width: window.innerWidth,
+                          height: window.innerHeight,
+                        }}
+                        showToolbar={false}
+                      >
+                        <Document title='Preview'>
+                          <Page size='A4'>
+                            <View
+                              style={{
+                                padding: 10,
+                              }}
+                            >
+                              <Html stylesheet={stylesheet}>
+                                {html(details.replace(regex, subst))}
+                              </Html>
+                            </View>
+                          </Page>
+                        </Document>
+                      </PDFViewer>
                     </div>
                   </div>
                   {/*footer*/}

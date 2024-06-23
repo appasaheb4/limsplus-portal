@@ -270,6 +270,11 @@ export const PdfTemp0010 = ({
     return _.uniqBy(userInfo, 'userId' as any);
   };
 
+  // console.log({
+  //   data,
+  //   details: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+  // });
+
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>

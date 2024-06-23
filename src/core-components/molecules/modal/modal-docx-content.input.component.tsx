@@ -16,7 +16,9 @@ export const ModalDocxContentInput = observer(
   ({ visible, onClose }: ModalDocxContentProps) => {
     const editor = useRef<any>();
     const [showModal, setShowModal] = useState(visible);
-    const [modalReportHtmlView, setModalReportHtmlView] = useState<any>({});
+    const [modalReportHtmlView, setModalReportHtmlView] = useState<any>({
+      visible: false,
+    });
     const { libraryStore } = useStores();
 
     useEffect(() => {
