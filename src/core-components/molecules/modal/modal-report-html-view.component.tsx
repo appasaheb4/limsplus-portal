@@ -47,11 +47,9 @@ export const ModalReportHtmlView = ({
   onClose,
 }: ModalReportHtmlViewProps) => {
   const [showModal, setShowModal] = useState(visible);
-  const regex = /style=(.*)font-family[^;]+;/g;
+  const regex = /style=(.*)font-[^;]+;/g;
+  //const regex = /style=(.*)font-family[^;]+;/g;
   const subst = '';
-  const boxCSS = useRef<any>(styles.page);
-
-  console.log({ details });
 
   useEffect(() => {
     setShowModal(visible);

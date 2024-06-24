@@ -4,12 +4,12 @@ import { observer } from 'mobx-react';
 import _ from 'lodash';
 import {
   ModalImportFile,
-  AutoCompleteFilterSingleSelectMultiFieldsDisplay,
   AutoCompleteFilterMutiSelectMultiFieldsDisplay,
 } from '@/library/components';
 import JoditEditor from 'jodit-react';
 import 'jodit/esm/plugins/resizer/resizer';
 import { useStores } from '@/stores';
+import { ModalReportHtmlView } from './modal-report-html-view.component';
 
 interface ModalDocxContentProps {
   title?: string;
@@ -35,7 +35,10 @@ export const ModalDocxContent = observer(
     onClose,
   }: ModalDocxContentProps) => {
     const editor = useRef<any>();
-    const [showModal, setShowModal] = React.useState(visible);
+    const [showModal, setShowModal] = useState(visible);
+    const [modalReportHtmlView, setModalReportHtmlView] = useState<any>({
+      visible: false,
+    });
     const [modalDetail, setModalDetail] = useState<any>();
     const [content, setContent] = useState('');
     const [selectedItems, setSelectedItems] = useState<any>();
@@ -101,7 +104,6 @@ export const ModalDocxContent = observer(
                         <span className='text-xl w-full font-semibold'>
                           Import from library
                         </span>
-
                         <AutoCompleteFilterMutiSelectMultiFieldsDisplay
                           loader={false}
                           placeholder='Search by libraryCode'
@@ -159,7 +161,6 @@ export const ModalDocxContent = observer(
                           }}
                         />
                       </div>
-
                       <button
                         className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                         onClick={() => {
@@ -233,15 +234,28 @@ export const ModalDocxContent = observer(
                       >
                         Close
                       </button>
+                      <button
+                        className='bg-slate-500 text-white font-bold uppercase p-2 text-sm outline-none focus:outline-none mr-1 mb-1 rounded'
+                        type='button'
+                        style={{ transition: 'all .15s ease' }}
+                        onClick={() => {
+                          setModalReportHtmlView({
+                            visible: true,
+                            details: content,
+                          });
+                        }}
+                      >
+                        Preview
+                      </button>
                       {isEditable && (
                         <button
                           className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
                           type='button'
                           style={{ transition: 'all .15s ease' }}
                           onClick={() => {
-                            // const regex = /(style=".+?")/gm;
                             // const regex = /(^|;)\s*font-[^;]+/g;
-                            const regex = /style=(.*)font-family[^;]+;/g;
+                            const regex = /style=(.*)font-[^;]+;/g;
+                            // const regex = /style=(.*)font-family[^;]+;/g;
                             const subst = '';
                             const result = content.replace(regex, subst);
                             onUpdate && onUpdate(result);
@@ -267,6 +281,12 @@ export const ModalDocxContent = observer(
           }}
           close={() => {
             setModalDetail({ show: false });
+          }}
+        />
+        <ModalReportHtmlView
+          {...modalReportHtmlView}
+          onClose={() => {
+            setModalReportHtmlView({ visible: false });
           }}
         />
       </>

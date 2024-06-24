@@ -59,7 +59,8 @@ export const PdfTemp0010 = ({
   children,
 }: PdfTemp0010Props) => {
   const { patientReports } = data;
-  const regex = /style=(.*)font-family[^;]+;/g;
+  const regex = /style=(.*)font-[^;]+;/g;
+  //const regex = /style=(.*)font-family[^;]+;/g;
   const subst = '';
   const userInfo: Array<any> = [];
   const boxCSS = useRef<any>(styles.page);
