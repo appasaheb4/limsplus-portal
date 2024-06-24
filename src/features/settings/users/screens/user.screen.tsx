@@ -570,7 +570,7 @@ export const Users = UsersHoc(
                           onChange(fullName);
                           userStore.updateUser({
                             ...userStore.user,
-                            fullName: fullName?.toUpperCase(),
+                            fullName,
                           });
                         }}
                       />
@@ -868,7 +868,7 @@ export const Users = UsersHoc(
                           onChange(userDegree);
                           userStore.updateUser({
                             ...userStore.user,
-                            userDegree: userDegree?.toUpperCase(),
+                            userDegree,
                           });
                         }}
                       />

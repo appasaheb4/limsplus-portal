@@ -34,7 +34,7 @@ import {
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 import { PatientVisitHoc } from '../hoc';
-import { useStores } from '@/stores';
+import { stores, useStores } from '@/stores';
 import { toJS } from 'mobx';
 import { RouterFlow } from '@/flows';
 import { getAgeByAgeObject, getDiffByDate } from '../utils';
@@ -659,9 +659,8 @@ export const PatientVisit = PatientVisitHoc(
                     <Buttons.Button
                       size='medium'
                       type='solid'
-                      // icon={Svg.Remove}
                       onClick={() => {
-                        history.push('/collection/doctors');
+                        window.open('/collection/doctors', '_blank');
                       }}
                     >
                       Create Doctor
