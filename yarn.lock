@@ -17445,10 +17445,10 @@ react-refresh@^0.11.0:
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.11.0.tgz#77198b944733f0f1f1a90e791de4541f9f074046"
   integrity sha512-F27qZr8uUqwhWZboondsPx8tnC3Ct3SxZA3V5WyEvujRyyNv0VYPhoBg1gZ8/MV5tubQp76Trw8lTv9hzRBa+A==
 
-react-restyle-components@^0.1.78:
-  version "0.1.78"
-  resolved "https://registry.yarnpkg.com/react-restyle-components/-/react-restyle-components-0.1.78.tgz#c98298fe9c84743ebc3583b17bbd004d655401ef"
-  integrity sha512-hh6WLOPHqH9Me0WDXCQHmJs2FZOhpk8un1BF90syrpWV4gjBoDBQc53fsrp+1mWRkchjAc1dLMhj3RTQ7db4KA==
+react-restyle-components@^0.1.80:
+  version "0.1.80"
+  resolved "https://registry.yarnpkg.com/react-restyle-components/-/react-restyle-components-0.1.80.tgz#fd32a38b35d5df40d2ec273826700acf50ff7fde"
+  integrity sha512-8Bg4c/3ph/N6qONNBTv8ELxDVu01qAeMgAru1veRXXjVy8I00GHCfuNToSjXhhgRRdkUsdDkiJXtcbggvgdSxA==
   dependencies:
     "@loadable/component" "^5.16.4"
     "@mui/material" "^5.15.19"

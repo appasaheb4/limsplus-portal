@@ -43,6 +43,7 @@ import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { getFilterField } from '../utils';
 import { resetPatientVisit } from '../startup';
 import { useHistory } from 'react-router-dom';
+import { MultipleSelect } from 'react-restyle-components';
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void;
@@ -1211,6 +1212,27 @@ export const PatientVisit = PatientVisitHoc(
                     </Form.InputWrapper>
                   )}
                   name='deliveryMode'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputWrapper
+                      label='Report To'
+                      hasError={!!errors.reportTo}
+                    >
+                      <MultipleSelect
+                        options={['UPI']}
+                        selectedItems={['UPI']}
+                        onSelect={item => {
+                          console.log({ item });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='reportTo'
                   rules={{ required: false }}
                   defaultValue=''
                 />
