@@ -817,7 +817,7 @@ export const Users = UsersHoc(
                           placeholder='Search by code or description'
                           data={{
                             list: deginisationStore.listDeginisation,
-                            displayKey: ['code', 'description'],
+                            displayKey: ['description'],
                           }}
                           displayValue={value}
                           hasError={!!errors.deginisation}
@@ -826,7 +826,7 @@ export const Users = UsersHoc(
                               {
                                 input: {
                                   filter: {
-                                    fields: ['code', 'description'],
+                                    fields: ['description'],
                                     srText: value,
                                   },
                                   page: 0,
