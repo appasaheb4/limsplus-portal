@@ -41,6 +41,7 @@ export const LIST_PATIENT_VISIT = gql`
         discountCharges
         reportPriority
         deliveryMode
+        reportTo
         history
         holdReport
         holdReason
@@ -161,6 +162,7 @@ export const FILTER_PATIENT_VISIT = gql`
         discountCharges
         reportPriority
         deliveryMode
+        reportTo
         history
         holdReport
         holdReason
@@ -283,6 +285,7 @@ export const FILTER_BY_FIELDS_PATIENT_VISIT = gql`
         discountCharges
         reportPriority
         deliveryMode
+        reportTo
         history
         holdReport
         holdReason

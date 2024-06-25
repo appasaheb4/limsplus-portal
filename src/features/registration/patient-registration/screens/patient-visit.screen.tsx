@@ -739,11 +739,18 @@ export const PatientVisit = PatientVisitHoc(
                               ...patientVisitStore.patientVisit,
                               collectionCenter: item?.locationCode,
                               collectionCenterName: item?.locationName,
-                              acClass: item?.acClass,
                               corporateCode: item?.corporateCode,
                               corporateName: item?.corporateName || '',
                               isPrintPrimaryBarcod:
                                 item?.isPrintPrimaryBarcod || false,
+                              acClass: item?.acClass,
+                              reportPriority: item?.reportPriority,
+                              deliveryMode: item?.deliveryMode,
+                              reportTo: item?.reportTo?.map(rItem => {
+                                return {
+                                  code: rItem,
+                                };
+                              }),
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
                                 methodCollection: item?.methodColn,
@@ -804,7 +811,6 @@ export const PatientVisit = PatientVisitHoc(
                           );
                         }}
                         onSelect={item => {
-                          console.log({ item });
                           onChange(item.corporateCode);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
@@ -813,6 +819,13 @@ export const PatientVisit = PatientVisitHoc(
                             isPredefinedPanel: item?.isPredefinedPanel,
                             isEmployeeCode: item?.isEmployeeCode,
                             acClass: item?.acClass,
+                            reportPriority: item?.reportPriority,
+                            deliveryMode: item?.deliveryMode,
+                            reportTo: item?.reportTo?.map(rItem => {
+                              return {
+                                code: rItem,
+                              };
+                            }),
                             specificFormat: item?.specificFormat || false,
                             extraData: {
                               ...patientVisitStore.patientVisit.extraData,
@@ -1130,13 +1143,34 @@ export const PatientVisit = PatientVisitHoc(
                       label='Delivery Mode'
                       hasError={!!errors.deliveryMode}
                     >
-                      <AutoCompleteFilterDeliveryMode
+                      {/* <AutoCompleteFilterDeliveryMode
                         lookupField='PATIENT VISIT - DELIVERY_MODE'
                         onSelect={deliveryMode => {
                           onChange(deliveryMode);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
                             deliveryMode,
+                          });
+                        }}
+                      /> */}
+                      <MultiSelectWithField
+                        displayField='code'
+                        options={lookupItems(
+                          routerStore.lookupItems,
+                          'PATIENT VISIT - DELIVERY_MODE',
+                        )}
+                        selectedItems={
+                          patientVisitStore.patientVisit?.deliveryMode
+                        }
+                        onSelect={items => {
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            deliveryMode: items?.map((item: any) => {
+                              return {
+                                ...item,
+                                __typename: undefined,
+                              };
+                            }),
                           });
                         }}
                       />
@@ -1160,21 +1194,19 @@ export const PatientVisit = PatientVisitHoc(
                           routerStore.lookupItems,
                           'PATIENT VISIT - REPORT TO',
                         )}
-                        selectedItems={getDefaultLookupItems(
-                          routerStore.lookupItems,
-                          'PATIENT VISIT - REPORT TO',
-                        )}
+                        selectedItems={patientVisitStore.patientVisit?.reportTo}
                         onSelect={items => {
-                          console.log({ items });
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            reportTo: items?.map((item: any) => {
+                              return {
+                                ...item,
+                                __typename: undefined,
+                              };
+                            }),
+                          });
                         }}
                       />
-                      {/* <MultipleSelect
-                        options={['UPI']}
-                        selectedItems={['UPI']}
-                        onSelect={item => {
-                          console.log({ item });
-                        }}
-                      /> */}
                     </Form.InputWrapper>
                   )}
                   name='reportTo'

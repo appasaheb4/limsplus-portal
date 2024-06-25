@@ -60,16 +60,18 @@ export const MultiSelectWithField = ({
         <div className={`flex mx-2 ${isListOpen ? `show` : `hidden`}`}>
           {options
             ? options?.length > 0 && (
-                <ul>
+                <ul className='flex flex-col gap-1 p-2'>
                   {options?.map((item: string, index) => (
-                    <li key={index} className='flex items-center text-center'>
+                    <li key={index} className='flex items-center'>
                       <input
-                        className='bg-black'
+                        className='flex bg-black'
                         type='checkbox'
                         checked={
                           !_.isEmpty(
                             selectedOptions?.find(
-                              e => e[displayField] == item[displayField],
+                              e =>
+                                e[displayField]?.toUpperCase() ==
+                                item[displayField]?.toUpperCase(),
                             ),
                           )
                             ? true
@@ -79,13 +81,17 @@ export const MultiSelectWithField = ({
                           if (
                             !_.isEmpty(
                               selectedOptions?.find(
-                                e => e[displayField] == item[displayField],
+                                e =>
+                                  e[displayField]?.toUpperCase() ==
+                                  item[displayField]?.toUpperCase(),
                               ),
                             )
                           ) {
                             setSelectedOptions(
                               selectedOptions?.filter(
-                                e => e[displayField] != item[displayField],
+                                e =>
+                                  e[displayField]?.toUpperCase() !=
+                                  item[displayField]?.toUpperCase(),
                               ),
                             );
                           } else {
@@ -102,10 +108,9 @@ export const MultiSelectWithField = ({
                           if (!isListOpen) onSelect(selectedOptions);
                         }}
                       />{' '}
-                      <label className='ml-3 mt-2 pt-1 dark:text-white'>
-                        {' '}
+                      <span className='flex ml-2  dark:text-white text-center'>
                         {item[displayField]}
-                      </label>
+                      </span>
                     </li>
                   ))}
                 </ul>

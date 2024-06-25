@@ -780,6 +780,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                                   corporateName: item?.corporateName,
                                   invoiceAc: Number.parseInt(item?.invoiceAc),
                                   acClass: item.acClass,
+                                  reportTo: item?.reportTo,
                                   accountType: item.acType,
                                   customerGroup: item.customerGroup,
                                 },
