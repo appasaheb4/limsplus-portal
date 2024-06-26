@@ -72,6 +72,8 @@ export class PatientVisit {
   };
   mobileNo: string;
   email: string;
+  openingTime: string;
+  closingTime: string;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -120,6 +122,8 @@ export class PatientVisit {
     this.extraData = rawData.extraData;
     this.mobileNo = rawData.mobileNo;
     this.email = rawData.email;
+    this.openingTime = rawData.openingTime;
+    this.closingTime = rawData.closingTime;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

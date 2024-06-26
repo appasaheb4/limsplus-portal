@@ -4,8 +4,8 @@
  
  * @author limsplus
  */
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   LIST,
   CREATE_RECORD,
@@ -31,9 +31,10 @@ export class RegistrationLocationsService {
       client
         .mutate({
           mutation: LIST,
-          variables: {input: {page, limit, env, role, lab}},
+          variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
+          console.log({ response });
           stores.registrationLocationsStore.updateRegistrationLocationsList(
             response.data,
           );
@@ -113,7 +114,7 @@ export class RegistrationLocationsService {
 
   updateSingleFiled = (variables: any) =>
     new Promise<any>((resolve, reject) => {
-      console.log({variables});
+      console.log({ variables });
 
       client
         .mutate({

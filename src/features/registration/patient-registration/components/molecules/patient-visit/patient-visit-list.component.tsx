@@ -665,6 +665,35 @@ export const PatientVisitList = observer((props: PatientVisitProps) => {
                 <>
                   <AutoCompleteFilterSingleSelectCollectionCenter
                     onSelect={item => {
+                      props.onUpdateFields &&
+                        props.onUpdateFields(
+                          {
+                            collectionCenter: item?.locationCode,
+                            collectionCenterName: item?.locationName,
+                            corporateCode: item?.corporateCode,
+                            corporateName: item?.corporateName || '',
+                            isPrintPrimaryBarcod:
+                              item?.isPrintPrimaryBarcod || false,
+                            acClass: item?.acClass,
+                            reportPriority: item?.reportPriority,
+                            deliveryMode: item?.deliveryMode,
+                            reportTo: item?.reportTo?.map(rItem => {
+                              return {
+                                code: rItem,
+                              };
+                            }),
+                            openingTime: item?.openingTime,
+                            closingTime: item?.closingTime,
+                            extraData: {
+                              ...row.extraData,
+                              methodCollection: item?.methodColn,
+                              accountType: item?.accountType,
+                              invoiceAc: item?.invoiceAc?.toString(),
+                            },
+                          },
+                          row._id,
+                        );
+
                       props.onUpdateItem &&
                         props.onUpdateItem(
                           item.locationCode,

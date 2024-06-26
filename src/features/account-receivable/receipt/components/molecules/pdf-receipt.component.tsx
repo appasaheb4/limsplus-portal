@@ -214,7 +214,9 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
               <PdfSmall fontFamily='IBMPlexSans' style={{ marginTop: 4 }}>
                 {`*Final Report Delivery Date: ${dayjs(new Date()).format(
                   'YYYY-MM-DD',
-                )}. *Report Collection Time: 6:00 AM to 7:30 PM`}
+                )}. *Report Collection Time: ${
+                  patientDetails?.openingTime || '06:00 am'
+                }  to ${patientDetails?.openingTime || '07:30 pm'}`}
               </PdfSmall>
             </PdfView>
 

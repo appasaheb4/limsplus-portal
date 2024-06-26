@@ -1,12 +1,13 @@
 /* eslint-disable  */
 import React, { useEffect } from 'react';
 import { Container } from 'reactstrap';
-import { Icons } from '@components';
+import { Icons, Tooltip } from '@components';
 import { pdf } from '@react-pdf/renderer';
 import { PdfReceipt } from '../../../receipt/components';
 import { saveAs } from 'file-saver';
 import { SocialIcon } from 'react-social-icons';
 import printjs from 'print-js';
+// import { Tooltip } from '@/library/components';
 
 interface ModalReceiptShareProps {
   show?: boolean;
@@ -24,8 +25,6 @@ export const ModalReceiptShare = ({
   onReceiptUpload,
 }: ModalReceiptShareProps) => {
   const [showModal, setShowModal] = React.useState(show);
-
-  console.log({ data });
 
   useEffect(() => {
     setShowModal(show);
@@ -123,18 +122,31 @@ export const ModalReceiptShare = ({
                             );
                           }}
                         />
-                        <SocialIcon
-                          network='whatsapp'
-                          style={{ height: 32, width: 32 }}
-                          onClick={() => {
-                            sharePdfLink(
-                              data.patientDetails?.whatsappNumber
-                                ? `https://api.whatsapp.com/send?phone=+91${data.patientDetails?.whatsappNumber.toString()}&text=Your%20payment%20receipt%20link:`
-                                : 'https://api.whatsapp.com/send?text=Your%20payment%20receipt%20link:',
-                            );
-                          }}
-                        />
-                        <SocialIcon
+                        <Tooltip tooltipText='WHATSAPP'>
+                          <SocialIcon
+                            network='whatsapp'
+                            style={{ height: 32, width: 32 }}
+                            onClick={() => {
+                              sharePdfLink(
+                                data.patientDetails?.whatsappNumber
+                                  ? `https://api.whatsapp.com/send?phone=+91${data.patientDetails?.whatsappNumber.toString()}&text=Your%20payment%20receipt%20link:`
+                                  : 'https://api.whatsapp.com/send?text=Your%20payment%20receipt%20link:',
+                              );
+                            }}
+                          />
+                        </Tooltip>
+                        <Tooltip tooltipText='SMS'>
+                          <SocialIcon
+                            network='wechat'
+                            style={{ height: 32, width: 32 }}
+                            onClick={() => {
+                              sharePdfLink(
+                                'https://twitter.com/intent/tweet?url=Your%20payment%20receipt%20link:',
+                              );
+                            }}
+                          />
+                        </Tooltip>
+                        {/* <SocialIcon
                           network='twitter'
                           style={{ height: 32, width: 32 }}
                           onClick={() => {
@@ -151,7 +163,7 @@ export const ModalReceiptShare = ({
                               'https://t.me/share/url?url=Your%20payment%20receipt%20link:',
                             );
                           }}
-                        />
+                        /> */}
                       </>
                     )}
                   </div>

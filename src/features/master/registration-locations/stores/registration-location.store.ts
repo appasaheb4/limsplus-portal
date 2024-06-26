@@ -45,8 +45,6 @@ export class RegistrationLocationsStore {
     this.selectedItems = new SelectedItems({});
     this.registrationLocations = {
       ...this.registrationLocations,
-      openingTime: dayjs().format('hh:mm a'),
-      closingTime: dayjs().format('hh:mm a'),
       dateCreation: new Date(),
       dateActive: new Date(),
       dateExpire: new Date(
@@ -59,6 +57,8 @@ export class RegistrationLocationsStore {
       urgent: false,
       priceList: [{ id: 0, maxDis: 0 }],
       isPrintPrimaryBarcod: false,
+      openingTime: '06:00 am',
+      closingTime: '07:00 pm',
       isPrintSecondaryBarcode: false,
     };
   }

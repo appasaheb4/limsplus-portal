@@ -69,11 +69,6 @@ const Receipt = observer(() => {
               .generatePaymentReceipt({ input: { headerId: item?.headerId } })
               .then(async res => {
                 if (res.generatePaymentReceipt?.success) {
-                  console.log({
-                    labLogo:
-                      res.generatePaymentReceipt?.receiptData?.headerDetails
-                        ?.labLogo,
-                  });
                   setModalPaymentReceipt({
                     show: true,
                     data: res.generatePaymentReceipt?.receiptData,

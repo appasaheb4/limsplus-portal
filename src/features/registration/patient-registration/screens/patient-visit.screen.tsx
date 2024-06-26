@@ -751,6 +751,8 @@ export const PatientVisit = PatientVisitHoc(
                                   code: rItem,
                                 };
                               }),
+                              openingTime: item?.openingTime,
+                              closingTime: item?.closingTime,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
                                 methodCollection: item?.methodColn,
