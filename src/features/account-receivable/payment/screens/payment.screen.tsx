@@ -2,9 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Table } from 'reactstrap';
 import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Toast,
   Buttons,
   Grid,

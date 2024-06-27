@@ -140,9 +140,7 @@ export const ModalReceiptShare = ({
                             network='wechat'
                             style={{ height: 32, width: 32 }}
                             onClick={() => {
-                              sharePdfLink(
-                                'https://twitter.com/intent/tweet?url=Your%20payment%20receipt%20link:',
-                              );
+                              sharePdfLink('sms');
                             }}
                           />
                         </Tooltip>

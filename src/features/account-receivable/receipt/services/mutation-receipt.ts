@@ -48,3 +48,12 @@ export const PAYMENT_RECEIPT_UPLOAD = gql`
     }
   }
 `;
+
+export const SEND_SMS = gql`
+  mutation ($input: ServiceInput!) {
+    sendMessageService(input: $input) {
+      success
+      message
+    }
+  }
+`;

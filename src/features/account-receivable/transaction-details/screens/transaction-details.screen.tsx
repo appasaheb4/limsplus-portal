@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import { ModalConfirm, Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
@@ -114,6 +115,14 @@ const TransactionDetails = observer(() => {
     [transactionDetailsStore.transactionHeaderList, selectId],
   );
 
+  const sendSMS = details => {
+    receiptStore.receiptService.sendSMS({
+      input: {
+        filter: { ...details },
+      },
+    } as any);
+  };
+
   return (
     <>
       <MainPageHeading
@@ -220,15 +229,45 @@ const TransactionDetails = observer(() => {
               .paymentReceiptUpload({ input: { file } })
               .then(res => {
                 if (res.paymentReceiptUpload.success) {
-                  setReceiptPath(res.paymentReceiptUpload?.receiptPath);
-                  window.open(
-                    `${type} ${res.paymentReceiptUpload?.receiptPath}`,
-                    '_blank',
-                  );
+                  const path = res.paymentReceiptUpload?.receiptPath;
+                  if (type == 'sms') {
+                    if (
+                      _.isEmpty(
+                        modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                      )
+                    )
+                      Toast.error({
+                        message: '😊 Patient mobile number not found!',
+                      });
+                    else
+                      sendSMS({
+                        mobileNo: [
+                          modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                        ],
+                        sender: '',
+                        message: `Your payment receipt link: ${path}`,
+                      });
+                  } else {
+                    window.open(`${type} ${path}`, '_blank');
+                  }
+                  setReceiptPath(path);
                 }
               });
           } else {
-            window.open(type + receiptPath, '_blank');
+            if (type == 'sms') {
+              if (_.isEmpty(modalPaymentReceipt.data?.patientDetails?.mobileNo))
+                Toast.error({
+                  message: '😊 Patient mobile number not found!',
+                });
+              else
+                sendSMS({
+                  mobileNo: [
+                    modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                  ],
+                  sender: '',
+                  message: `Your payment receipt link: ${receiptPath}`,
+                });
+            } else window.open(type + receiptPath, '_blank');
           }
         }}
       />
