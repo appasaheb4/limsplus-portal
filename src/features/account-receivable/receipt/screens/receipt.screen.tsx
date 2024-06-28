@@ -24,11 +24,19 @@ const Receipt = observer(() => {
   const [receiptDetails, setReceiptDetails] = useState<any>();
 
   const sendSMS = details => {
-    receiptStore.receiptService.sendSMS({
-      input: {
-        filter: { ...details },
-      },
-    } as any);
+    receiptStore.receiptService
+      .sendSMS({
+        input: {
+          filter: { ...details },
+        },
+      } as any)
+      .then(res => {
+        if (res.sendMessageService.success) {
+          Toast.success({
+            message: '😊 SMS send successfully',
+          });
+        }
+      });
   };
 
   return (
@@ -89,7 +97,6 @@ const Receipt = observer(() => {
           setModalPaymentReceipt({ show: false });
         }}
         onReceiptUpload={(file, type) => {
-          console.log({ file, type, receiptPath });
           if (!receiptPath) {
             receiptStore.receiptService
               .paymentReceiptUpload({ input: { file } })
@@ -123,7 +130,7 @@ const Receipt = observer(() => {
             if (type == 'sms') {
               if (_.isEmpty(modalPaymentReceipt.data?.patientDetails?.mobileNo))
                 Toast.error({
-                  message: '😊 Patient mobile number not found!',
+                  message: '😌 Patient mobile number not found!',
                 });
               else
                 sendSMS({

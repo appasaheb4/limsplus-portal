@@ -5,9 +5,9 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
-import {PAYMENT_LIST, CREATE_PAYMENT} from './mutation-payment';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
+import { PAYMENT_LIST, CREATE_PAYMENT } from './mutation-payment';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -21,7 +21,7 @@ export class PaymentService {
       client
         .mutate({
           mutation: PAYMENT_LIST,
-          variables: {input: {page, limit, environment, role}},
+          variables: { input: { page, limit, environment, role } },
         })
         .then((response: any) => {
           stores.paymentStore.updatePaymentList(response.data);

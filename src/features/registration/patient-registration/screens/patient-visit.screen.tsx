@@ -38,15 +38,10 @@ import { toJS } from 'mobx';
 import { RouterFlow } from '@/flows';
 import { getAgeByAgeObject, getDiffByDate } from '../utils';
 import { FormHelper } from '@/helper';
-import {
-  AutoCompleteFilterDeliveryMode,
-  MultiSelectWithField,
-} from '@/core-components';
 import { getFilterField } from '../utils';
 import { resetPatientVisit } from '../startup';
 import { useHistory } from 'react-router-dom';
-import { MultipleSelect } from 'react-restyle-components';
-import { getDefaultLookupItems } from '@/library/utils';
+import { MultiSelectWithField } from 'react-restyle-components';
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void;
