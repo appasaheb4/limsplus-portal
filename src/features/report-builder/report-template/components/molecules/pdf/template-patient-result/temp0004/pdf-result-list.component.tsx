@@ -602,10 +602,10 @@ export const PdfResultList = ({
                 />
                 <PdfSmall>{item?.fullName}</PdfSmall>
                 <PdfSmall style={{ marginTop: -4 }}>
-                  {item?.userDegree}
+                  {item?.deginisation}
                 </PdfSmall>
                 <PdfSmall style={{ marginTop: -4 }}>
-                  {item?.deginisation}
+                  {item?.userDegree}
                 </PdfSmall>
               </PdfView>
             ))}
