@@ -33,6 +33,7 @@ export const DELIVERY_QUEUE_LIST = gql`
         deliveryStatus
         reportType
         deliveryMode
+        reportTo
         destination
         comments
         startDate
@@ -135,6 +136,7 @@ export const FILTER = gql`
         deliveryStatus
         reportType
         deliveryMode
+        reportTo
         destination
         comments
         startDate
@@ -198,6 +200,7 @@ export const FIND_BY_FIELDS = gql`
         deliveryStatus
         reportType
         deliveryMode
+        reportTo
         destination
         comments
         startDate

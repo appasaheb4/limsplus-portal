@@ -436,7 +436,7 @@ export const UserList = (props: UserListProps) => {
                     onSelect={item => {
                       props.onUpdateItem &&
                         props.onUpdateItem(
-                          item.code,
+                          item.description,
                           column.dataField,
                           row._id,
                         );
