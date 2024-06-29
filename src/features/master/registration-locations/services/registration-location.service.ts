@@ -34,7 +34,6 @@ export class RegistrationLocationsService {
           variables: { input: { page, limit, env, role, lab } },
         })
         .then((response: any) => {
-          console.log({ response });
           stores.registrationLocationsStore.updateRegistrationLocationsList(
             response.data,
           );

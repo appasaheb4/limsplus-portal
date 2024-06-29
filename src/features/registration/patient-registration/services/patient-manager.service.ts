@@ -20,6 +20,7 @@ import {
   FILTER_OPTION_LIST,
   GET_PATIENT_REG_RECORDS,
   FIND_BY_FIELDS_PATIENT_MANAGER,
+  GET_PATIENT_MANAGER_DISTINCT,
 } from './mutation-pm';
 import { Toast } from '@/library/components';
 
@@ -309,6 +310,23 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getPatientManagerDistinct = () =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .query({
+          query: GET_PATIENT_MANAGER_DISTINCT,
+        })
+        .then((response: any) => {
+          stores.patientManagerStore.updateDistinctPatientManager(
+            response.data,
+          );
           resolve(response.data);
         })
         .catch(error =>

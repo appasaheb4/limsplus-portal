@@ -35,6 +35,7 @@ export class PatientResultStore {
       filterPatientResultList: action,
       patientResultListForGeneralResEntry: action,
       updateDistinctPatientResult: action,
+      filterDistinctPatientResult: action,
     });
   }
 

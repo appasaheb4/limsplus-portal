@@ -8,6 +8,8 @@ export class PatientManagerStore {
   listPatientMangerCopy!: PatientManger[];
   listPatientMangerCount!: number;
   checkExistsPatient!: boolean;
+  distinctPatientManager!: any;
+  distinctPatientManagerCopy!: any;
 
   constructor() {
     this.reset();
@@ -16,12 +18,15 @@ export class PatientManagerStore {
       listPatientManger: observable,
       listPatientMangerCopy: observable,
       listPatientMangerCount: observable,
+      distinctPatientManager: observable,
+      distinctPatientManagerCopy: observable,
 
       patientManagerService: computed,
       updatePatientManagerList: action,
       updatePatientManager: action,
       filterPatientManagerList: action,
       updateExistsPatient: action,
+      filterDistinctPatientManager: action,
     });
   }
 
@@ -30,6 +35,8 @@ export class PatientManagerStore {
     this.listPatientMangerCopy = [];
     this.listPatientMangerCount = 0;
     this.checkExistsPatient = false;
+    this.distinctPatientManager = undefined;
+    this.distinctPatientManagerCopy = undefined;
     this.patientManger = new PatientManger({
       ageUnit: 'Y',
       isBirthdateAvailabe: true,
@@ -63,5 +70,30 @@ export class PatientManagerStore {
   }
   updateExistsPatient(flag: boolean) {
     this.checkExistsPatient = flag;
+  }
+
+  updateDistinctPatientManager(payload) {
+    const data = payload.getPatientManagerDistinct.result?.map(item => {
+      const obj = {
+        pLab: item._id?.pLab,
+        testCode: item._id?.testCode,
+        testName: item._id?.testName,
+        departement: item._id?.departement,
+        testStatus: item._id?.testStatus,
+        resultStatus: item._id?.resultStatus,
+        analyteCode: item._id?.analyteCode,
+        analyteName: item._id?.analyteName,
+        labId: item._id?.labId,
+        name: item._id?.name || '',
+        pId: item._id?.pId || 0,
+      };
+      return JSON.parse(JSON.stringify(obj));
+    });
+    this.distinctPatientManager = data;
+    this.distinctPatientManagerCopy = data;
+  }
+
+  filterDistinctPatientManager(res: any) {
+    this.distinctPatientManager = res;
   }
 }

@@ -398,7 +398,8 @@ export const FilterInputTable = observer(() => {
                         patientResultStore.distinctPatientResult?.filter(
                           item =>
                             item.pLab ==
-                            generalResultEntryStore.filterGeneralResEntry?.pLab,
+                              generalResultEntryStore.filterGeneralResEntry
+                                ?.pLab && item.name != '',
                         ),
                         'name',
                       ),

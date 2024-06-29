@@ -27,6 +27,7 @@ export const startupByLabId = async () => {
 
 const startup = async () => {
   await stores.patientRegistrationStore.reload();
+  await stores.patientManagerStore.patientManagerService.getPatientManagerDistinct();
   stores.patientResultStore.patientResultService.getPatientResultDistinct();
 };
 

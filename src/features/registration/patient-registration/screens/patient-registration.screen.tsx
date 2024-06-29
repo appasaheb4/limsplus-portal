@@ -186,20 +186,20 @@ const PatientRegistration = observer(({ sidebar }) => {
                 placeholder='Search by Patient Name'
                 data={{
                   list: _.uniqBy(
-                    patientResultStore.distinctPatientResult,
+                    patientManagerStore.distinctPatientManager,
                     'name',
                   )?.filter(item => item != ''),
                   displayKey: ['name'],
                 }}
                 displayValue={generalResultEntryStore.filterGeneralResEntry?.name?.toString()}
                 onFilter={(value: string) => {
-                  patientResultStore.filterDistinctPatientResult(
-                    getFilteredData(
-                      value,
-                      'name',
-                      patientResultStore.distinctPatientResultCopy,
-                    ),
-                  );
+                  // patientResultStore.filterDistinctPatientResult(
+                  //   getFilteredData(
+                  //     value,
+                  //     'name',
+                  //     patientResultStore.distinctPatientResultCopy,
+                  //   ),
+                  // );
                 }}
                 onSelect={async item => {
                   await patientRegistrationStore.getPatientRegRecords(
@@ -208,8 +208,8 @@ const PatientRegistration = observer(({ sidebar }) => {
                     'fetch',
                     item?.pId,
                   );
-                  patientResultStore.filterDistinctPatientResult(
-                    patientResultStore.distinctPatientResultCopy,
+                  patientManagerStore.filterDistinctPatientManager(
+                    patientManagerStore.distinctPatientManager,
                   );
                 }}
               />

@@ -334,3 +334,13 @@ export const FIND_BY_FIELDS_PATIENT_MANAGER = gql`
     }
   }
 `;
+
+export const GET_PATIENT_MANAGER_DISTINCT = gql`
+  query {
+    getPatientManagerDistinct {
+      success
+      message
+      result
+    }
+  }
+`;
