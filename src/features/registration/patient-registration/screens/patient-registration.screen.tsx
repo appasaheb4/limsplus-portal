@@ -187,29 +187,41 @@ const PatientRegistration = observer(({ sidebar }) => {
                 data={{
                   list: _.uniqBy(
                     patientManagerStore.distinctPatientManager,
-                    'name',
-                  )?.filter(item => item != ''),
-                  displayKey: ['name'],
+                    'pId',
+                  ),
+                  displayKey: [
+                    'title',
+                    'firstName',
+                    'middleName',
+                    'lastName',
+                    'pId',
+                  ],
                 }}
                 displayValue={generalResultEntryStore.filterGeneralResEntry?.name?.toString()}
                 onFilter={(value: string) => {
-                  // patientResultStore.filterDistinctPatientResult(
-                  //   getFilteredData(
-                  //     value,
-                  //     'name',
-                  //     patientResultStore.distinctPatientResultCopy,
-                  //   ),
-                  // );
+                  patientManagerStore.patientManagerService.filterByFields(
+                    {
+                      input: {
+                        filter: {
+                          fields: ['firstName', 'middleName', 'lastName'],
+                          srText: value,
+                        },
+                        page: 0,
+                        limit: 10,
+                      },
+                    },
+                    'filterDistinct',
+                  );
                 }}
                 onSelect={async item => {
                   await patientRegistrationStore.getPatientRegRecords(
                     'patientName',
-                    item.name,
+                    '',
                     'fetch',
                     item?.pId,
                   );
                   patientManagerStore.filterDistinctPatientManager(
-                    patientManagerStore.distinctPatientManager,
+                    patientManagerStore.distinctPatientManagerCopy,
                   );
                 }}
               />

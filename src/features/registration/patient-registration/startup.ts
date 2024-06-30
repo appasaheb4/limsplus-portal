@@ -2,8 +2,8 @@ import { stores } from '@/stores';
 // import {patientRegistrationHoc} from './hoc';
 import { eventEmitter } from '@/core-utils';
 
+// patient manager
 export const startupPM = async () => {
-  // patient manager
   await stores.patientManagerStore.patientManagerService.listPatientManager({
     documentType: 'patientManager',
   });
@@ -27,7 +27,11 @@ export const startupByLabId = async () => {
 
 const startup = async () => {
   await stores.patientRegistrationStore.reload();
-  await stores.patientManagerStore.patientManagerService.getPatientManagerDistinct();
+  await stores.patientManagerStore.patientManagerService.getPatientManagerDistinct(
+    {
+      documentType: 'patientManager',
+    },
+  );
   stores.patientResultStore.patientResultService.getPatientResultDistinct();
 };
 

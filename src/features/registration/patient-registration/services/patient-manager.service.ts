@@ -180,7 +180,7 @@ export class PatientManagerService {
         );
     });
 
-  filterByFields = (variables: any) =>
+  filterByFields = (variables: any, type = 'filter') =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false);
       client
@@ -189,18 +189,32 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsPatientManager.success)
-            return this.listPatientManager({ documentType: 'patientManager' });
-          stores.patientManagerStore.filterPatientManagerList({
-            filterPatientManager: {
-              data: response.data.filterByFieldsPatientManager.data,
-              paginatorInfo: {
-                count:
-                  response.data.filterByFieldsPatientManager.paginatorInfo
-                    .count,
+          if (type == 'filter') {
+            if (!response.data.filterByFieldsPatientManager.success)
+              return this.listPatientManager({
+                documentType: 'patientManager',
+              });
+            stores.patientManagerStore.filterPatientManagerList({
+              filterPatientManager: {
+                data: response.data.filterByFieldsPatientManager.data,
+                paginatorInfo: {
+                  count:
+                    response.data.filterByFieldsPatientManager.paginatorInfo
+                      .count,
+                },
               },
-            },
-          });
+            });
+          } else {
+            if (!response.data.filterByFieldsPatientManager.success)
+              return this.getPatientManagerDistinct({
+                documentType: 'patientManager',
+              });
+            stores.patientManagerStore.updateDistinctPatientManager({
+              patientManagers: {
+                data: response.data.filterByFieldsPatientManager.data,
+              },
+            });
+          }
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
@@ -317,11 +331,12 @@ export class PatientManagerService {
         );
     });
 
-  getPatientManagerDistinct = () =>
+  getPatientManagerDistinct = (filter: any, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
-        .query({
-          query: GET_PATIENT_MANAGER_DISTINCT,
+        .mutate({
+          mutation: LIST_PATIENT_MANAGER,
+          variables: { input: { filter, page, limit } },
         })
         .then((response: any) => {
           stores.patientManagerStore.updateDistinctPatientManager(

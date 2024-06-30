@@ -216,7 +216,7 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
                   'YYYY-MM-DD',
                 )}. *Report Collection Time: ${
                   patientDetails?.openingTime || '06:00 am'
-                }  to ${patientDetails?.openingTime || '07:30 pm'}`}
+                }  to ${patientDetails?.closingTime || '07:30 pm'}`}
               </PdfSmall>
             </PdfView>
 

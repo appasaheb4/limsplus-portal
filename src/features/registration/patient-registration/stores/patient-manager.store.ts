@@ -8,8 +8,8 @@ export class PatientManagerStore {
   listPatientMangerCopy!: PatientManger[];
   listPatientMangerCount!: number;
   checkExistsPatient!: boolean;
-  distinctPatientManager!: any;
-  distinctPatientManagerCopy!: any;
+  distinctPatientManager!: PatientManger[];
+  distinctPatientManagerCopy!: PatientManger[];
 
   constructor() {
     this.reset();
@@ -35,8 +35,8 @@ export class PatientManagerStore {
     this.listPatientMangerCopy = [];
     this.listPatientMangerCount = 0;
     this.checkExistsPatient = false;
-    this.distinctPatientManager = undefined;
-    this.distinctPatientManagerCopy = undefined;
+    this.distinctPatientManager = [];
+    this.distinctPatientManagerCopy = [];
     this.patientManger = new PatientManger({
       ageUnit: 'Y',
       isBirthdateAvailabe: true,
@@ -72,25 +72,13 @@ export class PatientManagerStore {
     this.checkExistsPatient = flag;
   }
 
-  updateDistinctPatientManager(payload) {
-    const data = payload.getPatientManagerDistinct.result?.map(item => {
-      const obj = {
-        pLab: item._id?.pLab,
-        testCode: item._id?.testCode,
-        testName: item._id?.testName,
-        departement: item._id?.departement,
-        testStatus: item._id?.testStatus,
-        resultStatus: item._id?.resultStatus,
-        analyteCode: item._id?.analyteCode,
-        analyteName: item._id?.analyteName,
-        labId: item._id?.labId,
-        name: item._id?.name || '',
-        pId: item._id?.pId || 0,
-      };
-      return JSON.parse(JSON.stringify(obj));
-    });
-    this.distinctPatientManager = data;
-    this.distinctPatientManagerCopy = data;
+  updateDistinctPatientManager(res) {
+    if (!Array.isArray(res)) {
+      this.distinctPatientManager = res.patientManagers.data;
+      this.distinctPatientManagerCopy = res.patientManagers.data;
+    } else {
+      this.distinctPatientManager = res;
+    }
   }
 
   filterDistinctPatientManager(res: any) {
