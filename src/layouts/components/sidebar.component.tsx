@@ -263,6 +263,7 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                                       category,
                                       item,
                                     );
+
                                   stores.routerStore.updateSelectedComponents(
                                     selectedComp,
                                   );

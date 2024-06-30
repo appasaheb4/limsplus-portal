@@ -193,8 +193,6 @@ export const UserList = (props: UserListProps) => {
                 },
               }),
               headerClasses: 'textHeader2',
-              style: { textTransform: 'uppercase' },
-              editorStyle: { textTransform: 'uppercase' },
             },
             {
               dataField: 'userModule',

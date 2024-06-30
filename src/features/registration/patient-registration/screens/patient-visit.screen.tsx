@@ -33,7 +33,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import { PatientVisitHoc } from '../hoc';
-import { useStores } from '@/stores';
+import { stores, useStores } from '@/stores';
 import { toJS } from 'mobx';
 import { RouterFlow } from '@/flows';
 import { getAgeByAgeObject, getDiffByDate } from '../utils';
@@ -561,7 +561,7 @@ export const PatientVisit = PatientVisitHoc(
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
-                <div className='flex justify-between flex-wrap flex-row'>
+                <div className='flex justify-between flex-wrap flex-row item-center align-center'>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -586,9 +586,9 @@ export const PatientVisit = PatientVisitHoc(
                     <Buttons.Button
                       size='medium'
                       type='solid'
-                      // icon={Svg.Remove}
+                      disabled={true}
                       onClick={() => {
-                        history.push('/collection/doctors');
+                        window.open('/collection/doctors', '_blank');
                       }}
                     >
                       Create Doctor

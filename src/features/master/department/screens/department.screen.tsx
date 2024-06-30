@@ -55,6 +55,8 @@ export const Department = DeginisationHoc(
       // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('status', departmentStore.department?.status);
+      setValue('openingTime', departmentStore.department?.openingTime);
+      setValue('closingTime', departmentStore.department?.closingTime);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [departmentStore.department]);
 

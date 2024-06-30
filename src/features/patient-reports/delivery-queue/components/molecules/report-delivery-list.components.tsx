@@ -632,7 +632,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row'>
+                  <div className='flex flex-row relative'>
                     {props.isGenerateReport && (
                       <Tooltip tooltipText='Generate Report'>
                         <Icons.IconContext
@@ -755,7 +755,12 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                       </Tooltip>
                     )}
                     <Tooltip tooltipText='Reopen'>
-                      <GrDocumentLocked size='20' color='#ffffff' />
+                      <GrDocumentLocked
+                        size='20'
+                        color={
+                          row?.deliveryStatus == 'Done' ? '#ffffff' : '#5A5A5A'
+                        }
+                      />
                     </Tooltip>
                     {selectId === row._id ? (
                       <Tooltip tooltipText='Expand'>
