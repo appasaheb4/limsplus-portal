@@ -839,7 +839,7 @@ export const Users = UsersHoc(
                             onChange(item.code);
                             userStore.updateUser({
                               ...userStore.user,
-                              deginisation: item.code,
+                              deginisation: item.description,
                             });
                             deginisationStore.updateListDeginisation(
                               deginisationStore.listDeginisationCopy,

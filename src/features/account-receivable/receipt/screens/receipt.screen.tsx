@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
-
-import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-  Toast,
-  MainPageHeading,
-} from '@/library/components';
+import _ from 'lodash';
+import { Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
 import { ReceiptList } from '../components';
@@ -28,6 +22,22 @@ const Receipt = observer(() => {
   } = useForm();
   const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
   const [receiptDetails, setReceiptDetails] = useState<any>();
+
+  const sendSMS = details => {
+    receiptStore.receiptService
+      .sendSMS({
+        input: {
+          filter: { ...details },
+        },
+      } as any)
+      .then(res => {
+        if (res.sendMessageService.success) {
+          Toast.success({
+            message: '😊 SMS send successfully',
+          });
+        }
+      });
+  };
 
   return (
     <>
@@ -69,11 +79,6 @@ const Receipt = observer(() => {
               .generatePaymentReceipt({ input: { headerId: item?.headerId } })
               .then(async res => {
                 if (res.generatePaymentReceipt?.success) {
-                  console.log({
-                    labLogo:
-                      res.generatePaymentReceipt?.receiptData?.headerDetails
-                        ?.labLogo,
-                  });
                   setModalPaymentReceipt({
                     show: true,
                     data: res.generatePaymentReceipt?.receiptData,
@@ -97,15 +102,45 @@ const Receipt = observer(() => {
               .paymentReceiptUpload({ input: { file } })
               .then(res => {
                 if (res.paymentReceiptUpload.success) {
-                  setReceiptPath(res.paymentReceiptUpload?.receiptPath);
-                  window.open(
-                    `${type} ${res.paymentReceiptUpload?.receiptPath}`,
-                    '_blank',
-                  );
+                  const path = res.paymentReceiptUpload?.receiptPath;
+                  if (type == 'sms') {
+                    if (
+                      _.isEmpty(
+                        modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                      )
+                    )
+                      Toast.error({
+                        message: '😊 Patient mobile number not found!',
+                      });
+                    else
+                      sendSMS({
+                        mobileNo: [
+                          modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                        ],
+                        sender: '',
+                        message: `Your payment receipt link: ${path}`,
+                      });
+                  } else {
+                    window.open(`${type} ${path}`, '_blank');
+                  }
+                  setReceiptPath(path);
                 }
               });
           } else {
-            window.open(type + receiptPath, '_blank');
+            if (type == 'sms') {
+              if (_.isEmpty(modalPaymentReceipt.data?.patientDetails?.mobileNo))
+                Toast.error({
+                  message: '😌 Patient mobile number not found!',
+                });
+              else
+                sendSMS({
+                  mobileNo: [
+                    modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                  ],
+                  sender: '',
+                  message: `Your payment receipt link: ${receiptPath}`,
+                });
+            } else window.open(type + receiptPath, '_blank');
           }
         }}
       />

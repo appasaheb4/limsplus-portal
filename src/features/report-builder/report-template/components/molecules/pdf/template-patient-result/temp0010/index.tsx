@@ -240,9 +240,7 @@ export const PdfTemp0010 = ({
             testHeader,
           });
         }
-
         panelHeader = _.orderBy(panelHeader, 'reportOrder', 'asc');
-
         patientResultList.push({
           departmentHeader: {
             departmentName: deptKey,
@@ -319,10 +317,10 @@ export const PdfTemp0010 = ({
                   />
                   <PdfSmall>{item?.fullName}</PdfSmall>
                   <PdfSmall style={{ marginTop: -4 }}>
-                    {item?.userDegree}
+                    {item?.deginisation}
                   </PdfSmall>
                   <PdfSmall style={{ marginTop: -4 }}>
-                    {item?.deginisation}
+                    {item?.userDegree}
                   </PdfSmall>
                 </PdfView>
               ))}

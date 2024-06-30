@@ -266,6 +266,27 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               },
             },
             {
+              dataField: 'reportTo',
+              text: 'Report To',
+              headerClasses: 'textHeader2',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-row flex-wrap gap-1'>
+                    {row?.reportTo?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='bg-blue-800 rounded-md p-2 text-white'
+                      >
+                        {item.code}
+                      </span>
+                    ))}
+                  </div>
+                );
+              },
+            },
+            {
               dataField: 'clientCode',
               text: 'Client Code - Name',
               sort: true,
@@ -611,7 +632,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row'>
+                  <div className='flex flex-row relative'>
                     {props.isGenerateReport && (
                       <Tooltip tooltipText='Generate Report'>
                         <Icons.IconContext

@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Payment} from '../models';
-import {PaymentService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Payment } from '../models';
+import { PaymentService } from '../services';
 
 export class PaymentStore {
   payment!: Payment;
@@ -14,9 +14,7 @@ export class PaymentStore {
       payment: observable,
       paymentList: observable,
       paymentListCount: observable,
-
       paymentService: computed,
-
       updatePayment: action,
       updatePaymentList: action,
       reset: action,

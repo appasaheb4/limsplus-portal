@@ -121,15 +121,15 @@ export const DisplayResult = observer(
               }
               onKeyDown={e => e.key === 'Enter' && e.target.blur()}
               onBlur={e => {
-                const { name } = e.target;
-                const [fieldName, fieldIndex] = name.split('-');
-                const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                const nextfield: any = document.querySelector(
-                  `[name=field-${fieldIntIndex + 1}]`,
-                );
-                if (nextfield !== null) {
-                  nextfield.focus();
-                }
+                // const { name } = e.target;
+                // const [fieldName, fieldIndex] = name.split('-');
+                // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+                // const nextfield: any = document.querySelector(
+                //   `[name=field-${fieldIntIndex + 1}]`,
+                // );
+                // if (nextfield !== null) {
+                //   nextfield.focus();
+                // }
                 const result = e.target.value;
                 if (result) {
                   onSelect &&
@@ -156,14 +156,14 @@ export const DisplayResult = observer(
                   'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
                 }
                 onChange={e => {
-                  const [fieldName, fieldIndex] = e.target.name.split('-');
-                  const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                  const nextfield: any = document.querySelector(
-                    `[name=field-${fieldIntIndex + 1}]`,
-                  );
-                  if (nextfield !== null) {
-                    nextfield.focus();
-                  }
+                  // const [fieldName, fieldIndex] = e.target.name.split('-');
+                  // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+                  // const nextfield: any = document.querySelector(
+                  //   `[name=field-${fieldIntIndex + 1}]`,
+                  // );
+                  // if (nextfield !== null) {
+                  //   nextfield.focus();
+                  // }
                   const defaultItem = JSON.parse(e.target.value);
                   if (defaultItem) {
                     onSelect &&
@@ -298,14 +298,14 @@ export const DisplayResult = observer(
                 'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  rounded-md'
               }
               onChange={e => {
-                const [fieldName, fieldIndex] = e.target.name.split('-');
-                const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                const nextfield: any = document.querySelector(
-                  `[name=field-${fieldIntIndex + 1}]`,
-                );
-                if (nextfield !== null) {
-                  nextfield.focus();
-                }
+                // const [fieldName, fieldIndex] = e.target.name.split('-');
+                // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+                // const nextfield: any = document.querySelector(
+                //   `[name=field-${fieldIntIndex + 1}]`,
+                // );
+                // if (nextfield !== null) {
+                //   nextfield.focus();
+                // }
                 const item = JSON.parse(e.target.value);
                 if (item) {
                   onSelect &&
@@ -344,14 +344,14 @@ export const DisplayResult = observer(
               defaultValue={row?.result}
               onKeyDown={e => e.key === 'Enter' && e.target.blur()}
               onBlur={e => {
-                const [fieldName, fieldIndex] = e.target.name.split('-');
-                const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                const nextfield: any = document.querySelector(
-                  `[name=field-${fieldIntIndex + 1}]`,
-                );
-                if (nextfield !== null) {
-                  nextfield.focus();
-                }
+                // const [fieldName, fieldIndex] = e.target.name.split('-');
+                // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+                // const nextfield: any = document.querySelector(
+                //   `[name=field-${fieldIntIndex + 1}]`,
+                // );
+                // if (nextfield !== null) {
+                //   nextfield.focus();
+                // }
                 const result = e.target.value;
                 if (result) {
                   onSelect &&
@@ -391,14 +391,14 @@ export const DisplayResult = observer(
                 }
               }}
               onBlur={e => {
-                const [fieldName, fieldIndex] = e.target.name.split('-');
-                const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                const nextfield: any = document.querySelector(
-                  `[name=field-${fieldIntIndex + 1}]`,
-                );
-                if (nextfield !== null) {
-                  nextfield.focus();
-                }
+                // const [fieldName, fieldIndex] = e.target.name.split('-');
+                // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+                // const nextfield: any = document.querySelector(
+                //   `[name=field-${fieldIntIndex + 1}]`,
+                // );
+                // if (nextfield !== null) {
+                //   nextfield.focus();
+                // }
               }}
               onFilter={(value: string) => {
                 // masterPanelStore.masterPanelService.filterByFields({
@@ -448,14 +448,14 @@ export const DisplayResult = observer(
               placeholder={'File'}
               accept='application/pdf'
               onChange={e => {
-                const [fieldName, fieldIndex] = e.target.name.split('-');
-                const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                const nextfield: any = document.querySelector(
-                  `[name=field-${fieldIntIndex + 1}]`,
-                );
-                if (nextfield !== null) {
-                  nextfield.focus();
-                }
+                // const [fieldName, fieldIndex] = e.target.name.split('-');
+                // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
+                // const nextfield: any = document.querySelector(
+                //   `[name=field-${fieldIntIndex + 1}]`,
+                // );
+                // if (nextfield !== null) {
+                //   nextfield.focus();
+                // }
                 const file = e.target.files[0];
                 if (file) {
                   onSelect &&

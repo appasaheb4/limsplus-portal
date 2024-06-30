@@ -211,6 +211,8 @@ export const RegistrationLocationsList = (
                           corporateCode: item.corporateCode,
                           corporateName: item?.corporateName,
                           invoiceAc: Number.parseInt(item?.invoiceAc),
+                          acClass: item.acClass,
+                          reportTo: item?.reportTo,
                         },
                         row._id,
                       );

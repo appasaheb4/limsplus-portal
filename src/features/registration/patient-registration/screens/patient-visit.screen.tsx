@@ -32,17 +32,16 @@ import {
   AccordionItemPanel,
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
-
 import { PatientVisitHoc } from '../hoc';
 import { stores, useStores } from '@/stores';
 import { toJS } from 'mobx';
 import { RouterFlow } from '@/flows';
 import { getAgeByAgeObject, getDiffByDate } from '../utils';
 import { FormHelper } from '@/helper';
-import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { getFilterField } from '../utils';
 import { resetPatientVisit } from '../startup';
 import { useHistory } from 'react-router-dom';
+import { MultiSelectWithField } from 'react-restyle-components';
 
 interface PatientVisitProps {
   onModalConfirm?: (item: any) => void;
@@ -144,78 +143,6 @@ export const PatientVisit = PatientVisitHoc(
         });
       }
     };
-
-    const labId = useMemo(() => {
-      return (
-        <>
-          <Controller
-            control={control}
-            render={({ field: { onChange, value } }) => (
-              <Form.Input
-                label='Lab Id'
-                placeholder={errors.labId ? 'Please Enter Lab ID' : 'Lab ID'}
-                hasError={!!errors.labId}
-                disabled={true}
-                type='number'
-                value={value}
-                onChange={labId => {
-                  onChange(labId);
-                  patientVisitStore.updatePatientVisit({
-                    ...patientVisitStore.patientVisit,
-                    labId: Number.parseFloat(labId),
-                  });
-                }}
-                onBlur={labId => {
-                  patientVisitStore.patientVisitService
-                    .checkExistsRecord({
-                      input: {
-                        filter: {
-                          labId: Number.parseFloat(labId),
-                          documentType: 'patientVisit',
-                        },
-                      },
-                    })
-                    .then(res => {
-                      if (res.checkExistsPatientVisitRecord.success) {
-                        patientVisitStore.updateExistsLabId(true);
-                        Toast.error({
-                          message: `😔 ${res.checkExistsPatientVisitRecord.message}`,
-                        });
-                      } else patientVisitStore.updateExistsLabId(false);
-                    });
-                }}
-              />
-            )}
-            name='labId'
-            rules={{
-              required:
-                appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-                'no'
-                  ? false
-                  : true,
-              minLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
-              maxLength: appStore.environmentValues?.LABID_LENGTH?.value || 4,
-            }}
-            defaultValue=''
-          />
-          {appStore.environmentValues?.LABID_LENGTH?.value ? (
-            <span className='text-red-600 font-medium relative'>
-              {`Lab id must be ${appStore.environmentValues?.LABID_LENGTH?.value} digit`}
-            </span>
-          ) : (
-            <span className='text-red-600 font-medium relative'>
-              Lab id must be 4 digit.
-            </span>
-          )}
-          {patientVisitStore.checkExistsLabId && (
-            <span className='text-red-600 font-medium relative'>
-              Lab Id already exits. Please use diff lab Id.
-            </span>
-          )}
-        </>
-      );
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [patientVisitStore.patientVisit?.labId]);
 
     const onUpdateField = payload => {
       patientVisitStore.patientVisitService
@@ -634,7 +561,7 @@ export const PatientVisit = PatientVisitHoc(
                 />
               </List>
               <List direction='col' space={4} justify='stretch' fill>
-                <div className='flex justify-between flex-wrap flex-row'>
+                <div className='flex justify-between flex-wrap flex-row item-center align-center'>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -659,6 +586,7 @@ export const PatientVisit = PatientVisitHoc(
                     <Buttons.Button
                       size='medium'
                       type='solid'
+                      disabled={true}
                       onClick={() => {
                         window.open('/collection/doctors', '_blank');
                       }}
@@ -806,11 +734,20 @@ export const PatientVisit = PatientVisitHoc(
                               ...patientVisitStore.patientVisit,
                               collectionCenter: item?.locationCode,
                               collectionCenterName: item?.locationName,
-                              acClass: item?.acClass,
                               corporateCode: item?.corporateCode,
                               corporateName: item?.corporateName || '',
                               isPrintPrimaryBarcod:
                                 item?.isPrintPrimaryBarcod || false,
+                              acClass: item?.acClass,
+                              reportPriority: item?.reportPriority,
+                              deliveryMode: item?.deliveryMode,
+                              reportTo: item?.reportTo?.map(rItem => {
+                                return {
+                                  code: rItem,
+                                };
+                              }),
+                              openingTime: item?.openingTime,
+                              closingTime: item?.closingTime,
                               extraData: {
                                 ...patientVisitStore.patientVisit.extraData,
                                 methodCollection: item?.methodColn,
@@ -871,7 +808,6 @@ export const PatientVisit = PatientVisitHoc(
                           );
                         }}
                         onSelect={item => {
-                          console.log({ item });
                           onChange(item.corporateCode);
                           patientVisitStore.updatePatientVisit({
                             ...patientVisitStore.patientVisit,
@@ -880,6 +816,13 @@ export const PatientVisit = PatientVisitHoc(
                             isPredefinedPanel: item?.isPredefinedPanel,
                             isEmployeeCode: item?.isEmployeeCode,
                             acClass: item?.acClass,
+                            reportPriority: item?.reportPriority,
+                            deliveryMode: item?.deliveryMode,
+                            reportTo: item?.reportTo?.map(rItem => {
+                              return {
+                                code: rItem,
+                              };
+                            }),
                             specificFormat: item?.specificFormat || false,
                             extraData: {
                               ...patientVisitStore.patientVisit.extraData,
@@ -1197,7 +1140,7 @@ export const PatientVisit = PatientVisitHoc(
                       label='Delivery Mode'
                       hasError={!!errors.deliveryMode}
                     >
-                      <AutoCompleteFilterDeliveryMode
+                      {/* <AutoCompleteFilterDeliveryMode
                         lookupField='PATIENT VISIT - DELIVERY_MODE'
                         onSelect={deliveryMode => {
                           onChange(deliveryMode);
@@ -1206,10 +1149,64 @@ export const PatientVisit = PatientVisitHoc(
                             deliveryMode,
                           });
                         }}
+                      /> */}
+                      <MultiSelectWithField
+                        displayField='code'
+                        options={lookupItems(
+                          routerStore.lookupItems,
+                          'PATIENT VISIT - DELIVERY_MODE',
+                        )}
+                        selectedItems={
+                          patientVisitStore.patientVisit?.deliveryMode
+                        }
+                        onSelect={items => {
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            deliveryMode: items?.map((item: any) => {
+                              return {
+                                ...item,
+                                __typename: undefined,
+                              };
+                            }),
+                          });
+                        }}
                       />
                     </Form.InputWrapper>
                   )}
                   name='deliveryMode'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputWrapper
+                      label='Report To'
+                      hasError={!!errors.reportTo}
+                    >
+                      <MultiSelectWithField
+                        displayField='code'
+                        options={lookupItems(
+                          routerStore.lookupItems,
+                          'PATIENT VISIT - REPORT TO',
+                        )}
+                        selectedItems={patientVisitStore.patientVisit?.reportTo}
+                        onSelect={items => {
+                          patientVisitStore.updatePatientVisit({
+                            ...patientVisitStore.patientVisit,
+                            reportTo: items?.map((item: any) => {
+                              return {
+                                ...item,
+                                __typename: undefined,
+                              };
+                            }),
+                          });
+                        }}
+                      />
+                    </Form.InputWrapper>
+                  )}
+                  name='reportTo'
                   rules={{ required: false }}
                   defaultValue=''
                 />

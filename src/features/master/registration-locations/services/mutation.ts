@@ -33,6 +33,7 @@ export const LIST = gql`
         email
         reportPriority
         deliveryMode
+        reportTo
         corporateCode
         corporateName
         invoiceAc
@@ -155,6 +156,7 @@ export const FILTER = gql`
         email
         reportPriority
         deliveryMode
+        reportTo
         corporateCode
         corporateName
         invoiceAc
@@ -223,6 +225,7 @@ export const FILTER_BY_FIELDS = gql`
         email
         reportPriority
         deliveryMode
+        reportTo
         corporateCode
         corporateName
         invoiceAc
@@ -291,6 +294,7 @@ export const FIND_BY_ARRAY_ITEMS = gql`
         email
         reportPriority
         deliveryMode
+        reportTo
         corporateCode
         corporateName
         invoiceAc
@@ -359,6 +363,7 @@ export const FIND_BY_FIELDS = gql`
         email
         reportPriority
         deliveryMode
+        reportTo
         corporateCode
         corporateName
         invoiceAc

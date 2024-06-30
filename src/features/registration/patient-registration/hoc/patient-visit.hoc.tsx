@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
-import { getDefaultLookupItem } from '@/library/utils';
+import { getDefaultLookupItem, getDefaultLookupItems } from '@/library/utils';
 import { eventEmitter } from '@/core-utils';
 
 export const PatientVisitHoc = (Component: React.FC<any>) => {
@@ -16,18 +16,17 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
     } = useStores();
 
     const fetchDefaultDetails = () => {
-      const deliveryMode = [
-        {
-          code: getDefaultLookupItem(
-            routerStore.lookupItems,
-            'PATIENT VISIT - DELIVERY_MODE',
-          ),
-          selected: true,
-        },
-      ];
+      // const deliveryMode = [
+      //   {
+      //     code: getDefaultLookupItem(
+      //       routerStore.lookupItems,
+      //       'PATIENT VISIT - DELIVERY_MODE',
+      //     ),
+      //     selected: true,
+      //   },
+      // ];
       patientVisitStore.updatePatientVisit({
         ...patientVisitStore.patientVisit,
-        deliveryMode,
         rLab: loginStore.login.lab,
         reportPriority: getDefaultLookupItem(
           routerStore.lookupItems,
@@ -36,6 +35,14 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
         status: getDefaultLookupItem(
           routerStore.lookupItems,
           'PATIENT VISIT - STATUS',
+        ),
+        deliveryMode: getDefaultLookupItems(
+          routerStore.lookupItems,
+          'PATIENT VISIT - DELIVERY_MODE',
+        ),
+        reportTo: getDefaultLookupItems(
+          routerStore.lookupItems,
+          'PATIENT VISIT - REPORT TO',
         ),
         extraData: {
           ...patientVisitStore.patientVisit.extraData,
@@ -73,10 +80,10 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           ),
         },
       });
-      registrationLocationsStore.updateSelectedItems({
-        ...registrationLocationsStore.selectedItems,
-        deliveryMode,
-      });
+      // registrationLocationsStore.updateSelectedItems({
+      //   ...registrationLocationsStore.selectedItems,
+      //   deliveryMode,
+      // });
 
       if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         patientVisitStore.updatePatientVisit({

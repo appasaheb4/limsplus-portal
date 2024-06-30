@@ -42,8 +42,8 @@ export class LabStore {
     this.listLabsCount = 0;
     this.labs = {
       ...this.labs,
-      openingTime: dayjs().format('hh:mm a'),
-      closingTime: dayjs().format('hh:mm a'),
+      openingTime: '06:00 am',
+      closingTime: '07:00 pm',
       reportFormat: true,
       printLable: false,
       abnFlag: false,

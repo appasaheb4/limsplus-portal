@@ -418,7 +418,7 @@ export const TableBootstrapReport = ({
                   />
                 </div>
               )}
-              <div className='scrollTable h-[calc(100vh_-_50vh)] mt-1'>
+              <div className='scrollTable relative z-0 h-[calc(100vh_-_50vh)] mt-1'>
                 <BootstrapTable
                   remote
                   {...props.baseProps}
