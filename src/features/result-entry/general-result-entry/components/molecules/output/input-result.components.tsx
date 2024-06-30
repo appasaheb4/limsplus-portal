@@ -70,7 +70,8 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
           .findByFields({
             input: {
               filter: {
-                libraryType: 'R',
+                libraryType: 'Alpha',
+                groups: 'Results',
                 lab: row?.pLab,
                 department: row?.departement,
               },
@@ -79,11 +80,12 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
           .then(res => {
             if (res.findByFieldsLibrarys.success) {
               setLibraryList(res.findByFieldsLibrarys?.data);
-            } else {
-              Toast.warning({
-                message: `😔 ${res.findByFieldsLibrarys.message}`,
-              });
             }
+            //  else {
+            //   Toast.warning({
+            //     message: `😔 ${res.findByFieldsLibrarys.message}`,
+            //   });
+            // }
           });
         break;
       }
