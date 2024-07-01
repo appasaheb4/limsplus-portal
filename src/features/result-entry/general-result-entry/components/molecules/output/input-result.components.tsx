@@ -172,7 +172,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
             if (item)
               onSelect({
                 result: item.description,
-                alpha: item?.code,
+                alpha: item?.libraryCode,
                 abnFlag: item?.abNormal || false,
                 critical: item?.critical || false,
               });
@@ -181,7 +181,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
           <option>Select</option>
           {libraryList?.map((item: any, index: number) => (
             <option key={index} value={JSON.stringify(item)}>
-              {`${item.code} - ${item.description}`}
+              {`${item.libraryCode} - ${item.description}`}
             </option>
           ))}
         </select>
