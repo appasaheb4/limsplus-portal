@@ -209,6 +209,8 @@ export const PdfResultList = ({
           },
         });
       }
+      console.log({ patientResultList });
+
       return patientResultList;
     }
     return [];
