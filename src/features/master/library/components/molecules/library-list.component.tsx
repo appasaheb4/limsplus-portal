@@ -98,19 +98,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Code',
               headerClasses: 'textHeader2',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: customFilter({
-                getFilter: filter => {
-                  code = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
               editable: false,
             },
             {
@@ -234,6 +222,56 @@ export const LibraryList = (props: LibraryListProps) => {
                   />
                 </>
               ),
+            },
+            {
+              dataField: 'details',
+              text: 'Details',
+              sort: true,
+              csvFormatter: col => (col ? col : ''),
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Tooltip tooltipText='Expand library detail'>
+                      <FaWordpressSimple
+                        size={'30'}
+                        onClick={() => {
+                          setModalDocxContent({
+                            visible: true,
+                            details: row?.details,
+                            isEditable: editorCell(row),
+                            folder: 'library',
+                            _id: row?._id,
+                          });
+                        }}
+                      />
+                    </Tooltip>
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'editable',
+              text: 'Editable',
+              sort: true,
+              editable: false,
+              csvFormatter: (col, row) =>
+                `${row.editable ? (row.editable ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {' '}
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.editable}
+                      onChange={editable => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem({ editable }, row._id);
+                      }}
+                    />
+                  </>
+                );
+              },
             },
             {
               dataField: 'position',
@@ -423,56 +461,7 @@ export const LibraryList = (props: LibraryListProps) => {
                 </>
               ),
             },
-            {
-              dataField: 'editable',
-              text: 'Editable',
-              sort: true,
-              editable: false,
-              csvFormatter: (col, row) =>
-                `${row.editable ? (row.editable ? 'Yes' : 'No') : 'No'}`,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {' '}
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.editable}
-                      onChange={editable => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem({ editable }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'details',
-              text: 'Details',
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Tooltip tooltipText='Expand library detail'>
-                      <FaWordpressSimple
-                        size={'30'}
-                        onClick={() => {
-                          setModalDocxContent({
-                            visible: true,
-                            details: row?.details,
-                            isEditable: editorCell(row),
-                            folder: 'library',
-                            _id: row?._id,
-                          });
-                        }}
-                      />
-                    </Tooltip>
-                  </>
-                );
-              },
-            },
+
             {
               dataField: 'status',
               text: 'Status',
@@ -525,17 +514,7 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Entered By',
               headerClasses: 'textHeader1',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                placeholder: 'Entered By',
-                getFilter: filter => {
-                  enteredBy = filter;
-                },
-              }),
               editable: false,
             },
             {
@@ -666,18 +645,8 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Company Code',
               dataField: 'companyCode',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
               csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                placeholder: 'Company Code',
-                getFilter: filter => {
-                  companyCode = filter;
-                },
-              }),
               headerClasses: 'textHeader2',
             },
             {
@@ -685,18 +654,8 @@ export const LibraryList = (props: LibraryListProps) => {
               text: 'Environment',
               headerClasses: 'textHeader3',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               csvFormatter: col => (col ? col : ''),
               editable: false,
-              filter: textFilter({
-                placeholder: 'Environment',
-                getFilter: filter => {
-                  environment = filter;
-                },
-              }),
             },
             {
               dataField: 'operation',

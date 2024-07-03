@@ -193,6 +193,34 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               },
             },
             {
+              dataField: 'reportable',
+              text: 'Reportable',
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      disabled={!editorCell(row)}
+                      value={row.reportable}
+                      onChange={reportable => {
+                        // props.onUpdateValue({reportable}, row._id);
+                        props.onSaveFields &&
+                          props.onSaveFields(
+                            {
+                              ...row,
+                              reportable,
+                              updateType: 'save',
+                            },
+                            row._id,
+                            'save',
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
               dataField: 'result',
               text: 'Result',
               headerClasses: 'textHeaderxxm',
@@ -588,34 +616,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       value={row.showRanges}
                       onChange={showRanges => {
                         props.onUpdateValue({ showRanges }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'reportable',
-              text: 'Reportable',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.reportable}
-                      onChange={reportable => {
-                        // props.onUpdateValue({reportable}, row._id);
-                        props.onSaveFields &&
-                          props.onSaveFields(
-                            {
-                              ...row,
-                              reportable,
-                              updateType: 'save',
-                            },
-                            row._id,
-                            'save',
-                          );
                       }}
                     />
                   </>
