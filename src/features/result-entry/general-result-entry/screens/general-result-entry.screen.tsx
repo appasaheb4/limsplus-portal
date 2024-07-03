@@ -253,7 +253,7 @@ const GeneralResultEntry = observer(() => {
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
-
+      {/* https://dev.to/madsstoumann/build-a-css-ruler-2opn */}
       <div className='ruler'>
         <ul className='ruler-x'>
           <li></li>
