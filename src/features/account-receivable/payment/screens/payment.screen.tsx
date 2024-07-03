@@ -20,9 +20,10 @@ import { PaymentList } from '../components';
 import { PaymentHoc } from '../hoc';
 import { resetPayment } from '../startup';
 import { Payment as Model } from '../models';
-import { ModalConfirm } from '../components';
+// import { ModalConfirm } from '../components';
 import { PdfReceipt } from '../../receipt/components';
 import { pdf } from '@react-pdf/renderer';
+import { ModalConfirm } from 'react-restyle-components';
 
 const Payment = PaymentHoc(
   observer(() => {

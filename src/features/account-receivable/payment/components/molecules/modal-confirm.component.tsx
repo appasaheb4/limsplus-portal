@@ -6,6 +6,7 @@ interface ModalConfirmProps {
   visible: boolean;
   title?: string;
   message: string;
+  submitTitle?: string;
   onClick: () => void;
   onClose: () => void;
 }
@@ -15,6 +16,7 @@ export const ModalConfirm = observer(
     visible = false,
     title = 'Confirm',
     message = '',
+    submitTitle = 'Send',
     onClick,
     onClose,
   }: ModalConfirmProps) => {
@@ -33,7 +35,7 @@ export const ModalConfirm = observer(
               <div className='flex justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50  outline-none focus:outline-none'>
                 <div className='relative  my-6  mx-auto '>
                   {/*content*/}
-                  <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-fit bg-white outline-none focus:outline-none'>
+                  <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-fit min-w-80 bg-white outline-none focus:outline-none'>
                     {/*header*/}
                     <div className='flex items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                       <h3 className='text-2xl font-semibold'>{title}</h3>
@@ -76,7 +78,7 @@ export const ModalConfirm = observer(
                           onClick();
                         }}
                       >
-                        Send
+                        {submitTitle}
                       </button>
                     </div>
                   </div>
