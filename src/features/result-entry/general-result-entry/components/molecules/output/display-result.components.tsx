@@ -312,7 +312,7 @@ export const DisplayResult = observer(
                 if (item) {
                   onSelect &&
                     onSelect({
-                      result: item.description,
+                      result: item.libraryCode + ' - ' + item.description,
                       alpha: item?.libraryCode,
                       abnFlag: item?.abNormal || false,
                       critical: item?.critical || false,

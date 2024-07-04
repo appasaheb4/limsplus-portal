@@ -10,6 +10,7 @@ import JoditEditor from 'jodit-react';
 import 'jodit/esm/plugins/resizer/resizer';
 import { useStores } from '@/stores';
 import { ModalReportHtmlView } from './modal-report-html-view.component';
+import Ruler from '@scena/ruler';
 
 interface ModalDocxContentProps {
   title?: string;
@@ -73,6 +74,32 @@ export const ModalDocxContent = observer(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible]);
 
+    // ruler
+
+    useEffect(() => {
+      if (showModal)
+        setTimeout(() => {
+          const ruler1 = new Ruler(
+            document.querySelector('.ruler.horizontal') as HTMLElement,
+            {
+              type: 'horizontal',
+            },
+          );
+          const ruler2 = new Ruler(
+            document.querySelector('.ruler.vertical') as HTMLElement,
+            {
+              type: 'vertical',
+              direction: 'start',
+            },
+          );
+          window.addEventListener('resize', () => {
+            ruler1.resize();
+            ruler2.resize();
+          });
+        }, 1000);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showModal]);
+
     return (
       <>
         <Container>
@@ -80,7 +107,7 @@ export const ModalDocxContent = observer(
             <>
               <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 ml-60  outline-none focus:outline-none'>
                 <div
-                  className='relative  my-6  mx-auto '
+                  className='relative  my-6  mx-auto editor'
                   style={{
                     width: '95%',
                   }}
@@ -89,7 +116,7 @@ export const ModalDocxContent = observer(
                   <div
                     className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'
                     style={{
-                      height: window.outerHeight / 2 + 200,
+                      height: window.outerHeight / 1.3,
                     }}
                   >
                     {/*header*/}
@@ -176,12 +203,19 @@ export const ModalDocxContent = observer(
                     {/*body*/}
                     <div className='relative p-2 flex-auto'>
                       <div className='grid grid-cols-1'>
-                        <div id='editor'>
+                        <div
+                          className={`flex  ruler horizontal h-10 w[${
+                            screen.width / 1.3
+                          }px]`}
+                        ></div>
+                        <div className='flex  ruler vertical h-[560px]'></div>
+                        <div className='flex absolute mt-12 ml-12 w-full'>
                           <JoditEditor
                             ref={editor}
                             config={
                               {
                                 height: 540,
+                                width: screen.width / 1.3,
                                 disabled: !isEditable,
                                 events: {
                                   afterOpenPasteDialog: (

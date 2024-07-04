@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import { Toast, ModalConfirm, MainPageHeading } from '@/library/components';
@@ -246,19 +246,12 @@ const GeneralResultEntry = observer(() => {
     setTableReload(!tableReload);
   };
 
-  // ruler
-
   return (
     <>
       <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
-      {/* https://dev.to/madsstoumann/build-a-css-ruler-2opn */}
-
-      <div className='h-80' id='ruler'>
-        <span>hi</span>
-      </div>
 
       <div className='mx-auto flex-wrap'>
         <FilterInputTable />

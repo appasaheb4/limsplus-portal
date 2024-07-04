@@ -171,7 +171,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
             const item = JSON.parse(e.target.value);
             if (item)
               onSelect({
-                result: item.description,
+                result: item.libraryCode + ' - ' + item.description,
                 alpha: item?.libraryCode,
                 abnFlag: item?.abNormal || false,
                 critical: item?.critical || false,

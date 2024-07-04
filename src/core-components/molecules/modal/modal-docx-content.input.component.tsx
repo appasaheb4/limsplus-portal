@@ -6,6 +6,7 @@ import JoditEditor from 'jodit-react';
 import 'jodit/esm/plugins/resizer/resizer';
 import { useStores } from '@/stores';
 import { ModalReportHtmlView } from './modal-report-html-view.component';
+import Ruler from '@scena/ruler';
 
 interface ModalDocxContentProps {
   visible: boolean;
@@ -26,6 +27,30 @@ export const ModalDocxContentInput = observer(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible]);
 
+    useEffect(() => {
+      if (showModal)
+        setTimeout(() => {
+          const ruler1 = new Ruler(
+            document.querySelector('.ruler.horizontal') as HTMLElement,
+            {
+              type: 'horizontal',
+            },
+          );
+          const ruler2 = new Ruler(
+            document.querySelector('.ruler.vertical') as HTMLElement,
+            {
+              type: 'vertical',
+              direction: 'start',
+            },
+          );
+          window.addEventListener('resize', () => {
+            ruler1.resize();
+            ruler2.resize();
+          });
+        }, 1000);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showModal]);
+
     return (
       <>
         <Container>
@@ -42,7 +67,7 @@ export const ModalDocxContentInput = observer(
                   <div
                     className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'
                     style={{
-                      height: window.outerHeight / 2 + 50,
+                      height: window.outerHeight / 2 + 100,
                     }}
                   >
                     <div className='flex items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
@@ -62,13 +87,24 @@ export const ModalDocxContentInput = observer(
                     {/*body*/}
                     <div className='relative p-2 flex-auto'>
                       <div className='grid grid-cols-1'>
-                        <div id='editor'>
+                        <div
+                          className={`flex  ruler horizontal h-10 w[${
+                            window.outerHeight / 1.3
+                          }px]`}
+                        ></div>
+                        <div
+                          className={`flex  ruler vertical h-[${
+                            window.outerHeight / 2 + 50
+                          }px]`}
+                        ></div>
+                        <div className='flex absolute mt-12 ml-12 w-full'>
                           <JoditEditor
                             ref={editor}
                             value={libraryStore.library.details || ''}
                             config={
                               {
                                 height: 400,
+                                width: window.outerHeight / 1.25,
                                 disabled: false,
                                 events: {
                                   afterOpenPasteDialog: (
