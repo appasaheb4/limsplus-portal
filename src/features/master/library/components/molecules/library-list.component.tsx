@@ -96,7 +96,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'code',
               text: 'Code',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeaderm',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
@@ -104,7 +104,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'libraryCode',
               text: 'Library Code',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -122,7 +122,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'description',
               text: 'Description',
-              headerClasses: 'textHeader2',
+              headerClasses: 'textHeader',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -141,7 +141,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'lab',
               text: 'Lab',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader',
               sort: true,
               headerStyle: {
                 fontSize: 0,
@@ -189,7 +189,7 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'department',
               text: 'Department',
-              headerClasses: 'textHeader1',
+              headerClasses: 'textHeader',
               sort: true,
               headerStyle: {
                 fontSize: 0,

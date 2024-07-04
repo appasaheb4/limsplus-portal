@@ -237,7 +237,7 @@ export const TablePackagesList = observer(
                   <Form.Toggle
                     label=''
                     value={item?.bill || false}
-                    disabled={true}
+                    disabled={editableRow.pacakgeListS !== index}
                     onChange={bill => {
                       const pacakgeListS =
                         patientOrderStore.packageList.pacakgeListS;
@@ -292,16 +292,16 @@ export const TablePackagesList = observer(
                     value={item.netAmount}
                     disabled={editableRow.pacakgeListS !== index}
                     onChange={e => {
-                      const netAmount = Number.parseFloat(e) || 0;
+                      let netAmount = Number.parseFloat(e) || 0;
                       const grossAmount = item.grossAmount || 0;
-                      let discountPer = 0;
-                      if (grossAmount !== netAmount) {
-                        discountPer = grossAmount
-                          ? ((grossAmount - netAmount) / grossAmount) * 100
-                          : 0;
-                      }
 
+                      if (netAmount > grossAmount) {
+                        netAmount = grossAmount;
+                      }
                       const discountAmount = grossAmount - netAmount;
+                      const discountPer = grossAmount
+                        ? (discountAmount / grossAmount) * 100
+                        : 0;
 
                       const pacakgeListS =
                         patientOrderStore.packageList.pacakgeListS;
@@ -538,7 +538,7 @@ export const TablePackagesList = observer(
                   <Form.Toggle
                     label=''
                     value={item?.bill || false}
-                    disabled={true}
+                    disabled={editableRow.pacakgeListM !== index}
                     onChange={bill => {
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
@@ -559,7 +559,7 @@ export const TablePackagesList = observer(
                     value={item.grossAmount}
                     disabled={editableRow.pacakgeListM !== index}
                     onChange={e => {
-                      const grossAmount = Number.parseFloat(e) || 0;
+                      const grossAmount = e;
                       const netAmount = item.netAmount || 0;
                       let discountPer = 0;
                       if (grossAmount !== netAmount) {
@@ -593,16 +593,17 @@ export const TablePackagesList = observer(
                     value={item.netAmount}
                     disabled={editableRow.pacakgeListM !== index}
                     onChange={e => {
-                      const netAmount = Number.parseFloat(e) || 0;
+                      let netAmount = e;
                       const grossAmount = item.grossAmount || 0;
-                      let discountPer = 0;
-                      if (grossAmount !== netAmount) {
-                        discountPer = grossAmount
-                          ? ((grossAmount - netAmount) / grossAmount) * 100
-                          : 0;
-                      }
 
+                      if (netAmount > grossAmount) {
+                        netAmount = grossAmount;
+                      }
                       const discountAmount = grossAmount - netAmount;
+                      const discountPer = grossAmount
+                        ? (discountAmount / grossAmount) * 100
+                        : 0;
+
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
@@ -648,7 +649,7 @@ export const TablePackagesList = observer(
                     value={item.discountPer}
                     disabled={editableRow.pacakgeListM !== index}
                     onChange={e => {
-                      const discountPer = Number.parseFloat(e) || 0;
+                      const discountPer = e;
                       const grossAmount = item.grossAmount || 0;
                       const discountAmount = (grossAmount * discountPer) / 100;
                       const netAmount = grossAmount - discountAmount;
@@ -830,7 +831,7 @@ export const TablePackagesList = observer(
                   <Form.Toggle
                     label=''
                     value={item?.bill || false}
-                    disabled={true}
+                    disabled={editableRow.pacakgeListN !== index}
                     onChange={bill => {
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
@@ -851,7 +852,7 @@ export const TablePackagesList = observer(
                     value={item?.grossAmount}
                     disabled={editableRow.pacakgeListN !== index}
                     onChange={e => {
-                      const grossAmount = Number.parseFloat(e) || 0;
+                      const grossAmount = e;
                       const netAmount = item.netAmount || 0;
                       let discountPer = 0;
                       if (grossAmount !== netAmount) {
@@ -886,16 +887,16 @@ export const TablePackagesList = observer(
                     value={item?.netAmount}
                     disabled={editableRow.pacakgeListN !== index}
                     onChange={e => {
-                      const netAmount = Number.parseFloat(e) || 0;
+                      let netAmount = e;
                       const grossAmount = item.grossAmount || 0;
-                      let discountPer = 0;
-                      if (grossAmount !== netAmount) {
-                        discountPer = grossAmount
-                          ? ((grossAmount - netAmount) / grossAmount) * 100
-                          : 0;
-                      }
 
+                      if (netAmount > grossAmount) {
+                        netAmount = grossAmount;
+                      }
                       const discountAmount = grossAmount - netAmount;
+                      const discountPer = grossAmount
+                        ? (discountAmount / grossAmount) * 100
+                        : 0;
 
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
@@ -942,7 +943,7 @@ export const TablePackagesList = observer(
                     value={item?.discountPer}
                     disabled={editableRow.pacakgeListN !== index}
                     onChange={e => {
-                      const discountPer = Number.parseFloat(e) || 0;
+                      const discountPer = e;
                       const grossAmount = item.grossAmount || 0;
                       const discountAmount = (grossAmount * discountPer) / 100;
                       const netAmount = grossAmount - discountAmount;
@@ -1132,7 +1133,7 @@ export const TablePackagesList = observer(
                   <Form.Toggle
                     label=''
                     value={item?.bill || false}
-                    disabled={true}
+                    disabled={editableRow.pacakgeListK !== index}
                     onChange={bill => {
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
@@ -1153,7 +1154,7 @@ export const TablePackagesList = observer(
                     value={item.grossAmount}
                     disabled={editableRow.pacakgeListK !== index}
                     onChange={e => {
-                      const grossAmount = Number.parseFloat(e) || 0;
+                      const grossAmount = e;
                       const netAmount = item.netAmount || 0;
                       let discountPer = 0;
                       if (grossAmount !== netAmount) {
@@ -1187,16 +1188,17 @@ export const TablePackagesList = observer(
                     value={item.netAmount}
                     disabled={editableRow.pacakgeListK !== index}
                     onChange={e => {
-                      const netAmount = Number.parseFloat(e) || 0;
+                      let netAmount = e;
                       const grossAmount = item.grossAmount || 0;
-                      let discountPer = 0;
-                      if (grossAmount !== netAmount) {
-                        discountPer = grossAmount
-                          ? ((grossAmount - netAmount) / grossAmount) * 100
-                          : 0;
-                      }
 
+                      if (netAmount > grossAmount) {
+                        netAmount = grossAmount;
+                      }
                       const discountAmount = grossAmount - netAmount;
+                      const discountPer = grossAmount
+                        ? (discountAmount / grossAmount) * 100
+                        : 0;
+
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
@@ -1242,7 +1244,7 @@ export const TablePackagesList = observer(
                     value={item.discountPer}
                     disabled={editableRow.pacakgeListK !== index}
                     onChange={e => {
-                      const discountPer = Number.parseFloat(e) || 0;
+                      const discountPer = e;
                       const grossAmount = item.grossAmount || 0;
                       const discountAmount = (grossAmount * discountPer) / 100;
                       const netAmount = grossAmount - discountAmount;
