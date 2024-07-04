@@ -10,7 +10,6 @@ import {
   ModalConfirm,
   Form,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   AutoCompleteFilterMultiSelectSelectedTopDisplay,
 } from '@/library/components';
 import '@/library/assets/css/accordion.css';

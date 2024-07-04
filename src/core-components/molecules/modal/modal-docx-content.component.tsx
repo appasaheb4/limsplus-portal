@@ -23,6 +23,7 @@ interface ModalDocxContentProps {
   onUpdate: (details: string) => void;
   onClose: () => void;
 }
+
 export const ModalDocxContent = observer(
   ({
     title = 'Update details',
@@ -124,7 +125,7 @@ export const ModalDocxContent = observer(
                       <h3 className='text-3xl font-semibold'>{title}</h3>
 
                       <div
-                        className={` flex flex-row  items-center ${
+                        className={`flex flex-row  items-center ${
                           isLibraryImport ? 'shown' : 'hidden'
                         }`}
                       >
