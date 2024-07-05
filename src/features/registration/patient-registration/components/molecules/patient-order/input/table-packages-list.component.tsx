@@ -189,9 +189,9 @@ export const TablePackagesList = observer(
           <tbody className='text-xs'>
             {packages?.pacakgeListS?.map((item, index) => (
               <tr key={item.panelCode}>
-                {isDelete && (
-                  <td className='sticky left-0 bg-gray-500'>
-                    <div className='flex'>
+                <td className='sticky left-0 bg-gray-500'>
+                  <div className='flex'>
+                    {isDelete && (
                       <Icons.IconContext
                         color='#ffffff'
                         size='20'
@@ -209,21 +209,22 @@ export const TablePackagesList = observer(
                       >
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
-                      <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() => {
-                          setEditableRow(prevState => ({
-                            ...prevState,
-                            ['pacakgeListS']: index,
-                          }));
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.IconBi.BiEdit)}
-                      </Icons.IconContext>
-                    </div>
-                  </td>
-                )}
+                    )}
+                    <Icons.IconContext
+                      color='#ffffff'
+                      size='20'
+                      onClick={() => {
+                        setEditableRow(prevState => ({
+                          ...prevState,
+                          ['pacakgeListS']: index,
+                        }));
+                      }}
+                    >
+                      {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                    </Icons.IconContext>
+                  </div>
+                </td>
+
                 <td>{item?.panelCode}</td>
                 <td>{item?.panelName}</td>
                 <td>{item.serviceType !== 'M' ? item?.packageCode : ''}</td>
@@ -259,15 +260,16 @@ export const TablePackagesList = observer(
                     disabled={editableRow.pacakgeListS !== index}
                     onChange={e => {
                       const grossAmount = Number.parseFloat(e) || 0;
-                      const netAmount = item.netAmount || 0;
-                      let discountPer = 0;
-                      if (grossAmount !== netAmount) {
-                        discountPer = grossAmount
-                          ? ((grossAmount - netAmount) / grossAmount) * 100
-                          : 0;
+                      let netAmount = item.netAmount || 0;
+
+                      if (netAmount > grossAmount) {
+                        netAmount = grossAmount;
                       }
 
                       const discountAmount = grossAmount - netAmount;
+                      const discountPer = grossAmount
+                        ? (discountAmount / grossAmount) * 100
+                        : 0;
                       const pacakgeListS =
                         patientOrderStore.packageList.pacakgeListS;
                       pacakgeListS[index] = Object.assign(item, {
@@ -490,9 +492,9 @@ export const TablePackagesList = observer(
             ))}
             {packages?.pacakgeListM?.map((item, index) => (
               <tr key={item.panelCode}>
-                {isDelete && (
-                  <td className='sticky left-0 bg-gray-500'>
-                    <div className='flex'>
+                <td className='sticky left-0 bg-gray-500'>
+                  <div className='flex'>
+                    {isDelete && (
                       <Icons.IconContext
                         color='#ffffff'
                         size='20'
@@ -510,21 +512,21 @@ export const TablePackagesList = observer(
                       >
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
-                      <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() => {
-                          setEditableRow(prevState => ({
-                            ...prevState,
-                            ['pacakgeListM']: index,
-                          }));
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.IconBi.BiEdit)}
-                      </Icons.IconContext>
-                    </div>
-                  </td>
-                )}
+                    )}
+                    <Icons.IconContext
+                      color='#ffffff'
+                      size='20'
+                      onClick={() => {
+                        setEditableRow(prevState => ({
+                          ...prevState,
+                          ['pacakgeListM']: index,
+                        }));
+                      }}
+                    >
+                      {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                    </Icons.IconContext>
+                  </div>
+                </td>
                 <td>{item?.panelCode}</td>
                 <td>{item?.panelName}</td>
                 <td>{item?.serviceType !== 'M' ? item.packageCode : ''}</td>
@@ -560,15 +562,16 @@ export const TablePackagesList = observer(
                     disabled={editableRow.pacakgeListM !== index}
                     onChange={e => {
                       const grossAmount = e;
-                      const netAmount = item.netAmount || 0;
-                      let discountPer = 0;
-                      if (grossAmount !== netAmount) {
-                        discountPer = grossAmount
-                          ? ((grossAmount - netAmount) / grossAmount) * 100
-                          : 0;
+                      let netAmount = item.netAmount || 0;
+
+                      if (netAmount > grossAmount) {
+                        netAmount = grossAmount;
                       }
 
                       const discountAmount = grossAmount - netAmount;
+                      const discountPer = grossAmount
+                        ? (discountAmount / grossAmount) * 100
+                        : 0;
                       const pacakgeListM =
                         patientOrderStore.packageList.pacakgeListM;
                       pacakgeListM[index] = Object.assign(item, {
@@ -790,9 +793,9 @@ export const TablePackagesList = observer(
             ))}
             {packages?.pacakgeListN?.map((item, index) => (
               <tr key={item?.panelCode}>
-                {isDelete && (
-                  <td className='sticky left-0 bg-gray-500'>
-                    <div className='flex'>
+                <td className='sticky left-0 bg-gray-500'>
+                  <div className='flex'>
+                    {isDelete && (
                       <Icons.IconContext
                         color='#ffffff'
                         size='20'
@@ -802,21 +805,21 @@ export const TablePackagesList = observer(
                       >
                         {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
                       </Icons.IconContext>
-                      <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() => {
-                          setEditableRow(prevState => ({
-                            ...prevState,
-                            ['pacakgeListN']: index,
-                          }));
-                        }}
-                      >
-                        {Icons.getIconTag(Icons.IconBi.BiEdit)}
-                      </Icons.IconContext>
-                    </div>
-                  </td>
-                )}
+                    )}
+                    <Icons.IconContext
+                      color='#ffffff'
+                      size='20'
+                      onClick={() => {
+                        setEditableRow(prevState => ({
+                          ...prevState,
+                          ['pacakgeListN']: index,
+                        }));
+                      }}
+                    >
+                      {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                    </Icons.IconContext>
+                  </div>
+                </td>
                 <td>{item?.panelCode}</td>
                 <td>{item?.panelName}</td>
                 {/* <td>{item?.packageCode}</td> */}
@@ -853,15 +856,16 @@ export const TablePackagesList = observer(
                     disabled={editableRow.pacakgeListN !== index}
                     onChange={e => {
                       const grossAmount = e;
-                      const netAmount = item.netAmount || 0;
-                      let discountPer = 0;
-                      if (grossAmount !== netAmount) {
-                        discountPer = grossAmount
-                          ? ((grossAmount - netAmount) / grossAmount) * 100
-                          : 0;
+                      let netAmount = item.netAmount || 0;
+
+                      if (netAmount > grossAmount) {
+                        netAmount = grossAmount;
                       }
 
                       const discountAmount = grossAmount - netAmount;
+                      const discountPer = grossAmount
+                        ? (discountAmount / grossAmount) * 100
+                        : 0;
 
                       const pacakgeListN =
                         patientOrderStore.packageList.pacakgeListN;
@@ -887,12 +891,13 @@ export const TablePackagesList = observer(
                     value={item?.netAmount}
                     disabled={editableRow.pacakgeListN !== index}
                     onChange={e => {
-                      let netAmount = e;
+                      let netAmount = Number.parseFloat(e) || 0;
                       const grossAmount = item.grossAmount || 0;
 
                       if (netAmount > grossAmount) {
                         netAmount = grossAmount;
                       }
+
                       const discountAmount = grossAmount - netAmount;
                       const discountPer = grossAmount
                         ? (discountAmount / grossAmount) * 100
@@ -943,7 +948,7 @@ export const TablePackagesList = observer(
                     value={item?.discountPer}
                     disabled={editableRow.pacakgeListN !== index}
                     onChange={e => {
-                      const discountPer = e;
+                      const discountPer = Number.parseFloat(e) || 0;
                       const grossAmount = item.grossAmount || 0;
                       const discountAmount = (grossAmount * discountPer) / 100;
                       const netAmount = grossAmount - discountAmount;
@@ -1089,37 +1094,35 @@ export const TablePackagesList = observer(
             ))}
             {packages?.pacakgeListK?.map((item, index) => (
               <tr key={item.panelCode}>
-                {isDelete && (
-                  <td className='sticky left-0 bg-gray-500'>
-                    {item.serviceType === 'K' && (
-                      <>
-                        <div className='flex'>
-                          <Icons.IconContext
-                            color='#ffffff'
-                            size='20'
-                            onClick={() => {
-                              onDeletePackage(item._id, item.panelCode);
-                            }}
-                          >
-                            {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
-                          </Icons.IconContext>
-                          <Icons.IconContext
-                            color='#ffffff'
-                            size='20'
-                            onClick={() => {
-                              setEditableRow(prevState => ({
-                                ...prevState,
-                                ['pacakgeListK']: index,
-                              }));
-                            }}
-                          >
-                            {Icons.getIconTag(Icons.IconBi.BiEdit)}
-                          </Icons.IconContext>
-                        </div>
-                      </>
-                    )}
-                  </td>
-                )}
+                <td className='sticky left-0 bg-gray-500'>
+                  {item.serviceType === 'K' && (
+                    <div className='flex'>
+                      {isDelete && (
+                        <Icons.IconContext
+                          color='#ffffff'
+                          size='20'
+                          onClick={() => {
+                            onDeletePackage(item._id, item.panelCode);
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.IconBs.BsFillTrashFill)}
+                        </Icons.IconContext>
+                      )}
+                      <Icons.IconContext
+                        color='#ffffff'
+                        size='20'
+                        onClick={() => {
+                          setEditableRow(prevState => ({
+                            ...prevState,
+                            ['pacakgeListK']: index,
+                          }));
+                        }}
+                      >
+                        {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                      </Icons.IconContext>
+                    </div>
+                  )}
+                </td>
                 <td>{item?.panelCode}</td>
                 <td>{item?.panelName}</td>
                 <td>{item?.packageCode}</td>
@@ -1155,15 +1158,16 @@ export const TablePackagesList = observer(
                     disabled={editableRow.pacakgeListK !== index}
                     onChange={e => {
                       const grossAmount = e;
-                      const netAmount = item.netAmount || 0;
-                      let discountPer = 0;
-                      if (grossAmount !== netAmount) {
-                        discountPer = grossAmount
-                          ? ((grossAmount - netAmount) / grossAmount) * 100
-                          : 0;
+                      let netAmount = item.netAmount || 0;
+
+                      if (netAmount > grossAmount) {
+                        netAmount = grossAmount;
                       }
 
                       const discountAmount = grossAmount - netAmount;
+                      const discountPer = grossAmount
+                        ? (discountAmount / grossAmount) * 100
+                        : 0;
                       const pacakgeListK =
                         patientOrderStore.packageList.pacakgeListK;
                       pacakgeListK[index] = Object.assign(item, {
