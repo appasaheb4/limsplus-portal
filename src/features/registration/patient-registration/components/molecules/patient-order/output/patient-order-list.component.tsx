@@ -11,6 +11,7 @@ import {
 import { Confirm } from '@/library/models';
 import { PatientOrderExpand } from './patient-order-expand.component';
 import { TiFlowChildren } from 'react-icons/ti';
+import { MdPayment } from 'react-icons/md';
 
 interface PatientOrderListProps {
   data: any;
@@ -275,6 +276,10 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                     </Tooltip>
                     <Tooltip tooltipText='Traceability'>
                       <TiFlowChildren color='#ffffff' size='20' />
+                    </Tooltip>
+
+                    <Tooltip tooltipText='Payment'>
+                      <MdPayment color='#ffffff' size='20' />
                     </Tooltip>
                   </div>
                 </>

@@ -96,47 +96,10 @@ export const LibraryList = (props: LibraryListProps) => {
             {
               dataField: 'code',
               text: 'Code',
-              headerClasses: 'textHeaderm',
+              headerClasses: 'textHeaders',
               sort: true,
               csvFormatter: col => (col ? col : ''),
               editable: false,
-            },
-            {
-              dataField: 'libraryCode',
-              text: 'Library Code',
-              headerClasses: 'textHeader',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                placeholder: 'Library Code',
-                getFilter: filter => {
-                  libraryCode = filter;
-                },
-              }),
-              editable: false,
-            },
-            {
-              dataField: 'description',
-              text: 'Description',
-              headerClasses: 'textHeader',
-              sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
-              csvFormatter: col => (col ? col : ''),
-              filter: textFilter({
-                placeholder: 'Description',
-                getFilter: filter => {
-                  description = filter;
-                },
-              }),
-              editable: (content, row, rowIndex, columnIndex) =>
-                editorCell(row),
             },
             {
               dataField: 'lab',
@@ -223,6 +186,44 @@ export const LibraryList = (props: LibraryListProps) => {
                 </>
               ),
             },
+            {
+              dataField: 'libraryCode',
+              text: 'Library Code',
+              headerClasses: 'textHeader',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                placeholder: 'Library Code',
+                getFilter: filter => {
+                  libraryCode = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
+              dataField: 'description',
+              text: 'Description',
+              headerClasses: 'textHeader',
+              sort: true,
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              filter: textFilter({
+                placeholder: 'Description',
+                getFilter: filter => {
+                  description = filter;
+                },
+              }),
+              editable: (content, row, rowIndex, columnIndex) =>
+                editorCell(row),
+            },
+
             {
               dataField: 'details',
               text: 'Details',

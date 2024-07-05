@@ -162,9 +162,7 @@ export const TablePackagesList = observer(
         <Table striped bordered>
           <thead>
             <tr className='p-0 text-xs'>
-              {isDelete && (
-                <th className='text-white sticky left-0 z-10'>Action</th>
-              )}
+              <th className='text-white sticky left-0 z-10'>Action</th>
               <th className='text-white'>Panel Code</th>
               <th className='text-white'>Panel Name</th>
               <th className='text-white'>Package</th>
