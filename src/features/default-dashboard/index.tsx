@@ -30,15 +30,16 @@ const Default = observer(() => {
       if (
         days >= 0 &&
         days <= 5 &&
-        userStore.changePassword?.tempHide !== true
+        userStore.changePassword?.tempHide !== true &&
+        loginStore.login?.userId != 'ADMINISTRATOR'
       ) {
         userStore.updateChangePassword({
           ...userStore.changePassword,
-          subTitle: `Please change you password. Your remaining exipre days ${days}`,
+          subTitle: `Please change you password. Your remaining expire days ${days}`,
         });
         setModalChangePassword({ show: true });
       }
-      if (days < 0) {
+      if (days < 0 && loginStore.login?.userId != 'ADMINISTRATOR') {
         setModalConfirm({
           type: 'accountexpire',
           show: true,
@@ -55,9 +56,9 @@ const Default = observer(() => {
           setCardFilter={setCardFilter}
           cardFilter={cardFilter}
         />
-        <Statistics cardFilter={cardFilter} />
-        <BoxCard />
-        <GraphDashboard />
+        {/* <Statistics cardFilter={cardFilter} /> */}
+        {/* <BoxCard /> */}
+        {/* <GraphDashboard /> */}
 
         <ModalChangePassword
           {...modalChangePassword}

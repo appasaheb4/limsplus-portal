@@ -1,28 +1,18 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
-import {
-  Tooltip,
-  Icons,
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
-  MainPageHeading,
-} from '@/library/components';
+import { Tooltip, Icons, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { pdf } from '@react-pdf/renderer';
 import printjs from 'print-js';
-
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import { logos } from '@/library/assets';
-
 import {
   ADCPdf,
   ADCMedicalReportPdf,
   GeneflowLab,
   GeneflowLabW,
 } from '../components';
-
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const ReportTemplate = observer(() => {

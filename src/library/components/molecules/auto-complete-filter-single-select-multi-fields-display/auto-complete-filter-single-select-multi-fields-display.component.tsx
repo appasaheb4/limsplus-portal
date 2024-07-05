@@ -56,6 +56,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   useOutsideAlerter(wrapperRef);
 
   useEffect(() => {
+    //console.log({ list: data.list });
     setOptions(data.list);
   }, [data]);
 
@@ -149,8 +150,13 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                           onClick={() => {
                             setValue(
                               data.displayKey
-                                .map(key => `${item[key]}`)
-                                .join(' - '),
+                                .map(key => {
+                                  if (!_.isEmpty(item[key]?.toString()))
+                                    return `${item[key]?.toString()}`;
+                                  else return '#';
+                                })
+                                .join(' - ')
+                                ?.replaceAll('- #', ''),
                             );
                             setIsListOpen(false);
                             onSelect && onSelect(item);
@@ -166,17 +172,18 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                               maxWidth: '334px',
                               whiteSpace: 'nowrap',
                             }}
-                            title={data.displayKey
-                              .map(key => item[key])
-                              .join(' - ')}
+                            // title={data.displayKey
+                            //   .map(key => item[key] || '')
+                            //   .join(' - ')}
                           >
                             {data.displayKey
-                              .map(
-                                key =>
-                                  `${item[key]}
-                              `,
-                              )
-                              .join(' - ')}
+                              .map(key => {
+                                if (!_.isEmpty(item[key]?.toString()))
+                                  return `${item[key]?.toString()}`;
+                                else return '#';
+                              })
+                              .join(' - ')
+                              ?.replaceAll('- #', '')}
                           </label>
                         </li>
                       ))}

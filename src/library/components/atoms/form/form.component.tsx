@@ -33,6 +33,7 @@ interface InputWrapperProps {
   id?: string;
   label?: string;
   className?: string;
+  labelClassName?: string;
   hasError?: boolean;
   style?: any;
   ref?: any;
@@ -48,7 +49,9 @@ export const InputWrapper: React.FunctionComponent<InputWrapperProps> = (
       hasError={props.hasError}
       style={{ ...props.style }}
     >
-      <span className='dark:text-white w-10'>{props.label}</span>
+      <span className={`dark:text-white w-10 ${props?.labelClassName}`}>
+        {props.label}
+      </span>
     </Label>
     {props.children}
   </div>

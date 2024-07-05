@@ -272,3 +272,75 @@ export const GET_PATIENT_REG_RECORDS = gql`
     }
   }
 `;
+
+export const FIND_BY_FIELDS_PATIENT_MANAGER = gql`
+  mutation ($input: PatientManagerInput!) {
+    findByFieldsPatientManager(input: $input) {
+      success
+      message
+      data {
+        _id
+        pId
+        isPatientMobileNo
+        mobileNo
+        birthDate
+        age
+        ageUnit
+        isBirthdateAvailabe
+        title
+        firstName
+        middleName
+        lastName
+        sex
+        species
+        breed
+        usualDoctor
+        history
+        diagnosis
+        disease
+        isVIP
+        extraData {
+          address
+          postcode
+          area
+          city
+          district
+          state
+          country
+          email
+          isMobileAndWhatsApp
+          whatsappNumber
+          permanent
+          confidental
+          photograph
+          signature
+          bloodGroup
+          height
+          weight
+          followUp
+          comments
+          fyiLine
+          balance
+          accountType
+          enteredBy
+          status
+        }
+        environment
+        companyCode
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
+
+export const GET_PATIENT_MANAGER_DISTINCT = gql`
+  query {
+    getPatientManagerDistinct {
+      success
+      message
+      result
+    }
+  }
+`;

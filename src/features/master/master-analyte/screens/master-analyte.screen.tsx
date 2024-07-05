@@ -552,7 +552,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                             onChange(analyteCode);
                             masterAnalyteStore.updateMasterAnalyte({
                               ...masterAnalyteStore.masterAnalyte,
-                              analyteCode: analyteCode.toUpperCase(),
+                              analyteCode: analyteCode?.toUpperCase(),
                             });
                           }}
                           onBlur={analyteCode => {
@@ -630,7 +630,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                             onChange(analyteName);
                             masterAnalyteStore.updateMasterAnalyte({
                               ...masterAnalyteStore.masterAnalyte,
-                              analyteName: analyteName.toUpperCase(),
+                              analyteName: analyteName?.toUpperCase(),
                             });
                           }}
                         />
@@ -1199,7 +1199,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                             onChange(calcyName);
                             masterAnalyteStore.updateMasterAnalyte({
                               ...masterAnalyteStore.masterAnalyte,
-                              calcyName: calcyName.toUpperCase(),
+                              calcyName: calcyName?.toUpperCase(),
                             });
                           }}
                         />
@@ -1230,7 +1230,7 @@ const MasterAnalyte = MasterAnalyteHoc(
                             onChange(cptCode);
                             masterAnalyteStore.updateMasterAnalyte({
                               ...masterAnalyteStore.masterAnalyte,
-                              cptCode: cptCode.toUpperCase(),
+                              cptCode: cptCode?.toUpperCase(),
                             });
                           }}
                         />

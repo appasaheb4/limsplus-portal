@@ -82,7 +82,6 @@ export const DeginisationList = (props: DeginisationListProps) => {
               fontSize: 0,
             },
             style: {
-              textTransform: 'uppercase',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
@@ -100,7 +99,6 @@ export const DeginisationList = (props: DeginisationListProps) => {
                 description = filter;
               },
             }),
-            editorStyle: { textTransform: 'uppercase' },
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
           },
 

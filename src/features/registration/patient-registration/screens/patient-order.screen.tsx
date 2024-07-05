@@ -35,6 +35,7 @@ import {
 } from 'react-accessible-accordion';
 import 'react-accessible-accordion/dist/fancy-example.css';
 import { getFilterField } from '../utils';
+import { resetPatientOrder } from '../startup';
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void;
@@ -122,6 +123,7 @@ export const PatientOrder = PatientOrderHoc(
             }
             setHideInputView(true);
             reset();
+            resetPatientOrder();
             // unselect selected panel
             patientOrderStore.updateSelectedItems({
               ...patientOrderStore.selectedItems,
@@ -138,6 +140,13 @@ export const PatientOrder = PatientOrderHoc(
                 break;
               }
             }
+            setTimeout(() => {
+              patientRegistrationStore.updateDefaultValue({
+                ...patientRegistrationStore.defaultValues,
+                accordionExpandItem: 'PATIENT ORDER',
+                isPOLabIdLock: true,
+              });
+            }, 1000);
           });
       } else {
         Toast.warning({

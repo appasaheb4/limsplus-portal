@@ -8,6 +8,7 @@ import { RouterFlow } from '@/flows';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
+import './ruler.css';
 
 const GeneralResultEntry = observer(() => {
   const {
@@ -15,6 +16,7 @@ const GeneralResultEntry = observer(() => {
     routerStore,
     patientResultStore,
     generalResultEntryStore,
+    appStore,
   } = useStores();
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);
@@ -251,6 +253,178 @@ const GeneralResultEntry = observer(() => {
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
+      {/* https://dev.to/madsstoumann/build-a-css-ruler-2opn */}
+      <div className='ruler'>
+        <ul className='ruler-x'>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <ul className='ruler-y'>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <form id='app' className='editor'>
+          <fieldset>
+            <legend>
+              Tall Ticks <em>Numbers align with this</em>
+            </legend>
+            <label>
+              <strong>Height</strong>
+              <input
+                type='range'
+                name='--ruler2-h'
+                min='3'
+                max='100'
+                value='20'
+                data-suffix='px'
+              />
+            </label>
+            <label>
+              <strong>Border-width</strong>
+              <input
+                type='range'
+                name='--ruler2-bdw'
+                min='1'
+                max='10'
+                value='1'
+                data-suffix='px'
+              />
+            </label>
+            <label>
+              <strong>Spacing</strong>
+              <input
+                type='range'
+                name='--ruler2-space'
+                min='1'
+                max='200'
+                value='50'
+              />
+            </label>
+            <label>
+              <strong>Color</strong>
+              <input type='color' name='--ruler2-c' value='#BBBBBB' />
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Low Ticks</legend>
+            <label>
+              <strong>Height</strong>
+              <input
+                type='range'
+                name='--ruler1-h'
+                min='3'
+                max='100'
+                value='8'
+                data-suffix='px'
+              />
+            </label>
+            <label>
+              <strong>Border-width</strong>
+              <input
+                type='range'
+                name='--ruler1-bdw'
+                min='1'
+                max='10'
+                value='1'
+                data-suffix='px'
+              />
+            </label>
+            <label>
+              <strong>Spacing</strong>
+              <input
+                type='range'
+                name='--ruler1-space'
+                min='1'
+                max='100'
+                value='5'
+              />
+            </label>
+            <label>
+              <strong>Color</strong>
+              <input type='color' name='--ruler1-c' value='#BBBBBB' />
+            </label>
+          </fieldset>
+
+          <fieldset>
+            <legend>Other Options</legend>
+            <label>
+              <strong>Unit</strong>
+              <select name='--ruler-unit'>
+                <option value='1mm'>millimeter</option>
+                <option value='1in'>inch</option>
+                <option value='1px' selected>
+                  pixel
+                </option>
+                <option value='1em'>em</option>
+                <option value='1ch'>character</option>
+                <option value='1rem'>rem</option>
+                <option value='1vw'>viewport width</option>
+                <option value='1vh'>viewport height</option>
+              </select>
+            </label>
+            <label>
+              <strong>Number Color</strong>
+              <input type='color' name='--ruler-num-c' value='#888' />
+            </label>
+            <label>
+              <strong>Show x-axis</strong>
+              <input type='checkbox' name='--ruler-x' value='1' checked />
+            </label>
+            <label>
+              <strong>Show y-axis</strong>
+              <input type='checkbox' name='--ruler-y' value='1' checked />
+            </label>
+          </fieldset>
+        </form>
+      </div>
+
       <div className='mx-auto flex-wrap'>
         <FilterInputTable />
       </div>

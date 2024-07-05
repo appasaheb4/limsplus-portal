@@ -599,7 +599,7 @@ export const EnvironmentSettings = EnvironmentSettingsHoc(
                         onChange(value);
                         environmentStore.updateEnvironmentSettings({
                           ...environmentStore.environmentSettings,
-                          value: value.toUpperCase(),
+                          value: value?.toUpperCase(),
                         });
                       }}
                     />

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
-import { getDefaultLookupItem } from '@/library/utils';
+import { getDefaultLookupItem, getDefaultLookupItems } from '@/library/utils';
+import { eventEmitter } from '@/core-utils';
 
 export const PatientVisitHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
@@ -13,30 +14,19 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
       appStore,
       // eslint-disable-next-line react-hooks/rules-of-hooks
     } = useStores();
-    // let labId: any = Number.parseFloat(
-    //   uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4),
-    // );
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    // useMemo(() => {
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    //   labId = Number.parseFloat(
-    //     uuidv4(appStore.environmentValues?.LABID_LENGTH?.value || 4),
-    //   );
-    // }, [appStore.environmentValues?.LABID_AUTO_GENERATE]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      const deliveryMode = [
-        {
-          code: getDefaultLookupItem(
-            routerStore.lookupItems,
-            'PATIENT VISIT - DELIVERY_MODE',
-          ),
-          selected: true,
-        },
-      ];
+
+    const fetchDefaultDetails = () => {
+      // const deliveryMode = [
+      //   {
+      //     code: getDefaultLookupItem(
+      //       routerStore.lookupItems,
+      //       'PATIENT VISIT - DELIVERY_MODE',
+      //     ),
+      //     selected: true,
+      //   },
+      // ];
       patientVisitStore.updatePatientVisit({
         ...patientVisitStore.patientVisit,
-        deliveryMode,
         rLab: loginStore.login.lab,
         reportPriority: getDefaultLookupItem(
           routerStore.lookupItems,
@@ -46,11 +36,14 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'PATIENT VISIT - STATUS',
         ),
-        // labId:
-        //   appStore.environmentValues?.LABID_AUTO_GENERATE?.value.toLowerCase() !==
-        //   'no'
-        //     ? labId
-        //     : '',
+        deliveryMode: getDefaultLookupItems(
+          routerStore.lookupItems,
+          'PATIENT VISIT - DELIVERY_MODE',
+        ),
+        reportTo: getDefaultLookupItems(
+          routerStore.lookupItems,
+          'PATIENT VISIT - REPORT TO',
+        ),
         extraData: {
           ...patientVisitStore.patientVisit.extraData,
           enteredBy: loginStore.login.userId,
@@ -58,10 +51,7 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             'PATIENT VISIT - ACCOUNT_TYPE',
           ),
-          // environment: getDefaultLookupItem(
-          //   routerStore.lookupItems,
-          //   'PATIENT VISIT - ENVIRONMENT',
-          // ),
+
           methodCollection: getDefaultLookupItem(
             routerStore.lookupItems,
             'PATIENT VISIT - METHOD_COLLECTION',
@@ -90,10 +80,10 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           ),
         },
       });
-      registrationLocationsStore.updateSelectedItems({
-        ...registrationLocationsStore.selectedItems,
-        deliveryMode,
-      });
+      // registrationLocationsStore.updateSelectedItems({
+      //   ...registrationLocationsStore.selectedItems,
+      //   deliveryMode,
+      // });
 
       if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         patientVisitStore.updatePatientVisit({
@@ -104,43 +94,17 @@ export const PatientVisitHoc = (Component: React.FC<any>) => {
           },
         });
       }
+    };
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      fetchDefaultDetails();
+      eventEmitter.on('pvReload', data => {
+        fetchDefaultDetails();
+      });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems, appStore.environmentValues]);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    // useEffect(() => {
-    //   environmentStore.EnvironmentService.findValue({
-    //     input: {
-    //       filter: {
-    //         variable: ['LABID_AUTO_GENERATE', 'LABID_LENGTH'],
-    //         lab: loginStore.login.lab,
-    //       },
-    //     },
-    //   }).then(res => {
-    //     if (!res.getEnviromentValue.success) return;
-    //     appStore.updateEnvironmentValue({
-    //       ...appStore.environmentValues,
-    //       LABID_AUTO_GENERATE: {
-    //         ...appStore.environmentValues?.LABID_AUTO_GENERATE,
-    //         allLabs: res.getEnviromentValue.enviromentValues.find(
-    //           item => item.variable === 'LABID_AUTO_GENERATE',
-    //         ).data[0].allLabs,
-    //         value: res.getEnviromentValue.enviromentValues.find(
-    //           item => item.variable === 'LABID_AUTO_GENERATE',
-    //         ).data[0].value,
-    //       },
-    //       LABID_LENGTH: {
-    //         ...appStore.environmentValues?.LABID_LENGTH,
-    //         allLabs: res.getEnviromentValue.enviromentValues.find(
-    //           item => item.variable === 'LABID_LENGTH',
-    //         ).data[0].allLabs,
-    //         value: res.getEnviromentValue.enviromentValues.find(
-    //           item => item.variable === 'LABID_LENGTH',
-    //         ).data[0].value,
-    //       },
-    //     });
-    //   });
-    //   // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [loginStore.login]);
+
     return <Component {...props} />;
   });
 };

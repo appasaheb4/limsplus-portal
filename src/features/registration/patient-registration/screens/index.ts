@@ -5,3 +5,4 @@ export * from './patient-result.screen';
 export * from './patient-sample.screen';
 export * from './patient-test.screen';
 export * from './patient-visit.screen';
+export * from './patient-blling.screen';

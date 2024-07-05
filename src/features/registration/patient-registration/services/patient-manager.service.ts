@@ -19,6 +19,8 @@ import {
   CREATE_BY_FILE_IMPORT_EXPORT,
   FILTER_OPTION_LIST,
   GET_PATIENT_REG_RECORDS,
+  FIND_BY_FIELDS_PATIENT_MANAGER,
+  GET_PATIENT_MANAGER_DISTINCT,
 } from './mutation-pm';
 import { Toast } from '@/library/components';
 
@@ -178,7 +180,7 @@ export class PatientManagerService {
         );
     });
 
-  filterByFields = (variables: any) =>
+  filterByFields = (variables: any, type = 'filter') =>
     new Promise<any>((resolve, reject) => {
       stores.uploadLoadingFlag(false);
       client
@@ -187,18 +189,32 @@ export class PatientManagerService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsPatientManager.success)
-            return this.listPatientManager({ documentType: 'patientManager' });
-          stores.patientManagerStore.filterPatientManagerList({
-            filterPatientManager: {
-              data: response.data.filterByFieldsPatientManager.data,
-              paginatorInfo: {
-                count:
-                  response.data.filterByFieldsPatientManager.paginatorInfo
-                    .count,
+          if (type == 'filter') {
+            if (!response.data.filterByFieldsPatientManager.success)
+              return this.listPatientManager({
+                documentType: 'patientManager',
+              });
+            stores.patientManagerStore.filterPatientManagerList({
+              filterPatientManager: {
+                data: response.data.filterByFieldsPatientManager.data,
+                paginatorInfo: {
+                  count:
+                    response.data.filterByFieldsPatientManager.paginatorInfo
+                      .count,
+                },
               },
-            },
-          });
+            });
+          } else {
+            if (!response.data.filterByFieldsPatientManager.success)
+              return this.getPatientManagerDistinct({
+                documentType: 'patientManager',
+              });
+            stores.patientManagerStore.updateDistinctPatientManager({
+              patientManagers: {
+                data: response.data.filterByFieldsPatientManager.data,
+              },
+            });
+          }
           stores.uploadLoadingFlag(true);
           resolve(response.data);
         })
@@ -294,6 +310,39 @@ export class PatientManagerService {
             });
           }
           resolve(res.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS_PATIENT_MANAGER,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getPatientManagerDistinct = (filter: any, page = 0, limit = 10) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: LIST_PATIENT_MANAGER,
+          variables: { input: { filter, page, limit } },
+        })
+        .then((response: any) => {
+          stores.patientManagerStore.updateDistinctPatientManager(
+            response.data,
+          );
+          resolve(response.data);
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),

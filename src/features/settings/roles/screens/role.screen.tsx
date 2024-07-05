@@ -142,7 +142,7 @@ const Role = RolesHoc(
                       placeholder={errors.code ? 'Please Enter Code ' : 'Code'}
                       value={value}
                       onChange={codeValue => {
-                        const code = codeValue.toUpperCase();
+                        const code = codeValue?.toUpperCase();
                         onChange(code);
                         roleStore.updateRole({
                           ...roleStore.role,
@@ -181,7 +181,7 @@ const Role = RolesHoc(
                       }
                       value={value}
                       onChange={descriptionValue => {
-                        const description = descriptionValue.toUpperCase();
+                        const description = descriptionValue?.toUpperCase();
                         onChange(description);
                         roleStore.updateRole({
                           ...roleStore.role,

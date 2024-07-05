@@ -1,8 +1,11 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {AutoCompleteFilterMutiSelectMultiFieldsDisplay} from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import {
+  AutoCompleteFilterMultiSelectSelectedTopDisplay,
+  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
+} from '@/library/components';
 
 interface AutoCompleteAuthorizedSignatoryProps {
   selectedItems?: Array<any>;
@@ -16,14 +19,14 @@ export const AutoCompleteAuthorizedSignatory = observer(
     hasError,
     onSelect,
   }: AutoCompleteAuthorizedSignatoryProps) => {
-    const {loading, departmentStore, userStore} = useStores();
+    const { loading, departmentStore, userStore } = useStores();
 
     useEffect(() => {
       (async () => {
         if (selectedItems?.length > 0) {
           const itemSelected: Array<any> = [];
           await userStore.UsersService.getUserByMatchUserId({
-            input: {filter: {userId: selectedItems}},
+            input: { filter: { userId: selectedItems } },
           }).then(res => {
             if (res.getUserByMatchUserId?.success) {
               res.getUserByMatchUserId?.data.filter(item => {
@@ -35,10 +38,13 @@ export const AutoCompleteAuthorizedSignatory = observer(
           });
           departmentStore.updateSelectedItems({
             ...departmentStore.selectedItems,
-            authorizedSignatory: itemSelected.map(item => ({
-              ...item,
-              selected: true,
-            })),
+            authorizedSignatory: _.uniqBy(
+              itemSelected.map(item => ({
+                ...item,
+                selected: true,
+              })),
+              'userId',
+            ),
           });
         }
       })();
@@ -47,7 +53,7 @@ export const AutoCompleteAuthorizedSignatory = observer(
     }, [selectedItems, userStore.userList]);
 
     return (
-      <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+      <AutoCompleteFilterMultiSelectSelectedTopDisplay
         loader={loading}
         placeholder='Search by userId or name...'
         data={{
@@ -55,12 +61,13 @@ export const AutoCompleteAuthorizedSignatory = observer(
           selected: departmentStore.selectedItems?.authorizedSignatory,
           displayKey: ['userId', 'fullName'],
         }}
+        dynamicCheck={'userId'}
         hasError={hasError}
         onUpdate={item => {
           const authorizedSignatory =
             departmentStore.selectedItems?.authorizedSignatory;
           onSelect(_.union(_.map(authorizedSignatory, 'userId')));
-          userStore.updateUserList(userStore.userListCopy);
+          // userStore.updateUserList(userStore.userListCopy);
         }}
         onFilter={(value: string) => {
           userStore.UsersService.filterByFields({
@@ -76,19 +83,23 @@ export const AutoCompleteAuthorizedSignatory = observer(
         }}
         onSelect={item => {
           let authorizedSignatory =
-            departmentStore.selectedItems?.authorizedSignatory;
+            departmentStore.selectedItems?.authorizedSignatory || [];
           if (!item.selected) {
-            if (authorizedSignatory && authorizedSignatory?.length > 0) {
+            if (
+              !authorizedSignatory.some(
+                existingItem => existingItem.userId === item.userId,
+              )
+            ) {
               authorizedSignatory.push(item);
-            } else authorizedSignatory = [item];
+            }
           } else {
-            authorizedSignatory = authorizedSignatory.filter(items => {
-              return items._id !== item._id;
+            authorizedSignatory = authorizedSignatory.filter(existingItem => {
+              return existingItem.userId !== item.userId;
             });
           }
           departmentStore.updateSelectedItems({
             ...departmentStore.selectedItems,
-            authorizedSignatory,
+            authorizedSignatory: _.uniqBy(authorizedSignatory, 'userId'),
           });
         }}
       />

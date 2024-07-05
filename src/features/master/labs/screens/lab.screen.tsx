@@ -496,7 +496,7 @@ const Lab = LabHoc(
                             onChange(code);
                             labStore.updateLabs({
                               ...labStore.labs,
-                              code: code.toUpperCase(),
+                              code: code?.toUpperCase(),
                             });
                           }}
                           onBlur={code => {

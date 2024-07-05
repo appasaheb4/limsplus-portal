@@ -2,9 +2,8 @@ import { stores } from '@/stores';
 // import {patientRegistrationHoc} from './hoc';
 import { eventEmitter } from '@/core-utils';
 
+// patient manager
 export const startupPM = async () => {
-  // patient manager
-  // stores.patientManagerStore.patientManagerService.sequencingPid();
   await stores.patientManagerStore.patientManagerService.listPatientManager({
     documentType: 'patientManager',
   });
@@ -12,14 +11,12 @@ export const startupPM = async () => {
 
 export const startupPV = async () => {
   // patient manager
-  await startupPM();
-  // stores.patientVisitStore.patientVisitService.sequencingVisitId();
+  // await startupPM();
   await stores.patientVisitStore.patientVisitService.sequencingLabId();
   await startupByLabId();
 };
 
 export const startupPO = async () => {
-  //stores.patientOrderStore.patientOrderService.sequencingOrderId();
   await startupByLabId();
 };
 
@@ -30,25 +27,33 @@ export const startupByLabId = async () => {
 
 const startup = async () => {
   await stores.patientRegistrationStore.reload();
+  await stores.patientManagerStore.patientManagerService.getPatientManagerDistinct(
+    {
+      documentType: 'patientManager',
+    },
+  );
   stores.patientResultStore.patientResultService.getPatientResultDistinct();
 };
 
 export const resetPatientManager = () => {
   stores.patientManagerStore.reset();
   eventEmitter.emit('reload', {});
-  startupPM();
+  eventEmitter.emit('pmReload', {});
+  // startupPM();
 };
 
 export const resetPatientVisit = () => {
   stores.patientVisitStore.reset();
   eventEmitter.emit('reload', {});
+  eventEmitter.emit('pvReload', {});
   startupPV();
 };
 
 export const resetPatientOrder = () => {
   stores.patientOrderStore.reset();
   eventEmitter.emit('reload', {});
-  startupPO();
+  eventEmitter.emit('poReload', {});
+  // startupPO();
 };
 
 export default startup;

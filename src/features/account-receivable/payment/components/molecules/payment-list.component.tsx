@@ -1,11 +1,19 @@
 import React from 'react';
-import { textFilter, sortCaret } from '@/library/components';
+import {
+  textFilter,
+  sortCaret,
+  customFilter,
+  DateRangeFilter,
+} from '@/library/components';
 import { Confirm } from '@/library/models';
 import { TableBootstrap } from './table-bootstrap.components';
 import dayjs from 'dayjs';
 
 let pId;
 let labId;
+let registrationDate;
+let invoiceDate;
+let patientName;
 
 interface PaymentListProps {
   data: any;
@@ -76,11 +84,23 @@ export const PaymentList = (props: PaymentListProps) => {
             headerClasses: 'textHeader',
           },
           {
-            dataField: 'rLab',
-            text: 'RLab',
+            dataField: 'name',
+            text: 'Patient Name',
             sort: true,
             editable: false,
+            headerStyle: {
+              fontSize: 0,
+            },
+            filter: textFilter({
+              placeholder: 'Patient Name',
+              getFilter: filter => {
+                patientName = filter;
+              },
+            }),
+            sortCaret: (order, column) => sortCaret(order, column),
+            headerClasses: 'textHeader',
           },
+
           {
             dataField: 'invoiceAC',
             text: 'Invoice AC',
@@ -117,6 +137,12 @@ export const PaymentList = (props: PaymentListProps) => {
             ),
           },
           {
+            dataField: 'rLab',
+            text: 'RLab',
+            sort: true,
+            editable: false,
+          },
+          {
             dataField: 'customerGroup',
             text: 'Customer Group',
             sort: true,
@@ -150,9 +176,23 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Invoice Date',
             sort: true,
             editable: false,
+            headerStyle: {
+              fontSize: 0,
+            },
             headerClasses: 'textHeaderm',
+            filter: customFilter({
+              getFilter: filter => {
+                invoiceDate = filter;
+              },
+            }),
+            filterRenderer: (onFilter, column) => (
+              <DateRangeFilter onFilter={onFilter} column={column} />
+            ),
             formatter: (cell, row) => {
-              return dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss');
+              return (
+                row.invoiceDate &&
+                dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss')
+              );
             },
           },
           {
@@ -285,6 +325,8 @@ export const PaymentList = (props: PaymentListProps) => {
         clearAllFilter={() => {
           pId('');
           labId('');
+          registrationDate();
+          invoiceDate();
         }}
       />
     </div>

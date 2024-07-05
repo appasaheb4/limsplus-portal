@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 import dayjs from 'dayjs';
 
 interface AutoCompleteFilterSingleSelectPidProps {
@@ -19,7 +19,7 @@ export const AutoCompleteFilterSingleSelectPid = observer(
     isDisable = false,
     onSelect,
   }: AutoCompleteFilterSingleSelectPidProps) => {
-    const {loading, patientManagerStore} = useStores();
+    const { loading, patientManagerStore } = useStores();
     const [value, setValue] = useState<string>(displayValue);
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -116,9 +116,9 @@ export const AutoCompleteFilterSingleSelectPid = observer(
                           className='text-gray-400 flex items-center'
                           onClick={() => {
                             setValue(
-                              `${item.pId} - ${item.firstName} ${
-                                item.lastName
-                              } - ${item.mobileNo} - ${dayjs(
+                              `${item.pId} - ${item?.firstName || ''} ${
+                                item?.lastName || ''
+                              } - ${item?.mobileNo || ''} - ${dayjs(
                                 item?.birthDate,
                               ).format('DD/MM/YYYY')} - ${item?.sex}`,
                             );
@@ -132,9 +132,9 @@ export const AutoCompleteFilterSingleSelectPid = observer(
                           {' '}
                           <label className='ml-2 mt-1 text-black text-sm'>
                             {' '}
-                            {`${item.pId} - ${item.firstName} ${
-                              item.lastName
-                            } - ${item.mobileNo} - ${dayjs(
+                            {`${item.pId} - ${item.firstName || ''} ${
+                              item.lastName || ''
+                            } - ${item?.mobileNo || ''} - ${dayjs(
                               item?.birthDate,
                             ).format('DD/MM/YYYY')} - ${item?.sex}`}
                           </label>

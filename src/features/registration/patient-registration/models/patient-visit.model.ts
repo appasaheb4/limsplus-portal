@@ -32,6 +32,7 @@ export class PatientVisit {
   discountCharges: object;
   reportPriority: string;
   deliveryMode: Array<any>;
+  reportTo: Array<any>;
   history: boolean;
   holdReport: boolean;
   holdReason: string;
@@ -71,6 +72,8 @@ export class PatientVisit {
   };
   mobileNo: string;
   email: string;
+  openingTime: string;
+  closingTime: string;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
@@ -109,6 +112,7 @@ export class PatientVisit {
     this.discountCharges = rawData.discountCharges;
     this.reportPriority = rawData.reportPriority;
     this.deliveryMode = rawData.deliveryMode;
+    this.reportTo = rawData.reportTo;
     this.history = rawData.history;
     this.holdReport = rawData.holdReport;
     this.holdReason = rawData.holdReason;
@@ -118,6 +122,8 @@ export class PatientVisit {
     this.extraData = rawData.extraData;
     this.mobileNo = rawData.mobileNo;
     this.email = rawData.email;
+    this.openingTime = rawData.openingTime;
+    this.closingTime = rawData.closingTime;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;

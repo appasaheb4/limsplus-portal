@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Page, StyleSheet, Font, Document } from '@react-pdf/renderer';
+import React, { useRef } from 'react';
+import { Page, StyleSheet, Font, View } from '@react-pdf/renderer';
 import _ from 'lodash';
 import { PdfPageNumber, PdfView, PdfFooterView, PdfImage } from '@components';
 import { PdfBorderView, PdfSmall } from '@/library/components';
@@ -7,11 +7,6 @@ import { Header } from '../../common/geneflow-lab/pdf-header.component';
 import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import Html from 'react-pdf-html';
-
-// Font.register({
-//   family: 'arimaRegular',
-//   src: '../../../assets/fonts/arima/Arima-Regular.ttf',
-// });
 
 Font.register({
   family: 'IBMPlexSans',
@@ -28,18 +23,6 @@ Font.register({
     },
   ],
 });
-
-// Font.register({
-//   family: 'IBMPlexSansBold',
-//   src: '/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Bold.ttf',
-//   fontWeight: 400,
-// });
-
-// Font.register({
-//   family: 'IBMPlexSansBoldItalic',
-//   src: '/assets/fonts/IBM_Plex_Sans/IBMPlexSans-Italic.ttf',
-//   fontWeight: 400,
-// });
 
 const styles = StyleSheet.create({
   page: {
@@ -76,7 +59,8 @@ export const PdfTemp0010 = ({
   children,
 }: PdfTemp0010Props) => {
   const { patientReports } = data;
-  const regex = /style=(.*)font-family[^;]+;/g;
+  const regex = /style=(.*)font-[^;]+;/g;
+  //const regex = /style=(.*)font-family[^;]+;/g;
   const subst = '';
   const userInfo: Array<any> = [];
   const boxCSS = useRef<any>(styles.page);
@@ -256,9 +240,7 @@ export const PdfTemp0010 = ({
             testHeader,
           });
         }
-
         panelHeader = _.orderBy(panelHeader, 'reportOrder', 'asc');
-
         patientResultList.push({
           departmentHeader: {
             departmentName: deptKey,
@@ -299,7 +281,7 @@ export const PdfTemp0010 = ({
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
-        <PdfView mh={10} p={0}>
+        <View style={{ marginHorizontal: 10, marginTop: 10, marginBottom: 90 }}>
           {patientReports?.patientResultList?.map((item, index) => (
             <Html stylesheet={stylesheet} key={index}>
               {html(JSON.parse(item.result).result.replace(regex, subst))}
@@ -335,21 +317,21 @@ export const PdfTemp0010 = ({
                   />
                   <PdfSmall>{item?.fullName}</PdfSmall>
                   <PdfSmall style={{ marginTop: -4 }}>
-                    {item?.userDegree}
+                    {item?.deginisation}
                   </PdfSmall>
                   <PdfSmall style={{ marginTop: -4 }}>
-                    {item?.deginisation}
+                    {item?.userDegree}
                   </PdfSmall>
                 </PdfView>
               ))}
             </PdfBorderView>
           )}
-        </PdfView>
-        {/* <PdfPageNumber
+        </View>
+        <PdfPageNumber
           style={{ textAlign: 'center', right: '45%' }}
-          bottom={100}
-        /> */}
-        <PdfFooterView fixed bg='transparent' height={88} p={0}>
+          bottom={88}
+        />
+        <PdfFooterView fixed bg='transparent' height={90} p={0}>
           {isWithHeader && <Footer />}
         </PdfFooterView>
       </Page>

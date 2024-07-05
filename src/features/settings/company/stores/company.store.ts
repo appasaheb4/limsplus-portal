@@ -35,6 +35,10 @@ export class CompanyStore {
       dateExpire: new Date(
         dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
       ),
+      configuration: {
+        host: 'smtp.gmail.com',
+        port: 465,
+      },
     });
     this.companyList = [];
     this.companyListCount = 0;

@@ -8,6 +8,8 @@ export class PatientManagerStore {
   listPatientMangerCopy!: PatientManger[];
   listPatientMangerCount!: number;
   checkExistsPatient!: boolean;
+  distinctPatientManager!: PatientManger[];
+  distinctPatientManagerCopy!: PatientManger[];
 
   constructor() {
     this.reset();
@@ -16,12 +18,15 @@ export class PatientManagerStore {
       listPatientManger: observable,
       listPatientMangerCopy: observable,
       listPatientMangerCount: observable,
+      distinctPatientManager: observable,
+      distinctPatientManagerCopy: observable,
 
       patientManagerService: computed,
       updatePatientManagerList: action,
       updatePatientManager: action,
       filterPatientManagerList: action,
       updateExistsPatient: action,
+      filterDistinctPatientManager: action,
     });
   }
 
@@ -30,17 +35,15 @@ export class PatientManagerStore {
     this.listPatientMangerCopy = [];
     this.listPatientMangerCount = 0;
     this.checkExistsPatient = false;
-    this.patientManger = {
-      ...this.patientManger,
+    this.distinctPatientManager = [];
+    this.distinctPatientManagerCopy = [];
+    this.patientManger = new PatientManger({
       ageUnit: 'Y',
       isBirthdateAvailabe: true,
-      // birthDate: new Date(
-      //   dayjs(new Date()).add(-365, 'days').format('YYYY-MM-DD hh:mm:ss'),
-      // ),
       isPatientMobileNo: true,
       isVIP: false,
       isAddress: false,
-    };
+    });
   }
 
   get patientManagerService() {
@@ -67,5 +70,18 @@ export class PatientManagerStore {
   }
   updateExistsPatient(flag: boolean) {
     this.checkExistsPatient = flag;
+  }
+
+  updateDistinctPatientManager(res) {
+    if (!Array.isArray(res)) {
+      this.distinctPatientManager = res.patientManagers.data;
+      this.distinctPatientManagerCopy = res.patientManagers.data;
+    } else {
+      this.distinctPatientManager = res;
+    }
+  }
+
+  filterDistinctPatientManager(res: any) {
+    this.distinctPatientManager = res;
   }
 }

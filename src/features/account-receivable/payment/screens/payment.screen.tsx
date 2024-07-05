@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import _ from 'lodash';
 import { Table } from 'reactstrap';
 import {
-  Header,
-  PageHeading,
-  PageHeadingLabDetails,
   Toast,
   Buttons,
   Grid,
@@ -22,6 +20,10 @@ import { PaymentList } from '../components';
 import { PaymentHoc } from '../hoc';
 import { resetPayment } from '../startup';
 import { Payment as Model } from '../models';
+// import { ModalConfirm } from '../components';
+import { PdfReceipt } from '../../receipt/components';
+import { pdf } from '@react-pdf/renderer';
+import { ModalConfirm } from 'react-restyle-components';
 
 const Payment = PaymentHoc(
   observer(() => {
@@ -30,6 +32,7 @@ const Payment = PaymentHoc(
       routerStore,
       loginStore,
       paymentStore,
+      receiptStore,
       transactionDetailsStore,
     } = useStores();
 
@@ -45,6 +48,7 @@ const Payment = PaymentHoc(
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
     const [totalReceivedAmount, setTotalReceivedAmount] = useState<number>(0);
+    const [modalConfirmForSMS, setModalConfirmForSMS] = useState<any>({});
     useEffect(() => {
       // Default value initialization
       setValue('modeOfPayment', paymentStore.payment?.modeOfPayment);
@@ -93,6 +97,14 @@ const Payment = PaymentHoc(
             reset();
             resetPayment();
             setTotalReceivedAmount(0);
+            setModalConfirmForSMS({
+              visible: true,
+              title: 'Are you sure send sms',
+              message: 'Receipt link sending to patient manager mobile number',
+              details: {
+                headerId: res.createPayment?.result?.tranRes?.headerId,
+              },
+            });
             paymentStore.updatePayment(new Model({}));
           }
         });
@@ -143,6 +155,45 @@ const Payment = PaymentHoc(
       setValue('labId', payload?.labId);
       clearErrors('pId');
       clearErrors('labId');
+    };
+
+    const sharePdfLink = async data => {
+      console.log({ data });
+      const doc = <PdfReceipt data={data} />;
+      const asPdf = pdf(doc);
+      asPdf.updateContainer(doc);
+      const blob: any = await asPdf.toBlob();
+      blob.name = 'Payment-Receipt.pdf';
+      // upload pdf file
+      receiptStore.receiptService
+        .paymentReceiptUpload({ input: { file: blob } })
+        .then(res => {
+          if (res.paymentReceiptUpload.success) {
+            const path = res.paymentReceiptUpload?.receiptPath;
+            if (_.isEmpty(data?.patientDetails?.mobileNo))
+              Toast.error({
+                message: '😌 Patient mobile number not found!',
+              });
+            else
+              receiptStore.receiptService
+                .sendSMS({
+                  input: {
+                    filter: {
+                      mobileNo: [data?.patientDetails?.mobileNo],
+                      sender: '',
+                      message: `Your payment receipt link: ${path}`,
+                    },
+                  },
+                } as any)
+                .then(res => {
+                  if (res.sendMessageService.success) {
+                    Toast.success({
+                      message: '😊 SMS send successfully',
+                    });
+                  }
+                });
+          }
+        });
     };
 
     return (
@@ -592,7 +643,7 @@ const Payment = PaymentHoc(
                       placeholder={'Received Amount'}
                       type='number'
                       hasError={!!errors.receivedAmount}
-                      value={''}
+                      value={value}
                       onChange={receivedAmount => {
                         if (
                           paymentStore.payment?.amountPayable -
@@ -608,7 +659,7 @@ const Payment = PaymentHoc(
                           });
                           setError('receivedAmount', { type: 'onBlur' });
                         } else {
-                          onChange(Number.parseFloat(receivedAmount));
+                          onChange(receivedAmount);
                           paymentStore.updatePayment({
                             ...paymentStore.payment,
                             receivedAmount: Number.parseFloat(receivedAmount),
@@ -757,6 +808,30 @@ const Payment = PaymentHoc(
             />
           </div>
         </div>
+        <ModalConfirm
+          {...modalConfirmForSMS}
+          onClick={() => {
+            console.log({ modalConfirmForSMS });
+
+            receiptStore.receiptService
+              .generatePaymentReceipt({
+                input: { headerId: modalConfirmForSMS?.details?.headerId },
+              })
+              .then(async res => {
+                if (res.generatePaymentReceipt?.success) {
+                  console.log({ res });
+                  sharePdfLink(res.generatePaymentReceipt?.receiptData);
+                } else
+                  Toast.error({
+                    message: `😔 ${res.generatePaymentReceipt.message}`,
+                  });
+              });
+            setModalConfirmForSMS({ visible: false });
+          }}
+          onClose={() => {
+            setModalConfirmForSMS({ visible: false });
+          }}
+        />
       </>
     );
   }),

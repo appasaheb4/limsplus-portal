@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import {Table} from 'reactstrap';
-import {List, Buttons} from '@/library/components';
+import React, { useState } from 'react';
+import { Table } from 'reactstrap';
+import { List, Buttons } from '@/library/components';
 
 interface HL7TableProps {
   data?: any;
@@ -32,7 +32,7 @@ export const HL7Table = (props: HL7TableProps) => {
                     setSelectSegment(item[1]);
                     setField(item[0]);
                   }}
-                  style={{margin: 4}}
+                  style={{ margin: 4 }}
                 >
                   {item[0]}
                 </Buttons.Button>
@@ -44,16 +44,16 @@ export const HL7Table = (props: HL7TableProps) => {
       <div className='rounded-lg overflow-auto'>
         <Table bordered>
           <thead>
-            <th style={{color: 'white'}}>{field}</th>
-            <th style={{color: 'white'}}>Value</th>
+            <th style={{ color: 'white' }}>{field}</th>
+            <th style={{ color: 'white' }}>Value</th>
           </thead>
           <tbody>
             {selectSegment.map((item: any, index: number) => (
               <tr key={index}>
                 <th className='text-white'>
                   {`${item.field_no}. ${
-                    item.filed.charAt(0).toUpperCase() +
-                    item.filed.slice(1).replaceAll('_', ' ')
+                    item.filed.charAt(0)?.toUpperCase() +
+                    item.filed.slice(1)?.replaceAll('_', ' ')
                   }`}
                 </th>
                 <th className='text-white'>{item.value}</th>

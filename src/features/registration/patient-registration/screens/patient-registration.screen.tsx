@@ -23,6 +23,7 @@ import {
   PatientSample,
   PatientResult,
   PatientTest,
+  PatientBilling,
 } from './index';
 import { useStores } from '@/stores';
 import { stores } from '@/stores';
@@ -31,6 +32,8 @@ import FileSaver from 'file-saver';
 import { RouterFlow } from '@/flows';
 import { connect } from 'react-redux';
 import { toJS } from 'mobx';
+import { FaPhone } from 'react-icons/fa6';
+import dayjs from 'dayjs';
 
 export const patientRegistrationOptions = [
   { title: 'PATIENT MANAGER' },
@@ -39,6 +42,7 @@ export const patientRegistrationOptions = [
   { title: 'PATIENT TEST' },
   { title: 'PATIENT RESULT' },
   { title: 'PATIENT SAMPLE' },
+  { title: 'PATIENT BILLING' },
 ];
 
 const PatientRegistration = observer(({ sidebar }) => {
@@ -58,6 +62,13 @@ const PatientRegistration = observer(({ sidebar }) => {
   const [reload, setReload] = useState(false);
   const [isImport, setIsImport] = useState<boolean>(false);
   const history = useHistory();
+  const ageUnitsMap = {
+    Y: 'Years',
+    M: 'Months',
+    D: 'Days',
+    W: 'Weeks',
+    H: 'Hours',
+  };
 
   useEffect(() => {
     setReload(!reload);
@@ -96,6 +107,7 @@ const PatientRegistration = observer(({ sidebar }) => {
                 {item.title === 'PATIENT TEST' && <PatientTest />}
                 {item.title === 'PATIENT RESULT' && <PatientResult />}
                 {item.title === 'PATIENT SAMPLE' && <PatientSample />}
+                {item.title === 'PATIENT BILLING' && <PatientBilling />}
               </AccordionItem>
             );
           })}
@@ -174,28 +186,42 @@ const PatientRegistration = observer(({ sidebar }) => {
                 placeholder='Search by Patient Name'
                 data={{
                   list: _.uniqBy(
-                    patientResultStore.distinctPatientResult,
-                    'name',
-                  )?.filter(item => item != ''),
-                  displayKey: ['name'],
+                    patientManagerStore.distinctPatientManager,
+                    'pId',
+                  ),
+                  displayKey: [
+                    'title',
+                    'firstName',
+                    'middleName',
+                    'lastName',
+                    'pId',
+                  ],
                 }}
                 displayValue={generalResultEntryStore.filterGeneralResEntry?.name?.toString()}
                 onFilter={(value: string) => {
-                  patientResultStore.filterDistinctPatientResult(
-                    getFilteredData(
-                      value,
-                      'name',
-                      patientResultStore.distinctPatientResultCopy,
-                    ),
+                  patientManagerStore.patientManagerService.filterByFields(
+                    {
+                      input: {
+                        filter: {
+                          fields: ['firstName', 'middleName', 'lastName'],
+                          srText: value,
+                        },
+                        page: 0,
+                        limit: 10,
+                      },
+                    },
+                    'filterDistinct',
                   );
                 }}
                 onSelect={async item => {
                   await patientRegistrationStore.getPatientRegRecords(
                     'patientName',
-                    item.name,
+                    '',
+                    'fetch',
+                    item?.pId,
                   );
-                  patientResultStore.filterDistinctPatientResult(
-                    patientResultStore.distinctPatientResultCopy,
+                  patientManagerStore.filterDistinctPatientManager(
+                    patientManagerStore.distinctPatientManagerCopy,
                   );
                 }}
               />
@@ -323,7 +349,7 @@ const PatientRegistration = observer(({ sidebar }) => {
               placeholder='Mobile No'
               className='w-40 arrow-hide'
               type='number'
-              value={patientRegistrationStore.defaultValues?.mobileNo}
+              value={patientRegistrationStore.defaultValues?.mobileNo || ''}
               onChange={mobileNo => {
                 patientRegistrationStore.updateDefaultValue({
                   ...patientRegistrationStore.defaultValues,
@@ -415,20 +441,31 @@ const PatientRegistration = observer(({ sidebar }) => {
                   />
                 </div>
                 <div className='flex flex-col'>
+                  <span>PId:{item?.pId?.toString()}</span>
                   <span className='text-sm font-bold'>
-                    {item?.firstName.toUpperCase() +
-                      ' ' +
-                      (item?.middleName != undefined
-                        ? item?.middleName.toUpperCase()
+                    {(item?.title?.toUpperCase() || '') +
+                      (item?.firstName
+                        ? ' ' + item.firstName.toUpperCase()
                         : '') +
-                      ' ' +
-                      item?.lastName.toUpperCase()}
+                      (item?.middleName
+                        ? ' ' + item.middleName.toUpperCase()
+                        : '') +
+                      (item?.lastName ? ' ' + item.lastName.toUpperCase() : '')}
                   </span>
-                  <span>{item?.pId?.toString()}</span>
                   <span>
-                    {item.sex} | <span>{item?.age + ' ' + item?.ageUnit}</span>
+                    {item.birthDate &&
+                      dayjs(item.birthDate).format('DD-MM-YYYY')}
                   </span>
-                  <span>{item?.mobileNo}</span>
+                  <span>
+                    {item.sex === 'M' ? 'Male' : 'Female' || 'Other'} |{' '}
+                    <span>
+                      {item?.age + ' ' + (ageUnitsMap[item?.ageUnit] || '')}
+                    </span>
+                  </span>
+                  <span className='flex gap-2'>
+                    <FaPhone />
+                    {item?.mobileNo || ''}
+                  </span>
                 </div>
               </div>
             ))}

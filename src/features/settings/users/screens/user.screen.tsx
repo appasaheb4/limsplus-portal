@@ -523,7 +523,7 @@ export const Users = UsersHoc(
                           onChange(userId);
                           userStore.updateUser({
                             ...userStore.user,
-                            userId: userId.toUpperCase(),
+                            userId: userId?.toUpperCase(),
                           });
                         }}
                         onBlur={userId => {
@@ -570,7 +570,7 @@ export const Users = UsersHoc(
                           onChange(fullName);
                           userStore.updateUser({
                             ...userStore.user,
-                            fullName: fullName.toUpperCase(),
+                            fullName,
                           });
                         }}
                       />
@@ -732,7 +732,7 @@ export const Users = UsersHoc(
                           onChange(empCode);
                           userStore.updateUser({
                             ...userStore.user,
-                            empCode: empCode.toUpperCase(),
+                            empCode: empCode?.toUpperCase(),
                           });
                         }}
                         onBlur={empCode => {
@@ -817,7 +817,7 @@ export const Users = UsersHoc(
                           placeholder='Search by code or description'
                           data={{
                             list: deginisationStore.listDeginisation,
-                            displayKey: ['code', 'description'],
+                            displayKey: ['description'],
                           }}
                           displayValue={value}
                           hasError={!!errors.deginisation}
@@ -826,7 +826,7 @@ export const Users = UsersHoc(
                               {
                                 input: {
                                   filter: {
-                                    fields: ['code', 'description'],
+                                    fields: ['description'],
                                     srText: value,
                                   },
                                   page: 0,
@@ -839,7 +839,7 @@ export const Users = UsersHoc(
                             onChange(item.code);
                             userStore.updateUser({
                               ...userStore.user,
-                              deginisation: item.code,
+                              deginisation: item.description,
                             });
                             deginisationStore.updateListDeginisation(
                               deginisationStore.listDeginisationCopy,
@@ -868,7 +868,7 @@ export const Users = UsersHoc(
                           onChange(userDegree);
                           userStore.updateUser({
                             ...userStore.user,
-                            userDegree: userDegree.toUpperCase(),
+                            userDegree,
                           });
                         }}
                       />

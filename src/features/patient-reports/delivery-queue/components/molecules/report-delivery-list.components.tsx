@@ -11,6 +11,7 @@ import {
 } from '@/library/components';
 import dayjs from 'dayjs';
 import { TableBootstrapReport } from './table-bootstrap-report.components';
+import { GrDocumentLocked } from 'react-icons/gr';
 
 let labId;
 let name;
@@ -131,20 +132,8 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               dataField: 'labId',
               text: 'Lab Id',
               sort: true,
-              headerStyle: {
-                fontSize: 0,
-              },
-              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
-              headerClasses: 'textHeader2',
-              filter: customFilter({
-                getFilter: filter => {
-                  labId = filter;
-                },
-              }),
-              filterRenderer: (onFilter, column) => (
-                <NumberFilter onFilter={onFilter} column={column} />
-              ),
+              headerClasses: 'textHeaderm',
             },
             {
               dataField: 'name',
@@ -265,6 +254,27 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                 return (
                   <div className='flex flex-row flex-wrap gap-1'>
                     {row?.deliveryMode?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='bg-blue-800 rounded-md p-2 text-white'
+                      >
+                        {item.code}
+                      </span>
+                    ))}
+                  </div>
+                );
+              },
+            },
+            {
+              dataField: 'reportTo',
+              text: 'Report To',
+              headerClasses: 'textHeader2',
+              sort: true,
+              editable: false,
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-row flex-wrap gap-1'>
+                    {row?.reportTo?.map((item, index) => (
                       <span
                         key={index}
                         className='bg-blue-800 rounded-md p-2 text-white'
@@ -622,7 +632,7 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
               // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row'>
+                  <div className='flex flex-row relative'>
                     {props.isGenerateReport && (
                       <Tooltip tooltipText='Generate Report'>
                         <Icons.IconContext
@@ -744,6 +754,14 @@ export const ReportDeliveryList = observer((props: ReportDeliveryProps) => {
                         </Icons.IconContext>
                       </Tooltip>
                     )}
+                    <Tooltip tooltipText='Reopen'>
+                      <GrDocumentLocked
+                        size='20'
+                        color={
+                          row?.deliveryStatus == 'Done' ? '#ffffff' : '#5A5A5A'
+                        }
+                      />
+                    </Tooltip>
                     {selectId === row._id ? (
                       <Tooltip tooltipText='Expand'>
                         <Icons.IconContext

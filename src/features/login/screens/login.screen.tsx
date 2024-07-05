@@ -322,7 +322,7 @@ export const Login = observer(() => {
                                 onChange(userId);
                                 loginStore.updateInputUser({
                                   ...loginStore.inputLogin,
-                                  userId: userId.toUpperCase(),
+                                  userId: userId?.toUpperCase(),
                                 });
                               }}
                               onBlur={async userId => {
@@ -330,12 +330,12 @@ export const Login = observer(() => {
                                   userStore.UsersService.checkExitsUserId({
                                     input: {
                                       userId: userId.trim(),
-                                      webPortal:
-                                        process.env.REACT_APP_ENV === 'Local'
-                                          ? 'https://www.limsplussolutions.com'
-                                          : 'https://www.limsplussolutions.com',
                                       // webPortal:
-                                      //   'https://geneflow.limsplussolutions.com',
+                                      //   process.env.REACT_APP_ENV === 'Local'
+                                      //     ? 'https://www.limsplussolutions.com'
+                                      //     : window.location.origin,
+                                      webPortal:
+                                        'https://limsplussolutions.com',
                                     },
                                   }).then(async res => {
                                     if (res.checkUserExitsUserId?.success) {
@@ -383,7 +383,6 @@ export const Login = observer(() => {
                           rules={{ required: true }}
                           defaultValue={loginStore.inputLogin?.userId}
                         />
-
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (
@@ -413,7 +412,6 @@ export const Login = observer(() => {
                           }}
                           defaultValue={loginStore.inputLogin?.password}
                         />
-
                         <Controller
                           control={control}
                           render={({ field: { onChange, value } }) => (
@@ -454,7 +452,6 @@ export const Login = observer(() => {
                           rules={{ required: true }}
                           defaultValue={loginStore.inputLogin?.lab}
                         />
-
                         <Controller
                           control={control}
                           render={({ field: { onChange } }) => (

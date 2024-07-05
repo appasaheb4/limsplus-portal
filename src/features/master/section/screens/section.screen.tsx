@@ -317,7 +317,7 @@ const Section = SectionHoc(
                         }
                         value={value}
                         onChange={codeValue => {
-                          const code = codeValue.toUpperCase();
+                          const code = codeValue?.toUpperCase();
                           onChange(code);
                           sectionStore.updateSection({
                             ...sectionStore.section,
@@ -351,7 +351,7 @@ const Section = SectionHoc(
                         }
                         value={value}
                         onChange={sectionName => {
-                          const name = sectionName.toUpperCase();
+                          const name = sectionName?.toUpperCase();
                           onChange(name);
                           sectionStore.updateSection({
                             ...sectionStore.section,
@@ -381,7 +381,7 @@ const Section = SectionHoc(
                           onChange(shortName);
                           sectionStore.updateSection({
                             ...sectionStore.section,
-                            shortName: shortName.toUpperCase(),
+                            shortName: shortName?.toUpperCase(),
                           });
                         }}
                       />

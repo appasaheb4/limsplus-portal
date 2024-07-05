@@ -87,7 +87,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
 
     return (
       <>
-        <div ref={wrapperRef}>
+        <div ref={wrapperRef} className='w-full relative'>
           <div
             className={`flex items-center leading-4 p-2 focus:outline-none focus:ring  w-full shadow-sm sm:text-base border-2  ${
               hasError ? 'border-red' : 'border-gray-300'
@@ -112,7 +112,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
 
           {options && isListOpen
             ? options.length > 0 && (
-                <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-50'>
+                <div className='mt-1 absolute bg-gray-100 p-2 rounded-sm z-500'>
                   <ul>
                     {options?.map((item, index) => (
                       <>

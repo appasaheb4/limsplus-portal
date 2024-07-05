@@ -173,10 +173,10 @@ export const DocumentSettings = DocumentSettingHoc(
                     hasError={!!errors.fieldName}
                     value={value}
                     onChange={fieldName => {
-                      onChange(fieldName.toUpperCase());
+                      onChange(fieldName?.toUpperCase());
                       lookupStore.updateLookup({
                         ...lookupStore.lookup,
-                        fieldName: fieldName.toUpperCase(),
+                        fieldName: fieldName?.toUpperCase(),
                       });
                     }}
                   />
@@ -196,7 +196,7 @@ export const DocumentSettings = DocumentSettingHoc(
                         value={value}
                         onChange={codeValue => {
                           const code = lookupStore.localInput.flagUpperCase
-                            ? codeValue.toUpperCase()
+                            ? codeValue?.toUpperCase()
                             : codeValue;
                           onChange(code);
                           lookupStore.updateLocalInput({

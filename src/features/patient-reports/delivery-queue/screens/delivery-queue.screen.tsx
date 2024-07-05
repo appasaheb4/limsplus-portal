@@ -498,6 +498,8 @@ const DeliveryQueue = observer(() => {
                           reportTo: {
                             _id: item?._id,
                             labId: item?.labId,
+                            reportType: item?.reportType,
+                            companyCode: item?.companyCode,
                             pdf: item?.pdf,
                             options: corporateClients?.reportTo,
                             patientVisit,
@@ -590,7 +592,7 @@ const DeliveryQueue = observer(() => {
             .reportUpload({ input: { file, details } })
             .then(res => {
               if (res.reportUploadDeliveryQueue.success) {
-                console.log({ res });
+                deliveryQueueStore.deliveryQueueService.listDeliveryQueue();
                 setModalGenerateReports({
                   ...modalGenerateReports,
                   reportTo: {

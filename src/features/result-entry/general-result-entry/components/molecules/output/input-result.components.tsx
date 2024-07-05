@@ -70,7 +70,8 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
           .findByFields({
             input: {
               filter: {
-                libraryType: 'R',
+                libraryType: 'Alpha',
+                groups: 'Results',
                 lab: row?.pLab,
                 department: row?.departement,
               },
@@ -79,11 +80,12 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
           .then(res => {
             if (res.findByFieldsLibrarys.success) {
               setLibraryList(res.findByFieldsLibrarys?.data);
-            } else {
-              Toast.warning({
-                message: `😔 ${res.findByFieldsLibrarys.message}`,
-              });
             }
+            //  else {
+            //   Toast.warning({
+            //     message: `😔 ${res.findByFieldsLibrarys.message}`,
+            //   });
+            // }
           });
         break;
       }
@@ -170,7 +172,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
             if (item)
               onSelect({
                 result: item.description,
-                alpha: item?.code,
+                alpha: item?.libraryCode,
                 abnFlag: item?.abNormal || false,
                 critical: item?.critical || false,
               });
@@ -179,7 +181,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
           <option>Select</option>
           {libraryList?.map((item: any, index: number) => (
             <option key={index} value={JSON.stringify(item)}>
-              {`${item.code} - ${item.description}`}
+              {`${item.libraryCode} - ${item.description}`}
             </option>
           ))}
         </select>

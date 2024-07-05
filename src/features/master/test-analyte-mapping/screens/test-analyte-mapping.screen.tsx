@@ -762,7 +762,6 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
                                   return items._id !== item._id;
                                 });
                               }
-                              console.log({ analyteCode });
                               testAnalyteMappingStore.updateSelectedItems({
                                 ...testAnalyteMappingStore.selectedItems,
                                 analyteCode,

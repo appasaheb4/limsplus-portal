@@ -50,6 +50,7 @@ export const COMPANY_LIST = gql`
         version
         status
         environment
+        configuration
         dateOfEntry
         lastUpdated
       }
@@ -143,6 +144,7 @@ export const FILTER = gql`
         version
         status
         environment
+        configuration
         dateOfEntry
         lastUpdated
       }
@@ -200,6 +202,7 @@ export const FILTER_BY_FIELDS = gql`
         version
         status
         environment
+        configuration
         dateOfEntry
         lastUpdated
       }
@@ -254,6 +257,7 @@ export const FIND_BY_FIELDS = gql`
         version
         status
         environment
+        configuration
         dateOfEntry
         lastUpdated
       }

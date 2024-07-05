@@ -171,7 +171,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
                       ? 'XXXXXXXX'
-                      : row.mobileNo}
+                      : row?.mobileNo || ''}
                   </>
                 );
               },
@@ -534,7 +534,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
                       ? 'XXXXXXXX'
-                      : row?.firstName}
+                      : row?.firstName || ''}
                   </>
                 );
               },
@@ -569,7 +569,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
                       ? 'XXXXXXXX'
-                      : row.middleName}
+                      : row.middleName || ''}
                   </>
                 );
               },
@@ -604,7 +604,7 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   <>
                     {row.extraData?.confidental && !props.extraData.confidental
                       ? 'XXXXXXXX'
-                      : row.lastName}
+                      : row.lastName || ''}
                   </>
                 );
               },

@@ -47,6 +47,7 @@ export const CREATE_PAYMENT = gql`
     createPayment(input: $input) {
       success
       message
+      result
     }
   }
 `;

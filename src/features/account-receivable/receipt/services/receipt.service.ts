@@ -5,12 +5,13 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   RECEIPTS_LIST,
   RECEIPTS,
   PAYMENT_RECEIPT_UPLOAD,
+  SEND_SMS,
 } from './mutation-receipt';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -25,7 +26,7 @@ export class ReceiptService {
       client
         .mutate({
           mutation: RECEIPTS_LIST,
-          variables: {input: {page, limit, environment, role}},
+          variables: { input: { page, limit, environment, role } },
         })
         .then((response: any) => {
           stores.receiptStore.updateReceiptList(response.data);
@@ -58,6 +59,22 @@ export class ReceiptService {
           variables,
         })
         .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  sendSMS = variables =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: SEND_SMS,
+          variables,
+        })
+        .then((response: any) => {
+          console.log({ response });
           resolve(response.data);
         })
         .catch(error =>

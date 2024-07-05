@@ -35,6 +35,7 @@ export class PatientResultStore {
       filterPatientResultList: action,
       patientResultListForGeneralResEntry: action,
       updateDistinctPatientResult: action,
+      filterDistinctPatientResult: action,
     });
   }
 
@@ -139,6 +140,7 @@ export class PatientResultStore {
           analyteName: item._id?.analyteName,
           labId: item._id?.labId,
           name: item._id?.name || '',
+          pId: item._id?.pId || 0,
         };
         return JSON.parse(JSON.stringify(obj));
       },

@@ -13,6 +13,7 @@ export class ReportDelivery {
   deliveryStatus: string;
   reportType: string;
   deliveryMode: string;
+  reportTo: any;
   destination: string;
   comments: string;
   startDate: Date;
@@ -34,7 +35,7 @@ export class ReportDelivery {
   enteredBy: string;
   userComments: string;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.name = rawData.name;
     this.patientResultId = rawData.patientResultId;
@@ -49,6 +50,7 @@ export class ReportDelivery {
     this.deliveryStatus = rawData.deliveryStatus;
     this.reportType = rawData.reportType;
     this.deliveryMode = rawData.deliveryMode;
+    this.reportTo = rawData.reportTo;
     this.destination = rawData.destination;
     this.comments = rawData.comments;
     this.startDate = rawData.startDate;

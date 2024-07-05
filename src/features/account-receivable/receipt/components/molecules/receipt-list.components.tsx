@@ -1,8 +1,16 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { Tooltip, Icons } from '@/library/components';
+import {
+  Tooltip,
+  Icons,
+  textFilter,
+  sortCaret,
+  customFilter,
+  DateRangeFilter,
+} from '@/library/components';
 import { Confirm } from '@/library/models';
 import { TableBootstrap } from './table-bootstrap.components';
+import dayjs from 'dayjs';
 
 interface ReceiptListProps {
   data: any;
@@ -23,6 +31,11 @@ interface ReceiptListProps {
     totalSize: number,
   ) => void;
 }
+
+let patientName;
+let invoiceAc;
+let labId;
+let invoiceDate;
 
 export const ReceiptList = observer((props: ReceiptListProps) => {
   return (
@@ -49,8 +62,76 @@ export const ReceiptList = observer((props: ReceiptListProps) => {
               dataField: 'labId',
               text: 'Lab Id',
               sort: true,
+              filter: textFilter({
+                placeholder: 'LabId',
+                getFilter: filter => {
+                  labId = filter;
+                },
+              }),
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
               editable: false,
+              headerClasses: 'textHeader',
+            },
+            {
+              dataField: 'name',
+              text: 'Patient Name',
+              sort: true,
+              editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
+              filter: textFilter({
+                placeholder: 'Patient Name',
+                getFilter: filter => {
+                  patientName = filter;
+                },
+              }),
+              sortCaret: (order, column) => sortCaret(order, column),
+              headerClasses: 'textHeader',
+            },
+            {
+              dataField: 'invoiceAc',
+              text: 'Invoice Ac',
+              sort: true,
+              headerClasses: 'textHeader',
+              headerStyle: {
+                fontSize: 0,
+              },
+              sortCaret: (order, column) => sortCaret(order, column),
+              filter: textFilter({
+                placeholder: 'Invoice Ac',
+                getFilter: filter => {
+                  invoiceAc = filter;
+                },
+              }),
+              editable: false,
+            },
+            {
+              dataField: 'invoiceDate',
+              text: 'Invoice Date',
+              sort: true,
+              editable: false,
+              headerStyle: {
+                fontSize: 0,
+              },
               headerClasses: 'textHeaderm',
+              filter: customFilter({
+                getFilter: filter => {
+                  invoiceDate = filter;
+                },
+              }),
+              filterRenderer: (onFilter, column) => (
+                <DateRangeFilter onFilter={onFilter} column={column} />
+              ),
+              formatter: (cell, row) => {
+                return (
+                  row.invoiceDate &&
+                  dayjs(row.invoiceDate).format('DD-MM-YYYY HH:mm:ss')
+                );
+              },
             },
             {
               dataField: 'grossAmount',
@@ -160,7 +241,12 @@ export const ReceiptList = observer((props: ReceiptListProps) => {
           onFilter={(type, filter, page, size) => {
             props.onFilter && props.onFilter(type, filter, page, size);
           }}
-          clearAllFilter={() => {}}
+          clearAllFilter={() => {
+            patientName('');
+            invoiceAc('');
+            labId('');
+            invoiceDate();
+          }}
         />
       </div>
     </>

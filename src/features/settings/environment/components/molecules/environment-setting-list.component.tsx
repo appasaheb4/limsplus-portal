@@ -20,7 +20,7 @@ let user;
 let department;
 let variable;
 let value;
-let description;
+let descriptions;
 let environment;
 let status;
 let companyCode;
@@ -310,7 +310,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
                       if (row.value !== value) {
                         props.onUpdateItem &&
                           props.onUpdateItem(
-                            value.toUpperCase(),
+                            value?.toUpperCase(),
                             column.dataField,
                             row._id,
                           );
@@ -321,7 +321,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               ),
             },
             {
-              dataField: 'description',
+              dataField: 'descriptions',
               text: 'Description',
               sort: true,
               headerStyle: {
@@ -334,7 +334,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
               filter: textFilter({
                 placeholder: 'Description',
                 getFilter: (filter: any) => {
-                  description = filter;
+                  descriptions = filter;
                 },
               }),
               style: {
@@ -597,7 +597,7 @@ export const EnvironmentSettingsList = (props: SessionManagementListProps) => {
             department('');
             variable('');
             value('');
-            description('');
+            descriptions('');
             environment('');
             status('');
             companyCode('');

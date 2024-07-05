@@ -113,10 +113,10 @@ export const GeneralField = GeneralFieldHoc(
                       findKey: ['fieldName'],
                     }}
                     onChange={(item: any) => {
-                      onChange(item.toUpperCase());
+                      onChange(item?.toUpperCase());
                       lookupStore.updateGlobalSettings({
                         ...lookupStore.globalSettings,
-                        fieldName: item.toUpperCase(),
+                        fieldName: item?.toUpperCase(),
                       });
                     }}
                   />
@@ -136,11 +136,11 @@ export const GeneralField = GeneralFieldHoc(
                       hasError={!!errors.code}
                       value={lookupStore.localInput.code}
                       onChange={code => {
-                        onChange(code.toUpperCase());
+                        onChange(code?.toUpperCase());
                         lookupStore.updateLocalInput({
                           ...lookupStore.localInput,
                           code: lookupStore.flagUpperCase
-                            ? code.toUpperCase()
+                            ? code?.toUpperCase()
                             : code,
                         });
                       }}

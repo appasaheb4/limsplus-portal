@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { useStores } from '@/stores';
 import { getDefaultLookupItem } from '@/library/utils';
+import { eventEmitter } from '@/core-utils';
 
 export const PatientManagerHoc = (Component: React.FC<any>) => {
   return observer((props: any): JSX.Element => {
@@ -9,7 +10,8 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       useStores();
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
+
+    const fetchDefaultDetails = () => {
       patientManagerStore.updatePatientManager({
         ...patientManagerStore.patientManger,
         species: getDefaultLookupItem(
@@ -34,10 +36,6 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
             routerStore.lookupItems,
             'PATIENT MANAGER - STATUS',
           ),
-          // environment: getDefaultLookupItem(
-          //   routerStore.lookupItems,
-          //   'PATIENT MANAGER - ENVIRONMENT',
-          // ),
         },
       });
       if (!patientManagerStore.patientManger.extraData?.country) {
@@ -61,15 +59,13 @@ export const PatientManagerHoc = (Component: React.FC<any>) => {
           });
         });
       }
-      if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
-        patientManagerStore.updatePatientManager({
-          ...patientManagerStore.patientManger,
-          extraData: {
-            ...patientManagerStore.patientManger?.extraData,
-            environment: loginStore.login.environment,
-          },
-        });
-      }
+    };
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      fetchDefaultDetails();
+      eventEmitter.on('pmReload', data => {
+        fetchDefaultDetails();
+      });
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login, routerStore.lookupItems]);
     return <Component {...props} />;

@@ -55,6 +55,8 @@ export const Department = DeginisationHoc(
       // Default value initialization
       setValue('lab', loginStore.login.lab);
       setValue('status', departmentStore.department?.status);
+      setValue('openingTime', departmentStore.department?.openingTime);
+      setValue('closingTime', departmentStore.department?.closingTime);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [departmentStore.department]);
 
@@ -381,7 +383,7 @@ export const Department = DeginisationHoc(
                         }
                         value={value}
                         onChange={codeValue => {
-                          const code = codeValue.toUpperCase();
+                          const code = codeValue?.toUpperCase();
                           onChange(code);
                           departmentStore.updateDepartment({
                             ...departmentStore.department,
@@ -421,7 +423,7 @@ export const Department = DeginisationHoc(
                         }
                         value={value}
                         onChange={departmentName => {
-                          const name = departmentName.toUpperCase();
+                          const name = departmentName?.toUpperCase();
                           onChange(name);
                           departmentStore.updateDepartment({
                             ...departmentStore.department,
@@ -451,7 +453,7 @@ export const Department = DeginisationHoc(
                           onChange(shortName);
                           departmentStore.updateDepartment({
                             ...departmentStore.department,
-                            shortName: shortName.toUpperCase(),
+                            shortName: shortName?.toUpperCase(),
                           });
                         }}
                       />
@@ -490,7 +492,7 @@ export const Department = DeginisationHoc(
                             onChange(item.fullName);
                             departmentStore.updateDepartment({
                               ...departmentStore.department,
-                              hod: item.fullName.toUpperCase(),
+                              hod: item.fullName?.toUpperCase(),
                             });
                             if (
                               !departmentStore.selectedItems

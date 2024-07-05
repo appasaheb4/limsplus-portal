@@ -200,7 +200,7 @@ const SampleType = SampleTypeHoc(
                         }
                         value={value}
                         onChange={sampleCodeValue => {
-                          const sampleCode = sampleCodeValue.toUpperCase();
+                          const sampleCode = sampleCodeValue?.toUpperCase();
                           onChange(sampleCode);
                           sampleTypeStore.updateSampleType({
                             ...sampleTypeStore.sampleType,
@@ -236,7 +236,7 @@ const SampleType = SampleTypeHoc(
                         }
                         value={value}
                         onChange={sampleTypeValue => {
-                          const sampleType = sampleTypeValue.toUpperCase();
+                          const sampleType = sampleTypeValue?.toUpperCase();
                           onChange(sampleType);
                           sampleTypeStore.updateSampleType({
                             ...sampleTypeStore.sampleType,
@@ -265,7 +265,7 @@ const SampleType = SampleTypeHoc(
                           onChange(sampleGroup);
                           sampleTypeStore.updateSampleType({
                             ...sampleTypeStore.sampleType,
-                            sampleGroup: sampleGroup.toUpperCase(),
+                            sampleGroup: sampleGroup?.toUpperCase(),
                           });
                         }}
                       />
