@@ -224,6 +224,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               dataField: 'operation',
               text: 'Action',
               csvExport: false,
+              editable: false,
               // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
