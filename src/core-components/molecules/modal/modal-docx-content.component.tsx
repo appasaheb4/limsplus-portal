@@ -79,24 +79,16 @@ export const ModalDocxContent = observer(
       if (showModal)
         setTimeout(() => {
           const ruler1 = new Ruler(
-            document.querySelector('.jodit-workplace') as HTMLElement,
+            document.querySelector('.ruler.horizontal') as HTMLElement,
             {
               type: 'horizontal',
-              height: 10,
-              style: {
-                position: 'absolute',
-              },
             },
           );
           const ruler2 = new Ruler(
-            document.querySelector('.jodit-workplace') as HTMLElement,
+            document.querySelector('.ruler.vertical') as HTMLElement,
             {
               type: 'vertical',
               direction: 'start',
-              style: {
-                position: 'absolute',
-              },
-              // height: 10,
             },
           );
           window.addEventListener('resize', () => {
@@ -123,7 +115,7 @@ export const ModalDocxContent = observer(
                   <div
                     className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'
                     style={{
-                      height: window.outerHeight / 1.5,
+                      height: window.outerHeight / 1.3,
                     }}
                   >
                     {/*header*/}
@@ -210,19 +202,19 @@ export const ModalDocxContent = observer(
                     {/*body*/}
                     <div className='relative p-2'>
                       <div className='grid grid-cols-1'>
-                        {/* <div
+                        <div
                           className={`flex  ruler horizontal h-10 w[${
                             screen.width / 1.3
                           }px]`}
                         ></div>
-                        <div className='flex  ruler vertical h-[560px]'></div> */}
-                        <div className='flex '>
+                        <div className='flex  ruler vertical h-[560px]'></div>
+                        <div className='flex absolute mt-12 ml-12 w-full'>
                           <JoditEditor
                             ref={editor}
                             config={
                               {
                                 height: 540,
-                                width: window.innerWidth / 1.23,
+                                width: window.innerWidth / 1.3,
                                 disabled: !isEditable,
                                 events: {
                                   afterOpenPasteDialog: (

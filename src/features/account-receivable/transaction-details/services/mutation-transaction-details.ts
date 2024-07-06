@@ -99,3 +99,55 @@ export const FIND_BY_FIELDS_TRANSACTION_LINE = gql`
     }
   }
 `;
+
+export const FILTER_BY_FIELDS = gql`
+  mutation ($input: TransactionHeaderInput!) {
+    filterByFieldsTransactionDetails(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        headerId
+        collectionCenter
+        corporateCode
+        labId
+        invoiceAc
+        invoiceDate
+        actionDate
+        registrationDate
+        dueDate
+        reportingDate
+        doctorId
+        pId
+        priceGroup
+        priceList
+        grossAmount
+        netAmount
+        discountAmount
+        discountPer
+        miscellaneousCharges
+        receivedAmount
+        balance
+        acClass
+        accountType
+        customerGroup
+        patientOrderId
+        visitId
+        rLab
+        allMiscCharges
+        discountCharges
+        customerName
+        status
+        companyCode
+        environment
+        enteredBy
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
+    }
+  }
+`;
