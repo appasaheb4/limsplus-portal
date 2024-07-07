@@ -194,7 +194,9 @@ const PatientRegistration = observer(({ sidebar }) => {
                     'pId',
                   ],
                 }}
-                displayValue={generalResultEntryStore.filterGeneralResEntry?.name?.toString()}
+                displayValue={
+                  patientRegistrationStore.defaultValues?.patientName
+                }
                 onFilter={(value: string) => {
                   patientManagerStore.patientManagerService.filterByFields(
                     {
@@ -222,13 +224,23 @@ const PatientRegistration = observer(({ sidebar }) => {
                   );
                   patientRegistrationStore.updateDefaultValue({
                     ...patientRegistrationStore.defaultValues,
+                    patientName: [
+                      item?.title,
+                      item?.firstName || '#',
+                      item?.middleName || '#',
+                      item?.lastName || '#',
+                      item?.pId?.toString(),
+                    ]
+                      .join(' - ')
+                      ?.replaceAll('- #', ''),
                     pId: item?.pId,
+                    mobileNo: '',
+                    filterLock: false,
                   });
                 }}
               />
             </div>
-
-            {patientRegistrationStore.filterOptionList.pIds?.length > 1 ? (
+            {/* {patientRegistrationStore.filterOptionList.pIds?.length > 1 ? (
               <select
                 className={
                   'leading-4 p-2 focus:outline-none focus:ring block mt-1 h-11 shadow-sm sm:text-base border-2 border-gray-300 rounded-md w-40'
@@ -257,36 +269,37 @@ const PatientRegistration = observer(({ sidebar }) => {
                   ),
                 )}
               </select>
-            ) : (
-              <Form.Input2
-                placeholder='PId'
-                className='w-40 arrow-hide'
-                type='number'
-                value={patientRegistrationStore.defaultValues?.pId}
-                onChange={pId => {
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    pId,
-                  });
-                }}
-                onKeyDown={() => {
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    labId: '',
-                    mobileNo: '',
-                    filterLock: false,
-                  });
-                }}
-                onBlur={async pId => {
-                  if (pId?.length > 0) {
-                    await patientRegistrationStore.getPatientRegRecords(
-                      'pId',
-                      pId?.toString(),
-                    );
-                  }
-                }}
-              />
-            )}
+            ) : ( */}
+            <Form.Input2
+              placeholder='PId'
+              className='w-40 arrow-hide'
+              type='number'
+              value={patientRegistrationStore.defaultValues?.pId}
+              onChange={pId => {
+                patientRegistrationStore.updateDefaultValue({
+                  ...patientRegistrationStore.defaultValues,
+                  pId,
+                });
+              }}
+              onKeyDown={() => {
+                patientRegistrationStore.updateDefaultValue({
+                  ...patientRegistrationStore.defaultValues,
+                  patientName: '',
+                  labId: '',
+                  mobileNo: '',
+                  filterLock: false,
+                });
+              }}
+              onBlur={async pId => {
+                if (pId?.length > 0) {
+                  await patientRegistrationStore.getPatientRegRecords(
+                    'pId',
+                    pId?.toString(),
+                  );
+                }
+              }}
+            />
+            {/* )} */}
             {patientRegistrationStore.filterOptionList.labIds?.length > 1 ? (
               <select
                 className={
@@ -296,10 +309,12 @@ const PatientRegistration = observer(({ sidebar }) => {
                   const labId = e.target.value;
                   patientRegistrationStore.updateDefaultValue({
                     ...patientRegistrationStore.defaultValues,
+                    patientName: '',
                     pId: '',
                     labId,
                     mobileNo: '',
                     filterLock: false,
+                    isPOLabIdLock: false,
                   });
                   patientRegistrationStore.getPatientRegRecords(
                     'labId',
@@ -331,9 +346,11 @@ const PatientRegistration = observer(({ sidebar }) => {
                 onKeyDown={() => {
                   patientRegistrationStore.updateDefaultValue({
                     ...patientRegistrationStore.defaultValues,
+                    patientName: '',
                     pId: '',
                     mobileNo: '',
                     filterLock: false,
+                    isPOLabIdLock: false,
                   });
                 }}
                 onBlur={labId => {
@@ -360,6 +377,7 @@ const PatientRegistration = observer(({ sidebar }) => {
               onKeyDown={() => {
                 patientRegistrationStore.updateDefaultValue({
                   ...patientRegistrationStore.defaultValues,
+                  patientName: '',
                   pId: '',
                   labId: '',
                   filterLock: false,
@@ -388,6 +406,7 @@ const PatientRegistration = observer(({ sidebar }) => {
                 onClick={() => {
                   patientRegistrationStore.updateDefaultValue({
                     ...patientRegistrationStore.defaultValues,
+                    patientName: '',
                     pId: '',
                     labId: '',
                     mobileNo: '',

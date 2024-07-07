@@ -1,4 +1,5 @@
 export class DefaultValues {
+  patientName?: string;
   pId?: number | string;
   labId?: number | string;
   mobileNo?: string;
@@ -8,6 +9,7 @@ export class DefaultValues {
   isPOLabIdLock: boolean;
   isPatientFormOpen: boolean;
   constructor(rawData: { [key in string]: any }) {
+    this.patientName = rawData.patientName;
     this.pId = rawData.pId;
     this.labId = rawData.labId;
     this.mobileNo = rawData.mobileNo;

@@ -89,9 +89,9 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
       if (options.length > 0) {
         const selectedItem = options.find(item => item.labId === Number(value));
         if (selectedItem) {
-          setValue(
-            data.displayKey.map(key => `${selectedItem[key]}`).join(' - '),
-          );
+          // setValue(
+          //   data.displayKey.map(key => `${selectedItem[key]}`).join(' - '),
+          // );
           setIsListOpen(false);
           onSelect && onSelect(selectedItem);
         }
@@ -172,9 +172,6 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
                               maxWidth: '334px',
                               whiteSpace: 'nowrap',
                             }}
-                            // title={data.displayKey
-                            //   .map(key => item[key] || '')
-                            //   .join(' - ')}
                           >
                             {data.displayKey
                               .map(key => {

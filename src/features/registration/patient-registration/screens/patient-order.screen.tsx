@@ -133,23 +133,22 @@ export const PatientOrder = PatientOrderHoc(
             });
             patientOrderStore.updatePackageList([]);
             // filter pr
-
-            for (const [key, value] of Object.entries(
-              patientRegistrationStore.defaultValues,
-            )) {
-              if (!_.isEmpty(value)) {
-                await patientRegistrationStore.getPatientRegRecords(key, value);
+            const defaultValues = patientRegistrationStore.defaultValues;
+            for (const [key, value] of Object.entries(defaultValues)) {
+              if (key == 'patientName' || key == 'accordionExpandItem')
+                continue;
+              if (typeof key == 'string' && !_.isEmpty(value?.toString())) {
+                await patientRegistrationStore
+                  .getPatientRegRecords(key, value)
+                  .then(res => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...defaultValues,
+                      accordionExpandItem: 'PATIENT ORDER',
+                    });
+                  });
+                break;
               }
-              break;
             }
-
-            setTimeout(() => {
-              patientRegistrationStore.updateDefaultValue({
-                ...patientRegistrationStore.defaultValues,
-                accordionExpandItem: 'PATIENT ORDER',
-                isPOLabIdLock: true,
-              });
-            }, 1000);
           });
       } else {
         Toast.warning({
@@ -628,17 +627,27 @@ export const PatientOrder = PatientOrderHoc(
                     Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,
                     });
+
+                    console.log({
+                      default: patientRegistrationStore.defaultValues,
+                    });
+
                     for (const [key, value] of Object.entries(
                       patientRegistrationStore.defaultValues,
                     )) {
-                      if (!_.isEmpty(value)) {
+                      if (key == 'patientName' || key == 'accordionExpandItem')
+                        continue;
+                      if (
+                        typeof key == 'string' &&
+                        !_.isEmpty(value?.toString())
+                      ) {
                         await patientRegistrationStore.getPatientRegRecords(
                           key,
                           value,
                           'delete',
                         );
+                        break;
                       }
-                      break;
                     }
                   }
                 });

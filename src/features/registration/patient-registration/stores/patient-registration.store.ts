@@ -42,6 +42,7 @@ export class PatientRegistrationStore {
   }
 
   updateDefaultValue(values: DefaultValues) {
+    console.log({ values });
     this.defaultValues = new DefaultValues(values);
   }
 
@@ -56,15 +57,20 @@ export class PatientRegistrationStore {
     type = 'fetch',
     pId?: number,
   ) {
-    await this.patientManagerStore.patientManagerService.getFilterOptionList({
-      input: {
-        filter: {
-          type: key,
-          [key]: value,
-          patientPId: pId,
-        },
-      },
-    });
+    // await this.patientManagerStore.patientManagerService
+    //   .getFilterOptionList({
+    //     input: {
+    //       filter: {
+    //         type: key,
+    //         [key]: value,
+    //         patientPId: pId,
+    //       },
+    //     },
+    //   })
+    //   .then(async res => {
+    //     if (res.getFilterOptionListPatientManager?.success) {
+    //     }
+    //   });
     await this.patientManagerStore.patientManagerService.getPatientRegRecords(
       {
         input: {
@@ -73,6 +79,7 @@ export class PatientRegistrationStore {
       },
       type,
     );
+    return true;
   }
 
   updateInput2isBlurEnable(flag: boolean) {
