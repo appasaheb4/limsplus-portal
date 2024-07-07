@@ -220,6 +220,10 @@ const PatientRegistration = observer(({ sidebar }) => {
                   patientManagerStore.filterDistinctPatientManager(
                     patientManagerStore.distinctPatientManagerCopy,
                   );
+                  patientRegistrationStore.updateDefaultValue({
+                    ...patientRegistrationStore.defaultValues,
+                    pId: item?.pId,
+                  });
                 }}
               />
             </div>

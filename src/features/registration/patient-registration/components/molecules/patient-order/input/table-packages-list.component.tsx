@@ -212,6 +212,16 @@ export const TablePackagesList = observer(
                       color='#ffffff'
                       size='20'
                       onClick={() => {
+                        const pacakgeListS =
+                          patientOrderStore.packageList.pacakgeListS;
+                        pacakgeListS[index] = Object.assign(item, {
+                          bill: true,
+                          isManualAmount: true,
+                        });
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListS,
+                        });
                         setEditableRow(prevState => ({
                           ...prevState,
                           ['pacakgeListS']: index,
@@ -511,6 +521,16 @@ export const TablePackagesList = observer(
                       color='#ffffff'
                       size='20'
                       onClick={() => {
+                        const pacakgeListM =
+                          patientOrderStore.packageList.pacakgeListM;
+                        pacakgeListM[index] = Object.assign(item, {
+                          bill: true,
+                          isManualAmount: true,
+                        });
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListM,
+                        });
                         setEditableRow(prevState => ({
                           ...prevState,
                           ['pacakgeListM']: index,
@@ -802,6 +822,16 @@ export const TablePackagesList = observer(
                       color='#ffffff'
                       size='20'
                       onClick={() => {
+                        const pacakgeListN =
+                          patientOrderStore.packageList.pacakgeListN;
+                        pacakgeListN[index] = Object.assign(item, {
+                          bill: true,
+                          isManualAmount: true,
+                        });
+                        patientOrderStore.updatePackageList({
+                          ...patientOrderStore.packageList,
+                          pacakgeListN,
+                        });
                         setEditableRow(prevState => ({
                           ...prevState,
                           ['pacakgeListN']: index,
@@ -1104,6 +1134,16 @@ export const TablePackagesList = observer(
                         color='#ffffff'
                         size='20'
                         onClick={() => {
+                          const pacakgeListK =
+                            patientOrderStore.packageList.pacakgeListK;
+                          pacakgeListK[index] = Object.assign(item, {
+                            bill: true,
+                            isManualAmount: true,
+                          });
+                          patientOrderStore.updatePackageList({
+                            ...patientOrderStore.packageList,
+                            pacakgeListK,
+                          });
                           setEditableRow(prevState => ({
                             ...prevState,
                             ['pacakgeListK']: index,

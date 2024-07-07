@@ -239,10 +239,10 @@ export const PatientManager = PatientManagerHoc(
             for (const [key, value] of Object.entries(
               patientRegistrationStore.defaultValues,
             )) {
-              if (typeof value === 'string' && !_.isEmpty(value)) {
+              if (!_.isEmpty(value)) {
                 patientRegistrationStore.getPatientRegRecords(key, value);
-                break;
               }
+              break;
             }
           }
         });
