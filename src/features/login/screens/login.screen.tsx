@@ -332,10 +332,10 @@ export const Login = observer(() => {
                                       userId: userId.trim(),
                                       webPortal:
                                         process.env.REACT_APP_ENV === 'Local'
-                                          ? 'https://www.limsplussolutions.com'
+                                          ? 'https://geneflow.limsplussolutions.com'
                                           : window.location.origin,
                                       // webPortal:
-                                      //   'https://geneflow.limsplussolutions.com',
+                                      //   'https://www.limsplussolutions.com',
                                     },
                                   }).then(async res => {
                                     if (res.checkUserExitsUserId?.success) {
