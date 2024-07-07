@@ -50,13 +50,13 @@ export class PatientRegistrationStore {
       this.filterOptionList = res.getFilterOptionListPatientManager.records;
   }
 
-  getPatientRegRecords(
+  async getPatientRegRecords(
     key: string,
     value: string,
     type = 'fetch',
     pId?: number,
   ) {
-    this.patientManagerStore.patientManagerService.getFilterOptionList({
+    await this.patientManagerStore.patientManagerService.getFilterOptionList({
       input: {
         filter: {
           type: key,
@@ -65,7 +65,7 @@ export class PatientRegistrationStore {
         },
       },
     });
-    this.patientManagerStore.patientManagerService.getPatientRegRecords(
+    await this.patientManagerStore.patientManagerService.getPatientRegRecords(
       {
         input: {
           filter: { type: key, [key]: value, patientPId: pId },

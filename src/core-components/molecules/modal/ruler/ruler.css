@@ -1,0 +1,47 @@
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+} */
+
+.ruler {
+  position: relative;
+  height: 50px; /* Adjust height as needed */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: flex-end;
+}
+
+.tick {
+  position: relative;
+  width: 1px; /* Width of each tick mark */
+  height: 20px; /* Height of each tick mark */
+  background-color: #666;
+}
+
+.number {
+  position: absolute;
+  bottom: -25px;
+  font-size: 12px;
+  color: #666;
+  transform: translateX(-50%);
+}
+
+/* Adjust positioning for each tick mark */
+.tick:nth-child(odd) {
+  height: 30px; /* Adjust height for alternate tick marks */
+}
+
+/* Adjust positioning for each tick mark */
+.tick:nth-child(2n) {
+  height: 25px; /* Adjust height for alternate tick marks */
+}
+
+/* Add more nth-child selectors for additional tick marks */

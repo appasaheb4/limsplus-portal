@@ -220,14 +220,14 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
               </PdfSmall>
             </PdfView>
 
-            <PdfBorderView mh={0} mv={4} bw={1}>
+            {/* <PdfBorderView mh={0} mv={4} bw={1}>
               <PdfSmall>
                 * In publishing and graphic design, Lorem ipsum is a placeholder
                 text commonly used to demonstrate the visual form of a document
                 or a typeface without relying on meaningful content. Lorem ipsum
                 may be used as a placeholder before final copy is available.
               </PdfSmall>
-            </PdfBorderView>
+            </PdfBorderView> */}
           </PdfView>
         </>
       }

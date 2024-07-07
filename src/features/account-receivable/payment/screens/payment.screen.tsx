@@ -246,16 +246,18 @@ const Payment = PaymentHoc(
                         displayValue={value?.toString()}
                         hasError={!!errors.pId}
                         onFilter={(value: string) => {
-                          // methodsStore.methodsService.filterByFields({
-                          //   input: {
-                          //     filter: {
-                          //       fields: ['pId', 'customerName'],
-                          //       srText: value,
-                          //     },
-                          //     page: 0,
-                          //     limit: 10,
-                          //   },
-                          // });
+                          transactionDetailsStore.transactionDetailsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ['pId', 'customerName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            },
+                          );
                         }}
                         onSelect={item => {
                           onChange(item.pId);

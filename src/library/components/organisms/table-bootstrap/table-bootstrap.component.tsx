@@ -124,7 +124,6 @@ export const TableBootstrap = ({
   registrationExtraData = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
-  const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [isColumnFilterVisible, setIsColumnFilterVisible] =
     useState<boolean>(false);
   const [currentColumns, setCurrentColumns] = useState(columns);
@@ -615,8 +614,6 @@ export const TableBootstrap = ({
   const nonSelectableStyle = (row, rowIndex) => {
     return { backgroundColor: 'gray' };
   };
-
-  console.log({ currentColumns });
 
   return (
     <PaginationProvider

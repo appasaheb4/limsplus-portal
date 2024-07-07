@@ -3,7 +3,7 @@ export class TransactionLine {
   headerId: number;
   lineId: number;
   rLab: string;
-  pLab: string;
+  pLab: number;
   collectionCenter: string;
   collectionCenterName: string;
   corporateCode: string;

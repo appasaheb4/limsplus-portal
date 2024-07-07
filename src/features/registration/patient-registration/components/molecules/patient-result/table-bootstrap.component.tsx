@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -18,6 +18,7 @@ import '@/library/components/organisms/style.css';
 
 import { Buttons, Icons } from '@/library/components';
 import { debounce } from '@/core-utils';
+import ColumnFilter from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -71,7 +72,40 @@ const TableBootstrap = ({
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const [isColumnFilterVisible, setIsColumnFilterVisible] =
+    useState<boolean>(false);
+  const [currentColumns, setCurrentColumns] = useState(columns);
+  const [columnOrder, setColumnOrder] = useState(columns);
 
+  useEffect(() => {
+    const selectedColumns = columnOrder.filter(col =>
+      currentColumns.some(c => c.dataField === col.dataField),
+    );
+    setCurrentColumns(
+      selectedColumns.length > 0
+        ? [...selectedColumns, columns[columns.length - 1]]
+        : [],
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnOrder]);
+
+  const handleColumnReorder = newColumns => {
+    setColumnOrder(newColumns);
+  };
+
+  const handleColumnToggle = selectedColumns => {
+    const newColumns = columnOrder.filter(column =>
+      selectedColumns.includes(column.dataField),
+    );
+    setCurrentColumns(
+      newColumns.length > 0 ? [...newColumns, columns[columns.length - 1]] : [],
+    );
+  };
+
+  // Filter out the "Action" and "Id" columns for the ColumnFilter component
+  const filterableColumns = columns.filter(
+    column => column.dataField !== 'operation' && column.dataField !== '_id',
+  );
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -290,7 +324,7 @@ const TableBootstrap = ({
         totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
-      columns={columns}
+      columns={currentColumns}
       data={data}
     >
       {({ paginationProps, paginationTableProps }) => (
@@ -298,7 +332,7 @@ const TableBootstrap = ({
           keyField={id}
           bootstrap4
           data={data}
-          columns={columns}
+          columns={currentColumns}
           search
           exportCSV={{
             fileName: `${fileName}_${dayjs(new Date()).format(
@@ -347,27 +381,25 @@ const TableBootstrap = ({
                     Export CSV!!
                   </ExportCSVButton>
                 )}
-                {isFilterOpen ? (
+                <div className='ml-2 relative'>
                   <Buttons.Button
                     size='medium'
                     type='outline'
                     onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
+                      setIsColumnFilterVisible(!isColumnFilterVisible);
                     }}
                   >
-                    <Icons.IconFa.FaChevronUp />
+                    <Icons.IconFa.FaFilter />
                   </Buttons.Button>
-                ) : (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronDown />
-                  </Buttons.Button>
-                )}
+                  {isColumnFilterVisible && (
+                    <ColumnFilter
+                      columns={filterableColumns}
+                      onClose={() => setIsColumnFilterVisible(false)}
+                      onColumnReorder={handleColumnReorder}
+                      onColumnToggle={handleColumnToggle}
+                    />
+                  )}
+                </div>
               </div>
               {isFilterOpen && (
                 <div className={'mb-1 flex overflow-auto'}>
@@ -380,26 +412,30 @@ const TableBootstrap = ({
                 </div>
               )}
               <div className='scrollTable'>
-                <BootstrapTable
-                  remote
-                  {...props.baseProps}
-                  noDataIndication='Table is Empty'
-                  hover
-                  {...paginationTableProps}
-                  filter={filterFactory()}
-                  cellEdit={
-                    isEditModify
-                      ? cellEditFactory({
-                          mode: 'dbclick',
-                          blurToSave: true,
-                        })
-                      : undefined
-                  }
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                  onTableChange={handleTableChange}
-                  // expandRow={expandRow}
-                  rowStyle={rowStyle}
-                />
+                {currentColumns.length > 1 ? (
+                  <BootstrapTable
+                    remote
+                    {...props.baseProps}
+                    noDataIndication='Table is Empty'
+                    hover
+                    {...paginationTableProps}
+                    filter={filterFactory()}
+                    cellEdit={
+                      isEditModify
+                        ? cellEditFactory({
+                            mode: 'dbclick',
+                            blurToSave: true,
+                          })
+                        : undefined
+                    }
+                    headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                    onTableChange={handleTableChange}
+                    // expandRow={expandRow}
+                    rowStyle={rowStyle}
+                  />
+                ) : (
+                  <div className='mt-4 text-center'>No columns selected</div>
+                )}
               </div>
               {isPagination && (
                 <>

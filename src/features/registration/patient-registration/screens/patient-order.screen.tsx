@@ -10,7 +10,6 @@ import {
   ModalConfirm,
   Form,
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
   AutoCompleteFilterMultiSelectSelectedTopDisplay,
 } from '@/library/components';
 import '@/library/assets/css/accordion.css';
@@ -101,6 +100,8 @@ export const PatientOrder = PatientOrderHoc(
                 ...v,
                 orderStatus: 'P',
                 status: 'P',
+                priceGroup: v?.isManualAmount ? 'Manual' : v?.priceGroup,
+                priceList: v?.isManualAmount ? 'Manual' : v?.priceList,
                 $__: undefined,
                 $isNew: undefined,
                 _doc: undefined,
@@ -110,7 +111,7 @@ export const PatientOrder = PatientOrderHoc(
               __typename: undefined,
             },
           })
-          .then(res => {
+          .then(async res => {
             if (res.createPatientOrder.success) {
               Toast.success({
                 message: `😊 ${res.createPatientOrder.message}`,
@@ -132,14 +133,16 @@ export const PatientOrder = PatientOrderHoc(
             });
             patientOrderStore.updatePackageList([]);
             // filter pr
+
             for (const [key, value] of Object.entries(
               patientRegistrationStore.defaultValues,
             )) {
-              if (typeof value === 'string' && !_.isEmpty(value)) {
-                patientRegistrationStore.getPatientRegRecords(key, value);
-                break;
+              if (!_.isEmpty(value)) {
+                await patientRegistrationStore.getPatientRegRecords(key, value);
               }
+              break;
             }
+
             setTimeout(() => {
               patientRegistrationStore.updateDefaultValue({
                 ...patientRegistrationStore.defaultValues,
@@ -390,8 +393,8 @@ export const PatientOrder = PatientOrderHoc(
                           );
                           //get packages list
                           if (panels?.length > 0)
-                            patientOrderStore.patientOrderService.getPackageList(
-                              {
+                            patientOrderStore.patientOrderService
+                              .getPackageList({
                                 input: {
                                   filter: {
                                     panel: _.map(panels, o =>
@@ -414,8 +417,29 @@ export const PatientOrder = PatientOrderHoc(
                                       patientOrderStore.patientOrder?.visitId,
                                   },
                                 },
-                              },
-                            );
+                              })
+                              .then(res => {
+                                const packageList = [
+                                  ...res.getPatientOrderPackagesList.packageList
+                                    .pacakgeListS,
+                                  ...res.getPatientOrderPackagesList.packageList
+                                    .pacakgeListM,
+                                  ...res.getPatientOrderPackagesList.packageList
+                                    .pacakgeListN,
+                                  ...res.getPatientOrderPackagesList.packageList
+                                    .pacakgeListK,
+                                ];
+                                packageList?.filter(item => {
+                                  if (
+                                    item?.bill &&
+                                    _.isEmpty(item?.grossAmount?.toString())
+                                  ) {
+                                    Toast.error({
+                                      message: `😌 ${item?.panelCode} amount not found. Please manual update`,
+                                    });
+                                  }
+                                });
+                              });
                         }}
                         onFilter={(value: string) => {
                           masterPanelStore.masterPanelService.filterByFields({
@@ -599,7 +623,7 @@ export const PatientOrder = PatientOrderHoc(
             if (action === 'delete') {
               patientOrderStore.patientOrderService
                 .deletePatientOrder({ input: { id: modalConfirm.id } })
-                .then((res: any) => {
+                .then(async (res: any) => {
                   if (res.removePatientOrder.success) {
                     Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,
@@ -607,14 +631,14 @@ export const PatientOrder = PatientOrderHoc(
                     for (const [key, value] of Object.entries(
                       patientRegistrationStore.defaultValues,
                     )) {
-                      if (typeof value === 'string' && !_.isEmpty(value)) {
-                        patientRegistrationStore.getPatientRegRecords(
+                      if (!_.isEmpty(value)) {
+                        await patientRegistrationStore.getPatientRegRecords(
                           key,
                           value,
                           'delete',
                         );
-                        break;
                       }
+                      break;
                     }
                   }
                 });

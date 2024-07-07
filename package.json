@@ -34,6 +34,7 @@
     "@react-pdf-viewer/core": "^3.12.0",
     "@react-pdf/renderer": "3.0.0",
     "@rimiti/hl7-object-parser": "2.9.0",
+    "@scena/ruler": "^0.20.0",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "13.1.1",
     "@testing-library/user-event": "13.5.0",

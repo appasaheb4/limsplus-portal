@@ -5,11 +5,12 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
 import {
   TRANSACTION_HEADER_LIST,
   FIND_BY_FIELDS_TRANSACTION_LINE,
+  FILTER_BY_FIELDS,
 } from './mutation-transaction-details';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -24,7 +25,7 @@ export class TransactionDetailsService {
       client
         .mutate({
           mutation: TRANSACTION_HEADER_LIST,
-          variables: {input: {page, limit, environment, role}},
+          variables: { input: { page, limit, environment, role } },
         })
         .then((response: any) => {
           stores.transactionDetailsStore.updateTransactionHeaderList(
@@ -69,4 +70,35 @@ export class TransactionDetailsService {
   //         reject(new ServiceResponse<any>(0, error.message, undefined)),
   //       );
   //   });
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER_BY_FIELDS,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterByFieldsTransactionDetails.success)
+            return this.listTransactionHeader();
+          console.log({ response });
+
+          stores.transactionDetailsStore.updateTransactionHeaderList({
+            transactionHeaders: {
+              data: response.data.filterByFieldsTransactionDetails.data,
+              paginatorInfo: {
+                count:
+                  response.data.filterByFieldsTransactionDetails.paginatorInfo
+                    .count,
+              },
+            },
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
 }

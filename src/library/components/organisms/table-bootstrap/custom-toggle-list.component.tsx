@@ -91,9 +91,7 @@ const ColumnFilter: React.FC<ColumnFilterProps> = ({
           className='p-2 border rounded w-full pl-10'
         />
       </div>
-      <div className='mb-4 text-center'>
-        <span className='text-gray-500'>—----- Make a Selection ----—</span>
-      </div>
+
       <div className='mb-4'>
         <label className='flex items-center'>
           <input

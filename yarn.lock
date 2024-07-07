@@ -1479,6 +1479,11 @@
   resolved "https://registry.yarnpkg.com/@csstools/selector-specificity/-/selector-specificity-3.1.1.tgz#63085d2995ca0f0e55aa8b8a07d69bfd48b844fe"
   integrity sha512-a7cxGcJ2wIlMFLlh8z2ONm+715QkPHiyJcxwQlKOz/03GPw1COpfhcmC9wm4xlZfp//jWHNNMwzjtqHXVWU9KA==
 
+"@daybrush/utils@^1.11.0", "@daybrush/utils@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@daybrush/utils/-/utils-1.13.0.tgz#ea70a60864130da476406fdd1d465e3068aea0ff"
+  integrity sha512-ALK12C6SQNNHw1enXK+UO8bdyQ+jaWNQ1Af7Z3FNxeAwjYhQT7do+TRE4RASAJ3ObaS2+TJ7TXR3oz2Gzbw0PQ==
+
 "@design-systems/utils@2.12.0":
   version "2.12.0"
   resolved "https://registry.yarnpkg.com/@design-systems/utils/-/utils-2.12.0.tgz#955c108be07cb8f01532207cbfea8f848fa760c9"
@@ -1529,6 +1534,11 @@
   version "0.5.7"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz#1d572bfbbe14b7704e0ba0f39b74815b84870d70"
   integrity sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==
+
+"@egjs/list-differ@^1.0.0":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@egjs/list-differ/-/list-differ-1.0.1.tgz#5772b0f8b87973bb67827f6c7d7df8d7f64a22eb"
+  integrity sha512-OTFTDQcWS+1ZREOdCWuk5hCBgYO4OsD30lXcOCyVOAjXMhgL5rBRDnt/otb6Nz8CzU0L/igdcaQBDLWc4t9gvg==
 
 "@emotion/babel-plugin@^11.10.5", "@emotion/babel-plugin@^11.11.0":
   version "11.11.0"
@@ -2897,6 +2907,22 @@
   version "1.10.3"
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.10.3.tgz#391d528054f758f81e53210f1a1eebcf1a8b1d20"
   integrity sha512-qC/xYId4NMebE6w/V33Fh9gWxLgURiNYgVNObbJl2LZv0GUUItCcCqC5axQSwRaAgaxl2mELq1rMzlswaQ0Zxg==
+
+"@scena/react-ruler@~0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@scena/react-ruler/-/react-ruler-0.19.0.tgz#7e94a3b016e9c3e0bd105455f0939832c80def0e"
+  integrity sha512-2OEOjLMOptDxdSuEqID2JAljQuYoeoV09MnLjiBeyzJxoUcVjzyBCPwkMbHRKj2Z3WrwztJAFBF+y6yNNM5Lcw==
+  dependencies:
+    "@daybrush/utils" "^1.11.0"
+    framework-utils "^1.1.0"
+
+"@scena/ruler@^0.20.0":
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/@scena/ruler/-/ruler-0.20.0.tgz#bbfc0e9338e0debe33bca225e660f5e3966a81fc"
+  integrity sha512-KVrIwU0EvNJK1833yX7Qg8h/DvSZ04S6aR012UtuWqLaD/+T80HfN5b4IEs0rtoJ26FvvfMigVnOAmyHqc1S6g==
+  dependencies:
+    croact "^1.0.3"
+    croact-ruler "~0.18.0"
 
 "@sinclair/typebox@^0.24.1":
   version "0.24.51"
@@ -7740,6 +7766,21 @@ create-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/create-require/-/create-require-1.1.1.tgz#c1d7e8f1e5f6cfc9ff65f9cd352d37348756c333"
   integrity sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==
 
+croact-ruler@~0.18.0:
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/croact-ruler/-/croact-ruler-0.18.0.tgz#50850341f6574fe24b26cc32db34fc1c19f5cdc8"
+  integrity sha512-FZtYH1n3Mpv7VX24y26lAMOVqem+/qRG4a7nBy9pwDeh9Q8UycOQqAdmWxNC1CNh1Pw1k4K28/gRQOyo4r1Zag==
+  dependencies:
+    "@scena/react-ruler" "~0.19.0"
+
+croact@^1.0.3:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/croact/-/croact-1.0.4.tgz#9bce583e13ee61dbbfc70781318c1421210e28b0"
+  integrity sha512-9GhvyzTY/IVUrMQ2iz/mzgZ8+NcjczmIo/t4FkC1CU0CEcau6v6VsEih4jkTa4ZmRgYTF0qXEZLObCzdDFplpw==
+  dependencies:
+    "@daybrush/utils" "^1.13.0"
+    "@egjs/list-differ" "^1.0.0"
+
 cross-fetch@^3.0.4, cross-fetch@^3.1.5:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
@@ -10279,6 +10320,11 @@ fragment-cache@^0.2.1:
   integrity sha512-GMBAbW9antB8iZRHLoGw0b3HANt57diZYFO/HL1JGIC1MjKrdmhxvrJbupnVvpys0zsz7yBApXdQyfepKly2kA==
   dependencies:
     map-cache "^0.2.2"
+
+framework-utils@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/framework-utils/-/framework-utils-1.1.0.tgz#a3b528bce838dfd623148847dc92371b09d0da2d"
+  integrity sha512-KAfqli5PwpFJ8o3psRNs8svpMGyCSAe8nmGcjQ0zZBWN2H6dZDnq+ABp3N3hdUmFeMrLtjOCTXD4yplUJIWceg==
 
 fresh@0.5.2:
   version "0.5.2"

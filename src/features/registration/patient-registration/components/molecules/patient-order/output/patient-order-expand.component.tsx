@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -23,6 +23,7 @@ import { PatientOrderExpandPackageList } from './patient-order-expand-package-li
 import { debounce } from '@/core-utils';
 import { RouterFlow } from '@/flows';
 import { useStores } from '@/stores';
+import ColumnFilter from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -82,6 +83,41 @@ export const PatientOrderExpand = ({
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const { routerStore } = useStores();
+
+  const [isColumnFilterVisible, setIsColumnFilterVisible] =
+    useState<boolean>(false);
+  const [currentColumns, setCurrentColumns] = useState(columns);
+  const [columnOrder, setColumnOrder] = useState(columns);
+
+  useEffect(() => {
+    const selectedColumns = columnOrder.filter(col =>
+      currentColumns.some(c => c.dataField === col.dataField),
+    );
+    setCurrentColumns(
+      selectedColumns.length > 0
+        ? [...selectedColumns, columns[columns.length - 1]]
+        : [],
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnOrder]);
+
+  const handleColumnReorder = newColumns => {
+    setColumnOrder(newColumns);
+  };
+
+  const handleColumnToggle = selectedColumns => {
+    const newColumns = columnOrder.filter(column =>
+      selectedColumns.includes(column.dataField),
+    );
+    setCurrentColumns(
+      newColumns.length > 0 ? [...newColumns, columns[columns.length - 1]] : [],
+    );
+  };
+
+  // Filter out the "Action" and "Id" columns for the ColumnFilter component
+  const filterableColumns = columns.filter(
+    column => column.dataField !== 'operation' && column.dataField !== '_id',
+  );
 
   const customTotal = (from, to, size) => {
     return (
@@ -739,7 +775,7 @@ export const PatientOrderExpand = ({
         totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
-      columns={columns}
+      columns={currentColumns}
       data={data}
     >
       {({ paginationProps, paginationTableProps }) => (
@@ -747,7 +783,7 @@ export const PatientOrderExpand = ({
           keyField={id}
           bootstrap4
           data={data}
-          columns={columns}
+          columns={currentColumns}
           search
           exportCSV={{
             fileName: `${fileName}_${dayjs(new Date()).format(
@@ -796,73 +832,62 @@ export const PatientOrderExpand = ({
                     Export CSV!!
                   </ExportCSVButton>
 
-                  {isFilterOpen ? (
-                    <div className='ml-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='outline'
-                        onClick={() => {
-                          setIsFilterOpen(!isFilterOpen);
-                        }}
-                      >
-                        <Icons.IconFa.FaChevronUp />
-                      </Buttons.Button>
-                    </div>
-                  ) : (
-                    <div className='ml-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='outline'
-                        onClick={() => {
-                          setIsFilterOpen(!isFilterOpen);
-                        }}
-                      >
-                        <Icons.IconFa.FaChevronDown />
-                      </Buttons.Button>
-                    </div>
-                  )}
-                </div>
-                {isFilterOpen && (
-                  <div className={'flex overflow-auto'}>
-                    <CustomToggleList
-                      contextual='primary'
-                      className='list-custom-class'
-                      btnClassName='list-btn-custom-class'
-                      {...props.columnToggleProps}
-                    />
+                  <div className='ml-2 relative'>
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsColumnFilterVisible(!isColumnFilterVisible);
+                      }}
+                    >
+                      <Icons.IconFa.FaFilter />
+                    </Buttons.Button>
+                    {isColumnFilterVisible && (
+                      <ColumnFilter
+                        columns={filterableColumns}
+                        onClose={() => setIsColumnFilterVisible(false)}
+                        onColumnReorder={handleColumnReorder}
+                        onColumnToggle={handleColumnToggle}
+                      />
+                    )}
                   </div>
-                )}
+                </div>
               </div>
               <div className='scrollTable'>
-                <BootstrapTable
-                  remote
-                  {...props.baseProps}
-                  noDataIndication='Table is Empty'
-                  hover
-                  {...paginationTableProps}
-                  filter={filterFactory()}
-                  selectRow={
-                    isSelectRow
-                      ? {
-                          mode: 'checkbox',
-                          onSelect: handleOnSelect,
-                          onSelectAll: handleOnSelectAll,
-                        }
-                      : undefined
-                  }
-                  cellEdit={
-                    isEditModify
-                      ? cellEditFactory({
-                          mode: 'dbclick',
-                          blurToSave: true,
-                        })
-                      : undefined
-                  }
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
-                  onTableChange={handleTableChange}
-                  expandRow={expandRow}
-                />
+                {currentColumns.length > 1 ? (
+                  <BootstrapTable
+                    remote
+                    {...props.baseProps}
+                    noDataIndication='Table is Empty'
+                    hover
+                    {...paginationTableProps}
+                    filter={filterFactory()}
+                    selectRow={
+                      isSelectRow
+                        ? {
+                            mode: 'checkbox',
+                            onSelect: handleOnSelect,
+                            onSelectAll: handleOnSelectAll,
+                          }
+                        : undefined
+                    }
+                    cellEdit={
+                      isEditModify
+                        ? cellEditFactory({
+                            mode: 'dbclick',
+                            blurToSave: true,
+                          })
+                        : undefined
+                    }
+                    headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
+                    onTableChange={handleTableChange}
+                    expandRow={expandRow}
+                  />
+                ) : (
+                  <div className='mt-4 text-center'>No columns selected</div>
+                )}
               </div>
+
               <div>
                 <SizePerPageDropdownStandalone
                   {...Object.assign(

@@ -159,10 +159,10 @@ export const PatientVisit = PatientVisitHoc(
             for (const [key, value] of Object.entries(
               patientRegistrationStore.defaultValues,
             )) {
-              if (typeof value === 'string' && !_.isEmpty(value)) {
+              if (!_.isEmpty(value)) {
                 patientRegistrationStore.getPatientRegRecords(key, value);
-                break;
               }
+              break;
             }
           }
         });
@@ -183,10 +183,10 @@ export const PatientVisit = PatientVisitHoc(
             for (const [key, value] of Object.entries(
               patientRegistrationStore.defaultValues,
             )) {
-              if (typeof value === 'string' && !_.isEmpty(value)) {
+              if (!_.isEmpty(value)) {
                 patientRegistrationStore.getPatientRegRecords(key, value);
-                break;
               }
+              break;
             }
           }
         });
@@ -582,18 +582,6 @@ export const PatientVisit = PatientVisitHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
-                  {patientVisitStore.patientVisit?.isNewDoctor && (
-                    <Buttons.Button
-                      size='medium'
-                      type='solid'
-                      disabled={true}
-                      onClick={() => {
-                        window.open('/collection/doctors', '_blank');
-                      }}
-                    >
-                      Create Doctor
-                    </Buttons.Button>
-                  )}
                 </div>
 
                 {patientVisitStore.patientVisit.isNewDoctor ? (
