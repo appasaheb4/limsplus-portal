@@ -11,8 +11,6 @@ interface PdfPatientDetailsProps {
 
 export const PdfPatientDetails = observer(
   ({ data: patientReports }: PdfPatientDetailsProps) => {
-    console.log({ patientReports });
-
     return (
       <PdfBorderView mv={0} mh={10} fixed style={{ marginBottom: 6 }}>
         <PdfView mh={10} p={0} flexDirection='row'>

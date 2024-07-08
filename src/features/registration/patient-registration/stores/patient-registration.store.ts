@@ -42,7 +42,6 @@ export class PatientRegistrationStore {
   }
 
   updateDefaultValue(values: DefaultValues) {
-    console.log({ values });
     this.defaultValues = new DefaultValues(values);
   }
 

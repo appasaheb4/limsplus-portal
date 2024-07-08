@@ -60,7 +60,7 @@ export const ModalAddPanel = observer(
                     <h3 className='text-3xl font-semibold'>
                       {'Are you sure modify panels'}
                     </h3>
-                    {/* <button
+                    <button
                       className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                       onClick={() => {
                         setShowModal(false);
@@ -70,7 +70,7 @@ export const ModalAddPanel = observer(
                       <span className=' text-black h-6 w-6 text-2xl block outline-none focus:outline-none'>
                         ×
                       </span>
-                    </button> */}
+                    </button>
                   </div>
                   <div className='relative p-2 flex-auto'>
                     <Form.InputWrapper label='Panels'>
@@ -135,8 +135,7 @@ export const ModalAddPanel = observer(
                                         'schedule',
                                       ]),
                                     ),
-                                    visitId:
-                                      patientOrderStore.patientOrder?.visitId,
+                                    visitId: data?.visitId,
                                   },
                                 },
                               },
@@ -224,17 +223,17 @@ export const ModalAddPanel = observer(
                     </div>
                   </div>
                   <div className='flex items-center justify-end p-3 border-t border-solid border-gray-300 rounded-b gap-4'>
-                    {/* <button
+                    <button
                       className='background-transparent font-bold uppercase text-sm outline-none w-20 rounded-md p-1 border border-gray-400 shadow-lg focus:outline-none'
                       type='button'
-                      style={{transition: 'all .15s ease'}}
+                      style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         setShowModal(false);
                         onClose && onClose();
                       }}
                     >
-                      No
-                    </button> */}
+                      Close
+                    </button>
                     <button
                       disabled={
                         _.isEmpty(patientOrderStore.packageList) ? true : false

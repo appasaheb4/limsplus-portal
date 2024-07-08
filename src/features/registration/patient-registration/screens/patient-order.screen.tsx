@@ -172,6 +172,8 @@ export const PatientOrder = PatientOrderHoc(
               ...v,
               orderStatus: 'P',
               status: 'P',
+              priceGroup: v?.isManualAmount ? 'Manual' : v?.priceGroup,
+              priceList: v?.isManualAmount ? 'Manual' : v?.priceList,
               $__: undefined,
               $isNew: undefined,
               _doc: undefined,
@@ -181,7 +183,7 @@ export const PatientOrder = PatientOrderHoc(
             isApproval: undefined, // not added in backend schema
           },
         })
-        .then(res => {
+        .then(async res => {
           if (res.updatePackageListPatientOrder.success) {
             Toast.success({
               message: `😊 ${res.updatePackageListPatientOrder.message}`,
@@ -189,11 +191,19 @@ export const PatientOrder = PatientOrderHoc(
           }
           setHideInputView(true);
           reset();
-          for (const [key, value] of Object.entries(
-            patientRegistrationStore.defaultValues,
-          )) {
-            if (typeof value === 'string' && !_.isEmpty(value)) {
-              patientRegistrationStore.getPatientRegRecords(key, value);
+          // filter pr
+          const defaultValues = patientRegistrationStore.defaultValues;
+          for (const [key, value] of Object.entries(defaultValues)) {
+            if (key == 'patientName' || key == 'accordionExpandItem') continue;
+            if (typeof key == 'string' && !_.isEmpty(value?.toString())) {
+              await patientRegistrationStore
+                .getPatientRegRecords(key, value)
+                .then(res => {
+                  patientRegistrationStore.updateDefaultValue({
+                    ...defaultValues,
+                    accordionExpandItem: 'PATIENT ORDER',
+                  });
+                });
               break;
             }
           }

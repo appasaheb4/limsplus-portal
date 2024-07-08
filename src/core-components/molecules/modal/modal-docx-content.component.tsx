@@ -46,16 +46,7 @@ export const ModalDocxContent = observer(
     const [selectedItems, setSelectedItems] = useState<any>();
     const selectedItemsRef = useRef<any>();
 
-    const {
-      loginStore,
-      masterAnalyteStore,
-      methodsStore,
-      labStore,
-      routerStore,
-      loading,
-      departmentStore,
-      libraryStore,
-    } = useStores();
+    const { libraryStore } = useStores();
 
     useEffect(() => {
       setShowModal(visible);

@@ -28,13 +28,6 @@ Font.register({
   ],
 });
 
-const styles = StyleSheet.create({
-  page: {
-    backgroundColor: '#ffffff',
-    paddingBottom: '80pt',
-  },
-});
-
 interface ModalReportHtmlViewProps {
   visible: boolean;
   details: string;

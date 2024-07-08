@@ -240,36 +240,6 @@ const PatientRegistration = observer(({ sidebar }) => {
                 }}
               />
             </div>
-            {/* {patientRegistrationStore.filterOptionList.pIds?.length > 1 ? (
-              <select
-                className={
-                  'leading-4 p-2 focus:outline-none focus:ring block mt-1 h-11 shadow-sm sm:text-base border-2 border-gray-300 rounded-md w-40'
-                }
-                onChange={e => {
-                  const pId = e.target.value;
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    pId,
-                    labId: '',
-                    mobileNo: '',
-                    filterLock: false,
-                  });
-                  patientRegistrationStore.getPatientRegRecords(
-                    'pId',
-                    pId?.toString(),
-                  );
-                }}
-              >
-                <option>{'Select PId'}</option>
-                {patientRegistrationStore.filterOptionList.pIds?.map(
-                  (item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item.toString()}
-                    </option>
-                  ),
-                )}
-              </select>
-            ) : ( */}
             <Form.Input2
               placeholder='PId'
               className='w-40 arrow-hide'
@@ -299,8 +269,7 @@ const PatientRegistration = observer(({ sidebar }) => {
                 }
               }}
             />
-            {/* )} */}
-            {patientRegistrationStore.filterOptionList.labIds?.length > 1 ? (
+            {patientVisitStore.listPatientVisit?.length > 1 ? (
               <select
                 className={
                   'leading-4 p-2 focus:outline-none focus:ring block mt-1 h-11 shadow-sm sm:text-base border-2 border-gray-300 rounded-md w-40'
@@ -323,10 +292,10 @@ const PatientRegistration = observer(({ sidebar }) => {
                 }}
               >
                 <option>{'Select LabId'}</option>
-                {patientRegistrationStore.filterOptionList.labIds?.map(
+                {patientVisitStore.listPatientVisit?.map(
                   (item: any, index: number) => (
-                    <option key={index} value={item}>
-                      {item.toString()}
+                    <option key={index} value={item?.labId}>
+                      {item?.labId?.toString()}
                     </option>
                   ),
                 )}

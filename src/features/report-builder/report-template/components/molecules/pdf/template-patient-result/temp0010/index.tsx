@@ -92,6 +92,7 @@ export const PdfTemp0010 = ({
       border: '1px solid !important',
       marginTop: 4,
       marginBottom: 4,
+      width: '100% !important',
     },
     td: {
       padding: 2,
@@ -271,7 +272,7 @@ export const PdfTemp0010 = ({
 
   // console.log({
   //   data,
-  //   details: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+  //   result: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
   // });
 
   return (
