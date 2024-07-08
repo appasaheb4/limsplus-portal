@@ -23,7 +23,7 @@ import { PatientOrderExpandPackageList } from './patient-order-expand-package-li
 import { debounce } from '@/core-utils';
 import { RouterFlow } from '@/flows';
 import { useStores } from '@/stores';
-import ColumnFilter from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
+import { ColumnFilter } from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;

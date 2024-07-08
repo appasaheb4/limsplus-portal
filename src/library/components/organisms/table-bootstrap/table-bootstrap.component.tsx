@@ -22,10 +22,7 @@ import { Buttons, Icons } from '../..';
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 import ExcelJS from 'exceljs';
-import { RouterFlow } from '@/flows';
-import { useStores } from '@/stores';
-import CustomToggleList from './custom-toggle-list.component';
-import ColumnFilter from './custom-toggle-list.component';
+import { ColumnFilter } from './custom-toggle-list.component';
 interface TableBootstrapProps {
   id: string;
   data: any;

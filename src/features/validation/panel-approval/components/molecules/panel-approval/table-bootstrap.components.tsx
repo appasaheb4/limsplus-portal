@@ -26,7 +26,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { useStores } from '@/stores';
-import ColumnFilter from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
+import { ColumnFilter } from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
 
 interface TableBootstrapProps {
   id: string;

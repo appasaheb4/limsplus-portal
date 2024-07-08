@@ -13,7 +13,7 @@ interface ColumnFilterProps {
   onColumnToggle: (selectedColumns: Array<string>) => void;
 }
 
-const ColumnFilter: React.FC<ColumnFilterProps> = ({
+export const ColumnFilter: React.FC<ColumnFilterProps> = ({
   columns,
   onClose,
   onColumnReorder,
@@ -167,5 +167,3 @@ const ColumnFilter: React.FC<ColumnFilterProps> = ({
     </div>
   );
 };
-
-export default ColumnFilter;

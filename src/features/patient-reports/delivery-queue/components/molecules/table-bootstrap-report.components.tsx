@@ -19,7 +19,7 @@ import '@/library/components/organisms/style.css';
 import { debounce } from '@/core-utils';
 
 import { Buttons, Icons, Tooltip } from '@/library/components';
-import ColumnFilter from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
+import { ColumnFilter } from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
