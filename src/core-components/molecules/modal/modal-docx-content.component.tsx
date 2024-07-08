@@ -15,6 +15,7 @@ import Ruler from '@scena/ruler';
 interface ModalDocxContentProps {
   title?: string;
   visible: boolean;
+  testName?: string;
   details?: any;
   department?: string;
   folder?: string;
@@ -28,6 +29,7 @@ export const ModalDocxContent = observer(
   ({
     title = 'Update details',
     visible,
+    testName = '',
     details = '',
     department = '',
     folder = 'patient-reports',
@@ -50,7 +52,7 @@ export const ModalDocxContent = observer(
 
     useEffect(() => {
       setShowModal(visible);
-      setContent(details);
+      setContent(`<p>${testName}</p><p><br></p>` + details);
       if (department) {
         libraryStore.libraryService.filterByFields({
           input: {
@@ -140,7 +142,10 @@ export const ModalDocxContent = observer(
                             items?.filter(item => {
                               details.push(item?.details);
                             });
-                            setContent(details?.join('<br/>'));
+                            setContent(
+                              `<p>${testName}</p><p><br></p>` +
+                                details?.join('<br/>'),
+                            );
                             libraryStore.updateLibraryList(
                               libraryStore.listLibraryCopy,
                             );
@@ -172,7 +177,10 @@ export const ModalDocxContent = observer(
                             library?.filter(item => {
                               details.push(item?.details);
                             });
-                            setContent(details?.join('<br/>'));
+                            setContent(
+                              `<p>${testName}</p><p><br></p>` +
+                                details?.join('<br/>'),
+                            );
                             selectedItemsRef.current = library;
                             setSelectedItems(library);
                           }}

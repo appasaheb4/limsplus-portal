@@ -49,8 +49,6 @@ interface GeneralResultEntryListProps {
   selectedRowData?: any;
 }
 
-let patientName;
-
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const { appStore } = useStores();
   const [selectId, setSelectId] = useState('');

@@ -92,7 +92,7 @@ export const PdfTemp0010 = ({
       border: '1px solid !important',
       marginTop: 4,
       marginBottom: 4,
-      width: '100% !important',
+      // width: '100% !important',
     },
     td: {
       padding: 2,

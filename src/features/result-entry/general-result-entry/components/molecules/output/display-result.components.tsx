@@ -28,18 +28,12 @@ export const DisplayResult = observer(
       generalResultEntryStore,
     } = useStores();
     const { control } = useForm();
-    const [selectedRowId, setSelectedRowId] = useState('');
     const [conclusionResult, setConclusionResult] = useState<Array<any>>();
     const [libraryList, setLibraryList] = useState<Array<any>>();
     const [isOpen, setIsOpen] = useState(false);
-    const resultRef = useRef<any>();
     const [modalDocxContent, setModalDocxContent] = useState<any>({
       visible: false,
     });
-
-    const handleSelect = item => {
-      setIsOpen(false);
-    };
 
     useEffect(() => {
       switch (row?.resultType) {
@@ -82,11 +76,6 @@ export const DisplayResult = observer(
               if (res.findByFieldsLibrarys.success) {
                 setLibraryList(res.findByFieldsLibrarys?.data);
               }
-              //  else {
-              //   Toast.warning({
-              //     message: `😔 ${res.findByFieldsLibrarys.message}`,
-              //   });
-              // }
             });
           break;
         }
@@ -499,6 +488,7 @@ export const DisplayResult = observer(
                 onClick={() => {
                   setModalDocxContent({
                     visible: true,
+                    testName: row?.testName,
                     details: row?.result,
                     department: row?.departement,
                     isEditable: row?.panelStatus == 'P' ? true : false,

@@ -24,10 +24,8 @@ const GenerateReport = observer(({ sidebar }) => {
     patientManagerStore,
     routerStore,
     patientVisitStore,
-    patientRegistrationStore,
     loginStore,
     generateReportsStore,
-    reportSettingStore,
   } = useStores();
   const history = useHistory();
   const [tempCode, setTempCode] = useState('');
