@@ -249,6 +249,7 @@
     }
   },
   "overrides": {
-    "strip-ansi": "6.0.0"
+    "strip-ansi": "6.0.0",
+    "@react-pdf/layout": "3.11.5"
   }
 }

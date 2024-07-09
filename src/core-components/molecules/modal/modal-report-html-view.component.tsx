@@ -69,6 +69,7 @@ export const ModalReportHtmlView = ({
       border: '1px solid !important',
       marginTop: 4,
       marginBottom: 4,
+      // width: '100% !important',
     },
     td: {
       padding: 2,
