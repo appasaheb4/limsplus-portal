@@ -47,8 +47,31 @@ export const ModalDocxContent = observer(
     const [content, setContent] = useState('');
     const [selectedItems, setSelectedItems] = useState<any>();
     const selectedItemsRef = useRef<any>();
+    const [departmentList, setDepartmentList] = useState<Array<any>>([]);
+    const [departmentListCopy, setDepartmentListCopy] = useState<Array<any>>(
+      [],
+    );
 
     const { libraryStore } = useStores();
+
+    const fetchDepartment = () => {
+      if (department) {
+        libraryStore.libraryService
+          .findByFields({
+            input: {
+              filter: {
+                department: department,
+                status: 'A',
+              },
+            },
+          })
+          .then(res => {
+            if (res.findByFieldsLibrarys?.success)
+              setDepartmentList(res.findByFieldsLibrarys?.data);
+            setDepartmentListCopy(res.findByFieldsLibrarys?.data);
+          });
+      }
+    };
 
     useEffect(() => {
       setShowModal(visible);
@@ -56,18 +79,7 @@ export const ModalDocxContent = observer(
         `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
           details,
       );
-      if (department) {
-        libraryStore.libraryService.filterByFields({
-          input: {
-            filter: {
-              fields: ['department'],
-              srText: department,
-            },
-            page: 0,
-            limit: 10,
-          },
-        });
-      }
+      fetchDepartment();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible]);
     // ruler
@@ -94,6 +106,12 @@ export const ModalDocxContent = observer(
         }, 1000);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showModal]);
+
+    const filterByValue = (array, string) => {
+      return array.filter(({ libraryCode }) =>
+        new RegExp(string, 'i').test(libraryCode),
+      );
+    };
 
     return (
       <>
@@ -126,68 +144,64 @@ export const ModalDocxContent = observer(
                         <span className='text-xl w-full font-semibold'>
                           Import from library
                         </span>
-                        <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                          loader={false}
-                          placeholder='Search by libraryCode'
-                          data={{
-                            list: libraryStore.listLibrary?.filter(
-                              item =>
-                                item.status == 'A' &&
-                                item.department == department,
-                            ),
-                            selected: selectedItemsRef.current,
-                            displayKey: ['libraryCode', 'description'],
-                          }}
-                          hasError={false}
-                          onUpdate={item => {
-                            const items = selectedItemsRef.current;
-                            const details: any = [];
-                            items?.filter(item => {
-                              details.push(item?.details);
-                            });
-                            setContent(
-                              `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
-                                details?.join('<br/>'),
-                            );
-                            libraryStore.updateLibraryList(
-                              libraryStore.listLibraryCopy,
-                            );
-                          }}
-                          onFilter={(value: string) => {
-                            libraryStore.libraryService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ['libraryCode', 'description'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            });
-                          }}
-                          onSelect={item => {
-                            let library = selectedItemsRef.current;
-                            if (!item.selected) {
-                              if (library && library.length > 0) {
-                                library.push(item);
-                              } else library = [item];
-                            } else {
-                              library = library?.filter(items => {
-                                return items._id !== item._id;
+                        {departmentListCopy?.length > 0 && (
+                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
+                            loader={false}
+                            placeholder='Search by libraryCode'
+                            data={{
+                              list: departmentList?.filter(
+                                item =>
+                                  item.status == 'A' &&
+                                  item.department == department,
+                              ),
+                              selected: selectedItemsRef.current,
+                              displayKey: ['libraryCode', 'description'],
+                            }}
+                            hasError={false}
+                            onUpdate={item => {
+                              const items = selectedItemsRef.current;
+                              const details: any = [];
+                              items?.filter(item => {
+                                details.push(item?.details);
                               });
-                            }
-                            const details: any = [];
-                            library?.filter(item => {
-                              details.push(item?.details);
-                            });
-                            setContent(
-                              `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
-                                details?.join('<br/>'),
-                            );
-                            selectedItemsRef.current = library;
-                            setSelectedItems(library);
-                          }}
-                        />
+                              setContent(
+                                `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
+                                  details?.join('<br/>'),
+                              );
+                            }}
+                            onFilter={(value: string) => {
+                              if (_.isEmpty(value))
+                                return setDepartmentList(departmentListCopy);
+                              const filterArr = filterByValue(
+                                departmentListCopy,
+                                value,
+                              );
+                              setDepartmentList(filterArr);
+                            }}
+                            onSelect={item => {
+                              let library = selectedItemsRef.current;
+                              if (!item.selected) {
+                                if (library && library.length > 0) {
+                                  library.push(item);
+                                } else library = [item];
+                              } else {
+                                library = library?.filter(items => {
+                                  return items._id !== item._id;
+                                });
+                              }
+                              const details: any = [];
+                              library?.filter(item => {
+                                details.push(item?.details);
+                              });
+                              setContent(
+                                `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
+                                  details?.join('<br/>'),
+                              );
+                              selectedItemsRef.current = library;
+                              setSelectedItems(library);
+                            }}
+                          />
+                        )}
                       </div>
                       <button
                         className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'

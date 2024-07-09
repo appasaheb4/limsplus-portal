@@ -96,9 +96,9 @@ export const ModalReportHtmlView = ({
     },
   };
 
-  console.log({
-    result: details,
-  });
+  // console.log({
+  //   result: details,
+  // });
 
   return (
     <>
