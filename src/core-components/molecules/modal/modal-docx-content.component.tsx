@@ -52,7 +52,10 @@ export const ModalDocxContent = observer(
 
     useEffect(() => {
       setShowModal(visible);
-      setContent(`<p>${testName}</p><p><br></p>` + details);
+      setContent(
+        `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
+          details,
+      );
       if (department) {
         libraryStore.libraryService.filterByFields({
           input: {
@@ -143,7 +146,7 @@ export const ModalDocxContent = observer(
                               details.push(item?.details);
                             });
                             setContent(
-                              `<p>${testName}</p><p><br></p>` +
+                              `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
                                 details?.join('<br/>'),
                             );
                             libraryStore.updateLibraryList(
@@ -178,7 +181,7 @@ export const ModalDocxContent = observer(
                               details.push(item?.details);
                             });
                             setContent(
-                              `<p>${testName}</p><p><br></p>` +
+                              `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
                                 details?.join('<br/>'),
                             );
                             selectedItemsRef.current = library;

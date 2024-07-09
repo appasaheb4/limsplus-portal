@@ -92,7 +92,7 @@ export const PdfTemp0010 = ({
       border: '1px solid !important',
       marginTop: 4,
       marginBottom: 4,
-      // width: '100% !important',
+      width: '100% !important',
     },
     td: {
       padding: 2,
@@ -270,10 +270,10 @@ export const PdfTemp0010 = ({
     return _.uniqBy(userInfo, 'userId' as any);
   };
 
-  console.log({
-    data,
-    result: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
-  });
+  // console.log({
+  //   data,
+  //   result: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+  // });
 
   return (
     <>
@@ -282,7 +282,13 @@ export const PdfTemp0010 = ({
           {isWithHeader && <Header />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
-        <View style={{ marginHorizontal: 10, marginTop: 10, marginBottom: 90 }}>
+        <View
+          style={{
+            marginHorizontal: 10,
+            marginTop: 10,
+            marginBottom: 90,
+          }}
+        >
           {patientReports?.patientResultList?.map((item, index) => (
             <Html stylesheet={stylesheet} key={index}>
               {html(JSON.parse(item.result).result.replace(regex, subst))}

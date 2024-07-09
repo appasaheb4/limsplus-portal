@@ -96,6 +96,10 @@ export const ModalReportHtmlView = ({
     },
   };
 
+  console.log({
+    result: details,
+  });
+
   return (
     <>
       <Container>
