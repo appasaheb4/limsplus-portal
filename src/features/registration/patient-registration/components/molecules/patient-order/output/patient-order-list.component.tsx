@@ -33,6 +33,7 @@ interface PatientOrderListProps {
     totalSize: number,
   ) => void;
   onBarcode?: (item: any) => void;
+  onPayment?: (item: any) => void;
 }
 
 let labid;
@@ -280,7 +281,13 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                     </Tooltip>
 
                     <Tooltip tooltipText='Payment'>
-                      <MdPayment color='#ffffff' size='20' />
+                      <Icons.RIcon
+                        nameIcon='MdPayment'
+                        propsIcon={{ size: 20, color: '#ffffff' }}
+                        onClick={() => {
+                          props.onPayment && props.onPayment(row);
+                        }}
+                      />
                     </Tooltip>
                   </div>
                 </>

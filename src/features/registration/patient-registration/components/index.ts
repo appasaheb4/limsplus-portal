@@ -16,6 +16,7 @@ export * from './molecules/patient-test/output/patient-test-list.component';
 export * from './molecules/patient-sample/patient-sample-list.component';
 export * from './molecules/patient-order/output/modal-barcode-lab.component';
 export * from './molecules/modal-modify-details.component';
+export * from './molecules/patient-order/modal/modal-payment.component';
 
 export * from './orgransims/auto-complete-filter-single-select-city.component';
 export * from './orgransims/auto-complete-filter-single-select-country.component';

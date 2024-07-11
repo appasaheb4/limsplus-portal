@@ -2,98 +2,24 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Container } from 'reactstrap';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
-import {
-  ModalImportFile,
-  AutoCompleteFilterMutiSelectMultiFieldsDisplay,
-} from '@/library/components';
-import JoditEditor from 'jodit-react';
-import 'jodit/esm/plugins/resizer/resizer';
-import { useStores } from '@/stores';
+import Payment from '@/features/account-receivable/payment/screens/payment.screen';
 
 interface ModalPaymentProps {
   title?: string;
   visible: boolean;
-
   onClick: (details: string) => void;
   onClose: () => void;
 }
 
 export const ModalPayment = observer(
-  ({ title = 'Payment', visible, onClick, onClose }: ModalDocxContentProps) => {
+  ({ title = 'Payment', visible, onClick, onClose }: ModalPaymentProps) => {
     const editor = useRef<any>();
     const [showModal, setShowModal] = useState(visible);
-    const [modalReportHtmlView, setModalReportHtmlView] = useState<any>({
-      visible: false,
-    });
-    const [modalDetail, setModalDetail] = useState<any>();
-    const [content, setContent] = useState('');
-    const [selectedItems, setSelectedItems] = useState<any>();
-    const selectedItemsRef = useRef<any>();
-    const [departmentList, setDepartmentList] = useState<Array<any>>([]);
-    const [departmentListCopy, setDepartmentListCopy] = useState<Array<any>>(
-      [],
-    );
-
-    const { libraryStore } = useStores();
-
-    const fetchDepartment = () => {
-      if (department) {
-        libraryStore.libraryService
-          .findByFields({
-            input: {
-              filter: {
-                department: department,
-                status: 'A',
-              },
-            },
-          })
-          .then(res => {
-            if (res.findByFieldsLibrarys?.success)
-              setDepartmentList(res.findByFieldsLibrarys?.data);
-            setDepartmentListCopy(res.findByFieldsLibrarys?.data);
-          });
-      }
-    };
 
     useEffect(() => {
       setShowModal(visible);
-      setContent(
-        `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
-          details,
-      );
-      fetchDepartment();
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible]);
-    // ruler
-    useEffect(() => {
-      if (showModal)
-        setTimeout(() => {
-          const ruler1 = new Ruler(
-            document.querySelector('.ruler.horizontal') as HTMLElement,
-            {
-              type: 'horizontal',
-            },
-          );
-          const ruler2 = new Ruler(
-            document.querySelector('.ruler.vertical') as HTMLElement,
-            {
-              type: 'vertical',
-              direction: 'start',
-            },
-          );
-          window.addEventListener('resize', () => {
-            ruler1.resize();
-            ruler2.resize();
-          });
-        }, 1000);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [showModal]);
-
-    const filterByValue = (array, string) => {
-      return array.filter(({ libraryCode }) =>
-        new RegExp(string, 'i').test(libraryCode),
-      );
-    };
 
     return (
       <>
@@ -108,83 +34,11 @@ export const ModalPayment = observer(
                   }}
                 >
                   {/*content*/}
-                  <div
-                    className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'
-                    style={{
-                      height: window.outerHeight / 1.3,
-                    }}
-                  >
+                  <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                     {/*header*/}
                     <div className='flex items-center justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                       <h3 className='text-3xl font-semibold'>{title}</h3>
 
-                      <div
-                        className={`flex flex-row  items-center ${
-                          isLibraryImport ? 'shown' : 'hidden'
-                        }`}
-                      >
-                        <span className='text-xl w-full font-semibold'>
-                          Import from library
-                        </span>
-                        {departmentListCopy?.length > 0 && (
-                          <AutoCompleteFilterMutiSelectMultiFieldsDisplay
-                            loader={false}
-                            placeholder='Search by libraryCode'
-                            data={{
-                              list: departmentList?.filter(
-                                item =>
-                                  item.status == 'A' &&
-                                  item.department == department,
-                              ),
-                              selected: selectedItemsRef.current,
-                              displayKey: ['libraryCode', 'description'],
-                            }}
-                            hasError={false}
-                            onUpdate={item => {
-                              const items = selectedItemsRef.current;
-                              const details: any = [];
-                              items?.filter(item => {
-                                details.push(item?.details);
-                              });
-                              setContent(
-                                `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
-                                  details?.join('<br/>'),
-                              );
-                            }}
-                            onFilter={(value: string) => {
-                              if (_.isEmpty(value))
-                                return setDepartmentList(departmentListCopy);
-                              const filterArr = filterByValue(
-                                departmentListCopy,
-                                value,
-                              );
-                              setDepartmentList(filterArr);
-                            }}
-                            onSelect={item => {
-                              let library = selectedItemsRef.current;
-                              if (!item.selected) {
-                                if (library && library.length > 0) {
-                                  library.push(item);
-                                } else library = [item];
-                              } else {
-                                library = library?.filter(items => {
-                                  return items._id !== item._id;
-                                });
-                              }
-                              const details: any = [];
-                              library?.filter(item => {
-                                details.push(item?.details);
-                              });
-                              setContent(
-                                `<p><strong><br></strong></p><p><strong>${testName}</strong></p><p><br></p>` +
-                                  details?.join('<br/>'),
-                              );
-                              selectedItemsRef.current = library;
-                              setSelectedItems(library);
-                            }}
-                          />
-                        )}
-                      </div>
                       <button
                         className='p-1  border-0 text-black opacity-1 ml-6 float-right text-3xl leading-none font-semibold outline-none focus:outline-none'
                         onClick={() => {
@@ -198,59 +52,8 @@ export const ModalPayment = observer(
                       </button>
                     </div>
                     {/*body*/}
-                    <div className='relative p-2'>
-                      <div className='grid grid-cols-1'>
-                        <div
-                          className={`flex  ruler horizontal h-10 w[${
-                            screen.width / 1.3
-                          }px]`}
-                        ></div>
-                        <div className='flex  ruler vertical h-[560px]'></div>
-                        <div className='flex absolute mt-12 ml-12 w-full'>
-                          <JoditEditor
-                            ref={editor}
-                            config={
-                              {
-                                height: 540,
-                                width: window.innerWidth / 1.3,
-                                disabled: !isEditable,
-                                events: {
-                                  afterOpenPasteDialog: (
-                                    dialog,
-                                    msg,
-                                    title,
-                                    callback,
-                                  ) => {
-                                    dialog.close();
-                                    callback();
-                                  },
-                                },
-                                uploader: {
-                                  //url: 'http://localhost:8080/api/assets/uploadFile',
-                                  url: 'https://limsplus-service.azurewebsites.net/api/assets/uploadFile',
-                                  prepareData: function (data) {
-                                    data.append('folder', folder);
-                                    data.delete('path');
-                                    data.delete('source');
-                                  },
-                                  isSuccess: function (resp) {
-                                    setContent(
-                                      content.concat(
-                                        `<img src=${resp?.data?.data} alt="logo"/>`,
-                                      ),
-                                    );
-                                  },
-                                },
-                              } as any
-                            }
-                            value={content || ''}
-                            onBlur={newContent => {
-                              setContent(newContent);
-                            }}
-                            onChange={newContent => {}}
-                          />
-                        </div>
-                      </div>
+                    <div className='flex flex-col overflow-scroll  min-h-[560px]'>
+                      <Payment isFullAccess={false} />
                     </div>
                     {/*footer*/}
                     <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>
@@ -265,37 +68,6 @@ export const ModalPayment = observer(
                       >
                         Close
                       </button>
-                      <button
-                        className='bg-slate-500 text-white font-bold uppercase p-2 text-sm outline-none focus:outline-none mr-1 mb-1 rounded'
-                        type='button'
-                        style={{ transition: 'all .15s ease' }}
-                        onClick={() => {
-                          setModalReportHtmlView({
-                            visible: true,
-                            details: content,
-                          });
-                        }}
-                      >
-                        Preview
-                      </button>
-                      {isEditable && (
-                        <button
-                          className='bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm p-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1'
-                          type='button'
-                          style={{ transition: 'all .15s ease' }}
-                          onClick={() => {
-                            // const regex = /(^|;)\s*font-[^;]+/g;
-                            const regex = /style=(.*)font-[^;]+;/g;
-                            // const regex = /style=(.*)font-family[^;]+;/g;
-                            const subst = '';
-                            const result = content.replace(regex, subst);
-                            onUpdate && onUpdate(result);
-                            onUpdate && onUpdate(content);
-                          }}
-                        >
-                          Upload
-                        </button>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -304,22 +76,6 @@ export const ModalPayment = observer(
             </>
           )}
         </Container>
-        <ModalImportFile
-          accept='.docx'
-          {...modalDetail}
-          click={(file: any) => {
-            setModalDetail({ show: false });
-          }}
-          close={() => {
-            setModalDetail({ show: false });
-          }}
-        />
-        <ModalReportHtmlView
-          {...modalReportHtmlView}
-          onClose={() => {
-            setModalReportHtmlView({ visible: false });
-          }}
-        />
       </>
     );
   },

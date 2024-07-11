@@ -20,6 +20,7 @@ import {
   TablePackagesList,
   TableExtraDataPackages,
   ModalAddPanel,
+  ModalPayment,
 } from '../components';
 import { PatientOrderHoc } from '../hoc';
 import { useStores } from '@/stores';
@@ -66,6 +67,7 @@ export const PatientOrder = PatientOrderHoc(
     const [isPrintPrimaryBarcod, setIsPrintPrimaryBarcod] =
       useState<boolean>(false);
     const [modalAddPanel, setModalAddPanel] = useState({});
+    const [modalPayment, setModalPayment] = useState({ visible: false });
 
     useEffect(() => {
       // Default value initialization
@@ -270,6 +272,11 @@ export const PatientOrder = PatientOrderHoc(
           }}
           onAddPanels={data => {
             setModalAddPanel({ visible: true, data });
+          }}
+          onPayment={item => {
+            setModalPayment({
+              visible: true,
+            });
           }}
         />
       ),
@@ -688,6 +695,7 @@ export const PatientOrder = PatientOrderHoc(
             onUpdatePatientOrder(record);
           }}
         />
+        <ModalPayment {...modalPayment} onClick={() => {}} onClose={() => {}} />
       </>
     );
   }),

@@ -25,8 +25,12 @@ import { PdfReceipt } from '../../receipt/components';
 import { pdf } from '@react-pdf/renderer';
 import { ModalConfirm } from 'react-restyle-components';
 
+interface PaymentProps {
+  isFullAccess?: boolean;
+}
+
 const Payment = PaymentHoc(
-  observer(() => {
+  observer(({ isFullAccess = true }: PaymentProps) => {
     const {
       loading,
       routerStore,
@@ -198,30 +202,35 @@ const Payment = PaymentHoc(
 
     return (
       <>
-        <MainPageHeading
-          title={routerStore.selectedComponents?.title || ''}
-          store={loginStore}
-        />
-        <div
-          className='flex justify-end'
-          style={{
-            position: 'fixed',
-            right: '30px',
-            top: '135px',
-            zIndex: 9999,
-          }}
-        >
-          {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
-            <Buttons.ButtonCircleAddRemoveBottom
-              show={isInputView}
-              onClick={() => setIsInputView(!isInputView)}
-            />
-          )}
-        </div>
-        <div className=' mx-auto flex-wrap'>
+        {isFullAccess && (
+          <MainPageHeading
+            title={routerStore.selectedComponents?.title || ''}
+            store={loginStore}
+          />
+        )}
+        {isFullAccess && (
+          <div
+            className='flex justify-end'
+            style={{
+              position: 'fixed',
+              right: '30px',
+              top: '135px',
+              zIndex: 9999,
+            }}
+          >
+            {RouterFlow.checkPermission(routerStore.userPermission, 'Add') && (
+              <Buttons.ButtonCircleAddRemoveBottom
+                show={isInputView}
+                onClick={() => setIsInputView(!isInputView)}
+              />
+            )}
+          </div>
+        )}
+        <div className='flex flex-col w-full'>
           <div
             className={
-              'p-2 rounded-lg shadow-xl ' + (isInputView ? 'hidden' : 'shown')
+              'flex flex-col w-full p-2 rounded-lg shadow-xl ' +
+              (isFullAccess ? (isInputView ? 'hidden' : 'shown') : 'shown')
             }
           >
             <Grid cols={3}>
@@ -735,7 +744,6 @@ const Payment = PaymentHoc(
               </List>
             </Grid>
             <br />
-
             <List direction='row' space={3} align='center'>
               <Buttons.Button
                 size='medium'
@@ -757,58 +765,60 @@ const Payment = PaymentHoc(
               </Buttons.Button>
             </List>
           </div>
-          <div className='p-2 rounded-lg shadow-xl'>
-            <PaymentList
-              data={paymentStore.paymentList || []}
-              totalSize={paymentStore.paymentListCount}
-              extraData={{
-                lookupItems: routerStore.lookupItems,
-              }}
-              isView={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'View',
-              )}
-              isDelete={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Delete',
-              )}
-              isUpdate={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Update',
-              )}
-              isExport={RouterFlow.checkPermission(
-                routerStore.userPermission,
-                'Export',
-              )}
-              onDelete={selectedItem => setModalConfirm(selectedItem)}
-              onSelectedRow={rows => {
-                setModalConfirm({
-                  show: true,
-                  type: 'Delete',
-                  id: rows,
-                  title: 'Are you sure?',
-                  body: 'Do you want to delete selected record?',
-                });
-              }}
-              onUpdateItem={(value: any, dataField: string, id: string) => {
-                setModalConfirm({
-                  show: true,
-                  type: 'Update',
-                  data: { value, dataField, id },
-                  title: 'Are you sure?',
-                  body: 'Update deginisation!',
-                });
-              }}
-              onPageSizeChange={(page, limit) => {
-                // deginisationStore.fetchListDeginisation(page, limit);
-              }}
-              onFilter={(type, filter, page, limit) => {
-                // deginisationStore.DeginisationService.filter({
-                //   input: {type, filter, page, limit},
-                // });
-              }}
-            />
-          </div>
+          {isFullAccess && (
+            <div className='p-2 rounded-lg shadow-xl'>
+              <PaymentList
+                data={paymentStore.paymentList || []}
+                totalSize={paymentStore.paymentListCount}
+                extraData={{
+                  lookupItems: routerStore.lookupItems,
+                }}
+                isView={RouterFlow.checkPermission(
+                  routerStore.userPermission,
+                  'View',
+                )}
+                isDelete={RouterFlow.checkPermission(
+                  routerStore.userPermission,
+                  'Delete',
+                )}
+                isUpdate={RouterFlow.checkPermission(
+                  routerStore.userPermission,
+                  'Update',
+                )}
+                isExport={RouterFlow.checkPermission(
+                  routerStore.userPermission,
+                  'Export',
+                )}
+                onDelete={selectedItem => setModalConfirm(selectedItem)}
+                onSelectedRow={rows => {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Delete',
+                    id: rows,
+                    title: 'Are you sure?',
+                    body: 'Do you want to delete selected record?',
+                  });
+                }}
+                onUpdateItem={(value: any, dataField: string, id: string) => {
+                  setModalConfirm({
+                    show: true,
+                    type: 'Update',
+                    data: { value, dataField, id },
+                    title: 'Are you sure?',
+                    body: 'Update deginisation!',
+                  });
+                }}
+                onPageSizeChange={(page, limit) => {
+                  // deginisationStore.fetchListDeginisation(page, limit);
+                }}
+                onFilter={(type, filter, page, limit) => {
+                  // deginisationStore.DeginisationService.filter({
+                  //   input: {type, filter, page, limit},
+                  // });
+                }}
+              />
+            </div>
+          )}
         </div>
         <ModalConfirm
           {...modalConfirmForSMS}
