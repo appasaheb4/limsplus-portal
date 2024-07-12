@@ -110,7 +110,7 @@ export const TransactionHeaderList = observer(
               },
 
               {
-                dataField: 'name',
+                dataField: 'customerName',
                 text: 'Patient Name',
                 sort: true,
                 editable: false,

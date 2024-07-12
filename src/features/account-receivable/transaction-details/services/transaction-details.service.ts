@@ -11,6 +11,7 @@ import {
   TRANSACTION_HEADER_LIST,
   FIND_BY_FIELDS_TRANSACTION_LINE,
   FILTER_BY_FIELDS,
+  FILTER,
 } from './mutation-transaction-details';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -94,6 +95,33 @@ export class TransactionDetailsService {
           });
           stores.uploadLoadingFlag(true);
           resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      stores.uploadLoadingFlag(false);
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((res: any) => {
+          if (!res.data.filterTransactionDetails.success)
+            return this.listTransactionHeader();
+          stores.transactionDetailsStore.updateTransactionHeaderList({
+            transactionHeaders: {
+              data: res.data.filterTransactionDetails.data,
+              paginatorInfo: {
+                count: res.data.filterTransactionDetails.paginatorInfo?.count,
+              },
+            },
+          });
+          stores.uploadLoadingFlag(true);
+          resolve(res.data);
         })
         .catch(error =>
           reject(new ServiceResponse<any>(0, error.message, undefined)),

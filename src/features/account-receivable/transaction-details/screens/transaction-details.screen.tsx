@@ -64,12 +64,15 @@ const TransactionDetails = observer(() => {
           });
         }}
         onPageSizeChange={(page, limit) => {
-          // bannerStore.fetchListBanner(page, limit);
+          transactionDetailsStore.transactionDetailsService.listTransactionHeader(
+            page,
+            limit,
+          );
         }}
         onFilter={(type, filter, page, limit) => {
-          // bannerStore.BannerService.filter({
-          //   input: {type, filter, page, limit},
-          // });
+          transactionDetailsStore.transactionDetailsService.filter({
+            input: { type, filter, page, limit },
+          });
         }}
         onExpand={async item => {
           setSelectId(item?._id);

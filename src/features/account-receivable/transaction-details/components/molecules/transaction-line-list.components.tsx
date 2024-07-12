@@ -94,13 +94,13 @@ export const TransactionLineList = observer((props: TransactionLineProps) => {
               csvFormatter: col => (col ? col : ''),
               editable: false,
             },
-            {
-              dataField: 'invoiceAC',
-              text: 'Invoice AC',
-              sort: true,
-              csvFormatter: col => (col ? col : ''),
-              editable: false,
-            },
+            // {
+            //   dataField: 'invoiceAC',
+            //   text: 'Invoice AC',
+            //   sort: true,
+            //   csvFormatter: col => (col ? col : ''),
+            //   editable: false,
+            // },
             {
               dataField: 'invoiceDate',
               text: 'Invoice Date',
