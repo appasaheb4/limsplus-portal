@@ -403,6 +403,7 @@ const TestMater = TestMasterHOC(
         'rLab',
         'pLab',
         'department',
+        'departmentName', // report for required
         'testCode',
         'testName',
         'status',

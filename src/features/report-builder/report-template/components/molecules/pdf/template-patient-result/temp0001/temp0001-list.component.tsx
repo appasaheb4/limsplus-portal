@@ -266,9 +266,7 @@ export const PdfTPRTemp0001List = ({
                           : ''}
                       </PdfSmall>
                     </PdfBorderView>
-
                     {/* Patient Result List */}
-
                     <View key={testIndex} style={styles.tableRow}>
                       {Object.entries(testItem?.patientResultList).map(
                         (_item: any, _idx) => (
