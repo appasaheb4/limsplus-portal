@@ -9,15 +9,11 @@ import Navbar from './components/navbar.component';
 import Content from './components/content.component';
 import Footer from './components/footer.component';
 import Settings from './components/setting.component';
-import { useHistory, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useIdleTimer } from 'react-idle-timer';
-
 import { toJS } from 'mobx';
-
 import Storage from '@/library/modules/storage';
-
 import { stores } from '@/stores';
-
 import { RouterFlow } from '@/flows';
 import { eventEmitter } from '@/core-utils';
 
@@ -27,8 +23,6 @@ import * as Deginisation from '@/features/master/deginisation';
 import * as Lab from '@/features/master/labs';
 import * as Role from '@/features/settings/roles';
 import * as Department from '@/features/master/department';
-
-// master
 import * as RoleMappping from '@/features/settings/mapping/role';
 import * as Environment from '@/features/settings/environment';
 import * as MasterAnalyte from '@/features/master/master-analyte';

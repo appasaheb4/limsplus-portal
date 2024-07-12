@@ -13,9 +13,7 @@ interface ModalPaymentProps {
 
 export const ModalPayment = observer(
   ({ title = 'Payment', visible, onClick, onClose }: ModalPaymentProps) => {
-    const editor = useRef<any>();
     const [showModal, setShowModal] = useState(visible);
-
     useEffect(() => {
       setShowModal(visible);
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -53,7 +51,12 @@ export const ModalPayment = observer(
                     </div>
                     {/*body*/}
                     <div className='flex flex-col overflow-scroll  min-h-[560px]'>
-                      <Payment isFullAccess={false} />
+                      <Payment
+                        isFullAccess={false}
+                        onSubmit={details => {
+                          onClose && onClose();
+                        }}
+                      />
                     </div>
                     {/*footer*/}
                     <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>

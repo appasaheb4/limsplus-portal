@@ -28,6 +28,11 @@ Font.register({
   ],
 });
 
+Font.register({
+  family: 'arimaRegular',
+  src: '/assets/fonts/arima/Arima-Regular.ttf',
+});
+
 interface ModalReportHtmlViewProps {
   visible: boolean;
   details: string;
@@ -59,17 +64,17 @@ export const ModalReportHtmlView = ({
 
   const stylesheet = {
     body: {
-      fontSize: '8px',
+      fontSize: '10px !important',
+      fontFamily: 'arimaRegular',
     },
     p: {
       margin: 0,
-      fontSize: '12px',
+      fontSize: '10px',
     },
     table: {
       border: '1px solid !important',
       marginTop: 4,
       marginBottom: 4,
-      // width: '100% !important',
     },
     td: {
       padding: 2,

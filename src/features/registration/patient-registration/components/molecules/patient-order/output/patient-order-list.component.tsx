@@ -34,6 +34,7 @@ interface PatientOrderListProps {
   ) => void;
   onBarcode?: (item: any) => void;
   onPayment?: (item: any) => void;
+  onReceipt?: (item: any) => void;
 }
 
 let labid;
@@ -286,6 +287,15 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
                         propsIcon={{ size: 20, color: '#ffffff' }}
                         onClick={() => {
                           props.onPayment && props.onPayment(row);
+                        }}
+                      />
+                    </Tooltip>
+                    <Tooltip tooltipText='Receipt'>
+                      <Icons.RIcon
+                        nameIcon='AiOutlineFilePdf'
+                        propsIcon={{ size: 20, color: '#ffffff' }}
+                        onClick={() => {
+                          props.onReceipt && props.onReceipt(row);
                         }}
                       />
                     </Tooltip>

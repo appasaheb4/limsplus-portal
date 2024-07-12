@@ -82,8 +82,6 @@ export class TransactionDetailsService {
         .then((response: any) => {
           if (!response.data.filterByFieldsTransactionDetails.success)
             return this.listTransactionHeader();
-          console.log({ response });
-
           stores.transactionDetailsStore.updateTransactionHeaderList({
             transactionHeaders: {
               data: response.data.filterByFieldsTransactionDetails.data,

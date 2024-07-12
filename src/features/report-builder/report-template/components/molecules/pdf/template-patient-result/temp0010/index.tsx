@@ -277,10 +277,10 @@ export const PdfTemp0010 = ({
     return _.uniqBy(userInfo, 'userId' as any);
   };
 
-  console.log({
-    data,
-    result: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
-  });
+  // console.log({
+  //   data,
+  //   result: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+  // });
 
   return (
     <>
@@ -340,43 +340,6 @@ export const PdfTemp0010 = ({
               ))}
             </PdfBorderView>
           )}
-          {/* Department Footer */}
-          {/* {deptItem?.departmentFooter?.userInfo?.length > 0 && (
-              <PdfBorderView
-                style={{
-                  width: '100%',
-                }}
-                mh={0}
-                mv={0}
-                p={0}
-                bw={1}
-                flexDirection='row'
-                borderColor='#000000'
-              >
-                {deptItem?.departmentFooter?.userInfo?.map(
-                  (deptFooterItem, i) => (
-                    <PdfView flexDirection='column' alignItems='center' key={i}>
-                      <PdfImage
-                        src={deptFooterItem?.signature}
-                        style={{
-                          width: 80,
-                          height: 60,
-                          marginLeft: 10,
-                          padding: 5,
-                        }}
-                      />
-                      <PdfSmall>{deptFooterItem?.fullName}</PdfSmall>
-                      <PdfSmall style={{ marginTop: -4 }}>
-                        {deptFooterItem?.userDegree}
-                      </PdfSmall>
-                      <PdfSmall style={{ marginTop: -4 }}>
-                        {deptFooterItem?.deginisation}
-                      </PdfSmall>
-                    </PdfView>
-                  ),
-                )}
-              </PdfBorderView>
-            )} */}
         </View>
         <PdfPageNumber
           style={{ textAlign: 'center', right: '45%' }}

@@ -69,11 +69,12 @@ export class PatientOrder {
   ];
   enteredBy: string;
   environment: string;
+  headerId: number;
   documentType: string;
   dateOfEntry: Date;
   lastUpdated: Date;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
     this.pId = rawData.pId;
     this.age = rawData.age;
@@ -87,6 +88,7 @@ export class PatientOrder {
     this.packageList = rawData.packageList;
     this.enteredBy = rawData.enteredBy;
     this.environment = rawData.environment;
+    this.headerId = rawData.headerId;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;
     this.lastUpdated = rawData.lastUpdated;
@@ -96,7 +98,7 @@ export class PatientOrder {
 export class SelectedItems {
   panels: any[];
   serviceTypes: string[];
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.panels = rawData.panels;
     this.serviceTypes = rawData.serviceTypes;
   }

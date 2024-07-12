@@ -11,13 +11,8 @@ import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const TransactionDetails = observer(() => {
-  const {
-    loading,
-    transactionDetailsStore,
-    routerStore,
-    loginStore,
-    receiptStore,
-  } = useStores();
+  const { transactionDetailsStore, routerStore, loginStore, receiptStore } =
+    useStores();
 
   const {
     control,
@@ -26,7 +21,6 @@ const TransactionDetails = observer(() => {
     setValue,
   } = useForm();
   const [selectId, setSelectId] = useState<string>('');
-  const [expandItem, setExpandItem] = useState<any>([]);
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
   const [receiptPath, setReceiptPath] = useState<string>();

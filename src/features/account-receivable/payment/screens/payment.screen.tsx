@@ -20,17 +20,17 @@ import { PaymentList } from '../components';
 import { PaymentHoc } from '../hoc';
 import { resetPayment } from '../startup';
 import { Payment as Model } from '../models';
-// import { ModalConfirm } from '../components';
 import { PdfReceipt } from '../../receipt/components';
 import { pdf } from '@react-pdf/renderer';
 import { ModalConfirm } from 'react-restyle-components';
 
 interface PaymentProps {
   isFullAccess?: boolean;
+  onSubmit?: (details: any) => void;
 }
 
 const Payment = PaymentHoc(
-  observer(({ isFullAccess = true }: PaymentProps) => {
+  observer(({ isFullAccess = true, onSubmit }: PaymentProps) => {
     const {
       loading,
       routerStore,
@@ -53,6 +53,7 @@ const Payment = PaymentHoc(
     const [isInputView, setIsInputView] = useState<boolean>(true);
     const [totalReceivedAmount, setTotalReceivedAmount] = useState<number>(0);
     const [modalConfirmForSMS, setModalConfirmForSMS] = useState<any>({});
+    const [arrLookupItems, setArrLookupItems] = useState<any>();
     useEffect(() => {
       // Default value initialization
       setValue('modeOfPayment', paymentStore.payment?.modeOfPayment);
@@ -79,11 +80,24 @@ const Payment = PaymentHoc(
     }, [paymentStore.payment]);
 
     useEffect(() => {
+      if (!isFullAccess) {
+        (async function () {
+          try {
+            await RouterFlow.getLookupValues(
+              '/account-receivable/payment',
+            ).then(async res => {
+              setArrLookupItems(res);
+            });
+          } catch (e) {
+            console.error(e);
+          }
+        })();
+      }
       paymentStore.updatePayment({
         ...paymentStore.payment,
         enteredBy: loginStore.login?.userId,
       });
-    }, [loginStore.login?.userId, paymentStore]);
+    }, [loginStore.login?.userId, paymentStore, isFullAccess]);
 
     const onSubmitPayment = () => {
       paymentStore.paymentService
@@ -101,6 +115,7 @@ const Payment = PaymentHoc(
             reset();
             resetPayment();
             setTotalReceivedAmount(0);
+            onSubmit && onSubmit(res?.createPayment);
             setModalConfirmForSMS({
               visible: true,
               title: 'Are you sure send sms',
@@ -593,9 +608,11 @@ const Payment = PaymentHoc(
                       >
                         <option>{'Select'}</option>
                         {lookupItems(
-                          routerStore.lookupItems,
+                          isFullAccess
+                            ? routerStore.lookupItems
+                            : arrLookupItems,
                           'MODE_OF_PAYMENT',
-                        ).map((item: any, index: number) => (
+                        )?.map((item: any, index: number) => (
                           <option key={index} value={item.code}>
                             {lookupValue(item)}
                           </option>

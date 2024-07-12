@@ -33,12 +33,12 @@ export const findArrayKeyArrayWise = (
 
 export const lookupItems = (arrLookup, key): Array<any> => {
   const result =
-    arrLookup.find(item => {
-      return item.fieldName === key;
+    arrLookup?.find(item => {
+      return item?.fieldName === key;
     }) &&
-    arrLookup.find(item => {
-      return item.fieldName === key;
-    }).arrValue;
+    arrLookup?.find(item => {
+      return item?.fieldName === key;
+    })?.arrValue;
   return result || [];
 };
 

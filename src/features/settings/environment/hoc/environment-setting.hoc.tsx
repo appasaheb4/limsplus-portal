@@ -15,10 +15,6 @@ export const EnvironmentSettingsHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'ENVIRONEMENT SETTING - STATUS',
         ),
-        // environment: getDefaultLookupItem(
-        //   routerStore.lookupItems,
-        //   'ENVIRONMENT SETTING - ENVIRONMENT',
-        // ),
       });
 
       environmentStore.updatEnvironmentVariable({
@@ -27,10 +23,6 @@ export const EnvironmentSettingsHoc = (Component: React.FC<any>) => {
           routerStore.lookupItems,
           'ENVIRONMENT VARIABLE - STATUS',
         ),
-        // environment: getDefaultLookupItem(
-        //   routerStore.lookupItems,
-        //   'ENVIRONMENT SETTING - ENVIRONMENT',
-        // ),
       });
       if (loginStore.login && loginStore.login.role !== 'ADMINISTRATOR') {
         environmentStore.updateEnvironmentSettings({

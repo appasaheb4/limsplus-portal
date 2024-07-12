@@ -36,6 +36,7 @@ import {
 import 'react-accessible-accordion/dist/fancy-example.css';
 import { getFilterField } from '../utils';
 import { resetPatientOrder } from '../startup';
+import { ModalReceiptShare } from '@/features/account-receivable/components';
 
 interface PatientOrderProps {
   onModalConfirm?: (item: any) => void;
@@ -51,6 +52,7 @@ export const PatientOrder = PatientOrderHoc(
       routerStore,
       masterPanelStore,
       patientRegistrationStore,
+      receiptStore,
     } = useStores();
 
     const {
@@ -68,6 +70,8 @@ export const PatientOrder = PatientOrderHoc(
       useState<boolean>(false);
     const [modalAddPanel, setModalAddPanel] = useState({});
     const [modalPayment, setModalPayment] = useState({ visible: false });
+    const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
+    const [receiptPath, setReceiptPath] = useState<string>();
 
     useEffect(() => {
       // Default value initialization
@@ -278,11 +282,34 @@ export const PatientOrder = PatientOrderHoc(
               visible: true,
             });
           }}
+          onReceipt={item => {
+            receiptStore.receiptService
+              .generatePaymentReceipt({ input: { headerId: item?.headerId } })
+              .then(res => {
+                if (res.generatePaymentReceipt?.success) {
+                  setModalPaymentReceipt({
+                    show: true,
+                    data: res.generatePaymentReceipt?.receiptData,
+                  });
+                } else
+                  Toast.error({
+                    message: `😔 ${res.generatePaymentReceipt.message}`,
+                  });
+              });
+          }}
         />
       ),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [patientOrderStore.listPatientOrder],
     );
+
+    const sendSMS = details => {
+      receiptStore.receiptService.sendSMS({
+        input: {
+          filter: { ...details },
+        },
+      } as any);
+    };
 
     return (
       <>
@@ -644,11 +671,6 @@ export const PatientOrder = PatientOrderHoc(
                     Toast.success({
                       message: `😊 ${res.removePatientOrder.message}`,
                     });
-
-                    console.log({
-                      default: patientRegistrationStore.defaultValues,
-                    });
-
                     for (const [key, value] of Object.entries(
                       patientRegistrationStore.defaultValues,
                     )) {
@@ -695,7 +717,70 @@ export const PatientOrder = PatientOrderHoc(
             onUpdatePatientOrder(record);
           }}
         />
-        <ModalPayment {...modalPayment} onClick={() => {}} onClose={() => {}} />
+        <ModalPayment
+          {...modalPayment}
+          onClick={item => {
+            setModalPayment({ visible: false });
+          }}
+          onClose={() => {
+            setModalPayment({ visible: false });
+          }}
+        />
+        <ModalReceiptShare
+          {...modalPaymentReceipt}
+          onClose={() => {
+            setModalPaymentReceipt({ show: false });
+          }}
+          onReceiptUpload={(file, type) => {
+            if (!receiptPath) {
+              receiptStore.receiptService
+                .paymentReceiptUpload({ input: { file } })
+                .then(res => {
+                  if (res.paymentReceiptUpload.success) {
+                    const path = res.paymentReceiptUpload?.receiptPath;
+                    if (type == 'sms') {
+                      if (
+                        _.isEmpty(
+                          modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                        )
+                      )
+                        Toast.error({
+                          message: '😊 Patient mobile number not found!',
+                        });
+                      else
+                        sendSMS({
+                          mobileNo: [
+                            modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                          ],
+                          sender: '',
+                          message: `Your payment receipt link: ${path}`,
+                        });
+                    } else {
+                      window.open(`${type} ${path}`, '_blank');
+                    }
+                    setReceiptPath(path);
+                  }
+                });
+            } else {
+              if (type == 'sms') {
+                if (
+                  _.isEmpty(modalPaymentReceipt.data?.patientDetails?.mobileNo)
+                )
+                  Toast.error({
+                    message: '😊 Patient mobile number not found!',
+                  });
+                else
+                  sendSMS({
+                    mobileNo: [
+                      modalPaymentReceipt.data?.patientDetails?.mobileNo,
+                    ],
+                    sender: '',
+                    message: `Your payment receipt link: ${receiptPath}`,
+                  });
+              } else window.open(type + receiptPath, '_blank');
+            }
+          }}
+        />
       </>
     );
   }),
