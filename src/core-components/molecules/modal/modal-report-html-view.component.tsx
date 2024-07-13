@@ -64,7 +64,7 @@ export const ModalReportHtmlView = ({
 
   const stylesheet = {
     body: {
-      fontSize: '10px !important',
+      fontSize: '10px',
       fontFamily: 'arimaRegular',
     },
     p: {

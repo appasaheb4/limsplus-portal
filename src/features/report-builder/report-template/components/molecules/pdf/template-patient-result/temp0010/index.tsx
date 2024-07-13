@@ -89,7 +89,7 @@ export const PdfTemp0010 = ({
 
   const stylesheet = {
     body: {
-      fontSize: '10px !important',
+      fontSize: '10px',
       fontFamily: 'arimaRegular',
     },
     p: {
