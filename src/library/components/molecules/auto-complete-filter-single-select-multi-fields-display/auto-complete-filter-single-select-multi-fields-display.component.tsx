@@ -56,7 +56,6 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   useOutsideAlerter(wrapperRef);
 
   useEffect(() => {
-    //console.log({ list: data.list });
     setOptions(data.list);
   }, [data]);
 

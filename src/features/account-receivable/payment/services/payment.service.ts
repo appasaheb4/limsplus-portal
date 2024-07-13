@@ -7,7 +7,12 @@
 
 import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import { stores } from '@/stores';
-import { PAYMENT_LIST, CREATE_PAYMENT } from './mutation-payment';
+import {
+  PAYMENT_LIST,
+  CREATE_PAYMENT,
+  FILTER,
+  FILTER_BY_FILTER,
+} from './mutation-payment';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -37,6 +42,36 @@ export class PaymentService {
       client
         .mutate({
           mutation: CREATE_PAYMENT,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filterByFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FILTER_BY_FILTER,
           variables,
         })
         .then((response: any) => {

@@ -25,12 +25,13 @@ import { pdf } from '@react-pdf/renderer';
 import { ModalConfirm } from 'react-restyle-components';
 
 interface PaymentProps {
+  details?: any;
   isFullAccess?: boolean;
   onSubmit?: (details: any) => void;
 }
 
 const Payment = PaymentHoc(
-  observer(({ isFullAccess = true, onSubmit }: PaymentProps) => {
+  observer(({ details = {}, isFullAccess = true, onSubmit }: PaymentProps) => {
     const {
       loading,
       routerStore,
@@ -83,6 +84,21 @@ const Payment = PaymentHoc(
       if (!isFullAccess) {
         (async function () {
           try {
+            // fetch payment details
+            transactionDetailsStore.transactionDetailsService
+              .findByFieldsTransactionHeader({
+                input: {
+                  filter: {
+                    pId: Number.parseInt(details?.pId),
+                  },
+                },
+              })
+              .then(res => {
+                if (res.findByFieldsTransactionHeader?.success) {
+                  updatePayment(res.findByFieldsTransactionHeader?.data[0]);
+                }
+              });
+            //lookup value fetch
             await RouterFlow.getLookupValues(
               '/account-receivable/payment',
             ).then(async res => {
@@ -97,6 +113,7 @@ const Payment = PaymentHoc(
         ...paymentStore.payment,
         enteredBy: loginStore.login?.userId,
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login?.userId, paymentStore, isFullAccess]);
 
     const onSubmitPayment = () => {
@@ -286,9 +303,6 @@ const Payment = PaymentHoc(
                         onSelect={item => {
                           onChange(item.pId);
                           updatePayment(item);
-                          // methodsStore.updateMethodsList(
-                          //   methodsStore.listMethodsCopy,
-                          // );
                         }}
                       />
                     </Form.InputWrapper>
@@ -297,7 +311,7 @@ const Payment = PaymentHoc(
                   rules={{
                     required: true,
                   }}
-                  defaultValue={''}
+                  defaultValue={transactionDetailsStore.transactionHeaderList}
                 />
 
                 <Controller
@@ -320,23 +334,22 @@ const Payment = PaymentHoc(
                         displayValue={value?.toString()}
                         hasError={!!errors.labId}
                         onFilter={(value: string) => {
-                          // methodsStore.methodsService.filterByFields({
-                          //   input: {
-                          //     filter: {
-                          //       fields: ['pId', 'customerName'],
-                          //       srText: value,
-                          //     },
-                          //     page: 0,
-                          //     limit: 10,
-                          //   },
-                          // });
+                          transactionDetailsStore.transactionDetailsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ['labId', 'customerName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            },
+                          );
                         }}
                         onSelect={item => {
                           onChange(item.pId);
                           updatePayment(item);
-                          // methodsStore.updateMethodsList(
-                          //   methodsStore.listMethodsCopy,
-                          // );
                         }}
                       />
                     </Form.InputWrapper>
@@ -345,7 +358,7 @@ const Payment = PaymentHoc(
                   rules={{
                     required: true,
                   }}
-                  defaultValue={''}
+                  defaultValue={transactionDetailsStore.transactionHeaderList}
                 />
 
                 <Controller
