@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Receipt} from '../models';
-import {ReceiptService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Receipt } from '../models';
+import { ReceiptService } from '../services';
 
 export class ReceiptStore {
   receiptList!: Array<Receipt>;

@@ -166,7 +166,7 @@ const Payment = PaymentHoc(
         pId: Number.parseInt(payload?.pId),
         labId: Number.parseInt(payload?.labId),
         rLab: payload?.rLab,
-        invoiceAC: Number.parseInt(payload?.invoiceAC),
+        invoiceAC: Number.parseInt(payload?.invoiceAc),
         customerName: payload?.customerName,
         customerGroup: payload?.customerGroup,
         acClass: payload?.acClass,
@@ -311,7 +311,9 @@ const Payment = PaymentHoc(
                   rules={{
                     required: true,
                   }}
-                  defaultValue={transactionDetailsStore.transactionHeaderList}
+                  defaultValue={
+                    transactionDetailsStore.transactionHeaderList?.length
+                  }
                 />
 
                 <Controller
@@ -358,7 +360,9 @@ const Payment = PaymentHoc(
                   rules={{
                     required: true,
                   }}
-                  defaultValue={transactionDetailsStore.transactionHeaderList}
+                  defaultValue={
+                    transactionDetailsStore.transactionHeaderList?.length
+                  }
                 />
 
                 <Controller
@@ -385,7 +389,7 @@ const Payment = PaymentHoc(
                       placeholder={'Invoice AC'}
                       hasError={!!errors.invoiceAC}
                       disabled={true}
-                      value={value || ''}
+                      value={paymentStore.payment?.invoiceAC?.toString() || ''}
                     />
                   )}
                   name='invoiceAC'
@@ -839,12 +843,12 @@ const Payment = PaymentHoc(
                   });
                 }}
                 onPageSizeChange={(page, limit) => {
-                  // deginisationStore.fetchListDeginisation(page, limit);
+                  paymentStore.paymentService.listPayment(page, limit);
                 }}
                 onFilter={(type, filter, page, limit) => {
-                  // deginisationStore.DeginisationService.filter({
-                  //   input: {type, filter, page, limit},
-                  // });
+                  paymentStore.paymentService.filter({
+                    input: { type, filter, page, limit },
+                  });
                 }}
               />
             </div>

@@ -12,12 +12,14 @@ export const RECEIPTS_LIST = gql`
         _id
         headerId
         labId
+        customerName
         grossAmount
         netAmount
         discount
         receivedAmount
         balance
         acClass
+        invoiceAc
         enteredBy
         companyCode
         environment
@@ -54,6 +56,37 @@ export const SEND_SMS = gql`
     sendMessageService(input: $input) {
       success
       message
+    }
+  }
+`;
+
+export const FILTER = gql`
+  mutation ($input: ReceiptInput!) {
+    filterReceipt(input: $input) {
+      paginatorInfo {
+        count
+      }
+      success
+      message
+      data {
+        _id
+        headerId
+        labId
+        customerName
+        grossAmount
+        netAmount
+        discount
+        receivedAmount
+        balance
+        acClass
+        invoiceAc
+        enteredBy
+        companyCode
+        environment
+        documentType
+        dateOfEntry
+        lastUpdated
+      }
     }
   }
 `;

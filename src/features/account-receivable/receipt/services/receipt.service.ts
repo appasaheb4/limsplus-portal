@@ -12,6 +12,7 @@ import {
   RECEIPTS,
   PAYMENT_RECEIPT_UPLOAD,
   SEND_SMS,
+  FILTER,
 } from './mutation-receipt';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -20,13 +21,10 @@ dayjs.extend(utc);
 export class ReceiptService {
   listReceipt = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const environment =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: RECEIPTS_LIST,
-          variables: { input: { page, limit, environment, role } },
+          variables: { input: { page, limit } },
         })
         .then((response: any) => {
           stores.receiptStore.updateReceiptList(response.data);
@@ -75,6 +73,30 @@ export class ReceiptService {
         })
         .then((response: any) => {
           console.log({ response });
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  filter = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FILTER,
+          variables,
+        })
+        .then((response: any) => {
+          if (!response.data.filterReceipt.success) return this.listReceipt();
+          stores.receiptStore.updateReceiptList({
+            receipts: {
+              data: response.data.filterReceipt?.data,
+              paginatorInfo: {
+                ...response.data.filterReceipt?.paginatorInfo,
+              },
+            },
+          });
           resolve(response.data);
         })
         .catch(error =>

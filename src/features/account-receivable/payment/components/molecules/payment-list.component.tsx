@@ -84,7 +84,7 @@ export const PaymentList = (props: PaymentListProps) => {
             headerClasses: 'textHeader',
           },
           {
-            dataField: 'name',
+            dataField: 'customerName',
             text: 'Patient Name',
             sort: true,
             editable: false,

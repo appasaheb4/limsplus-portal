@@ -20,13 +20,10 @@ dayjs.extend(utc);
 export class PaymentService {
   listPayment = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      const environment =
-        stores.loginStore.login && stores.loginStore.login.environment;
-      const role = stores.loginStore.login && stores.loginStore.login.role;
       client
         .mutate({
           mutation: PAYMENT_LIST,
-          variables: { input: { page, limit, environment, role } },
+          variables: { input: { page, limit } },
         })
         .then((response: any) => {
           stores.paymentStore.updatePaymentList(response.data);
@@ -60,6 +57,15 @@ export class PaymentService {
           variables,
         })
         .then((response: any) => {
+          if (!response.data.filterPayment.success) return this.listPayment();
+          stores.paymentStore.updatePaymentList({
+            payments: {
+              data: response.data.filterPayment?.data,
+              paginatorInfo: {
+                ...response.data.filterPayment?.paginatorInfo,
+              },
+            },
+          });
           resolve(response.data);
         })
         .catch(error =>
