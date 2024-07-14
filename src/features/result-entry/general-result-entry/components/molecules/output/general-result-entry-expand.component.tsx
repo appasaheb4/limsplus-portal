@@ -13,13 +13,12 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import { Buttons, Icons } from '@/library/components';
+import { Buttons, Icons, ColumnFilter } from '@/library/components';
 import { Confirm } from '@/library/models';
 
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { debounce } from '@/core-utils';
 import { PatientDemographicsList } from '../patient-demographics/patient-demographics-list.components';
-import { ColumnFilter } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;

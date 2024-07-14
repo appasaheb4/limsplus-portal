@@ -18,8 +18,7 @@ import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 import { debounce } from '@/core-utils';
 
-import { Buttons, Icons, Tooltip } from '@/library/components';
-import { ColumnFilter } from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
+import { Buttons, Icons, Tooltip, ColumnFilter } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;

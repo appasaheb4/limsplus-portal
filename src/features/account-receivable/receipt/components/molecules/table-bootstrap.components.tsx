@@ -17,8 +17,7 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 import { debounce } from '@/core-utils';
-import { Buttons, Icons } from '@/library/components';
-import { ColumnFilter } from '@/library/components';
+import { Buttons, Icons, ColumnFilter } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
