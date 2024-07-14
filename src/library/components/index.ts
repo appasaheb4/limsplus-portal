@@ -54,5 +54,6 @@ export * from './molecules/auto-complete-filter-multi-key-single-select/auto-com
 
 export * from './organisms/filter-comp';
 export * from './organisms/table-bootstrap/table-bootstrap.component';
+export * from './organisms/table-bootstrap/custom-toggle-list.component';
 export * from './organisms/utils';
 export * from './organisms/department-list.component';

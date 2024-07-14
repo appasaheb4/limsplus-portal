@@ -19,7 +19,7 @@ import { Confirm } from '@/library/models';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { debounce } from '@/core-utils';
 import { PatientDemographicsList } from '../patient-demographics/patient-demographics-list.components';
-import { ColumnFilter } from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
+import { ColumnFilter } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;

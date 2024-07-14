@@ -22,7 +22,7 @@ import { Confirm } from '@/library/models';
 // import * as Config from "@/config"
 import { PatientTestExpandByTestId } from './patient-test-expand-by-test-Id.component';
 import { debounce } from '@/core-utils';
-import { ColumnFilter } from '@/library/components/organisms/table-bootstrap/custom-toggle-list.component';
+import { ColumnFilter } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
