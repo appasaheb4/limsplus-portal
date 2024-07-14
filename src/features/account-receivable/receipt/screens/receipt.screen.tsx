@@ -21,8 +21,6 @@ const Receipt = observer(() => {
     setValue,
   } = useForm();
   const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
-  const [receiptDetails, setReceiptDetails] = useState<any>();
-
   const sendSMS = details => {
     receiptStore.receiptService
       .sendSMS({
