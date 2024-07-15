@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -21,6 +21,8 @@ import { Buttons, Icons } from '@/library/components';
 import { debounce } from '@/core-utils';
 import { useStores } from '@/stores';
 import { RouterFlow } from '@/flows';
+import { ColumnFilter } from '@/library/components';
+import { useColumnManager } from '@/hooks/use-column-manager';
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 
@@ -77,6 +79,15 @@ export const TableBootstrap = ({
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const { routerStore } = useStores();
+  const {
+    isColumnFilterVisible,
+    setIsColumnFilterVisible,
+    currentColumns,
+    handleColumnReorder,
+    handleColumnToggle,
+    filterableColumns,
+  } = useColumnManager(columns);
+
   const customTotal = (from, to, size) => {
     return (
       <>
@@ -295,7 +306,7 @@ export const TableBootstrap = ({
         totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
-      columns={columns}
+      columns={currentColumns}
       data={data}
     >
       {({ paginationProps, paginationTableProps }) => (
@@ -303,7 +314,7 @@ export const TableBootstrap = ({
           keyField={id}
           bootstrap4
           data={data}
-          columns={columns}
+          columns={currentColumns}
           search
           exportCSV={{
             fileName: `${fileName}_${dayjs(new Date()).format(
@@ -348,42 +359,27 @@ export const TableBootstrap = ({
                     </ExportCSVButton>
                   )}
 
-                  {isFilterOpen ? (
-                    <div className='ml-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='outline'
-                        onClick={() => {
-                          setIsFilterOpen(!isFilterOpen);
-                        }}
-                      >
-                        <Icons.IconFa.FaChevronUp />
-                      </Buttons.Button>
-                    </div>
-                  ) : (
-                    <div className='ml-2'>
-                      <Buttons.Button
-                        size='medium'
-                        type='outline'
-                        onClick={() => {
-                          setIsFilterOpen(!isFilterOpen);
-                        }}
-                      >
-                        <Icons.IconFa.FaChevronDown />
-                      </Buttons.Button>
-                    </div>
-                  )}
-                </div>
-                {isFilterOpen && (
-                  <div className={'flex overflow-auto'}>
-                    <CustomToggleList
-                      contextual='primary'
-                      className='list-custom-class'
-                      btnClassName='list-btn-custom-class'
-                      {...props.columnToggleProps}
-                    />
+                  <div className='ml-2 relative'>
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsColumnFilterVisible(!isColumnFilterVisible);
+                      }}
+                    >
+                      <Icons.IconFa.FaFilter />
+                    </Buttons.Button>
+                    {isColumnFilterVisible && (
+                      <ColumnFilter
+                        columns={filterableColumns}
+                        onClose={() => setIsColumnFilterVisible(false)}
+                        onColumnReorder={handleColumnReorder}
+                        onColumnToggle={handleColumnToggle}
+                      />
+                    )}
                   </div>
-                )}
+                </div>
+
                 <div>
                   {isHideForm && (
                     <>
@@ -401,17 +397,21 @@ export const TableBootstrap = ({
                 </div>
               </div>
               <div className='scrollTable'>
-                <BootstrapTable
-                  remote
-                  {...props.baseProps}
-                  noDataIndication='Table is Empty'
-                  hover
-                  {...paginationTableProps}
-                  filter={filterFactory()}
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                  onTableChange={handleTableChange}
-                  rowEvents={rowEvents}
-                />
+                {currentColumns.length > 1 ? (
+                  <BootstrapTable
+                    remote
+                    {...props.baseProps}
+                    noDataIndication='Table is Empty'
+                    hover
+                    {...paginationTableProps}
+                    filter={filterFactory()}
+                    headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                    onTableChange={handleTableChange}
+                    rowEvents={rowEvents}
+                  />
+                ) : (
+                  <div className='mt-4 text-center'>No columns selected</div>
+                )}
               </div>
               <div className='flex items-center gap-2 mt-2'>
                 <SizePerPageDropdownStandalone

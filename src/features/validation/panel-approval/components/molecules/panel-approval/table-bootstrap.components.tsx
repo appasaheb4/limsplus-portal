@@ -14,7 +14,7 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 import { debounce } from '@/core-utils';
-import { Buttons, Icons, Tooltip } from '@/library/components';
+import { Buttons, Icons, Tooltip, ColumnFilter } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -26,6 +26,7 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { useStores } from '@/stores';
+import { useColumnManager } from '@/hooks/use-column-manager';
 
 interface TableBootstrapProps {
   id: string;
@@ -90,6 +91,14 @@ export const TableBootstrap = ({
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [expanded, setExpanded] = useState([0, 1]);
   const { loginStore } = useStores();
+  const {
+    isColumnFilterVisible,
+    setIsColumnFilterVisible,
+    currentColumns,
+    handleColumnReorder,
+    handleColumnToggle,
+    filterableColumns,
+  } = useColumnManager(columns);
 
   useEffect(() => {
     setTimeout(() => {
@@ -364,7 +373,7 @@ export const TableBootstrap = ({
           totalSize !== 0 ? options : { page, sizePerPage, totalSize },
         )}
         keyField={id}
-        columns={columns}
+        columns={currentColumns}
         data={_.without(data, undefined)?.length > 0 ? data : []}
       >
         {({ paginationProps, paginationTableProps }) => (
@@ -372,7 +381,7 @@ export const TableBootstrap = ({
             keyField={id}
             bootstrap4
             data={_.without(data, undefined)?.length > 0 ? data : []}
-            columns={columns}
+            columns={currentColumns}
             search
             exportCSV={{
               fileName: `${fileName}_${dayjs(new Date()).format(
@@ -421,27 +430,25 @@ export const TableBootstrap = ({
                       </ExportCSVButton>
                     )}
 
-                    {isFilterOpen ? (
+                    <div className='ml-2 relative'>
                       <Buttons.Button
                         size='medium'
                         type='outline'
                         onClick={() => {
-                          setIsFilterOpen(!isFilterOpen);
+                          setIsColumnFilterVisible(!isColumnFilterVisible);
                         }}
                       >
-                        <Icons.IconFa.FaChevronUp />
+                        <Icons.IconFa.FaFilter />
                       </Buttons.Button>
-                    ) : (
-                      <Buttons.Button
-                        size='medium'
-                        type='outline'
-                        onClick={() => {
-                          setIsFilterOpen(!isFilterOpen);
-                        }}
-                      >
-                        <Icons.IconFa.FaChevronDown />
-                      </Buttons.Button>
-                    )}
+                      {isColumnFilterVisible && (
+                        <ColumnFilter
+                          columns={filterableColumns}
+                          onClose={() => setIsColumnFilterVisible(false)}
+                          onColumnReorder={handleColumnReorder}
+                          onColumnToggle={handleColumnToggle}
+                        />
+                      )}
+                    </div>
                     <div className='flex ml-2 flex-wrap gap-1'>
                       {statusData.map(status => (
                         <button
@@ -507,27 +514,31 @@ export const TableBootstrap = ({
                   </div>
                 )}
                 <div className='scrollTable mb-2'>
-                  <BootstrapTable
-                    keyField='_id'
-                    remote
-                    {...props.baseProps}
-                    noDataIndication='Table is Empty'
-                    hover
-                    {...paginationTableProps}
-                    filter={filterFactory()}
-                    headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                    cellEdit={
-                      isEditModify
-                        ? cellEditFactory({
-                            mode: 'dbclick',
-                            blurToSave: true,
-                          })
-                        : undefined
-                    }
-                    rowEvents={rowEvents}
-                    rowStyle={rowStyle}
-                    onTableChange={handleTableChange}
-                  />
+                  {currentColumns.length > 1 ? (
+                    <BootstrapTable
+                      keyField='_id'
+                      remote
+                      {...props.baseProps}
+                      noDataIndication='Table is Empty'
+                      hover
+                      {...paginationTableProps}
+                      filter={filterFactory()}
+                      headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                      cellEdit={
+                        isEditModify
+                          ? cellEditFactory({
+                              mode: 'dbclick',
+                              blurToSave: true,
+                            })
+                          : undefined
+                      }
+                      rowEvents={rowEvents}
+                      rowStyle={rowStyle}
+                      onTableChange={handleTableChange}
+                    />
+                  ) : (
+                    <div className='mt-4 text-center'>No columns selected</div>
+                  )}
                   <div className='-mt-2 z-1'>
                     <Result
                       data={
