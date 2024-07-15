@@ -23,6 +23,7 @@ import { PatientOrderExpandPackageList } from './patient-order-expand-package-li
 import { debounce } from '@/core-utils';
 import { RouterFlow } from '@/flows';
 import { useStores } from '@/stores';
+import { useColumnManager } from '@/hooks/use-column-manager';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -83,40 +84,14 @@ export const PatientOrderExpand = ({
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const { routerStore } = useStores();
 
-  const [isColumnFilterVisible, setIsColumnFilterVisible] =
-    useState<boolean>(false);
-  const [currentColumns, setCurrentColumns] = useState(columns);
-  const [columnOrder, setColumnOrder] = useState(columns);
-
-  useEffect(() => {
-    const selectedColumns = columnOrder.filter(col =>
-      currentColumns.some(c => c.dataField === col.dataField),
-    );
-    setCurrentColumns(
-      selectedColumns.length > 0
-        ? [...selectedColumns, columns[columns.length - 1]]
-        : [],
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnOrder]);
-
-  const handleColumnReorder = newColumns => {
-    setColumnOrder(newColumns);
-  };
-
-  const handleColumnToggle = selectedColumns => {
-    const newColumns = columnOrder.filter(column =>
-      selectedColumns.includes(column.dataField),
-    );
-    setCurrentColumns(
-      newColumns.length > 0 ? [...newColumns, columns[columns.length - 1]] : [],
-    );
-  };
-
-  // Filter out the "Action" and "Id" columns for the ColumnFilter component
-  const filterableColumns = columns.filter(
-    column => column.dataField !== 'operation' && column.dataField !== '_id',
-  );
+  const {
+    isColumnFilterVisible,
+    setIsColumnFilterVisible,
+    currentColumns,
+    handleColumnReorder,
+    handleColumnToggle,
+    filterableColumns,
+  } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
     return (
