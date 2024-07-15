@@ -54,6 +54,7 @@ export const ModalPayment = observer(
                       <Payment
                         isFullAccess={false}
                         onSubmit={details => {
+                          setShowModal(false);
                           onClose && onClose();
                         }}
                       />
