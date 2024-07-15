@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -17,7 +17,8 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 import { debounce } from '@/core-utils';
-import { Buttons, Icons } from '@/library/components';
+import { Buttons, Icons, ColumnFilter } from '@/library/components';
+import { useColumnManager } from '@/hooks/use-column-manager';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -72,6 +73,14 @@ export const TableBootstrapTranHeader = ({
 }: TableBootstrapTranHeaderProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
+  const {
+    isColumnFilterVisible,
+    setIsColumnFilterVisible,
+    currentColumns,
+    handleColumnReorder,
+    handleColumnToggle,
+    filterableColumns,
+  } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
     return (
@@ -298,7 +307,7 @@ export const TableBootstrapTranHeader = ({
         totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
-      columns={columns}
+      columns={currentColumns}
       data={data}
     >
       {({ paginationProps, paginationTableProps }) => (
@@ -306,7 +315,7 @@ export const TableBootstrapTranHeader = ({
           keyField={id}
           bootstrap4
           data={data}
-          columns={columns}
+          columns={currentColumns}
           search
           exportCSV={{
             fileName: `${fileName}_${dayjs(new Date()).format(
@@ -349,51 +358,43 @@ export const TableBootstrapTranHeader = ({
                     Export CSV!!
                   </ExportCSVButton>
                 )}
-                {isFilterOpen ? (
+                <div className='ml-2 relative'>
                   <Buttons.Button
                     size='medium'
                     type='outline'
                     onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
+                      setIsColumnFilterVisible(!isColumnFilterVisible);
                     }}
                   >
-                    <Icons.IconFa.FaChevronUp />
+                    <Icons.IconFa.FaFilter />
                   </Buttons.Button>
-                ) : (
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsFilterOpen(!isFilterOpen);
-                    }}
-                  >
-                    <Icons.IconFa.FaChevronDown />
-                  </Buttons.Button>
-                )}
-              </div>
-              {isFilterOpen && (
-                <div className={'flex overflow-auto'}>
-                  <CustomToggleList
-                    contextual='primary'
-                    className='list-custom-class'
-                    btnClassName='list-btn-custom-class'
-                    {...props.columnToggleProps}
-                  />
+                  {isColumnFilterVisible && (
+                    <ColumnFilter
+                      columns={filterableColumns}
+                      onClose={() => setIsColumnFilterVisible(false)}
+                      onColumnReorder={handleColumnReorder}
+                      onColumnToggle={handleColumnToggle}
+                    />
+                  )}
                 </div>
-              )}
+              </div>
               <div className='scrollTable'>
-                <BootstrapTable
-                  remote
-                  {...props.baseProps}
-                  noDataIndication='Table is Empty'
-                  hover
-                  {...paginationTableProps}
-                  filter={filterFactory()}
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap'
-                  onTableChange={handleTableChange}
-                  rowEvents={rowEvents}
-                  rowStyle={rowStyle}
-                />
+                {currentColumns.length > 1 ? (
+                  <BootstrapTable
+                    remote
+                    {...props.baseProps}
+                    noDataIndication='Table is Empty'
+                    hover
+                    {...paginationTableProps}
+                    filter={filterFactory()}
+                    headerClasses='bg-gray-500 text-white whitespace-nowrap'
+                    onTableChange={handleTableChange}
+                    rowEvents={rowEvents}
+                    rowStyle={rowStyle}
+                  />
+                ) : (
+                  <div className='mt-4 text-center'>No columns selected</div>
+                )}
               </div>
               <div className='flex items-center gap-2 mt-2'>
                 <SizePerPageDropdownStandalone
