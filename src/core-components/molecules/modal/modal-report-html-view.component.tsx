@@ -1,13 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import {
-  Document,
-  PDFViewer,
-  Page,
-  StyleSheet,
-  Font,
-  View,
-} from '@react-pdf/renderer';
-import { PdfSmall } from '@/library/components';
+import React, { useState, useEffect } from 'react';
+import { Document, PDFViewer, Page, Font, View } from '@react-pdf/renderer';
 import _ from 'lodash';
 import Html from 'react-pdf-html';
 import { Container } from 'reactstrap';
@@ -49,6 +41,25 @@ export const ModalReportHtmlView = ({
   //const regex = /style=(.*)font-family[^;]+;/g;
   const subst = '';
 
+  //   const staticContent = `
+  //   <p><strong><br></strong></p><p><strong>MINIMAL RESIDUAL DISEASE(MRD) FL</strong></p><p>test</p>
+  //   <table style="border-collapse: collapse; maxWidth: 80.6584%;"><tbody>
+  // <tr>
+  // 	<td style="maxWidth: 12%;">test</td>
+  // 	<td style="maxWidth: 88%;">test</td></tr>
+  // <tr>
+  // 	<td style="maxWidth: 12%;">test</td>
+  // 	<td style="maxWidth: 88%;">test</td></tr></tbody></table>`;
+
+  const staticContent = `<p><strong><br></strong></p><p><strong>MINIMAL RESIDUAL DISEASE(MRD) FL</strong></p><p>test</p>
+  <table style="border-collapse:collapse;width: 100%;"><tbody>
+<tr>
+	<td style="width: 71.1248%;">test</td>
+	<td style="width: 28.8752%;">test</td></tr>
+<tr>
+	<td>tes</td>
+	<td>test</td></tr></tbody></table>`;
+
   useEffect(() => {
     setShowModal(visible);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,9 +67,17 @@ export const ModalReportHtmlView = ({
 
   const html = content => `
   <html>
-    <body>
+     
+    <body id="reportTable">
         ${content}
     </body>
+ <script>
+    document.querySelector('#reportTable').style.backgroundColor='red'
+    const tables = document.querySelectorAll('table')
+    tables.forEach((item)=>{
+    item.style.backgroundColor='red'
+    })
+    </script>
   </html>
   `;
 
@@ -101,9 +120,9 @@ export const ModalReportHtmlView = ({
     },
   };
 
-  // console.log({
-  //   result: details,
-  // });
+  console.log({
+    result: details,
+  });
 
   return (
     <>
@@ -146,7 +165,7 @@ export const ModalReportHtmlView = ({
                               }}
                             >
                               <Html stylesheet={stylesheet}>
-                                {html(details.replace(regex, subst))}
+                                {html(staticContent.replace(regex, subst))}
                               </Html>
                             </View>
                           </Page>
