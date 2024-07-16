@@ -67,7 +67,6 @@ export const ModalReportHtmlView = ({
 
   const html = content => `
   <html>
-     
     <body id="reportTable">
         ${content}
     </body>
