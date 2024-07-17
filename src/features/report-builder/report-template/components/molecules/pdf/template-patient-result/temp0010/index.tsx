@@ -100,7 +100,6 @@ export const PdfTemp0010 = ({
       border: '1px solid !important',
       marginTop: 4,
       marginBottom: 4,
-      width: '100% !important',
     },
     td: {
       padding: 2,
@@ -282,6 +281,34 @@ export const PdfTemp0010 = ({
   //   result: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
   // });
 
+  const htmlContent = (details: string) => {
+    const container = document.createElement('div');
+    container.innerHTML = details;
+    const tables = container.querySelectorAll('table');
+    tables.forEach((items, index) => {
+      const width = items.style.width;
+      const height = items.style.height;
+      if (width?.includes('px') || height?.includes('px')) {
+        items.style.width = '100%';
+        items.style.height = 'auto';
+      }
+      items.innerHTML = items.innerHTML?.replaceAll('width', 'maxWidth');
+      const row = items.querySelectorAll('tr');
+      const tdWidth = row[0]?.querySelectorAll('td');
+      row.forEach((tr, i) => {
+        if (i > 0) {
+          tr.querySelectorAll('td')?.forEach((td, tdi) => {
+            td.setAttribute(
+              'style',
+              tdWidth[tdi]?.getAttribute('style') as any,
+            );
+          });
+        }
+      });
+    });
+    return container.innerHTML;
+  };
+
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
@@ -298,7 +325,11 @@ export const PdfTemp0010 = ({
         >
           {patientReports?.patientResultList?.map((item, index) => (
             <Html stylesheet={stylesheet} key={index}>
-              {html(JSON.parse(item.result).result.replace(regex, subst))}
+              {html(
+                htmlContent(
+                  JSON.parse(item.result).result.replace(regex, subst),
+                ),
+              )}
             </Html>
           ))}
           {/*  user signature */}
