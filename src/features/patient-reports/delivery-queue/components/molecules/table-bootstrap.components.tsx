@@ -94,6 +94,7 @@ export const TableBootstrap = ({
     <div className='btn-group items-center' role='group'>
       <input
         type='number'
+        id={`number-${Date.now()}`}
         min='0'
         placeholder='No'
         onChange={(e: any) => {

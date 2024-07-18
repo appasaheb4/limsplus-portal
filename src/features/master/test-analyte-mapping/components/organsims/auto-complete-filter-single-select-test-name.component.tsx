@@ -95,6 +95,7 @@ export const AutoCompleteFilterSingleSelectTestName = observer(
           >
             <input
               placeholder='Search by test name'
+              id={`search-${Date.now()}`}
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}

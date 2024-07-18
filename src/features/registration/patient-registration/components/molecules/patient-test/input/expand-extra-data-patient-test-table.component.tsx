@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -13,15 +13,15 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import {Buttons, Icons} from '@/library/components';
+import { Buttons, Icons } from '@/library/components';
 // import * as LibraryModels from "@/library/models"
 
 import * as Config from '@/config';
-import {ExpandPatientTestTestCode} from './expand-patient-test-test-code.component';
-import {debounce} from '@/core-utils';
+import { ExpandPatientTestTestCode } from './expand-patient-test-test-code.component';
+import { debounce } from '@/core-utils';
 
-const {SearchBar, ClearSearchButton} = Search;
-const {ExportCSVButton} = CSVExport;
+const { SearchBar, ClearSearchButton } = Search;
+const { ExportCSVButton } = CSVExport;
 
 interface ExpandExtraDataPatientTestTableProps {
   id: string;
@@ -86,7 +86,7 @@ export const ExpandExtraDataPatientTestTable = ({
     <div className='btn-group items-center' role='group'>
       {isSelectRow && (
         <Buttons.Button
-          style={{height: 10, width: 200}}
+          style={{ height: 10, width: 200 }}
           size='small'
           type='solid'
           onClick={() => {
@@ -108,6 +108,7 @@ export const ExpandExtraDataPatientTestTable = ({
       <input
         type='number'
         min='0'
+        id={`number-${Date.now()}`}
         placeholder='No'
         onChange={e => {
           if (e.target.value) {
@@ -203,7 +204,7 @@ export const ExpandExtraDataPatientTestTable = ({
       let filter: any = {};
       for (const [key, value] of Object.entries(filters)) {
         const values: any = value;
-        const object = {[key]: values.filterVal};
+        const object = { [key]: values.filterVal };
         filter = Object.assign(filter, object);
       }
       if (onFilter) {
@@ -219,7 +220,7 @@ export const ExpandExtraDataPatientTestTable = ({
     }
     if (type === 'search') {
       debounce(() => {
-        onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
+        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage);
       });
     }
     if (type === 'sort') {
@@ -424,13 +425,13 @@ export const ExpandExtraDataPatientTestTable = ({
   return (
     <PaginationProvider
       pagination={paginationFactory(
-        totalSize !== 0 ? options : {page, sizePerPage, totalSize},
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
       columns={columns}
       data={data}
     >
-      {({paginationProps, paginationTableProps}) => (
+      {({ paginationProps, paginationTableProps }) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4

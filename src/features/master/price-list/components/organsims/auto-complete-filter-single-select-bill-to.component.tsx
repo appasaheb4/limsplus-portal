@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectBillToProps {
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectBillTo = observer(
-  ({onSelect}: AutoCompleteFilterSingleSelectBillToProps) => {
-    const {loading, corporateClientsStore} = useStores();
+  ({ onSelect }: AutoCompleteFilterSingleSelectBillToProps) => {
+    const { loading, corporateClientsStore } = useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -78,6 +78,7 @@ export const AutoCompleteFilterSingleSelectBillTo = observer(
           >
             <input
               placeholder='Search by code'
+              id={`search-${Date.now()}`}
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}

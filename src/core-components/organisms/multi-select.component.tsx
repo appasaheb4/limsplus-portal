@@ -60,6 +60,7 @@ export const MultiSelect = ({
                       <input
                         className='bg-black'
                         type='checkbox'
+                        id={`checkbox-${Date.now()}`}
                         checked={selectedOptions?.includes(item)}
                         onChange={() => {
                           if (selectedOptions?.includes(item)) {

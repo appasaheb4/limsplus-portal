@@ -167,6 +167,7 @@ export const ScheduleFrequency = ({
               >
                 <input
                   type='checkbox'
+                  id={`checkbox-${Date.now()}`}
                   name={item.day}
                   value={item.day}
                   checked={item.selected}
@@ -175,6 +176,7 @@ export const ScheduleFrequency = ({
                 <h6 className='ml-2 mr-2 items-center'> {`  ${item.day}  `}</h6>
                 <input
                   type='number'
+                  id={`number-${Date.now()}`}
                   placeholder='Value'
                   onChange={e => {
                     const value = e.target.value;
@@ -246,6 +248,7 @@ export const ScheduleFrequency = ({
                         >
                           <input
                             type='checkbox'
+                            id={`checkbox-${Date.now()}`}
                             name={days.day}
                             value={days.day}
                             checked={days.selected}
@@ -259,6 +262,7 @@ export const ScheduleFrequency = ({
                           </h6>
                           <input
                             type='number'
+                            id={`number-${Date.now()}`}
                             placeholder='Value'
                             onChange={e => {
                               const value = e.target.value;
@@ -360,6 +364,7 @@ export const ScheduleFrequency = ({
               >
                 <input
                   type='checkbox'
+                  id={`checkbox-${Date.now()}`}
                   name={item.title}
                   value={item.title}
                   checked={item.selected}
@@ -371,6 +376,7 @@ export const ScheduleFrequency = ({
                 </h6>
                 <input
                   type='number'
+                  id={`number-${Date.now()}`}
                   placeholder='Value'
                   onChange={e => {
                     const value = e.target.value;

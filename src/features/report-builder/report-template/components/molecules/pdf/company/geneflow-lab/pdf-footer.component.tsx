@@ -3,11 +3,11 @@ import React from 'react';
 import { PdfFooterView, PdfImage } from '@components';
 import { logos } from '@/library/assets';
 
-interface FooterProps {
+interface GeneflowLabFooterProps {
   data?: any;
 }
 
-export const Footer = ({ data }: FooterProps) => {
+export const GeneflowLabFooter = ({ data }: GeneflowLabFooterProps) => {
   return (
     <PdfFooterView fixed bg='white'>
       <PdfImage

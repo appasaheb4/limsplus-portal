@@ -1,15 +1,12 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
+import { Page, StyleSheet, Font, Text } from '@react-pdf/renderer';
+import { PdfSmall, PdfView, PdfFooterView } from '@components';
 import {
-  Page,
-  StyleSheet,
-  Font,
-  Text,
-} from '@react-pdf/renderer';
-import {PdfSmall, PdfView, PdfFooterView} from '@components';
-import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Footer} from '../../common/aarvak-diagnostic-center/pdf-footer.component';
-import {PdfMedicalCheckup} from './pdf-medical-checkup';
-import {PdfPatientDetails} from './pdf-patient-details.component';
+  AarvakDiagnosticCenterHeader,
+  AarvakDiagnosticCenterFooter,
+} from '../../company';
+import { PdfMedicalCheckup } from './pdf-medical-checkup';
+import { PdfPatientDetails } from './pdf-patient-details.component';
 
 Font.register({
   family: 'arimaRegular',
@@ -50,7 +47,7 @@ export const PdfTemp0006 = ({
   pageSize,
   children,
 }: PdfTemp0006Props) => {
-  const {patientReports} = data;
+  const { patientReports } = data;
 
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
@@ -64,17 +61,17 @@ export const PdfTemp0006 = ({
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
-        <PdfView style={{height: 100}} mh={0} p={0}>
-          {isWithHeader && <Header />}
+        <PdfView style={{ height: 100 }} mh={0} p={0}>
+          {isWithHeader && <AarvakDiagnosticCenterHeader />}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
         <PdfMedicalCheckup data={data?.patientReports} />
-        <PdfSmall style={{left: 20, marginTop: 5}}>
+        <PdfSmall style={{ left: 20, marginTop: 5 }}>
           {` Registration No.: ${
             data?.patientReports?.labId?.toString() || ''
           }`}
         </PdfSmall>
-        <PdfView style={{height: 20, marginTop: -5}} mh={0} p={0}>
+        <PdfView style={{ height: 20, marginTop: -5 }} mh={0} p={0}>
           <Text
             style={{
               fontWeight: 'normal',
@@ -83,14 +80,14 @@ export const PdfTemp0006 = ({
               lineHeight: 0,
               textAlign: 'center',
             }}
-            render={({pageNumber, totalPages}) =>
+            render={({ pageNumber, totalPages }) =>
               pageNumber == totalPages &&
               ' ---------------------- End of report ----------------------'
             }
           />
         </PdfView>
-        <PdfFooterView fixed bg='transparent' style={{height: 90}} p={0}>
-          {isWithHeader && <Footer />}
+        <PdfFooterView fixed bg='transparent' style={{ height: 90 }} p={0}>
+          {isWithHeader && <AarvakDiagnosticCenterFooter />}
         </PdfFooterView>
       </Page>
     </>

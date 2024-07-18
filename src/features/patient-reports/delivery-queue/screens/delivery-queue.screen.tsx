@@ -492,6 +492,7 @@ const DeliveryQueue = observer(() => {
                       } else {
                         setModalGenerateReports({
                           show: true,
+                          companyCode: item?.companyCode,
                           data: grouped,
                           templateDetails:
                             res1.getTempPatientResultListByTempCodes.list,

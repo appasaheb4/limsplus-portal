@@ -1,9 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
 import _ from 'lodash';
-import {Icons} from '@/library/components';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectCityProps {
   country: string;
@@ -19,7 +19,7 @@ export const AutoCompleteFilterSingleSelectCity = observer(
     district,
     onSelect,
   }: AutoCompleteFilterSingleSelectCityProps) => {
-    const {loading, administrativeDivisions, labStore} = useStores();
+    const { loading, administrativeDivisions, labStore } = useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -106,6 +106,7 @@ export const AutoCompleteFilterSingleSelectCity = observer(
           >
             <input
               placeholder='Search....'
+              id={`search-${Date.now()}`}
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}

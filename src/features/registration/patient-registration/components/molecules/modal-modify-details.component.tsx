@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useEffect, useState } from 'react';
+import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
 const customParseFormat = require('dayjs/plugin/customParseFormat');
 dayjs.extend(customParseFormat);
@@ -77,7 +77,7 @@ export const ModalModifyDetails = observer(
 
               <input
                 checked={inputFormat == 'radio' ? true : false}
-                id='default-radio-2'
+                id={`search-${Date.now()}`}
                 type='radio'
                 value='date'
                 name='default-radio'
@@ -117,6 +117,7 @@ export const ModalModifyDetails = observer(
               <input
                 checked={isUpdateAll}
                 type='checkbox'
+                id={`checkbox-${Date.now()}`}
                 className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                 onChange={() => {
                   setUpdateAll(!isUpdateAll);

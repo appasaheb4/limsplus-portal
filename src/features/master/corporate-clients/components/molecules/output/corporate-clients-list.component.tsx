@@ -1025,13 +1025,6 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             sortCaret: (order, column) => sortCaret(order, column),
             editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
-            // headerFormatter: (column, row, colIndex) => {
-            //   return (
-            //     <h5>
-            //       <strong>$$ {row._id} $$</strong>
-            //     </h5>
-            //   );
-            // },
             formatter: (cell, row) => {
               return (
                 <div
@@ -1055,14 +1048,15 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       </Icons.IconContext>
                     </Tooltip>
                   )}
-                  {row.reportToMobiles?.map((item, index) => (
-                    <span
-                      key={index}
-                      className='flex p-2 rounded-sm bg-blue-800 text-white'
-                    >
-                      {item?.name + ' - ' + item?.mobileNo}
-                    </span>
-                  ))}
+                  {row?.reportToMobiles?.length > 0 &&
+                    row?.reportToMobiles?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='flex p-2 rounded-sm bg-blue-800 text-white'
+                      >
+                        {item?.name + ' - ' + item?.mobileNo}
+                      </span>
+                    ))}
                 </div>
               );
             },
@@ -1095,14 +1089,15 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       </Icons.IconContext>
                     </Tooltip>
                   )}
-                  {row.reportToEmails?.map((item, index) => (
-                    <span
-                      key={index}
-                      className='flex p-2 rounded-sm bg-blue-800 text-white'
-                    >
-                      {item?.name + ' - ' + item?.email}
-                    </span>
-                  ))}
+                  {row.reportToEmails?.length > 0 &&
+                    row.reportToEmails?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='flex p-2 rounded-sm bg-blue-800 text-white'
+                      >
+                        {item?.name + ' - ' + item?.email}
+                      </span>
+                    ))}
                 </div>
               );
             },

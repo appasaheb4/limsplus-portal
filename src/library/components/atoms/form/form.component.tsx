@@ -23,6 +23,7 @@ export const Label: React.FunctionComponent<LabelProps> = props => (
         props.hasError ? 'text-red-400' : 'text-current'
       } block text-3xs font-medium  mb-1`}
       style={{ ...props.style }}
+      key={Date.now()}
     >
       {props.children}
     </label>
@@ -129,6 +130,7 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         } rounded-md`}
         onBlur={e => props.onBlur && props.onBlur(e.target.value)}
         onKeyDown={props.onKeyDown}
+        key={Date.now()}
       />
     </InputWrapper>
   );
