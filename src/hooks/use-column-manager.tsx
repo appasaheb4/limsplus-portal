@@ -20,7 +20,8 @@ export const useColumnManager = (initialColumns: Column[]) => {
         ? [...selectedColumns, initialColumns[initialColumns.length - 1]]
         : [],
     );
-  }, [columnOrder, currentColumns, initialColumns]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnOrder]);
 
   const handleColumnReorder = (newColumns: Column[]) => {
     setColumnOrder(newColumns);
@@ -39,7 +40,10 @@ export const useColumnManager = (initialColumns: Column[]) => {
 
   // Filter out the "Action" and "Id" columns for the ColumnFilter component
   const filterableColumns = initialColumns.filter(
-    column => column.dataField !== 'operation' && column.dataField !== '_id',
+    column =>
+      column.dataField !==
+        initialColumns[initialColumns.length - 1].dataField &&
+      column.dataField !== '_id',
   );
 
   return {
