@@ -358,7 +358,6 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 fontSize: 0,
               },
               style: {
-                textTransform: 'uppercase',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

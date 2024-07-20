@@ -196,7 +196,6 @@ export const MasterAnalyteList = (props: MasterAnalyteProps) => {
                 fontSize: 0,
               },
               style: {
-                textTransform: 'uppercase',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

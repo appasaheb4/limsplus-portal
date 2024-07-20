@@ -595,6 +595,7 @@ export const ModalGenerateReports = ({
                     >
                       Share Link
                     </button>
+                    {reportTo?.pdf}
                   </div>
                 </div>
                 <div className='flex items-center  p-3 border-t border-solid border-gray-300 rounded-b justify-between'>

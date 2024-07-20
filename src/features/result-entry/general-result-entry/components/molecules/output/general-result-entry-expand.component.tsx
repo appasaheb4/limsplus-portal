@@ -343,11 +343,11 @@ export const GeneralResultEntryExpand = ({
   };
 
   const statusData = [
-    { code: 'P', value: 'Pending', color: 'blue' },
-    { code: 'RC', value: 'Recheck', color: 'orange' },
-    { code: 'RT', value: 'Retest', color: 'pink' },
-    { code: 'D', value: 'Done', color: 'green' },
-    { code: '', value: 'All', color: 'red' },
+    { code: 'P', value: 'Pending', color: 'blue', disable: false },
+    { code: 'RC', value: 'Recheck', color: 'orange', disable: true },
+    { code: 'RT', value: 'Retest', color: 'pink', disable: true },
+    { code: 'D', value: 'Done', color: 'green', disable: false },
+    { code: '', value: 'All', color: 'red', disable: false },
   ];
 
   const testStatus = [
@@ -467,6 +467,7 @@ export const GeneralResultEntryExpand = ({
                     {statusData.map(status => (
                       <button
                         key={status.code}
+                        disabled={status.disable}
                         className={`bg-${status.color}-600 ml-2 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                         onClick={() => {
                           setFilterStatus(status.code);
