@@ -309,7 +309,7 @@ export const Login = observer(() => {
                           render={({ field: { onChange } }) => (
                             <Form.Input
                               label='User Id'
-                              id='userId'
+                              id='userIdInput'
                               name='userId'
                               inputRef={refUserId}
                               wrapperStyle={{ color: 'black' }}
