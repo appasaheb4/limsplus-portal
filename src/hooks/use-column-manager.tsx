@@ -12,6 +12,7 @@ export const useColumnManager = (columns: Column[]) => {
 
   const uniqueColumns = Array.from(
     new Set(columns.map(col => col.dataField)),
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ).map(dataField => columns.find(col => col.dataField === dataField)!);
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export const useColumnManager = (columns: Column[]) => {
   const handleColumnReorder = (newColumns: Column[]) => {
     const reorderedColumns = Array.from(
       new Set(newColumns.map(col => col.dataField)),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     ).map(dataField => newColumns.find(col => col.dataField === dataField)!);
     setCurrentColumns(reorderedColumns);
   };
