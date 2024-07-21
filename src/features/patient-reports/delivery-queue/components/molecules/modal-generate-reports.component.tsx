@@ -47,6 +47,7 @@ export const ModalGenerateReports = ({
   const [isWithHeader, setWithHeader] = useState(true);
   const [isPdfViewer, setPdfViewer] = useState(false);
   const [pdf, setPdf] = useState('');
+  const [copySuccess, setCopySuccess] = useState('');
 
   useEffect(() => {
     setShowModal(show);
@@ -328,6 +329,19 @@ export const ModalGenerateReports = ({
     onReceiptUpload(blob, reportTo);
   };
 
+  const copyToClipboard = e => {
+    navigator.clipboard
+      .writeText(reportTo?.pdf || '')
+      .then(() => {
+        setCopySuccess('Copied!');
+        setTimeout(() => setCopySuccess(''), 2000);
+      })
+      .catch(() => {
+        setCopySuccess('Failed to copy!');
+        setTimeout(() => setCopySuccess(''), 2000);
+      });
+  };
+
   return (
     <Container>
       {showModal && (
@@ -595,7 +609,27 @@ export const ModalGenerateReports = ({
                     >
                       Share Link
                     </button>
-                    {reportTo?.pdf}
+                    {reportTo?.pdf && (
+                      <div className='flex items-center bg-gray-200 p-2 rounded-md w-full'>
+                        <input
+                          type='text'
+                          value={reportTo.pdf}
+                          readOnly
+                          className='bg-transparent flex-1 p-1 outline-none'
+                        />
+                        <button
+                          className='ml-2 bg-blue-600 text-white p-1 rounded-md'
+                          onClick={copyToClipboard}
+                        >
+                          Copy
+                        </button>
+                        {copySuccess && (
+                          <span className='ml-2 text-green-500'>
+                            {copySuccess}
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className='flex items-center  p-3 border-t border-solid border-gray-300 rounded-b justify-between'>
