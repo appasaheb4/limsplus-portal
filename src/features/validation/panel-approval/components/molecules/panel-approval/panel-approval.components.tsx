@@ -260,7 +260,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               },
             },
             {
-              dataField: 'approvalStatus',
+              dataField: 'operation',
               text: 'Action',
               sort: true,
               editable: false,
