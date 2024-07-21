@@ -1998,7 +1998,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             },
 
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,

@@ -122,40 +122,14 @@ export const TableBootstrap = ({
   registrationExtraData = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
-  const [isColumnFilterVisible, setIsColumnFilterVisible] =
-    useState<boolean>(false);
-  const [currentColumns, setCurrentColumns] = useState(columns);
-  const [columnOrder, setColumnOrder] = useState(columns);
-
-  useEffect(() => {
-    const selectedColumns = columnOrder.filter(col =>
-      currentColumns.some(c => c.dataField === col.dataField),
-    );
-    setCurrentColumns(
-      selectedColumns.length > 0
-        ? [...selectedColumns, columns[columns.length - 1]]
-        : [],
-    );
-  }, [columnOrder]);
-
-  const handleColumnReorder = newColumns => {
-    setColumnOrder(newColumns);
-  };
-
-  const handleColumnToggle = selectedColumns => {
-    const newColumns = columnOrder.filter(column =>
-      selectedColumns.includes(column.dataField),
-    );
-    setCurrentColumns(
-      newColumns.length > 0 ? [...newColumns, columns[columns.length - 1]] : [],
-    );
-  };
-
-  const filterableColumns = columns.filter(
-    column =>
-      column.dataField !== columns[columns.length - 1].dataField &&
-      column.dataField !== '_id',
-  );
+  const {
+    isColumnFilterVisible,
+    setIsColumnFilterVisible,
+    currentColumns,
+    handleColumnReorder,
+    handleColumnToggle,
+    filterableColumns,
+  } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
     return (
@@ -698,7 +672,7 @@ export const TableBootstrap = ({
               </div>
 
               <div className='scrollTable h-[calc(100vh_-_30vh)] mt-1'>
-                {currentColumns.length > 1 ? (
+                {currentColumns!.length > 1 ? (
                   <div className='mt-4'>
                     <BootstrapTable
                       remote

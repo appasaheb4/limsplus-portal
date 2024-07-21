@@ -1809,7 +1809,7 @@ export const RegistrationLocationsList = (
             // ),
           },
           {
-            dataField: 'opration',
+            dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,
