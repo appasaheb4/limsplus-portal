@@ -117,22 +117,15 @@ export const PdfTemp0008 = ({
             marginBottom: 90,
           }}
         >
-          <PdfSmall>
-            {JSON.parse(patientReports?.patientResultList[0]?.result)?.result}
-          </PdfSmall>
-          <Html>
-            {`
-               <html>
-  <head>
-  </head>
-    <body>
-<img src='${
+          <PdfImage
+            src={
               JSON.parse(patientReports?.patientResultList[0]?.result)?.result
-            }' alt='report'>
-</object>
-    </body>
-  </html>`}
-          </Html>
+            }
+            style={{
+              height: 'auto',
+              width: 'auto',
+            }}
+          />
         </View>
         <PdfFooterView fixed bg='transparent' height={90} p={0}>
           {getCompanyWiseComp(companyCode, {})?.footer}

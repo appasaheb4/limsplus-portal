@@ -437,7 +437,7 @@ export const DisplayResult = observer(
               label='File'
               name={`field-${row.index}`}
               placeholder={'File'}
-              accept='application/pdf'
+              accept={row?.resultType == 'FR' ? '.png,.jpg' : '.pdf'}
               onChange={e => {
                 // const [fieldName, fieldIndex] = e.target.name.split('-');
                 // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
