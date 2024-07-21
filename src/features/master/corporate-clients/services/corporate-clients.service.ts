@@ -61,6 +61,7 @@ export class CorporateClientsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   versionUpgradeCorporateClient = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -78,6 +79,7 @@ export class CorporateClientsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   duplicateCorporateClient = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -95,6 +97,7 @@ export class CorporateClientsService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
+
   deleteCorporateClients = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client

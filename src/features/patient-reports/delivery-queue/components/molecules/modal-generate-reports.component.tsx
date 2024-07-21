@@ -629,12 +629,8 @@ export const ModalGenerateReports = ({
         }}
         onGetReports={() => getReports(reportList)}
         autoClose={
-          _.has(reportList, 'TEMP0007')
-            ? _.size(reportList) == 1
-              ? true
-              : false
-            : _.has(reportList, 'TEMP0008')
-            ? _.size(reportList) == 1
+          reportList?.length > 0
+            ? reportList[0]?.template == 'TEMP0007'
               ? true
               : false
             : false

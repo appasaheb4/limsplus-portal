@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Font, Page} from '@react-pdf/renderer';
-import {Document, pdfjs, Page as PdfPage} from 'react-pdf';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Font, Page } from '@react-pdf/renderer';
+import { Document, pdfjs, Page as PdfPage } from 'react-pdf';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 
@@ -43,7 +43,7 @@ export const PdfTemp0007 = ({
   pageSize,
   children,
 }: PdfTemp0007Props) => {
-  const {patientReports} = data;
+  const { patientReports } = data;
   const [pageNumber, setPageNumber] = useState();
 
   const boxCSS = useRef<any>(styles.page);
@@ -56,17 +56,20 @@ export const PdfTemp0007 = ({
   }
 
   useEffect(() => {
-    window.open(patientReports?.patientResultList[0]?.result, '_blank');
+    window.open(
+      JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
+      '_blank',
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [patientReports?.patientResultList[0]?.result]);
 
-  const onDocumentLoad = ({numPages}) => {
+  const onDocumentLoad = ({ numPages }) => {
     setPageNumber(numPages);
   };
 
   return (
     <>
-      <Page>
+      {/* <Page>
         <Document
           file={{
             url: 'https://limsplussolutions.blob.core.windows.net/patient-registration/1678267353_PaySlip-MPIPL-PNI-22-1214(APPASAHEB%20BALU%20LAKADE)_DEC_2022.pdf',
@@ -80,7 +83,7 @@ export const PdfTemp0007 = ({
         >
           <PdfPage size='A4' pageNumber={1} renderAnnotationLayer={true} />
         </Document>
-      </Page>
+      </Page> */}
     </>
   );
 };

@@ -25,7 +25,6 @@ export const ModalDeliveryQueueReports = (
   props: ModalDeliveryQueueReportsProps,
 ) => {
   const [showModal, setShowModal] = React.useState(props.show);
-  const link = useRef(null);
   useEffect(() => {
     setShowModal(props.show);
     if (props.autoClose) {

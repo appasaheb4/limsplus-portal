@@ -27,6 +27,7 @@ import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { MultiSelect } from '@/core-components';
 import { ModalReportToMobilesModify } from './modal-report-to-mobiles-modify';
 import { ModalReportToEmailsModify } from './modal-report-to-emails-modify';
+import { dblClick } from '@testing-library/user-event/dist/click';
 
 let dateCreation;
 let dateActive;
@@ -1022,8 +1023,8 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             text: 'Report To Mobiles',
             headerClasses: 'textHeader2',
             sort: true,
+            editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
             formatter: (cell, row) => {
               return (
@@ -1067,7 +1068,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             headerClasses: 'textHeader2',
             sort: true,
             sortCaret: (order, column) => sortCaret(order, column),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             csvFormatter: col => (col ? col : ''),
             formatter: (cell, row) => {
               return (
