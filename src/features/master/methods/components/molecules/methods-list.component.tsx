@@ -114,7 +114,6 @@ export const MethodsList = (props: MethodsListProps) => {
               fontSize: 0,
             },
             style: {
-              textTransform: 'uppercase',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',

@@ -17,15 +17,13 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '../style.css';
 import { debounce } from '@/core-utils';
-import { Buttons, Icons } from '../..';
+import { Buttons, Icons, Tooltip } from '../..';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
 import ExcelJS from 'exceljs';
-
-// import { ColumnFilter } from './custom-toggle-list.component';
-// import { useColumnManager } from '@/hooks/use-column-manager';
-
+import { ColumnFilter } from './custom-toggle-list.component';
+import { useColumnManager } from '@/hooks/use-column-manager';
 interface TableBootstrapProps {
   id: string;
   data: any;
@@ -124,14 +122,14 @@ export const TableBootstrap = ({
   registrationExtraData = false,
 }: TableBootstrapProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
-  // const {
-  //   isColumnFilterVisible,
-  //   setIsColumnFilterVisible,
-  //   currentColumns,
-  //   handleColumnReorder,
-  //   handleColumnToggle,
-  //   filterableColumns,
-  // } = useColumnManager(columns);
+  const {
+    isColumnFilterVisible,
+    setIsColumnFilterVisible,
+    currentColumns,
+    handleColumnReorder,
+    handleColumnToggle,
+    filterableColumns,
+  } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
     return (
@@ -597,7 +595,7 @@ export const TableBootstrap = ({
         totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
-      columns={columns}
+      columns={currentColumns}
       data={data}
     >
       {({ paginationProps, paginationTableProps }) => (
@@ -605,7 +603,7 @@ export const TableBootstrap = ({
           keyField={id}
           bootstrap4
           data={data}
-          columns={columns}
+          columns={currentColumns}
           search
           exportCSV={{
             fileName: `${fileName}_${dayjs(new Date()).format(
@@ -649,16 +647,18 @@ export const TableBootstrap = ({
                       Export CSV!!
                     </button>
                   )}
-                  {/* <div className='ml-2 relative'>
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsColumnFilterVisible(!isColumnFilterVisible);
-                      }}
-                    >
-                      <Icons.IconFa.FaFilter />
-                    </Buttons.Button>
+                  <div className='ml-2 relative'>
+                    <Tooltip tooltipText={'Field Selector'}>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsColumnFilterVisible(!isColumnFilterVisible);
+                        }}
+                      >
+                        <Icons.IconFa.FaFilter />
+                      </Buttons.Button>
+                    </Tooltip>
                     {isColumnFilterVisible && (
                       <ColumnFilter
                         columns={filterableColumns}
@@ -667,46 +667,46 @@ export const TableBootstrap = ({
                         onColumnToggle={handleColumnToggle}
                       />
                     )}
-                  </div> */}
+                  </div>
                 </div>
               </div>
 
               <div className='scrollTable h-[calc(100vh_-_30vh)] mt-1'>
-                {/* {currentColumns.length > 1 ? ( */}
-                <div className='mt-4'>
-                  <BootstrapTable
-                    remote
-                    {...props.baseProps}
-                    noDataIndication='Table is Empty'
-                    hover
-                    {...paginationTableProps}
-                    filter={filterFactory()}
-                    keyField='_id'
-                    selectRow={{
-                      mode: 'checkbox',
-                      clickToSelect: true,
-                      clickToEdit: true,
-                      nonSelectable: getNonSelectableRows,
-                      nonSelectableStyle: nonSelectableStyle,
-                      onSelect: handleOnSelect,
-                      onSelectAll: handleOnSelectAll,
-                    }}
-                    cellEdit={
-                      isEditModify
-                        ? cellEditFactory({
-                            mode: 'dbclick',
-                            blurToSave: true,
-                          })
-                        : undefined
-                    }
-                    headerClasses='bg-gray-500 text-white whitespace-nowrap align-middle mt-2'
-                    onTableChange={handleTableChange}
-                    rowStyle={rowStyle}
-                  />
-                </div>
-                {/* ) : (
+                {currentColumns!.length > 1 ? (
+                  <div className='mt-4'>
+                    <BootstrapTable
+                      remote
+                      {...props.baseProps}
+                      noDataIndication='Table is Empty'
+                      hover
+                      {...paginationTableProps}
+                      filter={filterFactory()}
+                      keyField='_id'
+                      selectRow={{
+                        mode: 'checkbox',
+                        clickToSelect: true,
+                        clickToEdit: true,
+                        nonSelectable: getNonSelectableRows,
+                        nonSelectableStyle: nonSelectableStyle,
+                        onSelect: handleOnSelect,
+                        onSelectAll: handleOnSelectAll,
+                      }}
+                      cellEdit={
+                        isEditModify
+                          ? cellEditFactory({
+                              mode: 'dbclick',
+                              blurToSave: true,
+                            })
+                          : undefined
+                      }
+                      headerClasses='bg-gray-500 text-white whitespace-nowrap align-middle mt-2'
+                      onTableChange={handleTableChange}
+                      rowStyle={rowStyle}
+                    />
+                  </div>
+                ) : (
                   <div className='mt-4 text-center'>No columns selected</div>
-                )} */}
+                )}
               </div>
               {totalSize && (
                 <div className='flex  items-center   p-2 justify-start gap-2 bg-[#6A727F] rounded-md   text-white w-full'>

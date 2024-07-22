@@ -108,11 +108,11 @@ export const TableBootstrap = ({
   }, []);
 
   const statusData = [
-    { code: 'Pending', value: 'Pending', color: 'blue' },
-    { code: 'ReCheck', value: 'Recheck', color: 'yellow' },
-    { code: 'ReTest', value: 'Retest', color: 'orange' },
-    { code: 'Hold', value: 'Hold', color: 'indigo' },
-    { code: 'All', value: 'All', color: 'red' },
+    { code: 'Pending', value: 'Pending', color: 'blue', disable: false },
+    { code: 'ReCheck', value: 'Recheck', color: 'yellow', disable: true },
+    { code: 'ReTest', value: 'Retest', color: 'orange', disable: true },
+    { code: 'Hold', value: 'Hold', color: 'indigo', disable: false },
+    { code: 'All', value: 'All', color: 'red', disable: false },
     // { code: 'ReCall', value: 'Recall', color: 'gray' },
   ];
 
@@ -452,6 +452,7 @@ export const TableBootstrap = ({
                     <div className='flex ml-2 flex-wrap gap-1'>
                       {statusData.map(status => (
                         <button
+                          disabled={status.disable}
                           key={status.code}
                           className={`px-3.5 py-2 bg-${status.color}-600 text-white rounded`}
                           onClick={() => onFilterRecord?.(status.code)}
@@ -463,6 +464,7 @@ export const TableBootstrap = ({
                   </div>
                   <div className='flex justify-between gap-1 items-center'>
                     <button
+                      disabled
                       className={`px-3.5 py-2 bg-gray-600 text-white rounded`}
                       onClick={() => onFilterRecord?.('ReCall')}
                     >
@@ -471,6 +473,7 @@ export const TableBootstrap = ({
                     <UncontrolledDropdown>
                       <DropdownToggle tag='a'>
                         <button
+                          disabled
                           className={`px-3.5 py-2 bg-blue-600 text-white rounded`}
                           onClick={() => {}}
                         >

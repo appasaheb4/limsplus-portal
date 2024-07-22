@@ -251,7 +251,7 @@ export const RoleList = (props: RoleListProps) => {
           // ),
         },
         {
-          dataField: 'opration',
+          dataField: 'operation',
           text: 'Action',
           editable: false,
           csvExport: false,

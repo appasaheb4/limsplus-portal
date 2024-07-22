@@ -13,6 +13,7 @@ export const MasterPanelHoc = (Component: React.FC<any>) => {
         masterPanelStore.updateMasterPanel({
           ...masterPanelStore.masterPanel,
           rLab: loginStore.login.lab,
+          pLab: loginStore.login.lab,
           status: getDefaultLookupItem(routerStore.lookupItems, 'STATUS'),
           // environment: getDefaultLookupItem(
           //   routerStore.lookupItems,
