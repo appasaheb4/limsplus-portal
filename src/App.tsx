@@ -132,7 +132,7 @@ const App = () => {
           open={true}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'right',
+            horizontal: 'center',
           }}
         >
           <Alert severity='error'>{process.env.REACT_APP_ENV}</Alert>

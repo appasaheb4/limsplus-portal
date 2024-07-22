@@ -595,7 +595,7 @@ const MasterPanel = MasterPanelHoc(
                       )}
                       name='pLab'
                       rules={{ required: true }}
-                      defaultValue=''
+                      defaultValue={''}
                     />
 
                     <Controller

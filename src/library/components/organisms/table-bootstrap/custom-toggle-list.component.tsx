@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
@@ -19,14 +19,33 @@ export const ColumnFilter: React.FC<ColumnFilterProps> = ({
   onColumnReorder,
   onColumnToggle,
 }) => {
+  const ref = useRef<any>(null);
   const [selectedColumns, setSelectedColumns] = useState<string[]>(
     columns.map(column => column.dataField),
+  );
+  const actionColumn: any = columns.find(
+    column => column.dataField === 'operation',
   );
   const [columnOrder, setColumnOrder] = useState(columns);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    onColumnToggle(selectedColumns);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [onClose]);
+
+  useEffect(() => {
+    onColumnToggle(
+      [...selectedColumns, actionColumn?.dataField].filter(Boolean),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedColumns]);
 
@@ -62,6 +81,7 @@ export const ColumnFilter: React.FC<ColumnFilterProps> = ({
   const filteredColumns = columnOrder.filter(
     column =>
       column.dataField !== '_id' &&
+      column.text !== 'Action' &&
       column.text.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
@@ -78,6 +98,7 @@ export const ColumnFilter: React.FC<ColumnFilterProps> = ({
 
   return (
     <div
+      ref={ref}
       className='bg-white border rounded p-4 shadow-md absolute z-50'
       style={{ width: '300px' }}
     >

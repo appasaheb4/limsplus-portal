@@ -432,7 +432,7 @@ export const TransactionHeaderList = observer(
             isEditModify={props.isUpdate}
             isExport={props.isExport}
             isSelectRow={true}
-            fileName='Report Delivery'
+            fileName='Transaction Header'
             onSelectedRow={rows => {
               props.onSelectedRow &&
                 props.onSelectedRow(rows.map((item: any) => item._id));
