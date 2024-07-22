@@ -260,7 +260,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
               },
             },
             {
-              dataField: 'approvalStatus',
+              dataField: 'operation',
               text: 'Action',
               sort: true,
               editable: false,
@@ -327,7 +327,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                           color='#ffffff'
                           size='20'
                           isDisable={
-                            row[1][0]?.approvalStatus == 'Hold' ? true : false
+                            // row[1][0]?.approvalStatus == 'Hold' ? true : false
+                            true
                           }
                           onClick={() => {
                             props.onRecheck &&
@@ -354,7 +355,8 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                           color='#ffffff'
                           size='20'
                           isDisable={
-                            row[1][0]?.approvalStatus == 'Hold' ? true : false
+                            // row[1][0]?.approvalStatus == 'Hold' ? true : false
+                            true
                           }
                           onClick={() => {
                             props.onRetest &&
@@ -421,6 +423,7 @@ export const PanelApprovalList = (props: PanelApprovalListProps) => {
                           .map((item: any, index: number) => (
                             <DropdownItem
                               key={index}
+                              disabled
                               onClick={() => {
                                 props.onUpdateFields &&
                                   props.onUpdateFields(

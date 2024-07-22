@@ -484,7 +484,7 @@ export const SectionList = (props: SectionListProps) => {
             // ),
           },
           {
-            dataField: 'opration',
+            dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,

@@ -358,7 +358,6 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
                 fontSize: 0,
               },
               style: {
-                textTransform: 'uppercase',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -1999,7 +1998,7 @@ export const PanelMasterList = (props: PanelMasterListProps) => {
             },
 
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,

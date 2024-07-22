@@ -201,7 +201,7 @@ export const RoleMappingList = observer((props: RoleMappingListProps) => {
               }),
             },
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,

@@ -282,7 +282,7 @@ export const SampleTypeList = (props: SampleTypeListProps) => {
               // ),
             },
             {
-              dataField: 'opration',
+              dataField: 'operation',
               text: 'Action',
               editable: false,
               csvExport: false,

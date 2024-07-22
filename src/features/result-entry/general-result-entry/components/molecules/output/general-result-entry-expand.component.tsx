@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import _ from 'lodash';
 import ToolkitProvider, {
@@ -13,12 +13,13 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import { Buttons, Icons } from '@/library/components';
+import { Buttons, Icons, ColumnFilter } from '@/library/components';
 import { Confirm } from '@/library/models';
 
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { debounce } from '@/core-utils';
 import { PatientDemographicsList } from '../patient-demographics/patient-demographics-list.components';
+import { useColumnManager } from '@/hooks/use-column-manager';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -84,6 +85,14 @@ export const GeneralResultEntryExpand = ({
   const [filterStatus, setFilterStatus] = useState('P');
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
   const [selectedStatus, setSelectedStatus] = useState(null);
+  const {
+    isColumnFilterVisible,
+    setIsColumnFilterVisible,
+    currentColumns,
+    handleColumnReorder,
+    handleColumnToggle,
+    filterableColumns,
+  } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
     return (
@@ -334,11 +343,11 @@ export const GeneralResultEntryExpand = ({
   };
 
   const statusData = [
-    { code: 'P', value: 'Pending', color: 'blue' },
-    { code: 'RC', value: 'Recheck', color: 'orange' },
-    { code: 'RT', value: 'Retest', color: 'pink' },
-    { code: 'D', value: 'Done', color: 'green' },
-    { code: '', value: 'All', color: 'red' },
+    { code: 'P', value: 'Pending', color: 'blue', disable: false },
+    { code: 'RC', value: 'Recheck', color: 'orange', disable: true },
+    { code: 'RT', value: 'Retest', color: 'pink', disable: true },
+    { code: 'D', value: 'Done', color: 'green', disable: false },
+    { code: '', value: 'All', color: 'red', disable: false },
   ];
 
   const testStatus = [
@@ -391,7 +400,7 @@ export const GeneralResultEntryExpand = ({
         totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
-      columns={columns}
+      columns={currentColumns}
       data={data}
     >
       {({ paginationProps, paginationTableProps }) => (
@@ -399,7 +408,7 @@ export const GeneralResultEntryExpand = ({
           keyField={id}
           bootstrap4
           data={data}
-          columns={columns}
+          columns={currentColumns}
           search
           exportCSV={{
             fileName: `${fileName}_${dayjs(new Date()).format(
@@ -435,31 +444,30 @@ export const GeneralResultEntryExpand = ({
                       Export CSV!!
                     </ExportCSVButton>
                   )}
-                  {isFilterOpen ? (
+                  <div className='ml-2 relative'>
                     <Buttons.Button
                       size='medium'
                       type='outline'
                       onClick={() => {
-                        setIsFilterOpen(!isFilterOpen);
+                        setIsColumnFilterVisible(!isColumnFilterVisible);
                       }}
                     >
-                      <Icons.IconFa.FaChevronUp />
+                      <Icons.IconFa.FaFilter />
                     </Buttons.Button>
-                  ) : (
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsFilterOpen(!isFilterOpen);
-                      }}
-                    >
-                      <Icons.IconFa.FaChevronDown />
-                    </Buttons.Button>
-                  )}
+                    {isColumnFilterVisible && (
+                      <ColumnFilter
+                        columns={filterableColumns}
+                        onClose={() => setIsColumnFilterVisible(false)}
+                        onColumnReorder={handleColumnReorder}
+                        onColumnToggle={handleColumnToggle}
+                      />
+                    )}
+                  </div>
                   <div className='flex flex-wrap gap-0'>
                     {statusData.map(status => (
                       <button
                         key={status.code}
+                        disabled={status.disable}
                         className={`bg-${status.color}-600 ml-2 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                         onClick={() => {
                           setFilterStatus(status.code);
@@ -511,33 +519,37 @@ export const GeneralResultEntryExpand = ({
                 </>
               )}
               <div className='scrollTable h-[calc(100vh_-_50vh)] mt-1'>
-                <BootstrapTable
-                  keyField='_id'
-                  remote
-                  {...props.baseProps}
-                  noDataIndication='Table is Empty'
-                  hover
-                  {...paginationTableProps}
-                  filter={filterFactory()}
-                  selectRow={{
-                    mode: 'checkbox',
-                    style: { backgroundColor: '#c8e6c9' },
-                    hideSelectColumn: filterStatus == 'D' ? false : true,
-                    onSelect: handleOnSelect,
-                    onSelectAll: handleOnSelectAll,
-                  }}
-                  cellEdit={
-                    isEditModify
-                      ? cellEditFactory({
-                          mode: 'dbclick',
-                          blurToSave: true,
-                        })
-                      : undefined
-                  }
-                  headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
-                  onTableChange={handleTableChange}
-                  rowStyle={rowStyle}
-                />
+                {currentColumns.length > 1 ? (
+                  <BootstrapTable
+                    keyField='_id'
+                    remote
+                    {...props.baseProps}
+                    noDataIndication='Table is Empty'
+                    hover
+                    {...paginationTableProps}
+                    filter={filterFactory()}
+                    selectRow={{
+                      mode: 'checkbox',
+                      style: { backgroundColor: '#c8e6c9' },
+                      hideSelectColumn: filterStatus == 'D' ? false : true,
+                      onSelect: handleOnSelect,
+                      onSelectAll: handleOnSelectAll,
+                    }}
+                    cellEdit={
+                      isEditModify
+                        ? cellEditFactory({
+                            mode: 'dbclick',
+                            blurToSave: true,
+                          })
+                        : undefined
+                    }
+                    headerClasses='bg-gray-500 text-white whitespace-nowrap z-0'
+                    onTableChange={handleTableChange}
+                    rowStyle={rowStyle}
+                  />
+                ) : (
+                  <div className='mt-4 text-center'>No columns selected</div>
+                )}
               </div>
               {resultSubmitHandler(filterStatus)}
             </div>

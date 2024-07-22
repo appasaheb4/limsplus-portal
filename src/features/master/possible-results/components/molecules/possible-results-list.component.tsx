@@ -728,7 +728,7 @@ export const PossibleResultsList = (props: PossibleResultsListProps) => {
             // ),
           },
           {
-            dataField: 'opration',
+            dataField: 'operation',
             text: 'Action',
             editable: false,
             csvExport: false,
