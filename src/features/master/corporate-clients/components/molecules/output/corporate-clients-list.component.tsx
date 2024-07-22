@@ -205,7 +205,6 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             }),
             editable: false,
             style: {
-              textTransform: 'uppercase',
               whiteSpace: 'nowrap',
               overflow: 'hidden',
               textOverflow: 'ellipsis',

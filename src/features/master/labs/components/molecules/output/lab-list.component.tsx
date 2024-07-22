@@ -150,7 +150,6 @@ export const LabList = (props: LabListProps) => {
                 fontSize: 0,
               },
               style: {
-                textTransform: 'uppercase',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

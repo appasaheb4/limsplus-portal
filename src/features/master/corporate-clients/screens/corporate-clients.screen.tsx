@@ -609,7 +609,7 @@ const CorporateClients = CorporateClientsHoc(
                           onChange(corporateName);
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
-                            corporateName: corporateName.toUpperCase(),
+                            corporateName,
                           });
                         }}
                       />

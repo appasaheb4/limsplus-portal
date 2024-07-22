@@ -473,193 +473,99 @@ const CommentManager = CommentManagerHoc(
                     control={control}
                     render={({ field: { onChange, value } }) => (
                       <Form.InputWrapper
-                        label='Library Code'
-                        hasError={!!errors.libraryCode}
-                      >
-                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                          loader={loading}
-                          disable={isVersionUpgrade}
-                          data={{
-                            list: _.uniqBy(
-                              libraryStore.listLibrary?.filter(item => {
-                                if (item.status == 'A') return item;
-                              }),
-                              'libraryCode',
-                            ),
-                            displayKey: ['code', 'libraryCode'],
-                          }}
-                          placeholder='Search by library code'
-                          displayValue={value}
-                          hasError={!!errors.libraryCode}
-                          onFilter={(value: string) => {
-                            libraryStore.libraryService.filterByFields({
-                              input: {
-                                filter: {
-                                  fields: ['libraryCode'],
-                                  srText: value,
-                                },
-                                page: 0,
-                                limit: 10,
-                              },
-                            });
-                          }}
-                          onSelect={item => {
-                            onChange(item.libraryCode);
-                            checkExistsRecord(
-                              {
-                                libraryCode: item.libraryCode,
-                                lab: commentManagerStore.commentManager?.lab,
-                                department:
-                                  commentManagerStore.commentManager
-                                    ?.department,
-                                investigationType:
-                                  commentManagerStore.commentManager
-                                    ?.investigationType,
-                                investigationCode:
-                                  commentManagerStore.commentManager
-                                    ?.investigationCode,
-                                investigationName:
-                                  commentManagerStore.commentManager
-                                    ?.investigationName,
-                                species:
-                                  commentManagerStore.commentManager?.species,
-                                sex: commentManagerStore.commentManager?.sex,
-                                instType:
-                                  commentManagerStore.commentManager?.instType,
-                                commentsType:
-                                  commentManagerStore.commentManager
-                                    ?.commentsType,
-                                commentsFor:
-                                  commentManagerStore.commentManager
-                                    ?.commentsFor,
-                                status:
-                                  commentManagerStore.commentManager?.status,
-                              },
-                              true,
-                            );
-                            commentManagerStore.updateCommentManager({
-                              ...commentManagerStore.commentManager,
-                              libraryCode: item.libraryCode,
-                            });
-                            libraryStore.updateLibraryList(
-                              libraryStore.listLibraryCopy,
-                            );
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='libraryCode'
-                    rules={{
-                      required: true,
-                      maxLength: 10,
-                    }}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
-                        <select
-                          value={value}
-                          disabled={isVersionUpgrade}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.lab ? 'border-red  ' : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const lab = e.target.value;
-                            onChange(lab);
-                            checkExistsRecord(
-                              {
-                                libraryCode:
-                                  commentManagerStore.commentManager
-                                    .libraryCode,
-                                lab: commentManagerStore.commentManager?.lab,
-                                department:
-                                  commentManagerStore.commentManager
-                                    ?.department,
-                                investigationType:
-                                  commentManagerStore.commentManager
-                                    ?.investigationType,
-                                investigationCode:
-                                  commentManagerStore.commentManager
-                                    ?.investigationCode,
-                                investigationName:
-                                  commentManagerStore.commentManager
-                                    ?.investigationName,
-                                species:
-                                  commentManagerStore.commentManager?.species,
-                                sex: commentManagerStore.commentManager?.sex,
-                                instType:
-                                  commentManagerStore.commentManager?.instType,
-                                commentsType:
-                                  commentManagerStore.commentManager
-                                    ?.commentsType,
-                                commentsFor:
-                                  commentManagerStore.commentManager
-                                    ?.commentsFor,
-                                status:
-                                  commentManagerStore.commentManager?.status,
-                              },
-                              true,
-                            );
-                            commentManagerStore.updateCommentManager({
-                              ...commentManagerStore.commentManager,
-                              lab,
-                            });
-                            // fetch department list
-                            departmentStore.DepartmentService.findByFields({
-                              input: { filter: { lab } },
-                            }).then(res => {
-                              if (res.findByFieldsDepartments.success) {
-                                setDepartmentList(
-                                  res.findByFieldsDepartments?.data,
-                                );
-                              }
-                            });
-                          }}
-                        >
-                          <option>Select</option>
-                          {[{ code: 'Default' }]
-                            .concat(loginStore?.login?.labList)
-                            ?.map((item: any, index: number) => (
-                              <option key={index} value={item?.code}>
-                                {item?.code}
-                              </option>
-                            ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='lab'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Department'
-                        hasError={!!errors.department}
+                        label='Comments Type'
+                        hasError={!!errors.commentsType}
                       >
                         <select
                           value={value}
-                          disabled={isVersionUpgrade}
                           className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.department
+                            errors.commentsType
                               ? 'border-red  '
                               : 'border-gray-300'
                           } rounded-md`}
                           onChange={e => {
-                            const department = e.target.value;
-                            onChange(department);
+                            const commentsType = e.target.value;
+                            onChange(commentsType);
                             checkExistsRecord(
                               {
                                 libraryCode:
                                   commentManagerStore.commentManager
                                     .libraryCode,
                                 lab: commentManagerStore.commentManager?.lab,
-                                department,
+                                department:
+                                  commentManagerStore.commentManager
+                                    ?.department,
+                                investigationType:
+                                  commentManagerStore.commentManager
+                                    ?.investigationType,
+                                investigationCode:
+                                  commentManagerStore.commentManager
+                                    ?.investigationCode,
+                                investigationName:
+                                  commentManagerStore.commentManager
+                                    ?.investigationName,
+                                species:
+                                  commentManagerStore.commentManager?.species,
+                                sex: commentManagerStore.commentManager?.sex,
+                                instType:
+                                  commentManagerStore.commentManager?.instType,
+                                commentsType,
+                                commentsFor:
+                                  commentManagerStore.commentManager
+                                    ?.commentsFor,
+                                status:
+                                  commentManagerStore.commentManager?.status,
+                              },
+                              true,
+                            );
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              commentsType,
+                            });
+                          }}
+                        >
+                          <option>Select</option>
+                          {lookupItems(
+                            routerStore.lookupItems,
+                            'COMMENTS_TYPE',
+                          ).map((item: any, index: number) => (
+                            <option key={index} value={item.code}>
+                              {lookupValue(item)}
+                            </option>
+                          ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='commentsType'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Comments For'
+                        hasError={!!errors.commentsFor}
+                      >
+                        <select
+                          value={value}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.commentsFor
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const commentsFor = e.target.value;
+                            onChange(commentsFor);
+                            checkExistsRecord(
+                              {
+                                libraryCode:
+                                  commentManagerStore.commentManager
+                                    .libraryCode,
+                                lab: commentManagerStore.commentManager?.lab,
+                                department:
+                                  commentManagerStore.commentManager
+                                    ?.department,
                                 investigationType:
                                   commentManagerStore.commentManager
                                     ?.investigationType,
@@ -677,9 +583,7 @@ const CommentManager = CommentManagerHoc(
                                 commentsType:
                                   commentManagerStore.commentManager
                                     ?.commentsType,
-                                commentsFor:
-                                  commentManagerStore.commentManager
-                                    ?.commentsFor,
+                                commentsFor,
                                 status:
                                   commentManagerStore.commentManager?.status,
                               },
@@ -687,24 +591,16 @@ const CommentManager = CommentManagerHoc(
                             );
                             commentManagerStore.updateCommentManager({
                               ...commentManagerStore.commentManager,
-                              department,
+                              commentsFor,
                             });
                           }}
                         >
                           <option>Select</option>
-                          {[{ name: '', code: 'Default' }]
-                            .concat(departmentList)
-                            ?.map((item: any, index: number) => (
-                              <option key={index} value={item?.code}>
-                                {item.code != 'Default'
-                                  ? item?.name + ' - ' + item?.code
-                                  : item.code}
-                              </option>
-                            ))}
+                          {commentForValueRender()}
                         </select>
                       </Form.InputWrapper>
                     )}
-                    name='department'
+                    name='commentsFor'
                     rules={{ required: true }}
                     defaultValue=''
                   />
@@ -866,8 +762,246 @@ const CommentManager = CommentManagerHoc(
                     rules={{ required: false }}
                     defaultValue=''
                   />
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Library Code'
+                        hasError={!!errors.libraryCode}
+                      >
+                        <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                          loader={loading}
+                          disable={isVersionUpgrade}
+                          data={{
+                            list: _.uniqBy(
+                              libraryStore.listLibrary?.filter(item => {
+                                if (item.status == 'A') return item;
+                              }),
+                              'libraryCode',
+                            ),
+                            displayKey: ['code', 'libraryCode'],
+                          }}
+                          placeholder='Search by library code'
+                          displayValue={value}
+                          hasError={!!errors.libraryCode}
+                          onFilter={(value: string) => {
+                            libraryStore.libraryService.filterByFields({
+                              input: {
+                                filter: {
+                                  fields: ['libraryCode'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            });
+                          }}
+                          onSelect={item => {
+                            onChange(item.libraryCode);
+                            checkExistsRecord(
+                              {
+                                libraryCode: item.libraryCode,
+                                lab: commentManagerStore.commentManager?.lab,
+                                department:
+                                  commentManagerStore.commentManager
+                                    ?.department,
+                                investigationType:
+                                  commentManagerStore.commentManager
+                                    ?.investigationType,
+                                investigationCode:
+                                  commentManagerStore.commentManager
+                                    ?.investigationCode,
+                                investigationName:
+                                  commentManagerStore.commentManager
+                                    ?.investigationName,
+                                species:
+                                  commentManagerStore.commentManager?.species,
+                                sex: commentManagerStore.commentManager?.sex,
+                                instType:
+                                  commentManagerStore.commentManager?.instType,
+                                commentsType:
+                                  commentManagerStore.commentManager
+                                    ?.commentsType,
+                                commentsFor:
+                                  commentManagerStore.commentManager
+                                    ?.commentsFor,
+                                status:
+                                  commentManagerStore.commentManager?.status,
+                              },
+                              true,
+                            );
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              libraryCode: item.libraryCode,
+                            });
+                            libraryStore.updateLibraryList(
+                              libraryStore.listLibraryCopy,
+                            );
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='libraryCode'
+                    rules={{
+                      required: true,
+                      maxLength: 10,
+                    }}
+                    defaultValue=''
+                  />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper label='Lab' hasError={!!errors.lab}>
+                        <select
+                          value={value}
+                          disabled={isVersionUpgrade}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.lab ? 'border-red  ' : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const lab = e.target.value;
+                            onChange(lab);
+                            checkExistsRecord(
+                              {
+                                libraryCode:
+                                  commentManagerStore.commentManager
+                                    .libraryCode,
+                                lab: commentManagerStore.commentManager?.lab,
+                                department:
+                                  commentManagerStore.commentManager
+                                    ?.department,
+                                investigationType:
+                                  commentManagerStore.commentManager
+                                    ?.investigationType,
+                                investigationCode:
+                                  commentManagerStore.commentManager
+                                    ?.investigationCode,
+                                investigationName:
+                                  commentManagerStore.commentManager
+                                    ?.investigationName,
+                                species:
+                                  commentManagerStore.commentManager?.species,
+                                sex: commentManagerStore.commentManager?.sex,
+                                instType:
+                                  commentManagerStore.commentManager?.instType,
+                                commentsType:
+                                  commentManagerStore.commentManager
+                                    ?.commentsType,
+                                commentsFor:
+                                  commentManagerStore.commentManager
+                                    ?.commentsFor,
+                                status:
+                                  commentManagerStore.commentManager?.status,
+                              },
+                              true,
+                            );
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              lab,
+                            });
+                            // fetch department list
+                            departmentStore.DepartmentService.findByFields({
+                              input: { filter: { lab } },
+                            }).then(res => {
+                              if (res.findByFieldsDepartments.success) {
+                                setDepartmentList(
+                                  res.findByFieldsDepartments?.data,
+                                );
+                              }
+                            });
+                          }}
+                        >
+                          <option>Select</option>
+                          {[{ code: 'Default' }]
+                            .concat(loginStore?.login?.labList)
+                            ?.map((item: any, index: number) => (
+                              <option key={index} value={item?.code}>
+                                {item?.code}
+                              </option>
+                            ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='lab'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
+
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Department'
+                        hasError={!!errors.department}
+                      >
+                        <select
+                          value={value}
+                          disabled={isVersionUpgrade}
+                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                            errors.department
+                              ? 'border-red  '
+                              : 'border-gray-300'
+                          } rounded-md`}
+                          onChange={e => {
+                            const department = e.target.value;
+                            onChange(department);
+                            checkExistsRecord(
+                              {
+                                libraryCode:
+                                  commentManagerStore.commentManager
+                                    .libraryCode,
+                                lab: commentManagerStore.commentManager?.lab,
+                                department,
+                                investigationType:
+                                  commentManagerStore.commentManager
+                                    ?.investigationType,
+                                investigationCode:
+                                  commentManagerStore.commentManager
+                                    ?.investigationCode,
+                                investigationName:
+                                  commentManagerStore.commentManager
+                                    ?.investigationName,
+                                species:
+                                  commentManagerStore.commentManager?.species,
+                                sex: commentManagerStore.commentManager?.sex,
+                                instType:
+                                  commentManagerStore.commentManager?.instType,
+                                commentsType:
+                                  commentManagerStore.commentManager
+                                    ?.commentsType,
+                                commentsFor:
+                                  commentManagerStore.commentManager
+                                    ?.commentsFor,
+                                status:
+                                  commentManagerStore.commentManager?.status,
+                              },
+                              true,
+                            );
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              department,
+                            });
+                          }}
+                        >
+                          <option>Select</option>
+                          {[{ name: '', code: 'Default' }]
+                            .concat(departmentList)
+                            ?.map((item: any, index: number) => (
+                              <option key={index} value={item?.code}>
+                                {item.code != 'Default'
+                                  ? item?.name + ' - ' + item?.code
+                                  : item.code}
+                              </option>
+                            ))}
+                        </select>
+                      </Form.InputWrapper>
+                    )}
+                    name='department'
+                    rules={{ required: true }}
+                    defaultValue=''
+                  />
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1001,198 +1135,6 @@ const CommentManager = CommentManagerHoc(
                       </Form.InputWrapper>
                     )}
                     name='sex'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Inst Type'
-                        hasError={!!errors.instType}
-                      >
-                        <InstType
-                          hasError={!!errors.instType}
-                          onSelect={instType => {
-                            onChange(instType);
-                            checkExistsRecord(
-                              {
-                                libraryCode:
-                                  commentManagerStore.commentManager
-                                    .libraryCode,
-                                lab: commentManagerStore.commentManager?.lab,
-                                department:
-                                  commentManagerStore.commentManager
-                                    ?.department,
-                                investigationType:
-                                  commentManagerStore.commentManager
-                                    ?.investigationType,
-                                investigationCode:
-                                  commentManagerStore.commentManager
-                                    ?.investigationCode,
-                                investigationName:
-                                  commentManagerStore.commentManager
-                                    ?.investigationName,
-                                species:
-                                  commentManagerStore.commentManager?.species,
-                                sex: commentManagerStore.commentManager?.sex,
-                                instType:
-                                  commentManagerStore.commentManager?.instType,
-                                commentsType:
-                                  commentManagerStore.commentManager
-                                    .commentsType,
-                                commentsFor:
-                                  commentManagerStore.commentManager
-                                    ?.commentsFor,
-                                status:
-                                  commentManagerStore.commentManager?.status,
-                              },
-                              true,
-                            );
-                            commentManagerStore.updateCommentManager({
-                              ...commentManagerStore.commentManager,
-                              instType,
-                            });
-                          }}
-                        />
-                      </Form.InputWrapper>
-                    )}
-                    name='instType'
-                    rules={{ required: false }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Comments Type'
-                        hasError={!!errors.commentsType}
-                      >
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.commentsType
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const commentsType = e.target.value;
-                            onChange(commentsType);
-                            checkExistsRecord(
-                              {
-                                libraryCode:
-                                  commentManagerStore.commentManager
-                                    .libraryCode,
-                                lab: commentManagerStore.commentManager?.lab,
-                                department:
-                                  commentManagerStore.commentManager
-                                    ?.department,
-                                investigationType:
-                                  commentManagerStore.commentManager
-                                    ?.investigationType,
-                                investigationCode:
-                                  commentManagerStore.commentManager
-                                    ?.investigationCode,
-                                investigationName:
-                                  commentManagerStore.commentManager
-                                    ?.investigationName,
-                                species:
-                                  commentManagerStore.commentManager?.species,
-                                sex: commentManagerStore.commentManager?.sex,
-                                instType:
-                                  commentManagerStore.commentManager?.instType,
-                                commentsType,
-                                commentsFor:
-                                  commentManagerStore.commentManager
-                                    ?.commentsFor,
-                                status:
-                                  commentManagerStore.commentManager?.status,
-                              },
-                              true,
-                            );
-                            commentManagerStore.updateCommentManager({
-                              ...commentManagerStore.commentManager,
-                              commentsType,
-                            });
-                          }}
-                        >
-                          <option>Select</option>
-                          {lookupItems(
-                            routerStore.lookupItems,
-                            'COMMENTS_TYPE',
-                          ).map((item: any, index: number) => (
-                            <option key={index} value={item.code}>
-                              {lookupValue(item)}
-                            </option>
-                          ))}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='commentsType'
-                    rules={{ required: true }}
-                    defaultValue=''
-                  />
-                  <Controller
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <Form.InputWrapper
-                        label='Comments For'
-                        hasError={!!errors.commentsFor}
-                      >
-                        <select
-                          value={value}
-                          className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                            errors.commentsFor
-                              ? 'border-red  '
-                              : 'border-gray-300'
-                          } rounded-md`}
-                          onChange={e => {
-                            const commentsFor = e.target.value;
-                            onChange(commentsFor);
-                            checkExistsRecord(
-                              {
-                                libraryCode:
-                                  commentManagerStore.commentManager
-                                    .libraryCode,
-                                lab: commentManagerStore.commentManager?.lab,
-                                department:
-                                  commentManagerStore.commentManager
-                                    ?.department,
-                                investigationType:
-                                  commentManagerStore.commentManager
-                                    ?.investigationType,
-                                investigationCode:
-                                  commentManagerStore.commentManager
-                                    ?.investigationCode,
-                                investigationName:
-                                  commentManagerStore.commentManager
-                                    ?.investigationName,
-                                species:
-                                  commentManagerStore.commentManager?.species,
-                                sex: commentManagerStore.commentManager?.sex,
-                                instType:
-                                  commentManagerStore.commentManager?.instType,
-                                commentsType:
-                                  commentManagerStore.commentManager
-                                    ?.commentsType,
-                                commentsFor,
-                                status:
-                                  commentManagerStore.commentManager?.status,
-                              },
-                              true,
-                            );
-                            commentManagerStore.updateCommentManager({
-                              ...commentManagerStore.commentManager,
-                              commentsFor,
-                            });
-                          }}
-                        >
-                          <option>Select</option>
-                          {commentForValueRender()}
-                        </select>
-                      </Form.InputWrapper>
-                    )}
-                    name='commentsFor'
                     rules={{ required: true }}
                     defaultValue=''
                   />
@@ -1436,6 +1378,63 @@ const CommentManager = CommentManagerHoc(
                         )}
                     </>
                   )}
+                  <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                      <Form.InputWrapper
+                        label='Inst Type'
+                        hasError={!!errors.instType}
+                      >
+                        <InstType
+                          hasError={!!errors.instType}
+                          onSelect={instType => {
+                            onChange(instType);
+                            checkExistsRecord(
+                              {
+                                libraryCode:
+                                  commentManagerStore.commentManager
+                                    .libraryCode,
+                                lab: commentManagerStore.commentManager?.lab,
+                                department:
+                                  commentManagerStore.commentManager
+                                    ?.department,
+                                investigationType:
+                                  commentManagerStore.commentManager
+                                    ?.investigationType,
+                                investigationCode:
+                                  commentManagerStore.commentManager
+                                    ?.investigationCode,
+                                investigationName:
+                                  commentManagerStore.commentManager
+                                    ?.investigationName,
+                                species:
+                                  commentManagerStore.commentManager?.species,
+                                sex: commentManagerStore.commentManager?.sex,
+                                instType:
+                                  commentManagerStore.commentManager?.instType,
+                                commentsType:
+                                  commentManagerStore.commentManager
+                                    .commentsType,
+                                commentsFor:
+                                  commentManagerStore.commentManager
+                                    ?.commentsFor,
+                                status:
+                                  commentManagerStore.commentManager?.status,
+                              },
+                              true,
+                            );
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              instType,
+                            });
+                          }}
+                        />
+                      </Form.InputWrapper>
+                    )}
+                    name='instType'
+                    rules={{ required: false }}
+                    defaultValue=''
+                  />
                 </List>
                 <List direction='col' space={4} justify='stretch' fill>
                   {/* <Controller
