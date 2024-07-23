@@ -130,17 +130,17 @@ export class PatientResultStore {
     const data = payload.getPatientResultDistinct.patientResultList?.map(
       item => {
         const obj = {
-          pLab: item._id?.pLab,
-          testCode: item._id?.testCode,
-          testName: item._id?.testName,
-          departement: item._id?.departement,
-          testStatus: item._id?.testStatus,
-          resultStatus: item._id?.resultStatus,
-          analyteCode: item._id?.analyteCode,
-          analyteName: item._id?.analyteName,
-          labId: item._id?.labId,
-          name: item._id?.name || '',
-          pId: item._id?.pId || 0,
+          pLab: item?.pLab,
+          testCode: item?.testCode,
+          testName: item?.testName,
+          departement: item?.departement,
+          testStatus: item?.testStatus,
+          resultStatus: item?.resultStatus,
+          analyteCode: item?.analyteCode,
+          analyteName: item?.analyteName,
+          labId: item?.labId,
+          name: item?.name || '',
+          pId: item?.pId || 0,
         };
         return JSON.parse(JSON.stringify(obj));
       },

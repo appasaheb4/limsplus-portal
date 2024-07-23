@@ -98,6 +98,7 @@ export const FilterInputTable = observer(() => {
                         generalResultEntryStore.updateFilterGeneralResEntry({
                           ...generalResultEntryStore.filterGeneralResEntry,
                           pLab: item.pLab,
+                          isSingleLabId: false,
                         });
                         patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
@@ -161,6 +162,7 @@ export const FilterInputTable = observer(() => {
                         generalResultEntryStore.updateFilterGeneralResEntry({
                           ...generalResultEntryStore.filterGeneralResEntry,
                           departement: item.departement,
+                          isSingleLabId: false,
                         });
                         patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
@@ -192,6 +194,7 @@ export const FilterInputTable = observer(() => {
                     generalResultEntryStore.updateFilterGeneralResEntry({
                       ...generalResultEntryStore.filterGeneralResEntry,
                       departement: undefined,
+                      isSingleLabId: false,
                     });
                     patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                       {
@@ -253,6 +256,7 @@ export const FilterInputTable = observer(() => {
                         generalResultEntryStore.updateFilterGeneralResEntry({
                           ...generalResultEntryStore.filterGeneralResEntry,
                           testCode: item.testCode,
+                          isSingleLabId: false,
                         });
                         patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
@@ -284,6 +288,7 @@ export const FilterInputTable = observer(() => {
                     generalResultEntryStore.updateFilterGeneralResEntry({
                       ...generalResultEntryStore.filterGeneralResEntry,
                       testCode: undefined,
+                      isSingleLabId: false,
                     });
                     patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                       {
@@ -338,6 +343,7 @@ export const FilterInputTable = observer(() => {
                         generalResultEntryStore.updateFilterGeneralResEntry({
                           ...generalResultEntryStore.filterGeneralResEntry,
                           labId: Number.parseInt(item.labId),
+                          isSingleLabId: false,
                         });
                         patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                           {
@@ -369,6 +375,7 @@ export const FilterInputTable = observer(() => {
                     generalResultEntryStore.updateFilterGeneralResEntry({
                       ...generalResultEntryStore.filterGeneralResEntry,
                       labId: undefined,
+                      isSingleLabId: false,
                     });
                     patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                       {
@@ -420,6 +427,7 @@ export const FilterInputTable = observer(() => {
                       generalResultEntryStore.updateFilterGeneralResEntry({
                         ...generalResultEntryStore.filterGeneralResEntry,
                         name: item?.name,
+                        isSingleLabId: false,
                       });
                       patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                         {
