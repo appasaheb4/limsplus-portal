@@ -846,6 +846,15 @@ const Payment = PaymentHoc(
                     body: 'Update deginisation!',
                   });
                 }}
+                // onUpdateFileds={(fileds: any, id: string) => {
+                //   setModalConfirm({
+                //     show: true,
+                //     type: 'UpdateFileds',
+                //     data: { fileds, id },
+                //     title: 'Are you sure?',
+                //     body: 'Do you want to update this record?',
+                //   });
+                // }}
                 onPageSizeChange={(page, limit) => {
                   paymentStore.paymentService.listPayment(page, limit);
                 }}
@@ -861,8 +870,6 @@ const Payment = PaymentHoc(
         <ModalConfirm
           {...modalConfirmForSMS}
           onClick={() => {
-            console.log({ modalConfirmForSMS });
-
             receiptStore.receiptService
               .generatePaymentReceipt({
                 input: { headerId: modalConfirmForSMS?.details?.headerId },

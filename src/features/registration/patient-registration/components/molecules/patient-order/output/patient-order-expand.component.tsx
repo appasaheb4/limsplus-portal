@@ -16,7 +16,13 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import { Buttons, Icons, Form, ColumnFilter } from '@/library/components';
+import {
+  Buttons,
+  Icons,
+  Form,
+  ColumnFilter,
+  Tooltip,
+} from '@/library/components';
 import { Confirm } from '@/library/models';
 
 import { PatientOrderExpandPackageList } from './patient-order-expand-package-list.component';
@@ -808,15 +814,17 @@ export const PatientOrderExpand = ({
                   </ExportCSVButton>
 
                   <div className='ml-2 relative'>
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsColumnFilterVisible(!isColumnFilterVisible);
-                      }}
-                    >
-                      <Icons.IconFa.FaFilter />
-                    </Buttons.Button>
+                    <Tooltip tooltipText={'Field Selector'}>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsColumnFilterVisible(!isColumnFilterVisible);
+                        }}
+                      >
+                        <Icons.IconFa.FaFilter />
+                      </Buttons.Button>
+                    </Tooltip>
                     {isColumnFilterVisible && (
                       <ColumnFilter
                         columns={filterableColumns}
