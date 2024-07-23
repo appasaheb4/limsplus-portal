@@ -21,8 +21,6 @@ const Receipt = observer(() => {
     setValue,
   } = useForm();
   const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
-  const [receiptDetails, setReceiptDetails] = useState<any>();
-
   const sendSMS = details => {
     receiptStore.receiptService
       .sendSMS({
@@ -67,12 +65,12 @@ const Receipt = observer(() => {
             'Export',
           )}
           onPageSizeChange={(page, limit) => {
-            // bannerStore.fetchListBanner(page, limit);
+            receiptStore.receiptService.listReceipt(page, limit);
           }}
           onFilter={(type, filter, page, limit) => {
-            // bannerStore.BannerService.filter({
-            //   input: {type, filter, page, limit},
-            // });
+            receiptStore.receiptService.filter({
+              input: { type, filter, page, limit },
+            });
           }}
           onReport={item => {
             receiptStore.receiptService

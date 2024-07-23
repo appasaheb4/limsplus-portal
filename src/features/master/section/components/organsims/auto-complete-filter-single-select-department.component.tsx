@@ -92,6 +92,7 @@ export const AutoCompleteFilterSingleSelectDepartment = observer(
             <input
               disabled={disable}
               placeholder='Search by Code'
+              id={`search-${Date.now()}`}
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}

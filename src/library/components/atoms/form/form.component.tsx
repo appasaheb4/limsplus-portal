@@ -100,14 +100,14 @@ export const Input = React.forwardRef((props: InputProps, ref: Ref<any>) => {
   return (
     <InputWrapper
       label={props.label}
-      id={props.id}
+      id={props.id + '_LABEL'}
       hasError={props.hasError}
       style={props.wrapperStyle}
       className={props.labelClassName}
     >
       <input
         type={props.type || 'text'}
-        id={props.id}
+        id={props?.id}
         ref={props.inputRef}
         data-testid='INPT'
         autoFocus={props?.isAutoFocus || false}

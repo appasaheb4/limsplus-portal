@@ -76,7 +76,7 @@ export const ReceiptList = observer((props: ReceiptListProps) => {
               headerClasses: 'textHeader',
             },
             {
-              dataField: 'name',
+              dataField: 'customerName',
               text: 'Patient Name',
               sort: true,
               editable: false,

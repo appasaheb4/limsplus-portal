@@ -69,7 +69,7 @@ export const PatientOrder = PatientOrderHoc(
     const [isPrintPrimaryBarcod, setIsPrintPrimaryBarcod] =
       useState<boolean>(false);
     const [modalAddPanel, setModalAddPanel] = useState({});
-    const [modalPayment, setModalPayment] = useState({ visible: false });
+    const [modalPayment, setModalPayment] = useState<any>({ visible: false });
     const [modalPaymentReceipt, setModalPaymentReceipt] = useState<any>();
     const [receiptPath, setReceiptPath] = useState<string>();
 
@@ -280,6 +280,9 @@ export const PatientOrder = PatientOrderHoc(
           onPayment={item => {
             setModalPayment({
               visible: true,
+              details: {
+                pId: item?.pId,
+              },
             });
           }}
           onReceipt={item => {

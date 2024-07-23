@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
 import cellEditFactory from 'react-bootstrap-table2-editor';
@@ -7,8 +7,8 @@ import paginationFactory, {
 } from 'react-bootstrap-table2-paginator';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
-import {Icons, Buttons} from '@/library/components';
-import {Confirm} from '@/library/models';
+import { Icons, Buttons } from '@/library/components';
+import { Confirm } from '@/library/models';
 import './style.css';
 
 import * as Config from '@/config';
@@ -75,7 +75,7 @@ export const TableBootstrap = ({
     <div className='btn-group items-center' role='group'>
       {isSelectRow && (
         <Buttons.Button
-          style={{height: 10, width: 200}}
+          style={{ height: 10, width: 200 }}
           size='small'
           type='solid'
           onClick={() => {
@@ -97,6 +97,7 @@ export const TableBootstrap = ({
       <input
         type='number'
         min='0'
+        id={`number-${Date.now()}`}
         placeholder='No'
         onChange={e => {
           if (e.target.value) {
@@ -168,7 +169,7 @@ export const TableBootstrap = ({
       columns={columns}
       data={data}
     >
-      {({paginationProps, paginationTableProps}) => (
+      {({ paginationProps, paginationTableProps }) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4

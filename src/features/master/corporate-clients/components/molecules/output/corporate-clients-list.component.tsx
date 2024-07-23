@@ -27,6 +27,7 @@ import { AutoCompleteFilterDeliveryMode } from '@/core-components';
 import { MultiSelect } from '@/core-components';
 import { ModalReportToMobilesModify } from './modal-report-to-mobiles-modify';
 import { ModalReportToEmailsModify } from './modal-report-to-emails-modify';
+import { dblClick } from '@testing-library/user-event/dist/click';
 
 let dateCreation;
 let dateActive;
@@ -1021,16 +1022,9 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             text: 'Report To Mobiles',
             headerClasses: 'textHeader2',
             sort: true,
+            editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
             csvFormatter: col => (col ? col : ''),
-            // headerFormatter: (column, row, colIndex) => {
-            //   return (
-            //     <h5>
-            //       <strong>$$ {row._id} $$</strong>
-            //     </h5>
-            //   );
-            // },
             formatter: (cell, row) => {
               return (
                 <div
@@ -1054,14 +1048,15 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       </Icons.IconContext>
                     </Tooltip>
                   )}
-                  {row.reportToMobiles?.map((item, index) => (
-                    <span
-                      key={index}
-                      className='flex p-2 rounded-sm bg-blue-800 text-white'
-                    >
-                      {item?.name + ' - ' + item?.mobileNo}
-                    </span>
-                  ))}
+                  {row?.reportToMobiles?.length > 0 &&
+                    row?.reportToMobiles?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='flex p-2 rounded-sm bg-blue-800 text-white'
+                      >
+                        {item?.name + ' - ' + item?.mobileNo}
+                      </span>
+                    ))}
                 </div>
               );
             },
@@ -1072,7 +1067,7 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
             headerClasses: 'textHeader2',
             sort: true,
             sortCaret: (order, column) => sortCaret(order, column),
-            editable: (content, row, rowIndex, columnIndex) => editorCell(row),
+            editable: false,
             csvFormatter: col => (col ? col : ''),
             formatter: (cell, row) => {
               return (
@@ -1094,14 +1089,15 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
                       </Icons.IconContext>
                     </Tooltip>
                   )}
-                  {row.reportToEmails?.map((item, index) => (
-                    <span
-                      key={index}
-                      className='flex p-2 rounded-sm bg-blue-800 text-white'
-                    >
-                      {item?.name + ' - ' + item?.email}
-                    </span>
-                  ))}
+                  {row.reportToEmails?.length > 0 &&
+                    row.reportToEmails?.map((item, index) => (
+                      <span
+                        key={index}
+                        className='flex p-2 rounded-sm bg-blue-800 text-white'
+                      >
+                        {item?.name + ' - ' + item?.email}
+                      </span>
+                    ))}
                 </div>
               );
             },

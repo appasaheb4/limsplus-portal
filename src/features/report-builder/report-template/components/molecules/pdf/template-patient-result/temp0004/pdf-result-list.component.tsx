@@ -53,6 +53,7 @@ export const PdfResultList = ({
   headerStyle,
 }: PdfResultListProps) => {
   const userInfo: Array<any> = [];
+
   const fields = [
     {
       title: 'Test Name',
@@ -101,21 +102,24 @@ export const PdfResultList = ({
             for (const [analyteKey, analyteItems] of Object.entries(
               analyteList,
             )) {
-              patientResultList.push({
-                analyteName: analyteKey,
-                value: {
-                  ...analyteItems[0],
-                  analyteType: analyteItems[0]?.panelHeader?.analyteType,
-                  ...analyteItems[0]?.analyte,
-                },
-                reportOrder: analyteItems[0]?.analyteReportOrder || 0,
-              });
+              for (let i = 0; i < analyteItems?.length; i++) {
+                patientResultList.push({
+                  analyteName: analyteKey,
+                  value: {
+                    ...analyteItems[i],
+                    analyteType: analyteItems[i]?.panelHeader?.analyteType,
+                    ...analyteItems[i]?.analyte,
+                  },
+                  reportOrder: analyteItems[i]?.analyteReportOrder || 0,
+                });
+              }
             }
             patientResultList = _.orderBy(
               patientResultList,
               'reportOrder',
               'asc',
             );
+
             testHeader.push({
               testHeader: {
                 testDescription: testKey,
@@ -209,8 +213,6 @@ export const PdfResultList = ({
           },
         });
       }
-      console.log({ patientResultList });
-
       return patientResultList;
     }
     return [];

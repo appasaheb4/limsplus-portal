@@ -481,6 +481,7 @@ const DeliveryQueue = observer(() => {
                           );
                         return Object.assign(item, { reportSettings });
                       });
+
                       const grouped = _.groupBy(
                         patientResultList,
                         item => item.patientResult.reportTemplate,
@@ -492,6 +493,7 @@ const DeliveryQueue = observer(() => {
                       } else {
                         setModalGenerateReports({
                           show: true,
+                          companyCode: item?.companyCode,
                           data: grouped,
                           templateDetails:
                             res1.getTempPatientResultListByTempCodes.list,

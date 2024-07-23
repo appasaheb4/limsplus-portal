@@ -3,8 +3,12 @@ import { Page, StyleSheet, Font, View } from '@react-pdf/renderer';
 import _ from 'lodash';
 import { PdfPageNumber, PdfView, PdfFooterView, PdfImage } from '@components';
 import { PdfBorderView, PdfSmall } from '@/library/components';
-import { Header } from '../../common/geneflow-lab/pdf-header.component';
-import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
+import {
+  GeneflowLabHeader,
+  GeneflowLabFooter,
+  AarvakDiagnosticCenterHeader,
+  AarvakDiagnosticCenterFooter,
+} from '../../company';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import Html from 'react-pdf-html';
 
@@ -37,6 +41,7 @@ const styles = StyleSheet.create({
 });
 
 interface PdfTemp0010Props {
+  companyCode?: string;
   data?: any;
   isWithHeader?: boolean;
   width?: string | number;
@@ -51,6 +56,7 @@ interface PdfTemp0010Props {
 }
 
 export const PdfTemp0010 = ({
+  companyCode = 'GENEFLOW',
   data,
   isWithHeader = true,
   width = '100%',
@@ -100,7 +106,6 @@ export const PdfTemp0010 = ({
       border: '1px solid !important',
       marginTop: 4,
       marginBottom: 4,
-      width: '100% !important',
     },
     td: {
       padding: 2,
@@ -282,11 +287,56 @@ export const PdfTemp0010 = ({
   //   result: JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
   // });
 
+  const htmlContent = (details: string) => {
+    const container = document.createElement('div');
+    container.innerHTML = details;
+    const tables = container.querySelectorAll('table');
+    tables.forEach((items, index) => {
+      const width = items.style.width;
+      const height = items.style.height;
+      if (width?.includes('px') || height?.includes('px')) {
+        items.style.width = '100%';
+        items.style.height = 'auto';
+      }
+      items.innerHTML = items.innerHTML?.replaceAll('width', 'maxWidth');
+      const row = items.querySelectorAll('tr');
+      const tdWidth = row[0]?.querySelectorAll('td');
+      row.forEach((tr, i) => {
+        if (i > 0) {
+          tr.querySelectorAll('td')?.forEach((td, tdi) => {
+            td.setAttribute(
+              'style',
+              tdWidth[tdi]?.getAttribute('style') as any,
+            );
+          });
+        }
+      });
+    });
+    return container.innerHTML;
+  };
+
+  const getCompanyWiseComp = (companyCode, details) => {
+    switch (companyCode) {
+      case 'GENEFLOW':
+        return {
+          header: <GeneflowLabHeader />,
+          footer: <GeneflowLabFooter />,
+        };
+      case 'COMP0001':
+        return {
+          header: <AarvakDiagnosticCenterHeader />,
+          footer: <AarvakDiagnosticCenterFooter />,
+        };
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
         <PdfView fixed mh={0} p={0}>
-          {isWithHeader && <Header />}
+          {isWithHeader && getCompanyWiseComp(companyCode, {})?.header}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
         <View
@@ -298,7 +348,11 @@ export const PdfTemp0010 = ({
         >
           {patientReports?.patientResultList?.map((item, index) => (
             <Html stylesheet={stylesheet} key={index}>
-              {html(JSON.parse(item.result).result.replace(regex, subst))}
+              {html(
+                htmlContent(
+                  JSON.parse(item.result).result.replace(regex, subst),
+                ),
+              )}
             </Html>
           ))}
           {/*  user signature */}
@@ -346,7 +400,7 @@ export const PdfTemp0010 = ({
           bottom={88}
         />
         <PdfFooterView fixed bg='transparent' height={90} p={0}>
-          {isWithHeader && <Footer />}
+          {isWithHeader && getCompanyWiseComp(companyCode, {})?.footer}
         </PdfFooterView>
       </Page>
     </>

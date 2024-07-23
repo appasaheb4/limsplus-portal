@@ -2,11 +2,13 @@ import React from 'react';
 import { PdfHeader, PdfView, PdfImage, PdfMedium } from '@components';
 import { logos } from '@/library/assets';
 
-interface HeaderProps {
+interface AarvakDiagnosticCenterHeaderProps {
   data?: any;
 }
 
-export const Header = ({ data }: HeaderProps) => {
+export const AarvakDiagnosticCenterHeader = ({
+  data,
+}: AarvakDiagnosticCenterHeaderProps) => {
   return (
     <PdfHeader
       style={{

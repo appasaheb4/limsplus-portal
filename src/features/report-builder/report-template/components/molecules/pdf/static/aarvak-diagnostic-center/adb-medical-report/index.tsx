@@ -1,15 +1,12 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
+import { Page, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { PdfSmall } from '@components';
 import {
-  Page,
-  Document,
-  StyleSheet,
-  Font,
-} from '@react-pdf/renderer';
-import {PdfSmall} from '@components';
-import {Header} from '../../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Footer} from '../../../common/aarvak-diagnostic-center/pdf-footer.component';
-import {PdfMedicialFitnessCertificate} from './pdf-medicial-fitness-certificate';
-import {PdfMedicalCheckup} from './pdf-medical-checkup';
+  AarvakDiagnosticCenterHeader,
+  AarvakDiagnosticCenterFooter,
+} from '../../../company';
+import { PdfMedicialFitnessCertificate } from './pdf-medicial-fitness-certificate';
+import { PdfMedicalCheckup } from './pdf-medical-checkup';
 
 Font.register({
   family: 'arimaRegular',
@@ -57,19 +54,17 @@ export const ADCMedicalReportPdf = ({
 
   return (
     <>
-      {/* <PDFViewer style={{width, height}} showToolbar={isToolbar}> */}
       <Document title={documentTitle}>
         <Page size={pageSize} style={boxCSS.current}>
-          <Header />
+          <AarvakDiagnosticCenterHeader />
           <PdfMedicialFitnessCertificate />
           <PdfMedicalCheckup />
-          <PdfSmall style={{left: 20, marginTop: 10}} fixed>
+          <PdfSmall style={{ left: 20, marginTop: 10 }} fixed>
             Registration No.: 0887687987678
           </PdfSmall>
-          <Footer />
+          <AarvakDiagnosticCenterFooter />
         </Page>
       </Document>
-      {/* </PDFViewer> */}
     </>
   );
 };

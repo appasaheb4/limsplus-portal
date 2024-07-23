@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import { Page, Document, StyleSheet, Font } from '@react-pdf/renderer';
 import { PdfPageNumber } from '@components';
-import { Header } from '../../common/geneflow-lab/pdf-header.component';
-import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
+import { GeneflowLabHeader, GeneflowLabFooter } from '../../company';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import { PdfResultList } from './pdf-result-list.component';
 
@@ -54,7 +53,7 @@ export const GeneflowLab = ({
     <>
       <Document title={documentTitle}>
         <Page size={pageSize} style={boxCSS.current}>
-          <Header />
+          <GeneflowLabHeader />
           <PdfPatientDetails />
           <PdfResultList />
           <PdfPageNumber
@@ -65,7 +64,7 @@ export const GeneflowLab = ({
             }}
             bottom={100}
           />
-          <Footer />
+          <GeneflowLabFooter />
         </Page>
       </Document>
     </>

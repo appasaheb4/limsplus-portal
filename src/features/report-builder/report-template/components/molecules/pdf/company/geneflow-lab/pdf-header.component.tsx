@@ -2,11 +2,11 @@ import React from 'react';
 import { PdfHeader, PdfView, PdfImage, PdfMedium, PdfSmall } from '@components';
 import { logos } from '@/library/assets';
 
-interface HeaderProps {
+interface GeneflowLabHeaderProps {
   data?: any;
 }
 
-export const Header = ({ data }: HeaderProps) => {
+export const GeneflowLabHeader = ({ data }: GeneflowLabHeaderProps) => {
   return (
     <>
       <PdfHeader

@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
 import { Page, StyleSheet, Font } from '@react-pdf/renderer';
 import { PdfPageNumber, PdfView, PdfFooterView } from '@components';
-// import {Header} from '../../common/aarvak-diagnostic-center/pdf-header.component';
-// import {Footer} from '../../common/aarvak-diagnostic-center/pdf-footer.component';
-import { Header } from '../../common/geneflow-lab/pdf-header.component';
-import { Footer } from '../../common/geneflow-lab/pdf-footer.component';
+import {
+  GeneflowLabHeader,
+  GeneflowLabFooter,
+  AarvakDiagnosticCenterHeader,
+  AarvakDiagnosticCenterFooter,
+} from '../../company';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import { PdfResultList } from './pdf-result-list.component';
 
@@ -21,6 +23,7 @@ const styles = StyleSheet.create({
 });
 
 interface PdfTemp0004Props {
+  companyCode?: string;
   data?: any;
   isWithHeader?: boolean;
   width?: string | number;
@@ -35,6 +38,7 @@ interface PdfTemp0004Props {
 }
 
 export const PdfTemp0004 = ({
+  companyCode = 'GENEFLOW',
   data,
   isWithHeader = true,
   width = '100%',
@@ -57,11 +61,28 @@ export const PdfTemp0004 = ({
     }
   }
 
+  const getCompanyWiseComp = (companyCode, details) => {
+    switch (companyCode) {
+      case 'GENEFLOW':
+        return {
+          header: <GeneflowLabHeader />,
+          footer: <GeneflowLabFooter />,
+        };
+      case 'COMP0001':
+        return {
+          header: <AarvakDiagnosticCenterHeader />,
+          footer: <AarvakDiagnosticCenterFooter />,
+        };
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
         <PdfView fixed mh={0} p={0}>
-          {isWithHeader && <Header />}
+          {isWithHeader && getCompanyWiseComp(companyCode, {})?.header}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
         <PdfResultList data={patientReports?.patientResultList} />
@@ -70,7 +91,7 @@ export const PdfTemp0004 = ({
           bottom={88}
         />
         <PdfFooterView fixed bg='transparent' height={90} p={0}>
-          {isWithHeader && <Footer />}
+          {isWithHeader && getCompanyWiseComp(companyCode, {})?.footer}
         </PdfFooterView>
       </Page>
     </>

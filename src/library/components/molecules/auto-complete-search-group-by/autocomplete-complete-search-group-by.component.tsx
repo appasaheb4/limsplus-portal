@@ -224,6 +224,7 @@ export const AutocompleteSearchGroupBy = observer(
           >
             <input
               placeholder='Search...'
+              id={`search-${Date.now()}`}
               value={!isListOpen ? value : value}
               className='w-full focus:outline-none'
               onKeyUp={onKeyUp}

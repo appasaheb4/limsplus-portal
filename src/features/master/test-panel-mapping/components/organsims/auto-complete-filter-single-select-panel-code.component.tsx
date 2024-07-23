@@ -97,6 +97,7 @@ export const AutoCompleteFilterSingleSelectPanelCode = observer(
           >
             <input
               placeholder='Search by panel code'
+              id={`search-${Date.now()}`}
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}

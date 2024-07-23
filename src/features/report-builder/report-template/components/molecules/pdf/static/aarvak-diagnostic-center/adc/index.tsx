@@ -1,10 +1,12 @@
-import React, {useRef} from 'react';
-import {Page, Document, StyleSheet, Font} from '@react-pdf/renderer';
-import {PdfPageNumber} from '@components';
-import {Header} from '../../../common/aarvak-diagnostic-center/pdf-header.component';
-import {Footer} from '../../../common/aarvak-diagnostic-center/pdf-footer.component';
-import {PdfPatientDetails} from './pdf-patient-details.component';
-import {PdfResultList} from './pdf-result-list.component';
+import React, { useRef } from 'react';
+import { Page, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { PdfPageNumber } from '@components';
+import {
+  AarvakDiagnosticCenterHeader,
+  AarvakDiagnosticCenterFooter,
+} from '../../../company';
+import { PdfPatientDetails } from './pdf-patient-details.component';
+import { PdfResultList } from './pdf-result-list.component';
 
 Font.register({
   family: 'arimaRegular',
@@ -52,20 +54,18 @@ export const ADCPdf = ({
 
   return (
     <>
-      {/* <PDFViewer style={{width, height}} showToolbar={isToolbar}> */}
       <Document title={documentTitle}>
         <Page size={pageSize} style={boxCSS.current}>
-          <Header />
+          <AarvakDiagnosticCenterHeader />
           <PdfPatientDetails />
           <PdfResultList />
           <PdfPageNumber
-            style={{textAlign: 'center', right: '45%'}}
+            style={{ textAlign: 'center', right: '45%' }}
             bottom={77}
           />
-          <Footer />
+          <AarvakDiagnosticCenterFooter />
         </Page>
       </Document>
-      {/* </PDFViewer> */}
     </>
   );
 };

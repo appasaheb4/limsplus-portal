@@ -101,6 +101,7 @@ const TableBootstrap = ({
       <input
         type='number'
         min='0'
+        id={`number-${Date.now()}`}
         placeholder='No'
         onChange={e => {
           if (e.target.value) {

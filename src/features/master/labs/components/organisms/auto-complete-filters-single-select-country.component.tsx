@@ -1,17 +1,17 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
 import _ from 'lodash';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectProps {
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectCountry = observer(
-  ({onSelect}: AutoCompleteFilterSingleSelectProps) => {
-    const {loading, administrativeDivisions} = useStores();
+  ({ onSelect }: AutoCompleteFilterSingleSelectProps) => {
+    const { loading, administrativeDivisions } = useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -82,6 +82,7 @@ export const AutoCompleteFilterSingleSelectCountry = observer(
           >
             <input
               placeholder='Search....'
+              id={`search-${Date.now()}`}
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}

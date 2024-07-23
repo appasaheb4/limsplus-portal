@@ -12,6 +12,7 @@ import {
   FIND_BY_FIELDS_TRANSACTION_LINE,
   FILTER_BY_FIELDS,
   FILTER,
+  FIND_BY_FIELDS_TRANSACTION_HEADER,
 } from './mutation-transaction-details';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
@@ -50,6 +51,21 @@ export class TransactionDetailsService {
           stores.transactionDetailsStore.updateTransactionListList(
             response.data,
           );
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  findByFieldsTransactionHeader = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: FIND_BY_FIELDS_TRANSACTION_HEADER,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

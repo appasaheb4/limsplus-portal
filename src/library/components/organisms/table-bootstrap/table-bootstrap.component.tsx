@@ -737,20 +737,3 @@ export const TableBootstrap = ({
     </PaginationProvider>
   );
 };
-
-{
-  /* {data?.length > 0 && (
-        <BootstrapTable
-          wrapperClasses='table-responsive'
-          keyField='_id'
-          columns={column}
-          data={products}
-          selectRow={{
-            mode: 'checkbox',
-            clickToSelect: true,
-            nonSelectable: getNonSelectableRows(products),
-            nonSelectableStyle: { backgroundColor: 'gray' },
-          }}
-        />
-      )} */
-}

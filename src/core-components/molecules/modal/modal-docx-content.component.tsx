@@ -113,6 +113,32 @@ export const ModalDocxContent = observer(
       );
     };
 
+    const config = {
+      height: 540,
+      width: window.innerWidth / 1.3,
+      disabled: !isEditable,
+      events: {
+        afterOpenPasteDialog: (dialog, msg, title, callback) => {
+          dialog.close();
+          callback();
+        },
+      },
+      uploader: {
+        //url: 'http://localhost:8080/api/assets/uploadFile',
+        url: 'https://limsplus-service.azurewebsites.net/api/assets/uploadFile',
+        prepareData: function (data) {
+          data.append('folder', folder);
+          data.delete('path');
+          data.delete('source');
+        },
+        isSuccess: function (resp) {
+          setContent(
+            content.concat(`<img src=${resp?.data?.data} alt="logo"/>`),
+          );
+        },
+      },
+    } as any;
+
     return (
       <>
         <Container>
@@ -224,43 +250,13 @@ export const ModalDocxContent = observer(
                           }px]`}
                         ></div>
                         <div className='flex  ruler vertical h-[560px]'></div>
-                        <div className='flex absolute mt-12 ml-12 w-full'>
+                        <div
+                          className='flex absolute mt-12 ml-12 w-full'
+                          id='editorContent'
+                        >
                           <JoditEditor
                             ref={editor}
-                            config={
-                              {
-                                height: 540,
-                                width: window.innerWidth / 1.3,
-                                disabled: !isEditable,
-                                events: {
-                                  afterOpenPasteDialog: (
-                                    dialog,
-                                    msg,
-                                    title,
-                                    callback,
-                                  ) => {
-                                    dialog.close();
-                                    callback();
-                                  },
-                                },
-                                uploader: {
-                                  //url: 'http://localhost:8080/api/assets/uploadFile',
-                                  url: 'https://limsplus-service.azurewebsites.net/api/assets/uploadFile',
-                                  prepareData: function (data) {
-                                    data.append('folder', folder);
-                                    data.delete('path');
-                                    data.delete('source');
-                                  },
-                                  isSuccess: function (resp) {
-                                    setContent(
-                                      content.concat(
-                                        `<img src=${resp?.data?.data} alt="logo"/>`,
-                                      ),
-                                    );
-                                  },
-                                },
-                              } as any
-                            }
+                            config={config}
                             value={content || ''}
                             onBlur={newContent => {
                               setContent(newContent);

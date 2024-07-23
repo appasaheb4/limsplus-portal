@@ -1,16 +1,16 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {Spinner} from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {useStores} from '@/stores';
-import {Icons} from '@/library/components';
+import React, { useState, useEffect, useRef } from 'react';
+import { Spinner } from 'react-bootstrap';
+import { observer } from 'mobx-react';
+import { useStores } from '@/stores';
+import { Icons } from '@/library/components';
 
 interface AutoCompleteFilterSingleSelectSampleGroupProps {
   onSelect: (item: any) => void;
 }
 
 export const AutoCompleteFilterSingleSelectSampleGroup = observer(
-  ({onSelect}: AutoCompleteFilterSingleSelectSampleGroupProps) => {
-    const {loading, sampleTypeStore} = useStores();
+  ({ onSelect }: AutoCompleteFilterSingleSelectSampleGroupProps) => {
+    const { loading, sampleTypeStore } = useStores();
     const [value, setValue] = useState<string>('');
     const [options, setOptions] = useState<any[]>();
     const [isListOpen, setIsListOpen] = useState<boolean>(false);
@@ -79,6 +79,7 @@ export const AutoCompleteFilterSingleSelectSampleGroup = observer(
           >
             <input
               placeholder='Search by sample group'
+              id={`search-${Date.now()}`}
               value={!isListOpen ? value : value}
               className={'w-full focus:outline-none bg-none'}
               onKeyUp={onKeyUp}

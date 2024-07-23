@@ -1,13 +1,8 @@
-import React, { useRef} from 'react';
-import {
-  Page,
-  Document,
-  StyleSheet,
-  Font,
-} from '@react-pdf/renderer';
-import {PdfPageNumber} from '@components';
-import {PdfPatientDetails} from './pdf-patient-details.component';
-import {PdfResultList} from './pdf-result-list.component';
+import React, { useRef } from 'react';
+import { Page, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { PdfPageNumber } from '@components';
+import { PdfPatientDetails } from './pdf-patient-details.component';
+import { PdfResultList } from './pdf-result-list.component';
 
 Font.register({
   family: 'arimaRegular',
@@ -55,18 +50,16 @@ export const ADCWithoutHeaderFooterPdf = ({
 
   return (
     <>
-      {/* <PDFViewer style={{width, height}} showToolbar={isToolbar}> */}
       <Document title={documentTitle}>
         <Page size={pageSize} style={boxCSS.current}>
           <PdfPatientDetails />
           <PdfResultList />
           <PdfPageNumber
-            style={{textAlign: 'center', right: '45%'}}
+            style={{ textAlign: 'center', right: '45%' }}
             bottom={10}
           />
         </Page>
       </Document>
-      {/* </PDFViewer> */}
     </>
   );
 };

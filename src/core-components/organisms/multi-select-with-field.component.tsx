@@ -66,6 +66,7 @@ export const MultiSelectWithField = ({
                       <input
                         className='flex bg-black'
                         type='checkbox'
+                        id={`checkbox-${Date.now()}`}
                         checked={
                           !_.isEmpty(
                             selectedOptions?.find(

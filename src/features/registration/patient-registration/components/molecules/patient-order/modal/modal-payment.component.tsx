@@ -7,12 +7,19 @@ import Payment from '@/features/account-receivable/payment/screens/payment.scree
 interface ModalPaymentProps {
   title?: string;
   visible: boolean;
+  details?: any;
   onClick: (details: string) => void;
   onClose: () => void;
 }
 
 export const ModalPayment = observer(
-  ({ title = 'Payment', visible, onClick, onClose }: ModalPaymentProps) => {
+  ({
+    title = 'Payment',
+    visible,
+    details = {},
+    onClick,
+    onClose,
+  }: ModalPaymentProps) => {
     const [showModal, setShowModal] = useState(visible);
     useEffect(() => {
       setShowModal(visible);
@@ -53,6 +60,7 @@ export const ModalPayment = observer(
                     <div className='flex flex-col overflow-scroll  min-h-[560px]'>
                       <Payment
                         isFullAccess={false}
+                        details={details}
                         onSubmit={details => {
                           setShowModal(false);
                           onClose && onClose();

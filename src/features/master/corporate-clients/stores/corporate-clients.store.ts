@@ -94,6 +94,8 @@ export class CorporateClientsStore {
       specificFormat: false,
       isBalanceCheck: true,
       deliveryMode: [],
+      reportToEmails: [],
+      reportToMobiles: [],
     };
   }
 

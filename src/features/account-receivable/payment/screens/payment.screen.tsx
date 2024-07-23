@@ -25,12 +25,13 @@ import { pdf } from '@react-pdf/renderer';
 import { ModalConfirm } from 'react-restyle-components';
 
 interface PaymentProps {
+  details?: any;
   isFullAccess?: boolean;
   onSubmit?: (details: any) => void;
 }
 
 const Payment = PaymentHoc(
-  observer(({ isFullAccess = true, onSubmit }: PaymentProps) => {
+  observer(({ details = {}, isFullAccess = true, onSubmit }: PaymentProps) => {
     const {
       loading,
       routerStore,
@@ -84,6 +85,21 @@ const Payment = PaymentHoc(
       if (!isFullAccess) {
         (async function () {
           try {
+            // fetch payment details
+            transactionDetailsStore.transactionDetailsService
+              .findByFieldsTransactionHeader({
+                input: {
+                  filter: {
+                    pId: Number.parseInt(details?.pId),
+                  },
+                },
+              })
+              .then(res => {
+                if (res.findByFieldsTransactionHeader?.success) {
+                  updatePayment(res.findByFieldsTransactionHeader?.data[0]);
+                }
+              });
+            //lookup value fetch
             await RouterFlow.getLookupValues(
               '/account-receivable/payment',
             ).then(async res => {
@@ -101,6 +117,7 @@ const Payment = PaymentHoc(
         ...paymentStore.payment,
         enteredBy: loginStore.login?.userId,
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginStore.login?.userId, paymentStore, isFullAccess]);
 
     const onSubmitPayment = () => {
@@ -153,7 +170,7 @@ const Payment = PaymentHoc(
         pId: Number.parseInt(payload?.pId),
         labId: Number.parseInt(payload?.labId),
         rLab: payload?.rLab,
-        invoiceAC: Number.parseInt(payload?.invoiceAC),
+        invoiceAC: Number.parseInt(payload?.invoiceAc),
         customerName: payload?.customerName,
         customerGroup: payload?.customerGroup,
         acClass: payload?.acClass,
@@ -290,9 +307,6 @@ const Payment = PaymentHoc(
                         onSelect={item => {
                           onChange(item.pId);
                           updatePayment(item);
-                          // methodsStore.updateMethodsList(
-                          //   methodsStore.listMethodsCopy,
-                          // );
                         }}
                       />
                     </Form.InputWrapper>
@@ -301,7 +315,9 @@ const Payment = PaymentHoc(
                   rules={{
                     required: true,
                   }}
-                  defaultValue={''}
+                  defaultValue={
+                    transactionDetailsStore.transactionHeaderList?.length
+                  }
                 />
 
                 <Controller
@@ -324,23 +340,22 @@ const Payment = PaymentHoc(
                         displayValue={value?.toString()}
                         hasError={!!errors.labId}
                         onFilter={(value: string) => {
-                          // methodsStore.methodsService.filterByFields({
-                          //   input: {
-                          //     filter: {
-                          //       fields: ['pId', 'customerName'],
-                          //       srText: value,
-                          //     },
-                          //     page: 0,
-                          //     limit: 10,
-                          //   },
-                          // });
+                          transactionDetailsStore.transactionDetailsService.filterByFields(
+                            {
+                              input: {
+                                filter: {
+                                  fields: ['labId', 'customerName'],
+                                  srText: value,
+                                },
+                                page: 0,
+                                limit: 10,
+                              },
+                            },
+                          );
                         }}
                         onSelect={item => {
                           onChange(item.pId);
                           updatePayment(item);
-                          // methodsStore.updateMethodsList(
-                          //   methodsStore.listMethodsCopy,
-                          // );
                         }}
                       />
                     </Form.InputWrapper>
@@ -349,7 +364,9 @@ const Payment = PaymentHoc(
                   rules={{
                     required: true,
                   }}
-                  defaultValue={''}
+                  defaultValue={
+                    transactionDetailsStore.transactionHeaderList?.length
+                  }
                 />
 
                 <Controller
@@ -376,7 +393,7 @@ const Payment = PaymentHoc(
                       placeholder={'Invoice AC'}
                       hasError={!!errors.invoiceAC}
                       disabled={true}
-                      value={value || ''}
+                      value={paymentStore.payment?.invoiceAC?.toString() || ''}
                     />
                   )}
                   name='invoiceAC'
@@ -830,12 +847,12 @@ const Payment = PaymentHoc(
                   });
                 }}
                 onPageSizeChange={(page, limit) => {
-                  // deginisationStore.fetchListDeginisation(page, limit);
+                  paymentStore.paymentService.listPayment(page, limit);
                 }}
                 onFilter={(type, filter, page, limit) => {
-                  // deginisationStore.DeginisationService.filter({
-                  //   input: {type, filter, page, limit},
-                  // });
+                  paymentStore.paymentService.filter({
+                    input: { type, filter, page, limit },
+                  });
                 }}
               />
             </div>

@@ -1,13 +1,5 @@
-import React, { useRef, useState, useEffect } from 'react';
-import {
-  Document,
-  PDFViewer,
-  Page,
-  StyleSheet,
-  Font,
-  View,
-} from '@react-pdf/renderer';
-import { PdfSmall } from '@/library/components';
+import React, { useState, useEffect } from 'react';
+import { Document, PDFViewer, Page, Font, View } from '@react-pdf/renderer';
 import _ from 'lodash';
 import Html from 'react-pdf-html';
 import { Container } from 'reactstrap';
@@ -49,6 +41,48 @@ export const ModalReportHtmlView = ({
   //const regex = /style=(.*)font-family[^;]+;/g;
   const subst = '';
 
+  //   const staticContent = `
+  //   <p><strong><br></strong></p><p><strong>MINIMAL RESIDUAL DISEASE(MRD) FL</strong></p><p>test</p>
+  //   <table style="border-collapse: collapse; maxWidth: 80.6584%;"><tbody>
+  // <tr>
+  // 	<td style="maxWidth: 12%;">test</td>
+  // 	<td style="maxWidth: 88%;">test</td></tr>
+  // <tr>
+  // 	<td style="maxWidth: 12%;">test</td>
+  // 	<td style="maxWidth: 88%;">test</td></tr></tbody></table>`;
+  //   const staticContent = `<p><strong><br></strong></p><p><strong>MINIMAL RESIDUAL DISEASE(MRD) FL</strong></p><p>test</p>
+  //   <table style="border-collapse:collapse;width: 80%;"><tbody>
+  // <tr>
+  // 	<td style="width: 71.1248%;">test</td>
+  // 	<td style="width: 28.8752%;">test</td></tr>
+  // <tr>
+  // 	<td>tes</td>
+  // 	<td>test</td></tr></tbody></table>`;
+
+  const container = document.createElement('div');
+  container.innerHTML = details;
+  const tables = container.querySelectorAll('table');
+  tables.forEach((items, index) => {
+    const width = items.style.width;
+    const height = items.style.height;
+    if (width?.includes('px') || height?.includes('px')) {
+      items.style.width = '100%';
+      items.style.height = 'auto';
+    }
+    items.innerHTML = items.innerHTML?.replaceAll('width', 'maxWidth');
+    const row = items.querySelectorAll('tr');
+    const tdWidth = row[0]?.querySelectorAll('td');
+    row.forEach((tr, i) => {
+      if (i > 0) {
+        tr.querySelectorAll('td')?.forEach((td, tdi) => {
+          td.setAttribute('style', tdWidth[tdi]?.getAttribute('style') as any);
+        });
+      }
+    });
+  });
+  const output = container.innerHTML;
+
+  // console.log({ output });
   useEffect(() => {
     setShowModal(visible);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -56,11 +90,20 @@ export const ModalReportHtmlView = ({
 
   const html = content => `
   <html>
-    <body>
+    <body id="reportTable">
         ${content}
     </body>
+
   </html>
   `;
+
+  // <script>
+  // document.querySelector('#reportTable').style.backgroundColor='red'
+  // const tables = document.querySelectorAll('table')
+  // tables.forEach((item)=>{
+  // item.style.backgroundColor='red'
+  // })
+  // </script>
 
   const stylesheet = {
     body: {
@@ -146,7 +189,7 @@ export const ModalReportHtmlView = ({
                               }}
                             >
                               <Html stylesheet={stylesheet}>
-                                {html(details.replace(regex, subst))}
+                                {html(output.replace(regex, subst))}
                               </Html>
                             </View>
                           </Page>
