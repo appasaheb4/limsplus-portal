@@ -43,6 +43,8 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
     );
   };
 
+  console.log({ data });
+
   const getAmountPayable = payload => {
     const discountChargesAmount: number =
       typeof payload?.discountCharges?.amount == 'number'
@@ -172,20 +174,17 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
                         'lineId',
                         'panelCode',
                         'panelName',
-                        'grossAmount',
                         'netAmount',
-                        'discountAmount',
                       ]),
                     ) || []
                   }
                 />
                 <PdfView mh={0} p={0} mt={2} style={{}} alignItems='flex-end'>
                   <PdfSmall>
-                    Total: {getAmountPayable(transactionHeader) || '0'}
+                    Total: {getAmountPayable(transactionHeader)}
                   </PdfSmall>
                   <PdfSmall>
-                    Misc Charges:{' '}
-                    {transactionHeader?.miscellaneousCharges || '0'}
+                    Misc Charges: {transactionHeader?.miscellaneousCharges}
                   </PdfSmall>
                   <PdfSmall>
                     Other Charges:{' '}
@@ -197,10 +196,10 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
                       : 0}
                   </PdfSmall>
                   <PdfSmall>
-                    Paid Amount: {transactionHeader?.receivedAmount || '0'}
+                    Paid Amount: {transactionHeader?.receivedAmount}
                   </PdfSmall>
                   <PdfSmall fontFamily='IBMPlexSans'>
-                    Balance: {transactionHeader?.balance || '0'}
+                    Balance: {transactionHeader?.balance}
                   </PdfSmall>
                 </PdfView>
                 <PdfSmall>
