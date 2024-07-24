@@ -848,8 +848,6 @@ const CommentManager = CommentManagerHoc(
                     }}
                     defaultValue=''
                   />
-                </List>
-                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -928,7 +926,8 @@ const CommentManager = CommentManagerHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-
+                </List>
+                <List direction='col' space={4} justify='stretch' fill>
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
@@ -1138,6 +1137,192 @@ const CommentManager = CommentManagerHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
+                  <div className='grid grid-cols-2 gap-2'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Age From'
+                          type='number'
+                          placeholder='Age From'
+                          value={value?.toString()}
+                          onChange={ageFrom => {
+                            onChange(ageFrom);
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              ageFrom: Number.parseFloat(ageFrom),
+                            });
+                          }}
+                        />
+                      )}
+                      name='ageFrom'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputWrapper label='Age From Unit'>
+                          <select
+                            value={value}
+                            className={
+                              'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  border-gray-300 rounded-md'
+                            }
+                            onChange={e => {
+                              const ageFromUnit = e.target.value;
+                              onChange(ageFromUnit);
+                              commentManagerStore.updateCommentManager({
+                                ...commentManagerStore.commentManager,
+                                ageFromUnit,
+                              });
+                            }}
+                          >
+                            <option>Select</option>
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'AGE_FROM_UNIT',
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      )}
+                      name='ageFromUnit'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </div>
+
+                  <div className='grid grid-cols-2 gap-2'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Age To'
+                          type='number'
+                          placeholder='Age To'
+                          value={value?.toString()}
+                          onChange={ageTo => {
+                            onChange(ageTo);
+                            commentManagerStore.updateCommentManager({
+                              ...commentManagerStore.commentManager,
+                              ageTo: Number.parseFloat(ageTo),
+                            });
+                          }}
+                        />
+                      )}
+                      name='ageTo'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.InputWrapper label='Age To Unit'>
+                          <select
+                            value={value}
+                            className={
+                              'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  border-gray-300 rounded-md'
+                            }
+                            onChange={e => {
+                              const ageToUnit = e.target.value;
+                              onChange(ageToUnit);
+                              commentManagerStore.updateCommentManager({
+                                ...commentManagerStore.commentManager,
+                                ageToUnit,
+                              });
+                            }}
+                          >
+                            <option>Select</option>
+                            {lookupItems(
+                              routerStore.lookupItems,
+                              'AGE_TO_UNIT',
+                            ).map((item: any, index: number) => (
+                              <option key={index} value={item.code}>
+                                {lookupValue(item)}
+                              </option>
+                            ))}
+                          </select>
+                        </Form.InputWrapper>
+                      )}
+                      name='ageToUnit'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </div>
+                  <div className='grid grid-cols-2 gap-2'>
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='Low'
+                          placeholder='Low'
+                          hasError={!!errors.low}
+                          value={value}
+                          onChange={low => {
+                            const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                            if (
+                              regex.test(low) &&
+                              FormHelper.isNumberAvailable(low)
+                            ) {
+                              clearErrors('low');
+
+                              onChange(low);
+                              commentManagerStore.updateCommentManager({
+                                ...commentManagerStore.commentManager,
+                                low,
+                              });
+                            } else {
+                              setError('low', { type: 'onBlur' });
+                              Toast.warning({
+                                message:
+                                  '😔 Only > and < sign and numbers should be allowed',
+                              });
+                            }
+                          }}
+                        />
+                      )}
+                      name='low'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                    <Controller
+                      control={control}
+                      render={({ field: { onChange, value } }) => (
+                        <Form.Input
+                          label='High'
+                          placeholder='High'
+                          hasError={!!errors.high}
+                          onChange={high => {
+                            const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
+                            if (
+                              regex.test(high) &&
+                              FormHelper.isNumberAvailable(high)
+                            ) {
+                              clearErrors('high');
+
+                              onChange(high);
+                              commentManagerStore.updateCommentManager({
+                                ...commentManagerStore.commentManager,
+                                high,
+                              });
+                            } else {
+                              setError('high', { type: 'onBlur' });
+                              Toast.warning({
+                                message:
+                                  '😔 Only > and < sign and numbers should be allowed',
+                              });
+                            }
+                          }}
+                        />
+                      )}
+                      name='high'
+                      rules={{ required: false }}
+                      defaultValue=''
+                    />
+                  </div>
 
                   {commentManagerStore.commentManager.commentsType !==
                     'Results' &&
@@ -1145,211 +1330,6 @@ const CommentManager = CommentManagerHoc(
                   commentManagerStore.commentManager.commentsFor !==
                     'Alpha' ? null : (
                     <>
-                      {commentManagerStore.commentManager.commentsType ==
-                        'Results' &&
-                        commentManagerStore.commentManager.commentsFor ==
-                          'Value' && (
-                          <>
-                            <div className='grid grid-cols-2 gap-2'>
-                              <Controller
-                                control={control}
-                                render={({ field: { onChange, value } }) => (
-                                  <Form.Input
-                                    label='Age From'
-                                    type='number'
-                                    placeholder='Age From'
-                                    value={value?.toString()}
-                                    onChange={ageFrom => {
-                                      onChange(ageFrom);
-                                      commentManagerStore.updateCommentManager({
-                                        ...commentManagerStore.commentManager,
-                                        ageFrom: Number.parseFloat(ageFrom),
-                                      });
-                                    }}
-                                  />
-                                )}
-                                name='ageFrom'
-                                rules={{ required: false }}
-                                defaultValue=''
-                              />
-                              <Controller
-                                control={control}
-                                render={({ field: { onChange, value } }) => (
-                                  <Form.InputWrapper label='Age From Unit'>
-                                    <select
-                                      value={value}
-                                      className={
-                                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  border-gray-300 rounded-md'
-                                      }
-                                      onChange={e => {
-                                        const ageFromUnit = e.target.value;
-                                        onChange(ageFromUnit);
-                                        commentManagerStore.updateCommentManager(
-                                          {
-                                            ...commentManagerStore.commentManager,
-                                            ageFromUnit,
-                                          },
-                                        );
-                                      }}
-                                    >
-                                      <option>Select</option>
-                                      {lookupItems(
-                                        routerStore.lookupItems,
-                                        'AGE_FROM_UNIT',
-                                      ).map((item: any, index: number) => (
-                                        <option key={index} value={item.code}>
-                                          {lookupValue(item)}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </Form.InputWrapper>
-                                )}
-                                name='ageFromUnit'
-                                rules={{ required: false }}
-                                defaultValue=''
-                              />
-                            </div>
-
-                            <div className='grid grid-cols-2 gap-2'>
-                              <Controller
-                                control={control}
-                                render={({ field: { onChange, value } }) => (
-                                  <Form.Input
-                                    label='Age To'
-                                    type='number'
-                                    placeholder='Age To'
-                                    value={value?.toString()}
-                                    onChange={ageTo => {
-                                      onChange(ageTo);
-                                      commentManagerStore.updateCommentManager({
-                                        ...commentManagerStore.commentManager,
-                                        ageTo: Number.parseFloat(ageTo),
-                                      });
-                                    }}
-                                  />
-                                )}
-                                name='ageTo'
-                                rules={{ required: false }}
-                                defaultValue=''
-                              />
-                              <Controller
-                                control={control}
-                                render={({ field: { onChange, value } }) => (
-                                  <Form.InputWrapper label='Age To Unit'>
-                                    <select
-                                      value={value}
-                                      className={
-                                        'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2  border-gray-300 rounded-md'
-                                      }
-                                      onChange={e => {
-                                        const ageToUnit = e.target.value;
-                                        onChange(ageToUnit);
-                                        commentManagerStore.updateCommentManager(
-                                          {
-                                            ...commentManagerStore.commentManager,
-                                            ageToUnit,
-                                          },
-                                        );
-                                      }}
-                                    >
-                                      <option>Select</option>
-                                      {lookupItems(
-                                        routerStore.lookupItems,
-                                        'AGE_TO_UNIT',
-                                      ).map((item: any, index: number) => (
-                                        <option key={index} value={item.code}>
-                                          {lookupValue(item)}
-                                        </option>
-                                      ))}
-                                    </select>
-                                  </Form.InputWrapper>
-                                )}
-                                name='ageToUnit'
-                                rules={{ required: false }}
-                                defaultValue=''
-                              />
-                            </div>
-                            <div className='grid grid-cols-2 gap-2'>
-                              <Controller
-                                control={control}
-                                render={({ field: { onChange, value } }) => (
-                                  <Form.Input
-                                    label='Low'
-                                    placeholder='Low'
-                                    hasError={!!errors.low}
-                                    value={value}
-                                    onChange={low => {
-                                      const regex = new RegExp(
-                                        /^[0-9<>=\\-`.+,/"]*$/,
-                                      );
-                                      if (
-                                        regex.test(low) &&
-                                        FormHelper.isNumberAvailable(low)
-                                      ) {
-                                        clearErrors('low');
-
-                                        onChange(low);
-                                        commentManagerStore.updateCommentManager(
-                                          {
-                                            ...commentManagerStore.commentManager,
-                                            low,
-                                          },
-                                        );
-                                      } else {
-                                        setError('low', { type: 'onBlur' });
-                                        Toast.warning({
-                                          message:
-                                            '😔 Only > and < sign and numbers should be allowed',
-                                        });
-                                      }
-                                    }}
-                                  />
-                                )}
-                                name='low'
-                                rules={{ required: false }}
-                                defaultValue=''
-                              />
-                              <Controller
-                                control={control}
-                                render={({ field: { onChange, value } }) => (
-                                  <Form.Input
-                                    label='High'
-                                    placeholder='High'
-                                    hasError={!!errors.high}
-                                    onChange={high => {
-                                      const regex = new RegExp(
-                                        /^[0-9<>=\\-`.+,/"]*$/,
-                                      );
-                                      if (
-                                        regex.test(high) &&
-                                        FormHelper.isNumberAvailable(high)
-                                      ) {
-                                        clearErrors('high');
-
-                                        onChange(high);
-                                        commentManagerStore.updateCommentManager(
-                                          {
-                                            ...commentManagerStore.commentManager,
-                                            high,
-                                          },
-                                        );
-                                      } else {
-                                        setError('high', { type: 'onBlur' });
-                                        Toast.warning({
-                                          message:
-                                            '😔 Only > and < sign and numbers should be allowed',
-                                        });
-                                      }
-                                    }}
-                                  />
-                                )}
-                                name='high'
-                                rules={{ required: false }}
-                                defaultValue=''
-                              />
-                            </div>
-                          </>
-                        )}
                       {commentManagerStore.commentManager.commentsType ==
                         'Results' &&
                         commentManagerStore.commentManager.commentsFor ==

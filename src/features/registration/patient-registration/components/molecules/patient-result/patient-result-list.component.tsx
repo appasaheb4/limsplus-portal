@@ -12,6 +12,7 @@ import TableBootstrap from './table-bootstrap.component';
 import dayjs from 'dayjs';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { TiFlowChildren } from 'react-icons/ti';
+import { ModalReportHtmlView } from '@/core-components/molecules/modal/modal-report-html-view.component';
 
 interface PatientResultProps {
   data: any;
@@ -39,6 +40,9 @@ let companyCode;
 
 export const PatientResultList = observer((props: PatientResultProps) => {
   const [refRangeRowId, setRefRangleRowId] = useState('');
+  const [modalReportHtmlView, setModalReportHtmlView] = useState<any>({
+    visible: false,
+  });
   const [widthRefBox, setWidthRefBox] = useState('60px');
   const editorCell = (row: any) => {
     return false; //row.status !== "I" ? true : false
@@ -202,6 +206,29 @@ export const PatientResultList = observer((props: PatientResultProps) => {
               sort: true,
               editable: (content, row, rowIndex, columnIndex) =>
                 editorCell(row),
+              formatter: (cell, row) => {
+                if (row.resultType === 'W') {
+                  return (
+                    <>
+                      <button
+                        className='bg-slate-500 text-white font-bold uppercase p-2 text-sm outline-none focus:outline-none mr-1 mb-1 rounded'
+                        type='button'
+                        style={{ transition: 'all .15s ease' }}
+                        onClick={() => {
+                          setModalReportHtmlView({
+                            visible: true,
+                            details: row?.result,
+                          });
+                        }}
+                      >
+                        Preview
+                      </button>
+                    </>
+                  );
+                } else {
+                  return row.result;
+                }
+              },
             },
             {
               dataField: 'units',
@@ -915,6 +942,12 @@ export const PatientResultList = observer((props: PatientResultProps) => {
             labId('');
             plab('');
             companyCode('');
+          }}
+        />
+        <ModalReportHtmlView
+          {...modalReportHtmlView}
+          onClose={() => {
+            setModalReportHtmlView({ visible: false });
           }}
         />
       </div>
