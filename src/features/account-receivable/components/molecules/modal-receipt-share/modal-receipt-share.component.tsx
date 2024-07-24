@@ -144,6 +144,15 @@ export const ModalReceiptShare = ({
                             }}
                           />
                         </Tooltip>
+                        <Tooltip tooltipText='Copy'>
+                          <Icons.RIcon
+                            nameIcon='IoMdCopy'
+                            propsIcon={{ size: 32, color: '#000000' }}
+                            onClick={() => {
+                              sharePdfLink('copyLink');
+                            }}
+                          />
+                        </Tooltip>
                         {/* <SocialIcon
                           network='twitter'
                           style={{ height: 32, width: 32 }}

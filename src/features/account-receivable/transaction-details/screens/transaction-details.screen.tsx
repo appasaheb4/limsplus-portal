@@ -244,6 +244,11 @@ const TransactionDetails = observer(() => {
                         sender: '',
                         message: `Your payment receipt link: ${path}`,
                       });
+                  } else if (type == 'copyLink') {
+                    window.navigator.clipboard.writeText(path);
+                    Toast.success({
+                      message: 'File path coped',
+                    });
                   } else {
                     window.open(`${type} ${path}`, '_blank');
                   }
@@ -264,6 +269,11 @@ const TransactionDetails = observer(() => {
                   sender: '',
                   message: `Your payment receipt link: ${receiptPath}`,
                 });
+            } else if (type == 'copyLink') {
+              window.navigator.clipboard.writeText(receiptPath);
+              Toast.success({
+                message: 'File path coped',
+              });
             } else window.open(type + receiptPath, '_blank');
           }
         }}
