@@ -48,8 +48,6 @@ export const FilterInputTable = observer(() => {
             },
           })
           .then(res => {
-            console.log({ res });
-
             if (
               res.filterByFieldsPatientResult?.patientResultList?.length == 0
             ) {
