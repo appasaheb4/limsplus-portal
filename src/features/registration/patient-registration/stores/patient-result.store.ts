@@ -114,9 +114,9 @@ export class PatientResultStore {
 
   filterPatientResultList(res: any) {
     this.patientResultList =
-      res.patientResultListForGenResEntry.patientResultList;
+      res.patientResultListForGenResEntry?.patientResultList;
     this.patientResultListCount =
-      res.patientResultListForGenResEntry.paginatorInfo.count;
+      res.patientResultListForGenResEntry?.paginatorInfo.count;
   }
 
   patientResultListForGeneralResEntry(res: any) {
@@ -126,7 +126,7 @@ export class PatientResultStore {
       res.patientResultListForGenResEntry.paginatorInfo.count;
   }
 
-  updateDistinctPatientResult(payload) {
+  updateDistinctPatientResult(payload, isCopyListUpdate = true) {
     const data = payload.getPatientResultDistinct.patientResultList?.map(
       item => {
         const obj = {
@@ -146,7 +146,7 @@ export class PatientResultStore {
       },
     );
     this.distinctPatientResult = data;
-    this.distinctPatientResultCopy = data;
+    if (isCopyListUpdate) this.distinctPatientResultCopy = data;
   }
 
   filterDistinctPatientResult(res: any) {

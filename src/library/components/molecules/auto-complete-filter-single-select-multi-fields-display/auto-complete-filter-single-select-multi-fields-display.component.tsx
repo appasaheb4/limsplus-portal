@@ -14,6 +14,7 @@ interface AutoCompleteFilterSingleSelectMultiFieldsDisplayProps {
   hasError?: boolean;
   className?: string;
   posstion?: string;
+  keyboard?: string;
   onFilter?: (item: any) => void;
   onSelect?: (item: any) => any;
   onBlur?: (item: any) => any;
@@ -28,6 +29,7 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
   hasError = false,
   className,
   posstion = 'absolute',
+  keyboard = 'text',
   onFilter,
   onSelect,
   onBlur,
@@ -108,7 +110,8 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
         >
           <input
             placeholder={placeholder}
-            value={value}
+            type={keyboard}
+            value={value || ''}
             className={`${className} w-full focus:outline-none bg-none dark:text-black`}
             onKeyUp={onKeyUp}
             onChange={onChange}
@@ -126,69 +129,78 @@ export const AutoCompleteFilterSingleSelectMultiFieldsDisplay = ({
           )}
         </div>
 
-        {options && isListOpen
-          ? options.length > 0 && (
-              <div
-                className={`mt-1 absolute  w-full bg-gray-100 p-2 rounded-sm `}
-                style={{
-                  zIndex: 500,
-                }}
-              >
-                <ul>
-                  <PerfectScrollbar>
-                    <div
-                      style={{
-                        height: 'auto',
-                        maxHeight: '350px',
-                      }}
-                    >
-                      {options?.map((item, index) => (
-                        <li
-                          key={index}
-                          className='text-gray-400 flex items-center'
-                          onClick={() => {
-                            setValue(
-                              data.displayKey
-                                .map(key => {
-                                  if (!_.isEmpty(item[key]?.toString()))
-                                    return `${item[key]?.toString()}`;
-                                  else return '#';
-                                })
-                                .join(' - ')
-                                ?.replaceAll('- #', ''),
-                            );
-                            setIsListOpen(false);
-                            onSelect && onSelect(item);
-                          }}
-                        >
-                          {' '}
-                          <label
-                            className='ml-2 mt-1 text-black'
-                            style={{
-                              textOverflow: 'ellipsis',
-                              minWidth: 0,
-                              overflow: 'hidden',
-                              maxWidth: '334px',
-                              whiteSpace: 'nowrap',
-                            }}
-                          >
-                            {data.displayKey
+        {options && isListOpen ? (
+          options.length > 0 ? (
+            <div
+              className={`mt-1 absolute  w-full bg-gray-100 p-2 rounded-sm `}
+              style={{
+                zIndex: 500,
+              }}
+            >
+              <ul>
+                <PerfectScrollbar>
+                  <div
+                    style={{
+                      height: 'auto',
+                      maxHeight: '350px',
+                    }}
+                  >
+                    {options?.map((item, index) => (
+                      <li
+                        key={index}
+                        className='text-gray-400 flex items-center'
+                        onClick={() => {
+                          setValue(
+                            data.displayKey
                               .map(key => {
                                 if (!_.isEmpty(item[key]?.toString()))
                                   return `${item[key]?.toString()}`;
                                 else return '#';
                               })
                               .join(' - ')
-                              ?.replaceAll('- #', '')}
-                          </label>
-                        </li>
-                      ))}
-                    </div>
-                  </PerfectScrollbar>
-                </ul>
-              </div>
-            )
-          : null}
+                              ?.replaceAll('- #', ''),
+                          );
+                          setIsListOpen(false);
+                          onSelect && onSelect(item);
+                        }}
+                      >
+                        {' '}
+                        <label
+                          className='ml-2 mt-1 text-black'
+                          style={{
+                            textOverflow: 'ellipsis',
+                            minWidth: 0,
+                            overflow: 'hidden',
+                            maxWidth: '334px',
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
+                          {data.displayKey
+                            .map(key => {
+                              if (!_.isEmpty(item[key]?.toString()))
+                                return `${item[key]?.toString()}`;
+                              else return '#';
+                            })
+                            .join(' - ')
+                            ?.replaceAll('- #', '')}
+                        </label>
+                      </li>
+                    ))}
+                  </div>
+                </PerfectScrollbar>
+              </ul>
+            </div>
+          ) : (
+            <div
+              className={`flex mt-1 absolute  w-full bg-gray-100 p-2 rounded-sm justify-center items-center`}
+              style={{
+                zIndex: 500,
+              }}
+            >
+              <span>Records not found</span>
+            </div>
+          )
+        ) : null}
       </div>
     </>
   );

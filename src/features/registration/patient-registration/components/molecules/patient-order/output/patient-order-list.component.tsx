@@ -230,7 +230,7 @@ export const PatientOrderList = observer((props: PatientOrderListProps) => {
               // hidden: !props.isDelete,
               formatter: (cellContent, row) => (
                 <>
-                  <div className='flex flex-row gap-2'>
+                  <div className='flex flex-row gap-2' key={row?._id}>
                     {row?.isApproval == false && (
                       <Tooltip tooltipText='Add/Remove Panel'>
                         <Icons.IconContext

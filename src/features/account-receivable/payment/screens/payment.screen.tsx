@@ -89,7 +89,7 @@ const Payment = PaymentHoc(
               .findByFieldsTransactionHeader({
                 input: {
                   filter: {
-                    pId: Number.parseInt(details?.pId),
+                    labId: Number.parseInt(details?.labId),
                   },
                 },
               })
@@ -857,8 +857,6 @@ const Payment = PaymentHoc(
         <ModalConfirm
           {...modalConfirmForSMS}
           onClick={() => {
-            console.log({ modalConfirmForSMS });
-
             receiptStore.receiptService
               .generatePaymentReceipt({
                 input: { headerId: modalConfirmForSMS?.details?.headerId },

@@ -281,7 +281,7 @@ export const PatientOrder = PatientOrderHoc(
             setModalPayment({
               visible: true,
               details: {
-                pId: item?.pId,
+                labId: item?.labId,
               },
             });
           }}

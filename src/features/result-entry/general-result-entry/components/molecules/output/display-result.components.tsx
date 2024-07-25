@@ -35,8 +35,6 @@ export const DisplayResult = observer(
       visible: false,
     });
 
-    console.log({ row });
-
     useEffect(() => {
       switch (row?.resultType) {
         case 'D': {
