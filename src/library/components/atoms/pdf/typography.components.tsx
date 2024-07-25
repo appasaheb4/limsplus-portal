@@ -172,8 +172,8 @@ export const PdfPageNumber = ({ style, bottom = 55 }: PdfTextProps) => {
         position: 'absolute',
         bottom: bottom,
         right: 5,
-        fontSize: 12,
-        color: 'grey',
+        fontSize: 10,
+        color: 'black',
         ...style,
       }}
       render={({ pageNumber, totalPages }) =>

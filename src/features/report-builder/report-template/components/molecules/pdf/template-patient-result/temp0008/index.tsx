@@ -115,11 +115,8 @@ export const PdfTemp0008 = ({
             />
           )}
         </View>
-        <PdfPageNumber
-          style={{ textAlign: 'center', right: '45%' }}
-          bottom={88}
-        />
-        <PdfFooterView fixed bg='transparent' height={90} p={0}>
+        <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
+        <PdfFooterView fixed bg='transparent' height={88} p={0}>
           {getCompanyWiseComp(companyCode, {})?.footer}
         </PdfFooterView>
       </Page>

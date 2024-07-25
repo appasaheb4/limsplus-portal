@@ -13,6 +13,7 @@ import { PdfViewer } from '@/core-components';
 import { PdfTransactionLineTable } from './pdf-table-transaction-line.component';
 import { getAgeAndAgeUnit } from '@features/registration/patient-registration/utils';
 import { calculateTimimg, numToWords } from '@/library/utils';
+import { pascalCase } from '@/core-utils';
 
 import JsBarcode from 'jsbarcode';
 
@@ -130,7 +131,7 @@ export const PdfReceipt = ({ data }: PdfReceiptProps) => {
                     patientDetails?.labId || ''
                   }`}</PdfSmall>
                   <PdfSmall>{`Patient Name: ${
-                    patientDetails?.patientName || ''
+                    pascalCase(patientDetails?.patientName, true) || ''
                   }`}</PdfSmall>
                   <PdfSmall>{`Ref. By: ${patientDetails?.refBy}`}</PdfSmall>
                   <PdfSmall>{`Mode of Payment: ${

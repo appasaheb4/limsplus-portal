@@ -215,3 +215,16 @@ export const dateAvailableUnits = (unit: string) => {
       return 'hour';
   }
 };
+
+export function pascalCase(value: string, isArray = false) {
+  if (!isArray)
+    return value.charAt(0).toUpperCase() + value.slice(1)?.toLowerCase();
+  else {
+    return value
+      ?.split(' ')
+      ?.map(item => {
+        return item.charAt(0).toUpperCase() + item.slice(1)?.toLowerCase();
+      })
+      ?.join(' ');
+  }
+}

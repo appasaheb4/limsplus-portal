@@ -38,8 +38,7 @@ export const PdfTransactionLineTable = ({
 }: PdfTableTransactionLineProps) => {
   const fields = [
     {
-      // title: 'Sr.No',
-      title: 'Line Id',
+      title: 'Sr.No',
       width: '10',
     },
     {
@@ -107,7 +106,7 @@ export const PdfTransactionLineTable = ({
               borderColor='gray'
             >
               <PdfSmall style={{ textAlign: 'center', padding: 2 }}>
-                {item[1]}
+                {_idx == 0 ? index + 1 : item[1]}
               </PdfSmall>
             </PdfBorderView>
           ))}

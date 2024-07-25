@@ -10,6 +10,7 @@ export const GeneflowLabHeader = ({ data }: GeneflowLabHeaderProps) => {
   return (
     <>
       <PdfHeader
+        p={0}
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -30,7 +31,6 @@ export const GeneflowLabHeader = ({ data }: GeneflowLabHeaderProps) => {
           style={{
             width: '60%',
             height: 140,
-            marginHorizontal: 10,
           }}
         />
       </PdfHeader>
