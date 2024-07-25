@@ -1253,111 +1253,116 @@ const CommentManager = CommentManagerHoc(
                     />
                   </div>
                   <div className='grid grid-cols-2 gap-2'>
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          label='Low'
-                          placeholder='Low'
-                          hasError={!!errors.low}
-                          value={value}
-                          onChange={low => {
-                            const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
-                            if (
-                              regex.test(low) &&
-                              FormHelper.isNumberAvailable(low)
-                            ) {
-                              clearErrors('low');
-
-                              onChange(low);
-                              commentManagerStore.updateCommentManager({
-                                ...commentManagerStore.commentManager,
-                                low,
-                              });
-                            } else {
-                              setError('low', { type: 'onBlur' });
-                              Toast.warning({
-                                message:
-                                  '😔 Only > and < sign and numbers should be allowed',
-                              });
-                            }
-                          }}
-                        />
-                      )}
-                      name='low'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                    <Controller
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <Form.Input
-                          label='High'
-                          placeholder='High'
-                          hasError={!!errors.high}
-                          onChange={high => {
-                            const regex = new RegExp(/^[0-9<>=\\-`.+,/"]*$/);
-                            if (
-                              regex.test(high) &&
-                              FormHelper.isNumberAvailable(high)
-                            ) {
-                              clearErrors('high');
-
-                              onChange(high);
-                              commentManagerStore.updateCommentManager({
-                                ...commentManagerStore.commentManager,
-                                high,
-                              });
-                            } else {
-                              setError('high', { type: 'onBlur' });
-                              Toast.warning({
-                                message:
-                                  '😔 Only > and < sign and numbers should be allowed',
-                              });
-                            }
-                          }}
-                        />
-                      )}
-                      name='high'
-                      rules={{ required: false }}
-                      defaultValue=''
-                    />
-                  </div>
-
-                  {commentManagerStore.commentManager.commentsType !==
-                    'Results' &&
-                  commentManagerStore.commentManager.commentsFor !== 'Value' &&
-                  commentManagerStore.commentManager.commentsFor !==
-                    'Alpha' ? null : (
-                    <>
-                      {commentManagerStore.commentManager.commentsType ==
-                        'Results' &&
-                        commentManagerStore.commentManager.commentsFor ==
-                          'Alpha' && (
+                    {commentManagerStore.commentManager.commentsType ===
+                      'Results' &&
+                      commentManagerStore.commentManager.commentsFor ===
+                        'Value' && (
+                        <>
                           <Controller
                             control={control}
                             render={({ field: { onChange, value } }) => (
                               <Form.Input
-                                label='Alpha'
-                                type='number'
-                                placeholder='Alpha'
-                                value={value?.toString()}
-                                onChange={alpha => {
-                                  onChange(alpha);
-                                  commentManagerStore.updateCommentManager({
-                                    ...commentManagerStore.commentManager,
-                                    alpha: Number.parseFloat(alpha),
-                                  });
+                                label='Low'
+                                placeholder='Low'
+                                hasError={!!errors.low}
+                                value={value}
+                                onChange={low => {
+                                  const regex = new RegExp(
+                                    /^[0-9<>=\\-`.+,/"]*$/,
+                                  );
+                                  if (
+                                    regex.test(low) &&
+                                    FormHelper.isNumberAvailable(low)
+                                  ) {
+                                    clearErrors('low');
+
+                                    onChange(low);
+                                    commentManagerStore.updateCommentManager({
+                                      ...commentManagerStore.commentManager,
+                                      low,
+                                    });
+                                  } else {
+                                    setError('low', { type: 'onBlur' });
+                                    Toast.warning({
+                                      message:
+                                        '😔 Only > and < sign and numbers should be allowed',
+                                    });
+                                  }
                                 }}
                               />
                             )}
-                            name='alpha'
+                            name='low'
                             rules={{ required: false }}
                             defaultValue=''
                           />
+                          <Controller
+                            control={control}
+                            render={({ field: { onChange, value } }) => (
+                              <Form.Input
+                                label='High'
+                                placeholder='High'
+                                hasError={!!errors.high}
+                                value={value}
+                                onChange={high => {
+                                  const regex = new RegExp(
+                                    /^[0-9<>=\\-`.+,/"]*$/,
+                                  );
+                                  if (
+                                    regex.test(high) &&
+                                    FormHelper.isNumberAvailable(high)
+                                  ) {
+                                    clearErrors('high');
+
+                                    onChange(high);
+                                    commentManagerStore.updateCommentManager({
+                                      ...commentManagerStore.commentManager,
+                                      high,
+                                    });
+                                  } else {
+                                    setError('high', { type: 'onBlur' });
+                                    Toast.warning({
+                                      message:
+                                        '😔 Only > and < sign and numbers should be allowed',
+                                    });
+                                  }
+                                }}
+                              />
+                            )}
+                            name='high'
+                            rules={{ required: false }}
+                            defaultValue=''
+                          />
+                        </>
+                      )}
+                  </div>
+
+                  {commentManagerStore.commentManager.commentsType ==
+                    'Results' &&
+                    commentManagerStore.commentManager.commentsFor ==
+                      'Alpha' && (
+                      <Controller
+                        control={control}
+                        render={({ field: { onChange, value } }) => (
+                          <Form.Input
+                            label='Alpha'
+                            type='number'
+                            placeholder='Alpha'
+                            value={value?.toString()}
+                            onChange={alpha => {
+                              onChange(alpha);
+                              commentManagerStore.updateCommentManager({
+                                ...commentManagerStore.commentManager,
+                                alpha: Number.parseFloat(alpha),
+                              });
+                            }}
+                          />
                         )}
-                    </>
-                  )}
+                        name='alpha'
+                        rules={{ required: false }}
+                        defaultValue=''
+                      />
+                    )}
+
                   <Controller
                     control={control}
                     render={({ field: { onChange, value } }) => (
