@@ -96,6 +96,10 @@ const Payment = PaymentHoc(
               .then(res => {
                 if (res.findByFieldsTransactionHeader?.success) {
                   updatePayment(res.findByFieldsTransactionHeader?.data[0]);
+                } else {
+                  Toast.error({
+                    message: 'Exists records not found in payment',
+                  });
                 }
               });
             //lookup value fetch
@@ -114,7 +118,7 @@ const Payment = PaymentHoc(
         enteredBy: loginStore.login?.userId,
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loginStore.login?.userId, paymentStore, isFullAccess]);
+    }, [loginStore.login?.userId, paymentStore, isFullAccess, details?.labId]);
 
     const onSubmitPayment = () => {
       paymentStore.paymentService

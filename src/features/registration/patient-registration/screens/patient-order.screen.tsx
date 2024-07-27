@@ -289,14 +289,19 @@ export const PatientOrder = PatientOrderHoc(
             receiptStore.receiptService
               .generatePaymentReceipt({ input: { headerId: item?.headerId } })
               .then(res => {
-                if (res.generatePaymentReceipt?.success) {
-                  setModalPaymentReceipt({
-                    show: true,
-                    data: res.generatePaymentReceipt?.receiptData,
-                  });
+                if (
+                  res?.generatePaymentReceipt?.receiptData?.labId?.toString() ==
+                  item?.labId?.toString()
+                ) {
+                  if (res.generatePaymentReceipt?.success) {
+                    setModalPaymentReceipt({
+                      show: true,
+                      data: res.generatePaymentReceipt?.receiptData,
+                    });
+                  }
                 } else
                   Toast.error({
-                    message: `😔 ${res.generatePaymentReceipt.message}`,
+                    message: 'Record not found in transaction details',
                   });
               });
           }}
