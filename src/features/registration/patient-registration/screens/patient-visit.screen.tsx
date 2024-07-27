@@ -1445,7 +1445,10 @@ export const PatientVisit = PatientVisitHoc(
             </Grid>
           </div>
           <br />
-          <div className='extra' style={{ border: '1px solid yellow' }}>
+          <div
+            className='extra hidden md:block'
+            style={{ border: '1px solid yellow' }}
+          >
             <Accordion allowZeroExpanded>
               <AccordionItem>
                 <AccordionItemHeading>
@@ -2314,7 +2317,10 @@ export const PatientVisit = PatientVisitHoc(
           {patientVisitList}
         </div>
         <br />
-        <div className='extra' style={{ border: '1px solid yellow' }}>
+        <div
+          className='extra hidden md:block'
+          style={{ border: '1px solid yellow' }}
+        >
           <Accordion allowZeroExpanded>
             <AccordionItem>
               <AccordionItemHeading>
