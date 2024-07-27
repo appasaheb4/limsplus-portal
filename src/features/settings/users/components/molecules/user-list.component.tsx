@@ -1615,7 +1615,7 @@ export const UserList = (props: UserListProps) => {
               ),
             },
             {
-              dataField: 'opration',
+              dataField: 'passwordReSend',
               headerClasses: 'textHeaderA',
               text: 'Password Re-Send',
               editable: false,
@@ -1625,12 +1625,15 @@ export const UserList = (props: UserListProps) => {
                   <Buttons.Button
                     size='small'
                     type='outline'
+                    disabled={
+                      row?.userId == 'ADMINISTRATOR' || row?.userId == 'ADMIN'
+                        ? false
+                        : true
+                    }
                     icon={Svg.ReSendPassword}
                     onClick={async () => {
                       props.reSendPassword({
                         userId: row.userId,
-                        // lab: row.lab[0].code,
-                        // role: row.role[0].code,
                         email: row.email,
                       });
                     }}
@@ -1641,7 +1644,7 @@ export const UserList = (props: UserListProps) => {
               ),
             },
             {
-              dataField: 'opration',
+              dataField: 'passwordChangePassword',
               text: 'Change Password',
               csvExport: false,
               editable: false,
@@ -1650,6 +1653,11 @@ export const UserList = (props: UserListProps) => {
                   <Buttons.Button
                     size='small'
                     type='outline'
+                    disabled={
+                      row?.userId == 'ADMINISTRATOR' || row?.userId == 'ADMIN'
+                        ? false
+                        : true
+                    }
                     icon={Svg.ReSendPassword}
                     onClick={() => {
                       props.onChangePassword &&
