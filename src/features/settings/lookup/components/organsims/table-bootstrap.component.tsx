@@ -17,7 +17,7 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import './style.css';
 import { debounce } from '@/core-utils';
-import { Buttons, Icons, ColumnFilter } from '@/library/components';
+import { Buttons, Icons, ColumnFilter, Tooltip } from '@/library/components';
 
 const { SearchBar, ClearSearchButton } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -464,15 +464,17 @@ export const TableBootstrap = ({
                   )}
 
                   <div className='ml-2 relative'>
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsColumnFilterVisible(!isColumnFilterVisible);
-                      }}
-                    >
-                      <Icons.IconFa.FaFilter />
-                    </Buttons.Button>
+                    <Tooltip tooltipText={'Field Selector'}>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsColumnFilterVisible(!isColumnFilterVisible);
+                        }}
+                      >
+                        <Icons.IconFa.FaFilter />
+                      </Buttons.Button>
+                    </Tooltip>
                     {isColumnFilterVisible && (
                       <ColumnFilter
                         columns={filterableColumns}

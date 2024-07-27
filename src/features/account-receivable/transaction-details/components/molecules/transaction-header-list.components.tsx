@@ -58,6 +58,16 @@ export const TransactionHeaderList = observer(
       );
     }, [props.selectId, props.data]);
 
+    const handleExpandClick = row => {
+      if (selectId === row._id) {
+        setSelectId('');
+        props.onExpand && props.onExpand('');
+      } else {
+        setSelectId(row._id);
+        props.onExpand && props.onExpand(row);
+      }
+    };
+
     return (
       <>
         <div className={`${props.isView ? 'shown' : 'hidden'}`}>
@@ -390,13 +400,11 @@ export const TransactionHeaderList = observer(
                       </Tooltip>
 
                       {selectId === row._id ? (
-                        <Tooltip tooltipText='close'>
+                        <Tooltip tooltipText='Close'>
                           <Icons.IconContext
                             color='#ffffff'
                             size='20'
-                            onClick={() => {
-                              props.onExpand && props.onExpand('');
-                            }}
+                            onClick={() => handleExpandClick(row)}
                           >
                             {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
                           </Icons.IconContext>
@@ -406,9 +414,7 @@ export const TransactionHeaderList = observer(
                           <Icons.IconContext
                             color='#ffffff'
                             size='20'
-                            onClick={() => {
-                              props.onExpand && props.onExpand(row);
-                            }}
+                            onClick={() => handleExpandClick(row)}
                           >
                             {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
                           </Icons.IconContext>
