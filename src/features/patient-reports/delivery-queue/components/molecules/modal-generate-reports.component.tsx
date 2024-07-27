@@ -18,7 +18,7 @@ import {
   PdfTemp0010,
 } from '@/features/report-builder/report-template/components';
 import printjs from 'print-js';
-
+import { FaRegCopy } from 'react-icons/fa';
 import { Accordion, AccordionItem } from 'react-sanfona';
 import '@/library/assets/css/accordion.css';
 import { SocialIcon } from 'react-social-icons';
@@ -600,7 +600,7 @@ export const ModalGenerateReports = ({
                       </Accordion>
                     </div>
                     <button
-                      className='bg-blue-800 font-bold p-2 text-white rounded-md w-fit self-center'
+                      className='bg-blue-800 font-bold p-2 text-white rounded-md mb-2 w-fit self-center'
                       type='button'
                       style={{ transition: 'all .15s ease' }}
                       onClick={() => {
@@ -618,9 +618,10 @@ export const ModalGenerateReports = ({
                           className='bg-transparent flex-1 p-1 outline-none'
                         />
                         <button
-                          className='ml-2 bg-blue-600 text-white p-1 rounded-md'
+                          className='ml-2 bg-blue-600 text-white p-1 rounded-md flex items-center'
                           onClick={copyToClipboard}
                         >
+                          <FaRegCopy className='mr-1' />
                           Copy
                         </button>
                         {copySuccess && (

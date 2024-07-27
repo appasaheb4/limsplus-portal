@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import { Table } from 'reactstrap';
@@ -50,6 +50,7 @@ const Payment = PaymentHoc(
       setError,
       reset,
     } = useForm();
+    const receivedAmountRef = useRef<any>(null);
     const [modalConfirm, setModalConfirm] = useState<any>();
     const [isInputView, setIsInputView] = useState<boolean>(true);
     const [totalReceivedAmount, setTotalReceivedAmount] = useState<number>(0);
@@ -112,6 +113,9 @@ const Payment = PaymentHoc(
             console.error(e);
           }
         })();
+      }
+      if (receivedAmountRef.current) {
+        receivedAmountRef.current.focus();
       }
       paymentStore.updatePayment({
         ...paymentStore.payment,
@@ -287,7 +291,7 @@ const Payment = PaymentHoc(
                             ) || [],
                           displayKey: ['pId', 'customerName'],
                         }}
-                        disable={false}
+                        disable={paymentStore.payment?.pId ? true : false}
                         displayValue={value?.toString()}
                         hasError={!!errors.pId}
                         onFilter={(value: string) => {
@@ -336,7 +340,7 @@ const Payment = PaymentHoc(
                             ) || [],
                           displayKey: ['labId', 'customerName'],
                         }}
-                        disable={false}
+                        disable={paymentStore.payment?.labId ? true : false}
                         displayValue={value?.toString()}
                         hasError={!!errors.labId}
                         onFilter={(value: string) => {
@@ -610,67 +614,6 @@ const Payment = PaymentHoc(
                 <Controller
                   control={control}
                   render={({ field: { onChange, value } }) => (
-                    <Form.InputWrapper label='Mode of payment'>
-                      <select
-                        value={value || ''}
-                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
-                          errors.modeOfPayment
-                            ? 'border-red  '
-                            : 'border-gray-300'
-                        } rounded-md`}
-                        onChange={e => {
-                          const modeOfPayment = e.target.value;
-                          onChange(modeOfPayment);
-                          paymentStore.updatePayment({
-                            ...paymentStore.payment,
-                            modeOfPayment: modeOfPayment,
-                          });
-                        }}
-                      >
-                        <option>{'Select'}</option>
-                        {lookupItems(
-                          isFullAccess
-                            ? routerStore.lookupItems
-                            : arrLookupItems,
-                          'MODE_OF_PAYMENT',
-                        )?.map((item: any, index: number) => (
-                          <option key={index} value={item.code}>
-                            {lookupValue(item)}
-                          </option>
-                        ))}
-                      </select>
-                    </Form.InputWrapper>
-                  )}
-                  name='modeOfPayment'
-                  rules={{ required: true }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <Form.MultilineInput
-                      label='Payment Remark'
-                      placeholder='Payment Remark'
-                      hasError={!!errors.paymentRemark}
-                      value={value || ''}
-                      onChange={paymentRemark => {
-                        onChange(paymentRemark);
-                        paymentStore.updatePayment({
-                          ...paymentStore.payment,
-                          paymentRemark,
-                        });
-                      }}
-                    />
-                  )}
-                  name='paymentRemark'
-                  rules={{ required: false }}
-                  defaultValue=''
-                />
-
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
                     <Form.Input
                       label='Amount Payable'
                       placeholder={'Amount Payable'}
@@ -688,6 +631,7 @@ const Payment = PaymentHoc(
                   control={control}
                   render={({ field: { onChange, value } }) => (
                     <Form.Input
+                      inputRef={receivedAmountRef}
                       label='Received Amount'
                       placeholder={'Received Amount'}
                       type='number'
@@ -746,6 +690,66 @@ const Payment = PaymentHoc(
                     />
                   )}
                   name='balance'
+                  rules={{ required: false }}
+                  defaultValue=''
+                />
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.InputWrapper label='Mode of payment'>
+                      <select
+                        value={value || ''}
+                        className={`leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 ${
+                          errors.modeOfPayment
+                            ? 'border-red  '
+                            : 'border-gray-300'
+                        } rounded-md`}
+                        onChange={e => {
+                          const modeOfPayment = e.target.value;
+                          onChange(modeOfPayment);
+                          paymentStore.updatePayment({
+                            ...paymentStore.payment,
+                            modeOfPayment: modeOfPayment,
+                          });
+                        }}
+                      >
+                        <option>{'Select'}</option>
+                        {lookupItems(
+                          isFullAccess
+                            ? routerStore.lookupItems
+                            : arrLookupItems,
+                          'MODE_OF_PAYMENT',
+                        )?.map((item: any, index: number) => (
+                          <option key={index} value={item.code}>
+                            {lookupValue(item)}
+                          </option>
+                        ))}
+                      </select>
+                    </Form.InputWrapper>
+                  )}
+                  name='modeOfPayment'
+                  rules={{ required: true }}
+                  defaultValue=''
+                />
+
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <Form.MultilineInput
+                      label='Payment Remark'
+                      placeholder='Payment Remark'
+                      hasError={!!errors.paymentRemark}
+                      value={value || ''}
+                      onChange={paymentRemark => {
+                        onChange(paymentRemark);
+                        paymentStore.updatePayment({
+                          ...paymentStore.payment,
+                          paymentRemark,
+                        });
+                      }}
+                    />
+                  )}
+                  name='paymentRemark'
                   rules={{ required: false }}
                   defaultValue=''
                 />
@@ -846,6 +850,15 @@ const Payment = PaymentHoc(
                     body: 'Update deginisation!',
                   });
                 }}
+                // onUpdateFileds={(fileds: any, id: string) => {
+                //   setModalConfirm({
+                //     show: true,
+                //     type: 'UpdateFileds',
+                //     data: { fileds, id },
+                //     title: 'Are you sure?',
+                //     body: 'Do you want to update this record?',
+                //   });
+                // }}
                 onPageSizeChange={(page, limit) => {
                   paymentStore.paymentService.listPayment(page, limit);
                 }}

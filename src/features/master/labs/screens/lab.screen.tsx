@@ -528,7 +528,7 @@ const Lab = LabHoc(
                             onChange(name);
                             labStore.updateLabs({
                               ...labStore.labs,
-                              name: name.toUpperCase(),
+                              name,
                             });
                           }}
                         />

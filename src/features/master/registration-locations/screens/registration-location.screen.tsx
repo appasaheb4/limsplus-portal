@@ -752,7 +752,7 @@ const RegistrationLocation = RegistrationLocationHoc(
                             registrationLocationsStore.updateRegistrationLocations(
                               {
                                 ...registrationLocationsStore.registrationLocations,
-                                locationName: locationName?.toUpperCase(),
+                                locationName,
                               },
                             );
                           }}

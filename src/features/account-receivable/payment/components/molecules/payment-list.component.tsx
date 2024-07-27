@@ -4,6 +4,7 @@ import {
   sortCaret,
   customFilter,
   DateRangeFilter,
+  Form,
 } from '@/library/components';
 import { Confirm } from '@/library/models';
 import { TableBootstrap } from './table-bootstrap.components';
@@ -200,6 +201,33 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Gross Amount',
             sort: true,
             editable: false,
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  value={row.grossAmount}
+                  onBlur={value => {
+                    const grossAmount = Number.parseFloat(value) || 0;
+                    let netAmount = row.netAmount || 0;
+                    if (netAmount > grossAmount) {
+                      netAmount = grossAmount;
+                    }
+                    const discountAmount = grossAmount - netAmount;
+                    const discountPer = grossAmount
+                      ? (discountAmount / grossAmount) * 100
+                      : 0;
+
+                    console.log({ discountPer });
+                  }}
+                />
+              </>
+            ),
           },
 
           {
@@ -207,6 +235,32 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Net Amount',
             sort: true,
             editable: false,
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  value={row.netAmount}
+                  onBlur={value => {
+                    let netAmount = Number.parseFloat(value) || 0;
+                    const grossAmount = row.grossAmount || 0;
+                    if (netAmount > grossAmount) {
+                      netAmount = grossAmount;
+                    }
+                    const discountAmount = grossAmount - netAmount;
+                    const discountPer = grossAmount
+                      ? (discountAmount / grossAmount) * 100
+                      : 0;
+                    console.log({ discountPer });
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'discountAmount',
@@ -219,6 +273,27 @@ export const PaymentList = (props: PaymentListProps) => {
             text: 'Discount %',
             sort: true,
             editable: false,
+            editorRenderer: (
+              editorProps,
+              value,
+              row,
+              column,
+              rowIndex,
+              columnIndex,
+            ) => (
+              <>
+                <Form.Input
+                  value={row.discountPer}
+                  onBlur={value => {
+                    const discountPer = Number.parseFloat(value) || 0;
+                    const grossAmount = row.grossAmount || 0;
+                    const discountAmount = (grossAmount * discountPer) / 100;
+                    const netAmount = grossAmount - discountAmount;
+                    console.log({ netAmount });
+                  }}
+                />
+              </>
+            ),
           },
           {
             dataField: 'miscellaneousCharges',
