@@ -314,26 +314,26 @@ export const PackageMasterList = (props: PackageMasterListProps) => {
               );
             },
           },
-          {
-            dataField: 'bill',
-            text: 'Bill',
-            sort: true,
-            csvFormatter: (row, col) =>
-              `${row.bill ? (row.bill ? 'Yes' : 'No') : 'No'}`,
-            editable: false,
-            formatter: (cell, row) => {
-              return (
-                <Form.Toggle
-                  disabled={!editorCell(row)}
-                  value={row.bill}
-                  onChange={bill => {
-                    props.onUpdateItem &&
-                      props.onUpdateItem(bill, 'bill', row._id);
-                  }}
-                />
-              );
-            },
-          },
+          // {
+          //   dataField: 'bill',
+          //   text: 'Bill',
+          //   sort: true,
+          //   csvFormatter: (row, col) =>
+          //     `${row.bill ? (row.bill ? 'Yes' : 'No') : 'No'}`,
+          //   editable: false,
+          //   formatter: (cell, row) => {
+          //     return (
+          //       <Form.Toggle
+          //         disabled={!editorCell(row)}
+          //         value={row.bill}
+          //         onChange={bill => {
+          //           props.onUpdateItem &&
+          //             props.onUpdateItem(bill, 'bill', row._id);
+          //         }}
+          //       />
+          //     );
+          //   },
+          // },
           {
             dataField: 'printPackageName',
             text: 'Print Package Name',
