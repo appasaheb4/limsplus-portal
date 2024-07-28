@@ -107,8 +107,8 @@ export const UserList = (props: UserListProps) => {
 
   const editorCell = (row: any) => {
     if (
-      (props.extraData?.userId == 'ADMIN' ||
-        props.extraData?.userId == 'ADMINISTRATOR') &&
+      (props.extraData?.role == 'ADMIN' ||
+        props.extraData?.role == 'ADMINISTRATOR') &&
       row.status !== 'I'
     )
       return true;
@@ -117,15 +117,15 @@ export const UserList = (props: UserListProps) => {
 
   const getNonSelectableRows = rows => {
     const list = [''];
-    if (props.extraData?.userId == 'ADMINISTRATOR') {
+    if (props.extraData?.role == 'ADMINISTRATOR') {
       rows?.filter(item => {
         if (item?.userId == 'ADMINISTRATOR') {
           list.push(item._id);
         }
       });
-    } else if (props.extraData?.userId == 'ADMIN') {
+    } else if (props.extraData?.role == 'ADMIN') {
       rows?.filter(item => {
-        if (item?.userId == 'ADMIN' || item?.userId == 'ADMINISTRATOR') {
+        if (item?.role == 'ADMIN' || item?.role == 'ADMINISTRATOR') {
           list.push(item._id);
         }
       });
@@ -1626,7 +1626,8 @@ export const UserList = (props: UserListProps) => {
                     size='small'
                     type='outline'
                     disabled={
-                      row?.userId == 'ADMINISTRATOR' || row?.userId == 'ADMIN'
+                      props?.extraData?.role == 'ADMINISTRATOR' ||
+                      props?.extraData?.role == 'ADMIN'
                         ? false
                         : true
                     }
@@ -1654,7 +1655,8 @@ export const UserList = (props: UserListProps) => {
                     size='small'
                     type='outline'
                     disabled={
-                      row?.userId == 'ADMINISTRATOR' || row?.userId == 'ADMIN'
+                      props?.extraData?.role == 'ADMINISTRATOR' ||
+                      props?.extraData?.role == 'ADMIN'
                         ? false
                         : true
                     }
