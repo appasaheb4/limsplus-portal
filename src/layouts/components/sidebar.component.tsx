@@ -263,7 +263,6 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                                       category,
                                       item,
                                     );
-
                                   stores.routerStore.updateSelectedComponents(
                                     selectedComp,
                                   );
@@ -279,8 +278,8 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                           </SidebarCategory>
                         ) : (
                           <>
-                            <h1>Second</h1>
-                            <SidebarItem
+                            <h1>Not Found Children</h1>
+                            {/* <SidebarItem
                               key={`category-${category.id || index}`}
                               name={category.name}
                               title={category.title}
@@ -301,7 +300,7 @@ const Sidebar = observer(({ location, sidebar, layout, dispatch }) => {
                                   permission,
                                 );
                               }}
-                            />
+                            /> */}
                           </>
                         )}
                       </div>
