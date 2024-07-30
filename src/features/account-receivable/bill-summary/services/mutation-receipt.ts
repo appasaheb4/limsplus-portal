@@ -31,12 +31,11 @@ export const RECEIPTS_LIST = gql`
   }
 `;
 
-export const RECEIPTS = gql`
-  mutation ($input: ReceiptInput!) {
-    generatePaymentReceipt(input: $input) {
+export const GENERATE_BILL = gql`
+  mutation ($input: BillSummaryInput!) {
+    generateBillSummary(input: $input) {
       success
       message
-      receiptData
     }
   }
 `;

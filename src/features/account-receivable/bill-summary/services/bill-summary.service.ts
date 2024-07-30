@@ -9,7 +9,7 @@ import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import { stores } from '@/stores';
 import {
   RECEIPTS_LIST,
-  RECEIPTS,
+  GENERATE_BILL,
   PAYMENT_RECEIPT_UPLOAD,
   SEND_SMS,
   FILTER,
@@ -34,11 +34,11 @@ export class BillSummaryService {
           reject(new ServiceResponse<any>(0, error.message, undefined)),
         );
     });
-  generatePaymentReceipt = variables =>
+  generateBill = variables =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: RECEIPTS,
+          mutation: GENERATE_BILL,
           variables,
         })
         .then((response: any) => {

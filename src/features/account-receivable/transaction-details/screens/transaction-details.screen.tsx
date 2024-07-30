@@ -11,8 +11,13 @@ import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const TransactionDetails = observer(() => {
-  const { transactionDetailsStore, routerStore, loginStore, receiptStore } =
-    useStores();
+  const {
+    transactionDetailsStore,
+    routerStore,
+    loginStore,
+    receiptStore,
+    billSummaryStore,
+  } = useStores();
 
   const {
     control,
@@ -89,7 +94,6 @@ const TransactionDetails = observer(() => {
           } else {
             transactionDetailsStore.updateTransactionListList([]);
           }
-          // deliveryQueueStore.updateOrderDeliveredList([item]);
         }}
         onReport={item => {
           receiptStore.receiptService
@@ -104,6 +108,13 @@ const TransactionDetails = observer(() => {
                 Toast.error({
                   message: `😔 ${res.generatePaymentReceipt.message}`,
                 });
+            });
+        }}
+        onGenerateBill={async () => {
+          await billSummaryStore.billSummaryService
+            .generateBill({ input: {} })
+            .then(res => {
+              console.log({ res });
             });
         }}
       />

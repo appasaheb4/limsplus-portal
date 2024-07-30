@@ -38,6 +38,7 @@ interface TransactionHeaderProps {
   ) => void;
   onExpand?: (item: any) => void;
   onReport?: (item: any) => void;
+  onGenerateBill: () => void;
 }
 
 const selectedItem = {};
@@ -459,6 +460,9 @@ export const TransactionHeaderList = observer(
             onClickRow={item => {
               // setSelectedItem(item);
               // props.onClickRow && props.onClickRow(item);
+            }}
+            onGenerateBill={() => {
+              props.onGenerateBill();
             }}
           />
         </div>

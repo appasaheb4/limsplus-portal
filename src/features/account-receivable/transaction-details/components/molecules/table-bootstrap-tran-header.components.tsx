@@ -49,6 +49,7 @@ interface TableBootstrapTranHeaderProps {
   ) => void;
   clearAllFilter?: () => void;
   onClickRow?: (item?: any) => void;
+  onGenerateBill: () => void;
 }
 export const TableBootstrapTranHeader = ({
   id,
@@ -70,6 +71,7 @@ export const TableBootstrapTranHeader = ({
   onFilter,
   clearAllFilter,
   onClickRow,
+  onGenerateBill,
 }: TableBootstrapTranHeaderProps) => {
   const [selectedRow, setSelectedRow] = useState<any[]>();
   const [isFilterOpen, setIsFilterOpen] = useState<boolean>(false);
@@ -260,35 +262,6 @@ export const TableBootstrapTranHeader = ({
     }
   };
 
-  const CustomToggleList = ({ columns, onColumnToggle, toggles }) => (
-    <div className='flex btn-group btn-group-toggle' data-toggle='buttons'>
-      {columns
-        .map(column => ({
-          ...column,
-          toggle: toggles[column.dataField],
-        }))
-        .map((column, index) => {
-          if (index > 0) {
-            return (
-              <button
-                type='button'
-                key={column.dataField}
-                className={` btn btn-primary border-white  btn-sm whitespace-nowrap ${
-                  column.toggle ? 'active' : 'inactive'
-                }`}
-                style={{ height: '31px' }}
-                data-toggle='button'
-                aria-pressed={column.toggle ? 'true' : 'false'}
-                onClick={() => onColumnToggle(column.dataField)}
-              >
-                {column.text}
-              </button>
-            );
-          }
-        })}
-    </div>
-  );
-
   const rowEvents = {
     onClick: (e, row, rowIndex) => {
       onClickRow && onClickRow(row);
@@ -331,54 +304,64 @@ export const TableBootstrapTranHeader = ({
         >
           {props => (
             <div>
-              <div className='flex items-center flex-wrap'>
-                <div className='mt-2'>
-                  <SearchBar
-                    {...searchProps}
-                    {...props.searchProps}
-                    onChange={value => {
-                      console.log({ value });
-                    }}
-                  />
-                </div>
-                <ClearSearchButton
-                  className={`inline-flex ml-2 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                  {...props.searchProps}
-                />
-                <button
-                  className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
-                  onClick={clearAllFilter}
-                >
-                  Clear all filters
-                </button>
-                {isExport && (
-                  <ExportCSVButton
-                    className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
-                    {...props.csvProps}
-                  >
-                    Export CSV!!
-                  </ExportCSVButton>
-                )}
-                <div className='ml-2 relative'>
-                  <Tooltip tooltipText={'Field Selector'}>
-                    <Buttons.Button
-                      size='medium'
-                      type='outline'
-                      onClick={() => {
-                        setIsColumnFilterVisible(!isColumnFilterVisible);
+              <div className='flex items-center justify-between'>
+                <div title='leftSideOptions' className='flex items-center'>
+                  <div className='mt-2'>
+                    <SearchBar
+                      {...searchProps}
+                      {...props.searchProps}
+                      onChange={value => {
+                        console.log({ value });
                       }}
-                    >
-                      <Icons.IconFa.FaFilter />
-                    </Buttons.Button>
-                  </Tooltip>
-                  {isColumnFilterVisible && (
-                    <ColumnFilter
-                      columns={filterableColumns}
-                      onClose={() => setIsColumnFilterVisible(false)}
-                      onColumnReorder={handleColumnReorder}
-                      onColumnToggle={handleColumnToggle}
                     />
+                  </div>
+                  <ClearSearchButton
+                    className={`inline-flex ml-2 bg-gray-500 items-center small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                    {...props.searchProps}
+                  />
+                  <button
+                    className={`ml-2 px-2 focus:outline-none bg-gray-500 items-center  outline shadow-sm  font-medium  text-center rounded-md h-9 text-white`}
+                    onClick={clearAllFilter}
+                  >
+                    Clear all filters
+                  </button>
+                  {isExport && (
+                    <ExportCSVButton
+                      className={`inline-flex m-2.5 bg-gray-500 items-center  small outline shadow-sm  font-medium  disabled:opacity-50 disabled:cursor-not-allowed text-center h-9 text-white`}
+                      {...props.csvProps}
+                    >
+                      Export CSV!!
+                    </ExportCSVButton>
                   )}
+                  <div className='ml-2 relative'>
+                    <Tooltip tooltipText={'Field Selector'}>
+                      <Buttons.Button
+                        size='medium'
+                        type='outline'
+                        onClick={() => {
+                          setIsColumnFilterVisible(!isColumnFilterVisible);
+                        }}
+                      >
+                        <Icons.IconFa.FaFilter />
+                      </Buttons.Button>
+                    </Tooltip>
+                    {isColumnFilterVisible && (
+                      <ColumnFilter
+                        columns={filterableColumns}
+                        onClose={() => setIsColumnFilterVisible(false)}
+                        onColumnReorder={handleColumnReorder}
+                        onColumnToggle={handleColumnToggle}
+                      />
+                    )}
+                  </div>
+                </div>
+                <div title='rightSideOptions'>
+                  <button
+                    className={`ml-2 px-2  bg-blue-800  text-center rounded-md h-9 text-white`}
+                    onClick={onGenerateBill}
+                  >
+                    Generate Bill
+                  </button>
                 </div>
               </div>
               <div className='scrollTable'>
