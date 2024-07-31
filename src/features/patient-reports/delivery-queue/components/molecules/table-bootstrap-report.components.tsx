@@ -403,7 +403,7 @@ export const TableBootstrapReport = ({
                     <Icons.IconTb.TbExchange />
                   </Buttons.Button>
                 </Tooltip>
-                <div className='flex gap-2'>
+                <div className='flex flex-wrap gap-2'>
                   {statusData.map(status => (
                     <button
                       key={status.code}

@@ -243,7 +243,7 @@ export const Login = observer(() => {
         </div>
 
         <div
-          className='flex flex-col  mt-[72px] md:mt-0 w-full md:w-fit rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r max-w-full overflow-x-auto'
+          className='flex flex-col  mt-[72px] md:mt-0 rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r max-w-full overflow-x-auto'
           style={{ minWidth: '50%' }}
         >
           <div className='flex flex-col mt-10 sm:flex-row md:flex-row xl:flex-row w-full mb-12'>

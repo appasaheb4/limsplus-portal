@@ -109,8 +109,8 @@ export const TableBootstrap = ({
 
   const statusData = [
     { code: 'Pending', value: 'Pending', color: 'blue', disable: false },
-    { code: 'ReCheck', value: 'Recheck', color: 'yellow', disable: true },
-    { code: 'ReTest', value: 'Retest', color: 'orange', disable: true },
+    // { code: 'ReCheck', value: 'Recheck', color: 'yellow', disable: true },
+    // { code: 'ReTest', value: 'Retest', color: 'orange', disable: true },
     { code: 'Hold', value: 'Hold', color: 'indigo', disable: false },
     { code: 'All', value: 'All', color: 'red', disable: false },
     // { code: 'ReCall', value: 'Recall', color: 'gray' },
@@ -408,12 +408,12 @@ export const TableBootstrap = ({
                       />
                     </div>
                     <ClearSearchButton
-                      className={`bg-gray-500 px-3.5 py-1 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                      className={`bg-gray-500  hidden md:block px-3.5 py-1 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
                       {...props.searchProps}
                     />
                     <button
                       className={
-                        'bg-gray-500 px-3.5 py-2 mr-2 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                        'bg-gray-500 px-3.5  hidden md:block py-2 mr-2 ml-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                       }
                       onClick={clearAllFilter}
                     >
@@ -422,7 +422,7 @@ export const TableBootstrap = ({
                     {isExport && (
                       <ExportCSVButton
                         className={
-                          'bg-gray-500 px-3.5 py-1.5 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                          'bg-gray-500 px-3.5 hidden md:block py-1.5 mr-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed'
                         }
                         {...props.csvProps}
                       >
@@ -463,18 +463,18 @@ export const TableBootstrap = ({
                     </div>
                   </div>
                   <div className='flex justify-between gap-1 items-center'>
-                    <button
+                    {/* <button
                       disabled
-                      className={`px-3.5 py-2 bg-gray-600 text-white rounded`}
+                      className={`px-3.5 py-2 bg-gray-600 text-white rounded hidden md:block`}
                       onClick={() => onFilterRecord?.('ReCall')}
                     >
                       Recall
-                    </button>
-                    <UncontrolledDropdown>
+                    </button> */}
+                    {/* <UncontrolledDropdown>
                       <DropdownToggle tag='a'>
                         <button
                           disabled
-                          className={`px-3.5 py-2 bg-blue-600 text-white rounded`}
+                          className={`px-3.5 py-2 bg-blue-600 text-white rounded hidden md:block`}
                           onClick={() => {}}
                         >
                           Upgrade
@@ -497,7 +497,7 @@ export const TableBootstrap = ({
                             </DropdownItem>
                           ))}
                       </DropdownMenu>
-                    </UncontrolledDropdown>
+                    </UncontrolledDropdown> */}
 
                     <div className=' bg-blue-700 w-10 flex justify-center items-center h-10 rounded-full  text-xl'>
                       <Tooltip tooltipText='Total Pending Validation'>
