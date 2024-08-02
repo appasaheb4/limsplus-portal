@@ -114,7 +114,15 @@ const TransactionDetails = observer(() => {
           await billSummaryStore.billSummaryService
             .generateBill({ input: {} })
             .then(res => {
-              console.log({ res });
+              if (res.generateBillSummary?.success) {
+                Toast.success({
+                  message: `${res.generateBillSummary.message}`,
+                });
+              } else {
+                Toast.error({
+                  message: 'Generate bill not created. Please try again!',
+                });
+              }
             });
         }}
       />
