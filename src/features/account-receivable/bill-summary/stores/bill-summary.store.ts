@@ -13,7 +13,7 @@ export class BillSummaryStore {
 
       billSummaryService: computed,
 
-      updateReceiptList: action,
+      updateBillSummaryList: action,
     });
   }
 
@@ -21,7 +21,7 @@ export class BillSummaryStore {
     return new BillSummaryService();
   }
 
-  updateReceiptList(res) {
+  updateBillSummaryList(res) {
     this.billSummaryList = res.billSummary.data;
     this.billSummaryListCount = res.billSummary.paginatorInfo.count;
   }

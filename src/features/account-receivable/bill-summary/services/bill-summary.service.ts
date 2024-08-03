@@ -7,27 +7,21 @@
 
 import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import { stores } from '@/stores';
-import {
-  RECEIPTS_LIST,
-  GENERATE_BILL,
-  PAYMENT_RECEIPT_UPLOAD,
-  SEND_SMS,
-  FILTER,
-} from './mutation-receipt';
+import { BILL_SUMMARY_LIST, GENERATE_BILL, FILTER } from './mutation-receipt';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
 export class BillSummaryService {
-  listReceipt = (page = 0, limit = 10) =>
+  listBillSummary = (page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
       client
         .mutate({
-          mutation: RECEIPTS_LIST,
+          mutation: BILL_SUMMARY_LIST,
           variables: { input: { page, limit } },
         })
         .then((response: any) => {
-          stores.receiptStore.updateReceiptList(response.data);
+          stores.billSummaryStore.updateBillSummaryList(response.data);
           resolve(response.data);
         })
         .catch(error =>
@@ -49,37 +43,6 @@ export class BillSummaryService {
         );
     });
 
-  paymentReceiptUpload = variables =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: PAYMENT_RECEIPT_UPLOAD,
-          variables,
-        })
-        .then((response: any) => {
-          resolve(response.data);
-        })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
-    });
-
-  sendSMS = variables =>
-    new Promise<any>((resolve, reject) => {
-      client
-        .mutate({
-          mutation: SEND_SMS,
-          variables,
-        })
-        .then((response: any) => {
-          console.log({ response });
-          resolve(response.data);
-        })
-        .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
-        );
-    });
-
   filter = (variables: any) =>
     new Promise<any>((resolve, reject) => {
       client
@@ -88,7 +51,8 @@ export class BillSummaryService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterReceipt.success) return this.listReceipt();
+          if (!response.data.filterReceipt.success)
+            return this.listBillSummary();
           stores.receiptStore.updateReceiptList({
             receipts: {
               data: response.data.filterReceipt?.data,

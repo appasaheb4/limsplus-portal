@@ -4,26 +4,30 @@ export class BillSummary {
   billDate: Date;
   corporateCode: string;
   corporateName: string;
-  invoiceAC: number;
+  invoiceAc: number;
+  clientName: string;
   clientContactNo: string;
-  billFrequency: string;
-  billFrom: Date;
+  billingFrequency: string;
+  billForm: Date;
   billTo: Date;
   accountType: string;
   customerGroup: string;
   billingOn: string;
   grossAmount: number;
   netAmount: number;
-  missCharges: number;
-  otherCharges: number;
-  paidAmount: number;
+  discountAmount: number;
+  discountPer: number;
+  miscellaneousCharges: number;
+  allMiscCharges: number;
+  discountCharges: number;
+  receivedAmount: number;
   balance: number;
   status: string;
   enteredBy: string;
   companyCode: string;
   environment: string;
-  dateOfEntry: Date;
-  lastUpdated: Date;
+  createdAt: Date;
+  updatedAt: Date;
 
   constructor(rawData: { [key in string]: any }) {
     this._id = rawData._id;
@@ -31,10 +35,11 @@ export class BillSummary {
     this.billDate = rawData.billDate;
     this.corporateCode = rawData.corporateCode;
     this.corporateName = rawData.corporateName;
-    this.invoiceAC = rawData.invoiceAC;
+    this.invoiceAc = rawData.invoiceAc;
+    this.clientName = rawData.clientName;
     this.clientContactNo = rawData.clientContactNo;
-    this.billFrequency = rawData.billFrequency;
-    this.billFrom = rawData.billFrom;
+    this.billingFrequency = rawData.billingFrequency;
+    this.billForm = rawData.billForm;
     this.billTo = rawData.billTo;
     this.accountType = rawData.accountType;
     this.customerGroup = rawData.customerGroup;
@@ -42,15 +47,18 @@ export class BillSummary {
     this.billingOn = rawData.billingOn;
     this.grossAmount = rawData.grossAmount;
     this.netAmount = rawData.netAmount;
-    this.missCharges = rawData.missCharges;
-    this.otherCharges = rawData.otherCharges;
-    this.paidAmount = rawData.paidAmount;
+    this.discountAmount = rawData.discountAmount;
+    this.discountPer = rawData.discountPer;
+    this.miscellaneousCharges = rawData.miscellaneousCharges;
+    this.allMiscCharges = rawData.allMiscCharges;
+    this.discountCharges = rawData.discountCharges;
+    this.receivedAmount = rawData.receivedAmount;
     this.balance = rawData.balance;
     this.status = rawData.status;
     this.enteredBy = rawData.enteredBy;
     this.companyCode = rawData.companyCode;
     this.environment = rawData.environment;
-    this.dateOfEntry = rawData.dateOfEntry;
-    this.lastUpdated = rawData.lastUpdated;
+    this.createdAt = rawData.createdAt;
+    this.updatedAt = rawData.updatedAt;
   }
 }

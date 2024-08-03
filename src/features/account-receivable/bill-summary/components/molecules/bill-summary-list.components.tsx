@@ -49,6 +49,160 @@ export const BillSummaryList = (props: BillSummaryListProps) => {
             {
               dataField: 'billNo',
               text: 'Bill No',
+              headerClasses: 'textHeader',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'billDate',
+              editable: false,
+              text: 'Bill Date',
+              headerClasses: 'textHeadersxm',
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.billDate &&
+                      dayjs(row.billDate || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'corporateCode',
+              text: 'Corporate Code',
+              headerClasses: 'textHeaderxs',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'corporateName',
+              text: 'Corporate Name',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'invoiceAc',
+              text: 'InvoiceAc',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'clientContactNo',
+              text: 'Client Contact No',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'billingFrequency',
+              text: 'Billing Frequency',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'billForm',
+              editable: false,
+              text: 'Bill Form',
+              headerClasses: 'textHeadersxm',
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.billForm &&
+                      dayjs(row.billForm || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'billTo',
+              editable: false,
+              text: 'Bill To',
+              headerClasses: 'textHeadersxm',
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    {row.billTo &&
+                      dayjs(row.billTo || 0).format('DD-MM-YYYY HH:mm:ss')}
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'accountType',
+              text: 'Account Type',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'customerGroup',
+              text: 'Customer Group',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'billingOn',
+              text: 'Billing On',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'grossAmount',
+              text: 'Gross Amount',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'netAmount',
+              text: 'Net Amount',
+              sort: true,
+              editable: false,
+            },
+
+            {
+              dataField: 'discountAmount',
+              text: 'Discount Amount',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'discountPer',
+              text: 'Discount Per',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'miscellaneousCharges',
+              text: 'Miscellaneous Charges',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'allMiscCharges',
+              text: 'All Misc Charges',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'discountCharges',
+              text: 'Discount Charges',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'receivedAmount',
+              text: 'Received Amount',
+              sort: true,
+              editable: false,
+            },
+
+            {
+              dataField: 'balance',
+              text: 'Balance',
+              sort: true,
+              editable: false,
+            },
+            {
+              dataField: 'status',
+              text: 'Status',
               sort: true,
               editable: false,
             },
@@ -74,7 +228,7 @@ export const BillSummaryList = (props: BillSummaryListProps) => {
             },
             {
               dataField: 'operation',
-              text: 'Action',
+              text: 'View Bill',
               editable: false,
               csvExport: false,
               formatter: (cellContent, row) => (
@@ -106,8 +260,8 @@ export const BillSummaryList = (props: BillSummaryListProps) => {
           isDelete={props.isDelete}
           isEditModify={props.isUpdate}
           isExport={props.isExport}
-          isSelectRow={true}
-          fileName='Receipt'
+          isSelectRow={false}
+          fileName='Bill Summary'
           onSelectedRow={rows => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));

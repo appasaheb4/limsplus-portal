@@ -1,4 +1,4 @@
 import { stores } from '@/stores';
-export const startup = async () => {
-  // stores.receiptStore.receiptService.listReceipt();
+export const startupBillSummary = async () => {
+  stores.billSummaryStore.billSummaryService.listBillSummary();
 };

@@ -11,7 +11,7 @@ import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const BillSummary = observer(() => {
-  const { receiptStore, routerStore, loginStore } = useStores();
+  const { billSummaryStore, routerStore, loginStore } = useStores();
 
   return (
     <>
@@ -22,8 +22,8 @@ const BillSummary = observer(() => {
       {/*  */}
       <div className='p-3 rounded-lg shadow-xl overflow-auto'>
         <BillSummaryList
-          data={receiptStore.receiptList || []}
-          totalSize={receiptStore.receiptListCount}
+          data={billSummaryStore.billSummaryList || []}
+          totalSize={billSummaryStore.billSummaryListCount}
           isView={RouterFlow.checkPermission(
             routerStore.userPermission,
             'View',
@@ -41,27 +41,27 @@ const BillSummary = observer(() => {
             'Export',
           )}
           onPageSizeChange={(page, limit) => {
-            receiptStore.receiptService.listReceipt(page, limit);
+            billSummaryStore.billSummaryService.listBillSummary(page, limit);
           }}
           onFilter={(type, filter, page, limit) => {
-            receiptStore.receiptService.filter({
+            billSummaryStore.billSummaryService.filter({
               input: { type, filter, page, limit },
             });
           }}
           onReport={item => {
-            receiptStore.receiptService
-              .generatePaymentReceipt({ input: { headerId: item?.headerId } })
-              .then(async res => {
-                if (res.generatePaymentReceipt?.success) {
-                  // setModalPaymentReceipt({
-                  //   show: true,
-                  //   data: res.generatePaymentReceipt?.receiptData,
-                  // });
-                } else
-                  Toast.error({
-                    message: `😔 ${res.generatePaymentReceipt.message}`,
-                  });
-              });
+            // receiptStore.receiptService
+            //   .generatePaymentReceipt({ input: { headerId: item?.headerId } })
+            //   .then(async res => {
+            //     if (res.generatePaymentReceipt?.success) {
+            //       // setModalPaymentReceipt({
+            //       //   show: true,
+            //       //   data: res.generatePaymentReceipt?.receiptData,
+            //       // });
+            //     } else
+            //       Toast.error({
+            //         message: `😔 ${res.generatePaymentReceipt.message}`,
+            //       });
+            //   });
           }}
         />
       </div>

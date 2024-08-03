@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const RECEIPTS_LIST = gql`
-  mutation ($input: ReceiptInput!) {
-    receipts(input: $input) {
+export const BILL_SUMMARY_LIST = gql`
+  mutation ($input: BillSummaryInput!) {
+    billSummary(input: $input) {
       paginatorInfo {
         count
       }
@@ -10,22 +10,34 @@ export const RECEIPTS_LIST = gql`
       message
       data {
         _id
-        headerId
-        labId
-        customerName
+        billNo
+        billDate
+        corporateCode
+        corporateName
+        invoiceAc
+        clientName
+        clientContactNo
+        billingFrequency
+        billForm
+        billTo
+        accountType
+        customerGroup
+        billingOn
         grossAmount
         netAmount
-        discount
+        discountAmount
+        discountPer
+        miscellaneousCharges
+        allMiscCharges
+        discountCharges
         receivedAmount
         balance
-        acClass
-        invoiceAc
+        status
         enteredBy
         companyCode
         environment
-        documentType
-        dateOfEntry
-        lastUpdated
+        createdAt
+        updatedAt
       }
     }
   }
@@ -34,25 +46,6 @@ export const RECEIPTS_LIST = gql`
 export const GENERATE_BILL = gql`
   mutation ($input: BillSummaryInput!) {
     generateBillSummary(input: $input) {
-      success
-      message
-    }
-  }
-`;
-
-export const PAYMENT_RECEIPT_UPLOAD = gql`
-  mutation ($input: ReceiptInput!) {
-    paymentReceiptUpload(input: $input) {
-      success
-      message
-      receiptPath
-    }
-  }
-`;
-
-export const SEND_SMS = gql`
-  mutation ($input: ServiceInput!) {
-    sendMessageService(input: $input) {
       success
       message
     }

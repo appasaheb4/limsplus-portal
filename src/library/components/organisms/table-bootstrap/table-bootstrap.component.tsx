@@ -682,15 +682,19 @@ export const TableBootstrap = ({
                       {...paginationTableProps}
                       filter={filterFactory()}
                       keyField='_id'
-                      selectRow={{
-                        mode: 'checkbox',
-                        clickToSelect: true,
-                        clickToEdit: true,
-                        nonSelectable: getNonSelectableRows,
-                        nonSelectableStyle: nonSelectableStyle,
-                        onSelect: handleOnSelect,
-                        onSelectAll: handleOnSelectAll,
-                      }}
+                      selectRow={
+                        isSelectRow
+                          ? {
+                              mode: 'checkbox',
+                              clickToSelect: true,
+                              clickToEdit: true,
+                              nonSelectable: getNonSelectableRows,
+                              nonSelectableStyle: nonSelectableStyle,
+                              onSelect: handleOnSelect,
+                              onSelectAll: handleOnSelectAll,
+                            }
+                          : undefined
+                      }
                       cellEdit={
                         isEditModify
                           ? cellEditFactory({
