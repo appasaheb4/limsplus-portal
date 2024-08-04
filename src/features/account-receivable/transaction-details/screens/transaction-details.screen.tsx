@@ -120,7 +120,7 @@ const TransactionDetails = observer(() => {
                 });
               } else {
                 Toast.error({
-                  message: 'Generate bill not created. Please try again!',
+                  message: res.generateBillSummary?.message,
                 });
               }
             });

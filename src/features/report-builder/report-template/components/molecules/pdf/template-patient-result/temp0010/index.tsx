@@ -3,12 +3,7 @@ import { Page, StyleSheet, Font, View } from '@react-pdf/renderer';
 import _ from 'lodash';
 import { PdfPageNumber, PdfView, PdfFooterView, PdfImage } from '@components';
 import { PdfBorderView, PdfSmall } from '@/library/components';
-import {
-  GeneflowLabHeader,
-  GeneflowLabFooter,
-  AarvakDiagnosticCenterHeader,
-  AarvakDiagnosticCenterFooter,
-} from '../../company';
+import { getHeaderAndFooter } from '@/core-utils';
 import { PdfPatientDetails } from './pdf-patient-details.component';
 import Html from 'react-pdf-html';
 
@@ -315,28 +310,11 @@ export const PdfTemp0010 = ({
     return container.innerHTML;
   };
 
-  const getCompanyWiseComp = (companyCode, details) => {
-    switch (companyCode) {
-      case 'GENEFLOW':
-        return {
-          header: <GeneflowLabHeader />,
-          footer: <GeneflowLabFooter />,
-        };
-      case 'COMP0001':
-        return {
-          header: <AarvakDiagnosticCenterHeader />,
-          footer: <AarvakDiagnosticCenterFooter />,
-        };
-      default:
-        break;
-    }
-  };
-
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
         <PdfView fixed mh={0} p={0}>
-          {isWithHeader && getCompanyWiseComp(companyCode, {})?.header}
+          {isWithHeader && getHeaderAndFooter(companyCode, {})?.header}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
         <View
@@ -397,7 +375,7 @@ export const PdfTemp0010 = ({
         </View>
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
         <PdfFooterView fixed bg='transparent' height={88} p={0}>
-          {isWithHeader && getCompanyWiseComp(companyCode, {})?.footer}
+          {isWithHeader && getHeaderAndFooter(companyCode, {})?.footer}
         </PdfFooterView>
       </Page>
     </>

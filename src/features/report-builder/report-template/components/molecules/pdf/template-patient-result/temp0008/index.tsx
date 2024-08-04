@@ -8,12 +8,7 @@ import {
   PdfImage,
   PdfSmall,
 } from '@components';
-import {
-  GeneflowLabHeader,
-  GeneflowLabFooter,
-  AarvakDiagnosticCenterHeader,
-  AarvakDiagnosticCenterFooter,
-} from '../../company';
+import { getHeaderAndFooter } from '@/core-utils';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { PdfPatientDetails } from './pdf-patient-details.component';
@@ -71,28 +66,11 @@ export const PdfTemp0008 = ({
     }
   }
 
-  const getCompanyWiseComp = (companyCode, details) => {
-    switch (companyCode) {
-      case 'GENEFLOW':
-        return {
-          header: <GeneflowLabHeader />,
-          footer: <GeneflowLabFooter />,
-        };
-      case 'COMP0001':
-        return {
-          header: <AarvakDiagnosticCenterHeader />,
-          footer: <AarvakDiagnosticCenterFooter />,
-        };
-      default:
-        break;
-    }
-  };
-
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
         <PdfView fixed mh={0} p={0}>
-          {getCompanyWiseComp(companyCode, {})?.header}
+          {getHeaderAndFooter(companyCode, {})?.header}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
         <View
@@ -117,7 +95,7 @@ export const PdfTemp0008 = ({
         </View>
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
         <PdfFooterView fixed bg='transparent' height={88} p={0}>
-          {getCompanyWiseComp(companyCode, {})?.footer}
+          {getHeaderAndFooter(companyCode, {})?.footer}
         </PdfFooterView>
       </Page>
     </>

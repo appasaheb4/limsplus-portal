@@ -4,14 +4,15 @@ import _ from 'lodash';
 import { Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
-import { BillSummaryList } from '../components';
-import { ModalReceiptShare } from '../../components';
+import { BillSummaryList, ModalViewBill } from '../components';
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const BillSummary = observer(() => {
   const { billSummaryStore, routerStore, loginStore } = useStores();
+
+  const [modalViewBill, setModalViewBill] = useState<object>({});
 
   return (
     <>
@@ -49,6 +50,14 @@ const BillSummary = observer(() => {
             });
           }}
           onReport={item => {
+            console.log({ item });
+            setModalViewBill({
+              show: true,
+
+              data: {
+                transactionHeader: item,
+              },
+            });
             // receiptStore.receiptService
             //   .generatePaymentReceipt({ input: { headerId: item?.headerId } })
             //   .then(async res => {
@@ -65,6 +74,13 @@ const BillSummary = observer(() => {
           }}
         />
       </div>
+      <ModalViewBill
+        {...modalViewBill}
+        onClick={() => {}}
+        onClose={() => {
+          setModalViewBill({ show: false });
+        }}
+      />
     </>
   );
 });
