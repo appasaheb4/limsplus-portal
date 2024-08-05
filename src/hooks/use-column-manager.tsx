@@ -28,12 +28,12 @@ export const useColumnManager = (initialColumns: Column[]) => {
     ? [...initialColumns.map(column => column.dataField), 'operation']
     : initialColumns.map(column => column.dataField);
 
-  // useEffect(() => {
-  //   setCurrentColumns(uniqueColumns);
-  //   setSelectedColumns(initialSelectedColumns);
-  //   setColumnOrder(uniqueColumns);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [initialColumns]);
+  useEffect(() => {
+    setCurrentColumns(uniqueColumns);
+    setSelectedColumns(initialSelectedColumns);
+    setColumnOrder(uniqueColumns);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialColumns]);
 
   const handleColumnReorder = (newColumns: Column[]) => {
     const reorderedColumns = Array.from(
