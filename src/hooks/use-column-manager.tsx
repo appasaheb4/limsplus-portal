@@ -5,46 +5,56 @@ interface Column {
   text: string;
 }
 
-export const useColumnManager = (columns: Column[]) => {
+export const useColumnManager = (initialColumns: Column[]) => {
   const [isColumnFilterVisible, setIsColumnFilterVisible] =
     useState<boolean>(false);
-  const [currentColumns, setCurrentColumns] = useState<Column[]>(columns);
+  const [currentColumns, setCurrentColumns] =
+    useState<Column[]>(initialColumns);
+  const [selectedColumns, setSelectedColumns] = useState<string[]>(
+    initialColumns.map(column => column.dataField),
+  );
+  const [columnOrder, setColumnOrder] = useState<Column[]>(initialColumns);
 
   const uniqueColumns = Array.from(
-    new Set(columns.map(col => col.dataField)),
+    new Set(initialColumns.map(col => col.dataField)),
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  ).map(dataField => columns.find(col => col.dataField === dataField)!);
+  ).map(dataField => initialColumns.find(col => col.dataField === dataField)!);
 
-  useEffect(() => {
-    setCurrentColumns(uniqueColumns);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns]);
+  // Ensure the `operation` column is always included if it exists
+  const operationColumn = uniqueColumns.find(
+    col => col.dataField === 'operation',
+  );
+  const initialSelectedColumns = operationColumn
+    ? [...initialColumns.map(column => column.dataField), 'operation']
+    : initialColumns.map(column => column.dataField);
+
+  // useEffect(() => {
+  //   setCurrentColumns(uniqueColumns);
+  //   setSelectedColumns(initialSelectedColumns);
+  //   setColumnOrder(uniqueColumns);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [initialColumns]);
 
   const handleColumnReorder = (newColumns: Column[]) => {
     const reorderedColumns = Array.from(
       new Set(newColumns.map(col => col.dataField)),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     ).map(dataField => newColumns.find(col => col.dataField === dataField)!);
+    // setColumnOrder(reorderedColumns);
     setCurrentColumns(reorderedColumns);
   };
 
-  const handleColumnToggle = (selectedColumns: string[]) => {
-    const toggledColumns = uniqueColumns.filter(column =>
-      selectedColumns.includes(column.dataField),
-    );
-
-    const actionColumn = uniqueColumns.find(
-      column => column.dataField === 'operation',
-    );
-    if (
-      selectedColumns.includes('operation') &&
-      actionColumn &&
-      !toggledColumns.some(column => column.dataField === 'operation')
-    ) {
-      toggledColumns.push(actionColumn);
+  const handleColumnToggle = (newSelectedColumns: string[]) => {
+    // Ensure the `operation` column is always included if it exists
+    if (operationColumn && !newSelectedColumns.includes('operation')) {
+      newSelectedColumns.push('operation');
     }
-
-    setCurrentColumns(toggledColumns);
+    setSelectedColumns(newSelectedColumns);
+    setCurrentColumns(
+      columnOrder.filter(column =>
+        newSelectedColumns.includes(column.dataField),
+      ),
+    );
   };
 
   const filterableColumns = uniqueColumns.filter(
@@ -58,5 +68,7 @@ export const useColumnManager = (columns: Column[]) => {
     handleColumnReorder,
     handleColumnToggle,
     filterableColumns,
+    selectedColumns,
+    columnOrder,
   };
 };

@@ -92,6 +92,8 @@ export const GeneralResultEntryExpand = ({
     handleColumnReorder,
     handleColumnToggle,
     filterableColumns,
+    selectedColumns,
+    columnOrder,
   } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
@@ -462,6 +464,8 @@ export const GeneralResultEntryExpand = ({
                         onClose={() => setIsColumnFilterVisible(false)}
                         onColumnReorder={handleColumnReorder}
                         onColumnToggle={handleColumnToggle}
+                        selectedColumns={selectedColumns}
+                        columnOrder={columnOrder}
                       />
                     )}
                   </div>

@@ -79,6 +79,8 @@ const TableBootstrap = ({
     handleColumnReorder,
     handleColumnToggle,
     filterableColumns,
+    selectedColumns,
+    columnOrder,
   } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
@@ -375,6 +377,8 @@ const TableBootstrap = ({
                       onClose={() => setIsColumnFilterVisible(false)}
                       onColumnReorder={handleColumnReorder}
                       onColumnToggle={handleColumnToggle}
+                      selectedColumns={selectedColumns}
+                      columnOrder={columnOrder}
                     />
                   )}
                 </div>

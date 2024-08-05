@@ -82,6 +82,8 @@ export const PatientTestExpandPanel = ({
     handleColumnReorder,
     handleColumnToggle,
     filterableColumns,
+    selectedColumns,
+    columnOrder,
   } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
@@ -396,6 +398,8 @@ export const PatientTestExpandPanel = ({
                       onClose={() => setIsColumnFilterVisible(false)}
                       onColumnReorder={handleColumnReorder}
                       onColumnToggle={handleColumnToggle}
+                      selectedColumns={selectedColumns}
+                      columnOrder={columnOrder}
                     />
                   )}
                 </div>
