@@ -51,9 +51,21 @@ const BillSummary = observer(() => {
           }}
           onReport={item => {
             console.log({ item });
+            // fetch billing list
+            billSummaryStore.billSummaryService
+              .getBillingList({
+                input: {
+                  filter: {
+                    invoiceAc: item?.invoiceAc,
+                    billingList: item?.billingList,
+                  },
+                },
+              })
+              .then(res => {
+                console.log({ res });
+              });
             setModalViewBill({
               show: true,
-
               data: {
                 transactionHeader: item,
               },

@@ -7,7 +7,12 @@
 
 import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
 import { stores } from '@/stores';
-import { BILL_SUMMARY_LIST, GENERATE_BILL, FILTER } from './mutation-receipt';
+import {
+  BILL_SUMMARY_LIST,
+  GENERATE_BILL,
+  GET_BILLING_LIST,
+  FILTER,
+} from './mutation-receipt';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
@@ -35,6 +40,21 @@ export class BillSummaryService {
       client
         .mutate({
           mutation: GENERATE_BILL,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  getBillingList = variables =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: GET_BILLING_LIST,
           variables,
         })
         .then((response: any) => {
