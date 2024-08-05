@@ -9,6 +9,7 @@ import {
 } from '@components';
 import { getHeaderAndFooter } from '@/core-utils';
 import dayjs from 'dayjs';
+import { HeaderDetails } from './components';
 
 const styles = StyleSheet.create({
   page: {
@@ -82,97 +83,7 @@ export const PdfViewBill = ({
           .format('DD-MM-YYYY')}`}</PdfSmall>
 
         {/* table */}
-        <PdfView
-          flexDirection='row'
-          mh={10}
-          p={0}
-          style={{ justifyContent: 'space-between', marginTop: '4px' }}
-        >
-          <PdfView style={{ height: '80px' }} mh={2} p={0}>
-            <View style={[styles.table, styles.tableRow]}>
-              <View style={[styles.tableCol, styles.border]}>
-                {[
-                  'Bill No',
-                  'Client Code',
-                  'Client Name',
-                  'Billing Frequency',
-                ]?.map((item, index) => (
-                  <View key={index} style={[styles.border, { height: '100%' }]}>
-                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                  </View>
-                ))}
-              </View>
-              <View style={[styles.tableCol, styles.border]}>
-                {[
-                  transactionHeader?.billNo || '',
-                  transactionHeader?.corporateCode || '',
-                  transactionHeader?.corporateName || '',
-                  transactionHeader?.billingFrequency || '',
-                ]?.map((item, index) => (
-                  <View key={index} style={[styles.border, { height: '100%' }]}>
-                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                  </View>
-                ))}
-              </View>
-            </View>
-          </PdfView>
-          <PdfView style={{ height: '80px' }} mh={2} p={0}>
-            <View style={[styles.table, styles.tableRow]}>
-              <View style={[styles.tableCol, styles.border]}>
-                {[
-                  'Bill Date',
-                  'Invoice No',
-                  'Client Contact No',
-                  'Bill Form',
-                ]?.map((item, index) => (
-                  <View key={index} style={[styles.border, { height: '100%' }]}>
-                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                  </View>
-                ))}
-              </View>
-              <View style={[styles.tableCol, styles.border]}>
-                {[
-                  transactionHeader?.invoiceAc || '',
-                  transactionHeader?.corporateCode || '',
-                  transactionHeader?.corporateName || '',
-                  transactionHeader?.billingFrequency || '',
-                ]?.map((item, index) => (
-                  <View key={index} style={[styles.border, { height: '100%' }]}>
-                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                  </View>
-                ))}
-              </View>
-            </View>
-          </PdfView>
-          <PdfView style={{ height: '80px' }} mh={2} p={0}>
-            <View style={[styles.table, styles.tableRow]}>
-              <View style={[styles.tableCol, styles.border]}>
-                {[
-                  'Account Type',
-                  'Customer Grop.',
-                  'Billing On',
-                  'Bill To',
-                ]?.map((item, index) => (
-                  <View key={index} style={[styles.border, { height: '100%' }]}>
-                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                  </View>
-                ))}
-              </View>
-              <View style={[styles.tableCol, styles.border]}>
-                {[
-                  transactionHeader?.invoiceAc || '',
-                  transactionHeader?.corporateCode || '',
-                  transactionHeader?.corporateName || '',
-                  transactionHeader?.billingFrequency || '',
-                ]?.map((item, index) => (
-                  <View key={index} style={[styles.border, { height: '100%' }]}>
-                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                  </View>
-                ))}
-              </View>
-            </View>
-          </PdfView>
-        </PdfView>
+        <HeaderDetails transactionHeader={transactionHeader} />
 
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
         <PdfFooterView fixed bg='transparent' style={{ height: 88 }} p={0}>
