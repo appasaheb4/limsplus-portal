@@ -32,6 +32,7 @@ export const BILL_SUMMARY_LIST = gql`
         discountCharges
         receivedAmount
         balance
+        billingList
         status
         enteredBy
         companyCode

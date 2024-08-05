@@ -1,2 +1,4 @@
 import HeaderDetails from './header-details.component';
-export { HeaderDetails };
+import BillingList from './billing-list.component';
+import AmountDetails from './amount-details';
+export { HeaderDetails, BillingList, AmountDetails };

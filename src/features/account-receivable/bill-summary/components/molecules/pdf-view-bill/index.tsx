@@ -9,7 +9,7 @@ import {
 } from '@components';
 import { getHeaderAndFooter } from '@/core-utils';
 import dayjs from 'dayjs';
-import { HeaderDetails } from './components';
+import { HeaderDetails, BillingList, AmountDetails } from './components';
 
 const styles = StyleSheet.create({
   page: {
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   border: {
-    border: 'transparent 1px solid #000000',
+    border: '1px solid #000000',
   },
   textCenter: {
     textAlign: 'center',
@@ -76,14 +76,19 @@ export const PdfViewBill = ({
         <PdfSmall
           textAlign='center'
           fontFamily='IBMPlexSans'
+          fontSize={12}
         >{`Bill for the period ${dayjs(transactionHeader?.billForm).format(
           'DD-MM-YYYY',
         )} to ${dayjs(transactionHeader?.billTo)
           .add(-1, 'day')
           .format('DD-MM-YYYY')}`}</PdfSmall>
 
-        {/* table */}
+        {/* Header Details */}
         <HeaderDetails transactionHeader={transactionHeader} />
+        {/* Billing List */}
+        <BillingList />
+        {/* Amount Details */}
+        <AmountDetails transactionHeader={transactionHeader} />
 
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
         <PdfFooterView fixed bg='transparent' style={{ height: 88 }} p={0}>
