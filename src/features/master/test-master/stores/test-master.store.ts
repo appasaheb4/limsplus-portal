@@ -1,9 +1,9 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {TestMaster} from '../models';
-import {TestMasterService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { TestMaster } from '../models';
+import { TestMasterService } from '../services';
 import * as ModelsSection from '@/features/master/section/models';
 import dayjs from 'dayjs';
-import {Toast} from '@/library/components';
+import { Toast } from '@/library/components';
 
 export class TestMasterStore {
   testMaster!: TestMaster;
@@ -80,7 +80,7 @@ export class TestMasterStore {
 
   updateTestMasterList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.testMasters.success) return alert(res.testMasters.message);
+      if (!res.testMasters.success) return console.log(res.testMasters.message);
       this.listTestMaster = res.testMasters.data;
       this.listTestMasterCopy = res.testMasters.data;
       this.listTestMasterCount = res.testMasters.paginatorInfo.count;

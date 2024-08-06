@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { ModalConfirm, Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
+import { ButtonBorderAnimated } from '@/core-components';
 import { TransactionHeaderList, TransactionLineList } from '../components';
 import { ModalReceiptShare } from '../../components';
 import '@/library/assets/css/accordion.css';
@@ -141,6 +142,9 @@ const TransactionDetails = observer(() => {
 
   return (
     <>
+      <div className='flex items-center justify-center'>
+        <ButtonBorderAnimated title='WIP' />
+      </div>
       <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}

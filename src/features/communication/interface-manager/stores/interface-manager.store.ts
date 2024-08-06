@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {InterfaceManager} from '../models';
-import {InterfaceManagerService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { InterfaceManager } from '../models';
+import { InterfaceManagerService } from '../services';
 
 interface UpdateItem {
   value: string | boolean | undefined | any[];
@@ -58,7 +58,7 @@ export class InterfaceManagerStore {
   updateInterfaceManagerList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.interfaceManagers.success)
-        return alert(res.interfaceManagers.message);
+        return console.log(res.interfaceManagers.message);
       this.listInterfaceManager = res.interfaceManagers.data;
       this.listInterfaceManagerCopy = res.interfaceManagers.data;
       this.listInterfaceManagerCount =

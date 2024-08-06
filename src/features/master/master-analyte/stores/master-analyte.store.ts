@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {MasterAnalyte, SelectedItems, MasterAnalyteActivity} from '../models';
-import {MasterAnalyteService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { MasterAnalyte, SelectedItems, MasterAnalyteActivity } from '../models';
+import { MasterAnalyteService } from '../services';
 import dayjs from 'dayjs';
 
 export class MasterAnalyteStore {
@@ -83,7 +83,8 @@ export class MasterAnalyteStore {
 
   updateMasterAnalyteList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.analyteMasters.success) return alert(res.analyteMasters.message);
+      if (!res.analyteMasters.success)
+        return console.log(res.analyteMasters.message);
       this.listMasterAnalyte = res.analyteMasters.data;
       this.listMasterAnalyteCopy = res.analyteMasters.data;
       this.listMasterAnalyteCount = res.analyteMasters.paginatorInfo.count;

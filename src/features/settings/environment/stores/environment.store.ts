@@ -1,5 +1,5 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {EnvironmentService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { EnvironmentService } from '../services';
 import {
   EnvironmentSettings,
   EnvironmentVariable,
@@ -122,7 +122,7 @@ export class EnvironmentStore {
 
   updateEnvVariableList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.enviroments.success) return alert(res.enviroments.message);
+      if (!res.enviroments.success) return console.log(res.enviroments.message);
       this.environmentVariableList = res.enviroments.data;
       this.environmentVariableListCopy = res.enviroments.data;
       this.environmentVariableListCount = res.enviroments.paginatorInfo.count;
@@ -138,7 +138,7 @@ export class EnvironmentStore {
   }
 
   updateEnvSettingsList(res: any) {
-    if (!res.enviroments.success) return alert(res.enviroments.message);
+    if (!res.enviroments.success) return console.log(res.enviroments.message);
     this.environmentSettingsList = res.enviroments.data;
     this.environmentSettingsListCount = res.enviroments.paginatorInfo.count;
   }

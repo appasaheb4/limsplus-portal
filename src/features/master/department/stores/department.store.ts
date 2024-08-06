@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Department, SelectedItems} from '../models';
-import {DepartmentService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Department, SelectedItems } from '../models';
+import { DepartmentService } from '../services';
 import dayjs from 'dayjs';
 
 export class DepartmentStore {
@@ -55,7 +55,7 @@ export class DepartmentStore {
 
   updateDepartmentList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.departments.success) return alert(res.departments.message);
+      if (!res.departments.success) return console.log(res.departments.message);
       this.listDepartment = res.departments.data;
       this.listDepartmentCopy = res.departments.data;
       this.listDepartmentCount = res.departments.paginatorInfo.count;

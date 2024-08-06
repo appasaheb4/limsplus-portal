@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {ReferenceRanges} from '../models';
-import {ReferenceRangesService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { ReferenceRanges } from '../models';
+import { ReferenceRangesService } from '../services';
 
 export class RefernceRangesStore {
   referenceRanges!: ReferenceRanges;
@@ -46,7 +46,8 @@ export class RefernceRangesStore {
   }
 
   updateReferenceRangesList(res: any) {
-    if (!res.referenceRanges.success) return alert(res.referenceRanges.message);
+    if (!res.referenceRanges.success)
+      return console.log(res.referenceRanges.message);
     this.listReferenceRanges = res.referenceRanges.data;
     this.listReferenceRangesCount = res.referenceRanges.paginatorInfo.count;
   }

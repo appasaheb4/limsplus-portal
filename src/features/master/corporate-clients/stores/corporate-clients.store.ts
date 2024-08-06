@@ -102,7 +102,7 @@ export class CorporateClientsStore {
   updateCorporateClientsList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.corporateClients.success)
-        return alert(res.corporateClients.message);
+        return console.log(res.corporateClients.message);
       this.listCoporateClientsCount = res.corporateClients.paginatorInfo.count;
       this.listCorporateClients = res.corporateClients.data;
       this.listCorporateClientsCopy = res.corporateClients.data;

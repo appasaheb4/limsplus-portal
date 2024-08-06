@@ -28,7 +28,7 @@ export const SalesHierarchyTable = observer(
         input: { filter: { role: 'SALES' } },
       }).then(res => {
         if (!res.findByFieldsUser.success)
-          return alert(res.findByFieldsUser.message);
+          return console.log(res.findByFieldsUser.message);
         setEmployeeList(res.findByFieldsUser.data);
       });
     };

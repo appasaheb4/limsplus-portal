@@ -74,7 +74,7 @@ export class RegistrationLocationsStore {
   updateRegistrationLocationsList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.registrationLocations.success)
-        return alert(res.registrationLocations.message);
+        return console.log(res.registrationLocations.message);
       this.listRegistrationLocationsCount =
         res.registrationLocations.paginatorInfo.count;
       this.listRegistrationLocations = res.registrationLocations.data;

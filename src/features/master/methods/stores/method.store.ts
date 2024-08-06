@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Methods} from '../models';
-import {MethodsService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Methods } from '../models';
+import { MethodsService } from '../services';
 
 export class MethodsStore {
   methods!: Methods;
@@ -47,7 +47,7 @@ export class MethodsStore {
 
   updateMethodsList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.methods.success) return alert(res.methods.message);
+      if (!res.methods.success) return console.log(res.methods.message);
       this.listMethodsCount = res.methods.paginatorInfo.count;
       this.listMethods = res.methods.data;
       this.listMethodsCopy = res.methods.data;

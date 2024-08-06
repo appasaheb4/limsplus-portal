@@ -57,7 +57,7 @@ export const PdfViewBill = ({
   mainBoxCSS,
   pageSize,
 }: PdfViewBillProps) => {
-  const { transactionHeader } = data || {};
+  const { transactionHeader, billingList } = data || {};
   const boxCSS = useRef<any>(styles.page);
   if (mainBoxCSS) {
     try {
@@ -86,7 +86,7 @@ export const PdfViewBill = ({
         {/* Header Details */}
         <HeaderDetails transactionHeader={transactionHeader} />
         {/* Billing List */}
-        <BillingList />
+        <BillingList list={billingList} />
         {/* Amount Details */}
         <AmountDetails transactionHeader={transactionHeader} />
 

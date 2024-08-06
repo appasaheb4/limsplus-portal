@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {TestAnalyteMapping, SelectedItems} from '../models';
-import {TestAnalyteMappingService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { TestAnalyteMapping, SelectedItems } from '../models';
+import { TestAnalyteMappingService } from '../services';
 import dayjs from 'dayjs';
 
 export class TestAnalyteMappingStore {
@@ -62,7 +62,7 @@ export class TestAnalyteMappingStore {
   updateTestAnalyteMappingList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.testAnalyteMappings.success)
-        return alert(res.testAnalyteMappings.message);
+        return console.log(res.testAnalyteMappings.message);
       this.listTestAnalyteMapping = res.testAnalyteMappings.data;
       this.listTestAnalyteMappingCopy = res.testAnalyteMappings.data;
       this.listTestAnalyteMappingCount =

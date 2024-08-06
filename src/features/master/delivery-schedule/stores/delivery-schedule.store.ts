@@ -60,7 +60,7 @@ export class DeliveryScheduleStore {
   updateDeliveryScheduleList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.deliverySchdules.success)
-        return alert(res.deliverySchdules.message);
+        return console.log(res.deliverySchdules.message);
       this.listDeliverySchedule = res.deliverySchdules.data;
       this.listDeliveryScheduleCopy = res.deliverySchdules.data;
       this.listDeliveryScheduleCount = res.deliverySchdules.paginatorInfo.count;

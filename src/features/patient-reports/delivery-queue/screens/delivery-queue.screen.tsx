@@ -513,7 +513,7 @@ const DeliveryQueue = observer(() => {
                     });
                 }
               } else {
-                alert(res.getPatientReports.message);
+                console.log(res.getPatientReports.message);
               }
             });
         }}

@@ -69,7 +69,7 @@ export class LabStore {
 
   updateLabList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.labs.success) return alert(res.labs.message);
+      if (!res.labs.success) return console.log(res.labs.message);
       this.listLabs = res.labs.data;
       this.listLabsCopy = res.labs.data;
       this.listLabsCount = res.labs.paginatorInfo.count;

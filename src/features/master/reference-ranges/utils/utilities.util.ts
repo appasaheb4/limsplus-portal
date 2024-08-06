@@ -30,9 +30,9 @@ export const getDays = (ageFrom, ageFromUnit, ageTo, ageToUnit) => {
             .diff(dayjs(), 'day')
         : dayjs().add(7, 'day').diff(dayjs(), 'day') * Number.parseInt(ageTo);
     if (daysAgeFrom > daysAgeTo) {
-      alert('Please enter correct value');
+      console.log('Please enter correct value');
       return;
     }
-    return {daysAgeFrom, daysAgeTo};
-  } else return {daysAgeFrom: 1, daysAgeTo: 1};
+    return { daysAgeFrom, daysAgeTo };
+  } else return { daysAgeFrom: 1, daysAgeTo: 1 };
 };

@@ -1,5 +1,5 @@
-import {eventEmitter} from '@/core-utils';
-import {Stores} from './stores';
+import { eventEmitter } from '@/core-utils';
+import { Stores } from './stores';
 const startup = async () => {
   setTimeout(() => {
     Stores.salesTeamStore.fetchSalesTeam();

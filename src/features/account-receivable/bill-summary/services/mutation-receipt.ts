@@ -56,43 +56,9 @@ export const GENERATE_BILL = gql`
 export const GET_BILLING_LIST = gql`
   mutation ($input: BillSummaryInput!) {
     getBillingListBillSummary(input: $input) {
-      paginatorInfo {
-        count
-      }
       success
       message
-      data {
-        _id
-        billNo
-        billDate
-        corporateCode
-        corporateName
-        invoiceAc
-        clientName
-        clientContactNo
-        billingFrequency
-        billForm
-        billTo
-        accountType
-        customerGroup
-        billingOn
-        grossAmount
-        netAmount
-        discountAmount
-        discountPer
-        miscellaneousCharges
-        allMiscCharges
-        discountCharges
-        receivedAmount
-        balance
-        billingList
-        status
-        enteredBy
-        companyCode
-        environment
-        createdAt
-        updatedAt
-      }
+      result
     }
   }
 `;

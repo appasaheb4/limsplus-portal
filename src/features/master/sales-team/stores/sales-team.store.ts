@@ -54,7 +54,7 @@ export class SalesTeamStore {
 
   updateSalesTeamList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.salesTeams.success) return alert(res.salesTeams.message);
+      if (!res.salesTeams.success) return console.log(res.salesTeams.message);
       this.listSalesTeam = res.salesTeams.data;
       this.listSalesTeamCopy = res.salesTeams.data;
       this.listSalesTeamCount = res.salesTeams.paginatorInfo.count;
@@ -69,8 +69,6 @@ export class SalesTeamStore {
   }
 
   updateSalesTeam(team: SalesTeam) {
-    console.log({ team });
-
     this.salesTeam = team;
   }
 

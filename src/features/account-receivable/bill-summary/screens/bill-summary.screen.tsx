@@ -5,6 +5,8 @@ import { Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
 import { BillSummaryList, ModalViewBill } from '../components';
+import { ButtonBorderAnimated } from '@/core-components';
+
 import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
@@ -16,6 +18,10 @@ const BillSummary = observer(() => {
 
   return (
     <>
+      <div className='flex items-center justify-center'>
+        <ButtonBorderAnimated title='WIP' />
+      </div>
+
       <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
@@ -50,7 +56,6 @@ const BillSummary = observer(() => {
             });
           }}
           onReport={item => {
-            console.log({ item });
             // fetch billing list
             billSummaryStore.billSummaryService
               .getBillingList({
@@ -62,14 +67,18 @@ const BillSummary = observer(() => {
                 },
               })
               .then(res => {
-                console.log({ res });
+                if (!res.getBillingListBillSummary?.success)
+                  return Toast.error({
+                    message: `😔 ${res.getBillingListBillSummary.message}`,
+                  });
+                setModalViewBill({
+                  show: true,
+                  data: {
+                    transactionHeader: item,
+                    billingList: res.getBillingListBillSummary?.result,
+                  },
+                });
               });
-            setModalViewBill({
-              show: true,
-              data: {
-                transactionHeader: item,
-              },
-            });
             // receiptStore.receiptService
             //   .generatePaymentReceipt({ input: { headerId: item?.headerId } })
             //   .then(async res => {

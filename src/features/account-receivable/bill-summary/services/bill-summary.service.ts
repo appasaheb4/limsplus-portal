@@ -26,8 +26,6 @@ export class BillSummaryService {
           variables: { input: { page, limit } },
         })
         .then((response: any) => {
-          console.log({ response });
-
           stores.billSummaryStore.updateBillSummaryList(response.data);
           resolve(response.data);
         })

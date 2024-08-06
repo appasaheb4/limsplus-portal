@@ -1,7 +1,7 @@
-import {stores} from '@/stores';
-import {InterfaceManager} from '../interface-manager/models';
-import {MappingValues} from '../models';
-import {decode} from '@/library/modules/parser/parser-hl7';
+import { stores } from '@/stores';
+import { InterfaceManager } from '../interface-manager/models';
+import { MappingValues } from '../models';
+import { decode } from '@/library/modules/parser/parser-hl7';
 
 class HostCommunicationFlows {
   mapping = async (interfaceManager: InterfaceManager) => {
@@ -16,7 +16,7 @@ class HostCommunicationFlows {
       })
       .then(res => {
         if (!res.findByFieldsSegmentMapping.success)
-          return alert('Not found equipment type');
+          return console.log('Not found equipment type');
         data = res.findByFieldsSegmentMapping.data;
       });
     const mapping: any[] = [];
@@ -44,7 +44,7 @@ class HostCommunicationFlows {
     const entries = Object.entries(group);
     for (const item of entries) {
       mapping.push({
-        [item[0].toLowerCase() || '']: {values: item[1]},
+        [item[0].toLowerCase() || '']: { values: item[1] },
       });
     }
     return mapping;

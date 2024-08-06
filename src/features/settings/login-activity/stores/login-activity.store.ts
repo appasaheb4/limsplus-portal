@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {LoginActivity} from '../models';
-import {LoginActivityService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { LoginActivity } from '../models';
+import { LoginActivityService } from '../services';
 
 export class LoginActivityStore {
   listLoginActivity: LoginActivity[];
@@ -27,7 +27,8 @@ export class LoginActivityStore {
   }
 
   updateLoginActivityList(res: any) {
-    if (!res.loginActivitys.success) return alert(res.loginActivitys.message);
+    if (!res.loginActivitys.success)
+      return console.log(res.loginActivitys.message);
     this.listLoginActivity = res.loginActivitys.data;
     this.listLoginActivityCount = res.loginActivitys.paginatorInfo.count;
   }

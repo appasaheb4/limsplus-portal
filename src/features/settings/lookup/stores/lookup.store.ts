@@ -59,7 +59,7 @@ export class LookupStore {
 
   updateLookupList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.lookups.success) return alert(res.lookups.message);
+      if (!res.lookups.success) return console.log(res.lookups.message);
       this.listLookup = res.lookups.data;
       this.listLookupCount = res.lookups.paginatorInfo.count;
     } else {

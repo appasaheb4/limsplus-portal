@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {SampleType} from '../models';
-import {SampleTypeService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { SampleType } from '../models';
+import { SampleTypeService } from '../services';
 
 export class SampleTypeStore {
   listSampleType!: SampleType[];
@@ -47,7 +47,7 @@ export class SampleTypeStore {
 
   updateSampleTypeList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.sampleTypes.success) return alert(res.sampleTypes.message);
+      if (!res.sampleTypes.success) return console.log(res.sampleTypes.message);
       this.listSampleType = res.sampleTypes.data;
       this.listSampleTypeCopy = res.sampleTypes.data;
       this.listSampleTypeCount = res.sampleTypes.paginatorInfo.count;

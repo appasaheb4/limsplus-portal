@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Section} from '../models';
-import {SectionService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Section } from '../models';
+import { SectionService } from '../services';
 
 export class SectionStore {
   listSection!: Section[];
@@ -44,7 +44,7 @@ export class SectionStore {
   }
 
   updateSectionList(res: any) {
-    if (!res.sections.success) return alert(res.sections.message);
+    if (!res.sections.success) return console.log(res.sections.message);
     this.listSection = res.sections.data;
     this.listSectionCount = res.sections.paginatorInfo.count;
   }

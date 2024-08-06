@@ -24,7 +24,7 @@ export class EventLogsStore {
 
   updateEventLogsList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.eventLogs.success) return alert(res.eventLogs.message);
+      if (!res.eventLogs.success) return console.log(res.eventLogs.message);
       this.eventLogsListCount = res.eventLogs.paginatorInfo.count;
       this.eventLogsList = res.eventLogs.data;
     } else {
@@ -34,7 +34,8 @@ export class EventLogsStore {
 
   filterEventLog(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.filterEventLog.success) return alert(res.filterEventLog.message);
+      if (!res.filterEventLog.success)
+        return console.log(res.filterEventLog.message);
       this.eventLogsList = res.filterEventLog.data;
       this.eventLogsListCount = res.filterEventLog.paginatorInfo.count;
     } else {

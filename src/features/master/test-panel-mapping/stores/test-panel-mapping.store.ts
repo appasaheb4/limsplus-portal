@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {TestPanelMapping, SelectedItems} from '../models';
-import {TestPanelMappingService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { TestPanelMapping, SelectedItems } from '../models';
+import { TestPanelMappingService } from '../services';
 import dayjs from 'dayjs';
 
 export class TestPanelMappingStore {
@@ -67,7 +67,7 @@ export class TestPanelMappingStore {
 
   updateTestPanelMappingList(res: any) {
     if (!res.testPanelMappings.success)
-      return alert(res.testPanelMappings.message);
+      return console.log(res.testPanelMappings.message);
     this.listTestPanelMapping = res.testPanelMappings.data;
     this.listTestPanelMappingCount = res.testPanelMappings.paginatorInfo.count;
   }
