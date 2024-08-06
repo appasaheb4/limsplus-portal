@@ -56,7 +56,9 @@ export const ColumnFilter: React.FC<ColumnFilterProps> = ({
 
   const onDragEnd = result => {
     if (!result.destination) return;
-    const reorderedColumns = Array.from(columnOrder);
+    const reorderedColumns = Array.from(
+      columnOrder.filter(column => column.dataField !== '_id'),
+    );
     const [removed] = reorderedColumns.splice(result.source.index, 1);
     reorderedColumns.splice(result.destination.index, 0, removed);
     onColumnReorder(reorderedColumns);

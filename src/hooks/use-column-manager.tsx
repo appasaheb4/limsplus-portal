@@ -13,7 +13,7 @@ export const useColumnManager = (initialColumns: Column[]) => {
   const [selectedColumns, setSelectedColumns] = useState<string[]>(
     initialColumns.map(column => column.dataField),
   );
-  const [columnOrder, setColumnOrder] = useState<Column[]>(initialColumns);
+  const [columnOrder, setColumnOrder] = useState<any>();
 
   const uniqueColumns = Array.from(
     new Set(initialColumns.map(col => col.dataField)),
@@ -40,8 +40,12 @@ export const useColumnManager = (initialColumns: Column[]) => {
       new Set(newColumns.map(col => col.dataField)),
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     ).map(dataField => newColumns.find(col => col.dataField === dataField)!);
-    // setColumnOrder(reorderedColumns);
-    setCurrentColumns(reorderedColumns);
+    setColumnOrder(reorderedColumns);
+    setCurrentColumns(
+      reorderedColumns.filter(column =>
+        selectedColumns.includes(column.dataField),
+      ),
+    );
   };
 
   const handleColumnToggle = (newSelectedColumns: string[]) => {
