@@ -51,6 +51,16 @@ const DeliverySchedule = DeliveryScheduleHoc(
     useEffect(() => {
       // Default value initialization
       setValue('status', deliveryScheduleStore.deliverySchedule?.status);
+      setValue(
+        'pStartTime',
+        deliveryScheduleStore.deliverySchedule?.pStartTime,
+      );
+      setValue('pEndTime', deliveryScheduleStore.deliverySchedule?.pEndTime);
+      setValue('cutofTime', deliveryScheduleStore.deliverySchedule?.cutofTime);
+      setValue(
+        'secoundCutofTime',
+        deliveryScheduleStore.deliverySchedule?.secoundCutofTime,
+      );
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [deliveryScheduleStore.deliverySchedule]);
 
