@@ -252,7 +252,7 @@ export const collectionRoutes = {
     },
     {
       path: '/collection/tat-master',
-      name: 'Tat Master',
+      name: 'TAT Settings',
       icon: 'BiCommentDetail',
       component: TatMaster,
     },
