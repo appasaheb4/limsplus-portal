@@ -35,9 +35,13 @@ const styles = StyleSheet.create({
 
 interface BillingListProps {
   list: Array<any>;
+  transactionHeader: any;
 }
 
-const BillingList = ({ list }: BillingListProps) => {
+const BillingList = ({
+  list = [],
+  transactionHeader = {},
+}: BillingListProps) => {
   console.log({ list });
 
   return (
@@ -77,7 +81,7 @@ const BillingList = ({ list }: BillingListProps) => {
                 dayjs(item.patientVisit?.registrationDate).format(
                   'DD-MM-YYYY',
                 ) || '',
-                dayjs(new Date()).format('DD-MM-YYYY') || '',
+                dayjs(item?.invoiceDate).format('DD-MM-YYYY') || '',
                 item?.enteredBy || '',
               ]?.map((item, index) => (
                 <View
@@ -118,26 +122,31 @@ const BillingList = ({ list }: BillingListProps) => {
                 </View>
               ))}
             </View>
-            <View style={[styles.tableRow]}>
-              {[
-                '',
-                'Panel Code',
-                'Patient Name',
-                'Gross Amount',
-                'Net Amount',
-                'Discount Amount',
-                'Discount Per',
-                'Misc. Charges',
-                'Other Charges',
-              ]?.map((item, index) => (
-                <View
-                  key={index}
-                  style={[index !== 0 ? styles.border : {}, { width: '65px' }]}
-                >
-                  <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                </View>
-              ))}
-            </View>
+            {item.transactionList?.map(tran => (
+              <View style={[styles.tableRow]}>
+                {[
+                  '',
+                  tran?.panelCode,
+                  tran?.panelName,
+                  tran?.grossAmount,
+                  tran?.netAmount,
+                  tran?.discountAmount,
+                  tran?.discountPer,
+                  tran?.miscellaneousCharges,
+                  '', // not pickup other charges in transaction line we need update backend side
+                ]?.map((item, index) => (
+                  <View
+                    key={index}
+                    style={[
+                      index !== 0 ? styles.border : {},
+                      { width: '65px' },
+                    ]}
+                  >
+                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
+                  </View>
+                ))}
+              </View>
+            ))}
           </PdfView>
           {/* Payment Details */}
           <PdfView mh={0} p={0} style={styles.border}>
@@ -163,26 +172,31 @@ const BillingList = ({ list }: BillingListProps) => {
                 </View>
               ))}
             </View>
-            <View style={[styles.tableRow]}>
-              {[
-                '',
-                'Action Date',
-                'Payment Type',
-                'Total Receivable',
-                'Total Received',
-                'Balance',
-                'Mode Of Payment',
-                'Payment Remark',
-                'Status',
-              ]?.map((item, index) => (
-                <View
-                  key={index}
-                  style={[index !== 0 ? styles.border : {}, { width: '65px' }]}
-                >
-                  <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                </View>
-              ))}
-            </View>
+            {item.paymentDetails?.map(pt => (
+              <View style={[styles.tableRow]}>
+                {[
+                  '',
+                  'Action Date',
+                  pt?.acType,
+                  pt?.amountPayable,
+                  pt?.totalReceivedAmount,
+                  pt?.balance,
+                  pt?.modeOfPayment,
+                  pt?.paymentRemark,
+                  pt?.status,
+                ]?.map((item, index) => (
+                  <View
+                    key={index}
+                    style={[
+                      index !== 0 ? styles.border : {},
+                      { width: '65px' },
+                    ]}
+                  >
+                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
+                  </View>
+                ))}
+              </View>
+            ))}
           </PdfView>
         </PdfView>
       ))}

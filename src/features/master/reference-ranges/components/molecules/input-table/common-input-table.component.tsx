@@ -13,6 +13,7 @@ interface CommonInputTableProps {
   data?: any;
   isVersionUpgrade?: boolean;
   isReload?: boolean;
+  isResetDefaultField?: boolean;
   reset: any;
   setValue: any;
   clearErrors: any;
@@ -26,6 +27,7 @@ export const CommonInputTable = observer(
     data,
     isVersionUpgrade = false,
     isReload = false,
+    isResetDefaultField = false,
     reset,
     setValue,
     clearErrors,
@@ -49,59 +51,76 @@ export const CommonInputTable = observer(
       useState<boolean>(false);
 
     useEffect(() => {
-      setError('department');
-      setError('analyte');
-      setError('species');
-      setError('sex');
-      setError('rangeSetOn');
-      reset();
+      console.log({ isResetDefaultField });
+
+      if (isResetDefaultField) {
+        clearErrors('department');
+        clearErrors('analyte');
+        clearErrors('species');
+        clearErrors('sex');
+        clearErrors('rangeSetOn');
+        clearErrors('lab');
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isResetDefaultField]);
+
+    useEffect(() => {
+      if (!isResetDefaultField) {
+        setError('department');
+        setError('analyte');
+        setError('species');
+        setError('sex');
+        setError('rangeSetOn');
+        reset();
+      }
       // setValue('species', refernceRangesStore.referenceRanges?.species);
       // setValue('rangeSetOn', refernceRangesStore.referenceRanges?.rangeSetOn);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isReload]);
 
     useEffect(() => {
-      switch (refernceRangesStore.referenceRanges?.rangeSetOn) {
-        case 'I':
-          setIsDisableEquipmentType(false);
-          setError('equipmentType', { type: 'onBlur' });
-          setIsDisableLab(true);
-          clearErrors('lab');
-          refernceRangesStore.updateReferenceRanges({
-            ...refernceRangesStore.referenceRanges,
-            lab: undefined,
-          });
-          break;
-        case 'L':
-          setIsDisableEquipmentType(true);
-          clearErrors('equipmentType');
-          setIsDisableLab(false);
-          setError('lab', { type: 'onBlur' });
-          refernceRangesStore.updateReferenceRanges({
-            ...refernceRangesStore.referenceRanges,
-            instType: undefined,
-          });
-          break;
-        case 'B':
-          setIsDisableEquipmentType(false);
-          setError('equipmentType', { type: 'onBlur' });
-          setIsDisableLab(false);
-          setError('lab', { type: 'onBlur' });
-          break;
-        case 'A':
-          setIsDisableEquipmentType(true);
-          clearErrors('equipmentType');
-          setIsDisableLab(true);
-          clearErrors('lab');
-          refernceRangesStore.updateReferenceRanges({
-            ...refernceRangesStore.referenceRanges,
-            instType: undefined,
-            lab: undefined,
-          });
-          break;
-        default:
-          break;
-      }
+      if (!isResetDefaultField)
+        switch (refernceRangesStore.referenceRanges?.rangeSetOn) {
+          case 'I':
+            setIsDisableEquipmentType(false);
+            setError('equipmentType', { type: 'onBlur' });
+            setIsDisableLab(true);
+            clearErrors('lab');
+            refernceRangesStore.updateReferenceRanges({
+              ...refernceRangesStore.referenceRanges,
+              lab: undefined,
+            });
+            break;
+          case 'L':
+            setIsDisableEquipmentType(true);
+            clearErrors('equipmentType');
+            setIsDisableLab(false);
+            setError('lab', { type: 'onBlur' });
+            refernceRangesStore.updateReferenceRanges({
+              ...refernceRangesStore.referenceRanges,
+              instType: undefined,
+            });
+            break;
+          case 'B':
+            setIsDisableEquipmentType(false);
+            setError('equipmentType', { type: 'onBlur' });
+            setIsDisableLab(false);
+            setError('lab', { type: 'onBlur' });
+            break;
+          case 'A':
+            setIsDisableEquipmentType(true);
+            clearErrors('equipmentType');
+            setIsDisableLab(true);
+            clearErrors('lab');
+            refernceRangesStore.updateReferenceRanges({
+              ...refernceRangesStore.referenceRanges,
+              instType: undefined,
+              lab: undefined,
+            });
+            break;
+          default:
+            break;
+        }
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [refernceRangesStore.referenceRanges?.rangeSetOn]);
 
@@ -202,7 +221,7 @@ export const CommonInputTable = observer(
                     />
                   )}
                   name='department'
-                  rules={{ required: true }}
+                  rules={{ required: isResetDefaultField ? false : true }}
                   defaultValue={''}
                 />
               </td>
@@ -251,7 +270,7 @@ export const CommonInputTable = observer(
                     />
                   )}
                   name='analyte'
-                  rules={{ required: true }}
+                  rules={{ required: isResetDefaultField ? false : true }}
                   defaultValue=''
                 />
               </td>
@@ -285,7 +304,7 @@ export const CommonInputTable = observer(
                     </select>
                   )}
                   name='species'
-                  rules={{ required: true }}
+                  rules={{ required: isResetDefaultField ? false : true }}
                   defaultValue=''
                 />
               </td>
@@ -318,7 +337,7 @@ export const CommonInputTable = observer(
                     </select>
                   )}
                   name='sex'
-                  rules={{ required: true }}
+                  rules={{ required: isResetDefaultField ? false : true }}
                   defaultValue=''
                 />
               </td>
@@ -359,7 +378,7 @@ export const CommonInputTable = observer(
                     </select>
                   )}
                   name='rangeSetOn'
-                  rules={{ required: true }}
+                  rules={{ required: isResetDefaultField ? false : true }}
                   defaultValue=''
                 />
               </td>
@@ -402,7 +421,9 @@ export const CommonInputTable = observer(
                     />
                   )}
                   name='lab'
-                  rules={{ required: !isDisableLab }}
+                  rules={{
+                    required: isResetDefaultField ? false : !isDisableLab,
+                  }}
                   defaultValue=''
                 />
               </td>
@@ -447,22 +468,17 @@ export const CommonInputTable = observer(
                     />
                   )}
                   name='equipmentType'
-                  rules={{ required: !isDisableEquipmentType }}
+                  rules={{
+                    required: isResetDefaultField
+                      ? false
+                      : !isDisableEquipmentType,
+                  }}
                   defaultValue=''
                 />
               </td>
             </tr>
           </tbody>
         </Table>
-        ;
-        {/* <Buttons.Button
-          size='medium'
-          type='solid'
-          onClick={handleSubmit(addItem)}
-        >
-          <Icons.EvaIcon icon='plus-circle-outline' />
-          {'Add'}
-        </Buttons.Button> */}
       </div>
     );
   },

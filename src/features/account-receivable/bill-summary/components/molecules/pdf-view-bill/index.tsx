@@ -86,7 +86,10 @@ export const PdfViewBill = ({
         {/* Header Details */}
         <HeaderDetails transactionHeader={transactionHeader} />
         {/* Billing List */}
-        <BillingList list={billingList} />
+        <BillingList
+          list={billingList}
+          transactionHeader={{ invoiceDate: transactionHeader?.invoiceDate }}
+        />
         {/* Amount Details */}
         <AmountDetails transactionHeader={transactionHeader} />
 
