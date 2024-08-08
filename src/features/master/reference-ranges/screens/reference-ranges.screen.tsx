@@ -60,59 +60,51 @@ const ReferenceRanges = ReferenceRangesHoc(
     const [isResetDefaultField, setIsResetDefaultField] = useState(false);
 
     const onSubmitReferenceRanges = () => {
-      if (!isImport) {
-        if (
-          refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0
-        ) {
-          if (!isExistsRecord) {
-            if (
-              !_.isEqual(
-                JSON.stringify(
-                  refernceRangesStore.referenceRanges?.refRangesInputList,
-                ),
-                dupExistsRecords,
-              )
-            ) {
-              refernceRangesStore.referenceRangesService
-                .addReferenceRanges({
-                  input: {
-                    isImport,
-                    filter: {
-                      refRangesInputList: _.filter(
-                        refernceRangesStore.referenceRanges?.refRangesInputList,
-                        (a: any) => {
-                          a._id = undefined;
-                          return a;
-                        },
-                      ),
-                    },
+      if (refernceRangesStore.referenceRanges?.refRangesInputList?.length > 0) {
+        if (!isExistsRecord) {
+          if (
+            !_.isEqual(
+              JSON.stringify(
+                refernceRangesStore.referenceRanges?.refRangesInputList,
+              ),
+              dupExistsRecords,
+            )
+          ) {
+            refernceRangesStore.referenceRangesService
+              .addReferenceRanges({
+                input: {
+                  isImport,
+                  filter: {
+                    refRangesInputList: _.filter(
+                      refernceRangesStore.referenceRanges?.refRangesInputList,
+                      (a: any) => {
+                        a._id = undefined;
+                        return a;
+                      },
+                    ),
                   },
-                })
-                .then(res => {
-                  if (res.createReferenceRange.success) {
-                    Toast.success({
-                      message: `😊 ${res.createReferenceRange.message}`,
-                    });
-                    setHideAddView(true);
-                    resetReferenceRange();
-                    setIsCommonTableReload(!isCommonTableReload);
-                    setIsImport(false);
-                    setIsVersionUpgrade(false);
-                    refernceRangesStore.updateReferenceRanges({
-                      ...refernceRangesStore.referenceRanges,
-                      refRangesInputList: [],
-                    });
-                  } else {
-                    Toast.error({
-                      message: `😔 ${res.createReferenceRange.message}`,
-                    });
-                  }
-                });
-            } else {
-              Toast.error({
-                message: '😔 Duplicate record found!',
+                },
+              })
+              .then(res => {
+                if (res.createReferenceRange.success) {
+                  Toast.success({
+                    message: `😊 ${res.createReferenceRange.message}`,
+                  });
+                  setHideAddView(true);
+                  resetReferenceRange();
+                  setIsCommonTableReload(!isCommonTableReload);
+                  setIsImport(false);
+                  setIsVersionUpgrade(false);
+                  refernceRangesStore.updateReferenceRanges({
+                    ...refernceRangesStore.referenceRanges,
+                    refRangesInputList: [],
+                  });
+                } else {
+                  Toast.error({
+                    message: `😔 ${res.createReferenceRange.message}`,
+                  });
+                }
               });
-            }
           } else {
             Toast.error({
               message: '😔 Duplicate record found!',
@@ -120,10 +112,15 @@ const ReferenceRanges = ReferenceRangesHoc(
           }
         } else {
           Toast.error({
-            message: '😔 Records not found.',
+            message: '😔 Duplicate record found!',
           });
         }
+      } else {
+        Toast.error({
+          message: '😔 Records not found.',
+        });
       }
+
       // comment buz we don't need upload direct import array
       //  else {
       //   refernceRangesStore.referenceRangesService
@@ -299,6 +296,69 @@ const ReferenceRanges = ReferenceRangesHoc(
       [refernceRangesStore.listReferenceRanges],
     );
 
+    const importFileToUpdateState = list => {
+      const refRangesInputList: Array<any> = [];
+      const rangeType = getDefaultLookupItem(
+        routerStore.lookupItems,
+        'RANGE_TYPE',
+      );
+      const validationLevel = Number.parseInt(
+        getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
+      );
+      list.forEach((item, index) => {
+        refRangesInputList.push({
+          rangeId: index + 1,
+          analyteCode: item?.analyteCode,
+          analyteName: item?.analyteName,
+          analyteDepartments: item?.analyteDepartments,
+          department: item?.department,
+          species: item?.species,
+          sex: item?.sex,
+          rangeSetOn: item?.rangeSetOn,
+          instType: item?.instType,
+          lab: item?.lab,
+          picture: item?.picture,
+          ageFrom: item?.ageFrom,
+          ageFromUnit: item?.ageFromUnit,
+          ageTo: item?.ageTo,
+          ageToUnit: item?.ageToUnit,
+          alpha: item?.alpha,
+          daysAgeFrom: item?.daysAgeFrom,
+          daysAgeTo: item?.daysAgeTo,
+          deltaInterval: item?.deltaInterval,
+          deltaType: item?.deltaType,
+          high: item?.high,
+          intervalUnit: item?.intervalUnit,
+          low: item?.low,
+          version: 1,
+          dateCreation: new Date(),
+          dateActive: new Date(),
+          dateExpire: new Date(
+            dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+          ),
+          enterBy: loginStore.login.userId,
+          status: 'D',
+          type: 'insert',
+          rangeType,
+          validationLevel,
+        });
+      });
+      refernceRangesStore.updateReferenceRanges({
+        ...refernceRangesStore.referenceRanges,
+        department: refRangesInputList[0]?.department,
+        analyteCode: refRangesInputList[0]?.analyteCode,
+        analyteName: refRangesInputList[0]?.analyteName,
+        lab: refRangesInputList[0]?.lab,
+        picture: refRangesInputList[0]?.picture,
+        species: refRangesInputList[0]?.species,
+        sex: refRangesInputList[0]?.sex,
+        rangeSetOn: refRangesInputList[0]?.rangeSetOn,
+        instType: refRangesInputList[0]?.instType,
+        refRangesInputList,
+      });
+      setIsResetDefaultField(true);
+    };
+
     const handleFileUpload = (file: any) => {
       const reader = new FileReader();
       reader.addEventListener('load', (evt: any) => {
@@ -352,9 +412,8 @@ const ReferenceRanges = ReferenceRangesHoc(
             status: 'D',
           };
         });
-        console.log({ list });
-
         setArrImportRecords(list);
+        importFileToUpdateState(list);
       });
       reader.readAsBinaryString(file);
     };
@@ -475,113 +534,58 @@ const ReferenceRanges = ReferenceRangesHoc(
     );
 
     const addItem = async () => {
-      let refRangesInputList: Array<any> = [];
-      console.log({ isImport });
-
-      if (!isImport) {
-        refRangesInputList =
-          refernceRangesStore.referenceRanges?.refRangesInputList;
-        const isExists = await checkExistsRecords(
-          {
-            analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
-            analyteName: refernceRangesStore.referenceRanges?.analyteName,
-            species: refernceRangesStore.referenceRanges?.species,
-            sex: refernceRangesStore.referenceRanges?.sex,
-            rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
-          },
-          true,
-        );
-        if (!isExists) {
-          refRangesInputList.push({
-            rangeId:
-              refernceRangesStore.referenceRanges?.refRangesInputList.length +
-              1,
-            analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
-            analyteName: refernceRangesStore.referenceRanges?.analyteName,
-            analyteDepartments:
-              refernceRangesStore.referenceRanges?.analyteDepartments,
-            department: refernceRangesStore.referenceRanges?.department,
-            species: refernceRangesStore.referenceRanges?.species,
-            sex: refernceRangesStore.referenceRanges?.sex,
-            rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
-            instType: refernceRangesStore.referenceRanges?.instType,
-            lab: refernceRangesStore.referenceRanges?.lab,
-            picture: refernceRangesStore.referenceRanges?.picture,
-            version: 1,
-            dateCreation: new Date(),
-            dateActive: new Date(),
-            dateExpire: new Date(
-              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-            ),
-            enterBy: loginStore.login.userId,
-            status: 'A',
-            type: 'insert',
-            rangeType: getDefaultLookupItem(
-              routerStore.lookupItems,
-              'RANGE_TYPE',
-            ),
-            validationLevel: Number.parseInt(
-              getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
-            ),
-          });
-          refernceRangesStore.updateReferenceRanges({
-            ...refernceRangesStore.referenceRanges,
-            refRangesInputList,
-          });
-        } else {
-          Toast.error({
-            message: '😔 Duplicate record found!',
-          });
-        }
-      } else {
-        const rangeType = getDefaultLookupItem(
-          routerStore.lookupItems,
-          'RANGE_TYPE',
-        );
-        arrImportRecords.forEach((item, index) => {
-          refRangesInputList.push({
-            rangeId: index + 1,
-            analyteCode: item?.analyteCode,
-            analyteName: item?.analyteName,
-            analyteDepartments: item?.analyteDepartments,
-            department: item?.department,
-            species: item?.species,
-            sex: item?.sex,
-            rangeSetOn: item?.rangeSetOn,
-            instType: item?.instType,
-            lab: item?.lab,
-            picture: item?.picture,
-            version: 1,
-            dateCreation: new Date(),
-            dateActive: new Date(),
-            dateExpire: new Date(
-              dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
-            ),
-            enterBy: loginStore.login.userId,
-            status: 'A',
-            type: 'insert',
-            rangeType,
-            validationLevel: Number.parseInt(
-              getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
-            ),
-          });
+      const refRangesInputList =
+        refernceRangesStore.referenceRanges?.refRangesInputList;
+      const isExists = await checkExistsRecords(
+        {
+          analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
+          analyteName: refernceRangesStore.referenceRanges?.analyteName,
+          species: refernceRangesStore.referenceRanges?.species,
+          sex: refernceRangesStore.referenceRanges?.sex,
+          rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
+        },
+        true,
+      );
+      if (!isExists) {
+        refRangesInputList.push({
+          rangeId:
+            refernceRangesStore.referenceRanges?.refRangesInputList.length + 1,
+          analyteCode: refernceRangesStore.referenceRanges?.analyteCode,
+          analyteName: refernceRangesStore.referenceRanges?.analyteName,
+          analyteDepartments:
+            refernceRangesStore.referenceRanges?.analyteDepartments,
+          department: refernceRangesStore.referenceRanges?.department,
+          species: refernceRangesStore.referenceRanges?.species,
+          sex: refernceRangesStore.referenceRanges?.sex,
+          rangeSetOn: refernceRangesStore.referenceRanges?.rangeSetOn,
+          instType: refernceRangesStore.referenceRanges?.instType,
+          lab: refernceRangesStore.referenceRanges?.lab,
+          picture: refernceRangesStore.referenceRanges?.picture,
+          version: 1,
+          dateCreation: new Date(),
+          dateActive: new Date(),
+          dateExpire: new Date(
+            dayjs(new Date()).add(365, 'days').format('YYYY-MM-DD'),
+          ),
+          enterBy: loginStore.login.userId,
+          status: 'A',
+          type: 'insert',
+          rangeType: getDefaultLookupItem(
+            routerStore.lookupItems,
+            'RANGE_TYPE',
+          ),
+          validationLevel: Number.parseInt(
+            getDefaultLookupItem(routerStore.lookupItems, 'VALIDATION_LEVEL'),
+          ),
         });
         refernceRangesStore.updateReferenceRanges({
           ...refernceRangesStore.referenceRanges,
-          department: refRangesInputList[0]?.department,
-          analyteCode: refRangesInputList[0]?.analyteCode,
-          analyteName: refRangesInputList[0]?.analyteName,
-          lab: refRangesInputList[0]?.lab,
-          picture: refRangesInputList[0]?.picture,
-          species: refRangesInputList[0]?.species,
-          sex: refRangesInputList[0]?.sex,
-          rangeSetOn: refRangesInputList[0]?.rangeSetOn,
-          instType: refRangesInputList[0]?.instType,
           refRangesInputList,
         });
-        setIsImport(false);
-        setIsResetDefaultField(true);
-        reset();
+      } else {
+        Toast.error({
+          message: '😔 Duplicate record found!',
+        });
       }
     };
 
@@ -660,6 +664,7 @@ const ReferenceRanges = ReferenceRangesHoc(
                 type='solid'
                 icon={Svg.Plus}
                 onClick={handleSubmit(addItem)}
+                disabled={isImport}
               >
                 Add
               </Buttons.Button>
@@ -668,8 +673,10 @@ const ReferenceRanges = ReferenceRangesHoc(
                 type='solid'
                 icon={Svg.Save}
                 disabled={
-                  toJS(refernceRangesStore.referenceRanges?.refRangesInputList)
-                    .length < 1
+                  refernceRangesStore.referenceRanges?.refRangesInputList
+                    ?.length > 0
+                    ? false
+                    : true
                 }
                 onClick={() => onSubmitReferenceRanges()}
               >

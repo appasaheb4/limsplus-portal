@@ -51,8 +51,6 @@ export const CommonInputTable = observer(
       useState<boolean>(false);
 
     useEffect(() => {
-      console.log({ isResetDefaultField });
-
       if (isResetDefaultField) {
         clearErrors('department');
         clearErrors('analyte');
