@@ -3,12 +3,20 @@ import { AarvakDiagnosticCenterHeader } from './aarvak-diagnostic-center/pdf-hea
 import { AarvakDiagnosticCenterFooter } from './aarvak-diagnostic-center/pdf-footer.component';
 
 // geneflow lab
-import { GeneflowLabHeader } from './geneflow-lab/pdf-header.component';
-import { GeneflowLabFooter } from './geneflow-lab/pdf-footer.component';
+import {
+  GeneflowLabHeader,
+  GeneflowLabHeaderBilling,
+} from './geneflow-lab/pdf-header.component';
+import {
+  GeneflowLabFooter,
+  GeneflowLabFooterBilling,
+} from './geneflow-lab/pdf-footer.component';
 
 export {
   AarvakDiagnosticCenterHeader,
   AarvakDiagnosticCenterFooter,
   GeneflowLabHeader,
+  GeneflowLabHeaderBilling,
   GeneflowLabFooter,
+  GeneflowLabFooterBilling,
 };

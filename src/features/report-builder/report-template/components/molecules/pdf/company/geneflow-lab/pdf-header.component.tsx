@@ -11,30 +11,18 @@ export const GeneflowLabHeader = ({ data }: GeneflowLabHeaderProps) => {
     <>
       <PdfHeader
         p={0}
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
         bg='white'
         fixed
+        style={{ marginLeft: 4, marginBottom: 4 }}
       >
         <PdfImage
-          src={logos.geneflowLab}
+          src={logos.geneflowHeader}
           style={{
-            width: '40%',
-            height: 100,
-          }}
-        />
-        <PdfImage
-          src={logos.geneflowRightTop}
-          style={{
-            width: '60%',
-            height: 140,
+            width: '100%',
           }}
         />
       </PdfHeader>
-      <PdfView style={{ marginLeft: 10, marginTop: -28 }} mh={0} p={0}>
+      {/* <PdfView style={{ marginLeft: 10, marginTop: -28 }} mh={0} p={0}>
         <PdfMedium
           fontSize={14}
           style={{ fontWeight: 'bold' }}
@@ -49,7 +37,33 @@ export const GeneflowLabHeader = ({ data }: GeneflowLabHeaderProps) => {
         <PdfSmall style={{ marginTop: -4 }}>
           Fellow University of Salamanca, Spain
         </PdfSmall>
-      </PdfView>
+      </PdfView> */}
+    </>
+  );
+};
+
+interface GeneflowLabHeaderBillingProps {
+  data?: any;
+}
+
+export const GeneflowLabHeaderBilling = ({
+  data,
+}: GeneflowLabHeaderBillingProps) => {
+  return (
+    <>
+      <PdfHeader
+        p={0}
+        bg='white'
+        fixed
+        style={{ marginLeft: 4, marginTop: 2, marginBottom: 4 }}
+      >
+        <PdfImage
+          src={logos.geneflowHeaderBilling}
+          style={{
+            width: '100%',
+          }}
+        />
+      </PdfHeader>
     </>
   );
 };

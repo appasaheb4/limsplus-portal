@@ -23,6 +23,10 @@ export const logos = {
   geneflowRightTop: require('./images/pdf/geneflow-lab/geneflowTopRight.png'),
   geneflowBottomLeft: require('./images/pdf/geneflow-lab/geneflowBottomLeft.png'),
   genreflowBottom: require('./images/pdf/geneflow-lab/bottom.jpg'),
+  geneflowHeader: require('./pdf/geneflow-lab/header.jpg'),
+  geneflowFooter: require('./pdf/geneflow-lab/footer.jpg'),
+  geneflowHeaderBilling: require('./pdf/geneflow-lab/billingHeader.jpg'),
+  geneflowFooterBilling: require('./pdf/geneflow-lab/billingFooter.jpg'),
 };
 
 export const icons = {

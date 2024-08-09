@@ -176,7 +176,7 @@ const BillingList = ({
               <View style={[styles.tableRow]}>
                 {[
                   '',
-                  'Action Date',
+                  dayjs(pt?.actionDate).format('DD-MM-YYYY') || '',
                   pt?.acType,
                   pt?.amountPayable,
                   pt?.totalReceivedAmount,

@@ -1,13 +1,7 @@
 import React, { useRef } from 'react';
 import { Page, StyleSheet, View, Text } from '@react-pdf/renderer';
-import {
-  PdfPageNumber,
-  PdfView,
-  PdfFooterView,
-  PdfMedium,
-  PdfSmall,
-} from '@components';
-import { getHeaderAndFooter } from '@/core-utils';
+import { PdfPageNumber, PdfView, PdfFooterView, PdfSmall } from '@components';
+import { getHeaderAndFooterBilling } from '@/core-utils';
 import dayjs from 'dayjs';
 import { HeaderDetails, BillingList, AmountDetails } from './components';
 
@@ -71,7 +65,7 @@ export const PdfViewBill = ({
     <>
       <Page size={pageSize} style={boxCSS.current}>
         <PdfView fixed mh={0} p={0}>
-          {isWithHeader && getHeaderAndFooter(companyCode, {})?.header}
+          {isWithHeader && getHeaderAndFooterBilling(companyCode, {})?.header}
         </PdfView>
         <PdfSmall
           textAlign='center'
@@ -95,7 +89,7 @@ export const PdfViewBill = ({
 
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
         <PdfFooterView fixed bg='transparent' style={{ height: 88 }} p={0}>
-          {isWithHeader && getHeaderAndFooter(companyCode, {})?.footer}
+          {isWithHeader && getHeaderAndFooterBilling(companyCode, {})?.footer}
         </PdfFooterView>
       </Page>
     </>
