@@ -138,6 +138,19 @@ export const PaymentList = (props: PaymentListProps) => {
             ),
           },
           {
+            dataField: 'actionDate',
+            text: 'Action Date',
+            sort: true,
+            editable: false,
+            headerClasses: 'textHeaderm',
+            formatter: (cell, row) => {
+              return (
+                row.actionDate &&
+                dayjs(row.actionDate).format('DD-MM-YYYY HH:MM')
+              );
+            },
+          },
+          {
             dataField: 'rLab',
             text: 'RLab',
             sort: true,
@@ -169,7 +182,7 @@ export const PaymentList = (props: PaymentListProps) => {
             editable: false,
             headerClasses: 'textHeader',
             formatter: (cell, row) => {
-              return <span>{row.discountCharges}</span>;
+              return <span>{row?.discountCharges}</span>;
             },
           },
           {
@@ -312,11 +325,12 @@ export const PaymentList = (props: PaymentListProps) => {
               return (
                 <>
                   <div className='flex flex-row gap-2'>
-                    {row?.allMiscCharges?.map((item, index) => (
-                      <span key={index}>
-                        {item?.code + ' - ' + item?.amount?.toString()}
-                      </span>
-                    ))}
+                    {row?.allMiscCharges &&
+                      row?.allMiscCharges?.map((item, index) => (
+                        <span key={index}>
+                          {item?.code + ' - ' + item?.amount?.toString()}
+                        </span>
+                      ))}
                   </div>
                 </>
               );

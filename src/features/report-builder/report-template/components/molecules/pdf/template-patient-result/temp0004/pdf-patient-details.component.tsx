@@ -39,10 +39,10 @@ export const PdfPatientDetails = observer(
             }`}</PdfSmall>
             <PdfSmall fontSize={9}>{`Samp. Collected: ${dayjs(
               patientReports?.collectionDate,
-            ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>
+            ).format('DD-MM-YYYY HH:MM')}`}</PdfSmall>
             <PdfSmall fontSize={9}>{`Reporting Date: ${dayjs(
               patientReports?.reportedDate,
-            ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>
+            ).format('DD-MM-YYYY HH:MM')}`}</PdfSmall>
           </PdfGrid>
         </PdfView>
       </PdfBorderView>
