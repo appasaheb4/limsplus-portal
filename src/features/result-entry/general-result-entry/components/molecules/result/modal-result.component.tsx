@@ -136,6 +136,12 @@ export const ModalResultReportOrder = observer(
                                 className='flex-none text-center border-r border-indigo-700'
                                 style={{ width: '100px' }}
                               >
+                                Reportable
+                              </div>
+                              <div
+                                className='flex-none text-center border-r border-indigo-700'
+                                style={{ width: '100px' }}
+                              >
                                 Result
                               </div>
                               <div
@@ -201,6 +207,21 @@ export const ModalResultReportOrder = observer(
                                       20,
                                     )}
                                   </span>
+                                </div>
+                                <div
+                                  className='flex-none text-center text-gray-700 border-r border-gray-200'
+                                  style={{ width: '150px' }}
+                                >
+                                  <Form.Toggle
+                                    // disabled={!editorCell(row)}
+                                    value={record.reportable}
+                                    // onChange={showRanges => {
+                                    //   props.onUpdateValue(
+                                    //     { showRanges },
+                                    //     row._id,
+                                    //   );
+                                    // }}
+                                  />
                                 </div>
                                 <div
                                   className='flex-none text-center text-gray-700 border-r border-gray-200'
