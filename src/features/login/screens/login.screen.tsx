@@ -335,7 +335,7 @@ export const Login = observer(() => {
                                       //     ? 'https://geneflow.limsplussolutions.com'
                                       //     : window.location.origin,
                                       webPortal:
-                                        'https://www.limsplussolutions.com',
+                                        'https://geneflow.limsplussolutions.com',
                                     },
                                   }).then(async res => {
                                     if (res.checkUserExitsUserId?.success) {
