@@ -53,65 +53,20 @@ interface GeneralResultEntryListProps {
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [modalDetail, setModalDetail] = useState<any>();
 
-  const editorCell = (row: any) => {
-    return row.status !== 'I' ? true : false;
-  };
+  const statusData = [
+    { code: 'P', value: 'Pending', color: 'blue', disable: false },
+    { code: 'RC', value: 'Recheck', color: 'orange', disable: true },
+    { code: 'RT', value: 'Retest', color: 'pink', disable: true },
+    { code: 'D', value: 'Done', color: 'green', disable: false },
+    { code: '', value: 'All', color: 'red', disable: false },
+  ];
 
-  // useEffect(() => {
-  //   setSelectId(props?.selectedId || '');
-  //   setLocalData(
-  //     props.selectedId
-  //       ? props.data?.map(item => ({
-  //           ...item,
-  //           selectedId: props.selectedId || '',
-  //         }))
-  //       : JSON.parse(JSON.stringify(props.data)),
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [props.selectedId, props.data]);
-
-  // const isFinishResultDisable = (data: Array<any>) => {
-  //   let isDisable = true;
-  //   if (data?.length == 0) return isDisable;
-  //   else {
-  //     const labs = _.groupBy(data, function (b: any) {
-  //       return b.labId;
-  //     });
-  //     Object.keys(labs).forEach(function (key) {
-  //       const testCodes = _.groupBy(labs[key], function (b: any) {
-  //         return b.testCode;
-  //       });
-
-  //       Object.keys(testCodes).forEach(function (key1) {
-  //         const totalRecords = testCodes[key1];
-  //         let filterRecords = totalRecords?.map(item => {
-  //           if (
-  //             item.finishResult == 'P' &&
-  //             item.panelStatus != 'P' &&
-  //             item.testStatus != 'P'
-  //           ) {
-  //             return item;
-  //           } else return;
-  //         });
-  //         filterRecords = _.reject(filterRecords, _.isEmpty);
-  //         if (totalRecords?.length == filterRecords?.length) {
-  //           isDisable = false;
-  //         }
-  //       });
-  //     });
-  //     return isDisable;
-  //   }
-  // };
-
-  // const handleExpandClick = row => {
-  //   if (selectId === row._id) {
-  //     setSelectId('');
-  //     props.onExpand && props.onExpand('');
-  //   } else {
-  //     setSelectId(row._id);
-  //     props.onExpand && props.onExpand(row);
-  //   }
-  // };
+  const testStatus = [
+    { code: 'N', value: 'Normal', color: 'blue' },
+    { code: 'A', value: 'Abnormal', color: 'yellow' },
+    { code: 'C', value: 'Critical', color: 'green' },
+    // { code: '', value: 'All', color: 'red' },
+  ];
 
   const handleRowClick = record => {
     const matchingRecords = props?.data?.filter(
@@ -141,105 +96,210 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
-        <div className='h-screen bg-gray-100'>
+        <div className='flex flex-row flex-wrap justify-between mb-2'>
+          <div className='flex flex-wrap gap-0'>
+            {statusData.map(status => (
+              <button
+                key={status.code}
+                disabled={status.disable}
+                className={`bg-${status.color}-600 ml-2 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                // onClick={() => {
+                //   setFilterStatus(status.code);
+                //   onFilterFinishResult && onFilterFinishResult(status.code);
+                // }}
+              >
+                {status.value}
+              </button>
+            ))}
+          </div>
+          <div className='flex justify-end gap-1'>
+            {testStatus.map(status => (
+              <button
+                key={status.code}
+                className={`bg-${status.color}-600 px-3.5 py-2 focus:outline-none  items-center  outline shadow-sm  font-medium  text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                // onClick={() => {
+                //   setFilterStatus(status.code);
+                //   onTestStatusFilter?.(status.code);
+                // }}
+              >
+                {status.value}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className=' bg-gray-100'>
           <div className='overflow-auto h-full shadow-lg rounded-lg border border-gray-200'>
             {/* Header Row */}
-            <div className='flex justify-between bg-indigo-600 text-white py-2 px-4 rounded-t-lg sticky top-0 z-10'>
-              <div className='flex-1 text-center'>Department</div>
-              <div className='flex-1 text-center'>Lab ID</div>
-              <div className='flex-1 text-center'>Sample ID</div>
-              <div className='flex-2 text-center'>Patient Name</div>
-              <div className='flex-1 text-center'>Contact No</div>
-              <div className='flex-2 text-center whitespace-nowrap'>
-                Test Code - Name
+            <div className='overflow-x-auto'>
+              <div className='min-w-max'>
+                <div className='flex justify-between bg-indigo-600 text-white py-2 px-4 rounded-t-lg sticky top-0 z-10'>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '250px' }}
+                  >
+                    Test Code - Name
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '150px' }}
+                  >
+                    Department
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '80px' }}
+                  >
+                    Lab ID
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '80px' }}
+                  >
+                    Sample ID
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '100px' }}
+                  >
+                    Patient Name
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '80px' }}
+                  >
+                    Lab
+                  </div>
+
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '80px' }}
+                  >
+                    Test Status
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '100px' }}
+                  >
+                    Due Date
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '100px' }}
+                  >
+                    Result Date
+                  </div>
+                  <div
+                    className='flex-none text-center border-indigo-700'
+                    style={{ width: '100px' }}
+                  >
+                    Environment
+                  </div>
+                </div>
+
+                {/* Data Rows */}
+                {distinctRecords.map((record, index) => (
+                  <div
+                    key={index}
+                    className={`flex justify-between items-center py-2 px-4 border-b text-sm ${
+                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    } cursor-pointer`}
+                    onClick={() => handleRowClick(record)}
+                  >
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '250px' }}
+                    >
+                      <span title={`${record.testCode} - ${record.testName}`}>
+                        {truncateText(
+                          `${record.testCode} - ${record.testName}`,
+                          30,
+                        )}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '150px' }}
+                    >
+                      <span title={record.departmentName}>
+                        {truncateText(record.departmentName, 20)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '80px' }}
+                    >
+                      <span title={record.labId}>
+                        {truncateText(record.labId, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '80px' }}
+                    >
+                      <span title={record.sampleId}>
+                        {truncateText(record.sampleId, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '100px' }}
+                    >
+                      <span title={record.name}>
+                        {truncateText(record.name, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '80px' }}
+                    >
+                      <span title={record.pLab}>
+                        {truncateText(record.pLab, 10)}
+                      </span>
+                    </div>
+
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '80px' }}
+                    >
+                      <span title={record.testStatus}>
+                        {truncateText(record.testStatus, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '100px' }}
+                    >
+                      <span title={record.dueDate}>
+                        {truncateText(record.dueDate, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '100px' }}
+                    >
+                      <span title={record.resultDate}>
+                        {truncateText(
+                          record.resultDate &&
+                            dayjs(record.resultDate).format(
+                              'YYYY-MM-DD HH:mm:ss',
+                            ),
+                          10,
+                        )}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700  border-gray-200'
+                      style={{ width: '100px' }}
+                    >
+                      <span title={record.environment}>
+                        {truncateText(record.environment, 10)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div className='flex-1 text-center'>Test Status</div>
-              <div className='flex-1 text-center'>Due Date</div>
-              <div className='flex-1 text-center'>Result Date</div>
-              <div className='flex-1 text-center'>Entered By</div>
-              <div className='flex-1 text-center'>Environment</div>
-              <div className='flex-1 text-center'>Company</div>
             </div>
-
-            {/* Data Rows */}
-            {distinctRecords.map((record, index) => (
-              <div
-                key={index}
-                className={`flex justify-between items-center py-2 px-4 border-b text-sm ${
-                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                } cursor-pointer`}
-                onClick={() => handleRowClick(record)}
-              >
-                <div className='flex-1 text-center text-gray-700 whitespace-nowrap'>
-                  <span title={record.departmentName}>
-                    {truncateText(record.departmentName, 10)}
-                  </span>
-                </div>
-                <div className='flex-1 text-center text-gray-700 whitespace-nowrap'>
-                  <span title={record.labId}>
-                    {truncateText(record.labId, 10)}
-                  </span>
-                </div>
-                <div className='flex-1 text-center text-gray-700 whitespace-nowrap'>
-                  <span title={record.sampleId}>
-                    {truncateText(record.sampleId, 10)}
-                  </span>
-                </div>
-                <div className='flex-2 text-center text-gray-700 whitespace-nowrap'>
-                  <span title={record.name}>
-                    {truncateText(record.name, 10)}
-                  </span>
-                </div>
-                <div className='flex-1 text-center text-gray-700 whitespace-nowrap'>
-                  <span title={record.contactNo}>
-                    {truncateText(record.contactNo, 10)}
-                  </span>
-                </div>
-                <div className='flex-2 text-center text-gray-700 whitespace-nowrap'>
-                  <span title={`${record.testCode} - ${record.testName}`}>
-                    {truncateText(
-                      `${record.testCode} - ${record.testName}`,
-                      10,
-                    )}
-                  </span>
-                </div>
-
-                <div className='flex-1 text-center text-gray-700'>
-                  <span title={record.testStatus}>
-                    {truncateText(record.testStatus, 10)}
-                  </span>
-                </div>
-                <div className='flex-1 text-center text-gray-700'>
-                  <span title={record.dueDate}>
-                    {truncateText(record.dueDate, 10)}
-                  </span>
-                </div>
-                <div className='flex-1 text-center text-gray-700'>
-                  <span title={record.resultDate}>
-                    {truncateText(
-                      record.resultDate &&
-                        dayjs(record.resultDate).format('YYYY-MM-DD HH:mm:ss'),
-                      10,
-                    )}
-                  </span>
-                </div>
-                <div className='flex-1 text-center text-gray-700'>
-                  <span title={record.extraData?.enteredBy}>
-                    {truncateText(record.extraData?.enteredBy, 10)}
-                  </span>
-                </div>
-                <div className='flex-1 text-center text-gray-700'>
-                  <span title={record.environment}>
-                    {truncateText(record.environment, 10)}
-                  </span>
-                </div>
-                <div className='flex-1 text-center text-gray-700'>
-                  <span title={record.companyCode}>
-                    {truncateText(record.companyCode, 10)}
-                  </span>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
 

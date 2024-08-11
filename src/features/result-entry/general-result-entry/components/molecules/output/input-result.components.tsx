@@ -102,7 +102,7 @@ export const InputResult = observer(({ row, onSelect }: InputResultProps) => {
             <Form.Input
               label=''
               type='text'
-              placeholder={row?.result || 'Result'}
+              placeholder={row?.result || 'Result000'}
               maxLength={50}
               pattern={FormHelper.patterns.decimalPatterm}
               className={
