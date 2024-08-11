@@ -95,12 +95,6 @@ export const ModalResultReportOrder = observer(
                       </span>
                     </div>
                     <div className='flex justify-start mb-2'>
-                      <span className='text-lg font-bold'>ResultStatus: </span>
-                      <span className='text-lg ml-2'>
-                        {data[0]?.resultStatus}
-                      </span>
-                    </div>
-                    <div className='flex justify-start mb-2'>
                       <span className='text-lg font-bold'>Due Date</span>
                       <span className='text-lg ml-2'>{data[0]?.dueDate}</span>
                     </div>
@@ -119,7 +113,7 @@ export const ModalResultReportOrder = observer(
                   </div>
 
                   <div className='relative p-2 flex-auto max-h-[60vh] overflow-y-scroll'>
-                    <div className='bg-gray-100'>
+                    <div className='bg-gray-100 h-[calc(100vh_-_50vh)]'>
                       <div className='overflow-auto h-full shadow-lg rounded-lg border border-gray-200'>
                         {/* Scrollable Container for Header and Data */}
                         <div className='overflow-x-auto'>
