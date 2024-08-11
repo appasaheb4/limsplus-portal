@@ -36,7 +36,7 @@ export const ModalResultReportOrder = observer(
               className='justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'
               onClick={() => {}}
             >
-              <div className='relative w-auto my-6 mx-auto max-w-[80rem]'>
+              <div className='relative w-auto my-6 mx-auto max-w-[72rem]'>
                 {/*content*/}
                 <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                   {/*header*/}
@@ -146,7 +146,9 @@ export const ModalResultReportOrder = observer(
                               </div>
                               <div
                                 className='flex-none text-center border-r border-indigo-700'
-                                style={{ width: '150px' }}
+                                style={{
+                                  width: refRangeRowId ? '550px' : '150px',
+                                }}
                               >
                                 Normal Range
                               </div>
@@ -228,7 +230,9 @@ export const ModalResultReportOrder = observer(
                                 </div>
                                 <div
                                   className='flex-none text-center text-gray-700 border-r border-gray-200'
-                                  style={{ width: '150px' }}
+                                  style={{
+                                    width: refRangeRowId ? '550px' : '150px',
+                                  }}
                                 >
                                   <div className='flex items-center justify-center flex-row gap-2'>
                                     <span title={record.units}>
@@ -274,7 +278,7 @@ export const ModalResultReportOrder = observer(
                                     </div>
                                   </div>
                                   {refRangeRowId == record._id ? (
-                                    <div className='w-[550px]'>
+                                    <div>
                                       <RefRangesExpandList
                                         id='_id'
                                         data={record?.refRangesList || []}
