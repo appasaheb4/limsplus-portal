@@ -22,6 +22,7 @@ import {
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { stores, useStores } from '@/stores';
 import { useStore } from 'react-redux';
+import { ModalResultReportOrder } from '../result/modal-result.component';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -50,722 +51,266 @@ interface GeneralResultEntryListProps {
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
-  const { appStore } = useStores();
-  const [selectId, setSelectId] = useState('');
-  const [selectedRowId, setSelectedRowId] = useState('');
-  const [refRangeRowId, setRefRangleRowId] = useState('');
-  const [widthRefBox, setWidthRefBox] = useState('60px');
-  const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
-  const [localData, setLocalData] = useState(props.data);
+  const [modalDetail, setModalDetail] = useState<any>();
 
-  const editorCell = (row: any) => {
-    return row.status !== 'I' ? true : false;
-  };
+  const statusData = [
+    { code: 'P', value: 'Pending', color: 'blue', disable: false },
+    { code: 'RC', value: 'Recheck', color: 'orange', disable: true },
+    { code: 'RT', value: 'Retest', color: 'pink', disable: true },
+    { code: 'D', value: 'Done', color: 'green', disable: false },
+    { code: '', value: 'All', color: 'red', disable: false },
+  ];
 
-  useEffect(() => {
-    setSelectId(props?.selectedId || '');
-    setLocalData(
-      props.selectedId
-        ? props.data?.map(item => ({
-            ...item,
-            selectedId: props.selectedId || '',
-          }))
-        : JSON.parse(JSON.stringify(props.data)),
+  const testStatus = [
+    { code: 'N', value: 'Normal', color: 'blue' },
+    { code: 'A', value: 'Abnormal', color: 'yellow' },
+    { code: 'C', value: 'Critical', color: 'green' },
+    // { code: '', value: 'All', color: 'red' },
+  ];
+
+  const handleRowClick = record => {
+    const matchingRecords = props?.data?.filter(
+      item => item.testName === record.testName,
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedId, props.data]);
-
-  const isFinishResultDisable = (data: Array<any>) => {
-    let isDisable = true;
-    if (data?.length == 0) return isDisable;
-    else {
-      const labs = _.groupBy(data, function (b: any) {
-        return b.labId;
-      });
-      Object.keys(labs).forEach(function (key) {
-        const testCodes = _.groupBy(labs[key], function (b: any) {
-          return b.testCode;
-        });
-
-        Object.keys(testCodes).forEach(function (key1) {
-          const totalRecords = testCodes[key1];
-          let filterRecords = totalRecords?.map(item => {
-            if (
-              item.finishResult == 'P' &&
-              item.panelStatus != 'P' &&
-              item.testStatus != 'P'
-            ) {
-              return item;
-            } else return;
-          });
-          filterRecords = _.reject(filterRecords, _.isEmpty);
-          if (totalRecords?.length == filterRecords?.length) {
-            isDisable = false;
-          }
-        });
-      });
-      return isDisable;
-    }
+    setModalDetail({
+      isVisible: true,
+      data: matchingRecords,
+    });
   };
 
-  const handleExpandClick = row => {
-    if (selectId === row._id) {
-      setSelectId('');
-      props.onExpand && props.onExpand('');
+  // Remove duplicates and filter out the unwanted keys
+  // eslint-disable-next-line unicorn/no-array-reduce
+  const distinctRecords = props?.data?.reduce((acc, current) => {
+    const x = acc.find(item => item.testName === current.testName);
+    if (!x) {
+      return acc.concat([current]);
     } else {
-      setSelectId(row._id);
-      props.onExpand && props.onExpand(row);
+      return acc;
     }
-  };
+  }, []);
+
+  function truncateText(text, maxLength) {
+    return text?.length > maxLength ? text?.slice(0, maxLength) + '...' : text;
+  }
 
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
-        <GeneralResultEntryExpand
-          id='_id'
-          data={localData}
-          totalSize={props.totalSize}
-          isFinishResultDisable={isFinishResultDisable(props.data)}
-          columns={[
-            {
-              dataField: '_id',
-              text: 'Id',
-              hidden: true,
-              csvExport: false,
-            },
-            {
-              dataField: 'labId',
-              text: 'Lab Id',
-              editable: false,
-              headerClasses: 'textHeaderxxs',
-            },
+        <div className='flex flex-row flex-wrap justify-between mb-2'>
+          <div className='flex flex-wrap gap-0'>
+            {statusData.map(status => (
+              <button
+                key={status.code}
+                disabled={status.disable}
+                className={`bg-${status.color}-600 ml-2 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                // onClick={() => {
+                //   setFilterStatus(status.code);
+                //   onFilterFinishResult && onFilterFinishResult(status.code);
+                // }}
+              >
+                {status.value}
+              </button>
+            ))}
+          </div>
+          <div className='flex justify-end gap-1'>
+            {testStatus.map(status => (
+              <button
+                key={status.code}
+                className={`bg-${status.color}-600 px-3.5 py-2 focus:outline-none  items-center  outline shadow-sm  font-medium  text-center rounded-md  text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+                // onClick={() => {
+                //   setFilterStatus(status.code);
+                //   onTestStatusFilter?.(status.code);
+                // }}
+              >
+                {status.value}
+              </button>
+            ))}
+          </div>
+        </div>
 
-            {
-              dataField: 'name',
-              text: 'Name',
-              sort: true,
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '130px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => (
-                <span title={row.name}>{cellContent}</span>
-              ),
-            },
-            {
-              dataField: 'testCode',
-              text: 'Test Code - Name',
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '250px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return (
-                  <span title={`${row.testCode} - ${row.testName}`}>
-                    {cellContent} - {row.testName}
-                  </span>
-                );
-              },
-            },
-            {
-              dataField: 'analyteCode',
-              text: 'Analyte Code - Name',
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '125px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return (
-                  <span title={`${row.analyteCode} - ${row.analyteName}`}>
-                    {cellContent} - {row.analyteName}
-                  </span>
-                );
-              },
-            },
-            {
-              dataField: 'reportable',
-              text: 'Reportable',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.reportable}
-                      onChange={reportable => {
-                        // props.onUpdateValue({reportable}, row._id);
-                        props.onSaveFields &&
-                          props.onSaveFields(
-                            {
-                              ...row,
-                              reportable,
-                              updateType: 'save',
-                            },
-                            row._id,
-                            'save',
-                          );
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'result',
-              text: 'Result',
-              headerClasses: 'textHeaderxxm',
-              editable: (content, row, rowIndex, columnIndex) =>
-                row.approvalStatus == 'P' && !row?.calculationFlag
-                  ? true
-                  : false,
-              formatter: (cellContent, row) => (
-                <>
-                  {row?.isResultEditor ? (
-                    <DisplayResult
-                      row={row}
-                      onSelect={async result => {
-                        await props.onUpdateValue(result, row._id);
-                        const rows = { ...row, ...result };
-                        if (_.isEmpty(row?.result)) {
-                          props.onSaveFields(
-                            {
-                              ...rows,
-                              resultStatus: getResultStatus(
-                                rows.resultType,
-                                rows,
-                              ),
-                              testStatus: getTestStatus(rows.resultType, rows),
-                              abnFlag: getAbnFlag(rows.resultType, rows),
-                              critical: getCretical(rows.resultType, rows),
-                              updateField: 'result',
-                              updateType: 'directSave',
-                              ...result,
-                            },
-                            rows._id,
-                            'directSave',
-                          );
-                        }
-                      }}
-                    />
-                  ) : (
-                    <span style={{ fontWeight: 'bold' }}>{row.result}</span>
-                  )}
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <InputResult
-                    row={row}
-                    onSelect={async result => {
-                      await props.onUpdateValue(
-                        { ...result, updateField: 'result' },
-                        row._id,
-                      );
-                      const rows = { ...row, ...result };
-                      if (_.isEmpty(row?.result)) {
-                        props.onSaveFields(
-                          {
-                            ...rows,
-                            resultStatus: getResultStatus(
-                              rows.resultType,
-                              rows,
-                            ),
-                            testStatus: getTestStatus(rows.resultType, rows),
-                            abnFlag: getAbnFlag(rows.resultType, rows),
-                            critical: getCretical(rows.resultType, rows),
-                            updateField: 'result',
-                            updateType: 'directSave',
-                            ...result,
-                          },
-                          rows._id,
-                          'directSave',
-                        );
-                      }
-                      if (!_.isEmpty(row?.result) && row.resultType == 'FR') {
-                        props.onSaveFields(
-                          {
-                            ...rows,
-                            resultStatus: getResultStatus(
-                              rows.resultType,
-                              rows,
-                            ),
-                            testStatus: getTestStatus(rows.resultType, rows),
-                            abnFlag: getAbnFlag(rows.resultType, rows),
-                            critical: getCretical(rows.resultType, rows),
-                            updateField: 'result',
-                            updateType: 'directSave',
-                            ...result,
-                          },
-                          rows._id,
-                          'directSave',
-                        );
-                      }
-                    }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: 'normalRange',
-              text: 'Normal Range',
-              sort: true,
-              headerClasses: 'textHeaderm',
-              editable: false,
-              style: { width: widthRefBox },
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <div className='flex flex-row gap-1'>
-                      <span>
-                        <span>
-                          <span>
-                            {isNaN(Number.parseFloat(row.loNor)) &&
-                            isNaN(Number.parseFloat(row.hiNor))
-                              ? '-'
-                              : isNaN(Number.parseFloat(row.loNor))
-                              ? `${row.hiNor} - >`
-                              : isNaN(Number.parseFloat(row.hiNor))
-                              ? `< - ${row.loNor}`
-                              : `${row.loNor} - ${row.hiNor}`}
-                          </span>
-                        </span>
-                      </span>
-                      <div>
-                        {row.refRangesList?.length > 0 && (
-                          <Tooltip
-                            tooltipText={
-                              row._id != refRangeRowId
-                                ? 'Expand Reference Range'
-                                : 'Collapse Reference Range'
-                            }
-                          >
-                            <Icons.IconContext
-                              color={
-                                appStore.applicationSetting.theme === 'dark'
-                                  ? '#000000'
-                                  : '#ffffff'
-                              }
-                              size='20'
-                              onClick={() => {
-                                if (row._id === refRangeRowId) {
-                                  setRefRangleRowId('');
-                                  setWidthRefBox('30px');
-                                } else {
-                                  setRefRangleRowId(row._id);
-                                  setWidthRefBox('550px');
-                                }
-                              }}
-                            >
-                              {Icons.getIconTag(
-                                row._id != refRangeRowId
-                                  ? Icons.IconBi.BiExpand
-                                  : Icons.IconBi.BiCollapse,
-                              )}
-                            </Icons.IconContext>
-                          </Tooltip>
-                        )}
-                      </div>
-                    </div>
-                    {refRangeRowId == row._id ? (
-                      <div style={{ width: widthRefBox }}>
-                        <RefRangesExpandList
-                          id='_id'
-                          data={row?.refRangesList || []}
-                          totalSize={row?.refRangesList?.length || 0}
-                          columns={[
-                            {
-                              dataField: 'result',
-                              text: 'Result',
-                              editable: false,
-                              formatter: () => (
-                                <>
-                                  <span>{row.result}</span>
-                                </>
-                              ),
-                            },
-                            {
-                              dataField: 'rangeType',
-                              text: 'Range Type',
-                            },
-                            {
-                              dataField: 'low',
-                              text: 'Low',
-                            },
-                            {
-                              dataField: 'high',
-                              text: 'High',
-                            },
-                            {
-                              dataField: 'rangeSetOn',
-                              text: 'Range Set On',
-                            },
-                            {
-                              dataField: 'rangeId',
-                              text: 'Range Id',
-                            },
-                            {
-                              dataField: 'version',
-                              text: 'Range Version',
-                            },
-                          ]}
-                          onSelectedRow={rows => {}}
-                          onUpdateItem={(
-                            value: any,
-                            dataField: string,
-                            id: string,
-                          ) => {}}
-                        />
-                      </div>
-                    ) : null}
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'abnFlag',
-              text: 'Abn Flag',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={
-                        row.resultType === 'F' || row.resultType === 'M'
-                          ? false
-                          : true
-                      }
-                      value={row.critical ? true : row.abnFlag}
-                      onChange={abnFlag => {
-                        props.onUpdateValue({ abnFlag }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={
-                        row.resultType === 'F' || row.resultType === 'M'
-                          ? false
-                          : true
-                      }
-                      value={row.critical}
-                      onChange={critical => {
-                        props.onUpdateValue({ critical }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-
-            {
-              dataField: 'units',
-              text: 'Units',
-              editable: false,
-            },
-            {
-              dataField: 'conclusion',
-              text: 'Conclusion',
-              editable: false,
-              style: { width: widthConculsionBox },
-              formatter: (cell, row) => {
-                return (
-                  <div className='flex flex-col'>
-                    <Tooltip
-                      tooltipText={
-                        row._id != selectedRowId ? 'Expand' : 'Collapse'
-                      }
-                    >
-                      <Icons.IconContext
-                        color='#000000'
-                        size='20'
-                        onClick={() => {
-                          if (row._id === selectedRowId) {
-                            setSelectedRowId('');
-                            setWidthConculsionBox('30px');
-                          } else {
-                            setSelectedRowId(row._id);
-                            setWidthConculsionBox('200px');
-                          }
-                        }}
-                      >
-                        {Icons.getIconTag(
-                          row._id != selectedRowId
-                            ? Icons.IconBi.BiExpand
-                            : Icons.IconBi.BiCollapse,
-                        )}
-                      </Icons.IconContext>
-                    </Tooltip>
-
-                    {row._id === selectedRowId && (
-                      <div style={{ width: widthConculsionBox }}>
-                        <Form.MultilineInput
-                          rows={3}
-                          placeholder='Conclusion'
-                          className='text-black'
-                          onBlur={conclusion => {
-                            props.onUpdateFields &&
-                              props.onUpdateFields(
-                                { conclusion, updateField: 'conclusion' },
-                                row._id,
-                              );
-                            setSelectedRowId('');
-                            setWidthConculsionBox('30px');
-                          }}
-                          defaultValue={row?.conclusion}
-                        />
-                      </div>
-                    )}
+        <div className=' bg-gray-100'>
+          <div className='overflow-auto h-full shadow-lg rounded-lg border border-gray-200'>
+            {/* Header Row */}
+            <div className='overflow-x-auto'>
+              <div className='min-w-max'>
+                <div className='flex justify-between bg-indigo-600 text-white py-2 px-4 rounded-t-lg sticky top-0 z-10'>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '250px' }}
+                  >
+                    Test Code - Name
                   </div>
-                );
-              },
-            },
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '150px' }}
+                  >
+                    Department
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '80px' }}
+                  >
+                    Lab ID
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '80px' }}
+                  >
+                    Sample ID
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '100px' }}
+                  >
+                    Patient Name
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '80px' }}
+                  >
+                    Lab
+                  </div>
 
-            {
-              dataField: 'resultStatus',
-              text: 'Result Status',
-              editable: false,
-            },
-
-            {
-              dataField: 'resultDate',
-              text: 'Result Date',
-              editable: false,
-              headerClasses: 'textHeaderm',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {row.resultDate &&
-                      dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}
-                  </>
-                );
-              },
-            },
-
-            {
-              dataField: 'testStatus',
-              text: 'Test Status',
-              editable: false,
-            },
-            {
-              dataField: 'panelCode',
-              text: 'Panel Code',
-              editable: false,
-            },
-            {
-              dataField: 'panelStatus',
-              text: 'Panel Status',
-              editable: false,
-            },
-            {
-              dataField: 'age',
-              text: 'Age',
-              editable: false,
-            },
-            {
-              dataField: 'ageUnit',
-              text: 'Age Unit',
-              editable: false,
-            },
-
-            {
-              dataField: 'species',
-              text: 'Species',
-              editable: false,
-            },
-            {
-              dataField: 'resultType',
-              text: 'Result Type',
-              editable: false,
-            },
-
-            {
-              dataField: 'showRanges',
-              text: 'Show Ranges',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.showRanges}
-                      onChange={showRanges => {
-                        props.onUpdateValue({ showRanges }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'enteredBy',
-              text: 'Entered By',
-              editable: false,
-              formatter: (cell, row) => {
-                return <>{row.extraData?.enteredBy}</>;
-              },
-            },
-            {
-              text: 'Environment',
-              dataField: 'environment',
-              editable: false,
-              // headerClasses: 'textHeader2',
-            },
-            {
-              dataField: 'operation',
-              text: 'Action',
-              editable: false,
-              csvExport: false,
-              // hidden: !props.isDelete,
-              formatter: (cell, row, rowIndex, formatExtraData) => (
-                <div className='flex gap-2 items-center' key={row?._id}>
-                  {!_.isEmpty(row?.result) && (
-                    <div className='flex flex-row'>
-                      <>
-                        <Buttons.Button
-                          size='small'
-                          // type='outline'
-                          // buttonClass='text-white'
-                          disabled={!row?.flagUpdate}
-                        >
-                          <Tooltip tooltipText='Update'>
-                            <Icons.IconContext
-                              color='#ffffff'
-                              size='20'
-                              onClick={() => {
-                                if (!row?.result)
-                                  return alert('Please enter result value ');
-                                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                                props.onSaveFields &&
-                                  props.onSaveFields(
-                                    {
-                                      ...row,
-                                      resultStatus: getResultStatus(
-                                        row.resultType,
-                                        row,
-                                      ),
-                                      testStatus: getTestStatus(
-                                        row.resultType,
-                                        row,
-                                      ),
-                                      abnFlag: getAbnFlag(row.resultType, row),
-                                      critical: getCretical(
-                                        row.resultType,
-                                        row,
-                                      ),
-                                      updateType: 'save',
-                                    },
-                                    row._id,
-                                    'save',
-                                  );
-                              }}
-                            >
-                              {Icons.getIconTag(Icons.IconBi.BiEdit)}
-                            </Icons.IconContext>
-                          </Tooltip>
-                        </Buttons.Button>
-                      </>
-                    </div>
-                  )}
-                  {selectId == row?._id ? (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() => handleExpandClick(row)}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  ) : (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() => handleExpandClick(row)}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  )}
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '80px' }}
+                  >
+                    Test Status
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '100px' }}
+                  >
+                    Due Date
+                  </div>
+                  <div
+                    className='flex-none text-center border-r border-indigo-700'
+                    style={{ width: '100px' }}
+                  >
+                    Result Date
+                  </div>
+                  <div
+                    className='flex-none text-center border-indigo-700'
+                    style={{ width: '100px' }}
+                  >
+                    Environment
+                  </div>
                 </div>
-              ),
-              headerClasses: 'sticky right-0  bg-gray-500 text-white',
-              classes: (cell, row, rowIndex, colIndex) => {
-                return 'sticky right-0 bg-gray-500';
-              },
-            },
-          ]}
-          isDelete={props.isDelete}
-          isEditModify={props.isUpdate}
-          isExport={props.isExport}
-          isSelectRow={true}
-          fileName='General Result Entry'
-          onPageSizeChange={(page, limit) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-            props.onPageSizeChange && props.onPageSizeChange(page, limit);
+
+                {/* Data Rows */}
+                {distinctRecords.map((record, index) => (
+                  <div
+                    key={index}
+                    className={`flex justify-between items-center py-2 px-4 border-b text-sm ${
+                      index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                    } cursor-pointer`}
+                    onClick={() => handleRowClick(record)}
+                  >
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '250px' }}
+                    >
+                      <span title={`${record.testCode} - ${record.testName}`}>
+                        {truncateText(
+                          `${record.testCode} - ${record.testName}`,
+                          30,
+                        )}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '150px' }}
+                    >
+                      <span title={record.departmentName}>
+                        {truncateText(record.departmentName, 20)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '80px' }}
+                    >
+                      <span title={record.labId}>
+                        {truncateText(record.labId, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '80px' }}
+                    >
+                      <span title={record.sampleId}>
+                        {truncateText(record.sampleId, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '100px' }}
+                    >
+                      <span title={record.name}>
+                        {truncateText(record.name, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '80px' }}
+                    >
+                      <span title={record.pLab}>
+                        {truncateText(record.pLab, 10)}
+                      </span>
+                    </div>
+
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '80px' }}
+                    >
+                      <span title={record.testStatus}>
+                        {truncateText(record.testStatus, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '100px' }}
+                    >
+                      <span title={record.dueDate}>
+                        {truncateText(record.dueDate, 10)}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700 border-r border-gray-200'
+                      style={{ width: '100px' }}
+                    >
+                      <span title={record.resultDate}>
+                        {truncateText(
+                          record.resultDate &&
+                            dayjs(record.resultDate).format(
+                              'YYYY-MM-DD HH:mm:ss',
+                            ),
+                          10,
+                        )}
+                      </span>
+                    </div>
+                    <div
+                      className='flex-none text-center text-gray-700  border-gray-200'
+                      style={{ width: '100px' }}
+                    >
+                      <span title={record.environment}>
+                        {truncateText(record.environment, 10)}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ModalResultReportOrder
+          {...modalDetail}
+          onClose={() => {
+            setModalDetail({
+              isVisible: false,
+              data: [],
+            });
           }}
-          onFilter={(type, filter, page, size) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-            props.onFilter && props.onFilter(type, filter, page, size);
-          }}
-          clearAllFilter={() => {}}
-          onFinishResult={selectedRow => {
-            props.onFinishResult &&
-              props.onFinishResult(
-                selectedRow?.map(item => {
-                  if (
-                    item?.panelStatus != 'P' &&
-                    item?.testStatus != 'P' &&
-                    item?.resultStatus != 'P'
-                  )
-                    return item?._id;
-                }),
-              );
-          }}
-          onFilterFinishResult={(code: string) => {
-            props.onFilterFinishResult && props.onFilterFinishResult(code);
-          }}
-          onTestStatusFilter={item => {
-            props.onTestStatusFilter && props.onTestStatusFilter(item);
-          }}
-          onTableReload={() => {
-            props.onTableReload && props.onTableReload();
-          }}
-          selectedRowData={props.selectedRowData}
         />
       </div>
     </>
