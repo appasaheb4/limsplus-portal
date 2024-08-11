@@ -1514,7 +1514,14 @@ const Company = CompanyHoc(
                       <Accordion>
                         {[{ title: 'Configuration' }].map(item => {
                           return (
-                            <AccordionItem title={`${item.title}`}>
+                            <AccordionItem
+                              title={`${item.title}`}
+                              style={
+                                !!errors?.configuration
+                                  ? { border: '1px solid red' }
+                                  : {}
+                              }
+                            >
                               {item.title === 'Configuration' && (
                                 <div className='flex flex-col gap-1'>
                                   <Form.InputWrapper label='Email:'>
@@ -1560,6 +1567,7 @@ const Company = CompanyHoc(
                                         label='Email'
                                         placeholder='Email'
                                         onChange={email => {
+                                          onChange(email);
                                           companyStore.updateCompany({
                                             ...companyStore.company,
                                             configuration: {

@@ -76,7 +76,6 @@ export const PdfViewBill = ({
         )} to ${dayjs(transactionHeader?.billTo)
           .add(-1, 'day')
           .format('DD-MM-YYYY')}`}</PdfSmall>
-
         {/* Header Details */}
         <HeaderDetails transactionHeader={transactionHeader} />
         {/* Billing List */}
@@ -86,7 +85,6 @@ export const PdfViewBill = ({
         />
         {/* Amount Details */}
         <AmountDetails transactionHeader={transactionHeader} />
-
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
         <PdfFooterView fixed bg='transparent' style={{ height: 88 }} p={0}>
           {isWithHeader && getHeaderAndFooterBilling(companyCode, {})?.footer}
