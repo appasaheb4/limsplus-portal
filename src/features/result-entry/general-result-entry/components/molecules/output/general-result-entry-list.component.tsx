@@ -128,7 +128,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           </div>
         </div>
 
-        <div className=' bg-gray-100'>
+        <div className='h-[calc(100vh_-_50vh)] bg-gray-100'>
           <div className='overflow-auto h-full shadow-lg rounded-lg border border-gray-200'>
             {/* Header Row */}
             <div className='overflow-x-auto'>

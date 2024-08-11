@@ -134,6 +134,12 @@ export const ModalResultReportOrder = observer(
                               </div>
                               <div
                                 className='flex-none text-center border-r border-indigo-700'
+                                style={{ width: '50px' }}
+                              >
+                                Result Type
+                              </div>
+                              <div
+                                className='flex-none text-center border-r border-indigo-700'
                                 style={{ width: '100px' }}
                               >
                                 Result
@@ -204,7 +210,7 @@ export const ModalResultReportOrder = observer(
                                 </div>
                                 <div
                                   className='flex-none text-center text-gray-700 border-r border-gray-200'
-                                  style={{ width: '150px' }}
+                                  style={{ width: '100px' }}
                                 >
                                   <Form.Toggle
                                     // disabled={!editorCell(row)}
@@ -216,6 +222,12 @@ export const ModalResultReportOrder = observer(
                                     //   );
                                     // }}
                                   />
+                                </div>
+                                <div
+                                  className='flex-none text-center text-gray-700 border-r border-gray-200'
+                                  style={{ width: '50px' }}
+                                >
+                                  {record.resultType}
                                 </div>
                                 <div
                                   className='flex-none text-center text-gray-700 border-r border-gray-200'
