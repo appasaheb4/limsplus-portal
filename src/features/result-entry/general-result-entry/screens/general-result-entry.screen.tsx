@@ -263,7 +263,7 @@ const GeneralResultEntry = observer(() => {
       <div className='mx-auto flex-wrap'>
         <FilterInputTable />
       </div>
-      <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
+      <div className='p-2 rounded-lg shadow-xl'>{tableView}</div>
       <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {
