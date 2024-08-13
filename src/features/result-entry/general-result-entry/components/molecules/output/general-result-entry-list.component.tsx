@@ -138,7 +138,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         </div>
 
         {/* Table Container */}
-        <div className='shadow-lg rounded-lg border border-gray-200'>
+        <div className='shadow-lg rounded-lg border border-gray-200 overflow-hidden'>
           {/* Header Row */}
           <div
             className='sticky top-0  text-white py-1 px-4 z-20'
