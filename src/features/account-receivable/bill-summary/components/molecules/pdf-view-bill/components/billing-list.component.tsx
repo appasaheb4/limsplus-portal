@@ -49,58 +49,56 @@ const BillingList = ({
       {list.map((item, index) => (
         <PdfView mh={10} p={0} style={[styles.table]} mt={6} key={index}>
           {/* patient details */}
-          <PdfView mh={0} p={0} style={styles.border}>
+          <PdfView mh={0} p={0}>
             <View style={[styles.tableRow]}>
               {[
-                'S. No',
-                'LabId',
-                'Patient Name',
-                'Age/Sex',
-                'Doctor Code',
-                'Doctor Name',
-                'Registration Date',
-                'Invoice Date',
-                'Entered By',
-              ]?.map((item, index) => (
-                <View key={index} style={[styles.border, { width: '65px' }]}>
-                  <PdfSmall style={{ padding: '2px' }} fontFamily='IBMPlexSans'>
-                    {item}
-                  </PdfSmall>
-                </View>
-              ))}
-            </View>
-            <View style={[styles.tableRow]}>
-              {[
-                index + 1 || '',
-                item?.labId || '',
-                item.patientVisit?.patientName || '',
-                `${item.patientVisit?.age} ${item.patientVisit?.ageUnits}/${item.patientVisit?.sex}` ||
-                  '',
-                item.patientVisit?.doctorId || '',
-                item.patientVisit?.doctorName || '',
-                dayjs(item.patientVisit?.registrationDate).format(
-                  'DD-MM-YYYY',
-                ) || '',
-                dayjs(item?.invoiceDate).format('DD-MM-YYYY') || '',
-                item?.enteredBy || '',
-              ]?.map((item, index) => (
+                { title: 'S. No', value: index + 1, width: '10%' },
+                { title: 'LabId', value: item?.labId || '', width: '20%' },
+                {
+                  title: 'Patient Name',
+                  value: item.patientVisit?.patientName || '',
+                  width: '40%',
+                },
+                {
+                  title: 'Age/Sex',
+                  value:
+                    `${item.patientVisit?.age} ${item.patientVisit?.ageUnits}/${item.patientVisit?.sex}` ||
+                    '',
+                  width: '10%',
+                },
+                {
+                  title: 'Registration Date',
+                  value:
+                    dayjs(item.patientVisit?.registrationDate).format(
+                      'DD-MM-YYYY',
+                    ) || '',
+                  width: '20%',
+                },
+              ]?.map((e, index) => (
                 <View
                   key={index}
-                  style={[
-                    index == 0 ? styles.border : {},
-                    styles.border,
-                    { width: '65px' },
-                  ]}
+                  style={{ flexDirection: 'column', width: e.width }}
                 >
-                  <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
+                  <PdfSmall
+                    fontFamily='IBMPlexSans'
+                    fontSize={12}
+                    style={{
+                      borderTop: '1px solid #000000',
+                      borderBottom: '1px solid #000000',
+                      paddingVertical: '4px',
+                    }}
+                  >
+                    {e?.title}
+                  </PdfSmall>
+                  <PdfSmall fontSize={12}>{e?.value}</PdfSmall>
                 </View>
               ))}
             </View>
           </PdfView>
 
           {/* Panel Details */}
-          <PdfView mh={0} p={0} style={styles.border}>
-            <View style={styles.tableRow}>
+          <PdfView mh={0} p={0}>
+            {/* <View style={styles.tableRow}>
               {[
                 '',
                 'Panel Code',
@@ -121,10 +119,21 @@ const BillingList = ({
                   </PdfSmall>
                 </View>
               ))}
-            </View>
-            {item.transactionList?.map(tran => (
-              <View style={[styles.tableRow]}>
-                {[
+            </View> */}
+            {item.transactionList?.map((tran, i) => (
+              <View style={[{ marginLeft: '60px' }]}>
+                <View style={[styles.tableRow]}>
+                  <PdfSmall fontSize={12}>SNo: {i + 1}</PdfSmall>
+                  <PdfSmall fontSize={12}>
+                    {' '}
+                    Panel Code: {tran?.panelCode}
+                  </PdfSmall>
+                  <PdfSmall fontSize={12}>
+                    {' '}
+                    Panel Name: {tran?.panelName}
+                  </PdfSmall>
+
+                  {/* {[
                   '',
                   tran?.panelCode,
                   tran?.panelName,
@@ -144,7 +153,53 @@ const BillingList = ({
                   >
                     <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
                   </View>
-                ))}
+                ))} */}
+                </View>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ flexDirection: 'column', width: '16.65%' }}>
+                    <PdfSmall fontFamily='IBMPlexSans' fontSize={12}>
+                      {' '}
+                      Gross Amount
+                    </PdfSmall>
+                    <PdfSmall fontSize={12}>{tran?.grossAmount}</PdfSmall>
+                  </View>
+                  <View style={{ flexDirection: 'column', width: '16.65%' }}>
+                    <PdfSmall fontFamily='IBMPlexSans' fontSize={12}>
+                      {' '}
+                      Net Amount
+                    </PdfSmall>
+                    <PdfSmall fontSize={12}>{tran?.netAmount}</PdfSmall>
+                  </View>
+                  <View style={{ flexDirection: 'column', width: '16.65%' }}>
+                    <PdfSmall fontFamily='IBMPlexSans' fontSize={12}>
+                      {' '}
+                      Discount Amt.
+                    </PdfSmall>
+                    <PdfSmall fontSize={12}>{tran?.discountAmount}</PdfSmall>
+                  </View>
+                  <View style={{ flexDirection: 'column', width: '16.65%' }}>
+                    <PdfSmall fontFamily='IBMPlexSans' fontSize={12}>
+                      {' '}
+                      Discount%
+                    </PdfSmall>
+                    <PdfSmall fontSize={12}>{tran?.discountPer}</PdfSmall>
+                  </View>
+                  <View style={{ flexDirection: 'column', width: '16.65%' }}>
+                    <PdfSmall fontFamily='IBMPlexSans' fontSize={12}>
+                      Misc. Charges
+                    </PdfSmall>
+                    <PdfSmall fontSize={12}>
+                      {tran?.miscellaneousCharges}
+                    </PdfSmall>
+                  </View>
+                  <View style={{ flexDirection: 'column', width: '16.65%' }}>
+                    <PdfSmall fontFamily='IBMPlexSans' fontSize={12}>
+                      {' '}
+                      Other Charges
+                    </PdfSmall>
+                    <PdfSmall fontSize={12}>-</PdfSmall>
+                  </View>
+                </View>
               </View>
             ))}
           </PdfView>

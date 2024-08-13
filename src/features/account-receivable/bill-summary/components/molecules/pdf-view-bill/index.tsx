@@ -67,17 +67,19 @@ export const PdfViewBill = ({
         <PdfView fixed mh={0} p={0}>
           {isWithHeader && getHeaderAndFooterBilling(companyCode, {})?.header}
         </PdfView>
+        {/* Header Details */}
+        <HeaderDetails transactionHeader={transactionHeader} />
         <PdfSmall
           textAlign='center'
           fontFamily='IBMPlexSans'
-          fontSize={12}
+          fontSize={14}
+          style={{ marginTop: '4px' }}
         >{`Bill for the period ${dayjs(transactionHeader?.billForm).format(
           'DD-MM-YYYY',
         )} to ${dayjs(transactionHeader?.billTo)
           .add(-1, 'day')
           .format('DD-MM-YYYY')}`}</PdfSmall>
-        {/* Header Details */}
-        <HeaderDetails transactionHeader={transactionHeader} />
+
         {/* Billing List */}
         <BillingList
           list={billingList}

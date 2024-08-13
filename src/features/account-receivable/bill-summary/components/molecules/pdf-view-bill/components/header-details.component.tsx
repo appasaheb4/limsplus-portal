@@ -37,84 +37,93 @@ const HeaderDetails = ({ transactionHeader = {} }: HeaderDetailsProps) => {
       flexDirection='row'
       mh={10}
       p={0}
-      style={{ justifyContent: 'space-between', marginTop: '4px' }}
+      style={{
+        justifyContent: 'space-between',
+        marginTop: '4px',
+        borderTop: '1px solid #000000',
+        borderBottom: '1px solid #000000',
+        paddingTop: '2px',
+        paddingBottom: '2px',
+      }}
     >
-      <PdfView style={{ height: '80px' }} mh={2} p={0}>
-        <View style={[styles.table, styles.tableRow, styles.border]}>
-          <View style={[styles.tableCol]}>
-            {[
-              'Bill No',
-              'Client Code',
-              'Client Name',
-              'Billing Frequency',
-            ]?.map((item, index) => (
-              <View key={index} style={[styles.border, { height: '100%' }]}>
-                <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-              </View>
-            ))}
-          </View>
-          <View style={[styles.tableCol]}>
-            {[
-              transactionHeader?.billNo || '',
-              transactionHeader?.corporateCode || '',
-              transactionHeader?.corporateName || '',
-              transactionHeader?.billingFrequency || '',
-            ]?.map((item, index) => (
-              <View key={index} style={[styles.border, { height: '100%' }]}>
-                <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-              </View>
-            ))}
-          </View>
+      <PdfView flexDirection='row' mh={2} p={0}>
+        <View style={[styles.tableCol]}>
+          {[
+            'Bill No: ',
+            'Client Code: ',
+            'Client Name: ',
+            'Billing Frequency: ',
+          ]?.map((item, index) => (
+            <View key={index}>
+              <PdfSmall>{item}</PdfSmall>
+            </View>
+          ))}
+        </View>
+        <View style={[styles.tableCol]}>
+          {[
+            transactionHeader?.billNo || ' ',
+            transactionHeader?.corporateCode || ' ',
+            transactionHeader?.corporateName || ' ',
+            transactionHeader?.billingFrequency || ' ',
+          ]?.map((item, index) => (
+            <View key={index}>
+              <PdfSmall>{item}</PdfSmall>
+            </View>
+          ))}
         </View>
       </PdfView>
-      <PdfView style={{ height: '80px' }} mh={2} p={0}>
-        <View style={[styles.table, styles.tableRow, styles.border]}>
-          <View style={[styles.tableCol]}>
-            {['Bill Date', 'Invoice No', 'Client Contact No', 'Bill Form']?.map(
-              (item, index) => (
-                <View key={index} style={[styles.border, { height: '100%' }]}>
-                  <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                </View>
-              ),
-            )}
-          </View>
-          <View style={[styles.tableCol]}>
-            {[
-              dayjs(transactionHeader.billDate || 0).format('DD-MM-YYYY'),
-              transactionHeader?.invoiceAc || '',
-              transactionHeader?.clientContactNo || '',
-              dayjs(transactionHeader.billForm || 0).format('DD-MM-YYYY'),
-            ]?.map((item, index) => (
-              <View key={index} style={[styles.border, { height: '100%' }]}>
-                <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-              </View>
-            ))}
-          </View>
+      <PdfView flexDirection='row' mh={2} p={0}>
+        <View style={[styles.tableCol]}>
+          {[
+            'Bill Date: ',
+            'Invoice No: ',
+            'Client Contact No: ',
+            'Bill Form: ',
+          ]?.map((item, index) => (
+            <View key={index}>
+              <PdfSmall>{item}</PdfSmall>
+            </View>
+          ))}
+        </View>
+        <View style={[styles.tableCol]}>
+          {[
+            dayjs(transactionHeader.billDate || 0).format('DD-MM-YYYY') || ' ',
+            transactionHeader?.invoiceAc || ' ',
+            transactionHeader?.clientContactNo || ' ',
+            dayjs(transactionHeader.billForm || 0).format('DD-MM-YYYY') || ' ',
+          ]?.map((item, index) => (
+            <View key={index}>
+              <PdfSmall>{item}</PdfSmall>
+            </View>
+          ))}
         </View>
       </PdfView>
-      <PdfView style={{ height: '80px' }} mh={2} p={0}>
-        <View style={[styles.table, styles.tableRow, styles.border]}>
-          <View style={[styles.tableCol]}>
-            {['Account Type', 'Customer Grop.', 'Billing On', 'Bill To']?.map(
-              (item, index) => (
-                <View key={index} style={[styles.border, { height: '100%' }]}>
-                  <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                </View>
-              ),
-            )}
-          </View>
-          <View style={[styles.tableCol]}>
-            {[
-              transactionHeader?.accountType || '',
-              transactionHeader?.customerGroup || '',
-              transactionHeader?.billingOn || '',
-              dayjs(transactionHeader.billTo || 0).format('DD-MM-YYYY') || '',
-            ]?.map((item, index) => (
-              <View key={index} style={[styles.border, { height: '100%' }]}>
-                <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-              </View>
-            ))}
-          </View>
+      <PdfView flexDirection='row' mh={2} p={0}>
+        <View style={[styles.tableCol]}>
+          {[
+            'Account Type: ',
+            'Customer Grop.: ',
+            'Billing On: ',
+            'Bill To: ',
+          ]?.map((item, index) => (
+            <View key={index}>
+              <PdfSmall>{item}</PdfSmall>
+            </View>
+          ))}
+        </View>
+        <View style={[styles.tableCol]}>
+          {[
+            transactionHeader?.accountType || ' ',
+            transactionHeader?.customerGroup || ' ',
+            transactionHeader?.billingOn || ' ',
+            dayjs(transactionHeader.billTo || 0)
+              .add(-1, 'day')
+              .format('DD-MM-YYYY') || ' ',
+          ]?.map((item, index) => (
+            <View key={index}>
+              <PdfSmall>{item}</PdfSmall>
+            </View>
+          ))}
         </View>
       </PdfView>
     </PdfView>
