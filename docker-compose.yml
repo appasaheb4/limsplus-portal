@@ -1,14 +1,33 @@
 version: '3.8'
-
 services:
-  app:
+  # Portal
+  mongo:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: limsplus-portal
+      dockerfile: DockerfileDB
+    ports:
+      - 2717:27017
+    networks:
+      - limsplus_newtwork
     volumes:
-      - ./app
-    env_file:
-      - .env
+      - limplus:/data/db
+  api:
+    image: onlyappasaheb4/limsplus_service:latest
+    ports:
+      - 8080:8080
+    networks:
+      - limsplus_newtwork
+    depends_on:
+      - mongo
+  app:
+    image: onlyappasaheb4/limsplus_portal:latest
     ports:
       - 3000:3000
+    networks:
+      - limsplus_newtwork
+networks:
+  limsplus_newtwork:
+    driver: bridge
+volumes:
+  limplus:
+    driver: local
