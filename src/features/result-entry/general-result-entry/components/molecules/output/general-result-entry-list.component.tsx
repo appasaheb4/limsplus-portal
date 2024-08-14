@@ -257,18 +257,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       >
                         Range
                       </div>
-                      <div
-                        className='flex-none text-justify'
-                        style={{ width: '150px' }}
-                      >
-                        Show Ranges
-                      </div>
-                      <div
-                        className='flex-none text-justify'
-                        style={{ width: '100px' }}
-                      >
-                        Result Status
-                      </div>
+
                       <div
                         className='flex-none text-center'
                         style={{ width: '120px' }}
@@ -286,6 +275,18 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         style={{ width: '120px' }}
                       >
                         Calculation Flag
+                      </div>
+                      <div
+                        className='flex-none text-justify'
+                        style={{ width: '150px' }}
+                      >
+                        Show Ranges
+                      </div>
+                      <div
+                        className='flex-none text-justify'
+                        style={{ width: '100px' }}
+                      >
+                        Result Status
                       </div>
                       <div
                         className='flex-none text-center'
@@ -472,20 +473,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             </div>
                           )}
                         </div>
-                        <div
-                          className='flex-none text-center text-gray-700'
-                          style={{ width: '150px' }}
-                        >
-                          <Form.Toggle value={record.showRanges} />
-                        </div>
-                        <div
-                          className='flex-none text-center text-gray-700'
-                          style={{ width: '120px' }}
-                        >
-                          <span title={record.resultStatus}>
-                            {truncateText(record.resultStatus, 10)}
-                          </span>
-                        </div>
+
                         <div
                           className='flex-none text-center text-gray-700'
                           style={{ width: '100px' }}
@@ -518,6 +506,20 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             disabled
                             value={record.calculationFlag}
                           />
+                        </div>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle value={record.showRanges} />
+                        </div>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: '120px' }}
+                        >
+                          <span title={record.resultStatus}>
+                            {truncateText(record.resultStatus, 10)}
+                          </span>
                         </div>
                         <div
                           className='flex-none text-center'
