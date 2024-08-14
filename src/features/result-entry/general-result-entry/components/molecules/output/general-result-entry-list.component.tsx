@@ -5,7 +5,9 @@ import { Form, Tooltip, Icons } from '@/library/components';
 import { DisplayResult } from './display-result.components';
 import { GeneralResultEntryExpand } from './general-result-entry-expand.component';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
-import { FaUserDoctor } from 'react-icons/fa6';
+import { FaUserInjured, FaComment, FaCommentAlt } from 'react-icons/fa';
+import { PiTestTubeFill, PiStethoscopeBold } from 'react-icons/pi';
+import { ImAttachment } from 'react-icons/im';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -44,7 +46,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const distinctRecords = visibleRecords.reduce((acc, current) => {
-    const x = acc.find(item => item.testName === current.testName);
+    const x = acc.find(
+      item =>
+        item.testName === current.testName &&
+        item.labId === current.labId &&
+        item.panelCode === current.panelCode,
+    );
     if (!x) {
       acc.push(current);
     }
@@ -76,7 +83,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         setVisibleRecords(props.data);
         return { rowIndex: null, data: [] };
       }
-      const filteredData = props.data.filter(item => item.name === record.name);
+      const filteredData = props.data.filter(
+        item =>
+          item.labId === record.labId &&
+          item.panelCode === record.panelCode &&
+          item.testCode === record.testCode,
+      );
       setVisibleRecords([record]);
       return { rowIndex: record._id, data: filteredData };
     });
@@ -280,12 +292,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         style={{ width: '100px' }}
                       >
                         Result Type
-                      </div>
-                      <div
-                        className='flex-none text-center text-white sticky top-0 right-0 z-10'
-                        style={{ width: '100px', backgroundColor: '#6A727F' }}
-                      >
-                        Action
                       </div>
                     </div>
                   </div>
@@ -519,26 +525,41 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         >
                           {record.resultType}
                         </div>
-                        <div
-                          className='flex-none sticky top-0 right-0 text-gray-70 z-0'
-                          style={{ width: '100px', backgroundColor: '#6A727F' }}
-                        >
-                          <div className='flex flex-col justify-center items-center'>
-                            <FaUserDoctor color='#ffffff' size={'20'} />
-                          </div>
-                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
-              <div className='flex justify-start mt-1'>
+              <div className='flex justify-start gap-2 mt-1'>
                 <button
                   className='py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed'
                   onClick={() => {}}
                 >
                   Save
                 </button>
+                <div
+                  className='flex w-100 p-2  flex-row justify-center  gap-4 items-center'
+                  style={{ backgroundColor: '#6A727F' }}
+                >
+                  <Tooltip tooltipText={'Doctor'}>
+                    <PiStethoscopeBold color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'Patient'}>
+                    <FaUserInjured color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'Sample Information'}>
+                    <PiTestTubeFill color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'Attactment'}>
+                    <ImAttachment color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'Internal Comment'}>
+                    <FaComment color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'External Comment'}>
+                    <FaCommentAlt color='#ffffff' size={'30'} />
+                  </Tooltip>
+                </div>
               </div>
             </div>
           </div>
