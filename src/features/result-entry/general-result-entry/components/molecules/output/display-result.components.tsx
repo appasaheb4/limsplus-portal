@@ -105,6 +105,7 @@ export const DisplayResult = observer(
                   : false
               }
               type='text'
+              disabled={row?.calculationFlag}
               placeholder='Result'
               defaultValue={row?.result}
               maxLength={50}
@@ -366,7 +367,49 @@ export const DisplayResult = observer(
               label=''
               placeholder='Result'
               defaultValue={row?.result}
-              onKeyDown={e => e.key === 'Enter' && e.target.blur()}
+              onKeyDown={e => {
+                switch (e.key) {
+                  case 'Enter':
+                  case 'ArrowDown':
+                  case 'Tab': {
+                    e.preventDefault(); // Prevent default tabbing behavior to manually handle focus
+                    let nextIndex = rowIndex + 1;
+
+                    // Find the next field that actually exists
+                    while (nextIndex < rowData?.length) {
+                      const nextField: any = document.querySelector(
+                        `[name=field-${nextIndex}]`,
+                      );
+                      if (nextField) {
+                        nextField.focus();
+                        break;
+                      }
+                      nextIndex++;
+                    }
+
+                    break;
+                  }
+                  case 'ArrowUp': {
+                    e.preventDefault();
+                    let previousIndex = rowIndex - 1;
+
+                    // Find the previous field that actually exists
+                    while (previousIndex >= 0) {
+                      const previousField: any = document.querySelector(
+                        `[name=field-${previousIndex}]`,
+                      );
+                      if (previousField) {
+                        previousField.focus();
+                        break;
+                      }
+                      previousIndex--;
+                    }
+
+                    break;
+                  }
+                  // No default
+                }
+              }}
               onBlur={e => {
                 // const [fieldName, fieldIndex] = e.target.name.split('-');
                 // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
