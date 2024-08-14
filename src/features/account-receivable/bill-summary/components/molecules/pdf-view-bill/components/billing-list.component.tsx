@@ -52,7 +52,7 @@ const BillingList = ({
           <PdfView mh={0} p={0}>
             <View style={[styles.tableRow]}>
               {[
-                { title: 'S. No', value: index + 1, width: '10%' },
+                { title: 'S. No', value: `${index + 1}`, width: '10%' },
                 { title: 'LabId', value: item?.labId || '', width: '20%' },
                 {
                   title: 'Patient Name',
@@ -123,39 +123,19 @@ const BillingList = ({
             {item.transactionList?.map((tran, i) => (
               <View style={[{ marginLeft: '60px' }]}>
                 <View style={[styles.tableRow]}>
-                  <PdfSmall fontSize={12}>SNo: {i + 1}</PdfSmall>
+                  <PdfSmall fontSize={12}>SNo: {i + 1}.</PdfSmall>
                   <PdfSmall fontSize={12}>
-                    {' '}
+                    {'   '}
                     Panel Code: {tran?.panelCode}
                   </PdfSmall>
                   <PdfSmall fontSize={12}>
                     {' '}
-                    Panel Name: {tran?.panelName}
+                    Panel Name:{' '}
+                    {tran?.panelName.slice(0, 38) +
+                      (tran?.panelName?.length > 38 ? '...' : '')}
                   </PdfSmall>
-
-                  {/* {[
-                  '',
-                  tran?.panelCode,
-                  tran?.panelName,
-                  tran?.grossAmount,
-                  tran?.netAmount,
-                  tran?.discountAmount,
-                  tran?.discountPer,
-                  tran?.miscellaneousCharges,
-                  '', // not pickup other charges in transaction line we need update backend side
-                ]?.map((item, index) => (
-                  <View
-                    key={index}
-                    style={[
-                      index !== 0 ? styles.border : {},
-                      { width: '65px' },
-                    ]}
-                  >
-                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
-                  </View>
-                ))} */}
                 </View>
-                <View style={{ flexDirection: 'row' }}>
+                <View style={{ flexDirection: 'row', marginLeft: '10px' }}>
                   <View style={{ flexDirection: 'column', width: '16.65%' }}>
                     <PdfSmall fontFamily='IBMPlexSans' fontSize={12}>
                       {' '}
@@ -204,54 +184,77 @@ const BillingList = ({
             ))}
           </PdfView>
           {/* Payment Details */}
-          <PdfView mh={0} p={0} style={styles.border}>
-            <View style={styles.tableRow}>
-              {[
-                '',
-                'Action Date',
-                'Payment Type',
-                'Total Receivable',
-                'Total Received',
-                'Balance',
-                'Mode Of Payment',
-                'Payment Remark',
-                'Status',
-              ]?.map((item, index) => (
-                <View
-                  key={index}
-                  style={[index !== 0 ? styles.border : {}, { width: '65px' }]}
-                >
-                  <PdfSmall style={{ padding: '2px' }} fontFamily='IBMPlexSans'>
-                    {item}
-                  </PdfSmall>
-                </View>
-              ))}
-            </View>
-            {item.paymentDetails?.map(pt => (
-              <View style={[styles.tableRow]}>
+          <PdfView
+            mh={0}
+            p={0}
+            style={{
+              borderTop: '1px solid #000000',
+              marginLeft: '60px',
+            }}
+          >
+            <View
+              style={{ marginLeft: '10px', justifyContent: 'space-between' }}
+            >
+              <View
+                style={[styles.tableRow, { borderBottom: '1px solid #000000' }]}
+              >
                 {[
-                  '',
-                  dayjs(pt?.actionDate).format('DD-MM-YYYY') || '',
-                  pt?.acType,
-                  pt?.amountPayable,
-                  pt?.totalReceivedAmount,
-                  pt?.balance,
-                  pt?.modeOfPayment,
-                  pt?.paymentRemark,
-                  pt?.status,
+                  'SNo.',
+                  'Action Date',
+                  'Type',
+                  'Total Receivable',
+                  'Total Received',
+                  'Balance',
+                  'Mode Of Payment',
+                  'Payment Remark',
+                  'Status',
                 ]?.map((item, index) => (
                   <View
                     key={index}
-                    style={[
-                      index !== 0 ? styles.border : {},
-                      { width: '65px' },
-                    ]}
+                    style={[index == 0 ? { width: '30px' } : { width: '65px' }]}
                   >
-                    <PdfSmall style={{ padding: '2px' }}>{item}</PdfSmall>
+                    <PdfSmall
+                      fontFamily='IBMPlexSans'
+                      fontSize={12}
+                      style={{ textAlign: 'center' }}
+                    >
+                      {item}
+                    </PdfSmall>
                   </View>
                 ))}
               </View>
-            ))}
+              {item.paymentDetails?.map((pt, pi) => (
+                <View
+                  style={[
+                    styles.tableRow,
+                    { borderBottom: '1px solid #000000' },
+                  ]}
+                >
+                  {[
+                    `${pi + 1}.`,
+                    dayjs(pt?.actionDate).format('DD-MM-YYYY') || '',
+                    pt?.acType,
+                    pt?.amountPayable,
+                    pt?.totalReceivedAmount,
+                    pt?.balance,
+                    pt?.modeOfPayment,
+                    pt?.paymentRemark,
+                    pt?.status,
+                  ]?.map((item, index) => (
+                    <View
+                      key={index}
+                      style={[
+                        index == 0 ? { width: '30px' } : { width: '65px' },
+                      ]}
+                    >
+                      <PdfSmall fontSize={12} style={{ textAlign: 'center' }}>
+                        {item}
+                      </PdfSmall>
+                    </View>
+                  ))}
+                </View>
+              ))}
+            </View>
           </PdfView>
         </PdfView>
       ))}

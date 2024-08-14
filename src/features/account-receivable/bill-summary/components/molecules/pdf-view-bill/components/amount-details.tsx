@@ -54,8 +54,11 @@ const AmountDetails = ({ transactionHeader }: AmountDetailsProps) => {
             'Paid Amount',
             'Balance',
           ]?.map((item, index) => (
-            <View key={index} style={[styles.border]}>
-              <PdfSmall style={{ marginHorizontal: '12px', padding: '2px' }}>
+            <View key={index} style={{ borderBottom: '1px solid #000000' }}>
+              <PdfSmall
+                style={{ marginHorizontal: '12px', padding: '2px' }}
+                fontSize={12}
+              >
                 {item}
               </PdfSmall>
             </View>
@@ -70,8 +73,11 @@ const AmountDetails = ({ transactionHeader }: AmountDetailsProps) => {
             transactionHeader?.receivedAmount || '0',
             transactionHeader?.balance || '0',
           ]?.map((item, index) => (
-            <View key={index} style={[styles.border]}>
-              <PdfSmall style={{ marginHorizontal: '12px', padding: '2px' }}>
+            <View key={index} style={{ borderBottom: '1px solid #000000' }}>
+              <PdfSmall
+                style={{ marginHorizontal: '12px', padding: '2px' }}
+                fontSize={12}
+              >
                 {item}
               </PdfSmall>
             </View>
