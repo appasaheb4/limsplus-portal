@@ -35,13 +35,9 @@ const styles = StyleSheet.create({
 
 interface BillingListProps {
   list: Array<any>;
-  transactionHeader: any;
 }
 
-const BillingList = ({
-  list = [],
-  transactionHeader = {},
-}: BillingListProps) => {
+const BillingList = ({ list = [] }: BillingListProps) => {
   console.log({ list });
 
   return (
@@ -52,12 +48,12 @@ const BillingList = ({
           <PdfView mh={0} p={0}>
             <View style={[styles.tableRow]}>
               {[
-                { title: 'S. No', value: `${index + 1}`, width: '10%' },
-                { title: 'LabId', value: item?.labId || '', width: '20%' },
+                { title: 'S. No', value: `${index + 1}`, width: '8%' },
+                { title: 'LabId', value: item?.labId || '', width: '15%' },
                 {
                   title: 'Patient Name',
                   value: item.patientVisit?.patientName || '',
-                  width: '40%',
+                  width: '30%',
                 },
                 {
                   title: 'Age/Sex',
@@ -67,17 +63,29 @@ const BillingList = ({
                   width: '10%',
                 },
                 {
-                  title: 'Registration Date',
+                  title: 'Reg. Date',
                   value:
                     dayjs(item.patientVisit?.registrationDate).format(
                       'DD-MM-YYYY',
                     ) || '',
-                  width: '20%',
+                  width: '15%',
+                },
+                {
+                  title: 'Doctor Name',
+                  value:
+                    item.patientVisit?.doctorName?.slice(0, 16) +
+                      (item.patientVisit?.doctorName?.length > 16
+                        ? '...'
+                        : '') || '',
+                  width: '22%',
                 },
               ]?.map((e, index) => (
                 <View
                   key={index}
-                  style={{ flexDirection: 'column', width: e.width }}
+                  style={{
+                    flexDirection: 'column',
+                    width: e.width,
+                  }}
                 >
                   <PdfSmall
                     fontFamily='IBMPlexSans'

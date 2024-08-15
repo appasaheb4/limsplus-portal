@@ -81,10 +81,7 @@ export const PdfViewBill = ({
           .format('DD-MM-YYYY')}`}</PdfSmall>
 
         {/* Billing List */}
-        <BillingList
-          list={billingList}
-          transactionHeader={{ invoiceDate: transactionHeader?.invoiceDate }}
-        />
+        <BillingList list={billingList} />
         {/* Amount Details */}
         <AmountDetails transactionHeader={transactionHeader} />
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
