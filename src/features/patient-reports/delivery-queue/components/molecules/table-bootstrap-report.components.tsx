@@ -368,15 +368,17 @@ export const TableBootstrapReport = ({
                   </ExportCSVButton>
                 )}
                 <div className='ml-2 relative'>
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsColumnFilterVisible(!isColumnFilterVisible);
-                    }}
-                  >
-                    <Icons.IconFa.FaFilter />
-                  </Buttons.Button>
+                  <Tooltip tooltipText={'Field Selector'}>
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsColumnFilterVisible(!isColumnFilterVisible);
+                      }}
+                    >
+                      <Icons.IconFa.FaFilter />
+                    </Buttons.Button>
+                  </Tooltip>
                   {isColumnFilterVisible && (
                     <ColumnFilter
                       columns={filterableColumns}

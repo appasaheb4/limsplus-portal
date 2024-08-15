@@ -609,7 +609,7 @@ const CorporateClients = CorporateClientsHoc(
                           onChange(corporateName);
                           corporateClientsStore.updateCorporateClients({
                             ...corporateClientsStore.corporateClients,
-                            corporateName: corporateName.toUpperCase(),
+                            corporateName,
                           });
                         }}
                       />
@@ -1352,254 +1352,294 @@ const CorporateClients = CorporateClientsHoc(
                     rules={{ required: true }}
                     defaultValue=''
                   />
-                  <Form.InputWrapper label='Report To Mobile Number'>
-                    <Grid cols={3}>
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Input
-                            placeholder='Name'
-                            value={corporateClientsStore.reportToMobiles?.name}
-                            onChange={name => {
-                              onChange(name);
-                              corporateClientsStore.updateReportToMobileFields({
-                                ...corporateClientsStore.reportToMobiles,
-                                name,
-                              });
-                            }}
-                          />
-                        )}
-                        name='reportToMobileName'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Input
-                            placeholder='Mobile Number'
-                            value={
-                              corporateClientsStore.reportToMobiles?.mobileNo
-                            }
-                            onChange={mobileNo => {
-                              onChange(mobileNo);
-                              corporateClientsStore.updateReportToMobileFields({
-                                ...corporateClientsStore.reportToMobiles,
-                                mobileNo,
-                              });
-                            }}
-                          />
-                        )}
-                        name='reportToMobileNo'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
+                  {corporateClientsStore.corporateClients &&
+                    corporateClientsStore.corporateClients?.reportTo?.includes(
+                      'Clients',
+                    ) && (
+                      <>
+                        <Form.InputWrapper label='Report To Mobile Number'>
+                          <Grid cols={3}>
+                            <Controller
+                              control={control}
+                              render={({ field: { onChange, value } }) => (
+                                <Form.Input
+                                  placeholder='Name'
+                                  value={
+                                    corporateClientsStore.reportToMobiles?.name
+                                  }
+                                  onChange={name => {
+                                    onChange(name);
+                                    corporateClientsStore.updateReportToMobileFields(
+                                      {
+                                        ...corporateClientsStore.reportToMobiles,
+                                        name,
+                                      },
+                                    );
+                                  }}
+                                />
+                              )}
+                              name='reportToMobileName'
+                              rules={{ required: false }}
+                              defaultValue=''
+                            />
+                            <Controller
+                              control={control}
+                              render={({ field: { onChange, value } }) => (
+                                <Form.Input
+                                  placeholder='Mobile Number'
+                                  value={
+                                    corporateClientsStore.reportToMobiles
+                                      ?.mobileNo
+                                  }
+                                  onChange={mobileNo => {
+                                    onChange(mobileNo);
+                                    corporateClientsStore.updateReportToMobileFields(
+                                      {
+                                        ...corporateClientsStore.reportToMobiles,
+                                        mobileNo,
+                                      },
+                                    );
+                                  }}
+                                />
+                              )}
+                              name='reportToMobileNo'
+                              rules={{ required: false }}
+                              defaultValue=''
+                            />
 
-                      <div className='mt-2 flex flex-row justify-between'>
-                        <Buttons.Button
-                          size='medium'
-                          type='solid'
-                          onClick={() => {
-                            const name =
-                              corporateClientsStore.reportToMobiles?.name;
-                            const mobileNo =
-                              corporateClientsStore.reportToMobiles?.mobileNo;
-                            let reportToMobiles =
-                              corporateClientsStore.corporateClients
-                                ?.reportToMobiles || [];
-                            if (name === undefined || mobileNo === undefined)
-                              return alert(
-                                'Please enter name and mobile number.',
-                              );
-                            if (mobileNo !== undefined) {
-                              reportToMobiles !== undefined
-                                ? reportToMobiles.push({
-                                    name,
-                                    mobileNo,
-                                  })
-                                : (reportToMobiles = [
-                                    {
-                                      name,
-                                      mobileNo,
-                                    },
-                                  ]);
-                              corporateClientsStore.updateCorporateClients({
-                                ...corporateClientsStore.corporateClients,
-                                reportToMobiles,
-                              });
-                              corporateClientsStore.updateReportToMobileFields({
-                                name: '',
-                                email: '',
-                              });
-                            }
-                          }}
-                        >
-                          <Icons.EvaIcon icon='plus-circle-outline' />
-                          {'Add'}
-                        </Buttons.Button>
-                      </div>
-                      <div className='clearfix'></div>
-                    </Grid>
-
-                    <List space={2} direction='row' justify='center'>
-                      <div>
-                        {corporateClientsStore.corporateClients?.reportToMobiles?.map(
-                          (item, index) => (
-                            <div className='mb-2' key={index}>
+                            <div className='mt-2 flex flex-row justify-between'>
                               <Buttons.Button
                                 size='medium'
                                 type='solid'
-                                icon={Svg.Remove}
                                 onClick={() => {
-                                  const firstArr =
-                                    corporateClientsStore.corporateClients?.reportToMobiles?.slice(
-                                      0,
-                                      index,
-                                    ) || [];
-                                  const secondArr =
-                                    corporateClientsStore.corporateClients?.reportToMobiles?.slice(
-                                      index + 1,
-                                    ) || [];
-                                  const finalArray = [
-                                    ...firstArr,
-                                    ...secondArr,
-                                  ];
-                                  corporateClientsStore.updateCorporateClients({
-                                    ...corporateClientsStore.corporateClients,
-                                    reportToMobiles: finalArray,
-                                  });
+                                  const name =
+                                    corporateClientsStore.reportToMobiles?.name;
+                                  const mobileNo =
+                                    corporateClientsStore.reportToMobiles
+                                      ?.mobileNo;
+                                  let reportToMobiles =
+                                    corporateClientsStore.corporateClients
+                                      ?.reportToMobiles || [];
+                                  if (
+                                    name === undefined ||
+                                    mobileNo === undefined
+                                  )
+                                    return alert(
+                                      'Please enter name and mobile number.',
+                                    );
+                                  if (mobileNo !== undefined) {
+                                    reportToMobiles !== undefined
+                                      ? reportToMobiles.push({
+                                          name,
+                                          mobileNo,
+                                        })
+                                      : (reportToMobiles = [
+                                          {
+                                            name,
+                                            mobileNo,
+                                          },
+                                        ]);
+                                    corporateClientsStore.updateCorporateClients(
+                                      {
+                                        ...corporateClientsStore.corporateClients,
+                                        reportToMobiles,
+                                      },
+                                    );
+                                    corporateClientsStore.updateReportToMobileFields(
+                                      {
+                                        name: '',
+                                        email: '',
+                                      },
+                                    );
+                                  }
                                 }}
                               >
-                                {`${item.name} - ${item.mobileNo}`}
+                                <Icons.EvaIcon icon='plus-circle-outline' />
+                                {'Add'}
                               </Buttons.Button>
                             </div>
-                          ),
-                        )}
-                      </div>
-                    </List>
-                  </Form.InputWrapper>
+                            <div className='clearfix'></div>
+                          </Grid>
 
-                  <Form.InputWrapper label='Report To Email'>
-                    <Grid cols={3}>
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Input
-                            placeholder='Name'
-                            value={corporateClientsStore.reportToEmails?.name}
-                            onChange={name => {
-                              onChange(name);
-                              corporateClientsStore.updateReportToEmailFields({
-                                ...corporateClientsStore.reportToEmails,
-                                name,
-                              });
-                            }}
-                          />
-                        )}
-                        name='reportToEmailName'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <Controller
-                        control={control}
-                        render={({ field: { onChange, value } }) => (
-                          <Form.Input
-                            placeholder='Email'
-                            value={corporateClientsStore.reportToEmails?.email}
-                            onChange={email => {
-                              onChange(email);
-                              corporateClientsStore.updateReportToEmailFields({
-                                ...corporateClientsStore.reportToEmails,
-                                email,
-                              });
-                            }}
-                          />
-                        )}
-                        name='reportToEmail'
-                        rules={{ required: false }}
-                        defaultValue=''
-                      />
-                      <div className='mt-2 flex flex-row justify-between'>
-                        <Buttons.Button
-                          size='medium'
-                          type='solid'
-                          onClick={() => {
-                            const name =
-                              corporateClientsStore.reportToEmails?.name;
-                            const email =
-                              corporateClientsStore.reportToEmails?.email;
-                            let reportToEmails =
-                              corporateClientsStore.corporateClients
-                                ?.reportToEmails || [];
-                            if (name === undefined || email === undefined)
-                              return alert('Please enter name and email.');
-                            if (email !== undefined) {
-                              reportToEmails !== undefined
-                                ? reportToEmails.push({
-                                    name,
-                                    email,
-                                  })
-                                : (reportToEmails = [
-                                    {
-                                      name,
-                                      email,
-                                    },
-                                  ]);
-                              corporateClientsStore.updateCorporateClients({
-                                ...corporateClientsStore.corporateClients,
-                                reportToEmails,
-                              });
-                              corporateClientsStore.updateReportToEmailFields({
-                                name: '',
-                                email: '',
-                              });
-                            }
-                          }}
-                        >
-                          <Icons.EvaIcon icon='plus-circle-outline' />
-                          {'Add'}
-                        </Buttons.Button>
-                      </div>
-                      <div className='clearfix'></div>
-                    </Grid>
+                          <List space={2} direction='row' justify='center'>
+                            <div>
+                              {corporateClientsStore.corporateClients?.reportToMobiles?.map(
+                                (item, index) => (
+                                  <div className='mb-2' key={index}>
+                                    <Buttons.Button
+                                      size='medium'
+                                      type='solid'
+                                      icon={Svg.Remove}
+                                      onClick={() => {
+                                        const firstArr =
+                                          corporateClientsStore.corporateClients?.reportToMobiles?.slice(
+                                            0,
+                                            index,
+                                          ) || [];
+                                        const secondArr =
+                                          corporateClientsStore.corporateClients?.reportToMobiles?.slice(
+                                            index + 1,
+                                          ) || [];
+                                        const finalArray = [
+                                          ...firstArr,
+                                          ...secondArr,
+                                        ];
+                                        corporateClientsStore.updateCorporateClients(
+                                          {
+                                            ...corporateClientsStore.corporateClients,
+                                            reportToMobiles: finalArray,
+                                          },
+                                        );
+                                      }}
+                                    >
+                                      {`${item.name} - ${item.mobileNo}`}
+                                    </Buttons.Button>
+                                  </div>
+                                ),
+                              )}
+                            </div>
+                          </List>
+                        </Form.InputWrapper>
 
-                    <List space={2} direction='row' justify='center'>
-                      <div>
-                        {corporateClientsStore.corporateClients?.reportToEmails?.map(
-                          (item, index) => (
-                            <div className='mb-2' key={index}>
+                        <Form.InputWrapper label='Report To Email'>
+                          <Grid cols={3}>
+                            <Controller
+                              control={control}
+                              render={({ field: { onChange, value } }) => (
+                                <Form.Input
+                                  placeholder='Name'
+                                  value={
+                                    corporateClientsStore.reportToEmails?.name
+                                  }
+                                  onChange={name => {
+                                    onChange(name);
+                                    corporateClientsStore.updateReportToEmailFields(
+                                      {
+                                        ...corporateClientsStore.reportToEmails,
+                                        name,
+                                      },
+                                    );
+                                  }}
+                                />
+                              )}
+                              name='reportToEmailName'
+                              rules={{ required: false }}
+                              defaultValue=''
+                            />
+                            <Controller
+                              control={control}
+                              render={({ field: { onChange, value } }) => (
+                                <Form.Input
+                                  placeholder='Email'
+                                  value={
+                                    corporateClientsStore.reportToEmails?.email
+                                  }
+                                  onChange={email => {
+                                    onChange(email);
+                                    corporateClientsStore.updateReportToEmailFields(
+                                      {
+                                        ...corporateClientsStore.reportToEmails,
+                                        email,
+                                      },
+                                    );
+                                  }}
+                                />
+                              )}
+                              name='reportToEmail'
+                              rules={{ required: false }}
+                              defaultValue=''
+                            />
+                            <div className='mt-2 flex flex-row justify-between'>
                               <Buttons.Button
                                 size='medium'
                                 type='solid'
-                                icon={Svg.Remove}
                                 onClick={() => {
-                                  const firstArr =
-                                    corporateClientsStore.corporateClients?.reportToEmails?.slice(
-                                      0,
-                                      index,
-                                    ) || [];
-                                  const secondArr =
-                                    corporateClientsStore.corporateClients?.reportToEmails?.slice(
-                                      index + 1,
-                                    ) || [];
-                                  const finalArray = [
-                                    ...firstArr,
-                                    ...secondArr,
-                                  ];
-                                  corporateClientsStore.updateCorporateClients({
-                                    ...corporateClientsStore.corporateClients,
-                                    reportToEmails: finalArray,
-                                  });
+                                  const name =
+                                    corporateClientsStore.reportToEmails?.name;
+                                  const email =
+                                    corporateClientsStore.reportToEmails?.email;
+                                  let reportToEmails =
+                                    corporateClientsStore.corporateClients
+                                      ?.reportToEmails || [];
+                                  if (name === undefined || email === undefined)
+                                    return alert(
+                                      'Please enter name and email.',
+                                    );
+                                  if (email !== undefined) {
+                                    reportToEmails !== undefined
+                                      ? reportToEmails.push({
+                                          name,
+                                          email,
+                                        })
+                                      : (reportToEmails = [
+                                          {
+                                            name,
+                                            email,
+                                          },
+                                        ]);
+                                    corporateClientsStore.updateCorporateClients(
+                                      {
+                                        ...corporateClientsStore.corporateClients,
+                                        reportToEmails,
+                                      },
+                                    );
+                                    corporateClientsStore.updateReportToEmailFields(
+                                      {
+                                        name: '',
+                                        email: '',
+                                      },
+                                    );
+                                  }
                                 }}
                               >
-                                {`${item.name} - ${item.email}`}
+                                <Icons.EvaIcon icon='plus-circle-outline' />
+                                {'Add'}
                               </Buttons.Button>
                             </div>
-                          ),
-                        )}
-                      </div>
-                    </List>
-                  </Form.InputWrapper>
+                            <div className='clearfix'></div>
+                          </Grid>
+
+                          <List space={2} direction='row' justify='center'>
+                            <div>
+                              {corporateClientsStore.corporateClients?.reportToEmails?.map(
+                                (item, index) => (
+                                  <div className='mb-2' key={index}>
+                                    <Buttons.Button
+                                      size='medium'
+                                      type='solid'
+                                      icon={Svg.Remove}
+                                      onClick={() => {
+                                        const firstArr =
+                                          corporateClientsStore.corporateClients?.reportToEmails?.slice(
+                                            0,
+                                            index,
+                                          ) || [];
+                                        const secondArr =
+                                          corporateClientsStore.corporateClients?.reportToEmails?.slice(
+                                            index + 1,
+                                          ) || [];
+                                        const finalArray = [
+                                          ...firstArr,
+                                          ...secondArr,
+                                        ];
+                                        corporateClientsStore.updateCorporateClients(
+                                          {
+                                            ...corporateClientsStore.corporateClients,
+                                            reportToEmails: finalArray,
+                                          },
+                                        );
+                                      }}
+                                    >
+                                      {`${item.name} - ${item.email}`}
+                                    </Buttons.Button>
+                                  </div>
+                                ),
+                              )}
+                            </div>
+                          </List>
+                        </Form.InputWrapper>
+                      </>
+                    )}
 
                   <Controller
                     control={control}

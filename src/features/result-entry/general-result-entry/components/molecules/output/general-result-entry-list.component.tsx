@@ -108,6 +108,16 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     }
   };
 
+  const handleExpandClick = row => {
+    if (selectId === row._id) {
+      setSelectId('');
+      props.onExpand && props.onExpand('');
+    } else {
+      setSelectId(row._id);
+      props.onExpand && props.onExpand(row);
+    }
+  };
+
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
@@ -695,9 +705,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       <Icons.IconContext
                         color='#ffffff'
                         size='20'
-                        onClick={() => {
-                          props.onExpand && props.onExpand('');
-                        }}
+                        onClick={() => handleExpandClick(row)}
                       >
                         {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
                       </Icons.IconContext>
@@ -707,9 +715,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       <Icons.IconContext
                         color='#ffffff'
                         size='20'
-                        onClick={() => {
-                          props.onExpand && props.onExpand(row);
-                        }}
+                        onClick={() => handleExpandClick(row)}
                       >
                         {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
                       </Icons.IconContext>

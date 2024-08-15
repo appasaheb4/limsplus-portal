@@ -16,7 +16,7 @@ import filterFactory from 'react-bootstrap-table2-filter';
 import dayjs from 'dayjs';
 import '@/library/components/organisms/style.css';
 
-import { Buttons, Icons, ColumnFilter } from '@/library/components';
+import { Buttons, Icons, ColumnFilter, Tooltip } from '@/library/components';
 import { debounce } from '@/core-utils';
 import { useColumnManager } from '@/hooks/use-column-manager';
 
@@ -350,15 +350,17 @@ const TableBootstrap = ({
                 )}
 
                 <div className='ml-2 relative'>
-                  <Buttons.Button
-                    size='medium'
-                    type='outline'
-                    onClick={() => {
-                      setIsColumnFilterVisible(!isColumnFilterVisible);
-                    }}
-                  >
-                    <Icons.IconFa.FaFilter />
-                  </Buttons.Button>
+                  <Tooltip tooltipText={'Field Selector'}>
+                    <Buttons.Button
+                      size='medium'
+                      type='outline'
+                      onClick={() => {
+                        setIsColumnFilterVisible(!isColumnFilterVisible);
+                      }}
+                    >
+                      <Icons.IconFa.FaFilter />
+                    </Buttons.Button>
+                  </Tooltip>
                   {isColumnFilterVisible && (
                     <ColumnFilter
                       columns={filterableColumns}
