@@ -34,12 +34,14 @@ export class CompanyService {
         );
     });
 
-  add = (banner: any) =>
+  add = (variables: any) =>
     new Promise<any>(async (resolve, reject) => {
+      console.log({ companyInsert: variables });
+
       await client
         .mutate({
           mutation: CREATE_COMPANY,
-          variables: banner,
+          variables: variables,
         })
         .then((response: any) => {
           resolve(response.data);

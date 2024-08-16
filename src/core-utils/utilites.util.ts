@@ -216,7 +216,7 @@ export const dateAvailableUnits = (unit: string) => {
   }
 };
 
-export function pascalCase(value: string, isArray = false) {
+export function pascalCase(value: string = '', isArray = false) {
   if (!isArray)
     return value.charAt(0).toUpperCase() + value.slice(1)?.toLowerCase();
   else {

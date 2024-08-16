@@ -35,7 +35,7 @@ export const PdfPatientDetails = observer(
             }`}</PdfSmall>
             <PdfSmall>{`Ref. By: ${patientReports?.refBy}`}</PdfSmall>
             <PdfSmall>{`Client Name: ${
-              patientReports?.patientResult?.clientName || ''
+              pascalCase(patientReports?.patientResult?.clientName, true) || ''
             }`}</PdfSmall>
           </PdfGrid>
           <PdfGrid cols={3} bg='transparent'>

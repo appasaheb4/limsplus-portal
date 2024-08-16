@@ -16,7 +16,7 @@ import { getAgeAndAgeUnit } from '@features/registration/patient-registration/ut
 import { calculateTimimg, numToWords } from '@/library/utils';
 import { pascalCase } from '@/core-utils';
 import { getHeaderAndFooterBilling } from '@/core-utils';
-import JsBarcode from 'jsbarcode';
+// import JsBarcode from 'jsbarcode';
 
 interface PdfReceiptProps {
   companyCode?: string;
@@ -61,20 +61,20 @@ export const PdfReceipt = ({
     return amountPayable;
   };
 
-  let canvas: any = '';
-  // For QR Code
-  // import QRCode from 'qrcode';
+  // let canvas: any = '';
+  // // For QR Code
+  // // import QRCode from 'qrcode';
+  // // canvas = document.createElement('canvas');
+  // // QRCode.toCanvas(canvas, 'hello');
+  // // const qr = canvas.toDataURL();
+  // // For Barcode
   // canvas = document.createElement('canvas');
-  // QRCode.toCanvas(canvas, 'hello');
-  // const qr = canvas.toDataURL();
-  // For Barcode
-  canvas = document.createElement('canvas');
-  JsBarcode(canvas, labId, {
-    lineColor: '#000',
-    displayValue: true,
-    height: 30,
-  });
-  const barcode = canvas.toDataURL();
+  // JsBarcode(canvas, labId, {
+  //   lineColor: '#000',
+  //   displayValue: true,
+  //   height: 30,
+  // });
+  // const barcode = canvas.toDataURL();
 
   return (
     <PdfViewer
@@ -83,19 +83,10 @@ export const PdfReceipt = ({
         <>
           <>
             <PdfView fixed mh={0} p={0}>
-              {getHeaderAndFooterBilling(companyCode, {})?.header}
+              {getHeaderAndFooterBilling(companyCode, { labId })?.header}
             </PdfView>
             <PdfView>
               <PdfView alignItems='center'>
-                <PdfImage
-                  src={barcode}
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    bottom: 0,
-                    height: 40,
-                  }}
-                />
                 <PdfRegular
                   textAlign='center'
                   fontSize={10}
@@ -164,7 +155,7 @@ export const PdfReceipt = ({
                       patientDetails?.ageAndSex,
                     )}`}</PdfSmall>
                     <PdfSmall>{`Client Name: ${
-                      patientDetails?.corporateName || ''
+                      pascalCase(patientDetails?.corporateName, true) || ''
                     }`}</PdfSmall>
                     <PdfSmall>{`Payment Remark: ${
                       patientDetails?.paymentRemark || ''
@@ -188,28 +179,40 @@ export const PdfReceipt = ({
                   />
                   <PdfView mh={0} p={0} mt={2} style={{}} alignItems='flex-end'>
                     <PdfSmall>
-                      Total: {getAmountPayable(transactionHeader) || '0'}
+                      Total ₹: {getAmountPayable(transactionHeader) || '0'}
                     </PdfSmall>
-                    <PdfSmall>
-                      Misc Charges:{' '}
-                      {transactionHeader?.miscellaneousCharges || '0'}
-                    </PdfSmall>
-                    <PdfSmall>
-                      Other Charges:{' '}
-                      {typeof transactionHeader?.discountCharges?.amount ==
-                      'number'
-                        ? Number.parseFloat(
-                            transactionHeader?.discountCharges?.amount,
-                          )
-                        : 0}
-                    </PdfSmall>
-                    <PdfSmall>
-                      Paid Amount: {transactionHeader?.receivedAmount || '0'}
-                    </PdfSmall>
+                    {Number.parseInt(
+                      transactionHeader?.miscellaneousCharges,
+                    ) && (
+                      <PdfSmall>
+                        Misc Charges ₹:{' '}
+                        {transactionHeader?.miscellaneousCharges || '0'}
+                      </PdfSmall>
+                    )}
+                    {Number.parseInt(
+                      transactionHeader?.discountCharges?.amount,
+                    ) && (
+                      <PdfSmall>
+                        Other Charges ₹:{' '}
+                        {typeof transactionHeader?.discountCharges?.amount ==
+                        'number'
+                          ? Number.parseFloat(
+                              transactionHeader?.discountCharges?.amount,
+                            )
+                          : 0}
+                      </PdfSmall>
+                    )}
+                    {Number.parseInt(transactionHeader?.receivedAmount) && (
+                      <PdfSmall>
+                        Paid Amount ₹:{' '}
+                        {transactionHeader?.receivedAmount || '0'}
+                      </PdfSmall>
+                    )}
                     <PdfSmall fontFamily='IBMPlexSans'>
-                      Balance: {transactionHeader?.balance || '0'}
+                      Balance ₹: {transactionHeader?.balance || '0'}
                     </PdfSmall>
                   </PdfView>
+
                   <PdfSmall>
                     Amount Paid in Words:{' '}
                     {numToWords(transactionHeader?.receivedAmount || 0)}

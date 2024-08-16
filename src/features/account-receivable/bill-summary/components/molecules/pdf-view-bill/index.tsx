@@ -60,33 +60,29 @@ export const PdfViewBill = ({
       boxCSS.current = styles.page;
     }
   }
-
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
         <PdfView fixed mh={0} p={0}>
           {isWithHeader && getHeaderAndFooterBilling(companyCode, {})?.header}
         </PdfView>
+        {/* Header Details */}
+        <HeaderDetails transactionHeader={transactionHeader} />
         <PdfSmall
           textAlign='center'
           fontFamily='IBMPlexSans'
-          fontSize={12}
+          fontSize={14}
+          style={{ marginTop: '4px' }}
         >{`Bill for the period ${dayjs(transactionHeader?.billForm).format(
           'DD-MM-YYYY',
         )} to ${dayjs(transactionHeader?.billTo)
           .add(-1, 'day')
           .format('DD-MM-YYYY')}`}</PdfSmall>
 
-        {/* Header Details */}
-        <HeaderDetails transactionHeader={transactionHeader} />
         {/* Billing List */}
-        <BillingList
-          list={billingList}
-          transactionHeader={{ invoiceDate: transactionHeader?.invoiceDate }}
-        />
+        <BillingList list={billingList} />
         {/* Amount Details */}
         <AmountDetails transactionHeader={transactionHeader} />
-
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
         <PdfFooterView fixed bg='transparent' style={{ height: 88 }} p={0}>
           {isWithHeader && getHeaderAndFooterBilling(companyCode, {})?.footer}

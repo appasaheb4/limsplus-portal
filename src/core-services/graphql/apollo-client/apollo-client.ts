@@ -43,6 +43,8 @@ const getBaseUrl = env => {
       return process.env.REACT_APP_API_HOST_PORD;
     case 'Development':
       return process.env.REACT_APP_API_HOST_DEV;
+    case 'Docker':
+      return process.env.REACT_APP_API_HOST_DOCKER;
     default:
       return process.env.REACT_APP_API_HOST_LOCAL;
   }

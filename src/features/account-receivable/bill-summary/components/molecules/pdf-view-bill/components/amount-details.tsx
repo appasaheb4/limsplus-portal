@@ -47,21 +47,55 @@ const AmountDetails = ({ transactionHeader }: AmountDetailsProps) => {
       <PdfView mh={0} p={0} flexDirection='row'>
         <View style={[styles.tableCol]}>
           {[
-            'Gross Amount',
-            'Net Amount',
-            'Misc Charges',
-            'Other Charges',
-            'Paid Amount',
-            'Balance',
+            { title: 'Gross Amount ₹', value: transactionHeader?.grossAmount },
+            { title: 'Net Amount ₹', value: transactionHeader?.netAmount },
+            {
+              title: 'Misc Charges ₹',
+              value: transactionHeader?.miscellaneousCharges,
+            },
+            {
+              title: 'Other Charges ₹',
+              value: transactionHeader?.allMiscCharges,
+            },
+            {
+              title: 'Paid Amount ₹',
+              value: transactionHeader?.receivedAmount,
+            },
+            { title: 'Balance ₹', value: transactionHeader?.balance },
           ]?.map((item, index) => (
-            <View key={index} style={[styles.border]}>
-              <PdfSmall style={{ marginHorizontal: '12px', padding: '2px' }}>
-                {item}
-              </PdfSmall>
-            </View>
+            <>
+              {Number.parseInt(item?.value) && (
+                <View
+                  key={index}
+                  style={{
+                    flexDirection: 'row',
+                    borderBottom: '1px solid #000000',
+                  }}
+                >
+                  <PdfSmall
+                    style={{
+                      padding: '2px',
+                      width: '100px',
+                    }}
+                    fontSize={12}
+                  >
+                    {item?.title}
+                  </PdfSmall>
+                  <PdfSmall
+                    style={{
+                      padding: '2px',
+                      width: '60px',
+                    }}
+                    fontSize={12}
+                  >
+                    {`: ${item?.value}`}
+                  </PdfSmall>
+                </View>
+              )}
+            </>
           ))}
         </View>
-        <View style={[styles.tableCol]}>
+        {/* <View style={[styles.tableCol]}>
           {[
             transactionHeader?.grossAmount || '0',
             transactionHeader?.netAmount || '0',
@@ -70,13 +104,11 @@ const AmountDetails = ({ transactionHeader }: AmountDetailsProps) => {
             transactionHeader?.receivedAmount || '0',
             transactionHeader?.balance || '0',
           ]?.map((item, index) => (
-            <View key={index} style={[styles.border]}>
-              <PdfSmall style={{ marginHorizontal: '12px', padding: '2px' }}>
-                {item}
-              </PdfSmall>
+            <View key={index} style={{ borderBottom: '1px solid #000000' }}>
+             
             </View>
           ))}
-        </View>
+        </View> */}
       </PdfView>
     </PdfView>
   );

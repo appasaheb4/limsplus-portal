@@ -77,7 +77,10 @@ export const Login = observer(() => {
 
   const onLogin = async (data: any) => {
     const loginFailedCount = loginStore.loginFailedCount || 0;
-    if (loginFailedCount > 4) {
+    if (
+      loginFailedCount > 4 &&
+      loginStore.inputLogin?.userId != 'ADMINISTRATOR'
+    ) {
       loginStore.LoginService.accountStatusUpdate({
         input: {
           userId: loginStore.inputLogin?.userId,

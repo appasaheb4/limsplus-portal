@@ -142,9 +142,9 @@ const TransactionDetails = observer(() => {
 
   return (
     <>
-      <div className='flex items-center justify-center'>
+      {/* <div className='flex items-center justify-center'>
         <ButtonBorderAnimated title='WIP' />
-      </div>
+      </div> */}
       <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}

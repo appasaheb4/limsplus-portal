@@ -2,6 +2,7 @@ export {};
 import React from 'react';
 import { PdfFooterView, PdfImage } from '@components';
 import { logos } from '@/library/assets';
+import { getBarCode, getQRCode } from '@/core-utils';
 
 interface GeneflowLabFooterProps {
   data?: any;
@@ -16,6 +17,17 @@ export const GeneflowLabFooter = ({ data }: GeneflowLabFooterProps) => {
           width: '100%',
         }}
       />
+      {data?.barCode && (
+        <PdfImage
+          src={getQRCode(data?.barCode)}
+          style={{
+            position: 'absolute',
+            right: 10,
+            bottom: 50,
+            height: 40,
+          }}
+        />
+      )}
     </PdfFooterView>
   );
 };

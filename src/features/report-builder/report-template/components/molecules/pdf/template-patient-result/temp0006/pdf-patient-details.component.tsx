@@ -1,24 +1,28 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import {PdfView, PdfBorderView, PdfGrid, PdfSmall} from '@components';
-import {observer} from 'mobx-react';
-import {getAgeUnits, getSex} from '@/core-utils';
+import { PdfView, PdfBorderView, PdfGrid, PdfSmall } from '@components';
+import { observer } from 'mobx-react';
+import { getAgeUnits, getSex, pascalCase } from '@/core-utils';
 
 interface PdfPatientDetailsProps {
   data?: any;
 }
 
 export const PdfPatientDetails = observer(
-  ({data: patientReports}: PdfPatientDetailsProps) => {
+  ({ data: patientReports }: PdfPatientDetailsProps) => {
     return (
       <PdfBorderView mv={10} fixed>
         <PdfView mh={10} p={0} flexDirection='row'>
           <PdfGrid cols={3} bg='transparent'>
-            <PdfSmall>{`Name: ${patientReports?.title || ''} ${
+            {/* <PdfSmall>{`Name: ${patientReports?.title || ''} ${
               patientReports?.firstName || ''
             } ${patientReports?.middleName || ''} ${
               patientReports?.lastName || ''
-            }`}</PdfSmall>
+            }`}</PdfSmall> */}
+            <PdfSmall>{`Patient Name: ${pascalCase(
+              patientReports?.name,
+              true,
+            )}`}</PdfSmall>
             <PdfSmall>{`Ref. By: ${patientReports?.refBy}`}</PdfSmall>
             <PdfSmall>{`Ref Lab: ${patientReports?.refLab}`}</PdfSmall>
           </PdfGrid>

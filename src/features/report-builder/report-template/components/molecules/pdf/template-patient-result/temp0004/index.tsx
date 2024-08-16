@@ -60,13 +60,18 @@ export const PdfTemp0004 = ({
     <>
       <Page size={pageSize} style={boxCSS.current}>
         <PdfView fixed mh={0} p={0}>
-          {isWithHeader && getHeaderAndFooter(companyCode, {})?.header}
+          {isWithHeader &&
+            getHeaderAndFooter(companyCode, { labId: patientReports?.labId })
+              ?.header}
         </PdfView>
         <PdfPatientDetails data={patientReports} />
         <PdfResultList data={patientReports?.patientResultList} />
         <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
         <PdfFooterView fixed bg='transparent' height={88} p={0}>
-          {isWithHeader && getHeaderAndFooter(companyCode, {})?.footer}
+          {isWithHeader &&
+            getHeaderAndFooter(companyCode, {
+              barCode: 'https://www.limsplus.co.in',
+            })?.footer}
         </PdfFooterView>
       </Page>
     </>

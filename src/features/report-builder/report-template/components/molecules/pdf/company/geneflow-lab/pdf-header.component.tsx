@@ -1,6 +1,7 @@
 import React from 'react';
 import { PdfHeader, PdfView, PdfImage, PdfMedium, PdfSmall } from '@components';
 import { logos } from '@/library/assets';
+import { getBarCode } from '@/core-utils';
 
 interface GeneflowLabHeaderProps {
   data?: any;
@@ -22,22 +23,17 @@ export const GeneflowLabHeader = ({ data }: GeneflowLabHeaderProps) => {
           }}
         />
       </PdfHeader>
-      {/* <PdfView style={{ marginLeft: 10, marginTop: -28 }} mh={0} p={0}>
-        <PdfMedium
-          fontSize={14}
-          style={{ fontWeight: 'bold' }}
-          fontFamily='Times-Bold'
-        >
-          Dr. Sachin Jain
-        </PdfMedium>
-        <PdfSmall>MD (Pathology)</PdfSmall>
-        <PdfSmall style={{ marginTop: -4 }}>
-          Post doctoral fellowship, Molecular Hematology, CMC Vellore.
-        </PdfSmall>
-        <PdfSmall style={{ marginTop: -4 }}>
-          Fellow University of Salamanca, Spain
-        </PdfSmall>
-      </PdfView> */}
+      {data?.labId && (
+        <PdfImage
+          src={getBarCode(data?.labId)}
+          style={{
+            position: 'absolute',
+            right: 36,
+            bottom: -4,
+            height: 40,
+          }}
+        />
+      )}
     </>
   );
 };
@@ -64,6 +60,17 @@ export const GeneflowLabHeaderBilling = ({
           }}
         />
       </PdfHeader>
+      {data?.labId && (
+        <PdfImage
+          src={getBarCode(data?.labId)}
+          style={{
+            position: 'absolute',
+            right: 28,
+            bottom: -20,
+            height: 40,
+          }}
+        />
+      )}
     </>
   );
 };
