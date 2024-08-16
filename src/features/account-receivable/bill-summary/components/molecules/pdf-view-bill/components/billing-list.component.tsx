@@ -38,8 +38,6 @@ interface BillingListProps {
 }
 
 const BillingList = ({ list = [] }: BillingListProps) => {
-  console.log({ list });
-
   return (
     <>
       {list.map((item, index) => (
@@ -72,11 +70,10 @@ const BillingList = ({ list = [] }: BillingListProps) => {
                 },
                 {
                   title: 'Doctor Name',
-                  value:
-                    item.patientVisit?.doctorName?.slice(0, 16) +
-                      (item.patientVisit?.doctorName?.length > 16
-                        ? '...'
-                        : '') || '',
+                  value: item.patientVisit?.doctorName
+                    ? item.patientVisit?.doctorName?.slice(0, 16) +
+                      (item.patientVisit?.doctorName?.length > 16 ? '...' : '')
+                    : '',
                   width: '22%',
                 },
               ]?.map((e, index) => (

@@ -23,16 +23,18 @@ export const ModalViewBill = ({
   const [showModal, setShowModal] = React.useState(show);
   const [isWithHeader, setWithHeader] = useState(true);
   const [isPdfViewer, setPdfViewer] = useState(false);
+  const [details, setDetails] = useState({});
 
   useEffect(() => {
     setShowModal(show);
-  }, [show]);
+    if (data) setDetails(data);
+  }, [show, data]);
 
-  const getReports = details => {
+  const getReports = variable => {
     const documentTitle = 'Bill Summary Report';
     return (
       <Document title={documentTitle}>
-        <PdfViewBill data={details} isWithHeader={isWithHeader} />
+        <PdfViewBill data={variable} isWithHeader={isWithHeader} />
       </Document>
     );
   };
@@ -108,7 +110,7 @@ export const ModalViewBill = ({
                                 padding: 4,
                               }}
                               onClick={async () => {
-                                const doc = await getReports(data);
+                                const doc = await getReports(details);
                                 const blob = await pdfGen(doc).toBlob();
                                 const blobURL = URL.createObjectURL(blob);
                                 printjs({
@@ -161,7 +163,7 @@ export const ModalViewBill = ({
               }}
               showToolbar={false}
             >
-              {getReports(data)}
+              {getReports(details)}
             </PDFViewer>
           ) : null
         }

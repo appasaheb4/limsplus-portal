@@ -60,7 +60,6 @@ export const PdfViewBill = ({
       boxCSS.current = styles.page;
     }
   }
-
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
