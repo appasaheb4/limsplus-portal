@@ -16,11 +16,13 @@ import { ModalDocxContent } from '@/core-components';
 import { FaWordpressSimple } from 'react-icons/fa';
 interface DisplayResultProps {
   row: any;
+  rowIndex: any;
+  rowData: any;
   onSelect?: (item) => void;
 }
 
 export const DisplayResult = observer(
-  ({ row, onSelect }: DisplayResultProps) => {
+  ({ row, rowIndex, rowData, onSelect }: DisplayResultProps) => {
     const {
       patientResultStore,
       possibleResultsStore,
@@ -90,7 +92,7 @@ export const DisplayResult = observer(
             <Form.Input1
               key={row?._id}
               label=''
-              name={`field-${row.index}`}
+              name={`field-${rowIndex}`}
               isAutoFocus={
                 (
                   patientResultStore?.patientResultListNotAutoUpdate?.filter(
@@ -103,24 +105,56 @@ export const DisplayResult = observer(
                   : false
               }
               type='text'
+              disabled={row?.calculationFlag}
               placeholder='Result'
               defaultValue={row?.result}
               maxLength={50}
               pattern={FormHelper.patterns.decimalPatterm}
-              className={
-                'w-full leading-4 p-2 h-10 focus:outline-none focus:ring block shadow-sm sm:text-base border-2  rounded-md'
-              }
-              onKeyDown={e => e.key === 'Enter' && e.target.blur()}
+              className='w-full leading-4 p-2 h-8 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 rounded-md'
+              onKeyDown={e => {
+                switch (e.key) {
+                  case 'Enter':
+                  case 'ArrowDown':
+                  case 'Tab': {
+                    e.preventDefault(); // Prevent default tabbing behavior to manually handle focus
+                    let nextIndex = rowIndex + 1;
+
+                    // Find the next field that actually exists
+                    while (nextIndex < rowData?.length) {
+                      const nextField: any = document.querySelector(
+                        `[name=field-${nextIndex}]`,
+                      );
+                      if (nextField) {
+                        nextField.focus();
+                        break;
+                      }
+                      nextIndex++;
+                    }
+
+                    break;
+                  }
+                  case 'ArrowUp': {
+                    e.preventDefault();
+                    let previousIndex = rowIndex - 1;
+
+                    // Find the previous field that actually exists
+                    while (previousIndex >= 0) {
+                      const previousField: any = document.querySelector(
+                        `[name=field-${previousIndex}]`,
+                      );
+                      if (previousField) {
+                        previousField.focus();
+                        break;
+                      }
+                      previousIndex--;
+                    }
+
+                    break;
+                  }
+                  // No default
+                }
+              }}
               onBlur={e => {
-                // const { name } = e.target;
-                // const [fieldName, fieldIndex] = name.split('-');
-                // const fieldIntIndex = Number.parseInt(fieldIndex, 10);
-                // const nextfield: any = document.querySelector(
-                //   `[name=field-${fieldIntIndex + 1}]`,
-                // );
-                // if (nextfield !== null) {
-                //   nextfield.focus();
-                // }
                 const result = e.target.value;
                 if (result) {
                   onSelect &&
@@ -333,7 +367,49 @@ export const DisplayResult = observer(
               label=''
               placeholder='Result'
               defaultValue={row?.result}
-              onKeyDown={e => e.key === 'Enter' && e.target.blur()}
+              onKeyDown={e => {
+                switch (e.key) {
+                  case 'Enter':
+                  case 'ArrowDown':
+                  case 'Tab': {
+                    e.preventDefault(); // Prevent default tabbing behavior to manually handle focus
+                    let nextIndex = rowIndex + 1;
+
+                    // Find the next field that actually exists
+                    while (nextIndex < rowData?.length) {
+                      const nextField: any = document.querySelector(
+                        `[name=field-${nextIndex}]`,
+                      );
+                      if (nextField) {
+                        nextField.focus();
+                        break;
+                      }
+                      nextIndex++;
+                    }
+
+                    break;
+                  }
+                  case 'ArrowUp': {
+                    e.preventDefault();
+                    let previousIndex = rowIndex - 1;
+
+                    // Find the previous field that actually exists
+                    while (previousIndex >= 0) {
+                      const previousField: any = document.querySelector(
+                        `[name=field-${previousIndex}]`,
+                      );
+                      if (previousField) {
+                        previousField.focus();
+                        break;
+                      }
+                      previousIndex--;
+                    }
+
+                    break;
+                  }
+                  // No default
+                }
+              }}
               onBlur={e => {
                 // const [fieldName, fieldIndex] = e.target.name.split('-');
                 // const fieldIntIndex = Number.parseInt(fieldIndex, 10);

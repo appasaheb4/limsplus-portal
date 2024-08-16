@@ -19,6 +19,9 @@ export class PatientManger {
   disease: string;
   isVIP: boolean;
   isAddress: boolean;
+  isCopyDoctor: boolean;
+  reportToEmails: Array<any>;
+  reportToMobiles: Array<any>;
   extraData: {
     address: string;
     postcode: string;
@@ -74,6 +77,9 @@ export class PatientManger {
     this.disease = rawData.disease;
     this.isVIP = rawData.isVIP;
     this.isAddress = rawData.isAddress;
+    this.isCopyDoctor = rawData.isCopyDoctor;
+    this.reportToEmails = rawData.reportTo;
+    this.reportToMobiles = rawData.reportToMobiles;
     this.extraData = rawData.extraData;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;

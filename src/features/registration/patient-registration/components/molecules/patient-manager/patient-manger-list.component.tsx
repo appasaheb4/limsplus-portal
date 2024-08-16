@@ -21,6 +21,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { getDiffByDate, getAgeByAgeObject } from '../../../utils';
 import { dateAvailableUnits } from '@/core-utils';
 import { TiFlowChildren } from 'react-icons/ti';
+import { ModalReportToMobilesModify } from './modal-report-to-mobiles-modify';
+import { ModalReportToEmailsModify } from './modal-report-to-emails-modify';
 
 interface PatientMangerProps {
   data: any;
@@ -70,6 +72,10 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
     setValue,
   } = useForm();
   const [modalDetails, setModalDetails] = useState<any>();
+  const [modalReportToMobilesModify, setModalReportToMobilesModify] =
+    useState<any>({});
+  const [modalReportToEmailsModify, setModalReportToEmailsModify] =
+    useState<any>({});
   const editorCell = (row: any) => {
     if (row.status === 'I') return false;
     if (row.extraData?.confidental && !props.extraData.confidental)
@@ -846,6 +852,115 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
               },
             },
             {
+              dataField: 'isCopyDoctor',
+              text: 'Copy To Doctor',
+              sort: true,
+              csvFormatter: (col, row) =>
+                `${row?.isVIP ? (row?.isVIP ? 'Yes' : 'No') : 'No'}`,
+              formatter: (cell, row) => {
+                return (
+                  <>
+                    <Form.Toggle
+                      value={row?.isCopyDoctor}
+                      onChange={isCopyDoctor => {
+                        props.onUpdateItem &&
+                          props.onUpdateItem(
+                            isCopyDoctor,
+                            'isCopyDoctor',
+                            row._id,
+                          );
+                      }}
+                    />
+                  </>
+                );
+              },
+            },
+            {
+              dataField: 'reportToMobiles',
+              text: 'Report To Mobiles',
+              headerClasses: 'textHeader2',
+              sort: true,
+              editable: false,
+              sortCaret: (order, column) => sortCaret(order, column),
+              csvFormatter: col => (col ? col : ''),
+              formatter: (cell, row) => {
+                return (
+                  <div
+                    className='flex items-center flex-row flex-wrap gap-2'
+                    key={row?._id}
+                  >
+                    {row.status !== 'I' && (
+                      <Tooltip tooltipText='Edit'>
+                        <Icons.IconContext
+                          color='#000000'
+                          size='20'
+                          onClick={() => {
+                            setModalReportToMobilesModify({
+                              show: true,
+                              arrValues: row?.reportToMobiles,
+                              _id: row?._id,
+                            });
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+                    {row?.reportToMobiles?.length > 0 &&
+                      row?.reportToMobiles?.map((item, index) => (
+                        <span
+                          key={index}
+                          className='flex p-2 rounded-sm bg-blue-800 text-white'
+                        >
+                          {item?.name + ' - ' + item?.mobileNo}
+                        </span>
+                      ))}
+                  </div>
+                );
+              },
+            },
+            {
+              dataField: 'reportToEmails',
+              text: 'Report To Emails',
+              headerClasses: 'textHeader2',
+              sort: true,
+              sortCaret: (order, column) => sortCaret(order, column),
+              editable: false,
+              csvFormatter: col => (col ? col : ''),
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-row flex-wrap gap-2'>
+                    {row.status !== 'I' && (
+                      <Tooltip tooltipText='Edit'>
+                        <Icons.IconContext
+                          color='#000000'
+                          size='20'
+                          onClick={() => {
+                            setModalReportToEmailsModify({
+                              show: true,
+                              arrValues: row?.reportToEmails,
+                              _id: row?._id,
+                            });
+                          }}
+                        >
+                          {Icons.getIconTag(Icons.IconBi.BiEdit)}
+                        </Icons.IconContext>
+                      </Tooltip>
+                    )}
+                    {row.reportToEmails?.length > 0 &&
+                      row.reportToEmails?.map((item, index) => (
+                        <span
+                          key={index}
+                          className='flex p-2 rounded-sm bg-blue-800 text-white'
+                        >
+                          {item?.name + ' - ' + item?.email}
+                        </span>
+                      ))}
+                  </div>
+                );
+              },
+            },
+            {
               text: 'Company Code',
               dataField: 'companyCode',
               sort: true,
@@ -1005,6 +1120,44 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
           circleButtonDisable={props.disabled}
         />
       </div>
+      <ModalReportToMobilesModify
+        {...modalReportToMobilesModify}
+        onClick={items => {
+          setModalReportToMobilesModify({
+            show: false,
+          });
+          props.onUpdateItem &&
+            props.onUpdateItem(
+              items?.arrValues,
+              'reportToMobiles',
+              modalReportToMobilesModify?._id,
+            );
+        }}
+        onClose={() => {
+          setModalReportToMobilesModify({
+            show: false,
+          });
+        }}
+      />
+      <ModalReportToEmailsModify
+        {...modalReportToEmailsModify}
+        onClick={items => {
+          setModalReportToEmailsModify({
+            show: false,
+          });
+          props.onUpdateItem &&
+            props.onUpdateItem(
+              items?.arrValues,
+              'reportToEmails',
+              modalReportToEmailsModify?._id,
+            );
+        }}
+        onClose={() => {
+          setModalReportToEmailsModify({
+            show: false,
+          });
+        }}
+      />
     </>
   );
 });
