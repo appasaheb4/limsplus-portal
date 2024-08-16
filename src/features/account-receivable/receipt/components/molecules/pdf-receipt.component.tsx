@@ -179,28 +179,40 @@ export const PdfReceipt = ({
                   />
                   <PdfView mh={0} p={0} mt={2} style={{}} alignItems='flex-end'>
                     <PdfSmall>
-                      Total: {getAmountPayable(transactionHeader) || '0'}
+                      Total ₹: {getAmountPayable(transactionHeader) || '0'}
                     </PdfSmall>
-                    <PdfSmall>
-                      Misc Charges:{' '}
-                      {transactionHeader?.miscellaneousCharges || '0'}
-                    </PdfSmall>
-                    <PdfSmall>
-                      Other Charges:{' '}
-                      {typeof transactionHeader?.discountCharges?.amount ==
-                      'number'
-                        ? Number.parseFloat(
-                            transactionHeader?.discountCharges?.amount,
-                          )
-                        : 0}
-                    </PdfSmall>
-                    <PdfSmall>
-                      Paid Amount: {transactionHeader?.receivedAmount || '0'}
-                    </PdfSmall>
+                    {Number.parseInt(
+                      transactionHeader?.miscellaneousCharges,
+                    ) && (
+                      <PdfSmall>
+                        Misc Charges ₹:{' '}
+                        {transactionHeader?.miscellaneousCharges || '0'}
+                      </PdfSmall>
+                    )}
+                    {Number.parseInt(
+                      transactionHeader?.discountCharges?.amount,
+                    ) && (
+                      <PdfSmall>
+                        Other Charges ₹:{' '}
+                        {typeof transactionHeader?.discountCharges?.amount ==
+                        'number'
+                          ? Number.parseFloat(
+                              transactionHeader?.discountCharges?.amount,
+                            )
+                          : 0}
+                      </PdfSmall>
+                    )}
+                    {Number.parseInt(transactionHeader?.receivedAmount) && (
+                      <PdfSmall>
+                        Paid Amount ₹:{' '}
+                        {transactionHeader?.receivedAmount || '0'}
+                      </PdfSmall>
+                    )}
                     <PdfSmall fontFamily='IBMPlexSans'>
-                      Balance: {transactionHeader?.balance || '0'}
+                      Balance ₹: {transactionHeader?.balance || '0'}
                     </PdfSmall>
                   </PdfView>
+
                   <PdfSmall>
                     Amount Paid in Words:{' '}
                     {numToWords(transactionHeader?.receivedAmount || 0)}
