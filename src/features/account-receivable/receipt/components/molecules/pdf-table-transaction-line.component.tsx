@@ -50,7 +50,15 @@ export const PdfTransactionLineTable = ({
       width: '50',
     },
     {
-      title: 'Price',
+      title: 'Gross Amount',
+      width: '20',
+    },
+    {
+      title: 'Net Amount',
+      width: '20',
+    },
+    {
+      title: 'Discount Amount',
       width: '20',
     },
   ];
@@ -70,8 +78,11 @@ export const PdfTransactionLineTable = ({
           >
             <PdfSmall
               style={{
-                fontFamily: 'Times-Bold',
+                fontFamily: 'IBMPlexSans',
+                fontWeight: 'bold',
                 textAlign: 'center',
+                fontSize: 9,
+                marginHorizontal: 1,
               }}
             >
               {item?.title}
@@ -95,7 +106,7 @@ export const PdfTransactionLineTable = ({
               borderColor='gray'
             >
               <PdfSmall style={{ textAlign: 'center', padding: 2 }}>
-                {item[1]}
+                {_idx == 0 ? index + 1 : item[1]}
               </PdfSmall>
             </PdfBorderView>
           ))}

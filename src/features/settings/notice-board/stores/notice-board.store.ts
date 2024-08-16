@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {NoticeBoardService} from '../services';
-import {NoticeBoard} from '../models';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { NoticeBoardService } from '../services';
+import { NoticeBoard } from '../models';
 
 export class NoticeBoardStore {
   noticeBoard!: NoticeBoard;
@@ -40,7 +40,7 @@ export class NoticeBoardStore {
   }
 
   updateNoticeBoardsList(res: any) {
-    if (!res.noticeBoards.success) return alert(res.noticeBoards.message);
+    if (!res.noticeBoards.success) return console.log(res.noticeBoards.message);
     this.noticeBoardList = res.noticeBoards.data;
     this.noticeBoardListCount = res.noticeBoards.paginatorInfo.count;
   }

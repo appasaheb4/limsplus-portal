@@ -31,6 +31,7 @@ export const PAYMENT_LIST = gql`
         balance
         modeOfPayment
         paymentRemark
+        actionDate
         companyCode
         environment
         status
@@ -101,6 +102,7 @@ export const FILTER = gql`
         balance
         modeOfPayment
         paymentRemark
+        actionDate
         companyCode
         environment
         status
@@ -143,6 +145,7 @@ export const FILTER_BY_FILTER = gql`
         balance
         modeOfPayment
         paymentRemark
+        actionDate
         companyCode
         environment
         status
@@ -182,6 +185,7 @@ export const FIND_BY_FIELDS = gql`
         balance
         modeOfPayment
         paymentRemark
+        actionDate
         status
         companyCode
         environment

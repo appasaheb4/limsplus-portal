@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Library} from '../models';
-import {MasterAnalyteService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Library } from '../models';
+import { MasterAnalyteService } from '../services';
 import dayjs from 'dayjs';
 
 export class LibraryStore {
@@ -60,7 +60,7 @@ export class LibraryStore {
 
   updateLibraryList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.librarys.success) return alert(res.librarys.message);
+      if (!res.librarys.success) return console.log(res.librarys.message);
       this.listLibrary = res.librarys.data;
       this.listLibraryCopy = res.librarys.data;
       this.listLibraryCount = res.librarys.paginatorInfo.count;

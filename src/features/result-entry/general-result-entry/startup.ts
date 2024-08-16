@@ -17,6 +17,7 @@ const startup = async () => {
             finishResult: 'P',
             panelStatus: 'P',
             testStatus: 'P',
+            isSingleLabId: true,
           },
         );
       });

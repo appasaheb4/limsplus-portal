@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {PriceList} from '../models';
-import {PriceListService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { PriceList } from '../models';
+import { PriceListService } from '../services';
 import dayjs from 'dayjs';
 
 export class PriceListStore {
@@ -74,7 +74,7 @@ export class PriceListStore {
 
   updatePriceListRecords(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.priceLists.success) return alert(res.priceLists.message);
+      if (!res.priceLists.success) return console.log(res.priceLists.message);
       this.listPriceList = res.priceLists.data;
       this.listPriceListCopy = res.priceLists.data;
       this.listPriceListCount = res.priceLists.paginatorInfo.count;

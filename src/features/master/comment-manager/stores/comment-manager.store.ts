@@ -55,7 +55,7 @@ export class CommentManagerStore {
   updateCommentManagerList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.commentManagers.success)
-        return alert(res.commentManagers.message);
+        return console.log(res.commentManagers.message);
       this.commentManagerList = res.commentManagers.data;
       this.commentManagerCopy = res.commentManagers.data;
       this.commentManagerListCount = res.commentManagers.paginatorInfo.count;

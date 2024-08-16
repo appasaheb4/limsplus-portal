@@ -341,7 +341,7 @@ export const SalesTeam = SalesTeamHoc(
         })
         .then((salesHieRes: any) => {
           if (!salesHieRes.getSalesHierarchyList.success)
-            return alert(salesHieRes.getSalesHierarchyList.message);
+            return console.log(salesHieRes.getSalesHierarchyList.message);
           let targets;
           if (
             salesTeamStore.salesTeam.existsRecordId ||

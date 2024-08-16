@@ -281,7 +281,7 @@ export const PatientOrder = PatientOrderHoc(
             setModalPayment({
               visible: true,
               details: {
-                pId: item?.pId,
+                labId: item?.labId,
               },
             });
           }}
@@ -289,14 +289,19 @@ export const PatientOrder = PatientOrderHoc(
             receiptStore.receiptService
               .generatePaymentReceipt({ input: { headerId: item?.headerId } })
               .then(res => {
-                if (res.generatePaymentReceipt?.success) {
-                  setModalPaymentReceipt({
-                    show: true,
-                    data: res.generatePaymentReceipt?.receiptData,
-                  });
+                if (
+                  res?.generatePaymentReceipt?.receiptData?.labId?.toString() ==
+                  item?.labId?.toString()
+                ) {
+                  if (res.generatePaymentReceipt?.success) {
+                    setModalPaymentReceipt({
+                      show: true,
+                      data: res.generatePaymentReceipt?.receiptData,
+                    });
+                  }
                 } else
                   Toast.error({
-                    message: `😔 ${res.generatePaymentReceipt.message}`,
+                    message: 'Record not found in transaction details',
                   });
               });
           }}
@@ -758,6 +763,11 @@ export const PatientOrder = PatientOrderHoc(
                           sender: '',
                           message: `Your payment receipt link: ${path}`,
                         });
+                    } else if (type == 'copyLink') {
+                      window.navigator.clipboard.writeText(path);
+                      Toast.success({
+                        message: 'File path coped',
+                      });
                     } else {
                       window.open(`${type} ${path}`, '_blank');
                     }
@@ -780,6 +790,11 @@ export const PatientOrder = PatientOrderHoc(
                     sender: '',
                     message: `Your payment receipt link: ${receiptPath}`,
                   });
+              } else if (type == 'copyLink') {
+                window.navigator.clipboard.writeText(receiptPath);
+                Toast.success({
+                  message: 'File path coped',
+                });
               } else window.open(type + receiptPath, '_blank');
             }
           }}

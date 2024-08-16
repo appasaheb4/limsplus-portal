@@ -149,8 +149,6 @@ export class PatientResultService {
           if (!response.data.filterPatientResultWithLabId.success)
             return this.listPatientResult({
               pLab: stores.loginStore.login?.lab,
-              // resultStatus: 'P',
-              // testStatus: 'P',
               finishResult: 'P',
             });
           stores.patientResultStore.filterPatientResultList(response.data);
@@ -171,20 +169,19 @@ export class PatientResultService {
           variables,
         })
         .then((response: any) => {
-          if (!response.data.filterByFieldsPatientResult.success)
+          if (!response.data?.filterByFieldsPatientResult?.success)
             return this.listPatientResult({
               pLab: stores.loginStore.login?.lab,
-              // resultStatus: 'P',
-              // testStatus: 'P',
               finishResult: 'P',
             });
           stores.patientResultStore.filterPatientResultList({
             filterPatientResult: {
               patientResultList:
-                response.data.filterByFieldsPatientResult.patientResultList,
+                response.data?.filterByFieldsPatientResult?.patientResultList,
               paginatorInfo: {
                 count:
-                  response.data.filterByFieldsPatientResult.paginatorInfo.count,
+                  response.data?.filterByFieldsPatientResult?.paginatorInfo
+                    ?.count,
               },
             },
           });
@@ -192,7 +189,7 @@ export class PatientResultService {
           resolve(response.data);
         })
         .catch(error =>
-          reject(new ServiceResponse<any>(0, error.message, undefined)),
+          reject(new ServiceResponse<any>(0, error?.message, undefined)),
         );
     });
 

@@ -14,8 +14,6 @@ interface TargetSaleProps {
 export const TargetsTable = observer(
   ({ onSelectItem, hasError }: TargetSaleProps) => {
     const { salesTeamStore, routerStore } = useStores();
-    console.log({ list: salesTeamStore?.salesTeam?.targets });
-
     const {
       control,
       handleSubmit,

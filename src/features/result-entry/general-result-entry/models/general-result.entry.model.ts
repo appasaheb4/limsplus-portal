@@ -8,6 +8,7 @@ export class FilterGeneralResEntryList {
   labId: number | string | undefined;
   name: string;
   finishResult: string;
+  isSingleLabId?: boolean;
 
   constructor(rawData: { [key in string]: any }) {
     this.pLab = rawData.pLab;
@@ -19,6 +20,7 @@ export class FilterGeneralResEntryList {
     this.labId = rawData.labId;
     this.name = rawData.name;
     this.finishResult = rawData.finishResult;
+    this.isSingleLabId = rawData.isSingleLabId;
   }
 }
 

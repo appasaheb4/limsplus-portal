@@ -78,6 +78,7 @@ import * as GenerateReport from '@/features/patient-reports/generate-reports';
 import * as TransactionDetails from '@/features/account-receivable/transaction-details';
 import * as Payment from '@/features/account-receivable/payment';
 import * as Receipt from '@/features/account-receivable/receipt';
+import { startupBillSummary } from '@/features/account-receivable/bill-summary';
 
 // Validations
 import * as PanelApproval from '@/features/validation/panel-approval';
@@ -299,6 +300,8 @@ const Dashboard = ({ children }) => {
       } else {
         stores.appStore.updateFooterView({ visible: true });
       }
+
+      // TODO: account receivable startup
       if (pathname === '/account-receivable/transaction-details') {
         await TransactionDetails.startup();
       }
@@ -308,6 +311,9 @@ const Dashboard = ({ children }) => {
       }
       if (pathname === '/account-receivable/receipt') {
         await Receipt.startup();
+      }
+      if (pathname === '/account-receivable/bill-summary') {
+        await startupBillSummary();
       }
       // validation
       if (pathname === '/validation/panel-approval') {

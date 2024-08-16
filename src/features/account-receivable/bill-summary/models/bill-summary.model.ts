@@ -1,0 +1,64 @@
+export class BillSummary {
+  _id: string;
+  billNo: string;
+  billDate: Date;
+  corporateCode: string;
+  corporateName: string;
+  invoiceAc: number;
+  clientName: string;
+  clientContactNo: string;
+  billingFrequency: string;
+  billForm: Date;
+  billTo: Date;
+  accountType: string;
+  customerGroup: string;
+  billingOn: string;
+  grossAmount: number;
+  netAmount: number;
+  discountAmount: number;
+  discountPer: number;
+  miscellaneousCharges: number;
+  allMiscCharges: number;
+  discountCharges: number;
+  receivedAmount: number;
+  balance: number;
+  status: string;
+  enteredBy: string;
+  companyCode: string;
+  environment: string;
+  createdAt: Date;
+  updatedAt: Date;
+
+  constructor(rawData: { [key in string]: any }) {
+    this._id = rawData._id;
+    this.billNo = rawData.billNo;
+    this.billDate = rawData.billDate;
+    this.corporateCode = rawData.corporateCode;
+    this.corporateName = rawData.corporateName;
+    this.invoiceAc = rawData.invoiceAc;
+    this.clientName = rawData.clientName;
+    this.clientContactNo = rawData.clientContactNo;
+    this.billingFrequency = rawData.billingFrequency;
+    this.billForm = rawData.billForm;
+    this.billTo = rawData.billTo;
+    this.accountType = rawData.accountType;
+    this.customerGroup = rawData.customerGroup;
+    this.billNo = rawData.billNo;
+    this.billingOn = rawData.billingOn;
+    this.grossAmount = rawData.grossAmount;
+    this.netAmount = rawData.netAmount;
+    this.discountAmount = rawData.discountAmount;
+    this.discountPer = rawData.discountPer;
+    this.miscellaneousCharges = rawData.miscellaneousCharges;
+    this.allMiscCharges = rawData.allMiscCharges;
+    this.discountCharges = rawData.discountCharges;
+    this.receivedAmount = rawData.receivedAmount;
+    this.balance = rawData.balance;
+    this.status = rawData.status;
+    this.enteredBy = rawData.enteredBy;
+    this.companyCode = rawData.companyCode;
+    this.environment = rawData.environment;
+    this.createdAt = rawData.createdAt;
+    this.updatedAt = rawData.updatedAt;
+  }
+}

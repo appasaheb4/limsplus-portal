@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { ModalConfirm, Toast, MainPageHeading } from '@/library/components';
 import { useForm } from 'react-hook-form';
 import { RouterFlow } from '@/flows';
+import { ButtonBorderAnimated } from '@/core-components';
 import { TransactionHeaderList, TransactionLineList } from '../components';
 import { ModalReceiptShare } from '../../components';
 import '@/library/assets/css/accordion.css';
@@ -11,8 +12,13 @@ import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const TransactionDetails = observer(() => {
-  const { transactionDetailsStore, routerStore, loginStore, receiptStore } =
-    useStores();
+  const {
+    transactionDetailsStore,
+    routerStore,
+    loginStore,
+    receiptStore,
+    billSummaryStore,
+  } = useStores();
 
   const {
     control,
@@ -89,7 +95,6 @@ const TransactionDetails = observer(() => {
           } else {
             transactionDetailsStore.updateTransactionListList([]);
           }
-          // deliveryQueueStore.updateOrderDeliveredList([item]);
         }}
         onReport={item => {
           receiptStore.receiptService
@@ -104,6 +109,21 @@ const TransactionDetails = observer(() => {
                 Toast.error({
                   message: `😔 ${res.generatePaymentReceipt.message}`,
                 });
+            });
+        }}
+        onGenerateBill={async () => {
+          await billSummaryStore.billSummaryService
+            .generateBill({ input: {} })
+            .then(res => {
+              if (res.generateBillSummary?.success) {
+                Toast.success({
+                  message: `${res.generateBillSummary.message}`,
+                });
+              } else {
+                Toast.error({
+                  message: res.generateBillSummary?.message,
+                });
+              }
             });
         }}
       />
@@ -122,6 +142,9 @@ const TransactionDetails = observer(() => {
 
   return (
     <>
+      {/* <div className='flex items-center justify-center'>
+        <ButtonBorderAnimated title='WIP' />
+      </div> */}
       <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
@@ -244,6 +267,11 @@ const TransactionDetails = observer(() => {
                         sender: '',
                         message: `Your payment receipt link: ${path}`,
                       });
+                  } else if (type == 'copyLink') {
+                    window.navigator.clipboard.writeText(path);
+                    Toast.success({
+                      message: 'File path coped',
+                    });
                   } else {
                     window.open(`${type} ${path}`, '_blank');
                   }
@@ -264,6 +292,11 @@ const TransactionDetails = observer(() => {
                   sender: '',
                   message: `Your payment receipt link: ${receiptPath}`,
                 });
+            } else if (type == 'copyLink') {
+              window.navigator.clipboard.writeText(receiptPath);
+              Toast.success({
+                message: 'File path coped',
+              });
             } else window.open(type + receiptPath, '_blank');
           }
         }}

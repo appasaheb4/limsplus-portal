@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {RoleMapping, Role} from '../models';
-import {RoleMappingService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { RoleMapping, Role } from '../models';
+import { RoleMappingService } from '../services';
 
 export class RoleMappingStore {
   user!: Role;
@@ -40,7 +40,7 @@ export class RoleMappingStore {
   }
 
   updateRoleMappingList(res: any) {
-    if (!res.roleMappings.success) return alert(res.roleMappings.message);
+    if (!res.roleMappings.success) return console.log(res.roleMappings.message);
     this.roleMappingList = res.roleMappings.data;
     this.roleMappingListCount = res.roleMappings.paginatorInfo.count;
   }

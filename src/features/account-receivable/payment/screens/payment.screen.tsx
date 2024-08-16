@@ -65,7 +65,7 @@ const Payment = PaymentHoc(
       setValue('customerGroup', paymentStore.payment?.customerGroup);
       setValue('acClass', paymentStore.payment?.acClass);
       setValue('acType', paymentStore.payment?.acType);
-      setValue('otherCharges', paymentStore.payment?.discountCharges);
+      setValue('otherCharges', paymentStore.payment?.discountCharges || '');
       setValue('invoiceDate', paymentStore.payment?.invoiceDate);
       setValue('grossAmount', paymentStore.payment?.grossAmount);
       setValue('netAmount', paymentStore.payment?.netAmount);
@@ -90,13 +90,17 @@ const Payment = PaymentHoc(
               .findByFieldsTransactionHeader({
                 input: {
                   filter: {
-                    pId: Number.parseInt(details?.pId),
+                    labId: Number.parseInt(details?.labId),
                   },
                 },
               })
               .then(res => {
                 if (res.findByFieldsTransactionHeader?.success) {
                   updatePayment(res.findByFieldsTransactionHeader?.data[0]);
+                } else {
+                  Toast.error({
+                    message: 'Exists records not found in payment',
+                  });
                 }
               });
             //lookup value fetch
@@ -118,7 +122,7 @@ const Payment = PaymentHoc(
         enteredBy: loginStore.login?.userId,
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [loginStore.login?.userId, paymentStore, isFullAccess]);
+    }, [loginStore.login?.userId, paymentStore, isFullAccess, details?.labId]);
 
     const onSubmitPayment = () => {
       paymentStore.paymentService
@@ -175,9 +179,9 @@ const Payment = PaymentHoc(
         customerGroup: payload?.customerGroup,
         acClass: payload?.acClass,
         acType: payload?.accountType,
-        discountCharges: `${
-          payload.discountCharges?.code
-        } - ${payload.discountCharges?.amount?.toString()}`,
+        discountCharges: `${payload.discountCharges?.code || ''} - ${
+          payload.discountCharges?.amount?.toString() || ''
+        }`,
         invoiceDate: payload?.invoiceDate,
         grossAmount: Number.parseFloat(payload?.grossAmount),
         netAmount: Number.parseFloat(payload?.netAmount),

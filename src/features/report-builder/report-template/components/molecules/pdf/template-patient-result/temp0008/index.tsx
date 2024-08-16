@@ -8,15 +8,10 @@ import {
   PdfImage,
   PdfSmall,
 } from '@components';
-import {
-  GeneflowLabHeader,
-  GeneflowLabFooter,
-  AarvakDiagnosticCenterHeader,
-  AarvakDiagnosticCenterFooter,
-} from '../../company';
+import { getHeaderAndFooter } from '@/core-utils';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import Html from 'react-pdf-html';
+import { PdfPatientDetails } from './pdf-patient-details.component';
 
 Font.register({
   family: 'arimaRegular',
@@ -71,64 +66,43 @@ export const PdfTemp0008 = ({
     }
   }
 
-  // useEffect(() => {
-  //   window.open(
-  //     JSON.parse(patientReports?.patientResultList[0]?.result)?.result,
-  //     '_blank',
-  //   );
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [patientReports?.patientResultList[0]?.result]);
-
-  const getCompanyWiseComp = (companyCode, details) => {
-    switch (companyCode) {
-      case 'GENEFLOW':
-        return {
-          header: <GeneflowLabHeader />,
-          footer: <GeneflowLabFooter />,
-        };
-      case 'COMP0001':
-        return {
-          header: <AarvakDiagnosticCenterHeader />,
-          footer: <AarvakDiagnosticCenterFooter />,
-        };
-      default:
-        break;
-    }
-  };
-
-  const onDocumentLoad = ({ numPages }) => {
-    setPageNumber(numPages);
-  };
-
   return (
     <>
       <Page size={pageSize} style={boxCSS.current}>
         <PdfView fixed mh={0} p={0}>
-          {getCompanyWiseComp(companyCode, {})?.header}
+          {
+            getHeaderAndFooter(companyCode, { labId: patientReports?.labId })
+              ?.header
+          }
         </PdfView>
-        <PdfPageNumber
-          style={{ textAlign: 'center', right: '45%' }}
-          bottom={88}
-        />
+        <PdfPatientDetails data={patientReports} />
         <View
           style={{
             marginHorizontal: 10,
             marginTop: 10,
             marginBottom: 90,
+            alignItems: 'center',
           }}
         >
-          <PdfImage
-            src={
-              JSON.parse(patientReports?.patientResultList[0]?.result)?.result
-            }
-            style={{
-              height: 'auto',
-              width: 'auto',
-            }}
-          />
+          {JSON.parse(patientReports?.patientResultList[0]?.result)?.result && (
+            <PdfImage
+              src={
+                JSON.parse(patientReports?.patientResultList[0]?.result)?.result
+              }
+              style={{
+                height: 'auto',
+                maxWidth: 560,
+              }}
+            />
+          )}
         </View>
-        <PdfFooterView fixed bg='transparent' height={90} p={0}>
-          {getCompanyWiseComp(companyCode, {})?.footer}
+        <PdfPageNumber style={{ textAlign: 'right' }} bottom={88} />
+        <PdfFooterView fixed bg='transparent' height={88} p={0}>
+          {
+            getHeaderAndFooter(companyCode, {
+              barCode: 'https://www.limsplus.co.in',
+            })?.footer
+          }
         </PdfFooterView>
       </Page>
     </>

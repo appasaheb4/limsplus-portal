@@ -163,6 +163,10 @@ const GeneralResultEntry = observer(() => {
                 },
               );
             }
+            generalResultEntryStore.updateFilterGeneralResEntry({
+              ...generalResultEntryStore.filterGeneralResEntry,
+              isSingleLabId: false,
+            });
           }}
           onTestStatusFilter={testStatus => {
             const input = _.pickBy({
@@ -183,6 +187,10 @@ const GeneralResultEntry = observer(() => {
             patientResultStore.filterDistinctPatientResult(
               patientResultStore.distinctPatientResultCopy,
             );
+            generalResultEntryStore.updateFilterGeneralResEntry({
+              ...generalResultEntryStore.filterGeneralResEntry,
+              isSingleLabId: false,
+            });
           }}
           onExpand={items => {
             setSelectId(items?._id);
@@ -228,10 +236,10 @@ const GeneralResultEntry = observer(() => {
       })
       .then(res => {
         if (res.updatePatientResult.success) {
-          Toast.success({
-            message: `😊 ${res.updatePatientResult.message}`,
-            timer: 2000,
-          });
+          // Toast.success({
+          //   message: `😊 ${res.updatePatientResult.message}`,
+          //   timer: 2000,
+          // });
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
               ...generalResultEntryStore.filterGeneralResEntry,

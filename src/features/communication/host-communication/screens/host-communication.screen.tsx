@@ -570,7 +570,7 @@ const HostCommunication = HostCommunicationHoc(
                                       ?.instType
                                   )
                                     return alert(
-                                      'Please entery instrument type',
+                                      'Please enter instrument type',
                                     );
                                   setModalImportFile({
                                     show: true,
@@ -1027,7 +1027,7 @@ const HostCommunication = HostCommunicationHoc(
               HostCommunicationFlows.newMessage(message);
             });
             reader.addEventListener('error', (e: any) =>
-              alert(e.target.error.name),
+              console.log(e.target.error.name),
             );
             reader.readAsText(file);
           }}

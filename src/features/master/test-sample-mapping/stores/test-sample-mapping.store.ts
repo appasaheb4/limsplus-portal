@@ -65,7 +65,7 @@ export class TestSampleMappingStore {
 
   updateTestSampleMappingList(res: any) {
     if (!res.testSampleMappings.success)
-      return alert(res.testSampleMappings.message);
+      return console.log(res.testSampleMappings.message);
     this.listTestSampleMapping = res.testSampleMappings.data;
     this.listTestSampleMappingCount =
       res.testSampleMappings.paginatorInfo.count;

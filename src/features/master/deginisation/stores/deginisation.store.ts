@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Deginisation} from '../models';
-import {DeginisationService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Deginisation } from '../models';
+import { DeginisationService } from '../services';
 
 export class DeginisationStore {
   listDeginisation!: Deginisation[];
@@ -48,7 +48,8 @@ export class DeginisationStore {
 
   updateListDeginisation(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.designations.success) return alert(res.designations.message);
+      if (!res.designations.success)
+        return console.log(res.designations.message);
       this.listDeginisation = res.designations.data;
       this.listDeginisationCopy = res.designations.data;
       this.listDeginisationCount = res.designations.paginatorInfo.count;

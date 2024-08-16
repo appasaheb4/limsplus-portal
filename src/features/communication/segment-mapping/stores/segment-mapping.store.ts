@@ -1,7 +1,7 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {SegmentMapping} from '../models';
-import {Mapping} from '../../models';
-import {SegmentMappingService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { SegmentMapping } from '../models';
+import { Mapping } from '../../models';
+import { SegmentMappingService } from '../services';
 
 interface UpdateItem {
   value: string | boolean | undefined | any[];
@@ -61,7 +61,8 @@ export class SegmentMappingStore {
   }
 
   updateListSegmentMapping(res: any) {
-    if (!res.segmentMappings.success) return alert(res.segmentMappings.message);
+    if (!res.segmentMappings.success)
+      return console.log(res.segmentMappings.message);
     this.listSegmentMapping = res.segmentMappings.data;
     this.listSegmentMappingCount = res.segmentMappings.paginatorInfo.count;
   }
@@ -77,7 +78,8 @@ export class SegmentMappingStore {
   }
 
   updateMappingList(res: any) {
-    if (!res.segmentMappings.success) return alert(res.segmentMappings.message);
+    if (!res.segmentMappings.success)
+      return console.log(res.segmentMappings.message);
     this.mapping = res.segmentMappings.data;
   }
 

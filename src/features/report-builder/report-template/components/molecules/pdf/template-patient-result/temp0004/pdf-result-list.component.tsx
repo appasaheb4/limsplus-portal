@@ -277,6 +277,7 @@ export const PdfResultList = ({
                       style={{
                         marginLeft: 10,
                         marginTop: 3,
+                        marginBottom: 4,
                         fontFamily: 'IBMPlexSans',
                       }}
                     >

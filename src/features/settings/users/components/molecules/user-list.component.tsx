@@ -107,8 +107,8 @@ export const UserList = (props: UserListProps) => {
 
   const editorCell = (row: any) => {
     if (
-      (props.extraData?.userId == 'ADMIN' ||
-        props.extraData?.userId == 'ADMINISTRATOR') &&
+      (props.extraData?.role == 'ADMIN' ||
+        props.extraData?.role == 'ADMINISTRATOR') &&
       row.status !== 'I'
     )
       return true;
@@ -117,15 +117,15 @@ export const UserList = (props: UserListProps) => {
 
   const getNonSelectableRows = rows => {
     const list = [''];
-    if (props.extraData?.userId == 'ADMINISTRATOR') {
+    if (props.extraData?.role == 'ADMINISTRATOR') {
       rows?.filter(item => {
         if (item?.userId == 'ADMINISTRATOR') {
           list.push(item._id);
         }
       });
-    } else if (props.extraData?.userId == 'ADMIN') {
+    } else if (props.extraData?.role == 'ADMIN') {
       rows?.filter(item => {
-        if (item?.userId == 'ADMIN' || item?.userId == 'ADMINISTRATOR') {
+        if (item?.role == 'ADMIN' || item?.role == 'ADMINISTRATOR') {
           list.push(item._id);
         }
       });
@@ -1615,7 +1615,7 @@ export const UserList = (props: UserListProps) => {
               ),
             },
             {
-              dataField: 'opration',
+              dataField: 'passwordReSend',
               headerClasses: 'textHeaderA',
               text: 'Password Re-Send',
               editable: false,
@@ -1625,12 +1625,16 @@ export const UserList = (props: UserListProps) => {
                   <Buttons.Button
                     size='small'
                     type='outline'
+                    disabled={
+                      props?.extraData?.role == 'ADMINISTRATOR' ||
+                      props?.extraData?.role == 'ADMIN'
+                        ? false
+                        : true
+                    }
                     icon={Svg.ReSendPassword}
                     onClick={async () => {
                       props.reSendPassword({
                         userId: row.userId,
-                        // lab: row.lab[0].code,
-                        // role: row.role[0].code,
                         email: row.email,
                       });
                     }}
@@ -1641,7 +1645,7 @@ export const UserList = (props: UserListProps) => {
               ),
             },
             {
-              dataField: 'opration',
+              dataField: 'passwordChangePassword',
               text: 'Change Password',
               csvExport: false,
               editable: false,
@@ -1650,6 +1654,12 @@ export const UserList = (props: UserListProps) => {
                   <Buttons.Button
                     size='small'
                     type='outline'
+                    disabled={
+                      props?.extraData?.role == 'ADMINISTRATOR' ||
+                      props?.extraData?.role == 'ADMIN'
+                        ? false
+                        : true
+                    }
                     icon={Svg.ReSendPassword}
                     onClick={() => {
                       props.onChangePassword &&

@@ -85,7 +85,7 @@ export const getLookupValues = async (path: string): Promise<any> => {
   let lookupItems: Array<any> = [];
   await new LookupService().lookupItemsByPath(path).then(res => {
     if (!res.lookupItemsByPath.success)
-      return alert(res.lookupItemsByPath.message);
+      return console.log(res.lookupItemsByPath.message);
     lookupItems = res.lookupItemsByPath.data;
   });
   return lookupItems;
@@ -95,7 +95,7 @@ export const getLookupValuesByPath = async (path: string): Promise<any> => {
   let lookupItems: Array<any> = [];
   await new LookupService().lookupItemsByPath(path).then(res => {
     if (!res.lookupItemsByPath.success)
-      return alert(res.lookupItemsByPath.message);
+      return console.log(res.lookupItemsByPath.message);
     lookupItems = res.lookupItemsByPath.data;
   });
   return lookupItems;
@@ -110,7 +110,7 @@ export const getLookupValuesByPathNField = async (
     .lookupItemsByPathNField({ input: { path, field } })
     .then(res => {
       if (!res.lookupItemsByPathNField.success)
-        return alert(res.lookupItemsByPathNField.message);
+        return console.log(res.lookupItemsByPathNField.message);
       lookupItems = res.lookupItemsByPathNField.data;
     });
   return lookupItems[0]?.arrValue;

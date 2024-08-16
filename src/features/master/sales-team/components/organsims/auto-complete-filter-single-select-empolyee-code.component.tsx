@@ -55,7 +55,7 @@ export const AutoCompleteFilterSingleSelectEmpolyeCode = observer(
         input: { filter: { userGroup: 'Sales' } },
       }).then(res => {
         if (!res.findByFieldsUser.success)
-          return alert(res.findByFieldsUser.message);
+          return console.log(res.findByFieldsUser.message);
         setOptions(res.findByFieldsUser.data);
       });
     };

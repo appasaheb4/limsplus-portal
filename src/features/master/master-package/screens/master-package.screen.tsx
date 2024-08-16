@@ -369,8 +369,8 @@ const MasterPackage = MasterPackageHOC(
             packageCode: item['Package Code'],
             packageName: item['Package Name'],
             serviceType: item['Service Type'],
-            panelName: item['Panel Code'],
-            panelCode: item['Panel Name'],
+            panelName: item['Panel Name'],
+            panelCode: item['Panel Code'],
             reportOrder: 1,
             bill: item.Bill === 'Yes' ? true : false,
             printPackageName:
@@ -755,7 +755,7 @@ const MasterPackage = MasterPackageHOC(
                     />
 
                     <Grid cols={3}>
-                      <Controller
+                      {/* <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (
                           <Form.Toggle
@@ -774,7 +774,7 @@ const MasterPackage = MasterPackageHOC(
                         name='bill'
                         rules={{ required: false }}
                         defaultValue=''
-                      />
+                      /> */}
                       <Controller
                         control={control}
                         render={({ field: { onChange, value } }) => (

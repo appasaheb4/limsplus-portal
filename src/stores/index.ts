@@ -81,6 +81,7 @@ import { GenerateReportsStore } from '@/features/patient-reports/generate-report
 import { TransactionDetailsStore } from '@/features/account-receivable/transaction-details/stores';
 import { PaymentStore } from '@/features/account-receivable/payment/stores';
 import { ReceiptStore } from '@/features/account-receivable/receipt/stores';
+import { BillSummaryStore } from '@/features/account-receivable/bill-summary/stores';
 
 // validation
 import { PanelApprovalStore } from '@/features/validation/panel-approval/stores';
@@ -166,6 +167,7 @@ export class Stores extends Store {
   transactionDetailsStore!: TransactionDetailsStore;
   paymentStore!: PaymentStore;
   receiptStore!: ReceiptStore;
+  billSummaryStore!: BillSummaryStore;
 
   // validation
   panelApprovalStore!: PanelApprovalStore;
@@ -251,6 +253,7 @@ export class Stores extends Store {
     this.transactionDetailsStore = new TransactionDetailsStore();
     this.paymentStore = new PaymentStore();
     this.receiptStore = new ReceiptStore();
+    this.billSummaryStore = new BillSummaryStore();
 
     // validation
     this.panelApprovalStore = new PanelApprovalStore();

@@ -33,7 +33,7 @@ export const AutoCompleteAuthorizedSignatory = observer(
                 itemSelected.push(item);
               });
             } else {
-              alert(res.getUserByMatchUserId?.message);
+              console.log(res.getUserByMatchUserId?.message);
             }
           });
           departmentStore.updateSelectedItems({

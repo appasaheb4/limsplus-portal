@@ -87,7 +87,7 @@ export class UserStore {
 
   updateUserList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.users.success) alert(res.users.message);
+      if (!res.users.success) return console.log(res.users.message);
       this.userList = res.users.data;
       this.userListCopy = res.users.data;
       this.userListCount = res.users.paginatorInfo.count;
@@ -119,7 +119,8 @@ export class UserStore {
 
   updateUserFilterList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.usersFilterByKey.success) alert(res.usersFilterByKey.message);
+      if (!res.usersFilterByKey.success)
+        return console.log(res.usersFilterByKey.message);
       this.userList = res.usersFilterByKey.data;
     } else {
       this.userList = res;

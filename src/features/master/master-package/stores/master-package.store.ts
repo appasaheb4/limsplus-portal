@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {MasterPackage, SelectedItems} from '../models';
-import {MasterPackageService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { MasterPackage, SelectedItems } from '../models';
+import { MasterPackageService } from '../services';
 import dayjs from 'dayjs';
 
 export class MasterPackageStore {
@@ -66,7 +66,8 @@ export class MasterPackageStore {
 
   updatePackageMasterList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.packageMasters.success) return alert(res.packageMasters.message);
+      if (!res.packageMasters.success)
+        return console.log(res.packageMasters.message);
       this.listMasterPackage = res.packageMasters.data;
       this.listMasterPackageCopy = res.packageMasters.data;
       this.listMasterPackageCount = res.packageMasters.paginatorInfo.count;

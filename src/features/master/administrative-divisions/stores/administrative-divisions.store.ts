@@ -64,7 +64,7 @@ export class AdministrativeDivisionsStore {
   updateAdministrativeDivList(res: any) {
     if (!Array.isArray(res)) {
       if (!res.administrativeDivisions.success)
-        return alert(res.administrativeDivisions.message);
+        return console.log(res.administrativeDivisions.message);
       this.listAdministrativeDivCount =
         res.administrativeDivisions.paginatorInfo.count;
       this.listAdministrativeDiv = res.administrativeDivisions.data;

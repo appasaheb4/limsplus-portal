@@ -79,7 +79,8 @@ export class MasterPanelStore {
 
   updatePanelMasterList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.panelMasters.success) return alert(res.panelMasters.message);
+      if (!res.panelMasters.success)
+        return console.log(res.panelMasters.message);
       this.listMasterPanel = res.panelMasters.data;
       this.listMasterPanelCopy = res.panelMasters.data;
       this.listMasterPanelCount = res.panelMasters.paginatorInfo.count;

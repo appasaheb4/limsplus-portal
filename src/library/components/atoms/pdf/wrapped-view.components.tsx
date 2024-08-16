@@ -78,6 +78,15 @@ export const PdfBorderView = ({
   );
 };
 
+interface PdfHeaderProps {
+  bg?: string;
+  p?: number;
+  alignItems?: React.CSSProperties['alignItems'] | any;
+  fixed?: boolean;
+  style?: React.CSSProperties | any;
+  children?: React.ReactNode;
+}
+
 export const PdfHeader = ({
   bg = 'orange',
   p = 10,
@@ -85,7 +94,7 @@ export const PdfHeader = ({
   fixed = false,
   style,
   children,
-}: PdfViewProps) => {
+}: PdfHeaderProps) => {
   return (
     <View
       style={{
@@ -124,7 +133,23 @@ export const PdfSubHeader = ({
   );
 };
 
+interface PdfFooterViewProps {
+  bottom?: number;
+  left?: number;
+  right?: number;
+  bg?: string;
+  p?: number;
+  alignItems?: React.CSSProperties['alignItems'];
+  fixed?: boolean;
+  height?: string | number;
+  style?: React.CSSProperties | any;
+  children: React.ReactNode;
+}
+
 export const PdfFooterView = ({
+  bottom = 0,
+  left = 0,
+  right = 0,
   bg = 'orange',
   p = 10,
   alignItems = 'center',
@@ -132,11 +157,11 @@ export const PdfFooterView = ({
   height = '100%',
   style,
   children,
-}: PdfViewProps) => {
+}: PdfFooterViewProps) => {
   return (
     <View
       style={[
-        { position: 'absolute', bottom: 0, left: 0, right: 0, height: height },
+        { position: 'absolute', bottom, left, right, height },
         { backgroundColor: bg, padding: p, alignItems: alignItems, ...style },
       ]}
       fixed={fixed}

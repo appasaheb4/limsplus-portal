@@ -1,6 +1,6 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {Doctors} from '../models';
-import {DoctorsService} from '../services';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { Doctors } from '../models';
+import { DoctorsService } from '../services';
 import dayjs from 'dayjs';
 
 export class DoctorsStore {
@@ -60,7 +60,7 @@ export class DoctorsStore {
 
   updateDoctorsList(res: any) {
     if (!Array.isArray(res)) {
-      if (!res.doctors.success) return alert(res.message);
+      if (!res.doctors.success) return console.log(res.message);
       this.listDoctors = res.doctors.data;
       this.listDoctorsCopy = res.doctors.data;
       this.listDoctorsCount = res.doctors.paginatorInfo.count;

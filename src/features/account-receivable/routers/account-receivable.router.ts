@@ -7,6 +7,9 @@ const OpenBatch = async(
   () => import('../open-batch/screens/open-batch.screen'),
 );
 const Receipt = async(() => import('../receipt/screens/receipt.screen'));
+const BillSummary = async(
+  () => import('../bill-summary/screens/bill-summary.screen'),
+);
 
 export const accountReceivableRoutes = {
   path: '/account-receivable',
@@ -38,6 +41,12 @@ export const accountReceivableRoutes = {
       name: 'Receipt',
       icon: 'BsReceipt',
       component: Receipt,
+    },
+    {
+      path: '/account-receivable/bill-summary',
+      name: 'Bill Summary',
+      icon: 'IoReceiptOutline',
+      component: BillSummary,
     },
   ],
 };

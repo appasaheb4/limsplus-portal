@@ -48,6 +48,8 @@ export class TransactionDetailsService {
           variables,
         })
         .then((response: any) => {
+          console.log({ response });
+
           stores.transactionDetailsStore.updateTransactionListList(
             response.data,
           );

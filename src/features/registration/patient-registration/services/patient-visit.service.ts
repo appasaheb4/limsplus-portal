@@ -117,7 +117,7 @@ export class PatientVisitService {
         })
         .then((response: any) => {
           if (!response.data.filterByLabIdPatientVisit.success)
-            return alert(response.data.filterByLabIdPatientVisit.message);
+            return console.log(response.data.filterByLabIdPatientVisit.message);
           stores.patientVisitStore.updateLabIdList(response.data);
           stores.uploadLoadingFlag(true);
           resolve(response.data);

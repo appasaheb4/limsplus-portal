@@ -1,7 +1,7 @@
-import {makeObservable, action, observable, computed} from 'mobx';
-import {DataConversation} from '../models';
+import { makeObservable, action, observable, computed } from 'mobx';
+import { DataConversation } from '../models';
 
-import {DataConversationService} from '../services';
+import { DataConversationService } from '../services';
 
 interface UpdateItem {
   value: string | boolean | undefined | any[];
@@ -52,7 +52,7 @@ export class DataConversationStore {
 
   updateDataConversationList(res: any) {
     if (!res.dataConversations.success)
-      return alert(res.dataConversations.message);
+      return console.log(res.dataConversations.message);
     this.listdataConversation = res.dataConversations.data;
     this.listdataConversationCount = res.dataConversations.paginatorInfo.count;
   }

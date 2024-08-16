@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { PdfView, PdfBorderView, PdfGrid, PdfSmall } from '@components';
 import { observer } from 'mobx-react';
-import { getAgeUnits, getSex } from '@/core-utils';
+import { getAgeUnits, getSex, pascalCase } from '@/core-utils';
 
 interface PdfPatientDetailsProps {
   data?: any;
@@ -14,11 +14,15 @@ export const PdfPatientDetails = observer(
       <PdfBorderView mv={0} mh={10} fixed>
         <PdfView mh={10} p={0} flexDirection='row'>
           <PdfGrid cols={3} bg='transparent'>
-            <PdfSmall>{`Patient Name: ${patientReports?.title || ''} ${
+            {/* <PdfSmall>{`Patient Name: ${patientReports?.title || ''} ${
               patientReports?.firstName || ''
             } ${patientReports?.middleName || ''} ${
               patientReports?.lastName || ''
-            }`}</PdfSmall>
+            }`}</PdfSmall> */}
+            <PdfSmall>{`Patient Name: ${pascalCase(
+              patientReports?.name,
+              true,
+            )}`}</PdfSmall>
             <PdfSmall>{`Age: ${patientReports?.age || ''} ${
               getAgeUnits(patientReports?.ageUnits) || ''
             }`}</PdfSmall>
@@ -30,7 +34,7 @@ export const PdfPatientDetails = observer(
             }`}</PdfSmall>
             <PdfSmall>{`Ref. By: ${patientReports?.refBy}`}</PdfSmall>
             <PdfSmall>{`Client Name: ${
-              patientReports?.patientResult?.clientName || ''
+              pascalCase(patientReports?.patientResult?.clientName, true) || ''
             }`}</PdfSmall>
           </PdfGrid>
           <PdfGrid cols={3} bg='transparent'>
@@ -39,10 +43,10 @@ export const PdfPatientDetails = observer(
             }`}</PdfSmall>
             <PdfSmall fontSize={9}>{`Samp. Collected: ${dayjs(
               patientReports?.collectionDate,
-            ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>
+            ).format('DD-MM-YYYY HH:MM')}`}</PdfSmall>
             <PdfSmall fontSize={9}>{`Reporting Date: ${dayjs(
               patientReports?.reportedDate,
-            ).format('DD/MM/YYYY hh:mm:ss A')}`}</PdfSmall>
+            ).format('DD-MM-YYYY HH:MM')}`}</PdfSmall>
           </PdfGrid>
         </PdfView>
       </PdfBorderView>

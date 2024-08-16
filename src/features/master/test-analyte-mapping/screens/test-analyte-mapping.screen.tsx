@@ -364,7 +364,7 @@ const TestAnalyteMapping = TestAnalyteMappingHoc(
             );
             setInstResultMappingRecords(values);
           } else {
-            alert(res.fetchKeysValueInstResultMapping.message);
+            console.log(res.fetchKeysValueInstResultMapping.message);
           }
         });
     };

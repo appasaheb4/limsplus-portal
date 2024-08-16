@@ -11,6 +11,7 @@ export const AarvakDiagnosticCenterHeader = ({
 }: AarvakDiagnosticCenterHeaderProps) => {
   return (
     <PdfHeader
+      p={0}
       style={{
         flexDirection: 'row',
         alignItems: 'center',
