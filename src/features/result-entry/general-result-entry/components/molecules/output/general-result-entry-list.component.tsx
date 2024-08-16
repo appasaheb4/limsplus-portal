@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import { Form, Tooltip, Icons } from '@/library/components';
+import { Form, Tooltip, Icons, Buttons } from '@/library/components';
 import { DisplayResult } from './display-result.components';
 import { GeneralResultEntryExpand } from './general-result-entry-expand.component';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { FaUserInjured, FaComment, FaCommentAlt } from 'react-icons/fa';
 import { PiTestTubeFill, PiStethoscopeBold } from 'react-icons/pi';
 import { ImAttachment } from 'react-icons/im';
+import { useStores } from '@/stores';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -33,9 +34,12 @@ interface GeneralResultEntryListProps {
   onExpand?: (items: any) => void;
   onTableReload?: () => void;
   selectedRowData?: any;
+  setIsInputScreenHide?: any;
+  isInputScreenHide?: boolean;
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
+  const { appStore } = useStores();
   const [expandedRow, setExpandedRow] = useState<{
     rowIndex: number | null;
     data: any[];
@@ -103,11 +107,47 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         <button
           key={status.code}
           disabled={status.disable}
-          className={`bg-${status.color}-600 ml-2 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+          className={`bg-${status.color}-600 ml-2 px-3 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
         >
           {status.value}
         </button>
       ))}
+      {expandCollapseButton()}
+    </div>
+  );
+
+  const expandCollapseButton = () => (
+    <div className='ml-2'>
+      <Buttons.Button
+        size='medium'
+        type='outline'
+        onClick={() => {
+          props.setIsInputScreenHide(!props.isInputScreenHide);
+        }}
+      >
+        <Tooltip
+          tooltipText={
+            appStore.applicationSetting?.isExpandScreen
+              ? 'Collapse Screen'
+              : 'Expand Screen'
+          }
+        >
+          <Icons.IconContext
+            color={`${
+              appStore.applicationSetting.theme === 'dark'
+                ? '#ffffff'
+                : '#000000'
+            }`}
+            size='18'
+          >
+            {Icons.getIconTag(
+              props.isInputScreenHide
+                ? Icons.IconCg.CgMinimize
+                : Icons.Iconai.AiOutlineExpand,
+            )}
+          </Icons.IconContext>
+        </Tooltip>
+      </Buttons.Button>
     </div>
   );
 
@@ -128,13 +168,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     distinctRecords.map((record, index) => (
       <React.Fragment key={record._id}>
         <div
-          className={`flex justify-between items-center py-2 px-2 border-b text-sm ${
+          className={`flex justify-around items-center py-2 px-4 border-b text-sm ${
             index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
           } cursor-pointer`}
           onClick={() => handleRowClick(record, record._id)}
         >
           <div
-            className='flex-none text-justify text-gray-700'
+            className='flex-none text-center text-gray-700'
             style={{ width: '250px' }}
           >
             <span title={`${record.testCode} - ${record.testName}`}>
@@ -142,7 +182,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             </span>
           </div>
           <div
-            className='flex-none text-justify text-gray-700'
+            className='flex-none text-center text-gray-700'
             style={{ width: '150px' }}
           >
             <span title={record.departmentName}>
@@ -150,13 +190,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             </span>
           </div>
           <div
-            className='flex-none text-justify text-gray-700'
+            className='flex-none text-center text-gray-700'
             style={{ width: '100px' }}
           >
             <span title={record.labId}>{truncateText(record.labId, 10)}</span>
           </div>
           <div
-            className='flex-none text-justify text-gray-700'
+            className='flex-none text-center text-gray-700'
             style={{ width: '100px' }}
           >
             <span title={record.sampleId}>
@@ -172,8 +212,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             </span>
           </div>
           <div
-            className='flex-none text-justify text-gray-700'
-            style={{ width: '100px' }}
+            className='flex-none text-center text-gray-700'
+            style={{ width: '120px' }}
           >
             <span title={record.name}>{truncateText(record.name, 10)}</span>
           </div>
@@ -207,7 +247,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
         {expandedRow?.rowIndex === record._id && (
           <div className='relative'>
-            <div className='h-full shadow-lg rounded-lg border border-gray-200'>
+            <div className='h-full shadow-lg   rounded-lg border border-gray-200'>
               <div className='overflow-x-auto' style={{ maxHeight: '24rem' }}>
                 <div
                   style={{
@@ -220,7 +260,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     className='sticky top-0 text-white py-2 px-4 rounded-t-lg z-10'
                     style={{ backgroundColor: '#6A727F', display: 'table-row' }}
                   >
-                    <div className='flex justify-between'>
+                    <div
+                      className='flex justify-around rounded-t-lg'
+                      style={{ padding: '4px 0px 4px 0px' }}
+                    >
                       <div
                         className='flex-none text-center'
                         style={{ width: '250px' }}
@@ -228,13 +271,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         Analyte Code - Name
                       </div>
                       <div
-                        className='flex-none text-justify'
+                        className='flex-none text-center'
                         style={{ width: '100px' }}
                       >
                         Reportable
                       </div>
                       <div
-                        className='flex-none text-justify'
+                        className='flex-none text-center'
                         style={{ width: '150px' }}
                       >
                         Result
@@ -253,7 +296,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       </div>
                       <div
                         className='flex-none text-center'
-                        style={{ width: refRangeRowId ? '550px' : '200px' }}
+                        style={{ width: refRangeRowId ? '550px' : '250px' }}
                       >
                         Range
                       </div>
@@ -277,13 +320,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         Calculation Flag
                       </div>
                       <div
-                        className='flex-none text-justify'
+                        className='flex-none text-center'
                         style={{ width: '150px' }}
                       >
                         Show Ranges
                       </div>
                       <div
-                        className='flex-none text-justify'
+                        className='flex-none text-center'
                         style={{ width: '100px' }}
                       >
                         Result Status
@@ -299,17 +342,21 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
                   <div
                     className='overflow-y-auto top-0'
-                    style={{ maxHeight: '300px', display: 'table-row-group' }}
+                    style={{
+                      maxHeight: '300px',
+                      width: 'auto',
+                      display: 'table-row-group',
+                    }}
                   >
                     {expandedRow.data.map((record, subIndex) => (
                       <div
                         key={subIndex}
-                        className={`flex px-2 border-b text-sm ${
+                        className={`flex justify-around items-center px-1 py-1 border-b border-r text-sm ${
                           subIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                         } cursor-pointer`}
                       >
                         <div
-                          className='flex-none text-justify text-gray-700'
+                          className='flex-none text-center text-gray-700'
                           style={{ width: '250px' }}
                         >
                           <span
@@ -322,13 +369,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           </span>
                         </div>
                         <div
-                          className='flex-none text-justify text-gray-700'
+                          className='flex-none text-center text-gray-700'
                           style={{ width: '100px' }}
                         >
                           <Form.Toggle value={record.reportable} />
                         </div>
                         <div
-                          className='flex-none text-justify text-gray-700'
+                          className='flex-none text-center text-gray-700'
                           style={{ width: '150px' }}
                         >
                           <span title={record.result}>
@@ -398,7 +445,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         </div>
                         <div
                           className='flex-none text-center text-gray-700'
-                          style={{ width: refRangeRowId ? '550px' : '200px' }}
+                          style={{ width: refRangeRowId ? '550px' : '220px' }}
                         >
                           <div className='flex items-center justify-center flex-row gap-2'>
                             <span title={record.units}>
@@ -475,19 +522,20 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         </div>
 
                         <div
-                          className='flex-none text-center text-gray-700'
-                          style={{ width: '100px' }}
+                          className='flex-none text-end text-gray-700'
+                          style={{ width: '120px' }}
                         >
                           <Form.Toggle
                             disabled={
                               record.resultType !== 'F' &&
                               record.resultType !== 'M'
                             }
+                            style={{ textAlign: 'end' }}
                             value={record.critical ? true : record.abnFlag}
                           />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-end text-gray-700'
                           style={{ width: '120px' }}
                         >
                           <Form.Toggle
@@ -499,7 +547,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-end text-gray-700'
                           style={{ width: '120px' }}
                         >
                           <Form.Toggle
@@ -508,7 +556,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-end text-gray-700'
                           style={{ width: '150px' }}
                         >
                           <Form.Toggle value={record.showRanges} />
@@ -578,32 +626,32 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
       <div className='shadow-lg rounded-lg border border-gray-200 overflow-hidden'>
         <div
-          className='sticky top-0 text-white py-1 px-4 z-20'
+          className='sticky top-0 text-white py-2 px-4 z-20  border-solid border-2 border-white'
           style={{ backgroundColor: '#6A727F' }}
         >
-          <div className='flex justify-between items-center'>
+          <div className='flex justify-around items-center'>
             <div className='flex-none text-center' style={{ width: '250px' }}>
               Test Code - Name
             </div>
-            <div className='flex-none text-justify' style={{ width: '150px' }}>
+            <div className='flex-none text-center' style={{ width: '150px' }}>
               Department
             </div>
-            <div className='flex-none text-justify' style={{ width: '100px' }}>
+            <div className='flex-none text-center' style={{ width: '100px' }}>
               Lab ID
             </div>
-            <div className='flex-none text-justify' style={{ width: '100px' }}>
+            <div className='flex-none text-center' style={{ width: '100px' }}>
               Sample ID
             </div>
-            <div className='flex-none text-justify' style={{ width: '100px' }}>
+            <div className='flex-none text-center' style={{ width: '100px' }}>
               Test Status
             </div>
-            <div className='flex-none text-center' style={{ width: '100px' }}>
+            <div className='flex-none text-center' style={{ width: '120px' }}>
               Patient Name
             </div>
             <div className='flex-none text-center' style={{ width: '100px' }}>
               Lab
             </div>
-            <div className='flex-none text-justify' style={{ width: '100px' }}>
+            <div className='flex-none text-center' style={{ width: '100px' }}>
               Due Date
             </div>
             <div className='flex-none text-center' style={{ width: '100px' }}>

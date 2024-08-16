@@ -19,6 +19,7 @@ const GeneralResultEntry = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);
   const [selectId, setSelectId] = useState('');
+  const [isInputScreenHide, setIsInputScreenHide] = useState(false);
   const [modalPatientDemographics, setModalPatientDemographics] = useState<any>(
     { show: false },
   );
@@ -213,10 +214,17 @@ const GeneralResultEntry = observer(() => {
               limit,
             );
           }}
+          isInputScreenHide={isInputScreenHide}
+          setIsInputScreenHide={setIsInputScreenHide}
         />
       </>
     ),
-    [patientResultStore.patientResultListNotAutoUpdate, tableReload, selectId],
+    [
+      patientResultStore.patientResultListNotAutoUpdate,
+      tableReload,
+      selectId,
+      isInputScreenHide,
+    ],
   );
 
   const updateRecords = (id, data) => {
@@ -253,16 +261,20 @@ const GeneralResultEntry = observer(() => {
     setTableReload(!tableReload);
   };
 
+  console.log({ isInputScreenHide });
+
   return (
     <>
       <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
+      {!isInputScreenHide && (
+        <div className='mx-auto flex-wrap'>
+          <FilterInputTable />
+        </div>
+      )}
 
-      <div className='mx-auto flex-wrap'>
-        <FilterInputTable />
-      </div>
       <div className='p-2 rounded-lg shadow-xl'>{tableView}</div>
       <ModalConfirm
         {...modalConfirm}

@@ -333,12 +333,12 @@ export const Login = observer(() => {
                                   userStore.UsersService.checkExitsUserId({
                                     input: {
                                       userId: userId.trim(),
+                                      // webPortal:
+                                      //   process.env.REACT_APP_ENV === 'Local'
+                                      //     ? 'https://geneflow.limsplussolutions.com'
+                                      //     : window.location.origin,
                                       webPortal:
-                                        process.env.REACT_APP_ENV === 'Local'
-                                          ? 'https://geneflow.limsplussolutions.com'
-                                          : window.location.origin,
-                                      //   webPortal:
-                                      //     'https://www.limsplussolutions.com',
+                                        'https://geneflow.limsplussolutions.com',
                                     },
                                   }).then(async res => {
                                     if (res.checkUserExitsUserId?.success) {
