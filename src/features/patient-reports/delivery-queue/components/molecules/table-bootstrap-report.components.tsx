@@ -90,6 +90,8 @@ export const TableBootstrapReport = ({
     handleColumnReorder,
     handleColumnToggle,
     filterableColumns,
+    selectedColumns,
+    columnOrder,
   } = useColumnManager(columns);
 
   const customTotal = (from, to, size) => {
@@ -385,6 +387,8 @@ export const TableBootstrapReport = ({
                       onClose={() => setIsColumnFilterVisible(false)}
                       onColumnReorder={handleColumnReorder}
                       onColumnToggle={handleColumnToggle}
+                      selectedColumns={selectedColumns}
+                      columnOrder={columnOrder}
                     />
                   )}
                 </div>

@@ -11,6 +11,8 @@ interface ColumnFilterProps {
     newColumns: Array<{ dataField: string; text: string }>,
   ) => void;
   onColumnToggle: (selectedColumns: Array<string>) => void;
+  selectedColumns: string[];
+  columnOrder: Array<{ dataField: string; text: string }>;
 }
 
 export const ColumnFilter: React.FC<ColumnFilterProps> = ({
@@ -18,15 +20,10 @@ export const ColumnFilter: React.FC<ColumnFilterProps> = ({
   onClose,
   onColumnReorder,
   onColumnToggle,
+  selectedColumns,
+  columnOrder,
 }) => {
   const ref = useRef<any>(null);
-  const [selectedColumns, setSelectedColumns] = useState<string[]>(
-    columns.map(column => column.dataField),
-  );
-  const actionColumn: any = columns.find(
-    column => column.dataField === 'operation',
-  );
-  const [columnOrder, setColumnOrder] = useState(columns);
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -42,40 +39,29 @@ export const ColumnFilter: React.FC<ColumnFilterProps> = ({
     };
   }, [onClose]);
 
-  useEffect(() => {
-    onColumnToggle(
-      [...selectedColumns, actionColumn?.dataField].filter(Boolean),
-    );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedColumns]);
-
-  useEffect(() => {
-    onColumnReorder(columnOrder);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnOrder]);
-
   const handleToggle = (column: string) => {
-    setSelectedColumns(prev =>
-      prev.includes(column)
-        ? prev.filter(c => c !== column)
-        : [...prev, column],
-    );
+    const newSelectedColumns = selectedColumns.includes(column)
+      ? selectedColumns.filter(c => c !== column)
+      : [...selectedColumns, column];
+    onColumnToggle(newSelectedColumns);
   };
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      setSelectedColumns(filteredColumns.map(column => column.dataField));
+      onColumnToggle(filteredColumns.map(column => column.dataField));
     } else {
-      setSelectedColumns([]);
+      onColumnToggle([]);
     }
   };
 
   const onDragEnd = result => {
     if (!result.destination) return;
-    const reorderedColumns = Array.from(columnOrder);
+    const reorderedColumns = Array.from(
+      columnOrder.filter(column => column.dataField !== '_id'),
+    );
     const [removed] = reorderedColumns.splice(result.source.index, 1);
     reorderedColumns.splice(result.destination.index, 0, removed);
-    setColumnOrder(reorderedColumns);
+    onColumnReorder(reorderedColumns);
   };
 
   const filteredColumns = columnOrder.filter(
