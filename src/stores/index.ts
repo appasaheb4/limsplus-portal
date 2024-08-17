@@ -88,6 +88,8 @@ import { PanelApprovalStore } from '@/features/validation/panel-approval/stores'
 
 // enquiry
 import { EventLogsStore } from '@/features/enquiry/event-logs/stores';
+import { TatMasterStore } from '@/features/master/tat-master/stores/tat-master.store';
+import { HolidayMasterStore } from '@/features/master/holiday-master/stores/holiday-master.store';
 
 export class Stores extends Store {
   rootStore!: RootStore;
@@ -123,6 +125,8 @@ export class Stores extends Store {
   priceListStore!: PriceListStore;
   refernceRangesStore!: RefernceRangesStore;
   commentManagerStore!: CommentManagerStore;
+  tatMasterStore!: TatMasterStore;
+  holidayMasterStore!: HolidayMasterStore;
 
   // communication
   interfaceManagerStore!: InterfaceManagerStore;
@@ -209,6 +213,8 @@ export class Stores extends Store {
     this.priceListStore = new PriceListStore();
     this.refernceRangesStore = new RefernceRangesStore();
     this.commentManagerStore = new CommentManagerStore();
+    this.tatMasterStore = new TatMasterStore();
+    this.holidayMasterStore = new HolidayMasterStore();
 
     // communication
     this.interfaceManagerStore = new InterfaceManagerStore();

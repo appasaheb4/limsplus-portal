@@ -77,6 +77,14 @@ const CommentManager = async(
   () => import('../comment-manager/screens/comment-manager.screen'),
 );
 
+const TatMaster = async(
+  () => import('../tat-master/screens/tat-master.screen'),
+);
+
+const HolidayMaster = async(
+  () => import('../holiday-master/screens/holiday-master.screen'),
+);
+
 export const collectionRoutes = {
   path: '/collection',
   name: 'Collection',
@@ -241,6 +249,18 @@ export const collectionRoutes = {
       name: 'Comment Manager',
       icon: 'BiCommentDetail',
       component: CommentManager,
+    },
+    {
+      path: '/collection/tat-master',
+      name: 'TAT Settings',
+      icon: 'BiCommentDetail',
+      component: TatMaster,
+    },
+    {
+      path: '/collection/Holiday-master',
+      name: 'Holiday Master',
+      icon: 'BiCommentDetail',
+      component: HolidayMaster,
     },
   ],
 };
