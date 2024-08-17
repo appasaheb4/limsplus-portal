@@ -143,7 +143,7 @@ const PatientRegistration = observer(({ sidebar }) => {
           )}
         </div>
       </div>
-      <div>
+      <div className='hidden md:block'>
         <Tabs
           tabs={
             RouterFlow.checkPermission(
@@ -176,241 +176,256 @@ const PatientRegistration = observer(({ sidebar }) => {
       </div>
       {!isImport ? (
         <div>
-          <div className='flex mx-20 items-center justify-center gap-2'>
-            <div className='w-60'>
-              <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                loader={loading}
-                placeholder='Search by Patient Name'
-                data={{
-                  list: _.uniqBy(
-                    patientManagerStore.distinctPatientManager,
-                    'pId',
-                  ),
-                  displayKey: [
-                    'title',
-                    'firstName',
-                    'middleName',
-                    'lastName',
-                    'pId',
-                  ],
-                }}
-                displayValue={
-                  patientRegistrationStore.defaultValues?.patientName
-                }
-                onFilter={(value: string) => {
-                  patientManagerStore.patientManagerService.filterByFields(
-                    {
-                      input: {
-                        filter: {
-                          fields: ['firstName', 'middleName', 'lastName'],
-                          srText: value,
-                        },
-                        page: 0,
-                        limit: 10,
-                      },
-                    },
-                    'filterDistinct',
-                  );
-                }}
-                onSelect={async item => {
-                  await patientRegistrationStore.getPatientRegRecords(
-                    'patientName',
-                    '',
-                    'fetch',
-                    item?.pId,
-                  );
-                  patientManagerStore.filterDistinctPatientManager(
-                    patientManagerStore.distinctPatientManagerCopy,
-                  );
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    patientName: [
-                      item?.title,
-                      item?.firstName || '#',
-                      item?.middleName || '#',
-                      item?.lastName || '#',
-                      item?.pId?.toString(),
-                    ]
-                      .join(' - ')
-                      ?.replaceAll('- #', ''),
-                    pId: item?.pId,
-                    mobileNo: '',
-                    filterLock: false,
-                  });
-                }}
-              />
-            </div>
-            <Form.Input2
-              placeholder='PId'
-              className='w-40 arrow-hide'
-              type='number'
-              value={patientRegistrationStore.defaultValues?.pId}
-              onChange={pId => {
-                patientRegistrationStore.updateDefaultValue({
-                  ...patientRegistrationStore.defaultValues,
-                  pId,
-                });
-              }}
-              onKeyDown={() => {
-                patientRegistrationStore.updateDefaultValue({
-                  ...patientRegistrationStore.defaultValues,
-                  patientName: '',
-                  labId: '',
-                  mobileNo: '',
-                  filterLock: false,
-                });
-              }}
-              onBlur={async pId => {
-                if (pId?.length > 0) {
-                  await patientRegistrationStore.getPatientRegRecords(
-                    'pId',
-                    pId?.toString(),
-                  );
-                }
-              }}
-            />
-            {patientVisitStore.listPatientVisit?.length > 1 ? (
-              <select
-                className={
-                  'leading-4 p-2 focus:outline-none focus:ring block mt-1 h-11 shadow-sm sm:text-base border-2 border-gray-300 rounded-md w-40'
-                }
-                onChange={e => {
-                  const labId = e.target.value;
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    patientName: '',
-                    pId: '',
-                    labId,
-                    mobileNo: '',
-                    filterLock: false,
-                    isPOLabIdLock: false,
-                  });
-                  patientRegistrationStore.getPatientRegRecords(
-                    'labId',
-                    labId?.toString(),
-                  );
-                }}
-              >
-                <option>{'Select LabId'}</option>
-                {patientVisitStore.listPatientVisit?.map(
-                  (item: any, index: number) => (
-                    <option key={index} value={item?.labId}>
-                      {item?.labId?.toString()}
-                    </option>
-                  ),
-                )}
-              </select>
-            ) : (
-              <Form.Input2
-                placeholder='Lab Id'
-                className='w-40 arrow-hide'
-                type='number'
-                value={patientRegistrationStore.defaultValues?.labId}
-                onChange={labId => {
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    labId,
-                  });
-                }}
-                onKeyDown={() => {
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    patientName: '',
-                    pId: '',
-                    mobileNo: '',
-                    filterLock: false,
-                    isPOLabIdLock: false,
-                  });
-                }}
-                onBlur={labId => {
-                  if (labId?.length > 0) {
-                    patientRegistrationStore.getPatientRegRecords(
-                      'labId',
-                      labId?.toString(),
-                    );
+          <div className='grid grid-cols-1 gap-4 px-4 py-4 md:grid-cols-5 md:gap-4'>
+            <div className='col-span-1 md:col-span-1 mt-1'>
+              <div className='w-full'>
+                <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                  loader={loading}
+                  placeholder='Search by Patient Name'
+                  data={{
+                    list: _.uniqBy(
+                      patientManagerStore.distinctPatientManager,
+                      'pId',
+                    ),
+                    displayKey: [
+                      'title',
+                      'firstName',
+                      'middleName',
+                      'lastName',
+                      'pId',
+                    ],
+                  }}
+                  displayValue={
+                    patientRegistrationStore.defaultValues?.patientName
                   }
-                }}
-              />
-            )}
-            <Form.Input2
-              placeholder='Mobile No'
-              className='w-40 arrow-hide'
-              type='number'
-              value={patientRegistrationStore.defaultValues?.mobileNo || ''}
-              onChange={mobileNo => {
-                patientRegistrationStore.updateDefaultValue({
-                  ...patientRegistrationStore.defaultValues,
-                  mobileNo,
-                });
-              }}
-              onKeyDown={() => {
-                patientRegistrationStore.updateDefaultValue({
-                  ...patientRegistrationStore.defaultValues,
-                  patientName: '',
-                  pId: '',
-                  labId: '',
-                  filterLock: false,
-                });
-              }}
-              onBlur={mobileNo => {
-                if (mobileNo?.length > 0) {
-                  patientRegistrationStore.getPatientRegRecords(
-                    'mobileNo',
-                    mobileNo?.toString(),
-                  );
-                  patientManagerStore.updatePatientManager({
-                    ...patientManagerStore.patientManger,
-                    mobileNo,
-                    extraData: {
-                      ...patientManagerStore.patientManger?.extraData,
-                      whatsappNumber: mobileNo,
-                    },
-                  });
-                }
-              }}
-            />
-            <Tooltip tooltipText='Remove Filter'>
-              <div
-                className='p-1 shadow-md rounded-md border border-gray-400'
-                onClick={() => {
-                  patientRegistrationStore.updateDefaultValue({
-                    ...patientRegistrationStore.defaultValues,
-                    patientName: '',
-                    pId: '',
-                    labId: '',
-                    mobileNo: '',
-                    filterLock: false,
-                  });
-                  patientManagerStore.updatePatientManager({
-                    ...patientManagerStore.patientManger,
-                    mobileNo: '',
-                  });
-                  patientManagerStore.reset();
-                  patientVisitStore.reset();
-                  patientOrderStore.reset();
-                  patientTestStore.reset();
-                  patientResultStore.reset();
-                  patientSampleStore.reset();
-                }}
-              >
-                <Icons.RIcon
-                  nameIcon='AiFillCloseCircle'
-                  propsIcon={{
-                    size: 24,
-                    color:
-                      stores.appStore.applicationSetting.theme === 'dark'
-                        ? '#ffffff'
-                        : '#000000',
+                  onFilter={(value: string) => {
+                    patientManagerStore.patientManagerService.filterByFields(
+                      {
+                        input: {
+                          filter: {
+                            fields: ['firstName', 'middleName', 'lastName'],
+                            srText: value,
+                          },
+                          page: 0,
+                          limit: 10,
+                        },
+                      },
+                      'filterDistinct',
+                    );
+                  }}
+                  onSelect={async item => {
+                    await patientRegistrationStore.getPatientRegRecords(
+                      'patientName',
+                      '',
+                      'fetch',
+                      item?.pId,
+                    );
+                    patientManagerStore.filterDistinctPatientManager(
+                      patientManagerStore.distinctPatientManagerCopy,
+                    );
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      patientName: [
+                        item?.title,
+                        item?.firstName || '#',
+                        item?.middleName || '#',
+                        item?.lastName || '#',
+                        item?.pId?.toString(),
+                      ]
+                        .join(' - ')
+                        ?.replaceAll('- #', ''),
+                      pId: item?.pId,
+                      mobileNo: '',
+                      filterLock: false,
+                    });
                   }}
                 />
               </div>
-            </Tooltip>
+            </div>
+            <div className='col-span-1 md:col-span-1'>
+              <div className='w-full'>
+                <Form.Input2
+                  placeholder='PId'
+                  className='w-full arrow-hide'
+                  type='number'
+                  value={patientRegistrationStore.defaultValues?.pId}
+                  onChange={pId => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      pId,
+                    });
+                  }}
+                  onKeyDown={() => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      patientName: '',
+                      labId: '',
+                      mobileNo: '',
+                      filterLock: false,
+                    });
+                  }}
+                  onBlur={async pId => {
+                    if (pId?.length > 0) {
+                      await patientRegistrationStore.getPatientRegRecords(
+                        'pId',
+                        pId?.toString(),
+                      );
+                    }
+                  }}
+                />
+              </div>
+            </div>
+            <div className='col-span-1 md:col-span-1'>
+              <div className='w-full mt-1'>
+                {patientVisitStore.listPatientVisit?.length > 1 ? (
+                  <select
+                    className='leading-4 p-2 focus:outline-none focus:ring block h-11 shadow-sm sm:text-base border-2 border-gray-300 rounded-md w-full'
+                    onChange={e => {
+                      const labId = e.target.value;
+                      patientRegistrationStore.updateDefaultValue({
+                        ...patientRegistrationStore.defaultValues,
+                        patientName: '',
+                        pId: '',
+                        labId,
+                        mobileNo: '',
+                        filterLock: false,
+                        isPOLabIdLock: false,
+                      });
+                      patientRegistrationStore.getPatientRegRecords(
+                        'labId',
+                        labId?.toString(),
+                      );
+                    }}
+                  >
+                    <option>{'Select LabId'}</option>
+                    {patientVisitStore.listPatientVisit?.map(
+                      (item: any, index: number) => (
+                        <option key={index} value={item?.labId}>
+                          {item?.labId?.toString()}
+                        </option>
+                      ),
+                    )}
+                  </select>
+                ) : (
+                  <Form.Input2
+                    placeholder='Lab Id'
+                    className='w-full arrow-hide'
+                    type='number'
+                    value={patientRegistrationStore.defaultValues?.labId}
+                    onChange={labId => {
+                      patientRegistrationStore.updateDefaultValue({
+                        ...patientRegistrationStore.defaultValues,
+                        labId,
+                      });
+                    }}
+                    onKeyDown={() => {
+                      patientRegistrationStore.updateDefaultValue({
+                        ...patientRegistrationStore.defaultValues,
+                        patientName: '',
+                        pId: '',
+                        mobileNo: '',
+                        filterLock: false,
+                        isPOLabIdLock: false,
+                      });
+                    }}
+                    onBlur={labId => {
+                      if (labId?.length > 0) {
+                        patientRegistrationStore.getPatientRegRecords(
+                          'labId',
+                          labId?.toString(),
+                        );
+                      }
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+            <div className='col-span-1 md:col-span-1'>
+              <div className='w-full'>
+                <Form.Input2
+                  placeholder='Mobile No'
+                  className='w-full arrow-hide'
+                  type='number'
+                  value={patientRegistrationStore.defaultValues?.mobileNo || ''}
+                  onChange={mobileNo => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      mobileNo,
+                    });
+                  }}
+                  onKeyDown={() => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      patientName: '',
+                      pId: '',
+                      labId: '',
+                      filterLock: false,
+                    });
+                  }}
+                  onBlur={mobileNo => {
+                    if (mobileNo?.length > 0) {
+                      patientRegistrationStore.getPatientRegRecords(
+                        'mobileNo',
+                        mobileNo?.toString(),
+                      );
+                      patientManagerStore.updatePatientManager({
+                        ...patientManagerStore.patientManger,
+                        mobileNo,
+                        extraData: {
+                          ...patientManagerStore.patientManger?.extraData,
+                          whatsappNumber: mobileNo,
+                        },
+                      });
+                    }
+                  }}
+                />
+              </div>
+            </div>
+            <div className='col-span-1 md:col-span-1 flex justify-center mt-1'>
+              <Tooltip tooltipText='Remove Filter'>
+                <div
+                  className='p-1 shadow-md rounded-md border border-gray-400 flex items-center justify-center w-10 h-10'
+                  onClick={() => {
+                    patientRegistrationStore.updateDefaultValue({
+                      ...patientRegistrationStore.defaultValues,
+                      patientName: '',
+                      pId: '',
+                      labId: '',
+                      mobileNo: '',
+                      filterLock: false,
+                    });
+                    patientManagerStore.updatePatientManager({
+                      ...patientManagerStore.patientManger,
+                      mobileNo: '',
+                    });
+                    patientManagerStore.reset();
+                    patientVisitStore.reset();
+                    patientOrderStore.reset();
+                    patientTestStore.reset();
+                    patientResultStore.reset();
+                    patientSampleStore.reset();
+                  }}
+                >
+                  <Icons.RIcon
+                    nameIcon='AiFillCloseCircle'
+                    propsIcon={{
+                      size: 24,
+                      color:
+                        stores.appStore.applicationSetting.theme === 'dark'
+                          ? '#ffffff'
+                          : '#000000',
+                    }}
+                  />
+                </div>
+              </Tooltip>
+            </div>
           </div>
-          <div className='grid gap-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4'>
+
+          <div className='grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-4'>
             {patientManagerStore.listPatientManger?.map(item => (
               <div
                 key={item.pId}
-                className='flex rounded-md shadow p-4 gap-4 items-center mb-2 border-2 border-transparent focus:border-white hover:border-white transition duration-300 ease-in-out transform hover:scale-105'
+                className='flex flex-col md:flex-row items-start rounded-md shadow p-4 gap-4 mb-2 border-2 border-transparent focus:border-white hover:border-white transition duration-300 ease-in-out transform hover:scale-105'
                 onClick={() => {
                   patientRegistrationStore.updateDefaultValue({
                     ...patientRegistrationStore.defaultValues,
@@ -422,15 +437,17 @@ const PatientRegistration = observer(({ sidebar }) => {
                   );
                 }}
               >
-                <div>
+                <div className='flex-shrink-0'>
                   <img
-                    src={item.sex == 'M' ? icons.male : icons.female}
+                    src={item.sex === 'M' ? icons.male : icons.female}
                     style={{ width: 40, height: 40 }}
-                    alt='male'
+                    alt={item.sex === 'M' ? 'male' : 'female'}
                   />
                 </div>
                 <div className='flex flex-col'>
-                  <span>PId:{item?.pId?.toString()}</span>
+                  <span className='font-bold'>
+                    PId: {item?.pId?.toString()}
+                  </span>
                   <span className='text-sm font-bold'>
                     {(item?.title?.toUpperCase() || '') +
                       (item?.firstName
@@ -446,12 +463,14 @@ const PatientRegistration = observer(({ sidebar }) => {
                       dayjs(item.birthDate).format('DD-MM-YYYY')}
                   </span>
                   <span>
-                    {item.sex === 'M' ? 'Male' : 'Female' || 'Other'} |{' '}
-                    <span>
-                      {item?.age + ' ' + (ageUnitsMap[item?.ageUnit] || '')}
-                    </span>
+                    {item.sex === 'M' ? 'Male' : 'Female'} |{' '}
+                    {item?.age !== undefined && item?.ageUnit !== undefined && (
+                      <span>
+                        {item.age + ' ' + (ageUnitsMap[item.ageUnit] || '')}
+                      </span>
+                    )}
                   </span>
-                  <span className='flex gap-2'>
+                  <span className='flex items-center gap-2'>
                     <FaPhone />
                     {item?.mobileNo || ''}
                   </span>
@@ -459,6 +478,7 @@ const PatientRegistration = observer(({ sidebar }) => {
               </div>
             ))}
           </div>
+
           {accordionList}
         </div>
       ) : (

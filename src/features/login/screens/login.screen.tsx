@@ -218,7 +218,7 @@ export const Login = observer(() => {
 
   return (
     <>
-      <div className='flex flex-col h-screen bg-[#FF6C99] w-full justify-center items-center'>
+      <div className='flex flex-col h-screen bg-[#FF6C99] w-full justify-center items-center overflow-hidden'>
         <svg
           width='80%'
           height='100%'
@@ -235,30 +235,22 @@ export const Login = observer(() => {
         </svg>
 
         <div
-          className='flex flex-col w-fit mt-14 rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r '
-          style={{ minWidth: '60%' }}
+          className='absolute top-0 left-0 right-0 flex justify-center'
+          style={{ marginTop: '-20px' }}
         >
-          <div
-            style={{
-              zIndex: 0,
-              height: 50,
-              marginTop: -10,
-            }}
-          >
-            <img
-              src={Assets.images.limsplusTran}
-              alt='appIcon'
-              style={{ width: 200, marginTop: -140 }}
-            />
-          </div>
-          <div
-            className='sm:flex-col md:flex-col xl:flex-row w-full'
-            style={{ marginBottom: '3rem' }}
-          >
-            <div
-              className='flex justify-between mx-10'
-              style={{ gap: '60px', alignItems: 'center' }}
-            >
+          <img
+            src={Assets.images.limsplusTran}
+            alt='appIcon'
+            className='w-[200px]'
+          />
+        </div>
+
+        <div
+          className='flex flex-col  mt-[72px] md:mt-0 rounded-3xl shadow-lg bg-white items-center absolute p-2 from-blue-600 bg-gradient-to-r max-w-full overflow-x-auto'
+          style={{ minWidth: '50%' }}
+        >
+          <div className='flex flex-col mt-10 sm:flex-row md:flex-row xl:flex-row w-full mb-12'>
+            <div className='flex justify-between mx-10 gap-14 items-center'>
               <div className='flex'>
                 <div className='flex justify-center items-center'>
                   <Carousel
@@ -293,10 +285,7 @@ export const Login = observer(() => {
 
               <div className='flex flex-col'>
                 <div className='flex justify-center items-end'>
-                  <div
-                    className='flex flex-col mt-2 rounded-3xl bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)]'
-                    style={{ width: '350px' }}
-                  >
+                  <div className='flex flex-col mt-2 rounded-3xl bg-white shadow-[inset_0_-2px_4px_rgba(0,0,0,0.6)] w-[350px]'>
                     <span className='text-center font-bold text-3xl text-black mt-2 ml-4 underline'>
                       Sign In
                     </span>
@@ -305,7 +294,7 @@ export const Login = observer(() => {
                         {loginStore.inputLogin?.userModule?.split('_')[1]}
                       </span>
                     )}
-                    <div className='rounded-2xl  p-4 '>
+                    <div className='rounded-2xl p-4'>
                       <List direction='col' space={4} justify='stretch' fill>
                         <Controller
                           control={control}
@@ -504,7 +493,7 @@ export const Login = observer(() => {
                           {t('common:login').toString()}
                         </Buttons.Button>
                       </List>
-                      <div className='flex p-4 flex-row  w-full justify-between gap-4'>
+                      <div className='flex p-4 flex-row w-full justify-between gap-4'>
                         <a
                           href='#'
                           onClick={() => setModalForgotPassword({ show: true })}

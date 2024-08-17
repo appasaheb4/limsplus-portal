@@ -1592,7 +1592,10 @@ export const PatientManager = PatientManagerHoc(
           </div>
           <br />
 
-          <div className='extra' style={{ border: '1px solid yellow' }}>
+          <div
+            className='extra hidden md:block'
+            style={{ border: '1px solid yellow' }}
+          >
             <Accordion allowZeroExpanded>
               <AccordionItem>
                 <AccordionItemHeading>
@@ -2136,7 +2139,10 @@ export const PatientManager = PatientManagerHoc(
         </div>
         <hr />
         <br />
-        <div className='extra' style={{ border: '1px solid yellow' }}>
+        <div
+          className='extra hidden md:block'
+          style={{ border: '1px solid yellow' }}
+        >
           <Accordion allowZeroExpanded>
             <AccordionItem>
               <AccordionItemHeading>
