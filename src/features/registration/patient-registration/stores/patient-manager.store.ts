@@ -10,23 +10,9 @@ export class PatientManagerStore {
   checkExistsPatient!: boolean;
   distinctPatientManager!: PatientManger[];
   distinctPatientManagerCopy!: PatientManger[];
-  reportToEmails!:
-    | {
-        name: string;
-        email: string;
-      }
-    | undefined;
-  reportToMobiles!:
-    | {
-        name: string;
-        mobileNo: string;
-      }
-    | undefined;
 
   constructor() {
     this.reset();
-    this.reportToEmails = undefined;
-    this.reportToMobiles = undefined;
     makeObservable<PatientManagerStore, any>(this, {
       patientManger: observable,
       listPatientManger: observable,
@@ -41,8 +27,6 @@ export class PatientManagerStore {
       filterPatientManagerList: action,
       updateExistsPatient: action,
       filterDistinctPatientManager: action,
-      updateReportToEmailFields: action,
-      updateReportToMobileFields: action,
     });
   }
 
@@ -59,9 +43,6 @@ export class PatientManagerStore {
       isPatientMobileNo: true,
       isVIP: false,
       isAddress: false,
-      isCopyDoctor: false,
-      reportToEmails: [],
-      reportToMobiles: [],
     });
   }
 
@@ -102,12 +83,5 @@ export class PatientManagerStore {
 
   filterDistinctPatientManager(res: any) {
     this.distinctPatientManager = res;
-  }
-
-  updateReportToEmailFields(fields?: any) {
-    this.reportToEmails = fields || undefined;
-  }
-  updateReportToMobileFields(fields?: any) {
-    this.reportToMobiles = fields || undefined;
   }
 }

@@ -245,7 +245,7 @@ export const Input1 = React.forwardRef((props: InputProps, ref: Ref<any>) => {
         onKeyPress={e => handleKeyPress(e)}
         className={`${
           props.className
-        } leading-4 p-1  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
+        } leading-4 p-2  focus:outline-none focus:ring  block w-full shadow-sm sm:text-base  border-2  ${
           props.hasError ? 'border-red ' : 'border-gray-300'
         } rounded-md dark:text-black`}
         onBlur={e => props.onBlur && props.onBlur(e)}
