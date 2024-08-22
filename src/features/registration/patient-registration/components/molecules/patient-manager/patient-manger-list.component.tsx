@@ -996,43 +996,6 @@ export const PatientMangerList = observer((props: PatientMangerProps) => {
                   environment = filter;
                 },
               }),
-
-              // editorRenderer: (
-              //   editorProps,
-              //   value,
-              //   row,
-              //   column,
-              //   rowIndex,
-              //   columnIndex,
-              // ) => (
-              //   <>
-              //     <select
-              //       value={row.extraData?.environment}
-              //       className={
-              //         'leading-4 p-2 focus:outline-none focus:ring block w-full shadow-sm sm:text-base border-2 rounded-md'
-              //       }
-              //       onChange={e => {
-              //         const environment = e.target.value;
-              //         props.onUpdateItem &&
-              //           props.onUpdateItem(
-              //             environment,
-              //             column.dataField,
-              //             row._id,
-              //           );
-              //       }}
-              //     >
-              //       <option>Select</option>
-              //       {lookupItems(
-              //         props.extraData.lookupItems,
-              //         'PATIENT MANAGER - ENVIRONMENT',
-              //       ).map((item: any, index: number) => (
-              //         <option key={index} value={item.code}>
-              //           {lookupValue(item)}
-              //         </option>
-              //       ))}
-              //     </select>
-              //   </>
-              // ),
             },
             {
               dataField: 'operation',
