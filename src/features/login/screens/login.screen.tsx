@@ -327,7 +327,7 @@ export const Login = observer(() => {
                                       userId: userId.trim(),
                                       webPortal:
                                         process.env.REACT_APP_ENV === 'Local'
-                                          ? 'https://demo-limsplus-portal.vercel.app'
+                                          ? 'https://geneflow.limsplussolutions.com'
                                           : window.location.origin,
                                       //   webPortal:
                                       //     'https://www.limsplussolutions.com',

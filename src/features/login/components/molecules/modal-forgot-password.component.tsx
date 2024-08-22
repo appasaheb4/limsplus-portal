@@ -5,7 +5,7 @@ import * as Assets from '@/library/assets';
 import { useForm, Controller } from 'react-hook-form';
 import { FormHelper } from '@/helper';
 
-import { Form, List } from '@/library/components';
+import { Form, List, Toast } from '@/library/components';
 import { useStores } from '@/stores';
 
 interface ModalForgotPasswordProps {
@@ -18,7 +18,7 @@ interface ModalForgotPasswordProps {
 export const ModalForgotPassword = observer(
   (props: ModalForgotPasswordProps) => {
     const [showModal, setShowModal] = React.useState(props.show);
-    const { loginStore } = useStores();
+    const { loginStore, userStore } = useStores();
     useEffect(() => {
       setShowModal(props.show);
     }, [props]);
@@ -96,6 +96,32 @@ export const ModalForgotPassword = observer(
                                 userId: userId?.toUpperCase(),
                               });
                             }}
+                            onBlur={userId => {
+                              userStore.UsersService.checkExitsUserId({
+                                input: {
+                                  userId: userId.trim(),
+                                  webPortal:
+                                    process.env.REACT_APP_ENV === 'Local'
+                                      ? 'https://demo-limsplus-portal.vercel.app'
+                                      : window.location.origin,
+                                },
+                              }).then(async res => {
+                                if (res.checkUserExitsUserId?.success) {
+                                  const { data: user } =
+                                    res.checkUserExitsUserId;
+                                  if (user) {
+                                    loginStore.updateForgotPassword({
+                                      ...loginStore.forgotPassword,
+                                      companyCode: user?.companyCode,
+                                    });
+                                  }
+                                } else {
+                                  Toast.error({
+                                    message: `😔 ${res?.checkUserExitsUserId?.message}`,
+                                  });
+                                }
+                              });
+                            }}
                           />
                         )}
                         name='userId'
@@ -127,7 +153,8 @@ export const ModalForgotPassword = observer(
                         }}
                         defaultValue=''
                       />
-                      <span className='text-center'>OR</span>
+                      {/* we adding this future later */}
+                      {/* <span className='text-center'>OR</span>
                       <Controller
                         control={control}
                         render={({ field: { onChange } }) => (
@@ -144,12 +171,14 @@ export const ModalForgotPassword = observer(
                                 mobileNo,
                               });
                             }}
+                            onBlur={(mobileNo)=>{
+                            }}
                           />
                         )}
                         name='mobileNo'
                         rules={{ required: false }}
                         defaultValue=''
-                      />
+                      /> */}
                     </List>
                   </div>
                   {/*footer*/}
