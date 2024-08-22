@@ -662,7 +662,7 @@ export const CompanyList = (props: CompanyListProps) => {
             headerStyle: {
               fontSize: 0,
             },
-            editable: false,
+            // editable: false,
             sortCaret: (order, column) => sortCaret(order, column),
             filter: textFilter({
               placeholder: 'Web Portal',

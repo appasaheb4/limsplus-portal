@@ -319,12 +319,15 @@ export const Login = observer(() => {
                               }}
                               onBlur={async userId => {
                                 if (userId) {
+                                  //'https://geneflow.limsplussolutions.com'
+                                  //'https://www.limsplussolutions.com'
+                                  //'https://demo-limsplus-portal.vercel.app'
                                   userStore.UsersService.checkExitsUserId({
                                     input: {
                                       userId: userId.trim(),
                                       webPortal:
                                         process.env.REACT_APP_ENV === 'Local'
-                                          ? 'https://geneflow.limsplussolutions.com'
+                                          ? 'https://demo-limsplus-portal.vercel.app'
                                           : window.location.origin,
                                       //   webPortal:
                                       //     'https://www.limsplussolutions.com',
