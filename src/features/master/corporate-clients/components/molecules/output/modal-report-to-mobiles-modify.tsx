@@ -1,22 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import _ from 'lodash';
 import { Container } from 'reactstrap';
 import { observer } from 'mobx-react';
 import { Form, Buttons, Icons, Svg } from '@/library/components';
 
+interface MobileEntry {
+  name: string;
+  mobileNo: string;
+  __typename?: string;
+}
+
 interface ModalReportToMobilesModifyProps {
   show?: boolean;
-  arrValues?: any;
+  arrValues?: MobileEntry[];
   id?: string;
-  onClick: (arrValues: any, id: string) => void;
+  onClick: (arrValues: MobileEntry[], id: string) => void;
   onClose: () => void;
 }
 
 export const ModalReportToMobilesModify = observer(
   (props: ModalReportToMobilesModifyProps) => {
-    const [showModal, setShowModal] = React.useState(props.show);
-    const [values, setValues] = useState<any>({});
-    const [localInput, setLocalInput] = useState<any>({
+    const [showModal, setShowModal] = useState<boolean | undefined>(props.show);
+    const [values, setValues] = useState<{ arrValues: MobileEntry[] }>({
+      arrValues:
+        props.arrValues?.map(item => ({
+          ...item,
+          __typename: undefined,
+        })) || [],
+    });
+
+    const [localInput, setLocalInput] = useState<MobileEntry>({
       name: '',
       mobileNo: '',
     });
@@ -24,36 +36,40 @@ export const ModalReportToMobilesModify = observer(
     useEffect(() => {
       setShowModal(props.show);
       setValues({
-        arrValues: props.arrValues?.map(item => {
-          return { ...item, __typename: undefined };
-        }),
+        arrValues:
+          props.arrValues?.map(item => ({
+            ...item,
+            __typename: undefined,
+          })) || [],
       });
     }, [props]);
 
     const handleAddLookup = () => {
       const { name, mobileNo } = localInput;
-      // Check if any of the input fields are empty
       if (!name || !mobileNo) {
-        alert('Please fill in both value.');
+        alert('Please fill in both name and mobile number.');
         return;
       }
 
-      // Add the new department to the array
-      let updatedArrValues = [...(values.arrValues || []), { name, mobileNo }];
-      updatedArrValues = updatedArrValues.map(({ name, mobileNo }) => ({
-        name,
-        mobileNo,
-      }));
+      const updatedArrValues = [
+        ...values.arrValues,
+        { name, mobileNo, __typename: undefined },
+      ];
 
       setValues({
-        ...values,
         arrValues: updatedArrValues,
       });
 
-      // Clear the input fields
       setLocalInput({
         name: '',
         mobileNo: '',
+      });
+    };
+
+    const handleRemoveLookup = (index: number) => {
+      const updatedArrValues = values.arrValues.filter((_, i) => i !== index);
+      setValues({
+        arrValues: updatedArrValues,
       });
     };
 
@@ -61,13 +77,10 @@ export const ModalReportToMobilesModify = observer(
       <Container>
         {showModal && (
           <>
-            <div className='justify-center items-center  overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
+            <div className='justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none'>
               <div className='relative w-auto my-6 mx-auto max-w-3xl'>
-                {/*content*/}
                 <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
-                  {/*header*/}
-                  <div></div>
-                  <div className='flex  flex-col  justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
+                  <div className='flex flex-col justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                     <div className='flex'>
                       <h4 className='font-semibold text-lg'>
                         Update Report To Mobiles
@@ -75,28 +88,21 @@ export const ModalReportToMobilesModify = observer(
                     </div>
                   </div>
 
-                  {/*body*/}
                   <div className='relative ml-24 mr-24 p-2 flex-auto'>
                     <div className='flex flex-row gap-4'>
                       <Form.Input
                         placeholder='Name'
-                        value={localInput?.name}
-                        onChange={name => {
-                          setLocalInput({
-                            ...localInput,
-                            name,
-                          });
-                        }}
+                        value={localInput.name}
+                        onChange={name =>
+                          setLocalInput({ ...localInput, name })
+                        }
                       />
                       <Form.Input
                         placeholder='Mobile Number'
-                        value={localInput?.mobileNo}
-                        onChange={mobileNo => {
-                          setLocalInput({
-                            ...localInput,
-                            mobileNo,
-                          });
-                        }}
+                        value={localInput.mobileNo}
+                        onChange={mobileNo =>
+                          setLocalInput({ ...localInput, mobileNo })
+                        }
                       />
                       <div className='mt-2'>
                         <Buttons.Button
@@ -111,34 +117,20 @@ export const ModalReportToMobilesModify = observer(
                       <div className='clearfix'></div>
                     </div>
                     <div className='flex flex-row gap-2 mt-2 flex-wrap'>
-                      {values?.arrValues?.map((item, index) => (
+                      {values.arrValues.map((item, index) => (
                         <div className='mb-2' key={index}>
                           <Buttons.Button
                             size='medium'
                             type='solid'
                             icon={Svg.Remove}
-                            onClick={() => {
-                              setValues(prevValues => {
-                                const updatedLookup =
-                                  prevValues.arrValues.filter(
-                                    (_: any, i) => i !== index,
-                                  );
-                                return {
-                                  ...prevValues,
-                                  arrValues: updatedLookup?.map(item => {
-                                    return { ...item, __typename: undefined };
-                                  }),
-                                };
-                              });
-                            }}
+                            onClick={() => handleRemoveLookup(index)}
                           >
-                            {`${item.name} - ${item.mobileNo}  `}
+                            {`${item.name} - ${item.mobileNo}`}
                           </Buttons.Button>
                         </div>
                       ))}
                     </div>
                   </div>
-                  {/*footer*/}
                   <div className='flex items-center justify-end p-2 border-t border-solid border-gray-300 rounded-b'>
                     <button
                       className='text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1'
@@ -157,7 +149,7 @@ export const ModalReportToMobilesModify = observer(
                       style={{ transition: 'all .15s ease' }}
                       onClick={() => {
                         setShowModal(false);
-                        props.onClick && props.onClick(values, props.id || '');
+                        props.onClick(values.arrValues, props.id || '');
                       }}
                     >
                       Update

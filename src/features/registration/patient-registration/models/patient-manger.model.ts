@@ -1,3 +1,12 @@
+interface ReportToEmail {
+  name: string;
+  email: string;
+}
+
+interface ReportToMobile {
+  name: string;
+  mobileNo: string;
+}
 export class PatientManger {
   pId: number;
   isPatientMobileNo: boolean;
@@ -20,8 +29,8 @@ export class PatientManger {
   isVIP: boolean;
   isAddress: boolean;
   isCopyDoctor: boolean;
-  reportToEmails: Array<any>;
-  reportToMobiles: Array<any>;
+  reportToEmails: Array<ReportToEmail>;
+  reportToMobiles: Array<ReportToMobile>;
   extraData: {
     address: string;
     postcode: string;
