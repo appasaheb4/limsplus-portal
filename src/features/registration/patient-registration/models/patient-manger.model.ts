@@ -1,9 +1,9 @@
-interface ReportToEmail {
+export interface ReportToEmail {
   name: string;
   email: string;
 }
 
-interface ReportToMobile {
+export interface ReportToMobile {
   name: string;
   mobileNo: string;
 }

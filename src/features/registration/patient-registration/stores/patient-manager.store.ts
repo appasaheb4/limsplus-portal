@@ -1,7 +1,6 @@
 import { makeObservable, action, observable, computed } from 'mobx';
 import { PatientManagerService } from '../services';
-import { PatientManger } from '../models';
-import dayjs from 'dayjs';
+import { PatientManger, ReportToEmail, ReportToMobile } from '../models';
 export class PatientManagerStore {
   patientManger!: PatientManger;
   listPatientManger!: PatientManger[];
@@ -10,19 +9,8 @@ export class PatientManagerStore {
   checkExistsPatient!: boolean;
   distinctPatientManager!: PatientManger[];
   distinctPatientManagerCopy!: PatientManger[];
-  reportToEmails!:
-    | {
-        name: string;
-        email: string;
-      }
-    | undefined;
-  reportToMobiles!:
-    | {
-        name: string;
-        mobileNo: string;
-      }
-    | undefined;
-
+  reportToEmails!: Partial<ReportToEmail> | undefined;
+  reportToMobiles!: Partial<ReportToMobile> | undefined;
   constructor() {
     this.reset();
     this.reportToEmails = undefined;
@@ -99,15 +87,13 @@ export class PatientManagerStore {
       this.distinctPatientManager = res;
     }
   }
-
   filterDistinctPatientManager(res: any) {
     this.distinctPatientManager = res;
   }
-
-  updateReportToEmailFields(fields?: any) {
+  updateReportToEmailFields(fields: Partial<ReportToEmail>) {
     this.reportToEmails = fields || undefined;
   }
-  updateReportToMobileFields(fields?: any) {
+  updateReportToMobileFields(fields: Partial<ReportToMobile>) {
     this.reportToMobiles = fields || undefined;
   }
 }

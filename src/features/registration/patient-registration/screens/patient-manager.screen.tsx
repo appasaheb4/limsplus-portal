@@ -1396,27 +1396,25 @@ export const PatientManager = PatientManagerHoc(
                                 return alert(
                                   'Please enter name and mobile number.',
                                 );
-                              if (mobileNo !== undefined) {
-                                reportToMobiles !== undefined
-                                  ? reportToMobiles.push({
+                              reportToMobiles?.length > 0
+                                ? reportToMobiles.push({
+                                    name,
+                                    mobileNo,
+                                  })
+                                : (reportToMobiles = [
+                                    {
                                       name,
                                       mobileNo,
-                                    })
-                                  : (reportToMobiles = [
-                                      {
-                                        name,
-                                        mobileNo,
-                                      },
-                                    ]);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  reportToMobiles,
-                                });
-                                patientManagerStore.updateReportToMobileFields({
-                                  name: '',
-                                  email: '',
-                                });
-                              }
+                                    },
+                                  ]);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                reportToMobiles,
+                              });
+                              patientManagerStore.updateReportToMobileFields({
+                                name: '',
+                                mobileNo: '',
+                              });
                             }}
                           >
                             <Icons.EvaIcon icon='plus-circle-outline' />
@@ -1518,27 +1516,25 @@ export const PatientManager = PatientManagerHoc(
                                   ?.reportToEmails || [];
                               if (name === undefined || email === undefined)
                                 return alert('Please enter name and email.');
-                              if (email !== undefined) {
-                                reportToEmails !== undefined
-                                  ? reportToEmails.push({
+                              reportToEmails?.length > 0
+                                ? reportToEmails.push({
+                                    name,
+                                    email,
+                                  })
+                                : (reportToEmails = [
+                                    {
                                       name,
                                       email,
-                                    })
-                                  : (reportToEmails = [
-                                      {
-                                        name,
-                                        email,
-                                      },
-                                    ]);
-                                patientManagerStore.updatePatientManager({
-                                  ...patientManagerStore.patientManger,
-                                  reportToEmails,
-                                });
-                                patientManagerStore.updateReportToEmailFields({
-                                  name: '',
-                                  email: '',
-                                });
-                              }
+                                    },
+                                  ]);
+                              patientManagerStore.updatePatientManager({
+                                ...patientManagerStore.patientManger,
+                                reportToEmails,
+                              });
+                              patientManagerStore.updateReportToEmailFields({
+                                name: '',
+                                email: '',
+                              });
                             }}
                           >
                             <Icons.EvaIcon icon='plus-circle-outline' />

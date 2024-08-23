@@ -5,9 +5,13 @@
  * @author limsplus
  */
 
-import {client, ServiceResponse} from '@/core-services/graphql/apollo-client';
-import {stores} from '@/stores';
-import {LIST_PATIENT_SAMPLE, FILTER_PATIENT_SAMPLE} from './mutation-ps';
+import { client, ServiceResponse } from '@/core-services/graphql/apollo-client';
+import { stores } from '@/stores';
+import {
+  LIST_PATIENT_SAMPLE,
+  FILTER_PATIENT_SAMPLE,
+  UPDATE_RECORD,
+} from './mutation-ps';
 
 export class PatientSampleService {
   listPatientSample = (filter?: any, page = 0, limit = 10) =>
@@ -18,7 +22,7 @@ export class PatientSampleService {
       client
         .mutate({
           mutation: LIST_PATIENT_SAMPLE,
-          variables: {input: {filter, page, limit, env, role}},
+          variables: { input: { filter, page, limit, env, role } },
         })
         .then((response: any) => {
           stores.patientSampleStore.updatePatientSampleList(response.data);
@@ -42,6 +46,21 @@ export class PatientSampleService {
             return this.listPatientSample();
           stores.patientSampleStore.filterPatientSampleList(response.data);
           stores.uploadLoadingFlag(true);
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updateFields = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
           resolve(response.data);
         })
         .catch(error =>

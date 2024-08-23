@@ -29,6 +29,9 @@ export const LIST_PATIENT_MANAGER = gql`
         diagnosis
         disease
         isVIP
+        isCopyDoctor
+        reportToEmails
+        reportToMobiles
         extraData {
           address
           postcode
@@ -131,6 +134,9 @@ export const FILTER_PATIENT_MANAGER = gql`
         diagnosis
         disease
         isVIP
+        isCopyDoctor
+        reportToEmails
+        reportToMobiles
         extraData {
           address
           postcode
@@ -215,6 +221,9 @@ export const FILTER_BY_FIELDS_PATIENT_MANAGER = gql`
         diagnosis
         disease
         isVIP
+        isCopyDoctor
+        reportToEmails
+        reportToMobiles
         extraData {
           address
           postcode
@@ -299,6 +308,9 @@ export const FIND_BY_FIELDS_PATIENT_MANAGER = gql`
         diagnosis
         disease
         isVIP
+        isCopyDoctor
+        reportToEmails
+        reportToMobiles
         extraData {
           address
           postcode

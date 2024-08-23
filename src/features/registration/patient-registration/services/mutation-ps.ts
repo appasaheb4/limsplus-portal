@@ -1,4 +1,4 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client';
 
 export const LIST_PATIENT_SAMPLE = gql`
   mutation ($input: PatientSampleInput!) {
@@ -22,6 +22,15 @@ export const FILTER_PATIENT_SAMPLE = gql`
       success
       message
       patientResultList
+    }
+  }
+`;
+
+export const UPDATE_RECORD = gql`
+  mutation ($input: UpdatePatientSampleInput!) {
+    updatePatientSample(input: $input) {
+      success
+      message
     }
   }
 `;

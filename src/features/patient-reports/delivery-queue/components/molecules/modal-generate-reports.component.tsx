@@ -448,42 +448,49 @@ export const ModalGenerateReports = ({
                                   about='patient'
                                   className='flex flex-col gap-2'
                                 >
-                                  {reportTo?.patientVisit?.mobileNo && (
-                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
-                                      {reportTo?.patientVisit?.mobileNo || ''}
-                                      {pdf && (
-                                        <Tooltip tooltipText='Share on whatsapp'>
-                                          <SocialIcon
-                                            network='whatsapp'
-                                            style={{ height: 32, width: 32 }}
-                                            onClick={() => {
-                                              window.open(
-                                                `https://api.whatsapp.com/send?phone=+91${reportTo?.patientVisit?.mobileNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
-                                                  reportTo?.labId
-                                                }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
-                                                '_blank',
-                                              );
-                                            }}
-                                          />
-                                        </Tooltip>
-                                      )}
-                                    </span>
+                                  {reportTo?.patientVisit?.mobileNo?.map(
+                                    (pvMoNo, pvIndex) => (
+                                      <span
+                                        className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'
+                                        key={pvIndex}
+                                      >
+                                        {pvMoNo || ''}
+                                        {pdf && (
+                                          <Tooltip tooltipText='Share on whatsapp'>
+                                            <SocialIcon
+                                              network='whatsapp'
+                                              style={{ height: 32, width: 32 }}
+                                              onClick={() => {
+                                                window.open(
+                                                  `https://api.whatsapp.com/send?phone=+91${pvMoNo?.toString()}&text=Your%20Final/Intrim%20Report%20is%20ready%20for%20Lab%20No%20${
+                                                    reportTo?.labId
+                                                  }%20To%20access%20report%20click%20following%20link:%20${pdf}`,
+                                                  '_blank',
+                                                );
+                                              }}
+                                            />
+                                          </Tooltip>
+                                        )}
+                                      </span>
+                                    ),
                                   )}
-                                  {reportTo?.patientVisit?.email && (
-                                    <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
-                                      {reportTo?.patientVisit?.email}
-                                      {pdf && (
-                                        <Tooltip tooltipText='Email on shared'>
-                                          <Icons.RIcon
-                                            nameIcon='SlCheck'
-                                            propsIcon={{
-                                              size: 24,
-                                              color: '#2563EB',
-                                            }}
-                                          />
-                                        </Tooltip>
-                                      )}
-                                    </span>
+                                  {reportTo?.patientVisit?.email?.map(
+                                    (pvEmail, pvIndex) => (
+                                      <span className='flex p-2 rounded-sm bg-blue-800 text-white w-fit items-center gap-2'>
+                                        {pvEmail}
+                                        {pdf && (
+                                          <Tooltip tooltipText='Email on shared'>
+                                            <Icons.RIcon
+                                              nameIcon='SlCheck'
+                                              propsIcon={{
+                                                size: 24,
+                                                color: '#2563EB',
+                                              }}
+                                            />
+                                          </Tooltip>
+                                        )}
+                                      </span>
+                                    ),
                                   )}
                                 </div>
                               )}

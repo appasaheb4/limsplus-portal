@@ -20,11 +20,12 @@ export class PatientSample {
   departmentSpecific: string;
   sharedSample: string;
   labelInstructions: string;
+  comment: string;
   enteredBy: string;
   status: string;
   environment: string;
 
-  constructor(rawData: {[key in string]: any}) {
+  constructor(rawData: { [key in string]: any }) {
     this.specimenId = rawData.specimenId;
     this.pLab = rawData.pLab;
     this.rLab = rawData.rLab;
@@ -46,6 +47,7 @@ export class PatientSample {
     this.departmentSpecific = rawData.departmentSpecific;
     this.sharedSample = rawData.sharedSample;
     this.labelInstructions = rawData.labelInstructions;
+    this.comment = rawData.comment;
     this.enteredBy = rawData.enteredBy;
     this.status = rawData.status;
     this.environment = rawData.environment;

@@ -1,13 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import dayjs from 'dayjs';
-import {
-  NumberFilter,
-  Form,
-  customFilter,
-  sortCaret,
-  Tooltip,
-} from '@/library/components';
+import { Form, Tooltip, Icons } from '@/library/components';
 import { Confirm } from '@/library/models';
 import TableBootstrap from './table-bootstrap.component';
 import { TiFlowChildren } from 'react-icons/ti';
@@ -22,7 +16,7 @@ interface PatientSampleProps {
   isExport?: boolean;
   onDelete?: (selectedItem: Confirm) => void;
   onSelectedRow?: (selectedItem: any) => void;
-  onUpdateItem?: (value: any, dataField: string, id: string) => void;
+  onUpdateDetails?: (newDetails: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFilter?: (
     type: string,
@@ -34,9 +28,8 @@ interface PatientSampleProps {
 
 let labId;
 export const PatientSampleList = observer((props: PatientSampleProps) => {
-  const editorCell = (row: any) => {
-    return false; //row.status !== "I" ? true : false
-  };
+  const [widthConclusionBox, setWidthConclusionBox] = useState('20px');
+  const [selectedRowId, setSelectedRowId] = useState('');
   return (
     <>
       <div className={`${props.isView ? 'shown' : 'hidden'}`}>
@@ -57,38 +50,66 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
               text: 'Lab Id',
               headerClasses: 'textHeaderl',
               sort: true,
-              // filter: customFilter({
-              //   getFilter: filter => {
-              //     labId = filter;
-              //   },
-              // }),
-              // headerStyle: {
-              //   fontSize: 0,
-              // },
-              // sortCaret: (order, column) => sortCaret(order, column),
-              // filterRenderer: (onFilter, column) => (
-              //   <NumberFilter onFilter={onFilter} column={column} />
-              // ),
               editable: false,
             },
             {
               dataField: 'specimenId',
               text: 'Specimen Id',
-              // headerClasses: 'textHeader4',
               sort: true,
-              // filter: customFilter({
-              //   getFilter: filter => {
-              //     labId = filter;
-              //   },
-              // }),
-              // headerStyle: {
-              //   fontSize: 0,
-              // },
-              // sortCaret: (order, column) => sortCaret(order, column),
-              // filterRenderer: (onFilter, column) => (
-              //   <NumberFilter onFilter={onFilter} column={column} />
-              // ),
               editable: false,
+            },
+            {
+              dataField: 'comment',
+              text: 'Comment',
+              editable: false,
+              style: { width: widthConclusionBox },
+              formatter: (cell, row) => {
+                return (
+                  <div className='flex flex-col'>
+                    <Tooltip
+                      tooltipText={
+                        row._id != selectedRowId ? 'Expand' : 'Collapse'
+                      }
+                    >
+                      <Icons.IconContext
+                        color='#000000'
+                        size='20'
+                        onClick={() => {
+                          if (row._id === selectedRowId) {
+                            setSelectedRowId('');
+                            setWidthConclusionBox('30px');
+                          } else {
+                            setSelectedRowId(row._id);
+                            setWidthConclusionBox('200px');
+                          }
+                        }}
+                      >
+                        {Icons.getIconTag(
+                          row._id != selectedRowId
+                            ? Icons.IconBi.BiExpand
+                            : Icons.IconBi.BiCollapse,
+                        )}
+                      </Icons.IconContext>
+                    </Tooltip>
+                    {row._id === selectedRowId && (
+                      <div style={{ width: widthConclusionBox }}>
+                        <Form.MultilineInput
+                          rows={3}
+                          placeholder='Comment'
+                          className='text-black'
+                          onBlur={comment => {
+                            // setSelectedRowId('');
+                            // setWidthConclusionBox('30px');
+                            props.onUpdateDetails &&
+                              props.onUpdateDetails({ comment }, row?._id);
+                          }}
+                          defaultValue={row?.comment}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              },
             },
             {
               dataField: 'labLit',
@@ -202,14 +223,14 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                     <Form.Toggle
                       disabled={true}
                       value={row.primaryContainer}
-                      onChange={primaryContainer => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            primaryContainer,
-                            'primaryContainer',
-                            row._id,
-                          );
-                      }}
+                      // onChange={primaryContainer => {
+                      //   props.onUpdateItem &&
+                      //     props.onUpdateItem(
+                      //       primaryContainer,
+                      //       'primaryContainer',
+                      //       row._id,
+                      //     );
+                      // }}
                     />
                   </>
                 );
@@ -226,10 +247,10 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                     <Form.Toggle
                       disabled={true}
                       value={row.aliquot}
-                      onChange={aliquot => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(aliquot, 'aliquot', row._id);
-                      }}
+                      // onChange={aliquot => {
+                      //   props.onUpdateDetails &&
+                      //     props.onUpdateDetails(aliquot, 'aliquot', row._id);
+                      // }}
                     />
                   </>
                 );
@@ -247,14 +268,14 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                     <Form.Toggle
                       disabled={true}
                       value={row.uniqueContainer}
-                      onChange={uniqueContainer => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            uniqueContainer,
-                            'uniqueContainer',
-                            row._id,
-                          );
-                      }}
+                      // onChange={uniqueContainer => {
+                      //   props.onUpdateItem &&
+                      //     props.onUpdateItem(
+                      //       uniqueContainer,
+                      //       'uniqueContainer',
+                      //       row._id,
+                      //     );
+                      // }}
                     />
                   </>
                 );
@@ -272,14 +293,14 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                     <Form.Toggle
                       disabled={true}
                       value={row.labSpecific}
-                      onChange={labSpecific => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            labSpecific,
-                            'labSpecific',
-                            row._id,
-                          );
-                      }}
+                      // onChange={labSpecific => {
+                      //   props.onUpdateItem &&
+                      //     props.onUpdateItem(
+                      //       labSpecific,
+                      //       'labSpecific',
+                      //       row._id,
+                      //     );
+                      // }}
                     />
                   </>
                 );
@@ -296,14 +317,14 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                     <Form.Toggle
                       disabled={true}
                       value={row.departmentSpecific}
-                      onChange={departmentSpecific => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            departmentSpecific,
-                            'departmentSpecific',
-                            row._id,
-                          );
-                      }}
+                      // onChange={departmentSpecific => {
+                      //   props.onUpdateItem &&
+                      //     props.onUpdateItem(
+                      //       departmentSpecific,
+                      //       'departmentSpecific',
+                      //       row._id,
+                      //     );
+                      // }}
                     />
                   </>
                 );
@@ -321,14 +342,14 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
                     <Form.Toggle
                       disabled={true}
                       value={row.sharedSample}
-                      onChange={sharedSample => {
-                        props.onUpdateItem &&
-                          props.onUpdateItem(
-                            sharedSample,
-                            'sharedSample',
-                            row._id,
-                          );
-                      }}
+                      // onChange={sharedSample => {
+                      //   props.onUpdateItem &&
+                      //     props.onUpdateItem(
+                      //       sharedSample,
+                      //       'sharedSample',
+                      //       row._id,
+                      //     );
+                      // }}
                     />
                   </>
                 );
@@ -412,9 +433,9 @@ export const PatientSampleList = observer((props: PatientSampleProps) => {
             props.onSelectedRow &&
               props.onSelectedRow(rows.map((item: any) => item._id));
           }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onUpdateItem && props.onUpdateItem(value, dataField, id);
-          }}
+          // onUpdateItem={(value: any, dataField: string, id: string) => {
+          //   props.onUpdateItem && props.onUpdateItem(value, dataField, id);
+          // }}
           onPageSizeChange={(page, size) => {
             props.onPageSizeChange && props.onPageSizeChange(page, size);
           }}

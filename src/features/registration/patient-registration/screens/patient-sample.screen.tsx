@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import { PatientSampleList } from '../components';
+import { Toast, ModalConfirm } from '@/library/components';
 import { useStores } from '@/stores';
 import { toJS } from 'mobx';
 import { RouterFlow } from '@/flows';
@@ -11,7 +12,7 @@ interface PatientSampleProps {
 
 export const PatientSample = observer((props: PatientSampleProps) => {
   const { patientResultStore, patientSampleStore, routerStore } = useStores();
-
+  const [modalConfirm, setModalConfirm] = useState<any>();
   return (
     <>
       <div
@@ -51,15 +52,14 @@ export const PatientSample = observer((props: PatientSampleProps) => {
                 body: 'Do you want to delete selected record?',
               });
           }}
-          onUpdateItem={(value: any, dataField: string, id: string) => {
-            props.onModalConfirm &&
-              props.onModalConfirm({
-                show: true,
-                type: 'Update',
-                data: { value, dataField, id },
-                title: 'Are you sure?',
-                body: 'Do you want to update this record?',
-              });
+          onUpdateDetails={(details: any, id: string) => {
+            setModalConfirm({
+              show: true,
+              type: 'update',
+              data: { details, id },
+              title: 'Are you sure?',
+              body: 'Do you want to update this record?',
+            });
           }}
           onPageSizeChange={(page, limit) => {
             patientSampleStore.patientSampleService.listPatientSample(
@@ -75,6 +75,36 @@ export const PatientSample = observer((props: PatientSampleProps) => {
         />
       </div>
       <br />
+      <ModalConfirm
+        {...modalConfirm}
+        click={(action?: string) => {
+          setModalConfirm({ show: false });
+          switch (action) {
+            case 'update': {
+              patientSampleStore.patientSampleService
+                .updateFields({
+                  input: {
+                    ...modalConfirm.data.details,
+                    _id: modalConfirm.data.id,
+                  },
+                })
+                .then((res: any) => {
+                  console.log({ res });
+
+                  if (res.updatePatientSample.success) {
+                    Toast.success({
+                      message: `😊 ${res.updatePatientSample.message}`,
+                    });
+                  }
+                });
+              break;
+            }
+          }
+        }}
+        onClose={() => {
+          setModalConfirm({ show: false });
+        }}
+      />
     </>
   );
 });
