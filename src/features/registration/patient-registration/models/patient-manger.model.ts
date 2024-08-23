@@ -1,3 +1,12 @@
+interface ReportToEmail {
+  name: string;
+  email: string;
+}
+
+interface ReportToMobile {
+  name: string;
+  mobileNo: string;
+}
 export class PatientManger {
   pId: number;
   isPatientMobileNo: boolean;
@@ -19,6 +28,9 @@ export class PatientManger {
   disease: string;
   isVIP: boolean;
   isAddress: boolean;
+  isCopyDoctor: boolean;
+  reportToEmails: Array<ReportToEmail>;
+  reportToMobiles: Array<ReportToMobile>;
   extraData: {
     address: string;
     postcode: string;
@@ -74,6 +86,9 @@ export class PatientManger {
     this.disease = rawData.disease;
     this.isVIP = rawData.isVIP;
     this.isAddress = rawData.isAddress;
+    this.isCopyDoctor = rawData.isCopyDoctor;
+    this.reportToEmails = rawData.reportTo;
+    this.reportToMobiles = rawData.reportToMobiles;
     this.extraData = rawData.extraData;
     this.documentType = rawData.documentType;
     this.dateOfEntry = rawData.dateOfEntry;

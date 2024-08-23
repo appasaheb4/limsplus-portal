@@ -100,6 +100,22 @@ interface CorporateClientListProps {
   ) => void;
 }
 
+interface ModalModifyState<T> {
+  show: boolean;
+  arrValues: T[];
+  _id: string;
+}
+
+interface ReportToEmail {
+  name: string;
+  email: string;
+}
+
+interface ReportToMobile {
+  name: string;
+  mobileNo: string;
+}
+
 export const CorporateClient = observer((props: CorporateClientListProps) => {
   const {
     control,
@@ -116,10 +132,13 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
   const [modalPostalCodeUpdate, setModalPostalCodeUpdate] = useState<any>({
     show: false,
   });
-  const [modalReportToMobilesModify, setModalReportToMobilesModify] =
-    useState<any>({});
-  const [modalReportToEmailsModify, setModalReportToEmailsModify] =
-    useState<any>({});
+  const [modalReportToMobilesModify, setModalReportToMobilesModify] = useState<
+    ModalModifyState<ReportToMobile>
+  >({ show: false, arrValues: [], _id: '' });
+
+  const [modalReportToEmailsModify, setModalReportToEmailsModify] = useState<
+    ModalModifyState<ReportToEmail>
+  >({ show: false, arrValues: [], _id: '' });
 
   const [widthRefBox, setWidthRefBox] = useState('20px');
   const editorCell = (row: any) => {
@@ -2149,17 +2168,19 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
         {...modalReportToMobilesModify}
         onClick={items => {
           setModalReportToMobilesModify({
+            ...modalReportToMobilesModify,
             show: false,
           });
           props.onUpdateItem &&
             props.onUpdateItem(
-              items?.arrValues,
+              items,
               'reportToMobiles',
               modalReportToMobilesModify?._id,
             );
         }}
         onClose={() => {
           setModalReportToMobilesModify({
+            ...modalReportToMobilesModify,
             show: false,
           });
         }}
@@ -2168,17 +2189,19 @@ export const CorporateClient = observer((props: CorporateClientListProps) => {
         {...modalReportToEmailsModify}
         onClick={items => {
           setModalReportToEmailsModify({
+            ...modalReportToEmailsModify,
             show: false,
           });
           props.onUpdateItem &&
             props.onUpdateItem(
-              items?.arrValues,
+              items,
               'reportToEmails',
               modalReportToEmailsModify?._id,
             );
         }}
         onClose={() => {
           setModalReportToEmailsModify({
+            ...modalReportToEmailsModify,
             show: false,
           });
         }}

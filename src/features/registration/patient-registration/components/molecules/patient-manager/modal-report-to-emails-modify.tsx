@@ -77,7 +77,7 @@ export const ModalReportToEmailsModify = (
               <div className='border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none'>
                 <div className='flex flex-col justify-between p-2 border-b border-solid border-gray-300 rounded-t'>
                   <h4 className='font-semibold text-lg'>
-                    Update Report To Mobiles
+                    Update Report To Emails
                   </h4>
                 </div>
                 <div className='relative ml-24 mr-24 p-2 flex-auto'>
