@@ -370,7 +370,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       >
                         {/* Fixed Columns */}
                         <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-0 z-20'
+                          className='flex-none text-center text-gray-700 sticky top-0 left-0'
                           style={{ width: '250px', backgroundColor: '#fff' }}
                         >
                           <span
@@ -383,13 +383,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           </span>
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-[250px] z-20'
+                          className='flex-none text-center text-gray-700 sticky top-0 left-[250px]'
                           style={{ width: '150px', backgroundColor: '#fff' }}
                         >
                           <Form.Toggle value={record.reportable} />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-[400px] z-20'
+                          className='flex-none text-center text-gray-700 sticky top-0 left-[400px]'
                           style={{ width: '150px', backgroundColor: '#fff' }}
                         >
                           <span title={record.result}>
@@ -407,7 +407,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           </span>
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-[550px] z-20 bg-white'
+                          className='flex-none text-center text-gray-700 sticky top-0 left-[550px] bg-white'
                           style={{ width: '150px', padding: '5px' }}
                         >
                           <div className='flex items-center justify-end flex-col bg-white'>
