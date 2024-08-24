@@ -53,15 +53,14 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const distinctRecords = visibleRecords.reduce((acc, current) => {
     const x = acc.find(
       item =>
-        item.testName === current.testName &&
-        item.labId === current.labId &&
-        item.panelCode === current.panelCode,
+        item.testCode === current.testCode && item.labId === current.labId,
     );
     if (!x) {
       acc.push(current);
     }
     return acc;
   }, []);
+  console.log({ distinctRecords });
 
   useEffect(() => {
     setIsHide(false);
@@ -73,17 +72,19 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   const statusData = [
     { code: 'P', value: 'Pending', color: 'blue', disable: false },
-    { code: 'RC', value: 'Recheck', color: 'orange', disable: true },
-    { code: 'RT', value: 'Retest', color: 'pink', disable: true },
+    // { code: 'RC', value: 'Recheck', color: 'orange', disable: true },
+    // { code: 'RT', value: 'Retest', color: 'pink', disable: true },
     { code: 'D', value: 'Done', color: 'green', disable: false },
-    { code: '', value: 'All', color: 'red', disable: false },
+    // { code: '', value: 'All', color: 'red', disable: false },
   ];
 
-  const testStatus = [
-    { code: 'N', value: 'Normal', color: 'blue' },
-    { code: 'A', value: 'Abnormal', color: 'yellow' },
-    { code: 'C', value: 'Critical', color: 'green' },
-  ];
+  // const testStatus = [
+  //   { code: 'N', value: 'Normal', color: 'blue' },
+  //   { code: 'A', value: 'Abnormal', color: 'yellow' },
+  //   { code: 'C', value: 'Critical', color: 'green' },
+  // ];
+
+  const testStatus: Array<any> = [];
 
   const handleRowClick = (record, index) => {
     setExpandedRow(prevState => {
@@ -160,19 +161,19 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   const renderTestStatusButtons = () => (
     <div className='flex justify-end gap-1'>
-      {testStatus.map(status => (
+      {testStatus?.map(status => (
         <button
-          key={status.code}
-          className={`bg-${status.color}-600 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+          key={status?.code}
+          className={`bg-${status?.color}-600 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
         >
-          {status.value}
+          {status?.value}
         </button>
       ))}
     </div>
   );
 
   const renderDataRows = () =>
-    distinctRecords.map((record, index) => (
+    distinctRecords?.map((record, index) => (
       <React.Fragment key={record._id}>
         <div
           className={`flex justify-around items-center py-2 px-4 border-b text-sm ${
@@ -185,7 +186,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           }}
         >
           <div
-            className='flex-none text-center text-gray-700'
+            className='flex text-center text-gray-700'
             style={{ width: '250px' }}
           >
             <span title={`${record.testCode} - ${record.testName}`}>
@@ -193,7 +194,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             </span>
           </div>
           <div
-            className='flex-none text-center text-gray-700'
+            className='flex text-center text-gray-700'
             style={{ width: '150px' }}
           >
             <span title={record.departmentName}>
@@ -201,13 +202,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             </span>
           </div>
           <div
-            className='flex-none text-center text-gray-700'
-            style={{ width: '100px' }}
+            className='flex text-center text-gray-700'
+            style={{ width: '50px' }}
           >
             <span title={record.labId}>{truncateText(record.labId, 10)}</span>
           </div>
           <div
-            className='flex-none text-center text-gray-700'
+            className='flex text-center text-gray-700'
             style={{ width: '100px' }}
           >
             <span title={record.sampleId}>
@@ -215,27 +216,27 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             </span>
           </div>
           <div
-            className='flex-none text-center text-gray-700'
-            style={{ width: '100px' }}
+            className='flex text-center text-gray-700'
+            style={{ width: '50px' }}
           >
-            <span title={record.testStatus}>
-              {truncateText(record.testStatus, 10)}
+            <span title={record?.testStatus}>
+              {truncateText(record?.testStatus, 10)}
             </span>
           </div>
           <div
-            className='flex-none text-center text-gray-700'
-            style={{ width: '120px' }}
+            className='flex text-center text-gray-700'
+            style={{ width: '220px' }}
           >
-            <span title={record.name}>{truncateText(record.name, 10)}</span>
+            <span title={record.name}>{truncateText(record.name, 30)}</span>
           </div>
           <div
-            className='flex-none text-center text-gray-700'
-            style={{ width: '80px' }}
+            className='flex text-center text-gray-700'
+            style={{ width: '100px' }}
           >
             <span title={record.pLab}>{truncateText(record.pLab, 10)}</span>
           </div>
           <div
-            className='flex-none text-center text-gray-700'
+            className='flex text-center text-gray-700'
             style={{ width: '100px' }}
           >
             <span title={record.dueDate}>
@@ -243,7 +244,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             </span>
           </div>
           <div
-            className='flex-none text-center text-gray-700'
+            className='flex text-center text-gray-700'
             style={{ width: '100px' }}
           >
             <span title={record.resultDate}>
@@ -354,14 +355,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     className='overflow-y-auto top-0'
                     style={{
                       display: 'table-row-group',
                     }}
                   >
-                    {expandedRow.data.map((record, subIndex) => (
+                    {expandedRow.data?.map((record, subIndex) => (
                       <div
                         key={subIndex}
                         className={`flex justify-around items-center px-1 py-1 border-b border-r text-sm ${
@@ -401,7 +401,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           style={{
                             width: '150px',
                             backgroundColor: '#fff',
-                            padding: '5px',
+                            padding: '2px',
                           }}
                         >
                           <span title={record.result}>
@@ -658,7 +658,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         {renderStatusButtons()}
         {renderTestStatusButtons()}
       </div>
-
       <div className='shadow-lg  rounded-lg border border-gray-200 overflow-hidden'>
         <div
           className={`sticky top-0  text-white py-2 px-4 z-20  border-solid border-2 border-white ${
@@ -666,40 +665,38 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           }`}
           style={{
             backgroundColor: '#6A727F',
-            // display: !props.isInputScreenHide ? 'none' : 'contents',
           }}
         >
           <div className='flex justify-around items-center'>
-            <div className='flex-none text-center' style={{ width: '250px' }}>
+            <div className='flex text-center' style={{ width: '250px' }}>
               Test Code - Name
             </div>
-            <div className='flex-none text-center' style={{ width: '150px' }}>
+            <div className='flex text-center' style={{ width: '150px' }}>
               Department
             </div>
-            <div className='flex-none text-center' style={{ width: '100px' }}>
+            <div className='flex text-center' style={{ width: '50px' }}>
               Lab ID
             </div>
-            <div className='flex-none text-center' style={{ width: '100px' }}>
+            <div className='flex text-center' style={{ width: '100px' }}>
               Sample ID
             </div>
-            <div className='flex-none text-center' style={{ width: '100px' }}>
+            <div className='flex text-center' style={{ width: '50px' }}>
               Test Status
             </div>
-            <div className='flex-none text-center' style={{ width: '120px' }}>
+            <div className='flex text-center' style={{ width: '220px' }}>
               Patient Name
             </div>
-            <div className='flex-none text-center' style={{ width: '100px' }}>
+            <div className='flex text-center' style={{ width: '100px' }}>
               Lab
             </div>
-            <div className='flex-none text-center' style={{ width: '100px' }}>
+            <div className='flex text-center' style={{ width: '100px' }}>
               Due Date
             </div>
-            <div className='flex-none text-center' style={{ width: '100px' }}>
+            <div className='flex text-center' style={{ width: '100px' }}>
               Result Date
             </div>
           </div>
         </div>
-
         <div className='max-h-[calc(100vh_-_10vh)] overflow-y-auto'>
           {renderDataRows()}
         </div>

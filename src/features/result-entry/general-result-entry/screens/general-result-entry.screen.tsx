@@ -256,20 +256,18 @@ const GeneralResultEntry = observer(() => {
     setTableReload(!tableReload);
   };
 
-  console.log({ isInputScreenHide });
-
   return (
     <>
       <MainPageHeading
         title={routerStore.selectedComponents?.title || ''}
         store={loginStore}
       />
-      {!isInputScreenHide && (
+
+      {/* {!isInputScreenHide && (
         <div className='mx-auto flex-wrap'>
           <FilterInputTable />
         </div>
-      )}
-
+      )} */}
       <div className='p-2 rounded-lg shadow-xl'>{tableView}</div>
       <ModalConfirm
         {...modalConfirm}

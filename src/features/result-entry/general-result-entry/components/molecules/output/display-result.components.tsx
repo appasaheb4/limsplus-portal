@@ -110,7 +110,7 @@ export const DisplayResult = observer(
               defaultValue={row?.result}
               maxLength={50}
               pattern={FormHelper.patterns.decimalPatterm}
-              className='w-full leading-4 p-2 h-8 focus:outline-none focus:ring block shadow-sm sm:text-base border-2 rounded-md'
+              className='w-full leading-4 p-2  focus:outline-none focus:ring block shadow-sm sm:text-base border-2 rounded-md'
               onKeyDown={e => {
                 switch (e.key) {
                   case 'Enter':
