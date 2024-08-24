@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import _ from 'lodash';
 import { Form, Tooltip, Icons, Buttons } from '@/library/components';
 import { DisplayResult } from './display-result.components';
-import { GeneralResultEntryExpand } from './general-result-entry-expand.component';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { FaUserInjured, FaComment, FaCommentAlt } from 'react-icons/fa';
 import { PiTestTubeFill, PiStethoscopeBold } from 'react-icons/pi';

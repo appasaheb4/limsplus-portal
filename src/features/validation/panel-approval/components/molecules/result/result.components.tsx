@@ -15,7 +15,7 @@ import {
   customFilter,
 } from '@/library/components';
 
-import { InputResult } from '../../../../../result-entry/general-result-entry/components/molecules/output1/input-result.components';
+import { InputResult } from '../../../../../result-entry/general-result-entry/components/molecules/output/input-result.components';
 
 import {
   getResultStatus,
