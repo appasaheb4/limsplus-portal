@@ -371,7 +371,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         {/* Fixed Columns */}
                         <div
                           className='flex-none text-center text-gray-700 sticky top-0 left-0'
-                          style={{ width: '250px', backgroundColor: '#fff' }}
+                          style={{
+                            width: '250px',
+                            backgroundColor: '#fff',
+                            padding: '5px',
+                          }}
                         >
                           <span
                             title={`${record.analyteCode} - ${record.analyteName}`}
@@ -384,13 +388,21 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         </div>
                         <div
                           className='flex-none text-center text-gray-700 sticky top-0 left-[250px]'
-                          style={{ width: '150px', backgroundColor: '#fff' }}
+                          style={{
+                            width: '150px',
+                            backgroundColor: '#fff',
+                            padding: '5px',
+                          }}
                         >
                           <Form.Toggle value={record.reportable} />
                         </div>
                         <div
                           className='flex-none text-center text-gray-700 sticky top-0 left-[400px]'
-                          style={{ width: '150px', backgroundColor: '#fff' }}
+                          style={{
+                            width: '150px',
+                            backgroundColor: '#fff',
+                            padding: '5px',
+                          }}
                         >
                           <span title={record.result}>
                             {record?.isResultEditor ? (
