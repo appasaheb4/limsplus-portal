@@ -16,8 +16,8 @@ import { ModalDocxContent } from '@/core-components';
 import { FaWordpressSimple } from 'react-icons/fa';
 interface DisplayResultProps {
   row: any;
-  rowIndex: any;
-  rowData: any;
+  rowIndex: number;
+  rowData: string[];
   onSelect?: (item) => void;
 }
 
