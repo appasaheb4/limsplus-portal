@@ -7,7 +7,7 @@
       "appBuildCommand": "npm run build",
       "run": "npm start",
       "appDevserverUrl": "http://localhost:3000",
-      "appName": "geneflow",
+      "appName": "limsplussolutions.com",
       "resourceGroup": "geneflow-rg"
     }
   }
