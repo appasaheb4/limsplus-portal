@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import { Toast, ModalConfirm, MainPageHeading } from '@/library/components';
@@ -19,6 +19,7 @@ const GeneralResultEntry = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);
   const [selectId, setSelectId] = useState('');
+  const [isInputScreenHide, setIsInputScreenHide] = useState(false);
   const [modalPatientDemographics, setModalPatientDemographics] = useState<any>(
     { show: false },
   );
@@ -213,6 +214,8 @@ const GeneralResultEntry = observer(() => {
               limit,
             );
           }}
+          isInputScreenHide={isInputScreenHide}
+          setIsInputScreenHide={setIsInputScreenHide}
         />
       </>
     ),
@@ -260,10 +263,12 @@ const GeneralResultEntry = observer(() => {
         store={loginStore}
       />
 
-      <div className='mx-auto flex-wrap'>
-        <FilterInputTable />
-      </div>
-      <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
+      {/* {!isInputScreenHide && (
+        <div className='mx-auto flex-wrap'>
+          <FilterInputTable />
+        </div>
+      )} */}
+      <div className='p-2 rounded-lg shadow-xl'>{tableView}</div>
       <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {

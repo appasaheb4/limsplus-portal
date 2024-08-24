@@ -7,7 +7,7 @@ import paginationFactory, {
 } from 'react-bootstrap-table2-paginator';
 import filterFactory from 'react-bootstrap-table2-filter';
 import '@/library/components/organisms/style.css';
-import {debounce} from '@/core-utils';
+import { debounce } from '@/core-utils';
 
 interface RefRangesExpandListProps {
   id: string;
@@ -159,7 +159,7 @@ export const RefRangesExpandList = ({
       let filter: any = {};
       for (const [key, value] of Object.entries(filters)) {
         const values: any = value;
-        const object = {[key]: values.filterVal};
+        const object = { [key]: values.filterVal };
         filter = Object.assign(filter, object);
       }
       if (onFilter) {
@@ -175,7 +175,7 @@ export const RefRangesExpandList = ({
     }
     if (type === 'search') {
       debounce(() => {
-        onFilter && onFilter(type, {srText: searchText}, page, sizePerPage);
+        onFilter && onFilter(type, { srText: searchText }, page, sizePerPage);
       });
     }
     if (type === 'sort') {
@@ -228,13 +228,13 @@ export const RefRangesExpandList = ({
   return (
     <PaginationProvider
       pagination={paginationFactory(
-        totalSize !== 0 ? options : {page, sizePerPage, totalSize},
+        totalSize !== 0 ? options : { page, sizePerPage, totalSize },
       )}
       keyField={id}
       columns={columns}
       data={data}
     >
-      {({paginationProps, paginationTableProps}) => (
+      {({ paginationProps, paginationTableProps }) => (
         <ToolkitProvider
           keyField={id}
           bootstrap4
@@ -244,7 +244,7 @@ export const RefRangesExpandList = ({
           columnToggle
         >
           {props => (
-            <div style={{maxWidth: 200}}>
+            <div style={{ maxWidth: 200 }}>
               <BootstrapTable
                 remote
                 {...props.baseProps}
