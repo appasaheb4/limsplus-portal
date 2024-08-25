@@ -115,8 +115,10 @@ const GeneralResultEntry = observer(() => {
                   });
                   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                     {
-                      ...generalResultEntryStore.filterGeneralResEntry,
+                      pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
                       finishResult: 'P',
+                      panelStatus: 'P',
+                      testStatus: 'P',
                     },
                   );
                   setTableReload(!tableReload);
@@ -132,16 +134,25 @@ const GeneralResultEntry = observer(() => {
                 },
               );
             } else if (finishResult === 'D') {
-              patientResultStore.patientResultService.listPatientResultNotFinished(
+              // patientResultStore.patientResultService.listPatientResultNotFinished(
+              //   {
+              //     ...generalResultEntryStore.filterGeneralResEntry,
+              //     isAll: false,
+              //   },
+              // );
+              patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
-                  ...generalResultEntryStore.filterGeneralResEntry,
-                  isAll: false,
+                  pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
+                  finishResult: { $nin: ['D', 'RC', 'RT'] },
+                  panelStatus: { $ne: 'P' },
+                  testStatus: { $ne: 'P' },
+                  resultStatus: { $ne: 'P' },
                 },
               );
             } else if (finishResult == 'P') {
               patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
-                  ...generalResultEntryStore.filterGeneralResEntry,
+                  pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
                   finishResult: 'P',
                   panelStatus: 'P',
                   testStatus: 'P',
@@ -221,10 +232,8 @@ const GeneralResultEntry = observer(() => {
     ),
     [patientResultStore.patientResultListNotAutoUpdate, tableReload, selectId],
   );
-
+  let count = 0;
   const updateRecords = (id, data) => {
-    console.log({ id, data });
-
     patientResultStore.patientResultService
       .updateSingleFiled({
         input: {
@@ -241,18 +250,24 @@ const GeneralResultEntry = observer(() => {
       })
       .then(res => {
         if (res.updatePatientResult.success) {
-          Toast.success({
-            message: `😊 ${res.updatePatientResult.message}`,
-            timer: 2000,
-          });
-          patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-            {
-              ...generalResultEntryStore.filterGeneralResEntry,
-              finishResult: 'P',
-              panelStatus: 'P',
-              testStatus: 'P',
-            },
-          );
+          if (count == 0) {
+            Toast.success({
+              message: `😊 ${res.updatePatientResult.message}`,
+              timer: 2000,
+            });
+            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+              {
+                ...generalResultEntryStore.filterGeneralResEntry,
+                finishResult: 'P',
+                panelStatus: 'P',
+                testStatus: 'P',
+              },
+            );
+            count++;
+          }
+          setTimeout(() => {
+            count = 0;
+          }, 10000);
         }
       });
     setTableReload(!tableReload);

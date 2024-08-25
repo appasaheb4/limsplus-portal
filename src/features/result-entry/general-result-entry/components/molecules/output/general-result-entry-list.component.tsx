@@ -49,6 +49,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [refRangeRowId, setRefRangeRowId] = useState<string>('');
   const [selectedRowId, setSelectedRowId] = useState<string>('');
   const [isHide, setIsHide] = useState<boolean>(false);
+  const [tabSelected, setTabSelected] = useState('Pending');
+  const arrFinishRecord = useRef<Array<string>>([]);
+  const [reload, setReload] = useState(false);
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const distinctRecords = props?.data?.map(item => {
@@ -62,10 +65,22 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   }, [props.data]);
 
   const statusData = [
-    { code: 'P', value: 'Pending', color: 'blue', disable: false },
+    {
+      code: 'P',
+      value: 'Pending',
+      color: 'blue',
+      disable: false,
+      selected: true,
+    },
     // { code: 'RC', value: 'Recheck', color: 'orange', disable: true },
     // { code: 'RT', value: 'Retest', color: 'pink', disable: true },
-    { code: 'D', value: 'Done', color: 'green', disable: false },
+    {
+      code: 'D',
+      value: 'Done',
+      color: 'green',
+      disable: false,
+      selected: false,
+    },
     // { code: '', value: 'All', color: 'red', disable: false },
   ];
 
@@ -134,7 +149,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   const renderStatusButtons = () => (
     <div className='flex gap-2 items-center'>
-      {statusData.map(status => (
+      {/* {statusData.map(status => (
         <button
           key={status.code}
           disabled={status.disable}
@@ -142,7 +157,28 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         >
           {status.value}
         </button>
-      ))}
+      ))} */}
+      <ul className='flex flex-wrap  text-sm font-medium text-center  cursor-pointer gap-1'>
+        {statusData.map((item, index) => (
+          <li key={index}>
+            <div
+              className={`inline-flex items-center justify-center p-2 border-b-2 gap-1 ${
+                item.value === tabSelected
+                  ? 'dark:border-white active border-blue-800 text-blue-800'
+                  : 'border-transparent hover:text-[#27A4FE] hover:border-gray-300 '
+              }   `}
+              onClick={() => {
+                setTabSelected(item.value);
+                props.onFilterFinishResult &&
+                  props.onFilterFinishResult(item.code);
+              }}
+            >
+              <span>{item.value}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+
       {isHide && expandCollapseButton()}
       <span className='flex  bg-blue-800 w-8 h-8 rounded-full text-white items-center text-center justify-center'>
         {props.data?.length || 0}
@@ -589,6 +625,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             critical: getCretical(item.resultType, item),
                             updateField: 'result',
                             updateType: 'directSave',
+                            result: undefined,
+                            ...item?.result,
                           },
                           item._id,
                           'directSave',
@@ -684,21 +722,54 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
                 } cursor-pointer  ${isHide ? 'hidden' : 'shown'}`}
                 onClick={() => {
-                  setIsHide(true);
-                  handleRowClick(index);
+                  if (tabSelected != 'Done') {
+                    setIsHide(true);
+                    handleRowClick(index);
+                  }
                 }}
               >
                 <div
-                  className='flex text-center text-gray-700 gap-4'
+                  className='flex text-center text-gray-700 gap-2 items-center -ml-10'
                   style={{ width: '250px' }}
                 >
-                  <span className='flex -ml-10 bg-blue-800 w-6 h-6 rounded-full text-white items-center text-center justify-center'>
+                  {tabSelected == 'Done' && (
+                    <input
+                      className='flex'
+                      type='checkbox'
+                      checked={arrFinishRecord.current?.includes(record?._id)}
+                      onClick={() => {
+                        const ids: Array<string> = props.data[
+                          index
+                        ].result?.map(item => item?._id);
+                        //remove exists id
+                        if (arrFinishRecord.current?.includes(record?._id)) {
+                          const finalArr: any = arrFinishRecord.current
+                            ?.map(item => {
+                              console.log({ item });
+                              if (ids.includes(item)) return;
+                              return item;
+                            })
+                            ?.filter(item => item);
+                          arrFinishRecord.current = finalArr;
+                        } else {
+                          if (arrFinishRecord.current?.length > 0) {
+                            arrFinishRecord.current =
+                              arrFinishRecord.current.concat(ids);
+                          } else {
+                            arrFinishRecord.current = ids;
+                          }
+                        }
+                        setReload(!reload);
+                      }}
+                    />
+                  )}
+                  <span className='flex bg-blue-800 w-6 h-6 rounded-full text-white items-center text-center justify-center'>
                     {record?.count}
                   </span>
                   <span title={`${record.testCode} - ${record.testName}`}>
                     {truncateText(
                       `${record.testCode} - ${record.testName}`,
-                      30,
+                      22,
                     )}
                   </span>
                 </div>
@@ -773,6 +844,26 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               </div>
             </div>
           ))}
+          {tabSelected == 'Done' && (
+            <div className='flex p-2'>
+              <button
+                className='bg-blue-800 rounded-md p-2'
+                onClick={() => {
+                  if (arrFinishRecord.current?.length > 0) {
+                    props.onFinishResult &&
+                      props.onFinishResult(arrFinishRecord.current);
+                    setTabSelected('Pending');
+                  } else {
+                    Toast.error({
+                      message: 'Please select any one record',
+                    });
+                  }
+                }}
+              >
+                Submit
+              </button>
+            </div>
+          )}
         </div>
       </>
     );
