@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-import { Form, Tooltip, Icons, Buttons } from '@/library/components';
+import { Form, Tooltip, Icons, Buttons, Toast } from '@/library/components';
 import { DisplayResult } from './display-result.components';
 import { RefRangesExpandList } from './ref-ranges-expand-list.component';
 import { FaUserInjured, FaComment, FaCommentAlt } from 'react-icons/fa';
 import { PiTestTubeFill, PiStethoscopeBold } from 'react-icons/pi';
 import { ImAttachment } from 'react-icons/im';
 import { useStores } from '@/stores';
+import {
+  getResultStatus,
+  getTestStatus,
+  getAbnFlag,
+  getCretical,
+} from '../../../utils';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -39,15 +45,16 @@ interface GeneralResultEntryListProps {
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const { appStore } = useStores();
-  const [resultRecords, setResultRecords] = useState<Array<any>>([]);
+  const resultRecords = useRef<Array<any>>([]);
   const [refRangeRowId, setRefRangeRowId] = useState<string>('');
   const [selectedRowId, setSelectedRowId] = useState<string>('');
   const [isHide, setIsHide] = useState<boolean>(false);
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const distinctRecords = props?.data?.map(item => {
-    return { ...item?.result[0] };
+    return { ...item?.result[0], count: item?.count };
   });
+
   useEffect(() => {
     setIsHide(false);
     props.setIsInputScreenHide(false);
@@ -69,9 +76,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   // ];
 
   const testStatus: Array<any> = [];
-
   const handleRowClick = index => {
-    setResultRecords(props.data[index]?.result);
+    resultRecords.current = props.data[index]?.result;
     // setExpandedRow(prevState => {
     //   if (prevState.rowIndex === index) {
     //     return { rowIndex: null, data: [] };
@@ -94,7 +100,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         onClick={() => {
           setIsHide(false);
           props.setIsInputScreenHide(false);
-          setResultRecords([]);
+          resultRecords.current = [];
         }}
       >
         <Tooltip
@@ -127,7 +133,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     text?.length > maxLength ? text.slice(0, maxLength) + '...' : text;
 
   const renderStatusButtons = () => (
-    <div className='flex flex-wrap gap-2'>
+    <div className='flex gap-2 items-center'>
       {statusData.map(status => (
         <button
           key={status.code}
@@ -138,6 +144,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         </button>
       ))}
       {isHide && expandCollapseButton()}
+      <span className='flex  bg-blue-800 w-8 h-8 rounded-full text-white items-center text-center justify-center'>
+        {props.data?.length || 0}
+      </span>
     </div>
   );
 
@@ -157,7 +166,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const renderResultEnter = () => {
     return (
       <>
-        {resultRecords?.length > 0 && (
+        {resultRecords.current?.length > 0 && (
           <div className='relative'>
             <div className='h-full shadow-lg rounded-lg border border-gray-200'>
               <div className='overflow-x-auto'>
@@ -169,14 +178,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   }}
                 >
                   <div
-                    className='sticky top-0 text-white py-2 px-4 rounded-t-lg z-20'
+                    className='sticky top-0 text-white py-1 px-1 rounded-t-lg z-20'
                     style={{ backgroundColor: '#6A727F', display: 'table-row' }}
                   >
                     <div
                       className='flex justify-around rounded-t-lg'
                       style={{ padding: '4px 0px 4px 0px' }}
                     >
-                      {/* Fixed Columns */}
                       <div
                         className='flex-none text-center sticky top-0 left-0 z-30'
                         style={{ width: '250px', backgroundColor: '#6A727F' }}
@@ -261,7 +269,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       display: 'table-row-group',
                     }}
                   >
-                    {resultRecords?.map((record, subIndex) => (
+                    {resultRecords.current?.map((record, subIndex) => (
                       <div
                         key={subIndex}
                         className={`flex justify-around items-center px-1 py-1 border-b border-r text-sm ${
@@ -294,7 +302,22 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             padding: '5px',
                           }}
                         >
-                          <Form.Toggle value={record.reportable} />
+                          <Form.Toggle
+                            value={record.reportable}
+                            onChange={reportable => {
+                              resultRecords.current = {
+                                ...resultRecords.current?.map(item => {
+                                  if (item._id == record?._id) {
+                                    return {
+                                      ...item,
+                                      reportable,
+                                    };
+                                  }
+                                  return item;
+                                }),
+                              };
+                            }}
+                          />
                         </div>
                         <div
                           className='flex-none text-center text-gray-700 sticky top-0 left-[400px]'
@@ -310,6 +333,18 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                 row={record}
                                 rowIndex={subIndex}
                                 rowData={props.data}
+                                onSelect={result => {
+                                  resultRecords.current =
+                                    resultRecords.current?.map(item => {
+                                      if (item._id == record?._id) {
+                                        return {
+                                          ...item,
+                                          result,
+                                        };
+                                      }
+                                      return item;
+                                    });
+                                }}
                               />
                             ) : (
                               <span style={{ fontWeight: 'bold' }}>
@@ -455,10 +490,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             style={{ width: '150px' }}
                           >
                             <Form.Toggle
-                              disabled={
-                                record.resultType !== 'F' &&
-                                record.resultType !== 'M'
-                              }
+                              // disabled={
+                              //   record.resultType !== 'F' &&
+                              //   record.resultType !== 'M'
+                              // }
+                              disabled={true}
                               style={{ textAlign: 'center' }}
                               value={record.critical ? true : record.abnFlag}
                             />
@@ -468,10 +504,11 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             style={{ width: '150px' }}
                           >
                             <Form.Toggle
-                              disabled={
-                                record.resultType !== 'F' &&
-                                record.resultType !== 'M'
-                              }
+                              // disabled={
+                              //   record.resultType !== 'F' &&
+                              //   record.resultType !== 'M'
+                              // }
+                              disabled={true}
                               value={record.critical}
                             />
                           </div>
@@ -488,7 +525,22 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             className='flex-none text-center text-gray-700'
                             style={{ width: '150px' }}
                           >
-                            <Form.Toggle value={record.showRanges} />
+                            <Form.Toggle
+                              value={record.showRanges}
+                              onChange={showRanges => {
+                                resultRecords.current = {
+                                  ...resultRecords.current?.map(item => {
+                                    if (item._id == record?._id) {
+                                      return {
+                                        ...item,
+                                        showRanges,
+                                      };
+                                    }
+                                    return item;
+                                  }),
+                                };
+                              }}
+                            />
                           </div>
                           <div
                             className='flex-none text-center text-gray-700'
@@ -514,9 +566,41 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 <button
                   className='py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed'
                   onClick={() => {
-                    setIsHide(false);
-                    props.setIsInputScreenHide(false);
-                    setResultRecords([]);
+                    if (
+                      resultRecords.current &&
+                      resultRecords.current
+                        ?.map((item: any) => {
+                          if (item?.result && !_.isEmpty(item.result))
+                            return true;
+                          else false;
+                        })
+                        ?.filter(item => !item)?.length == 0
+                    ) {
+                      resultRecords.current?.forEach(async item => {
+                        props.onSaveFields(
+                          {
+                            ...item,
+                            resultStatus: getResultStatus(
+                              item.resultType,
+                              item,
+                            ),
+                            testStatus: getTestStatus(item.resultType, item),
+                            abnFlag: getAbnFlag(item.resultType, item),
+                            critical: getCretical(item.resultType, item),
+                            updateField: 'result',
+                            updateType: 'directSave',
+                          },
+                          item._id,
+                          'directSave',
+                        );
+                      });
+                      setIsHide(false);
+                      resultRecords.current = [];
+                    } else {
+                      Toast.error({
+                        message: 'Please enter all result.',
+                      });
+                    }
                   }}
                 >
                   Save
@@ -605,9 +689,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                 }}
               >
                 <div
-                  className='flex text-center text-gray-700'
+                  className='flex text-center text-gray-700 gap-4'
                   style={{ width: '250px' }}
                 >
+                  <span className='flex -ml-10 bg-blue-800 w-6 h-6 rounded-full text-white items-center text-center justify-center'>
+                    {record?.count}
+                  </span>
                   <span title={`${record.testCode} - ${record.testName}`}>
                     {truncateText(
                       `${record.testCode} - ${record.testName}`,

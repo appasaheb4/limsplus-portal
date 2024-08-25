@@ -223,6 +223,8 @@ const GeneralResultEntry = observer(() => {
   );
 
   const updateRecords = (id, data) => {
+    console.log({ id, data });
+
     patientResultStore.patientResultService
       .updateSingleFiled({
         input: {
@@ -239,10 +241,10 @@ const GeneralResultEntry = observer(() => {
       })
       .then(res => {
         if (res.updatePatientResult.success) {
-          // Toast.success({
-          //   message: `😊 ${res.updatePatientResult.message}`,
-          //   timer: 2000,
-          // });
+          Toast.success({
+            message: `😊 ${res.updatePatientResult.message}`,
+            timer: 2000,
+          });
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
               ...generalResultEntryStore.filterGeneralResEntry,

@@ -83,8 +83,6 @@ export class PatientResultStore {
         //   'testReportOrder',
         //   'analyteReportOrder',
         // ]);
-        console.log({ res });
-
         this.patientResultListNotAutoUpdate = data;
         this.patientResultListNotAutoUpdateCount =
           res.patientResultRecordsForGRE.paginatorInfo.count;

@@ -103,7 +103,6 @@ export class PatientResultService {
           variables: { input: { filter, page, limit } },
         })
         .then((response: any) => {
-          console.log({ response });
           stores.patientResultStore.updatePatientResultNotAutoUpdate(
             response.data,
           );
