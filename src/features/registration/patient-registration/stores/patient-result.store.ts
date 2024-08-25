@@ -70,19 +70,21 @@ export class PatientResultStore {
       if (!res.patientResultRecordsForGRE.success) {
         return console.log(res.patientResultRecordsForGRE.message);
       } else {
-        let data: any = res.patientResultRecordsForGRE.patientResultList;
-        data = data.map(item => {
-          return {
-            ...item,
-            testReportOrder: item?.extraData?.testReportOrder,
-            analyteReportOrder: item?.extraData?.analyteReportOrder,
-          };
-        });
-        data = _.sortBy(data, [
-          'labId',
-          'testReportOrder',
-          'analyteReportOrder',
-        ]);
+        const data: any = res.patientResultRecordsForGRE.patientResultList;
+        // data = data.map(item => {
+        //   return {
+        //     ...item,
+        //     testReportOrder: item?.extraData?.testReportOrder,
+        //     analyteReportOrder: item?.extraData?.analyteReportOrder,
+        //   };
+        // });
+        // data = _.sortBy(data, [
+        //   'labId',
+        //   'testReportOrder',
+        //   'analyteReportOrder',
+        // ]);
+        console.log({ res });
+
         this.patientResultListNotAutoUpdate = data;
         this.patientResultListNotAutoUpdateCount =
           res.patientResultRecordsForGRE.paginatorInfo.count;

@@ -39,33 +39,18 @@ interface GeneralResultEntryListProps {
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const { appStore } = useStores();
-  const [expandedRow, setExpandedRow] = useState<{
-    rowIndex: number | null;
-    data: any[];
-  }>({ rowIndex: null, data: [] });
-  const [visibleRecords, setVisibleRecords] = useState<any[]>([]);
+  const [resultRecords, setResultRecords] = useState<Array<any>>([]);
   const [refRangeRowId, setRefRangeRowId] = useState<string>('');
   const [selectedRowId, setSelectedRowId] = useState<string>('');
   const [isHide, setIsHide] = useState<boolean>(false);
 
   // eslint-disable-next-line unicorn/no-array-reduce
-  const distinctRecords = visibleRecords.reduce((acc, current) => {
-    const x = acc.find(
-      item =>
-        item.testCode === current.testCode && item.labId === current.labId,
-    );
-    if (!x) {
-      acc.push(current);
-    }
-    return acc;
-  }, []);
-  console.log({ distinctRecords });
-
+  const distinctRecords = props?.data?.map(item => {
+    return { ...item?.result[0] };
+  });
   useEffect(() => {
     setIsHide(false);
     props.setIsInputScreenHide(false);
-    setVisibleRecords(props.data);
-    setExpandedRow({ rowIndex: null, data: [] });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data]);
 
@@ -85,21 +70,20 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   const testStatus: Array<any> = [];
 
-  const handleRowClick = (record, index) => {
-    setExpandedRow(prevState => {
-      if (prevState.rowIndex === index) {
-        setVisibleRecords(props.data);
-        return { rowIndex: null, data: [] };
-      }
-      const filteredData = props.data.filter(
-        item =>
-          item.labId === record.labId &&
-          item.panelCode === record.panelCode &&
-          item.testCode === record.testCode,
-      );
-      setVisibleRecords([record]);
-      return { rowIndex: record._id, data: filteredData };
-    });
+  const handleRowClick = index => {
+    setResultRecords(props.data[index]?.result);
+    // setExpandedRow(prevState => {
+    //   if (prevState.rowIndex === index) {
+    //     return { rowIndex: null, data: [] };
+    //   }
+    //   const filteredData = props.data.filter(
+    //     item =>
+    //       item.labId === record.labId &&
+    //       item.panelCode === record.panelCode &&
+    //       item.testCode === record.testCode,
+    //   );
+    //   return { rowIndex: record._id, data: filteredData };
+    // });
   };
 
   const expandCollapseButton = () => (
@@ -110,8 +94,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         onClick={() => {
           setIsHide(false);
           props.setIsInputScreenHide(false);
-          setVisibleRecords(props.data);
-          setExpandedRow({ rowIndex: null, data: [] });
+          setResultRecords([]);
         }}
       >
         <Tooltip
@@ -171,95 +154,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     </div>
   );
 
-  const renderDataRows = () =>
-    distinctRecords?.map((record, index) => (
-      <React.Fragment key={record._id}>
-        <div
-          className={`flex justify-around items-center py-2 px-4 border-b text-sm ${
-            index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-          } cursor-pointer  ${isHide ? 'hidden' : 'shown'}`}
-          onClick={() => {
-            setIsHide(true);
-            props.setIsInputScreenHide(true);
-            handleRowClick(record, record._id);
-          }}
-        >
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '250px' }}
-          >
-            <span title={`${record.testCode} - ${record.testName}`}>
-              {truncateText(`${record.testCode} - ${record.testName}`, 30)}
-            </span>
-          </div>
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '150px' }}
-          >
-            <span title={record.departmentName}>
-              {truncateText(record.departmentName, 20)}
-            </span>
-          </div>
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '50px' }}
-          >
-            <span title={record.labId}>{truncateText(record.labId, 10)}</span>
-          </div>
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '100px' }}
-          >
-            <span title={record.sampleId}>
-              {truncateText(record.sampleId, 10)}
-            </span>
-          </div>
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '50px' }}
-          >
-            <span title={record?.testStatus}>
-              {truncateText(record?.testStatus, 10)}
-            </span>
-          </div>
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '220px' }}
-          >
-            <span title={record.name}>{truncateText(record.name, 30)}</span>
-          </div>
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '100px' }}
-          >
-            <span title={record.pLab}>{truncateText(record.pLab, 10)}</span>
-          </div>
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '100px' }}
-          >
-            <span title={record.dueDate}>
-              {truncateText(record.dueDate, 10)}
-            </span>
-          </div>
-          <div
-            className='flex text-center text-gray-700'
-            style={{ width: '100px' }}
-          >
-            <span title={record.resultDate}>
-              {truncateText(
-                record.resultDate &&
-                  dayjs(record.resultDate).format('YYYY-MM-DD HH:mm:ss'),
-                10,
-              )}
-            </span>
-          </div>
-        </div>
-
-        {expandedRow?.rowIndex === record._id && (
+  const renderResultEnter = () => {
+    return (
+      <>
+        {resultRecords?.length > 0 && (
           <div className='relative'>
             <div className='h-full shadow-lg rounded-lg border border-gray-200'>
-              <div className='overflow-x-auto max-h-[calc(100vh_-_30vh)]'>
+              <div className='overflow-x-auto'>
                 <div
                   style={{
                     display: 'table',
@@ -360,7 +261,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       display: 'table-row-group',
                     }}
                   >
-                    {expandedRow.data?.map((record, subIndex) => (
+                    {resultRecords?.map((record, subIndex) => (
                       <div
                         key={subIndex}
                         className={`flex justify-around items-center px-1 py-1 border-b border-r text-sm ${
@@ -615,8 +516,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   onClick={() => {
                     setIsHide(false);
                     props.setIsInputScreenHide(false);
-                    setVisibleRecords(props.data);
-                    setExpandedRow({ rowIndex: null, data: [] });
+                    setResultRecords([]);
                   }}
                 >
                   Save
@@ -648,25 +548,22 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             </div>
           </div>
         )}
-      </React.Fragment>
-    ));
+      </>
+    );
+  };
 
-  return (
-    <div className={`${props.isView ? 'shown' : 'hidden'} `}>
-      <div className='flex flex-row flex-wrap justify-between mb-2'>
-        {renderStatusButtons()}
-        {renderTestStatusButtons()}
-      </div>
-      <div className='shadow-lg  rounded-lg border border-gray-200 overflow-hidden'>
+  const renderDataRows = () => {
+    return (
+      <>
         <div
-          className={`sticky top-0  text-white py-2 px-4 z-20  border-solid border-2 border-white ${
+          className={`sticky top-0  text-white z-20  border-solid border-2 border-white ${
             isHide ? 'hidden' : 'shown'
-          }`}
+          } `}
           style={{
             backgroundColor: '#6A727F',
           }}
         >
-          <div className='flex justify-around items-center'>
+          <div className='flex justify-around items-center py-2'>
             <div className='flex text-center' style={{ width: '250px' }}>
               Test Code - Name
             </div>
@@ -680,7 +577,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               Sample ID
             </div>
             <div className='flex text-center' style={{ width: '50px' }}>
-              Test Status
+              Test S.
             </div>
             <div className='flex text-center' style={{ width: '220px' }}>
               Patient Name
@@ -695,10 +592,114 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               Result Date
             </div>
           </div>
+
+          {distinctRecords?.map((record, index) => (
+            <div key={record._id}>
+              <div
+                className={`flex justify-around items-center py-2 px-4 border-b text-sm ${
+                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                } cursor-pointer  ${isHide ? 'hidden' : 'shown'}`}
+                onClick={() => {
+                  setIsHide(true);
+                  handleRowClick(index);
+                }}
+              >
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '250px' }}
+                >
+                  <span title={`${record.testCode} - ${record.testName}`}>
+                    {truncateText(
+                      `${record.testCode} - ${record.testName}`,
+                      30,
+                    )}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '150px' }}
+                >
+                  <span title={record.departmentName}>
+                    {truncateText(record.departmentName, 20)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '50px' }}
+                >
+                  <span title={record.labId}>
+                    {truncateText(record.labId, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '100px' }}
+                >
+                  <span title={record.sampleId}>
+                    {truncateText(record.sampleId, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '50px' }}
+                >
+                  <span title={record?.testStatus}>
+                    {truncateText(record?.testStatus, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '220px' }}
+                >
+                  <span title={record.name}>
+                    {truncateText(record.name, 30)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '100px' }}
+                >
+                  <span title={record.pLab}>
+                    {truncateText(record.pLab, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '100px' }}
+                >
+                  <span title={record.dueDate}>
+                    {truncateText(record.dueDate, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '100px' }}
+                >
+                  <span title={record.resultDate}>
+                    {truncateText(
+                      record.resultDate &&
+                        dayjs(record.resultDate).format('YYYY-MM-DD HH:mm:ss'),
+                      10,
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className='max-h-[calc(100vh_-_10vh)] overflow-y-auto'>
-          {renderDataRows()}
-        </div>
+      </>
+    );
+  };
+
+  return (
+    <div className={`${props.isView ? 'shown' : 'hidden'} `}>
+      <div className='flex flex-row flex-wrap justify-between mb-2'>
+        {renderStatusButtons()}
+        {renderTestStatusButtons()}
+      </div>
+      <div className='flex flex-col max-h-[calc(100vh_-_10vh)] overflow-y-auto'>
+        {renderDataRows()}
+        {renderResultEnter()}
       </div>
     </div>
   );
