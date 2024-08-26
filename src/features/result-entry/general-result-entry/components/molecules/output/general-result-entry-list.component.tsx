@@ -680,12 +680,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         <div
           className={`sticky top-0  text-white z-20  border-solid border-2 border-white ${
             isHide ? 'hidden' : 'shown'
-          } `}
-          style={{
-            backgroundColor: '#6A727F',
-          }}
+          } bg-[#6A727F]`}
         >
-          <div className='flex justify-around items-center py-2'>
+          <div
+            className={`flex justify-around items-center py-2 ${
+              tabSelected == 'Done' ? 'ml-4' : 'ml-0'
+            }`}
+          >
             <div className='flex text-center' style={{ width: '250px' }}>
               Test Code - Name
             </div>
@@ -716,53 +717,57 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           </div>
 
           {distinctRecords?.map((record, index) => (
-            <div key={record._id}>
+            <div
+              className={`flex ${
+                index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+              } cursor-pointer ${isHide ? 'hidden' : 'shown'}`}
+              key={record._id}
+            >
+              {tabSelected == 'Done' && (
+                <div className='flex bg-[#6A727F] w-6 p-1 items-center justify-center'>
+                  <input
+                    className='flex w-6 h-6'
+                    type='checkbox'
+                    checked={arrFinishRecord.current?.includes(record?._id)}
+                    onClick={() => {
+                      const ids: Array<string> = props.data[index].result?.map(
+                        item => item?._id,
+                      );
+                      //remove exists id
+                      if (arrFinishRecord.current?.includes(record?._id)) {
+                        const finalArr: any = arrFinishRecord.current
+                          ?.map(item => {
+                            console.log({ item });
+                            if (ids.includes(item)) return;
+                            return item;
+                          })
+                          ?.filter(item => item);
+                        arrFinishRecord.current = finalArr;
+                      } else {
+                        if (arrFinishRecord.current?.length > 0) {
+                          arrFinishRecord.current =
+                            arrFinishRecord.current.concat(ids);
+                        } else {
+                          arrFinishRecord.current = ids;
+                        }
+                      }
+                      setReload(!reload);
+                    }}
+                  />
+                </div>
+              )}
+
               <div
-                className={`flex justify-around items-center py-2 px-4 border-b text-sm ${
-                  index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                } cursor-pointer  ${isHide ? 'hidden' : 'shown'}`}
+                className='flex w-full justify-around items-center py-2  border-b text-sm'
                 onClick={() => {
-                  if (tabSelected != 'Done') {
-                    setIsHide(true);
-                    handleRowClick(index);
-                  }
+                  setIsHide(true);
+                  handleRowClick(index);
                 }}
               >
                 <div
-                  className='flex text-center text-gray-700 gap-2 items-center -ml-10'
+                  className='flex  text-center text-gray-700 gap-2 items-center -ml-2'
                   style={{ width: '250px' }}
                 >
-                  {tabSelected == 'Done' && (
-                    <input
-                      className='flex'
-                      type='checkbox'
-                      checked={arrFinishRecord.current?.includes(record?._id)}
-                      onClick={() => {
-                        const ids: Array<string> = props.data[
-                          index
-                        ].result?.map(item => item?._id);
-                        //remove exists id
-                        if (arrFinishRecord.current?.includes(record?._id)) {
-                          const finalArr: any = arrFinishRecord.current
-                            ?.map(item => {
-                              console.log({ item });
-                              if (ids.includes(item)) return;
-                              return item;
-                            })
-                            ?.filter(item => item);
-                          arrFinishRecord.current = finalArr;
-                        } else {
-                          if (arrFinishRecord.current?.length > 0) {
-                            arrFinishRecord.current =
-                              arrFinishRecord.current.concat(ids);
-                          } else {
-                            arrFinishRecord.current = ids;
-                          }
-                        }
-                        setReload(!reload);
-                      }}
-                    />
-                  )}
                   <span className='flex bg-blue-800 w-6 h-6 rounded-full text-white items-center text-center justify-center'>
                     {record?.count}
                   </span>
@@ -773,6 +778,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     )}
                   </span>
                 </div>
+
                 <div
                   className='flex text-center text-gray-700'
                   style={{ width: '150px' }}
