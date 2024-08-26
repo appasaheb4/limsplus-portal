@@ -74,19 +74,8 @@ const GeneralResultEntry = observer(() => {
               );
             patientResultStore.updatePatientResultNotAutoUpdate(updated);
           }}
-          onSaveFields={async (updatedRecords, id, type) => {
-            if (type == 'directSave') {
-              updateRecords(id, updatedRecords);
-            } else {
-              setModalConfirm({
-                show: true,
-                type: 'save',
-                id: id,
-                data: updatedRecords,
-                title: 'Are you sure?',
-                body: `Do you want to update this record?`,
-              });
-            }
+          onResultUpdateBatch={updatedRecords => {
+            updateRecords(updatedRecords);
           }}
           onUpdateFields={(fields, id) => {
             setModalConfirm({
@@ -232,42 +221,26 @@ const GeneralResultEntry = observer(() => {
     ),
     [patientResultStore.patientResultListNotAutoUpdate, tableReload, selectId],
   );
-  let count = 0;
-  const updateRecords = (id, data) => {
+
+  const updateRecords = records => {
     patientResultStore.patientResultService
       .updateSingleFiled({
-        input: {
-          ...data,
-          enteredBy: loginStore.login?.userId,
-          resultDate: new Date(),
-          _id: id,
-          __v: undefined,
-          flagUpdate: undefined,
-          testReportOrder: undefined,
-          analyteReportOrder: undefined,
-          selectedId: undefined,
-        },
+        input: { records },
       })
       .then(res => {
         if (res.updatePatientResult.success) {
-          if (count == 0) {
-            Toast.success({
-              message: `😊 ${res.updatePatientResult.message}`,
-              timer: 2000,
-            });
-            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-              {
-                ...generalResultEntryStore.filterGeneralResEntry,
-                finishResult: 'P',
-                panelStatus: 'P',
-                testStatus: 'P',
-              },
-            );
-            count++;
-          }
-          setTimeout(() => {
-            count = 0;
-          }, 10000);
+          Toast.success({
+            message: `😊 ${res.updatePatientResult.message}`,
+            timer: 2000,
+          });
+          patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+            {
+              ...generalResultEntryStore.filterGeneralResEntry,
+              finishResult: 'P',
+              panelStatus: 'P',
+              testStatus: 'P',
+            },
+          );
         }
       });
     setTableReload(!tableReload);
@@ -290,9 +263,6 @@ const GeneralResultEntry = observer(() => {
         {...modalConfirm}
         click={(type?: string) => {
           setModalConfirm({ show: false });
-          if (type === 'save') {
-            updateRecords(modalConfirm.id, modalConfirm.data);
-          }
           if (type == 'updateFields') {
             patientResultStore.patientResultService
               .updateByFields({

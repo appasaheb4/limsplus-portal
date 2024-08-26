@@ -73,19 +73,22 @@ const GeneralResultEntry = observer(() => {
               );
             patientResultStore.updatePatientResultNotAutoUpdate(updated);
           }}
-          onSaveFields={async (updatedRecords, id, type) => {
-            if (type == 'directSave') {
-              updateRecords(id, updatedRecords);
-            } else {
-              setModalConfirm({
-                show: true,
-                type: 'save',
-                id: id,
-                data: updatedRecords,
-                title: 'Are you sure?',
-                body: `Do you want to update this record?`,
-              });
-            }
+          // onSaveFields={async (updatedRecords, id, type) => {
+          //   if (type == 'directSave') {
+          //     updateRecords(id, updatedRecords);
+          //   } else {
+          //     setModalConfirm({
+          //       show: true,
+          //       type: 'save',
+          //       id: id,
+          //       data: updatedRecords,
+          //       title: 'Are you sure?',
+          //       body: `Do you want to update this record?`,
+          //     });
+          //   }
+          // }}
+          onResultUpdateBatch={updatedRecords => {
+            console.log({ updatedRecords });
           }}
           onUpdateFields={(fields, id) => {
             setModalConfirm({

@@ -24,7 +24,8 @@ interface GeneralResultEntryListProps {
   isUpdate?: boolean;
   isExport?: boolean;
   onUpdateValue: (item: any, id: string) => void;
-  onSaveFields: (fields: any, id: string, type: string) => void;
+  onResultUpdateBatch: (records: any) => void;
+  // onSaveFields: (fields: any, id: string, type: string) => void;
   onUpdateFields?: (fields: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFinishResult?: (updateRecordIds: Array<string>) => void;
@@ -198,8 +199,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
       ))}
     </div>
   );
-
-  console.log({ resultRecords });
 
   const renderResultEnter = () => {
     return (
@@ -617,26 +616,25 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         })
                         ?.filter(item => !item)?.length == 0
                     ) {
-                      resultRecords.current?.forEach(async item => {
-                        props.onSaveFields(
-                          {
-                            ...item,
-                            resultStatus: getResultStatus(
-                              item.resultType,
-                              item,
-                            ),
-                            testStatus: getTestStatus(item.resultType, item),
-                            abnFlag: getAbnFlag(item.resultType, item),
-                            critical: getCretical(item.resultType, item),
-                            updateField: 'result',
-                            updateType: 'directSave',
-                            result: undefined,
-                            ...item?.result,
-                          },
-                          item._id,
-                          'directSave',
-                        );
+                      const records = resultRecords.current?.map(async item => {
+                        return {
+                          ...item,
+                          resultStatus: getResultStatus(item.resultType, item),
+                          testStatus: getTestStatus(item.resultType, item),
+                          abnFlag: getAbnFlag(item.resultType, item),
+                          critical: getCretical(item.resultType, item),
+                          updateField: 'result',
+                          updateType: 'directSave',
+                          result: undefined,
+                          ...item?.result,
+                          resultDate: new Date(),
+                          flagUpdate: undefined,
+                          testReportOrder: undefined,
+                          analyteReportOrder: undefined,
+                          selectedId: undefined,
+                        };
                       });
+                      props.onResultUpdateBatch(records);
                       setIsHide(false);
                       resultRecords.current = [];
                     } else {
