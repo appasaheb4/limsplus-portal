@@ -199,6 +199,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     </div>
   );
 
+  console.log({ resultRecords });
+
   const renderResultEnter = () => {
     return (
       <>
@@ -214,7 +216,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   }}
                 >
                   <div
-                    className='sticky top-0 text-white py-1 px-1 rounded-t-lg z-20'
+                    className='sticky top-0 text-white py-1 px-1 rounded-t-lg'
                     style={{ backgroundColor: '#6A727F', display: 'table-row' }}
                   >
                     <div
@@ -222,25 +224,25 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       style={{ padding: '4px 0px 4px 0px' }}
                     >
                       <div
-                        className='flex-none text-center sticky top-0 left-0 z-30'
+                        className='flex-none text-center sticky top-0 left-0'
                         style={{ width: '250px', backgroundColor: '#6A727F' }}
                       >
                         Analyte Code - Name
                       </div>
                       <div
-                        className='flex-none text-center sticky top-0 left-[250px] z-30'
+                        className='flex-none text-center sticky top-0 left-[250px]'
                         style={{ width: '150px', backgroundColor: '#6A727F' }}
                       >
                         Reportable
                       </div>
                       <div
-                        className='flex-none text-center sticky top-0 left-[400px] z-30'
+                        className='flex-none text-center sticky top-0 left-[400px]'
                         style={{ width: '150px', backgroundColor: '#6A727F' }}
                       >
                         Result
                       </div>
                       <div
-                        className='flex-none text-center sticky top-0 left-[550px] z-30'
+                        className='flex-none text-center sticky top-0 left-[550px]'
                         style={{ width: '150px', backgroundColor: '#6A727F' }}
                       >
                         Conclusion
@@ -313,6 +315,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         } cursor-pointer`}
                       >
                         {/* Fixed Columns */}
+
                         <div
                           className='flex-none text-center text-gray-700 sticky top-0 left-0'
                           style={{
@@ -356,11 +359,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-[400px]'
+                          className='flex-none text-center text-gray-700 sticky top-0 left-[400px] h-full bg-white'
                           style={{
                             width: '150px',
-                            backgroundColor: '#fff',
-                            padding: '2px',
+                            padding: '5px',
                           }}
                         >
                           <span title={record.result}>
@@ -383,7 +385,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                 }}
                               />
                             ) : (
-                              <span style={{ fontWeight: 'bold' }}>
+                              <span
+                                className='flex bg-red'
+                                style={{ fontWeight: 'bold' }}
+                              >
                                 {record.result}
                               </span>
                             )}
