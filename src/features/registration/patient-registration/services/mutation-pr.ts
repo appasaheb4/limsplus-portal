@@ -150,6 +150,16 @@ export const UPDATE_RECORD = gql`
   }
 `;
 
+export const UPDATE_RECORDS_BATCH = gql`
+  mutation ($input: PatientResultInput!) {
+    updateBatchRecordsPatientResult(input: $input) {
+      success
+      message
+      patientResult
+    }
+  }
+`;
+
 export const UPDATE_BY_FIELDS_RECORD = gql`
   mutation ($input: PatientResultInput!) {
     updateByFieldsPatientResult(input: $input) {

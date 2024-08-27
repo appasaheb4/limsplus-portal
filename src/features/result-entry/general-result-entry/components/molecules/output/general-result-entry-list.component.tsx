@@ -200,6 +200,28 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     </div>
   );
 
+  const rowStyle = row => {
+    switch (row?.colorScheme?.envRangeColor) {
+      case 'BOTH':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      case 'BACKGROUND':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+        };
+        break;
+      case 'FONT':
+        return {
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      default:
+        return {};
+    }
+  };
   const renderResultEnter = () => {
     return (
       <>
@@ -309,12 +331,10 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     {resultRecords.current?.map((record, subIndex) => (
                       <div
                         key={subIndex}
-                        className={`flex justify-around items-center px-1 py-1 border-b border-r text-sm ${
-                          subIndex % 2 === 0 ? 'bg-white' : 'bg-white'
-                        } cursor-pointer`}
+                        className='flex justify-around items-center px-1 py-1 border-b border-r text-sm  cursor-pointer'
+                        style={rowStyle(record)}
                       >
                         {/* Fixed Columns */}
-
                         <div
                           className='flex-none text-center text-gray-700 sticky top-0 left-0'
                           style={{
@@ -616,7 +636,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         })
                         ?.filter(item => !item)?.length == 0
                     ) {
-                      const records = resultRecords.current?.map(async item => {
+                      const records = resultRecords.current?.map(item => {
                         return {
                           ...item,
                           resultStatus: getResultStatus(item.resultType, item),

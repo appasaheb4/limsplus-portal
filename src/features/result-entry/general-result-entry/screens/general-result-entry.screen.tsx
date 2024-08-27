@@ -75,7 +75,7 @@ const GeneralResultEntry = observer(() => {
             patientResultStore.updatePatientResultNotAutoUpdate(updated);
           }}
           onResultUpdateBatch={updatedRecords => {
-            updateRecords(updatedRecords);
+            resultUpdateBatch(updatedRecords);
           }}
           onUpdateFields={(fields, id) => {
             setModalConfirm({
@@ -222,20 +222,21 @@ const GeneralResultEntry = observer(() => {
     [patientResultStore.patientResultListNotAutoUpdate, tableReload, selectId],
   );
 
-  const updateRecords = records => {
+  const resultUpdateBatch = payload => {
+    console.log({ payload });
     patientResultStore.patientResultService
-      .updateSingleFiled({
-        input: { records },
+      .updateBatchRecords({
+        input: { payload },
       })
       .then(res => {
-        if (res.updatePatientResult.success) {
+        if (res.updateBatchRecordsPatientResult.success) {
           Toast.success({
-            message: `😊 ${res.updatePatientResult.message}`,
+            message: `😊 ${res.updateBatchRecordsPatientResult.message}`,
             timer: 2000,
           });
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
-              ...generalResultEntryStore.filterGeneralResEntry,
+              pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
               finishResult: 'P',
               panelStatus: 'P',
               testStatus: 'P',
