@@ -222,6 +222,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         return {};
     }
   };
+
   const renderResultEnter = () => {
     return (
       <>
@@ -701,7 +702,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     return (
       <>
         <div
-          className={`sticky top-0  text-white z-20  border-solid border-2 border-white ${
+          className={`sticky top-0  text-white  border-solid border-2 border-white ${
             isHide ? 'hidden' : 'shown'
           } bg-[#6A727F]`}
         >

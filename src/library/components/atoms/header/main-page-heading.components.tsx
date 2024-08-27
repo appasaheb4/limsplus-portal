@@ -16,7 +16,7 @@ const MainPageHeading = ({ sidebar, title, store }) => {
         <PageHeadingLabDetails store={store} />
       </Header>
 
-      <div className='absolute left-[50%] top-7 transform -translate-x-1/2 -translate-y-1/2 w-[500px]  z-99 '>
+      <div className='absolute left-[50%] top-7 transform -translate-x-1/2 -translate-y-1/2 w-[500px]  z-99'>
         {!sidebar?.isOpen && (
           <AutocompleteSearch
             data={routerStore.userRouter}

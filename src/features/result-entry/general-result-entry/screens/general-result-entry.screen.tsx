@@ -223,7 +223,6 @@ const GeneralResultEntry = observer(() => {
   );
 
   const resultUpdateBatch = payload => {
-    console.log({ payload });
     patientResultStore.patientResultService
       .updateBatchRecords({
         input: { payload },
