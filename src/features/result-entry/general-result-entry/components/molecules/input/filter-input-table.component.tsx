@@ -73,28 +73,28 @@ export const FilterInputTable = observer(() => {
 
   return (
     <div
-      className='flex flex-row gap-2 items-center '
+      className='flex flex-row gap-2 items-center'
       style={{ minWidth: '100px' }}
     >
       <Table striped bordered>
         <thead>
           <tr className='p-0 text-xs'>
-            <th className='text-white ' style={{ width: '50px' }}>
+            <th className='text-white z-0' style={{ width: '50px' }}>
               PLab
             </th>
-            <th className='text-white' style={{ width: '100px' }}>
+            <th className='text-white z-0' style={{ width: '100px' }}>
               Department
             </th>
-            <th className='text-white' style={{ width: '100px' }}>
+            <th className='text-white z-0' style={{ width: '100px' }}>
               Test Code / Name
             </th>
-            <th className='text-white' style={{ width: '50px' }}>
+            <th className='text-white z-0' style={{ width: '50px' }}>
               LabId
             </th>
-            <th className='text-white' style={{ width: '100px' }}>
+            <th className='text-white z-0' style={{ width: '100px' }}>
               Patient Name
             </th>
-            <th className='text-white' style={{ width: '10px' }}>
+            <th className='text-white z-0' style={{ width: '10px' }}>
               Clear
             </th>
           </tr>

@@ -224,116 +224,32 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               <div className='overflow-x-auto'>
                 <div
                   style={{
-                    display: 'table',
-                    width: 'auto',
-                    tableLayout: 'fixed',
+                    display: 'flex',
+                    width: '100%',
                   }}
                 >
-                  <div
-                    className='sticky top-0 text-white py-1 px-1 rounded-t-lg'
-                    style={{ backgroundColor: '#6A727F', display: 'table-row' }}
-                  >
-                    <div
-                      className='flex justify-around rounded-t-lg'
-                      style={{ padding: '4px 0px 4px 0px' }}
-                    >
+                  {/* Fixed Columns */}
+                  <div className='flex flex-none'>
+                    <div className='flex flex-col'>
                       <div
-                        className='flex-none text-center sticky top-0 left-0'
-                        style={{ width: '250px', backgroundColor: '#6A727F' }}
+                        className='text-white py-1 px-1 rounded-t-lg text-center'
+                        style={{
+                          width: '250px',
+                          backgroundColor: '#6A727F',
+                          borderRadius: '0',
+                        }}
                       >
                         Analyte Code - Name
                       </div>
-                      <div
-                        className='flex-none text-center sticky top-0 left-[250px]'
-                        style={{ width: '150px', backgroundColor: '#6A727F' }}
-                      >
-                        Reportable
-                      </div>
-                      <div
-                        className='flex-none text-center sticky top-0 left-[400px]'
-                        style={{ width: '150px', backgroundColor: '#6A727F' }}
-                      >
-                        Result
-                      </div>
-                      <div
-                        className='flex-none text-center sticky top-0 left-[550px]'
-                        style={{ width: '150px', backgroundColor: '#6A727F' }}
-                      >
-                        Conclusion
-                      </div>
-
-                      {/* Scrollable Columns */}
-                      <div className='flex overflow-x-auto'>
+                      {resultRecords.current?.map((record, subIndex) => (
                         <div
-                          className='flex-none text-center'
-                          style={{ width: '150px' }}
-                        >
-                          Units
-                        </div>
-                        <div
-                          className='flex-none text-center'
-                          style={{ width: refRangeRowId ? '550px' : '250px' }}
-                        >
-                          Range
-                        </div>
-                        <div
-                          className='flex-none text-center'
-                          style={{ width: '150px' }}
-                        >
-                          Abnormal
-                        </div>
-                        <div
-                          className='flex-none text-center'
-                          style={{ width: '150px' }}
-                        >
-                          Critical
-                        </div>
-                        <div
-                          className='flex-none text-center'
-                          style={{ width: '150px' }}
-                        >
-                          Calculation Flag
-                        </div>
-                        <div
-                          className='flex-none text-center'
-                          style={{ width: '150px' }}
-                        >
-                          Show Ranges
-                        </div>
-                        <div
-                          className='flex-none text-center'
-                          style={{ width: '150px' }}
-                        >
-                          Result Status
-                        </div>
-                        <div
-                          className='flex-none text-center'
-                          style={{ width: '150px' }}
-                        >
-                          Result Type
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className='overflow-y-auto top-0'
-                    style={{
-                      display: 'table-row-group',
-                    }}
-                  >
-                    {resultRecords.current?.map((record, subIndex) => (
-                      <div
-                        key={subIndex}
-                        className='flex justify-around items-center px-1 py-1 border-b border-r text-sm  cursor-pointer'
-                        style={rowStyle(record)}
-                      >
-                        {/* Fixed Columns */}
-                        <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-0'
+                          key={subIndex}
+                          className='text-gray-700 text-center  text-sm cursor-pointer'
                           style={{
                             width: '250px',
                             backgroundColor: '#fff',
                             padding: '5px',
+                            height: '47px',
                           }}
                         >
                           <span
@@ -345,19 +261,35 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             )}
                           </span>
                         </div>
+                      ))}
+                    </div>
+
+                    <div className='flex flex-col'>
+                      <div
+                        className='text-white py-1 px-1 rounded-t-lg text-center'
+                        style={{
+                          width: '150px',
+                          backgroundColor: '#6A727F',
+                          borderRadius: '0',
+                        }}
+                      >
+                        Reportable
+                      </div>
+                      {resultRecords.current?.map((record, subIndex) => (
                         <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-[250px]'
+                          key={subIndex}
+                          className='text-gray-700 text-center  text-sm cursor-pointer'
                           style={{
                             width: '150px',
                             backgroundColor: '#fff',
                             padding: '5px',
+                            height: '47px',
                           }}
                         >
                           <Form.Toggle
                             value={record.reportable}
                             onChange={reportable => {
-                              console.log({ records: resultRecords.current });
-                              (resultRecords.current =
+                              resultRecords.current =
                                 resultRecords.current?.map(item => {
                                   if (item._id == record?._id) {
                                     return {
@@ -366,16 +298,33 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                     };
                                   }
                                   return item;
-                                })),
-                                console.log({ records: resultRecords.current });
+                                });
                             }}
                           />
                         </div>
+                      ))}
+                    </div>
+
+                    <div className='flex flex-col'>
+                      <div
+                        className='text-white py-1 px-1 rounded-t-lg text-center'
+                        style={{
+                          width: '150px',
+                          backgroundColor: '#6A727F',
+                          borderRadius: '0',
+                        }}
+                      >
+                        Result
+                      </div>
+                      {resultRecords.current?.map((record, subIndex) => (
                         <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-[400px] h-full bg-white'
+                          key={subIndex}
+                          className='text-gray-700 text-center  text-sm cursor-pointer'
                           style={{
                             width: '150px',
+                            backgroundColor: '#fff',
                             padding: '5px',
+                            height: '47px',
                           }}
                         >
                           <span title={record.result}>
@@ -407,11 +356,32 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             )}
                           </span>
                         </div>
+                      ))}
+                    </div>
+
+                    <div className='flex flex-col'>
+                      <div
+                        className='text-white py-1 px-1 rounded-t-lg text-center'
+                        style={{
+                          width: '150px',
+                          backgroundColor: '#6A727F',
+                          borderRadius: '0',
+                        }}
+                      >
+                        Conclusion
+                      </div>
+                      {resultRecords.current?.map((record, subIndex) => (
                         <div
-                          className='flex-none text-center text-gray-700 sticky top-0 left-[550px] bg-white'
-                          style={{ width: '150px', padding: '5px' }}
+                          key={subIndex}
+                          className='text-gray-700 text-center  text-sm cursor-pointer'
+                          style={{
+                            width: '150px',
+                            backgroundColor: '#fff',
+                            padding: '5px',
+                            height: '47px',
+                          }}
                         >
-                          <div className='flex items-center justify-end flex-col bg-white'>
+                          <div className='flex items-center justify-end flex-col bg-white relative'>
                             <Tooltip
                               tooltipText={
                                 record._id !== selectedRowId
@@ -462,165 +432,267 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             )}
                           </div>
                         </div>
+                      ))}
+                    </div>
+                  </div>
 
-                        {/* Scrollable Columns */}
-                        <div className='flex overflow-x-auto'>
-                          <div
-                            className='flex-none text-center text-gray-700'
-                            style={{ width: '150px' }}
-                          >
+                  {/* Scrollable Columns */}
+                  <div className='flex-1 overflow-x-auto'>
+                    <div className='flex'>
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Units
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: refRangeRowId ? '550px' : '250px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Range
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '121px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Abnormal
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Critical
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Calculation Flag
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Show Ranges
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Result Status
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Result Type
+                      </div>
+                    </div>
+
+                    {resultRecords.current?.map((record, subIndex) => (
+                      <div key={subIndex} className='flex'>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: '150px' }}
+                        >
+                          <span title={record.units}>
+                            {truncateText(record.units, 10)}
+                          </span>
+                        </div>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: refRangeRowId ? '550px' : '220px' }}
+                        >
+                          <div className='flex items-center justify-center gap-2'>
                             <span title={record.units}>
-                              {truncateText(record.units, 10)}
+                              {_.isNaN(Number.parseFloat(record.loNor)) &&
+                              _.isNaN(Number.parseFloat(record.hiNor))
+                                ? '-'
+                                : _.isNaN(Number.parseFloat(record.loNor))
+                                ? `${record.hiNor} - >`
+                                : _.isNaN(Number.parseFloat(record.hiNor))
+                                ? `< - ${record.loNor}`
+                                : `${record.loNor} - ${record.hiNor}`}
                             </span>
-                          </div>
-                          <div
-                            className='flex-none text-center text-gray-700'
-                            style={{ width: refRangeRowId ? '550px' : '220px' }}
-                          >
-                            <div className='flex items-center justify-center flex-row gap-2'>
-                              <span title={record.units}>
-                                {_.isNaN(Number.parseFloat(record.loNor)) &&
-                                _.isNaN(Number.parseFloat(record.hiNor))
-                                  ? '-'
-                                  : _.isNaN(Number.parseFloat(record.loNor))
-                                  ? `${record.hiNor} - >`
-                                  : _.isNaN(Number.parseFloat(record.hiNor))
-                                  ? `< - ${record.loNor}`
-                                  : `${record.loNor} - ${record.hiNor}`}
-                              </span>
-                              <div>
-                                {record.refRangesList?.length > 0 && (
-                                  <Tooltip
-                                    tooltipText={
-                                      record._id !== refRangeRowId
-                                        ? 'Expand Reference Range'
-                                        : 'Collapse Reference Range'
+                            <div className='h-[47px]'>
+                              {record.refRangesList?.length > 0 && (
+                                <Tooltip
+                                  tooltipText={
+                                    record._id !== refRangeRowId
+                                      ? 'Expand Reference Range'
+                                      : 'Collapse Reference Range'
+                                  }
+                                >
+                                  <Icons.IconContext
+                                    color='#000000'
+                                    size='20'
+                                    onClick={() =>
+                                      setRefRangeRowId(
+                                        record._id === refRangeRowId
+                                          ? ''
+                                          : record._id,
+                                      )
                                     }
                                   >
-                                    <Icons.IconContext
-                                      color='#000000'
-                                      size='20'
-                                      onClick={() =>
-                                        setRefRangeRowId(
-                                          record._id === refRangeRowId
-                                            ? ''
-                                            : record._id,
-                                        )
-                                      }
-                                    >
-                                      {Icons.getIconTag(
-                                        record._id !== refRangeRowId
-                                          ? Icons.IconBi.BiExpand
-                                          : Icons.IconBi.BiCollapse,
-                                      )}
-                                    </Icons.IconContext>
-                                  </Tooltip>
-                                )}
-                              </div>
+                                    {Icons.getIconTag(
+                                      record._id !== refRangeRowId
+                                        ? Icons.IconBi.BiExpand
+                                        : Icons.IconBi.BiCollapse,
+                                    )}
+                                  </Icons.IconContext>
+                                </Tooltip>
+                              )}
                             </div>
-                            {refRangeRowId === record._id && (
-                              <div>
-                                <RefRangesExpandList
-                                  id='_id'
-                                  data={record?.refRangesList || []}
-                                  totalSize={record?.refRangesList?.length || 0}
-                                  columns={[
-                                    {
-                                      dataField: 'result',
-                                      text: 'Result',
-                                      editable: false,
-                                    },
-                                    {
-                                      dataField: 'rangeType',
-                                      text: 'Range Type',
-                                    },
-                                    { dataField: 'low', text: 'Low' },
-                                    { dataField: 'high', text: 'High' },
-                                    {
-                                      dataField: 'rangeSetOn',
-                                      text: 'Range Set On',
-                                    },
-                                    { dataField: 'rangeId', text: 'Range Id' },
-                                    {
-                                      dataField: 'version',
-                                      text: 'Range Version',
-                                    },
-                                  ]}
-                                />
-                              </div>
-                            )}
                           </div>
+                          {refRangeRowId === record._id && (
+                            <div>
+                              <RefRangesExpandList
+                                id='_id'
+                                data={record?.refRangesList || []}
+                                totalSize={record?.refRangesList?.length || 0}
+                                columns={[
+                                  {
+                                    dataField: 'result',
+                                    text: 'Result',
+                                    editable: false,
+                                  },
+                                  {
+                                    dataField: 'rangeType',
+                                    text: 'Range Type',
+                                  },
+                                  { dataField: 'low', text: 'Low' },
+                                  { dataField: 'high', text: 'High' },
+                                  {
+                                    dataField: 'rangeSetOn',
+                                    text: 'Range Set On',
+                                  },
+                                  { dataField: 'rangeId', text: 'Range Id' },
+                                  {
+                                    dataField: 'version',
+                                    text: 'Range Version',
+                                  },
+                                ]}
+                              />
+                            </div>
+                          )}
+                        </div>
 
-                          <div
-                            className='flex-none text-center text-gray-700'
-                            style={{ width: '150px' }}
-                          >
-                            <Form.Toggle
-                              // disabled={
-                              //   record.resultType !== 'F' &&
-                              //   record.resultType !== 'M'
-                              // }
-                              disabled={true}
-                              style={{ textAlign: 'center' }}
-                              value={record.critical ? true : record.abnFlag}
-                            />
-                          </div>
-                          <div
-                            className='flex-none text-center text-gray-700'
-                            style={{ width: '150px' }}
-                          >
-                            <Form.Toggle
-                              // disabled={
-                              //   record.resultType !== 'F' &&
-                              //   record.resultType !== 'M'
-                              // }
-                              disabled={true}
-                              value={record.critical}
-                            />
-                          </div>
-                          <div
-                            className='flex-none text-center text-gray-700'
-                            style={{ width: '150px' }}
-                          >
-                            <Form.Toggle
-                              disabled
-                              value={record.calculationFlag}
-                            />
-                          </div>
-                          <div
-                            className='flex-none text-center text-gray-700'
-                            style={{ width: '150px' }}
-                          >
-                            <Form.Toggle
-                              value={record.showRanges}
-                              onChange={showRanges => {
-                                resultRecords.current =
-                                  resultRecords.current?.map(item => {
-                                    if (item._id == record?._id) {
-                                      return {
-                                        ...item,
-                                        showRanges,
-                                      };
-                                    }
-                                    return item;
-                                  });
-                              }}
-                            />
-                          </div>
-                          <div
-                            className='flex-none text-center text-gray-700'
-                            style={{ width: '150px' }}
-                          >
-                            <span title={record.resultStatus}>
-                              {truncateText(record.resultStatus, 10)}
-                            </span>
-                          </div>
-                          <div
-                            className='flex-none text-center'
-                            style={{ width: '150px' }}
-                          >
-                            {record.resultType}
-                          </div>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle
+                            disabled={true}
+                            style={{ textAlign: 'center' }}
+                            value={record.critical ? true : record.abnFlag}
+                          />
+                        </div>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle
+                            disabled={true}
+                            value={record.critical}
+                          />
+                        </div>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle
+                            disabled
+                            value={record.calculationFlag}
+                          />
+                        </div>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle
+                            value={record.showRanges}
+                            onChange={showRanges => {
+                              resultRecords.current =
+                                resultRecords.current?.map(item => {
+                                  if (item._id == record?._id) {
+                                    return {
+                                      ...item,
+                                      showRanges,
+                                    };
+                                  }
+                                  return item;
+                                });
+                            }}
+                          />
+                        </div>
+                        <div
+                          className='flex-none text-center text-gray-700'
+                          style={{ width: '150px' }}
+                        >
+                          <span title={record.resultStatus}>
+                            {truncateText(record.resultStatus, 10)}
+                          </span>
+                        </div>
+                        <div
+                          className='flex-none text-center'
+                          style={{ width: '150px' }}
+                        >
+                          {record.resultType}
                         </div>
                       </div>
                     ))}
@@ -634,7 +706,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     if (
                       resultRecords.current &&
                       resultRecords.current
-                        ?.map((item: any) => {
+                        ?.map(item => {
                           if (item?.result && !_.isEmpty(item.result))
                             return true;
                           else false;
@@ -706,7 +778,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
     return (
       <>
         <div
-          className={`sticky top-0  text-white  border-solid border-2 border-white ${
+          className={`sticky top-0  text-white border-white ${
             isHide ? 'hidden' : 'shown'
           } bg-[#6A727F]`}
         >
@@ -911,7 +983,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
       </div>
       <div className='flex flex-col max-h-[calc(100vh_-_10vh)] overflow-y-auto'>
         {renderDataRows()}
-        {renderResultEnter()}
+        <div className='relative z-0'>{renderResultEnter()}</div>
       </div>
     </div>
   );
