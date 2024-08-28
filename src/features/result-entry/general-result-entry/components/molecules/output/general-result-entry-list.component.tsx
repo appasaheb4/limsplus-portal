@@ -40,8 +40,6 @@ interface GeneralResultEntryListProps {
   onExpand?: (items: any) => void;
   onTableReload?: () => void;
   selectedRowData?: any;
-  setIsInputScreenHide?: any;
-  isInputScreenHide?: boolean;
 }
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
@@ -61,7 +59,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   useEffect(() => {
     setIsHide(false);
-    props.setIsInputScreenHide(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.data]);
 
@@ -115,7 +112,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         type='outline'
         onClick={() => {
           setIsHide(false);
-          props.setIsInputScreenHide(false);
           resultRecords.current = [];
         }}
       >
@@ -134,11 +130,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
             }`}
             size='18'
           >
-            {Icons.getIconTag(
-              props.isInputScreenHide
-                ? Icons.IconCg.CgMinimize
-                : Icons.Iconai.AiOutlineExpand,
-            )}
+            {Icons.getIconTag(Icons.IconCg.CgMinimize)}
           </Icons.IconContext>
         </Tooltip>
       </Buttons.Button>
@@ -364,8 +356,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           <Form.Toggle
                             value={record.reportable}
                             onChange={reportable => {
-                              resultRecords.current = {
-                                ...resultRecords.current?.map(item => {
+                              console.log({ records: resultRecords.current });
+                              (resultRecords.current =
+                                resultRecords.current?.map(item => {
                                   if (item._id == record?._id) {
                                     return {
                                       ...item,
@@ -373,8 +366,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                     };
                                   }
                                   return item;
-                                }),
-                              };
+                                })),
+                                console.log({ records: resultRecords.current });
                             }}
                           />
                         </div>
@@ -452,6 +445,18 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                   placeholder='Conclusion'
                                   className='text-black'
                                   defaultValue={record?.conclusion}
+                                  onBlur={conclusion => {
+                                    resultRecords.current =
+                                      resultRecords.current?.map(item => {
+                                        if (item._id == record?._id) {
+                                          return {
+                                            ...item,
+                                            conclusion,
+                                          };
+                                        }
+                                        return item;
+                                      });
+                                  }}
                                 />
                               </div>
                             )}
@@ -589,8 +594,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             <Form.Toggle
                               value={record.showRanges}
                               onChange={showRanges => {
-                                resultRecords.current = {
-                                  ...resultRecords.current?.map(item => {
+                                resultRecords.current =
+                                  resultRecords.current?.map(item => {
                                     if (item._id == record?._id) {
                                       return {
                                         ...item,
@@ -598,8 +603,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                                       };
                                     }
                                     return item;
-                                  }),
-                                };
+                                  });
                               }}
                             />
                           </div>

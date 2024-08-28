@@ -251,7 +251,7 @@ export const ModalDocxContent = observer(
                         ></div>
                         <div className='flex  ruler vertical h-[560px]'></div>
                         <div
-                          className='flex absolute mt-12 ml-12 w-full'
+                          className='flex absolute mt-12 ml-12 w-full text-start'
                           id='editorContent'
                         >
                           <JoditEditor
