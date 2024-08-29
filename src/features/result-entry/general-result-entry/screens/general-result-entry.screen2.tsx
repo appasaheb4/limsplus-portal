@@ -168,7 +168,6 @@ const GeneralResultEntry = observer(() => {
             }
             generalResultEntryStore.updateFilterGeneralResEntry({
               ...generalResultEntryStore.filterGeneralResEntry,
-              isSingleLabId: false,
             });
           }}
           onTestStatusFilter={testStatus => {
@@ -192,7 +191,6 @@ const GeneralResultEntry = observer(() => {
             );
             generalResultEntryStore.updateFilterGeneralResEntry({
               ...generalResultEntryStore.filterGeneralResEntry,
-              isSingleLabId: false,
             });
           }}
           onExpand={items => {
@@ -263,9 +261,9 @@ const GeneralResultEntry = observer(() => {
         store={loginStore}
       />
 
-      <div className='mx-auto flex-wrap'>
+      {/* <div className='mx-auto flex-wrap'>
         <FilterInputTable />
-      </div>
+      </div> */}
       <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
       <ModalConfirm
         {...modalConfirm}

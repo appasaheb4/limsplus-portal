@@ -165,7 +165,6 @@ const GeneralResultEntry = observer(() => {
             }
             generalResultEntryStore.updateFilterGeneralResEntry({
               ...generalResultEntryStore.filterGeneralResEntry,
-              isSingleLabId: false,
             });
           }}
           onTestStatusFilter={testStatus => {
@@ -189,7 +188,6 @@ const GeneralResultEntry = observer(() => {
             );
             generalResultEntryStore.updateFilterGeneralResEntry({
               ...generalResultEntryStore.filterGeneralResEntry,
-              isSingleLabId: false,
             });
           }}
           onExpand={items => {
@@ -253,7 +251,24 @@ const GeneralResultEntry = observer(() => {
       />
 
       <div className='mx-auto flex-wrap'>
-        <FilterInputTable />
+        <FilterInputTable
+          data={patientResultStore.distinctPatientResult}
+          onFilter={(filter, type) => {
+            generalResultEntryStore.updateFilterGeneralResEntry({
+              ...generalResultEntryStore.filterGeneralResEntry,
+              ...filter,
+            });
+            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+              {
+                ...filter,
+                finishResult: 'P',
+                panelStatus: 'P',
+                testStatus: 'P',
+              },
+            );
+            console.log({ filter, type });
+          }}
+        />
       </div>
 
       <div className='p-2 rounded-lg shadow-xl'>{tableView}</div>
