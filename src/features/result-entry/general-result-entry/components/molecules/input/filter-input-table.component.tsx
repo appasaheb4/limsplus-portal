@@ -110,6 +110,7 @@ export const FilterInputTable = observer(() => {
                       loader={loading}
                       hasError={!!errors.analyte}
                       placeholder='Search by plab'
+                      disable
                       data={{
                         list: _.uniqBy(
                           patientResultStore.distinctPatientResult?.filter(
@@ -123,35 +124,35 @@ export const FilterInputTable = observer(() => {
                         generalResultEntryStore.filterGeneralResEntry?.pLab ||
                         loginStore.login?.lab
                       }
-                      onFilter={(value: string) => {
-                        patientResultStore.filterDistinctPatientResult(
-                          getFilteredData(
-                            value,
-                            'pLab',
-                            patientResultStore.distinctPatientResultCopy,
-                          ),
-                        );
-                      }}
-                      onSelect={item => {
-                        onChange(item.pLab);
-                        generalResultEntryStore.updateFilterGeneralResEntry({
-                          ...generalResultEntryStore.filterGeneralResEntry,
-                          pLab: item.pLab,
-                          isSingleLabId: false,
-                        });
-                        patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-                          {
-                            ...generalResultEntryStore.filterGeneralResEntry,
-                            pLab: item.pLab,
-                            finishResult: 'P',
-                            panelStatus: 'P',
-                            testStatus: 'P',
-                          },
-                        );
-                        patientResultStore.filterDistinctPatientResult(
-                          patientResultStore.distinctPatientResultCopy,
-                        );
-                      }}
+                      // onFilter={(value: string) => {
+                      //   patientResultStore.filterDistinctPatientResult(
+                      //     getFilteredData(
+                      //       value,
+                      //       'pLab',
+                      //       patientResultStore.distinctPatientResultCopy,
+                      //     ),
+                      //   );
+                      // }}
+                      // onSelect={item => {
+                      //   onChange(item.pLab);
+                      //   generalResultEntryStore.updateFilterGeneralResEntry({
+                      //     ...generalResultEntryStore.filterGeneralResEntry,
+                      //     pLab: item.pLab,
+                      //     isSingleLabId: false,
+                      //   });
+                      //   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+                      //     {
+                      //       ...generalResultEntryStore.filterGeneralResEntry,
+                      //       pLab: item.pLab,
+                      //       finishResult: 'P',
+                      //       panelStatus: 'P',
+                      //       testStatus: 'P',
+                      //     },
+                      //   );
+                      //   patientResultStore.filterDistinctPatientResult(
+                      //     patientResultStore.distinctPatientResultCopy,
+                      //   );
+                      // }}
                     />
                   </div>
                 )}

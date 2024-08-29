@@ -2,11 +2,11 @@ import { stores } from '@/stores';
 const startup = async () => {
   //patient result
   if (stores.loginStore.login) {
+    const pLab = stores.loginStore?.login?.lab;
     // filter for default user plab set
     stores.patientResultStore.patientResultService
-      .getPatientResultDistinct()
+      .getPatientResultDistinct({ input: { filter: { pLab } } })
       .then(res => {
-        const pLab = stores.loginStore?.login?.lab;
         stores.generalResultEntryStore.updateFilterGeneralResEntry({
           ...stores.generalResultEntryStore.filterGeneralResEntry,
           pLab,

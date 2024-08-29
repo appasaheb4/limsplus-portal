@@ -32,7 +32,7 @@ const startup = async () => {
       documentType: 'patientManager',
     },
   );
-  stores.patientResultStore.patientResultService.getPatientResultDistinct();
+  // stores.patientResultStore.patientResultService.getPatientResultDistinct();
 };
 
 export const resetPatientManager = () => {

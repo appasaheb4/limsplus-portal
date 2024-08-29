@@ -359,11 +359,12 @@ export class PatientResultService {
         );
     });
 
-  getPatientResultDistinct = () =>
+  getPatientResultDistinct = variables =>
     new Promise<any>((resolve, reject) => {
       client
-        .query({
-          query: GET_PATIENT_RESULT_DISTINCT,
+        .mutate({
+          mutation: GET_PATIENT_RESULT_DISTINCT,
+          variables,
         })
         .then((response: any) => {
           stores.patientResultStore.updateDistinctPatientResult(response.data);
