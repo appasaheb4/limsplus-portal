@@ -98,8 +98,6 @@ export class PatientResultService {
 
   listPatientResultNotAutoUpdate = (filter, page = 0, limit = 10) =>
     new Promise<any>((resolve, reject) => {
-      console.log({ filter });
-
       client
         .mutate({
           mutation: PATIENT_RESULT_RECORDS,

@@ -1,1 +1,1 @@
-export * from './general-result-entry.screen2';
+export * from './general-result-entry.screen';

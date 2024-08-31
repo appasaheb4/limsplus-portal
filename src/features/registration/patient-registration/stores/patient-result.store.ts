@@ -68,21 +68,11 @@ export class PatientResultStore {
   updatePatientResultNotAutoUpdate(res: any) {
     if (!Array.isArray(res)) {
       if (!res.patientResultRecordsForGRE.success) {
+        this.patientResultListNotAutoUpdate = [];
+        this.patientResultListNotAutoUpdateCount = 0;
         return console.log(res.patientResultRecordsForGRE.message);
       } else {
         const data: any = res.patientResultRecordsForGRE.patientResultList;
-        // data = data.map(item => {
-        //   return {
-        //     ...item,
-        //     testReportOrder: item?.extraData?.testReportOrder,
-        //     analyteReportOrder: item?.extraData?.analyteReportOrder,
-        //   };
-        // });
-        // data = _.sortBy(data, [
-        //   'labId',
-        //   'testReportOrder',
-        //   'analyteReportOrder',
-        // ]);
         this.patientResultListNotAutoUpdate = data;
         this.patientResultListNotAutoUpdateCount =
           res.patientResultRecordsForGRE.paginatorInfo.count;

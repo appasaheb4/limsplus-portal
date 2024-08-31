@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table } from 'reactstrap';
 import {
   AutoCompleteFilterSingleSelectMultiFieldsDisplay,
@@ -18,6 +18,16 @@ interface FilterInputTableProps {
   onFilter: (filter: any, type) => void;
 }
 
+type SelectedValues = {
+  pLab?: string;
+  department: string;
+  testCode: string;
+  testName: string;
+  labId: string;
+  name: string;
+  sampleId: string;
+};
+
 export const FilterInputTable = observer(
   ({ data, onFilter }: FilterInputTableProps) => {
     const {
@@ -27,56 +37,55 @@ export const FilterInputTable = observer(
       generalResultEntryStore,
       appStore,
     } = useStores();
-
     const {
       control,
       formState: { errors },
     } = useForm({ mode: 'all' });
+    const [filterPayload, setFilterPayload] = useState<
+      Partial<DistinctPatientResult>
+    >({});
+    const [selectedValues, setSelectedValues] = useState<
+      Partial<SelectedValues>
+    >({
+      pLab:
+        generalResultEntryStore.filterGeneralResEntry?.pLab ||
+        loginStore.login.lab,
+    });
 
-    const getFilteredData = (searchInput, key, itemList) => {
-      let result = itemList;
+    useEffect(() => {
+      setFilterPayload(data);
+    }, [data]);
+    // console.log({ filterPayload });
+
+    const filterData = (searchInput, key) => {
+      let result = data;
       if (!_.isEmpty(searchInput)) {
-        result = itemList.filter(item => {
-          return item[key]
-            ?.toString()
-            .toLowerCase()
-            .includes(searchInput?.toLowerCase());
+        result = data[key]?.filter(item => {
+          if (key != 'testCodeName') {
+            return item?._id
+              ?.toString()
+              .toLowerCase()
+              .includes(searchInput?.toLowerCase());
+          } else {
+            return (
+              item?._id?.testCode
+                ?.toString()
+                .toLowerCase()
+                .includes(searchInput?.toLowerCase()) ||
+              item?._id?.testName
+                ?.toString()
+                .toLowerCase()
+                .includes(searchInput?.toLowerCase())
+            );
+          }
         });
+      } else {
+        result = data[key];
       }
-      if (result?.length != 0) return result;
-      else {
-        debounce(() => {
-          patientResultStore.patientResultService
-            .filterByFields({
-              input: {
-                filter: {
-                  fields: [key],
-                  srText: searchInput,
-                },
-              },
-            })
-            .then(res => {
-              if (
-                res.filterByFieldsPatientResult?.patientResultList?.length == 0
-              ) {
-                Toast.error({
-                  message: '😊 Record not found',
-                });
-                return;
-              } else {
-                patientResultStore.updateDistinctPatientResult(
-                  {
-                    getPatientResultDistinct: {
-                      patientResultList:
-                        res.filterByFieldsPatientResult?.patientResultList,
-                    },
-                  },
-                  false,
-                );
-              }
-            });
-        });
-      }
+      setFilterPayload({
+        ...filterPayload,
+        [key]: result,
+      });
     };
 
     return (
@@ -99,11 +108,12 @@ export const FilterInputTable = observer(
               <th className='text-white z-0' style={{ width: '50px' }}>
                 LabId
               </th>
-              <th className='text-white z-0' style={{ width: '100px' }}>
-                Sample Id
-              </th>
+
               <th className='text-white z-0' style={{ width: '100px' }}>
                 Patient Name
+              </th>
+              <th className='text-white z-0' style={{ width: '100px' }}>
+                Sample Id
               </th>
               <th className='text-white z-0' style={{ width: '10px' }}>
                 Clear
@@ -123,38 +133,7 @@ export const FilterInputTable = observer(
                         placeholder='Search by plab'
                         disable
                         data={[]}
-                        displayValue={
-                          generalResultEntryStore.filterGeneralResEntry?.pLab ||
-                          loginStore.login?.lab
-                        }
-                        // onFilter={(value: string) => {
-                        //   patientResultStore.filterDistinctPatientResult(
-                        //     getFilteredData(
-                        //       value,
-                        //       'pLab',
-                        //       patientResultStore.distinctPatientResultCopy,
-                        //     ),
-                        //   );
-                        // }}
-                        // onSelect={item => {
-                        //   onChange(item.pLab);
-                        //   generalResultEntryStore.updateFilterGeneralResEntry({
-                        //     ...generalResultEntryStore.filterGeneralResEntry,
-                        //     pLab: item.pLab,
-                        //   });
-                        //   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-                        //     {
-                        //       ...generalResultEntryStore.filterGeneralResEntry,
-                        //       pLab: item.pLab,
-                        //       finishResult: 'P',
-                        //       panelStatus: 'P',
-                        //       testStatus: 'P',
-                        //     },
-                        //   );
-                        //   patientResultStore.filterDistinctPatientResult(
-                        //     patientResultStore.distinctPatientResultCopy,
-                        //   );
-                        // }}
+                        displayValue={selectedValues?.pLab || ''}
                       />
                     </div>
                   )}
@@ -174,23 +153,18 @@ export const FilterInputTable = observer(
                         hasError={!!errors.analyte}
                         placeholder='Search by department'
                         data={{
-                          list: data?.department,
+                          list: filterPayload?.department,
                           displayKey: ['_id'],
                         }}
-                        // displayValue={
-                        //   generalResultEntryStore.filterGeneralResEntry
-                        //     ?.departement
-                        // }
-                        // onFilter={(value: string) => {
-                        //   patientResultStore.filterDistinctPatientResult(
-                        //     getFilteredData(
-                        //       value,
-                        //       'departement',
-                        //       patientResultStore.distinctPatientResultCopy,
-                        //     ),
-                        //   );
-                        // }}
+                        displayValue={selectedValues?.department || ''}
+                        onFilter={(value: string) => {
+                          filterData(value, 'department');
+                        }}
                         onSelect={item => {
+                          setSelectedValues({
+                            ...selectedValues,
+                            department: item?._id,
+                          });
                           onChange(item._id);
                           onFilter(
                             {
@@ -201,14 +175,23 @@ export const FilterInputTable = observer(
                           patientResultStore.filterDistinctPatientResult(
                             patientResultStore.distinctPatientResultCopy,
                           );
+                          (function (n) {
+                            setTimeout(() => {
+                              setFilterPayload(n);
+                            }, 1400);
+                          })({
+                            ...item,
+                            department: [{ _id: item?._id }],
+                            sampleId: data?.sampleId,
+                          });
                         }}
                       />
                     )}
                     name='department'
                     rules={{ required: false }}
-                    defaultValue={data?.department}
+                    defaultValue={filterPayload?.department}
                   />
-                  <Icons.IconContext
+                  {/* <Icons.IconContext
                     color={
                       appStore.applicationSetting.theme != 'dark'
                         ? '#000000'
@@ -228,7 +211,7 @@ export const FilterInputTable = observer(
                     }}
                   >
                     <Icons.Iconai.AiFillCloseCircle />
-                  </Icons.IconContext>
+                  </Icons.IconContext> */}
                 </div>
               </td>
               <td>
@@ -239,31 +222,35 @@ export const FilterInputTable = observer(
                       <AutoCompleteFilterSingleSelectMultiFieldsDisplay
                         loader={loading}
                         hasError={!!errors.testCode}
-                        placeholder='Search by code '
+                        placeholder='Search by code'
                         displayValue={
-                          generalResultEntryStore.filterGeneralResEntry?.testCode?.toString() ||
-                          ''
+                          selectedValues?.testCode
+                            ? selectedValues?.testCode +
+                              '-' +
+                              selectedValues?.testName
+                            : ''
                         }
                         data={{
-                          list: data?.testCodeName?.map((item: any) => {
-                            return {
-                              ...item,
-                              testCode: item?._id?.testCode,
-                              testName: item._id?.testName,
-                            };
-                          }),
+                          list: filterPayload?.testCodeName?.map(
+                            (item: any) => {
+                              return {
+                                ...item,
+                                testCode: item?._id?.testCode,
+                                testName: item._id?.testName,
+                              };
+                            },
+                          ),
                           displayKey: ['testCode', 'testName'],
                         }}
-                        // onFilter={(value: string) => {
-                        //   patientResultStore.filterDistinctPatientResult(
-                        //     getFilteredData(
-                        //       value,
-                        //       'testCode',
-                        //       patientResultStore.distinctPatientResultCopy,
-                        //     ),
-                        //   );
-                        // }}
+                        onFilter={(value: string) => {
+                          filterData(value, 'testCodeName');
+                        }}
                         onSelect={item => {
+                          setSelectedValues({
+                            ...selectedValues,
+                            testCode: item?.testCode,
+                            testName: item?.testName,
+                          });
                           onChange(item.testCode);
                           onFilter(
                             {
@@ -274,14 +261,23 @@ export const FilterInputTable = observer(
                           patientResultStore.filterDistinctPatientResult(
                             patientResultStore.distinctPatientResultCopy,
                           );
+                          (function (n) {
+                            setTimeout(() => {
+                              setFilterPayload(n);
+                            }, 1400);
+                          })({
+                            ...item,
+                            testCodeName: [{ _id: item?._id }],
+                            sampleId: data?.sampleId,
+                          });
                         }}
                       />
                     )}
                     name='testCode'
                     rules={{ required: true }}
-                    defaultValue={data?.testCodeName}
+                    defaultValue={filterPayload?.testCodeName}
                   />
-                  <Icons.IconContext
+                  {/* <Icons.IconContext
                     color={
                       appStore.applicationSetting.theme != 'dark'
                         ? '#000000'
@@ -301,7 +297,7 @@ export const FilterInputTable = observer(
                     }}
                   >
                     <Icons.Iconai.AiFillCloseCircle />
-                  </Icons.IconContext>
+                  </Icons.IconContext> */}
                 </div>
               </td>
 
@@ -316,20 +312,18 @@ export const FilterInputTable = observer(
                         keyboard='number'
                         placeholder='Search by labId'
                         data={{
-                          list: data?.labId,
+                          list: filterPayload?.labId,
                           displayKey: ['_id'],
                         }}
-                        displayValue={generalResultEntryStore.filterGeneralResEntry?.labId?.toString()}
-                        // onFilter={(value: string) => {
-                        //   patientResultStore.filterDistinctPatientResult(
-                        //     getFilteredData(
-                        //       value,
-                        //       'labId',
-                        //       patientResultStore.distinctPatientResultCopy,
-                        //     ),
-                        //   );
-                        // }}
+                        displayValue={selectedValues?.labId || ''}
+                        onFilter={(value: string) => {
+                          filterData(value, 'labId');
+                        }}
                         onSelect={item => {
+                          setSelectedValues({
+                            ...selectedValues,
+                            labId: item?._id?.toString(),
+                          });
                           onChange(item?._id);
                           onFilter(
                             {
@@ -340,14 +334,23 @@ export const FilterInputTable = observer(
                           patientResultStore.filterDistinctPatientResult(
                             patientResultStore.distinctPatientResultCopy,
                           );
+                          (function (n) {
+                            setTimeout(() => {
+                              setFilterPayload(n);
+                            }, 1400);
+                          })({
+                            ...item,
+                            labId: [{ _id: item?._id }],
+                            sampleId: data?.sampleId,
+                          });
                         }}
                       />
                     )}
                     name='labId'
                     rules={{ required: true }}
-                    defaultValue={data?.labId}
+                    defaultValue={filterPayload?.labId}
                   />
-                  <Icons.IconContext
+                  {/* <Icons.IconContext
                     color={
                       appStore.applicationSetting.theme != 'dark'
                         ? '#000000'
@@ -367,8 +370,59 @@ export const FilterInputTable = observer(
                     }}
                   >
                     <Icons.Iconai.AiFillCloseCircle />
-                  </Icons.IconContext>
+                  </Icons.IconContext> */}
                 </div>
+              </td>
+
+              <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      hasError={!!errors.patientName}
+                      placeholder='Search by patient name'
+                      data={{
+                        list: filterPayload?.name,
+                        displayKey: ['_id'],
+                      }}
+                      displayValue={selectedValues?.name || ''}
+                      onFilter={(value: string) => {
+                        filterData(value, 'name');
+                      }}
+                      onSelect={item => {
+                        setSelectedValues({
+                          ...selectedValues,
+                          name: item?._id,
+                        });
+                        onChange(item?._id);
+                        onFilter(
+                          {
+                            name: item?._id,
+                          },
+                          'name',
+                        );
+                        patientResultStore.filterDistinctPatientResult(
+                          patientResultStore.distinctPatientResultCopy,
+                        );
+                        console.log({ item });
+
+                        (function (n) {
+                          setTimeout(() => {
+                            setFilterPayload(n);
+                          }, 1400);
+                        })({
+                          ...item,
+                          name: [{ _id: item?._id }],
+                          sampleId: data?.sampleId,
+                        });
+                      }}
+                    />
+                  )}
+                  name='patientName'
+                  rules={{ required: false }}
+                  defaultValue={filterPayload?.name}
+                />
               </td>
               <td title='sampleId'>
                 <div className='flex flex-row items-center gap-2'>
@@ -381,20 +435,18 @@ export const FilterInputTable = observer(
                         keyboard='number'
                         placeholder='Search by sample id'
                         data={{
-                          list: data?.sampleId,
+                          list: filterPayload?.sampleId,
                           displayKey: ['_id'],
                         }}
-                        displayValue={generalResultEntryStore.filterGeneralResEntry?.labId?.toString()}
-                        // onFilter={(value: string) => {
-                        //   patientResultStore.filterDistinctPatientResult(
-                        //     getFilteredData(
-                        //       value,
-                        //       'sampleId',
-                        //       patientResultStore.distinctPatientResultCopy,
-                        //     ),
-                        //   );
-                        // }}
+                        displayValue={selectedValues?.sampleId || ''}
+                        onFilter={(value: string) => {
+                          filterData(value, 'sampleId');
+                        }}
                         onSelect={item => {
+                          setSelectedValues({
+                            ...selectedValues,
+                            sampleId: item?._id,
+                          });
                           onChange(item?._id);
                           onFilter(
                             {
@@ -410,9 +462,9 @@ export const FilterInputTable = observer(
                     )}
                     name='sampleId'
                     rules={{ required: true }}
-                    defaultValue={data?.sampleId}
+                    defaultValue={filterPayload?.sampleId}
                   />
-                  <Icons.IconContext
+                  {/* <Icons.IconContext
                     color={
                       appStore.applicationSetting.theme != 'dark'
                         ? '#000000'
@@ -432,49 +484,8 @@ export const FilterInputTable = observer(
                     }}
                   >
                     <Icons.Iconai.AiFillCloseCircle />
-                  </Icons.IconContext>
+                  </Icons.IconContext> */}
                 </div>
-              </td>
-              <td>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      hasError={!!errors.patientName}
-                      placeholder='Search by patient name'
-                      data={{
-                        list: data?.name,
-                        displayKey: ['_id'],
-                      }}
-                      displayValue={generalResultEntryStore.filterGeneralResEntry?.name?.toString()}
-                      // onFilter={(value: string) => {
-                      //   patientResultStore.filterDistinctPatientResult(
-                      //     getFilteredData(
-                      //       value,
-                      //       'name',
-                      //       patientResultStore.distinctPatientResultCopy,
-                      //     ),
-                      //   );
-                      // }}
-                      onSelect={item => {
-                        onChange(item?._id);
-                        onFilter(
-                          {
-                            name: item?._id,
-                          },
-                          'name',
-                        );
-                        patientResultStore.filterDistinctPatientResult(
-                          patientResultStore.distinctPatientResultCopy,
-                        );
-                      }}
-                    />
-                  )}
-                  name='patientName'
-                  rules={{ required: false }}
-                  defaultValue={data?.name}
-                />
               </td>
               <td>
                 <Icons.IconContext
@@ -498,6 +509,8 @@ export const FilterInputTable = observer(
                       },
                       'all',
                     );
+                    setSelectedValues({});
+                    setFilterPayload(data);
                   }}
                 >
                   <Icons.Iconai.AiFillCloseCircle />

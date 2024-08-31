@@ -14,11 +14,13 @@ import {
   getAbnFlag,
   getCretical,
 } from '../../../utils';
+import { tabs } from '../../../screens';
 
 interface GeneralResultEntryListProps {
   data: any;
   totalSize: number;
   selectedId?: string;
+  tabSelected: tabs;
   isView?: boolean;
   isDelete?: boolean;
   isUpdate?: boolean;
@@ -35,6 +37,7 @@ interface GeneralResultEntryListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onTabSelected: (type: tabs) => void;
   onFilterFinishResult?: (code: string) => void;
   onTestStatusFilter?: (code: string) => void;
   onExpand?: (items: any) => void;
@@ -48,7 +51,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [refRangeRowId, setRefRangeRowId] = useState<string>('');
   const [selectedRowId, setSelectedRowId] = useState<string>('');
   const [isHide, setIsHide] = useState<boolean>(false);
-  const [tabSelected, setTabSelected] = useState('Pending');
   const arrFinishRecord = useRef<Array<string>>([]);
   const [reload, setReload] = useState(false);
 
@@ -56,6 +58,9 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const distinctRecords = props?.data?.map(item => {
     return { ...item?.result[0], count: item?.count };
   });
+
+  // useEffect(()=>{
+  // },[props?.tabSelected])
 
   useEffect(() => {
     setIsHide(false);
@@ -156,12 +161,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           <li key={index}>
             <div
               className={`inline-flex items-center justify-center p-2 border-b-2 gap-1 ${
-                item.value === tabSelected
+                item.value === props?.tabSelected
                   ? 'dark:border-white active border-blue-800 text-blue-800'
                   : 'border-transparent hover:text-[#27A4FE] hover:border-gray-300 '
               }   `}
               onClick={() => {
-                setTabSelected(item.value);
+                props.onTabSelected(item.value as tabs);
                 props.onFilterFinishResult &&
                   props.onFilterFinishResult(item.code);
               }}
@@ -784,7 +789,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         >
           <div
             className={`flex justify-around items-center py-2 ${
-              tabSelected == 'Done' ? 'ml-4' : 'ml-0'
+              props.tabSelected == 'Done' ? 'ml-4' : 'ml-0'
             }`}
           >
             <div className='flex text-center' style={{ width: '250px' }}>
@@ -823,7 +828,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               } cursor-pointer ${isHide ? 'hidden' : 'shown'}`}
               key={record._id}
             >
-              {tabSelected == 'Done' && (
+              {props.tabSelected == 'Done' && (
                 <div className='flex bg-[#6A727F] w-6 p-1 items-center justify-center'>
                   <input
                     className='flex w-6 h-6'
@@ -950,7 +955,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               </div>
             </div>
           ))}
-          {tabSelected == 'Done' && (
+          {props.tabSelected == 'Done' && (
             <div className='flex p-2'>
               <button
                 className='bg-blue-800 rounded-md p-2'
@@ -958,7 +963,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   if (arrFinishRecord.current?.length > 0) {
                     props.onFinishResult &&
                       props.onFinishResult(arrFinishRecord.current);
-                    setTabSelected('Pending');
+                    props.onTabSelected('Pending');
                   } else {
                     Toast.error({
                       message: 'Please select any one record',

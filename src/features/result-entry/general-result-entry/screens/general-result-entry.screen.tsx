@@ -9,6 +9,8 @@ import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
+export type tabs = 'Pending' | 'Done';
+
 const GeneralResultEntry = observer(() => {
   const {
     loginStore,
@@ -19,6 +21,7 @@ const GeneralResultEntry = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);
   const [selectId, setSelectId] = useState('');
+  const [tabSelected, setTabSelected] = useState<tabs>('Pending');
   const [modalPatientDemographics, setModalPatientDemographics] = useState<any>(
     { show: false },
   );
@@ -34,6 +37,7 @@ const GeneralResultEntry = observer(() => {
               },
             ) || []
           }
+          tabSelected={tabSelected}
           totalSize={patientResultStore.patientResultListNotAutoUpdateCount}
           selectedId={selectId}
           isView={RouterFlow.checkPermission(
@@ -122,12 +126,6 @@ const GeneralResultEntry = observer(() => {
                 },
               );
             } else if (finishResult === 'D') {
-              // patientResultStore.patientResultService.listPatientResultNotFinished(
-              //   {
-              //     ...generalResultEntryStore.filterGeneralResEntry,
-              //     isAll: false,
-              //   },
-              // );
               patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
                   pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
@@ -211,6 +209,9 @@ const GeneralResultEntry = observer(() => {
               limit,
             );
           }}
+          onTabSelected={(tab: tabs) => {
+            setTabSelected(tab);
+          }}
           // isInputScreenHide={isInputScreenHide}
           // setIsInputScreenHide={setIsInputScreenHide}
         />
@@ -253,20 +254,37 @@ const GeneralResultEntry = observer(() => {
       <div className='mx-auto flex-wrap'>
         <FilterInputTable
           data={patientResultStore.distinctPatientResult}
-          onFilter={(filter, type) => {
+          onFilter={(filter, filterType) => {
             generalResultEntryStore.updateFilterGeneralResEntry({
               ...generalResultEntryStore.filterGeneralResEntry,
               ...filter,
             });
-            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-              {
+            let input: object = {};
+            if (tabSelected == 'Pending') {
+              input = {
+                ...generalResultEntryStore.filterGeneralResEntry,
                 ...filter,
+                filterType,
                 finishResult: 'P',
                 panelStatus: 'P',
                 testStatus: 'P',
+              };
+            } else {
+              input = {
+                ...generalResultEntryStore.filterGeneralResEntry,
+                ...filter,
+                filterType,
+                finishResult: { $nin: ['D', 'RC', 'RT'] },
+                panelStatus: { $ne: 'P' },
+                testStatus: { $ne: 'P' },
+                resultStatus: { $ne: 'P' },
+              };
+            }
+            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+              {
+                ...input,
               },
             );
-            console.log({ filter, type });
           }}
         />
       </div>
