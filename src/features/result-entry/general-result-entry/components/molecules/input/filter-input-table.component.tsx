@@ -55,6 +55,7 @@ export const FilterInputTable = observer(
     useEffect(() => {
       setFilterPayload(data);
     }, [data]);
+
     // console.log({ filterPayload });
 
     const filterData = (searchInput, key) => {
@@ -105,12 +106,12 @@ export const FilterInputTable = observer(
               <th className='text-white z-0' style={{ width: '100px' }}>
                 Test Code / Name
               </th>
-              <th className='text-white z-0' style={{ width: '50px' }}>
-                LabId
-              </th>
 
               <th className='text-white z-0' style={{ width: '100px' }}>
                 Patient Name
+              </th>
+              <th className='text-white z-0' style={{ width: '50px' }}>
+                LabId
               </th>
               <th className='text-white z-0' style={{ width: '100px' }}>
                 Sample Id
@@ -153,7 +154,7 @@ export const FilterInputTable = observer(
                         hasError={!!errors.analyte}
                         placeholder='Search by department'
                         data={{
-                          list: filterPayload?.department,
+                          list: _.uniqBy(filterPayload?.department, '_id'),
                           displayKey: ['_id'],
                         }}
                         displayValue={selectedValues?.department || ''}
@@ -175,12 +176,26 @@ export const FilterInputTable = observer(
                           patientResultStore.filterDistinctPatientResult(
                             patientResultStore.distinctPatientResultCopy,
                           );
-                          (function (n) {
+                          console.log({
+                            department: data?.department?.filter(
+                              (e: any) => e?._id == item?._id,
+                            ),
+                            name: data?.name?.filter(
+                              (e: any) => e?._id == selectedValues?.name,
+                            ),
+                            testCodeName: data?.testCodeName?.filter(
+                              (e: any) =>
+                                e?._id?.testCode == selectedValues?.testCode,
+                            ),
+                          });
+                          (function (n: any) {
                             setTimeout(() => {
                               setFilterPayload(n);
                             }, 1400);
                           })({
-                            ...item,
+                            ...filterPayload?.department?.find(
+                              e => e?._id == item?._id,
+                            ),
                             department: [{ _id: item?._id }],
                             sampleId: data?.sampleId,
                           });
@@ -231,14 +246,15 @@ export const FilterInputTable = observer(
                             : ''
                         }
                         data={{
-                          list: filterPayload?.testCodeName?.map(
-                            (item: any) => {
+                          list: _.uniqBy(
+                            filterPayload?.testCodeName?.map((item: any) => {
                               return {
                                 ...item,
                                 testCode: item?._id?.testCode,
                                 testName: item._id?.testName,
                               };
-                            },
+                            }),
+                            'testCode',
                           ),
                           displayKey: ['testCode', 'testName'],
                         }}
@@ -261,12 +277,15 @@ export const FilterInputTable = observer(
                           patientResultStore.filterDistinctPatientResult(
                             patientResultStore.distinctPatientResultCopy,
                           );
-                          (function (n) {
+
+                          (function (n: any) {
                             setTimeout(() => {
                               setFilterPayload(n);
                             }, 1400);
                           })({
-                            ...item,
+                            ...filterPayload?.testCodeName?.find(
+                              (e: any) => e?._id?.testCode == item?.testCode,
+                            ),
                             testCodeName: [{ _id: item?._id }],
                             sampleId: data?.sampleId,
                           });
@@ -302,6 +321,69 @@ export const FilterInputTable = observer(
               </td>
 
               <td>
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
+                      loader={loading}
+                      hasError={!!errors.patientName}
+                      placeholder='Search by patient name'
+                      data={{
+                        list: _.uniqBy(filterPayload?.name, '_id'),
+                        displayKey: ['_id'],
+                      }}
+                      displayValue={selectedValues?.name || ''}
+                      onFilter={(value: string) => {
+                        filterData(value, 'name');
+                      }}
+                      onSelect={item => {
+                        setSelectedValues({
+                          ...selectedValues,
+                          name: item?._id,
+                        });
+                        onChange(item?._id);
+                        onFilter(
+                          {
+                            name: item?._id,
+                          },
+                          'name',
+                        );
+                        patientResultStore.filterDistinctPatientResult(
+                          patientResultStore.distinctPatientResultCopy,
+                        );
+                        console.log({
+                          name: data?.name?.filter(
+                            (e: any) => e?._id == item?._id,
+                          ),
+                          department: data?.department?.filter(
+                            (e: any) => e?._id == selectedValues?.department,
+                          ),
+                          testCodeName: data?.testCodeName?.filter(
+                            (e: any) =>
+                              e?._id?.testCode == selectedValues?.testCode,
+                          ),
+                        });
+
+                        (function (n: any) {
+                          setTimeout(() => {
+                            setFilterPayload(n);
+                          }, 1400);
+                        })({
+                          ...filterPayload?.name?.find(
+                            e => e?._id == item?._id,
+                          ),
+                          name: [{ _id: item?._id }],
+                          sampleId: data?.sampleId,
+                        });
+                      }}
+                    />
+                  )}
+                  name='patientName'
+                  rules={{ required: false }}
+                  defaultValue={filterPayload?.name}
+                />
+              </td>
+              <td>
                 <div className='flex flex-row items-center gap-2'>
                   <Controller
                     control={control}
@@ -312,7 +394,7 @@ export const FilterInputTable = observer(
                         keyboard='number'
                         placeholder='Search by labId'
                         data={{
-                          list: filterPayload?.labId,
+                          list: _.uniqBy(filterPayload?.labId, '_id'),
                           displayKey: ['_id'],
                         }}
                         displayValue={selectedValues?.labId || ''}
@@ -334,12 +416,15 @@ export const FilterInputTable = observer(
                           patientResultStore.filterDistinctPatientResult(
                             patientResultStore.distinctPatientResultCopy,
                           );
-                          (function (n) {
+
+                          (function (n: any) {
                             setTimeout(() => {
                               setFilterPayload(n);
                             }, 1400);
                           })({
-                            ...item,
+                            ...filterPayload?.labId?.find(
+                              e => e?._id == item?._id,
+                            ),
                             labId: [{ _id: item?._id }],
                             sampleId: data?.sampleId,
                           });
@@ -374,56 +459,6 @@ export const FilterInputTable = observer(
                 </div>
               </td>
 
-              <td>
-                <Controller
-                  control={control}
-                  render={({ field: { onChange, value } }) => (
-                    <AutoCompleteFilterSingleSelectMultiFieldsDisplay
-                      loader={loading}
-                      hasError={!!errors.patientName}
-                      placeholder='Search by patient name'
-                      data={{
-                        list: filterPayload?.name,
-                        displayKey: ['_id'],
-                      }}
-                      displayValue={selectedValues?.name || ''}
-                      onFilter={(value: string) => {
-                        filterData(value, 'name');
-                      }}
-                      onSelect={item => {
-                        setSelectedValues({
-                          ...selectedValues,
-                          name: item?._id,
-                        });
-                        onChange(item?._id);
-                        onFilter(
-                          {
-                            name: item?._id,
-                          },
-                          'name',
-                        );
-                        patientResultStore.filterDistinctPatientResult(
-                          patientResultStore.distinctPatientResultCopy,
-                        );
-                        console.log({ item });
-
-                        (function (n) {
-                          setTimeout(() => {
-                            setFilterPayload(n);
-                          }, 1400);
-                        })({
-                          ...item,
-                          name: [{ _id: item?._id }],
-                          sampleId: data?.sampleId,
-                        });
-                      }}
-                    />
-                  )}
-                  name='patientName'
-                  rules={{ required: false }}
-                  defaultValue={filterPayload?.name}
-                />
-              </td>
               <td title='sampleId'>
                 <div className='flex flex-row items-center gap-2'>
                   <Controller
@@ -435,7 +470,7 @@ export const FilterInputTable = observer(
                         keyboard='number'
                         placeholder='Search by sample id'
                         data={{
-                          list: filterPayload?.sampleId,
+                          list: _.uniqBy(filterPayload?.sampleId, '_id'),
                           displayKey: ['_id'],
                         }}
                         displayValue={selectedValues?.sampleId || ''}
@@ -454,6 +489,7 @@ export const FilterInputTable = observer(
                             },
                             'sampleId',
                           );
+                          setSelectedValues({ sampleId: item?._id });
                           patientResultStore.filterDistinctPatientResult(
                             patientResultStore.distinctPatientResultCopy,
                           );

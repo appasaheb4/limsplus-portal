@@ -18,7 +18,8 @@
     "build-storybook": "build-storybook -s public",
     "dockerizeImage": "docker-compose build --no-cache",
     "prepare": "husky install",
-    "sonar": "node sonarqube-scanner.js"
+    "sonar": "node sonarqube-scanner.js",
+    "swa": "swa deploy --env=production"
   },
   "dependencies": {
     "@apollo/client": "3.4.11",

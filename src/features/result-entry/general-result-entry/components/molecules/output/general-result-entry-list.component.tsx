@@ -256,6 +256,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                             padding: '5px',
                             height: '47px',
                           }}
+                          // style={rowStyle(record)}
                         >
                           <span
                             title={`${record.analyteCode} - ${record.analyteName}`}
