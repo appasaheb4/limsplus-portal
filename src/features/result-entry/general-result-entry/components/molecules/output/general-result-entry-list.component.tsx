@@ -15,6 +15,7 @@ import {
   getCretical,
 } from '../../../utils';
 import { tabs } from '../../../screens';
+import { ModalConfirm } from 'react-restyle-components';
 
 interface GeneralResultEntryListProps {
   data: any;
@@ -53,6 +54,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const [isHide, setIsHide] = useState<boolean>(false);
   const arrFinishRecord = useRef<Array<string>>([]);
   const [reload, setReload] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState<any>();
 
   // eslint-disable-next-line unicorn/no-array-reduce
   const distinctRecords = props?.data?.map(item => {
@@ -95,7 +97,15 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
 
   const testStatus: Array<any> = [];
   const handleRowClick = index => {
-    resultRecords.current = props.data[index]?.result;
+    // resultRecords.current = props.data[index]?.result;
+    console.log({
+      data: props.data[index]?.result?.sort((a, b) =>
+        (a?.resultOrder || '') > (b?.resultOrder || '') ? 1 : -1,
+      ),
+    });
+    resultRecords.current = props.data[index]?.result?.sort((a, b) =>
+      (a?.resultOrder || '') > (b?.resultOrder || '') ? 1 : -1,
+    );
     // setExpandedRow(prevState => {
     //   if (prevState.rowIndex === index) {
     //     return { rowIndex: null, data: [] };
@@ -116,8 +126,19 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         size='medium'
         type='outline'
         onClick={() => {
-          setIsHide(false);
-          resultRecords.current = [];
+          if (props?.tabSelected == 'Pending') {
+            setModalConfirm({
+              visible: true,
+              type: 'confirm',
+              title: 'Are you sure?',
+              message: 'Do you want to exist without save result?',
+              submitTitle: 'Yes',
+              closeTitle: 'No',
+            });
+          } else {
+            setIsHide(false);
+            resultRecords.current = [];
+          }
         }}
       >
         <Tooltip
@@ -249,12 +270,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       {resultRecords.current?.map((record, subIndex) => (
                         <div
                           key={subIndex}
-                          className='text-gray-700 text-center  text-sm cursor-pointer'
+                          className='text-center text-sm cursor-pointer'
                           style={{
                             width: '250px',
-                            backgroundColor: '#fff',
                             padding: '5px',
                             height: '47px',
+                            ...rowStyle(record),
                           }}
                           // style={rowStyle(record)}
                         >
@@ -284,12 +305,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       {resultRecords.current?.map((record, subIndex) => (
                         <div
                           key={subIndex}
-                          className='text-gray-700 text-center  text-sm cursor-pointer'
+                          className='text-center  text-sm cursor-pointer'
                           style={{
                             width: '150px',
-                            backgroundColor: '#fff',
                             padding: '5px',
                             height: '47px',
+                            ...rowStyle(record),
                           }}
                         >
                           <Form.Toggle
@@ -325,12 +346,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       {resultRecords.current?.map((record, subIndex) => (
                         <div
                           key={subIndex}
-                          className='text-gray-700 text-center  text-sm cursor-pointer'
+                          className='text-center  text-sm cursor-pointer'
                           style={{
                             width: '150px',
-                            backgroundColor: '#fff',
                             padding: '5px',
                             height: '47px',
+                            ...rowStyle(record),
                           }}
                         >
                           <span title={record.result}>
@@ -354,7 +375,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                               />
                             ) : (
                               <span
-                                className='flex bg-red'
+                                className='flex'
                                 style={{ fontWeight: 'bold' }}
                               >
                                 {record.result}
@@ -379,12 +400,12 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                       {resultRecords.current?.map((record, subIndex) => (
                         <div
                           key={subIndex}
-                          className='text-gray-700 text-center  text-sm cursor-pointer'
+                          className=' text-center  text-sm cursor-pointer'
                           style={{
                             width: '150px',
-                            backgroundColor: '#fff',
                             padding: '5px',
                             height: '47px',
+                            ...rowStyle(record),
                           }}
                         >
                           <div className='flex items-center justify-end flex-col bg-white relative'>
@@ -551,9 +572,13 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                     </div>
 
                     {resultRecords.current?.map((record, subIndex) => (
-                      <div key={subIndex} className='flex'>
+                      <div
+                        key={subIndex}
+                        className='flex'
+                        style={{ ...rowStyle(record) }}
+                      >
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-center '
                           style={{ width: '150px' }}
                         >
                           <span title={record.units}>
@@ -561,7 +586,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           </span>
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-center'
                           style={{ width: refRangeRowId ? '550px' : '220px' }}
                         >
                           <div className='flex items-center justify-center gap-2'>
@@ -639,7 +664,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                         </div>
 
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-center '
                           style={{ width: '150px' }}
                         >
                           <Form.Toggle
@@ -649,7 +674,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-center '
                           style={{ width: '150px' }}
                         >
                           <Form.Toggle
@@ -658,7 +683,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-center '
                           style={{ width: '150px' }}
                         >
                           <Form.Toggle
@@ -667,7 +692,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-center '
                           style={{ width: '150px' }}
                         >
                           <Form.Toggle
@@ -687,7 +712,7 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                           />
                         </div>
                         <div
-                          className='flex-none text-center text-gray-700'
+                          className='flex-none text-center '
                           style={{ width: '150px' }}
                         >
                           <span title={record.resultStatus}>
@@ -708,6 +733,17 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
               <div className='flex justify-start gap-2 mt-1'>
                 <button
                   className='py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                  // disabled={
+                  //   resultRecords.current
+                  //     ?.map(item => {
+                  //       if (item?.result && !_.isEmpty(item.result))
+                  //         return true;
+                  //       else false;
+                  //     })
+                  //     ?.filter(item => !item)?.length == 0
+                  //     ? false
+                  //     : true
+                  // }
                   onClick={() => {
                     if (
                       resultRecords.current &&
@@ -862,7 +898,6 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
                   />
                 </div>
               )}
-
               <div
                 className='flex w-full justify-around items-center py-2  border-b text-sm'
                 onClick={() => {
@@ -959,7 +994,8 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
           {props.tabSelected == 'Done' && (
             <div className='flex p-2'>
               <button
-                className='bg-blue-800 rounded-md p-2'
+                className='bg-blue-800 rounded-md p-2  disabled:opacity-50'
+                disabled={arrFinishRecord.current?.length > 0 ? false : true}
                 onClick={() => {
                   if (arrFinishRecord.current?.length > 0) {
                     props.onFinishResult &&
@@ -991,6 +1027,17 @@ export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
         {renderDataRows()}
         <div className='relative z-0'>{renderResultEnter()}</div>
       </div>
+      <ModalConfirm
+        {...modalConfirm}
+        onClick={() => {
+          setIsHide(false);
+          resultRecords.current = [];
+          setModalConfirm({ visible: false });
+        }}
+        onClose={() => {
+          setModalConfirm({ visible: false });
+        }}
+      />
     </div>
   );
 };

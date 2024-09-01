@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { observer } from 'mobx-react';
 import _ from 'lodash';
 import { Toast, ModalConfirm, MainPageHeading } from '@/library/components';
@@ -107,7 +107,7 @@ const GeneralResultEntry = observer(() => {
                   });
                   patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                     {
-                      pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
+                      ...generalResultEntryStore.filterGeneralResEntry,
                       finishResult: 'P',
                       panelStatus: 'P',
                       testStatus: 'P',
@@ -220,6 +220,35 @@ const GeneralResultEntry = observer(() => {
     [patientResultStore.patientResultListNotAutoUpdate, tableReload, selectId],
   );
 
+  useEffect(() => {
+    let input: object = {};
+    if (tabSelected == 'Pending') {
+      input = {
+        pLab: loginStore?.login?.lab,
+        finishResult: 'P',
+        panelStatus: 'P',
+        testStatus: 'P',
+      };
+    } else {
+      input = {
+        pLab: loginStore?.login?.lab,
+        finishResult: { $nin: ['D', 'RC', 'RT'] },
+        panelStatus: { $ne: 'P' },
+        testStatus: { $ne: 'P' },
+        resultStatus: { $ne: 'P' },
+      };
+    }
+    patientResultStore.patientResultService
+      .getPatientResultDistinct({
+        input: {
+          filter: {
+            ...input,
+          },
+        },
+      })
+      .then(res => {});
+  }, [tabSelected]);
+
   const resultUpdateBatch = payload => {
     patientResultStore.patientResultService
       .updateBatchRecords({
@@ -233,7 +262,7 @@ const GeneralResultEntry = observer(() => {
           });
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
-              pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
+              ...generalResultEntryStore.filterGeneralResEntry,
               finishResult: 'P',
               panelStatus: 'P',
               testStatus: 'P',

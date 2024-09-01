@@ -4,22 +4,18 @@ const startup = async () => {
   if (stores.loginStore.login) {
     const pLab = stores.loginStore?.login?.lab;
     // filter for default user plab set
-    stores.patientResultStore.patientResultService
-      .getPatientResultDistinct({ input: { filter: { pLab } } })
-      .then(res => {
-        stores.generalResultEntryStore.updateFilterGeneralResEntry({
-          ...stores.generalResultEntryStore.filterGeneralResEntry,
-          pLab,
-        });
-        stores.patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
-          {
-            pLab,
-            finishResult: 'P',
-            panelStatus: 'P',
-            testStatus: 'P',
-          },
-        );
-      });
+    stores.generalResultEntryStore.updateFilterGeneralResEntry({
+      ...stores.generalResultEntryStore.filterGeneralResEntry,
+      pLab,
+    });
+    stores.patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+      {
+        pLab,
+        finishResult: 'P',
+        panelStatus: 'P',
+        testStatus: 'P',
+      },
+    );
   }
 };
 

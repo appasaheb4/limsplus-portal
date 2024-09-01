@@ -19,7 +19,9 @@
     "dockerizeImage": "docker-compose build --no-cache",
     "prepare": "husky install",
     "sonar": "node sonarqube-scanner.js",
-    "swa": "swa deploy --env=production"
+    "swa-demo": "swa deploy --config=./swa-cli.config.demo.json --env=production",
+    "swa-geneflow": "swa deploy --config=./swa-cli.config.geneflow.json --env=production",
+    "swa-comp1": "swa deploy --config=./swa-cli.config.comp1.json --env=production"
   },
   "dependencies": {
     "@apollo/client": "3.4.11",
@@ -119,7 +121,7 @@
     "react-quill-with-table": "^1.3.3",
     "react-redux": "7.2.2",
     "react-redux-toastr": "7.6.5",
-    "react-restyle-components": "^0.1.84",
+    "react-restyle-components": "^0.1.85",
     "react-router-dom": "5.2.0",
     "react-sanfona": "1.5.0",
     "react-scripts": "5.0.1",

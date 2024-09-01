@@ -134,7 +134,9 @@ export const FilterInputTable = observer(
                         placeholder='Search by plab'
                         disable
                         data={[]}
-                        displayValue={selectedValues?.pLab || ''}
+                        displayValue={
+                          selectedValues?.pLab || loginStore.login.lab
+                        }
                       />
                     </div>
                   )}
@@ -176,18 +178,18 @@ export const FilterInputTable = observer(
                           patientResultStore.filterDistinctPatientResult(
                             patientResultStore.distinctPatientResultCopy,
                           );
-                          console.log({
-                            department: data?.department?.filter(
-                              (e: any) => e?._id == item?._id,
-                            ),
-                            name: data?.name?.filter(
-                              (e: any) => e?._id == selectedValues?.name,
-                            ),
-                            testCodeName: data?.testCodeName?.filter(
-                              (e: any) =>
-                                e?._id?.testCode == selectedValues?.testCode,
-                            ),
-                          });
+                          // console.log({
+                          //   department: data?.department?.filter(
+                          //     (e: any) => e?._id == item?._id,
+                          //   ),
+                          //   name: data?.name?.filter(
+                          //     (e: any) => e?._id == selectedValues?.name,
+                          //   ),
+                          //   testCodeName: data?.testCodeName?.filter(
+                          //     (e: any) =>
+                          //       e?._id?.testCode == selectedValues?.testCode,
+                          //   ),
+                          // });
                           (function (n: any) {
                             setTimeout(() => {
                               setFilterPayload(n);
@@ -417,6 +419,19 @@ export const FilterInputTable = observer(
                             patientResultStore.distinctPatientResultCopy,
                           );
 
+                          // filter sampleId
+                          const sampleId = data?.sampleId
+                            ?.map((e: any) => {
+                              if (
+                                e.labId?.find(
+                                  o =>
+                                    o?._id?.toString() == item?._id?.toString(),
+                                )
+                              )
+                                return e;
+                              else return;
+                            })
+                            ?.filter(item => item);
                           (function (n: any) {
                             setTimeout(() => {
                               setFilterPayload(n);
@@ -426,7 +441,7 @@ export const FilterInputTable = observer(
                               e => e?._id == item?._id,
                             ),
                             labId: [{ _id: item?._id }],
-                            sampleId: data?.sampleId,
+                            sampleId,
                           });
                         }}
                       />

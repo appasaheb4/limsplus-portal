@@ -21,10 +21,8 @@ export const ModalConfirm = observer(
     onClose,
   }: ModalConfirmProps) => {
     const [showModal, setShowModal] = useState(visible);
-
     useEffect(() => {
       setShowModal(visible);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [visible]);
 
     return (
