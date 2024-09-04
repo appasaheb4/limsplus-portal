@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import {observer} from 'mobx-react';
+import React, { useState } from 'react';
+import { observer } from 'mobx-react';
 import {
   Header,
   PageHeading,
   PageHeadingLabDetails,
 } from '@/library/components';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import '@/library/assets/css/accordion.css';
-import {useStores} from '@/stores';
+import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
 const OpenBatch = observer(() => {
@@ -23,11 +23,9 @@ const OpenBatch = observer(() => {
   const {
     control,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
     setValue,
   } = useForm();
-  const [modalConfirm, setModalConfirm] = useState<any>();
-
   return (
     <>
       <Header>

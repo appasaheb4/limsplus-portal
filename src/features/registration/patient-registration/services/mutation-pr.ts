@@ -131,8 +131,8 @@ export const FILTER_PATIENT_RESULT_WITH_LABID = gql`
 `;
 
 export const GET_PATIENT_RESULT_DISTINCT = gql`
-  query {
-    getPatientResultDistinct {
+  mutation ($input: PatientResultInput!) {
+    getPatientResultDistinct(input: $input) {
       success
       message
       patientResultList
@@ -143,6 +143,16 @@ export const GET_PATIENT_RESULT_DISTINCT = gql`
 export const UPDATE_RECORD = gql`
   mutation ($input: UpdatePatientResultInput!) {
     updatePatientResult(input: $input) {
+      success
+      message
+      patientResult
+    }
+  }
+`;
+
+export const UPDATE_RECORDS_BATCH = gql`
+  mutation ($input: PatientResultInput!) {
+    updateBatchRecordsPatientResult(input: $input) {
       success
       message
       patientResult

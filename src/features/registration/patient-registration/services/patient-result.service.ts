@@ -24,6 +24,7 @@ import {
   UPDATE_STATUS_RECORD,
   FIND_NOT_EQUAL_TO_RESULT,
   FILTER_PATIENT_RESULT_LIST_TEST_STATUS,
+  UPDATE_RECORDS_BATCH,
 } from './mutation-pr';
 
 export class PatientResultService {
@@ -358,11 +359,12 @@ export class PatientResultService {
         );
     });
 
-  getPatientResultDistinct = () =>
+  getPatientResultDistinct = variables =>
     new Promise<any>((resolve, reject) => {
       client
-        .query({
-          query: GET_PATIENT_RESULT_DISTINCT,
+        .mutate({
+          mutation: GET_PATIENT_RESULT_DISTINCT,
+          variables,
         })
         .then((response: any) => {
           stores.patientResultStore.updateDistinctPatientResult(response.data);
@@ -378,6 +380,21 @@ export class PatientResultService {
       client
         .mutate({
           mutation: UPDATE_RECORD,
+          variables,
+        })
+        .then((response: any) => {
+          resolve(response.data);
+        })
+        .catch(error =>
+          reject(new ServiceResponse<any>(0, error.message, undefined)),
+        );
+    });
+
+  updateBatchRecords = (variables: any) =>
+    new Promise<any>((resolve, reject) => {
+      client
+        .mutate({
+          mutation: UPDATE_RECORDS_BATCH,
           variables,
         })
         .then((response: any) => {

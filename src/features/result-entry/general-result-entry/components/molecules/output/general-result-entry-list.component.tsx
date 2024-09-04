@@ -1,38 +1,34 @@
-/* eslint-disable no-case-declarations */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
-import _, { isNaN } from 'lodash';
-import {
-  Form,
-  Buttons,
-  Tooltip,
-  Icons,
-  textFilter,
-} from '@/library/components';
+import _ from 'lodash';
+import { Form, Tooltip, Icons, Buttons, Toast } from '@/library/components';
 import { DisplayResult } from './display-result.components';
-
-import { GeneralResultEntryExpand } from './general-result-entry-expand.component';
-import { InputResult } from './input-result.components';
+import { RefRangesExpandList } from './ref-ranges-expand-list.component';
+import { FaUserInjured, FaComment, FaCommentAlt } from 'react-icons/fa';
+import { PiTestTubeFill, PiStethoscopeBold } from 'react-icons/pi';
+import { ImAttachment } from 'react-icons/im';
+import { useStores } from '@/stores';
 import {
   getResultStatus,
   getTestStatus,
   getAbnFlag,
   getCretical,
 } from '../../../utils';
-import { RefRangesExpandList } from './ref-ranges-expand-list.component';
-import { stores, useStores } from '@/stores';
-import { useStore } from 'react-redux';
+import { tabs } from '../../../screens';
+import { ModalConfirm } from 'react-restyle-components';
 
 interface GeneralResultEntryListProps {
   data: any;
   totalSize: number;
   selectedId?: string;
+  tabSelected: tabs;
   isView?: boolean;
   isDelete?: boolean;
   isUpdate?: boolean;
   isExport?: boolean;
   onUpdateValue: (item: any, id: string) => void;
-  onSaveFields: (fileds: any, id: string, type: string) => void;
+  onResultUpdateBatch: (records: any) => void;
+  // onSaveFields: (fields: any, id: string, type: string) => void;
   onUpdateFields?: (fields: any, id: string) => void;
   onPageSizeChange?: (page: number, totalSize: number) => void;
   onFinishResult?: (updateRecordIds: Array<string>) => void;
@@ -42,6 +38,7 @@ interface GeneralResultEntryListProps {
     page: number,
     totalSize: number,
   ) => void;
+  onTabSelected: (type: tabs) => void;
   onFilterFinishResult?: (code: string) => void;
   onTestStatusFilter?: (code: string) => void;
   onExpand?: (items: any) => void;
@@ -51,723 +48,996 @@ interface GeneralResultEntryListProps {
 
 export const GeneralResultEntryList = (props: GeneralResultEntryListProps) => {
   const { appStore } = useStores();
-  const [selectId, setSelectId] = useState('');
-  const [selectedRowId, setSelectedRowId] = useState('');
-  const [refRangeRowId, setRefRangleRowId] = useState('');
-  const [widthRefBox, setWidthRefBox] = useState('60px');
-  const [widthConculsionBox, setWidthConculsionBox] = useState('20px');
-  const [localData, setLocalData] = useState(props.data);
+  const resultRecords = useRef<Array<any>>([]);
+  const [refRangeRowId, setRefRangeRowId] = useState<string>('');
+  const [selectedRowId, setSelectedRowId] = useState<string>('');
+  const [isHide, setIsHide] = useState<boolean>(false);
+  const arrFinishRecord = useRef<Array<string>>([]);
+  const [reload, setReload] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState<any>();
 
-  const editorCell = (row: any) => {
-    return row.status !== 'I' ? true : false;
-  };
+  // eslint-disable-next-line unicorn/no-array-reduce
+  const distinctRecords = props?.data?.map(item => {
+    return { ...item?.result[0], count: item?.count };
+  });
+
+  // useEffect(()=>{
+  // },[props?.tabSelected])
 
   useEffect(() => {
-    setSelectId(props?.selectedId || '');
-    setLocalData(
-      props.selectedId
-        ? props.data?.map(item => ({
-            ...item,
-            selectedId: props.selectedId || '',
-          }))
-        : JSON.parse(JSON.stringify(props.data)),
-    );
+    setIsHide(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.selectedId, props.data]);
+  }, [props.data]);
 
-  const isFinishResultDisable = (data: Array<any>) => {
-    let isDisable = true;
-    if (data?.length == 0) return isDisable;
-    else {
-      const labs = _.groupBy(data, function (b: any) {
-        return b.labId;
-      });
-      Object.keys(labs).forEach(function (key) {
-        const testCodes = _.groupBy(labs[key], function (b: any) {
-          return b.testCode;
-        });
+  const statusData = [
+    {
+      code: 'P',
+      value: 'Pending',
+      color: 'blue',
+      disable: false,
+      selected: true,
+    },
+    // { code: 'RC', value: 'Recheck', color: 'orange', disable: true },
+    // { code: 'RT', value: 'Retest', color: 'pink', disable: true },
+    {
+      code: 'D',
+      value: 'Done',
+      color: 'green',
+      disable: false,
+      selected: false,
+    },
+    // { code: '', value: 'All', color: 'red', disable: false },
+  ];
 
-        Object.keys(testCodes).forEach(function (key1) {
-          const totalRecords = testCodes[key1];
-          let filterRecords = totalRecords?.map(item => {
-            if (
-              item.finishResult == 'P' &&
-              item.panelStatus != 'P' &&
-              item.testStatus != 'P'
-            ) {
-              return item;
-            } else return;
-          });
-          filterRecords = _.reject(filterRecords, _.isEmpty);
-          if (totalRecords?.length == filterRecords?.length) {
-            isDisable = false;
+  // const testStatus = [
+  //   { code: 'N', value: 'Normal', color: 'blue' },
+  //   { code: 'A', value: 'Abnormal', color: 'yellow' },
+  //   { code: 'C', value: 'Critical', color: 'green' },
+  // ];
+
+  const testStatus: Array<any> = [];
+  const handleRowClick = index => {
+    // resultRecords.current = props.data[index]?.result;
+    console.log({
+      data: props.data[index]?.result?.sort((a, b) =>
+        (a?.resultOrder || '') > (b?.resultOrder || '') ? 1 : -1,
+      ),
+    });
+    resultRecords.current = props.data[index]?.result?.sort((a, b) =>
+      (a?.resultOrder || '') > (b?.resultOrder || '') ? 1 : -1,
+    );
+    // setExpandedRow(prevState => {
+    //   if (prevState.rowIndex === index) {
+    //     return { rowIndex: null, data: [] };
+    //   }
+    //   const filteredData = props.data.filter(
+    //     item =>
+    //       item.labId === record.labId &&
+    //       item.panelCode === record.panelCode &&
+    //       item.testCode === record.testCode,
+    //   );
+    //   return { rowIndex: record._id, data: filteredData };
+    // });
+  };
+
+  const expandCollapseButton = () => (
+    <div className='ml-2'>
+      <Buttons.Button
+        size='medium'
+        type='outline'
+        onClick={() => {
+          if (props?.tabSelected == 'Pending') {
+            setModalConfirm({
+              visible: true,
+              type: 'confirm',
+              title: 'Are you sure?',
+              message: 'Do you want to exist without save result?',
+              submitTitle: 'Yes',
+              closeTitle: 'No',
+            });
+          } else {
+            setIsHide(false);
+            resultRecords.current = [];
           }
-        });
-      });
-      return isDisable;
+        }}
+      >
+        <Tooltip
+          tooltipText={
+            appStore.applicationSetting?.isExpandScreen
+              ? 'Collapse Screen'
+              : 'Expand Screen'
+          }
+        >
+          <Icons.IconContext
+            color={`${
+              appStore.applicationSetting.theme === 'dark'
+                ? '#ffffff'
+                : '#000000'
+            }`}
+            size='18'
+          >
+            {Icons.getIconTag(Icons.IconCg.CgMinimize)}
+          </Icons.IconContext>
+        </Tooltip>
+      </Buttons.Button>
+    </div>
+  );
+
+  const truncateText = (text: string, maxLength: number) =>
+    text?.length > maxLength ? text.slice(0, maxLength) + '...' : text;
+
+  const renderStatusButtons = () => (
+    <div className='flex gap-2 items-center'>
+      {/* {statusData.map(status => (
+        <button
+          key={status.code}
+          disabled={status.disable}
+          className={`bg-${status.color}-600 ml-2 px-3 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+        >
+          {status.value}
+        </button>
+      ))} */}
+      <ul className='flex flex-wrap  text-sm font-medium text-center  cursor-pointer gap-1'>
+        {statusData.map((item, index) => (
+          <li key={index}>
+            <div
+              className={`inline-flex items-center justify-center p-2 border-b-2 gap-1 ${
+                item.value === props?.tabSelected
+                  ? 'dark:border-white active border-blue-800 text-blue-800'
+                  : 'border-transparent hover:text-[#27A4FE] hover:border-gray-300 '
+              }   `}
+              onClick={() => {
+                props.onTabSelected(item.value as tabs);
+                props.onFilterFinishResult &&
+                  props.onFilterFinishResult(item.code);
+              }}
+            >
+              <span>{item.value}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {isHide && expandCollapseButton()}
+      <span className='flex  bg-blue-800 w-8 h-8 rounded-full text-white items-center text-center justify-center'>
+        {props.data?.length || 0}
+      </span>
+    </div>
+  );
+
+  const renderTestStatusButtons = () => (
+    <div className='flex justify-end gap-1'>
+      {testStatus?.map(status => (
+        <button
+          key={status?.code}
+          className={`bg-${status?.color}-600 px-3.5 py-2 focus:outline-none items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed`}
+        >
+          {status?.value}
+        </button>
+      ))}
+    </div>
+  );
+
+  const rowStyle = row => {
+    switch (row?.colorScheme?.envRangeColor) {
+      case 'BOTH':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      case 'BACKGROUND':
+        return {
+          backgroundColor: row?.colorScheme?.cellColor,
+        };
+        break;
+      case 'FONT':
+        return {
+          color: row?.colorScheme?.fontColor,
+        };
+        break;
+      default:
+        return {};
     }
   };
 
-  const handleExpandClick = row => {
-    if (selectId === row._id) {
-      setSelectId('');
-      props.onExpand && props.onExpand('');
-    } else {
-      setSelectId(row._id);
-      props.onExpand && props.onExpand(row);
-    }
+  const renderResultEnter = () => {
+    return (
+      <>
+        {resultRecords.current?.length > 0 && (
+          <div className='relative'>
+            <div className='h-full shadow-lg rounded-lg border border-gray-200'>
+              <div className='overflow-x-auto'>
+                <div
+                  style={{
+                    display: 'flex',
+                    width: '100%',
+                  }}
+                >
+                  {/* Fixed Columns */}
+                  <div className='flex flex-none'>
+                    <div className='flex flex-col'>
+                      <div
+                        className='text-white py-1 px-1 rounded-t-lg text-center'
+                        style={{
+                          width: '250px',
+                          backgroundColor: '#6A727F',
+                          borderRadius: '0',
+                        }}
+                      >
+                        Analyte Code - Name
+                      </div>
+                      {resultRecords.current?.map((record, subIndex) => (
+                        <div
+                          key={subIndex}
+                          className='text-center text-sm cursor-pointer'
+                          style={{
+                            width: '250px',
+                            padding: '5px',
+                            height: '47px',
+                            ...rowStyle(record),
+                          }}
+                          // style={rowStyle(record)}
+                        >
+                          <span
+                            title={`${record.analyteCode} - ${record.analyteName}`}
+                          >
+                            {truncateText(
+                              `${record.analyteCode} - ${record.analyteName}`,
+                              30,
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className='flex flex-col'>
+                      <div
+                        className='text-white py-1 px-1 rounded-t-lg text-center'
+                        style={{
+                          width: '150px',
+                          backgroundColor: '#6A727F',
+                          borderRadius: '0',
+                        }}
+                      >
+                        Reportable
+                      </div>
+                      {resultRecords.current?.map((record, subIndex) => (
+                        <div
+                          key={subIndex}
+                          className='text-center  text-sm cursor-pointer'
+                          style={{
+                            width: '150px',
+                            padding: '5px',
+                            height: '47px',
+                            ...rowStyle(record),
+                          }}
+                        >
+                          <Form.Toggle
+                            value={record.reportable}
+                            onChange={reportable => {
+                              resultRecords.current =
+                                resultRecords.current?.map(item => {
+                                  if (item._id == record?._id) {
+                                    return {
+                                      ...item,
+                                      reportable,
+                                    };
+                                  }
+                                  return item;
+                                });
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className='flex flex-col'>
+                      <div
+                        className='text-white py-1 px-1 rounded-t-lg text-center'
+                        style={{
+                          width: '150px',
+                          backgroundColor: '#6A727F',
+                          borderRadius: '0',
+                        }}
+                      >
+                        Result
+                      </div>
+                      {resultRecords.current?.map((record, subIndex) => (
+                        <div
+                          key={subIndex}
+                          className='text-center  text-sm cursor-pointer'
+                          style={{
+                            width: '150px',
+                            padding: '5px',
+                            height: '47px',
+                            ...rowStyle(record),
+                          }}
+                        >
+                          <span title={record.result}>
+                            {record?.isResultEditor ? (
+                              <DisplayResult
+                                row={record}
+                                rowIndex={subIndex}
+                                rowData={props.data}
+                                onSelect={result => {
+                                  resultRecords.current =
+                                    resultRecords.current?.map(item => {
+                                      if (item._id == record?._id) {
+                                        return {
+                                          ...item,
+                                          result,
+                                        };
+                                      }
+                                      return item;
+                                    });
+                                }}
+                              />
+                            ) : (
+                              <span
+                                className='flex'
+                                style={{ fontWeight: 'bold' }}
+                              >
+                                {record.result}
+                              </span>
+                            )}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className='flex flex-col'>
+                      <div
+                        className='text-white py-1 px-1 rounded-t-lg text-center'
+                        style={{
+                          width: '150px',
+                          backgroundColor: '#6A727F',
+                          borderRadius: '0',
+                        }}
+                      >
+                        Conclusion
+                      </div>
+                      {resultRecords.current?.map((record, subIndex) => (
+                        <div
+                          key={subIndex}
+                          className=' text-center  text-sm cursor-pointer'
+                          style={{
+                            width: '150px',
+                            padding: '5px',
+                            height: '47px',
+                            ...rowStyle(record),
+                          }}
+                        >
+                          <div className='flex items-center justify-end flex-col bg-white relative'>
+                            <Tooltip
+                              tooltipText={
+                                record._id !== selectedRowId
+                                  ? 'Expand'
+                                  : 'Collapse'
+                              }
+                            >
+                              <Icons.IconContext
+                                color='#000000'
+                                size='20'
+                                onClick={() =>
+                                  setSelectedRowId(
+                                    record._id === selectedRowId
+                                      ? ''
+                                      : record._id,
+                                  )
+                                }
+                              >
+                                {Icons.getIconTag(
+                                  record._id !== selectedRowId
+                                    ? Icons.IconBi.BiExpand
+                                    : Icons.IconBi.BiCollapse,
+                                )}
+                              </Icons.IconContext>
+                            </Tooltip>
+
+                            {record._id === selectedRowId && (
+                              <div>
+                                <Form.MultilineInput
+                                  rows={3}
+                                  placeholder='Conclusion'
+                                  className='text-black'
+                                  defaultValue={record?.conclusion}
+                                  onBlur={conclusion => {
+                                    resultRecords.current =
+                                      resultRecords.current?.map(item => {
+                                        if (item._id == record?._id) {
+                                          return {
+                                            ...item,
+                                            conclusion,
+                                          };
+                                        }
+                                        return item;
+                                      });
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Scrollable Columns */}
+                  <div className='flex-1 overflow-x-auto'>
+                    <div className='flex'>
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Units
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: refRangeRowId ? '550px' : '250px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Range
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '121px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Abnormal
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Critical
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Calculation Flag
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Show Ranges
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Result Status
+                      </div>
+
+                      <div
+                        className='flex-none text-center'
+                        style={{
+                          color: 'white',
+                          fontSize: '14px',
+                          padding: '4px',
+                          width: '150px',
+                          backgroundColor: 'rgb(106, 114, 127)',
+                        }}
+                      >
+                        Result Type
+                      </div>
+                    </div>
+
+                    {resultRecords.current?.map((record, subIndex) => (
+                      <div
+                        key={subIndex}
+                        className='flex'
+                        style={{ ...rowStyle(record) }}
+                      >
+                        <div
+                          className='flex-none text-center '
+                          style={{ width: '150px' }}
+                        >
+                          <span title={record.units}>
+                            {truncateText(record.units, 10)}
+                          </span>
+                        </div>
+                        <div
+                          className='flex-none text-center'
+                          style={{ width: refRangeRowId ? '550px' : '220px' }}
+                        >
+                          <div className='flex items-center justify-center gap-2'>
+                            <span title={record.units}>
+                              {_.isNaN(Number.parseFloat(record.loNor)) &&
+                              _.isNaN(Number.parseFloat(record.hiNor))
+                                ? '-'
+                                : _.isNaN(Number.parseFloat(record.loNor))
+                                ? `${record.hiNor} - >`
+                                : _.isNaN(Number.parseFloat(record.hiNor))
+                                ? `< - ${record.loNor}`
+                                : `${record.loNor} - ${record.hiNor}`}
+                            </span>
+                            <div className='h-[47px]'>
+                              {record.refRangesList?.length > 0 && (
+                                <Tooltip
+                                  tooltipText={
+                                    record._id !== refRangeRowId
+                                      ? 'Expand Reference Range'
+                                      : 'Collapse Reference Range'
+                                  }
+                                >
+                                  <Icons.IconContext
+                                    color='#000000'
+                                    size='20'
+                                    onClick={() =>
+                                      setRefRangeRowId(
+                                        record._id === refRangeRowId
+                                          ? ''
+                                          : record._id,
+                                      )
+                                    }
+                                  >
+                                    {Icons.getIconTag(
+                                      record._id !== refRangeRowId
+                                        ? Icons.IconBi.BiExpand
+                                        : Icons.IconBi.BiCollapse,
+                                    )}
+                                  </Icons.IconContext>
+                                </Tooltip>
+                              )}
+                            </div>
+                          </div>
+                          {refRangeRowId === record._id && (
+                            <div>
+                              <RefRangesExpandList
+                                id='_id'
+                                data={record?.refRangesList || []}
+                                totalSize={record?.refRangesList?.length || 0}
+                                columns={[
+                                  {
+                                    dataField: 'result',
+                                    text: 'Result',
+                                    editable: false,
+                                  },
+                                  {
+                                    dataField: 'rangeType',
+                                    text: 'Range Type',
+                                  },
+                                  { dataField: 'low', text: 'Low' },
+                                  { dataField: 'high', text: 'High' },
+                                  {
+                                    dataField: 'rangeSetOn',
+                                    text: 'Range Set On',
+                                  },
+                                  { dataField: 'rangeId', text: 'Range Id' },
+                                  {
+                                    dataField: 'version',
+                                    text: 'Range Version',
+                                  },
+                                ]}
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        <div
+                          className='flex-none text-center '
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle
+                            disabled={true}
+                            style={{ textAlign: 'center' }}
+                            value={record.critical ? true : record.abnFlag}
+                          />
+                        </div>
+                        <div
+                          className='flex-none text-center '
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle
+                            disabled={true}
+                            value={record.critical}
+                          />
+                        </div>
+                        <div
+                          className='flex-none text-center '
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle
+                            disabled
+                            value={record.calculationFlag}
+                          />
+                        </div>
+                        <div
+                          className='flex-none text-center '
+                          style={{ width: '150px' }}
+                        >
+                          <Form.Toggle
+                            value={record.showRanges}
+                            onChange={showRanges => {
+                              resultRecords.current =
+                                resultRecords.current?.map(item => {
+                                  if (item._id == record?._id) {
+                                    return {
+                                      ...item,
+                                      showRanges,
+                                    };
+                                  }
+                                  return item;
+                                });
+                            }}
+                          />
+                        </div>
+                        <div
+                          className='flex-none text-center '
+                          style={{ width: '150px' }}
+                        >
+                          <span title={record.resultStatus}>
+                            {truncateText(record.resultStatus, 10)}
+                          </span>
+                        </div>
+                        <div
+                          className='flex-none text-center'
+                          style={{ width: '150px' }}
+                        >
+                          {record.resultType}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className='flex justify-start gap-2 mt-1'>
+                <button
+                  className='py-2 mt-1 w-24 focus:outline-none bg-blue-600 items-center outline shadow-sm font-medium text-center rounded-md text-white disabled:opacity-50 disabled:cursor-not-allowed'
+                  // disabled={
+                  //   resultRecords.current
+                  //     ?.map(item => {
+                  //       if (item?.result && !_.isEmpty(item.result))
+                  //         return true;
+                  //       else false;
+                  //     })
+                  //     ?.filter(item => !item)?.length == 0
+                  //     ? false
+                  //     : true
+                  // }
+                  onClick={() => {
+                    if (
+                      resultRecords.current &&
+                      resultRecords.current
+                        ?.map(item => {
+                          if (item?.result && !_.isEmpty(item.result))
+                            return true;
+                          else false;
+                        })
+                        ?.filter(item => !item)?.length == 0
+                    ) {
+                      const records = resultRecords.current?.map(item => {
+                        return {
+                          ...item,
+                          resultStatus: getResultStatus(item.resultType, item),
+                          testStatus: getTestStatus(item.resultType, item),
+                          abnFlag: getAbnFlag(item.resultType, item),
+                          critical: getCretical(item.resultType, item),
+                          updateField: 'result',
+                          updateType: 'directSave',
+                          result: undefined,
+                          ...item?.result,
+                          resultDate: new Date(),
+                          flagUpdate: undefined,
+                          testReportOrder: undefined,
+                          analyteReportOrder: undefined,
+                          selectedId: undefined,
+                        };
+                      });
+                      props.onResultUpdateBatch(records);
+                      setIsHide(false);
+                      resultRecords.current = [];
+                    } else {
+                      Toast.error({
+                        message: 'Please enter all result.',
+                      });
+                    }
+                  }}
+                >
+                  Save
+                </button>
+                <div
+                  className='flex w-100 p-2 flex-row justify-center gap-4 items-center'
+                  style={{ backgroundColor: '#6A727F' }}
+                >
+                  <Tooltip tooltipText={'Doctor'}>
+                    <PiStethoscopeBold color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'Patient'}>
+                    <FaUserInjured color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'Sample Information'}>
+                    <PiTestTubeFill color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'Attachment'}>
+                    <ImAttachment color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'Internal Comment'}>
+                    <FaComment color='#ffffff' size={'30'} />
+                  </Tooltip>
+                  <Tooltip tooltipText={'External Comment'}>
+                    <FaCommentAlt color='#ffffff' size={'30'} />
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const renderDataRows = () => {
+    return (
+      <>
+        <div
+          className={`sticky top-0  text-white border-white ${
+            isHide ? 'hidden' : 'shown'
+          } bg-[#6A727F]`}
+        >
+          <div
+            className={`flex justify-around items-center py-2 ${
+              props.tabSelected == 'Done' ? 'ml-4' : 'ml-0'
+            }`}
+          >
+            <div className='flex text-center' style={{ width: '250px' }}>
+              Test Code - Name
+            </div>
+            <div className='flex text-center' style={{ width: '150px' }}>
+              Department
+            </div>
+            <div className='flex text-center' style={{ width: '50px' }}>
+              Lab ID
+            </div>
+            <div className='flex text-center' style={{ width: '100px' }}>
+              Sample ID
+            </div>
+            <div className='flex text-center' style={{ width: '50px' }}>
+              Test S.
+            </div>
+            <div className='flex text-center' style={{ width: '220px' }}>
+              Patient Name
+            </div>
+            <div className='flex text-center' style={{ width: '100px' }}>
+              Lab
+            </div>
+            <div className='flex text-center' style={{ width: '100px' }}>
+              Due Date
+            </div>
+            <div className='flex text-center' style={{ width: '100px' }}>
+              Result Date
+            </div>
+          </div>
+
+          {distinctRecords?.map((record, index) => (
+            <div
+              className={`flex ${
+                index % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+              } cursor-pointer ${isHide ? 'hidden' : 'shown'}`}
+              key={record._id}
+            >
+              {props.tabSelected == 'Done' && (
+                <div className='flex bg-[#6A727F] w-6 p-1 items-center justify-center'>
+                  <input
+                    className='flex w-6 h-6'
+                    type='checkbox'
+                    checked={arrFinishRecord.current?.includes(record?._id)}
+                    onClick={() => {
+                      const ids: Array<string> = props.data[index].result?.map(
+                        item => item?._id,
+                      );
+                      //remove exists id
+                      if (arrFinishRecord.current?.includes(record?._id)) {
+                        const finalArr: any = arrFinishRecord.current
+                          ?.map(item => {
+                            console.log({ item });
+                            if (ids.includes(item)) return;
+                            return item;
+                          })
+                          ?.filter(item => item);
+                        arrFinishRecord.current = finalArr;
+                      } else {
+                        if (arrFinishRecord.current?.length > 0) {
+                          arrFinishRecord.current =
+                            arrFinishRecord.current.concat(ids);
+                        } else {
+                          arrFinishRecord.current = ids;
+                        }
+                      }
+                      setReload(!reload);
+                    }}
+                  />
+                </div>
+              )}
+              <div
+                className='flex w-full justify-around items-center py-2  border-b text-sm'
+                onClick={() => {
+                  setIsHide(true);
+                  handleRowClick(index);
+                }}
+              >
+                <div
+                  className='flex  text-center text-gray-700 gap-2 items-center -ml-2'
+                  style={{ width: '250px' }}
+                >
+                  <span className='flex bg-blue-800 w-6 h-6 rounded-full text-white items-center text-center justify-center'>
+                    {record?.count}
+                  </span>
+                  <span title={`${record.testCode} - ${record.testName}`}>
+                    {truncateText(
+                      `${record.testCode} - ${record.testName}`,
+                      22,
+                    )}
+                  </span>
+                </div>
+
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '150px' }}
+                >
+                  <span title={record.departmentName}>
+                    {truncateText(record.departmentName, 20)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '50px' }}
+                >
+                  <span title={record.labId}>
+                    {truncateText(record.labId, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '100px' }}
+                >
+                  <span title={record.sampleId}>
+                    {truncateText(record.sampleId, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '50px' }}
+                >
+                  <span title={record?.testStatus}>
+                    {truncateText(record?.testStatus, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '220px' }}
+                >
+                  <span title={record.name}>
+                    {truncateText(record.name, 30)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '100px' }}
+                >
+                  <span title={record.pLab}>
+                    {truncateText(record.pLab, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '100px' }}
+                >
+                  <span title={record.dueDate}>
+                    {truncateText(record.dueDate, 10)}
+                  </span>
+                </div>
+                <div
+                  className='flex text-center text-gray-700'
+                  style={{ width: '100px' }}
+                >
+                  <span title={record.resultDate}>
+                    {truncateText(
+                      record.resultDate &&
+                        dayjs(record.resultDate).format('YYYY-MM-DD HH:mm:ss'),
+                      10,
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+          {props.tabSelected == 'Done' && (
+            <div className='flex p-2'>
+              <button
+                className='bg-blue-800 rounded-md p-2  disabled:opacity-50'
+                disabled={arrFinishRecord.current?.length > 0 ? false : true}
+                onClick={() => {
+                  if (arrFinishRecord.current?.length > 0) {
+                    props.onFinishResult &&
+                      props.onFinishResult(arrFinishRecord.current);
+                    props.onTabSelected('Pending');
+                  } else {
+                    Toast.error({
+                      message: 'Please select any one record',
+                    });
+                  }
+                }}
+              >
+                Submit
+              </button>
+            </div>
+          )}
+        </div>
+      </>
+    );
   };
 
   return (
-    <>
-      <div className={`${props.isView ? 'shown' : 'hidden'}`}>
-        <GeneralResultEntryExpand
-          id='_id'
-          data={localData}
-          totalSize={props.totalSize}
-          isFinishResultDisable={isFinishResultDisable(props.data)}
-          columns={[
-            {
-              dataField: '_id',
-              text: 'Id',
-              hidden: true,
-              csvExport: false,
-            },
-            {
-              dataField: 'labId',
-              text: 'Lab Id',
-              editable: false,
-              headerClasses: 'textHeaderxxs',
-            },
-
-            {
-              dataField: 'name',
-              text: 'Name',
-              sort: true,
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '130px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => (
-                <span title={row.name}>{cellContent}</span>
-              ),
-            },
-            {
-              dataField: 'testCode',
-              text: 'Test Code - Name',
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '250px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return (
-                  <span title={`${row.testCode} - ${row.testName}`}>
-                    {cellContent} - {row.testName}
-                  </span>
-                );
-              },
-            },
-            {
-              dataField: 'analyteCode',
-              text: 'Analyte Code - Name',
-              editable: false,
-              headerClasses: 'textHeader',
-              style: {
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                minWidth: 0,
-                maxWidth: '125px',
-                position: 'relative',
-              },
-              formatter: (cellContent, row) => {
-                return (
-                  <span title={`${row.analyteCode} - ${row.analyteName}`}>
-                    {cellContent} - {row.analyteName}
-                  </span>
-                );
-              },
-            },
-            {
-              dataField: 'reportable',
-              text: 'Reportable',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.reportable}
-                      onChange={reportable => {
-                        // props.onUpdateValue({reportable}, row._id);
-                        props.onSaveFields &&
-                          props.onSaveFields(
-                            {
-                              ...row,
-                              reportable,
-                              updateType: 'save',
-                            },
-                            row._id,
-                            'save',
-                          );
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'result',
-              text: 'Result',
-              headerClasses: 'textHeaderxxm',
-              editable: (content, row, rowIndex, columnIndex) =>
-                row.approvalStatus == 'P' && !row?.calculationFlag
-                  ? true
-                  : false,
-              formatter: (cellContent, row) => (
-                <>
-                  {row?.isResultEditor ? (
-                    <DisplayResult
-                      row={row}
-                      onSelect={async result => {
-                        await props.onUpdateValue(result, row._id);
-                        const rows = { ...row, ...result };
-                        if (_.isEmpty(row?.result)) {
-                          props.onSaveFields(
-                            {
-                              ...rows,
-                              resultStatus: getResultStatus(
-                                rows.resultType,
-                                rows,
-                              ),
-                              testStatus: getTestStatus(rows.resultType, rows),
-                              abnFlag: getAbnFlag(rows.resultType, rows),
-                              critical: getCretical(rows.resultType, rows),
-                              updateField: 'result',
-                              updateType: 'directSave',
-                              ...result,
-                            },
-                            rows._id,
-                            'directSave',
-                          );
-                        }
-                      }}
-                    />
-                  ) : (
-                    <span style={{ fontWeight: 'bold' }}>{row.result}</span>
-                  )}
-                </>
-              ),
-              editorRenderer: (
-                editorProps,
-                value,
-                row,
-                column,
-                rowIndex,
-                columnIndex,
-              ) => (
-                <>
-                  <InputResult
-                    row={row}
-                    onSelect={async result => {
-                      await props.onUpdateValue(
-                        { ...result, updateField: 'result' },
-                        row._id,
-                      );
-                      const rows = { ...row, ...result };
-                      if (_.isEmpty(row?.result)) {
-                        props.onSaveFields(
-                          {
-                            ...rows,
-                            resultStatus: getResultStatus(
-                              rows.resultType,
-                              rows,
-                            ),
-                            testStatus: getTestStatus(rows.resultType, rows),
-                            abnFlag: getAbnFlag(rows.resultType, rows),
-                            critical: getCretical(rows.resultType, rows),
-                            updateField: 'result',
-                            updateType: 'directSave',
-                            ...result,
-                          },
-                          rows._id,
-                          'directSave',
-                        );
-                      }
-                      if (!_.isEmpty(row?.result) && row.resultType == 'FR') {
-                        props.onSaveFields(
-                          {
-                            ...rows,
-                            resultStatus: getResultStatus(
-                              rows.resultType,
-                              rows,
-                            ),
-                            testStatus: getTestStatus(rows.resultType, rows),
-                            abnFlag: getAbnFlag(rows.resultType, rows),
-                            critical: getCretical(rows.resultType, rows),
-                            updateField: 'result',
-                            updateType: 'directSave',
-                            ...result,
-                          },
-                          rows._id,
-                          'directSave',
-                        );
-                      }
-                    }}
-                  />
-                </>
-              ),
-            },
-            {
-              dataField: 'normalRange',
-              text: 'Normal Range',
-              sort: true,
-              headerClasses: 'textHeaderm',
-              editable: false,
-              style: { width: widthRefBox },
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <div className='flex flex-row gap-1'>
-                      <span>
-                        <span>
-                          <span>
-                            {isNaN(Number.parseFloat(row.loNor)) &&
-                            isNaN(Number.parseFloat(row.hiNor))
-                              ? '-'
-                              : isNaN(Number.parseFloat(row.loNor))
-                              ? `${row.hiNor} - >`
-                              : isNaN(Number.parseFloat(row.hiNor))
-                              ? `< - ${row.loNor}`
-                              : `${row.loNor} - ${row.hiNor}`}
-                          </span>
-                        </span>
-                      </span>
-                      <div>
-                        {row.refRangesList?.length > 0 && (
-                          <Tooltip
-                            tooltipText={
-                              row._id != refRangeRowId
-                                ? 'Expand Reference Range'
-                                : 'Collapse Reference Range'
-                            }
-                          >
-                            <Icons.IconContext
-                              color={
-                                appStore.applicationSetting.theme === 'dark'
-                                  ? '#000000'
-                                  : '#ffffff'
-                              }
-                              size='20'
-                              onClick={() => {
-                                if (row._id === refRangeRowId) {
-                                  setRefRangleRowId('');
-                                  setWidthRefBox('30px');
-                                } else {
-                                  setRefRangleRowId(row._id);
-                                  setWidthRefBox('550px');
-                                }
-                              }}
-                            >
-                              {Icons.getIconTag(
-                                row._id != refRangeRowId
-                                  ? Icons.IconBi.BiExpand
-                                  : Icons.IconBi.BiCollapse,
-                              )}
-                            </Icons.IconContext>
-                          </Tooltip>
-                        )}
-                      </div>
-                    </div>
-                    {refRangeRowId == row._id ? (
-                      <div style={{ width: widthRefBox }}>
-                        <RefRangesExpandList
-                          id='_id'
-                          data={row?.refRangesList || []}
-                          totalSize={row?.refRangesList?.length || 0}
-                          columns={[
-                            {
-                              dataField: 'result',
-                              text: 'Result',
-                              editable: false,
-                              formatter: () => (
-                                <>
-                                  <span>{row.result}</span>
-                                </>
-                              ),
-                            },
-                            {
-                              dataField: 'rangeType',
-                              text: 'Range Type',
-                            },
-                            {
-                              dataField: 'low',
-                              text: 'Low',
-                            },
-                            {
-                              dataField: 'high',
-                              text: 'High',
-                            },
-                            {
-                              dataField: 'rangeSetOn',
-                              text: 'Range Set On',
-                            },
-                            {
-                              dataField: 'rangeId',
-                              text: 'Range Id',
-                            },
-                            {
-                              dataField: 'version',
-                              text: 'Range Version',
-                            },
-                          ]}
-                          onSelectedRow={rows => {}}
-                          onUpdateItem={(
-                            value: any,
-                            dataField: string,
-                            id: string,
-                          ) => {}}
-                        />
-                      </div>
-                    ) : null}
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'abnFlag',
-              text: 'Abn Flag',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={
-                        row.resultType === 'F' || row.resultType === 'M'
-                          ? false
-                          : true
-                      }
-                      value={row.critical ? true : row.abnFlag}
-                      onChange={abnFlag => {
-                        props.onUpdateValue({ abnFlag }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'critical',
-              text: 'Critical',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={
-                        row.resultType === 'F' || row.resultType === 'M'
-                          ? false
-                          : true
-                      }
-                      value={row.critical}
-                      onChange={critical => {
-                        props.onUpdateValue({ critical }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-
-            {
-              dataField: 'units',
-              text: 'Units',
-              editable: false,
-            },
-            {
-              dataField: 'conclusion',
-              text: 'Conclusion',
-              editable: false,
-              style: { width: widthConculsionBox },
-              formatter: (cell, row) => {
-                return (
-                  <div className='flex flex-col'>
-                    <Tooltip
-                      tooltipText={
-                        row._id != selectedRowId ? 'Expand' : 'Collapse'
-                      }
-                    >
-                      <Icons.IconContext
-                        color='#000000'
-                        size='20'
-                        onClick={() => {
-                          if (row._id === selectedRowId) {
-                            setSelectedRowId('');
-                            setWidthConculsionBox('30px');
-                          } else {
-                            setSelectedRowId(row._id);
-                            setWidthConculsionBox('200px');
-                          }
-                        }}
-                      >
-                        {Icons.getIconTag(
-                          row._id != selectedRowId
-                            ? Icons.IconBi.BiExpand
-                            : Icons.IconBi.BiCollapse,
-                        )}
-                      </Icons.IconContext>
-                    </Tooltip>
-
-                    {row._id === selectedRowId && (
-                      <div style={{ width: widthConculsionBox }}>
-                        <Form.MultilineInput
-                          rows={3}
-                          placeholder='Conclusion'
-                          className='text-black'
-                          onBlur={conclusion => {
-                            props.onUpdateFields &&
-                              props.onUpdateFields(
-                                { conclusion, updateField: 'conclusion' },
-                                row._id,
-                              );
-                            setSelectedRowId('');
-                            setWidthConculsionBox('30px');
-                          }}
-                          defaultValue={row?.conclusion}
-                        />
-                      </div>
-                    )}
-                  </div>
-                );
-              },
-            },
-
-            {
-              dataField: 'resultStatus',
-              text: 'Result Status',
-              editable: false,
-            },
-
-            {
-              dataField: 'resultDate',
-              text: 'Result Date',
-              editable: false,
-              headerClasses: 'textHeaderm',
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    {row.resultDate &&
-                      dayjs(row.resultDate).format('YYYY-MM-DD HH:mm:ss')}
-                  </>
-                );
-              },
-            },
-
-            {
-              dataField: 'testStatus',
-              text: 'Test Status',
-              editable: false,
-            },
-            {
-              dataField: 'panelCode',
-              text: 'Panel Code',
-              editable: false,
-            },
-            {
-              dataField: 'panelStatus',
-              text: 'Panel Status',
-              editable: false,
-            },
-            {
-              dataField: 'age',
-              text: 'Age',
-              editable: false,
-            },
-            {
-              dataField: 'ageUnit',
-              text: 'Age Unit',
-              editable: false,
-            },
-
-            {
-              dataField: 'species',
-              text: 'Species',
-              editable: false,
-            },
-            {
-              dataField: 'resultType',
-              text: 'Result Type',
-              editable: false,
-            },
-
-            {
-              dataField: 'showRanges',
-              text: 'Show Ranges',
-              editable: false,
-              formatter: (cell, row) => {
-                return (
-                  <>
-                    <Form.Toggle
-                      disabled={!editorCell(row)}
-                      value={row.showRanges}
-                      onChange={showRanges => {
-                        props.onUpdateValue({ showRanges }, row._id);
-                      }}
-                    />
-                  </>
-                );
-              },
-            },
-            {
-              dataField: 'enteredBy',
-              text: 'Entered By',
-              editable: false,
-              formatter: (cell, row) => {
-                return <>{row.extraData?.enteredBy}</>;
-              },
-            },
-            {
-              text: 'Environment',
-              dataField: 'environment',
-              editable: false,
-              // headerClasses: 'textHeader2',
-            },
-            {
-              dataField: 'operation',
-              text: 'Action',
-              editable: false,
-              csvExport: false,
-              // hidden: !props.isDelete,
-              formatter: (cell, row, rowIndex, formatExtraData) => (
-                <div className='flex gap-2 items-center' key={row?._id}>
-                  {!_.isEmpty(row?.result) && (
-                    <div className='flex flex-row'>
-                      <>
-                        <Buttons.Button
-                          size='small'
-                          // type='outline'
-                          // buttonClass='text-white'
-                          disabled={!row?.flagUpdate}
-                        >
-                          <Tooltip tooltipText='Update'>
-                            <Icons.IconContext
-                              color='#ffffff'
-                              size='20'
-                              onClick={() => {
-                                if (!row?.result)
-                                  return alert('Please enter result value ');
-                                // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                                props.onSaveFields &&
-                                  props.onSaveFields(
-                                    {
-                                      ...row,
-                                      resultStatus: getResultStatus(
-                                        row.resultType,
-                                        row,
-                                      ),
-                                      testStatus: getTestStatus(
-                                        row.resultType,
-                                        row,
-                                      ),
-                                      abnFlag: getAbnFlag(row.resultType, row),
-                                      critical: getCretical(
-                                        row.resultType,
-                                        row,
-                                      ),
-                                      updateType: 'save',
-                                    },
-                                    row._id,
-                                    'save',
-                                  );
-                              }}
-                            >
-                              {Icons.getIconTag(Icons.IconBi.BiEdit)}
-                            </Icons.IconContext>
-                          </Tooltip>
-                        </Buttons.Button>
-                      </>
-                    </div>
-                  )}
-                  {selectId == row?._id ? (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() => handleExpandClick(row)}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillMinusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  ) : (
-                    <Tooltip tooltipText='Expand'>
-                      <Icons.IconContext
-                        color='#ffffff'
-                        size='20'
-                        onClick={() => handleExpandClick(row)}
-                      >
-                        {Icons.getIconTag(Icons.Iconai.AiFillPlusCircle)}
-                      </Icons.IconContext>
-                    </Tooltip>
-                  )}
-                </div>
-              ),
-              headerClasses: 'sticky right-0  bg-gray-500 text-white',
-              classes: (cell, row, rowIndex, colIndex) => {
-                return 'sticky right-0 bg-gray-500';
-              },
-            },
-          ]}
-          isDelete={props.isDelete}
-          isEditModify={props.isUpdate}
-          isExport={props.isExport}
-          isSelectRow={true}
-          fileName='General Result Entry'
-          onPageSizeChange={(page, limit) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-            props.onPageSizeChange && props.onPageSizeChange(page, limit);
-          }}
-          onFilter={(type, filter, page, size) => {
-            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-            props.onFilter && props.onFilter(type, filter, page, size);
-          }}
-          clearAllFilter={() => {}}
-          onFinishResult={selectedRow => {
-            props.onFinishResult &&
-              props.onFinishResult(
-                selectedRow?.map(item => {
-                  if (
-                    item?.panelStatus != 'P' &&
-                    item?.testStatus != 'P' &&
-                    item?.resultStatus != 'P'
-                  )
-                    return item?._id;
-                }),
-              );
-          }}
-          onFilterFinishResult={(code: string) => {
-            props.onFilterFinishResult && props.onFilterFinishResult(code);
-          }}
-          onTestStatusFilter={item => {
-            props.onTestStatusFilter && props.onTestStatusFilter(item);
-          }}
-          onTableReload={() => {
-            props.onTableReload && props.onTableReload();
-          }}
-          selectedRowData={props.selectedRowData}
-        />
+    <div className={`${props.isView ? 'shown' : 'hidden'} `}>
+      <div className='flex flex-row flex-wrap justify-between mb-2'>
+        {renderStatusButtons()}
+        {renderTestStatusButtons()}
       </div>
-    </>
+      <div className='flex flex-col max-h-[calc(100vh_-_10vh)] overflow-y-auto'>
+        {renderDataRows()}
+        <div className='relative z-0'>{renderResultEnter()}</div>
+      </div>
+      <ModalConfirm
+        {...modalConfirm}
+        onClick={() => {
+          setIsHide(false);
+          resultRecords.current = [];
+          setModalConfirm({ visible: false });
+        }}
+        onClose={() => {
+          setModalConfirm({ visible: false });
+        }}
+      />
+    </div>
   );
 };

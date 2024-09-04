@@ -6,9 +6,7 @@ export class GeneralResultEntryStore {
   selectedItems!: SelectedItems;
 
   constructor() {
-    this.filterGeneralResEntry = new FilterGeneralResEntryList({
-      isSingleLabId: true,
-    });
+    this.filterGeneralResEntry = new FilterGeneralResEntryList({});
     this.selectedItems = new SelectedItems({});
     makeObservable<GeneralResultEntryStore, any>(this, {
       filterGeneralResEntry: observable,

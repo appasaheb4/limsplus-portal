@@ -9,6 +9,8 @@ import '@/library/assets/css/accordion.css';
 import { useStores } from '@/stores';
 import 'react-accessible-accordion/dist/fancy-example.css';
 
+export type tabs = 'Pending' | 'Done';
+
 const GeneralResultEntry = observer(() => {
   const {
     loginStore,
@@ -19,6 +21,7 @@ const GeneralResultEntry = observer(() => {
   const [modalConfirm, setModalConfirm] = useState<any>();
   const [tableReload, setTableReload] = useState<boolean>(false);
   const [selectId, setSelectId] = useState('');
+  const [tabSelected, setTabSelected] = useState<tabs>('Pending');
   const [modalPatientDemographics, setModalPatientDemographics] = useState<any>(
     { show: false },
   );
@@ -34,6 +37,7 @@ const GeneralResultEntry = observer(() => {
               },
             ) || []
           }
+          tabSelected={tabSelected}
           totalSize={patientResultStore.patientResultListNotAutoUpdateCount}
           selectedId={selectId}
           isView={RouterFlow.checkPermission(
@@ -73,19 +77,8 @@ const GeneralResultEntry = observer(() => {
               );
             patientResultStore.updatePatientResultNotAutoUpdate(updated);
           }}
-          onSaveFields={async (updatedRecords, id, type) => {
-            if (type == 'directSave') {
-              updateRecords(id, updatedRecords);
-            } else {
-              setModalConfirm({
-                show: true,
-                type: 'save',
-                id: id,
-                data: updatedRecords,
-                title: 'Are you sure?',
-                body: `Do you want to update this record?`,
-              });
-            }
+          onResultUpdateBatch={updatedRecords => {
+            resultUpdateBatch(updatedRecords);
           }}
           onUpdateFields={(fields, id) => {
             setModalConfirm({
@@ -116,6 +109,8 @@ const GeneralResultEntry = observer(() => {
                     {
                       ...generalResultEntryStore.filterGeneralResEntry,
                       finishResult: 'P',
+                      panelStatus: 'P',
+                      testStatus: 'P',
                     },
                   );
                   setTableReload(!tableReload);
@@ -131,16 +126,19 @@ const GeneralResultEntry = observer(() => {
                 },
               );
             } else if (finishResult === 'D') {
-              patientResultStore.patientResultService.listPatientResultNotFinished(
+              patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
-                  ...generalResultEntryStore.filterGeneralResEntry,
-                  isAll: false,
+                  pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
+                  finishResult: { $nin: ['D', 'RC', 'RT'] },
+                  panelStatus: { $ne: 'P' },
+                  testStatus: { $ne: 'P' },
+                  resultStatus: { $ne: 'P' },
                 },
               );
             } else if (finishResult == 'P') {
               patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
                 {
-                  ...generalResultEntryStore.filterGeneralResEntry,
+                  pLab: generalResultEntryStore.filterGeneralResEntry.pLab,
                   finishResult: 'P',
                   panelStatus: 'P',
                   testStatus: 'P',
@@ -165,7 +163,6 @@ const GeneralResultEntry = observer(() => {
             }
             generalResultEntryStore.updateFilterGeneralResEntry({
               ...generalResultEntryStore.filterGeneralResEntry,
-              isSingleLabId: false,
             });
           }}
           onTestStatusFilter={testStatus => {
@@ -189,7 +186,6 @@ const GeneralResultEntry = observer(() => {
             );
             generalResultEntryStore.updateFilterGeneralResEntry({
               ...generalResultEntryStore.filterGeneralResEntry,
-              isSingleLabId: false,
             });
           }}
           onExpand={items => {
@@ -213,33 +209,57 @@ const GeneralResultEntry = observer(() => {
               limit,
             );
           }}
+          onTabSelected={(tab: tabs) => {
+            setTabSelected(tab);
+          }}
+          // isInputScreenHide={isInputScreenHide}
+          // setIsInputScreenHide={setIsInputScreenHide}
         />
       </>
     ),
     [patientResultStore.patientResultListNotAutoUpdate, tableReload, selectId],
   );
 
-  const updateRecords = (id, data) => {
+  useEffect(() => {
+    let input: object = {};
+    if (tabSelected == 'Pending') {
+      input = {
+        pLab: loginStore?.login?.lab,
+        finishResult: 'P',
+        panelStatus: 'P',
+        testStatus: 'P',
+      };
+    } else {
+      input = {
+        pLab: loginStore?.login?.lab,
+        finishResult: { $nin: ['D', 'RC', 'RT'] },
+        panelStatus: { $ne: 'P' },
+        testStatus: { $ne: 'P' },
+        resultStatus: { $ne: 'P' },
+      };
+    }
     patientResultStore.patientResultService
-      .updateSingleFiled({
+      .getPatientResultDistinct({
         input: {
-          ...data,
-          enteredBy: loginStore.login?.userId,
-          resultDate: new Date(),
-          _id: id,
-          __v: undefined,
-          flagUpdate: undefined,
-          testReportOrder: undefined,
-          analyteReportOrder: undefined,
-          selectedId: undefined,
+          filter: {
+            ...input,
+          },
         },
       })
+      .then(res => {});
+  }, [tabSelected]);
+
+  const resultUpdateBatch = payload => {
+    patientResultStore.patientResultService
+      .updateBatchRecords({
+        input: { payload },
+      })
       .then(res => {
-        if (res.updatePatientResult.success) {
-          // Toast.success({
-          //   message: `😊 ${res.updatePatientResult.message}`,
-          //   timer: 2000,
-          // });
+        if (res.updateBatchRecordsPatientResult.success) {
+          Toast.success({
+            message: `😊 ${res.updateBatchRecordsPatientResult.message}`,
+            timer: 2000,
+          });
           patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
             {
               ...generalResultEntryStore.filterGeneralResEntry,
@@ -261,16 +281,48 @@ const GeneralResultEntry = observer(() => {
       />
 
       <div className='mx-auto flex-wrap'>
-        <FilterInputTable />
+        <FilterInputTable
+          data={patientResultStore.distinctPatientResult}
+          onFilter={(filter, filterType) => {
+            generalResultEntryStore.updateFilterGeneralResEntry({
+              ...generalResultEntryStore.filterGeneralResEntry,
+              ...filter,
+            });
+            let input: object = {};
+            if (tabSelected == 'Pending') {
+              input = {
+                ...generalResultEntryStore.filterGeneralResEntry,
+                ...filter,
+                filterType,
+                finishResult: 'P',
+                panelStatus: 'P',
+                testStatus: 'P',
+              };
+            } else {
+              input = {
+                ...generalResultEntryStore.filterGeneralResEntry,
+                ...filter,
+                filterType,
+                finishResult: { $nin: ['D', 'RC', 'RT'] },
+                panelStatus: { $ne: 'P' },
+                testStatus: { $ne: 'P' },
+                resultStatus: { $ne: 'P' },
+              };
+            }
+            patientResultStore.patientResultService.listPatientResultNotAutoUpdate(
+              {
+                ...input,
+              },
+            );
+          }}
+        />
       </div>
-      <div className='p-2 rounded-lg shadow-xl overflow-auto'>{tableView}</div>
+
+      <div className='p-2 rounded-lg shadow-xl'>{tableView}</div>
       <ModalConfirm
         {...modalConfirm}
         click={(type?: string) => {
           setModalConfirm({ show: false });
-          if (type === 'save') {
-            updateRecords(modalConfirm.id, modalConfirm.data);
-          }
           if (type == 'updateFields') {
             patientResultStore.patientResultService
               .updateByFields({
